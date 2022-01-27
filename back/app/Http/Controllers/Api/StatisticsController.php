@@ -41,7 +41,7 @@ class StatisticsController extends Controller
                     'participations' => Participation::count(),
                     'participations_validated' => Participation::where('state', 'Validée')->count(),
                     'places_left' => $placesLeft,
-                    'places_occupation_rate' => $placesOffered ? round(($placesLeft / $placesOffered) * 100) : 0,
+                    'places_occupation_rate' => $placesOffered ? round((($placesOffered - $placesLeft) / $placesOffered) * 100) : 0,
                     'users' => Profile::count(),
                     'users_benevoles' => Profile::benevole()->count(),
                 ];
@@ -56,7 +56,7 @@ class StatisticsController extends Controller
                     'participations' => Participation::role($request->header('Context-Role'))->count(),
                     'participations_validated' => Participation::role($request->header('Context-Role'))->where('state', 'Validée')->count(),
                     'places_left' => $placesLeft,
-                    'places_occupation_rate' => $placesOffered ? round(($placesLeft / $placesOffered) * 100) : 0,
+                    'places_occupation_rate' => $placesOffered ? round((($placesOffered - $placesLeft) / $placesOffered) * 100) : 0,
                 ];
                 break;
             case 'responsable':
@@ -66,7 +66,7 @@ class StatisticsController extends Controller
                     'participations' => Participation::role($request->header('Context-Role'))->count(),
                     'participations_validated' => Participation::role($request->header('Context-Role'))->where('state', 'Validée')->count(),
                     'places_left' => $placesLeft,
-                    'places_occupation_rate' => $placesOffered ? round(($placesLeft / $placesOffered) * 100) : 0,
+                    'places_occupation_rate' => $placesOffered ? round((($placesOffered - $placesLeft) / $placesOffered) * 100) : 0,
                 ];
                 break;
         }
@@ -83,12 +83,23 @@ class StatisticsController extends Controller
             return $structure->participations()->where('participations.state', $state)->count();
         }, config('taxonomies.participation_workflow_states.terms'));
 
+        $places_left = $structure->places_left;
+        $places_offered = $structure->places_offered;
+
+        ray($places_left);
+        ray($places_offered);
+
         return [
             'missions_total' => $structure->missions()->count(),
             'missions_available' => $structure->missions()->available()->count(),
             'missions_state' =>  $missionsStateCount,
             'participations_total' => $structure->participations()->count(),
             'participations_state' =>  $participationsStateCount,
+            'places_left' => $places_left,
+            'places_occupation_rate' => $places_left ? round((($places_offered - $places_left) / $places_offered) * 100) : 0,
+            'response_ratio' => $structure->response_ratio,
+            'response_time' => $structure->response_time,
+            'score_response_time' => $structure->response_time_score,
         ];
     }
 

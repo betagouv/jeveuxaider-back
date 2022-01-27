@@ -30,8 +30,6 @@ class StructureController extends Controller
                 // AllowedFilter::scope('of_reseau'),
             ])
             ->allowedIncludes([
-                // 'missions',
-                // 'reseaux',
                 'tags'
             ])
             ->allowedAppends([
@@ -81,14 +79,7 @@ class StructureController extends Controller
             abort(403);
         }
 
-        //return $structure->append('domaines');
-
-        return Structure::with(['territoire', 'members'])->where('id', $structure->id)->first()->append('domaines');
-
-
-        // $structure = Structure::with(['members', 'territoire', 'reseaux.responsables'])->withCount('missions', 'participations', 'waitingParticipations', 'conversations')->where('id', $structure->id)->first();
-        // $structure->append('response_time_score');
-        // return $structure;
+        return $structure->load(['territoire', 'members'])->append(['domaines', 'full_address']);
     }
 
     public function associationSlugOrId(Request $request, $slugOrId)

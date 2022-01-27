@@ -432,6 +432,11 @@ class Structure extends Model implements HasMedia
         return $this->missions()->available()->get()->sum('places_left');
     }
 
+    public function getPlacesOfferedAttribute()
+    {
+        return $this->missions()->available()->get()->sum('participations_max');
+    }
+
     public function canBeSendToApiEngagement()
     {
         if (config('app.env') != 'production') {
