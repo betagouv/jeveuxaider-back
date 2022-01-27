@@ -2,8 +2,6 @@
 
 namespace App\Jobs;
 
-use App\Filters\FiltersStructureCeu;
-use App\Filters\FiltersStructureLieu;
 use App\Filters\FiltersStructureSearch;
 use App\Models\Structure;
 use App\Models\User;
@@ -52,8 +50,6 @@ class ProcessExportStructures implements ShouldQueue
                 'department',
                 'state',
                 'statut_juridique',
-                AllowedFilter::custom('ceu', new FiltersStructureCeu),
-                AllowedFilter::custom('lieu', new FiltersStructureLieu),
                 AllowedFilter::custom('search', new FiltersStructureSearch),
             ])
             ->defaultSort('-created_at')

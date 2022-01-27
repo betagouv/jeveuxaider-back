@@ -5,7 +5,6 @@ namespace App\Jobs;
 use App\Filters\FiltersDisponibility;
 use App\Filters\FiltersMatchMission;
 use App\Filters\FiltersProfileMinParticipations;
-use App\Filters\FiltersProfilePostalCode;
 use App\Filters\FiltersProfileRole;
 use App\Filters\FiltersProfileSearch;
 use App\Filters\FiltersProfileSkill;
@@ -56,7 +55,6 @@ class ProcessExportProfiles implements ShouldQueue
         $query = QueryBuilder::for(Profile::role($this->role))
             ->allowedFilters(
                 AllowedFilter::custom('search', new FiltersProfileSearch),
-                AllowedFilter::custom('postal_code', new FiltersProfilePostalCode),
                 AllowedFilter::custom('zips', new FiltersProfileZips),
                 AllowedFilter::custom('role', new FiltersProfileRole),
                 AllowedFilter::custom('domaines', new FiltersProfileTag),

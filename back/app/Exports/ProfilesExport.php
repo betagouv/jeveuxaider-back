@@ -4,9 +4,7 @@ namespace App\Exports;
 
 use App\Filters\FiltersDisponibility;
 use App\Filters\FiltersMatchMission;
-use App\Filters\FiltersProfileDepartment;
 use App\Filters\FiltersProfileMinParticipations;
-use App\Filters\FiltersProfilePostalCode;
 use App\Models\Profile;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -37,11 +35,9 @@ class ProfilesExport implements FromCollection, WithMapping, WithHeadings, Shoul
         return QueryBuilder::for(Profile::role($this->role))
             ->allowedFilters(
                 AllowedFilter::custom('search', new FiltersProfileSearch),
-                AllowedFilter::custom('postal_code', new FiltersProfilePostalCode),
                 AllowedFilter::custom('zips', new FiltersProfileZips),
                 AllowedFilter::custom('role', new FiltersProfileRole),
                 AllowedFilter::custom('domaines', new FiltersProfileTag),
-                AllowedFilter::custom('department', new FiltersProfileDepartment),
                 AllowedFilter::custom('disponibilities', new FiltersDisponibility),
                 AllowedFilter::custom('skills', new FiltersProfileSkill),
                 AllowedFilter::exact('is_visible'),

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Database\Eloquent\Builder;
 use App\Exports\ParticipationsExport;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -10,8 +9,6 @@ use App\Models\Participation;
 use Spatie\QueryBuilder\QueryBuilder;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Filters\FiltersParticipationSearch;
-use App\Filters\FiltersParticipationLieu;
-use App\Filters\FiltersParticipationDomaine;
 use App\Http\Requests\Api\ParticipationCancelRequest;
 use App\Http\Requests\Api\ParticipationCreateRequest;
 use App\Http\Requests\Api\ParticipationUpdateRequest;
@@ -31,25 +28,14 @@ class ParticipationController extends Controller
     public function index(Request $request)
     {
         return QueryBuilder::for(Participation::role($request->header('Context-Role'))->with('profile', 'mission'))
-        // >with('profile', 'mission', 'mission.structure:id,name,state', 'mission.responsable')
             ->allowedFilters(
                 AllowedFilter::custom('search', new FiltersParticipationSearch),
                 AllowedFilter::exact('mission_id'),
+                AllowedFilter::exact('mission.department'),
                 'state',
-                'mission.department',
                 'mission.zip',
                 'mission.type',
                 'mission.structure.name'
-                // AllowedFilter::custom('lieu', new FiltersParticipationLieu),
-                // AllowedFilter::custom('domaine', new FiltersParticipationDomaine),
-                // AllowedFilter::exact('mission.department'),
-                // 'mission.type',
-                // 'mission.name',
-                // AllowedFilter::exact('mission.template_id'),
-                // AllowedFilter::exact('mission.id'),
-                // AllowedFilter::exact('profile.id'),
-                // AllowedFilter::exact('mission.structure_id'),
-                // AllowedFilter::exact('mission.responsable_id'),
             )
             ->allowedIncludes([
                 'conversation.latestMessage'
@@ -64,11 +50,6 @@ class ParticipationController extends Controller
         $participation->profile->append(['avatar', 'skills', 'domaines']);
         $participation->mission->append(['full_address']);
 
-        // $mission = Mission::with(['structure.members:id,first_name,last_name,mobile,email', 'template.domaine', 'domaine', 'tags', 'responsable'])->withCount('temoignages')->where('id', $id)->first();
-        // if ($mission) {
-        //     $mission->append(['skills', 'domaines', 'domaine_secondaire', 'full_address', 'has_places_left']);
-        //     $mission->structure->append(['logo']);
-        // }
         return $participation;
     }
 

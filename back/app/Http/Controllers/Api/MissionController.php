@@ -13,13 +13,9 @@ use Spatie\QueryBuilder\AllowedFilter;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\MissionsExport;
 use App\Filters\FiltersDisponibility;
-use App\Filters\FiltersMissionDates;
 use App\Filters\FiltersMissionSearch;
-use App\Filters\FiltersMissionLieu;
 use App\Filters\FiltersMissionPlacesLeft;
-use App\Filters\FiltersMissionDomaine;
 use App\Filters\FiltersMissionPublicsVolontaires;
-use App\Filters\FiltersProfileDepartment;
 use App\Filters\FiltersProfileSkill;
 use App\Filters\FiltersProfileTag;
 use App\Filters\FiltersProfileZips;
@@ -30,11 +26,8 @@ use App\Models\Structure;
 use App\Models\Tag;
 use App\Services\ApiEngagement;
 use Illuminate\Database\Eloquent\Builder;
-use Spatie\QueryBuilder\AllowedSort;
 use Illuminate\Support\Str;
 use App\Notifications\NotificationTemoignageCreate;
-use App\Settings\EditoSettings;
-use Spatie\QueryBuilder\QueryBuilderRequest;
 
 class MissionController extends Controller
 {
@@ -51,32 +44,23 @@ class MissionController extends Controller
 
     public function index(Request $request)
     {
-
         return QueryBuilder::for(Mission::role($request->header('Context-Role')))
-            // ->allowedAppends(['domaines', 'participations_validated_count'])
-            // ->allowedIncludes(['posts.comments', 'permissions'])
             ->with(['domaine', 'template', 'template.domaine', 'template.media', 'structure'])
             ->allowedFilters([
                 'state',
-                'department',
                 'type',
+                AllowedFilter::exact('department'),
                 AllowedFilter::exact('responsable.id'),
                 AllowedFilter::exact('template_id'),
                 AllowedFilter::exact('structure.name'),
-                AllowedFilter::custom('domaine', new FiltersMissionDomaine),
+                AllowedFilter::scope('domaine'),
                 AllowedFilter::custom('place', new FiltersMissionPlacesLeft),
                 AllowedFilter::custom('publics_volontaires', new FiltersMissionPublicsVolontaires),
                 AllowedFilter::custom('search', new FiltersMissionSearch),
                 AllowedFilter::scope('available'),
-
-                // AllowedFilter::custom('lieu', new FiltersMissionLieu),
-                // AllowedFilter::custom('dates', new FiltersMissionDates),
-                // AllowedFilter::scope('minimum_commitment'),
-                // AllowedFilter::scope('of_reseau'),
             ])
             ->defaultSort('-created_at')
             ->paginate($request->input('itemsPerPage') ?? config('query-builder.results_per_page'));
-            // ->allowedSorts(['places_left', 'type'])
     }
 
     public function export(Request $request)
@@ -179,7 +163,6 @@ class MissionController extends Controller
             ->allowedFilters(
                 AllowedFilter::custom('zips', new FiltersProfileZips),
                 AllowedFilter::custom('domaine', new FiltersProfileTag),
-                AllowedFilter::custom('department', new FiltersProfileDepartment),
                 AllowedFilter::custom('disponibilities', new FiltersDisponibility),
                 AllowedFilter::custom('skills', new FiltersProfileSkill),
                 AllowedFilter::scope('minimum_commitment')

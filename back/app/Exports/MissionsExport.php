@@ -10,10 +10,7 @@ use Spatie\QueryBuilder\AllowedFilter;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use App\Filters\FiltersMissionSearch;
-use App\Filters\FiltersMissionLieu;
 use App\Filters\FiltersMissionPlacesLeft;
-use App\Filters\FiltersMissionDomaine;
-use App\Filters\FiltersMissionDates;
 
 class MissionsExport implements FromCollection, WithMapping, WithHeadings
 {
@@ -40,10 +37,8 @@ class MissionsExport implements FromCollection, WithMapping, WithHeadings
                 AllowedFilter::exact('structure_id'),
                 AllowedFilter::exact('id'),
                 AllowedFilter::custom('search', new FiltersMissionSearch),
-                AllowedFilter::custom('lieu', new FiltersMissionLieu),
                 AllowedFilter::custom('place', new FiltersMissionPlacesLeft),
-                AllowedFilter::custom('dates', new FiltersMissionDates),
-                AllowedFilter::custom('domaine', new FiltersMissionDomaine),
+                AllowedFilter::scope('domaine'),
                 AllowedFilter::exact('responsable_id'),
                 AllowedFilter::scope('minimum_commitment'),
                 AllowedFilter::scope('of_reseau')

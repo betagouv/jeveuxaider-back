@@ -8,9 +8,6 @@ use Maatwebsite\Excel\Concerns\FromCollection;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
 use App\Filters\FiltersParticipationSearch;
-use App\Filters\FiltersParticipationLieu;
-use App\Filters\FiltersParticipationDomaine;
-
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 
@@ -31,16 +28,12 @@ class ParticipationsExport implements FromCollection, WithMapping, WithHeadings
         return QueryBuilder::for(Participation::role($this->request->header('Context-Role')))
             ->allowedFilters(
                 AllowedFilter::custom('search', new FiltersParticipationSearch),
-                AllowedFilter::custom('lieu', new FiltersParticipationLieu),
-                AllowedFilter::custom('domaine', new FiltersParticipationDomaine),
-                'state',
+                AllowedFilter::exact('mission_id'),
                 AllowedFilter::exact('mission.department'),
+                'state',
+                'mission.zip',
                 'mission.type',
-                'mission.name',
-                AllowedFilter::exact('mission.template_id'),
-                AllowedFilter::exact('mission.structure_id'),
-                AllowedFilter::exact('mission.id'),
-                AllowedFilter::exact('mission.responsable_id'),
+                'mission.structure.name'
             )
             ->defaultSort('-created_at')
             ->get();

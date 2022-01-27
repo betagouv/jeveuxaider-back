@@ -7,28 +7,13 @@ use App\Http\Controllers\Controller;
 use App\Models\Structure;
 use App\Http\Requests\Api\StructureCreateRequest;
 use App\Http\Requests\Api\StructureUpdateRequest;
-use App\Http\Requests\Api\StructureDeleteRequest;
 use Spatie\QueryBuilder\QueryBuilder;
-use App\Models\Profile;
 use App\Http\Requests\Api\MissionCreateRequest;
-use App\Http\Requests\StructureInvitationRequest;
-use App\Notifications\StructureInvitationSent;
-use App\Filters\FiltersStructureCeu;
 use Spatie\QueryBuilder\AllowedFilter;
-use App\Exports\StructuresExport;
-use App\Filters\FiltersStructureAntenne;
 use Illuminate\Support\Facades\Auth;
-use App\Filters\FiltersStructureLieu;
 use App\Filters\FiltersStructureSearch;
-use App\Filters\FiltersStructureWithRna;
-use App\Http\Requests\StructureRequest;
-use App\Jobs\NotifyUserOfCompletedExport;
-// use App\Jobs\ProcessExportStructures;
 use App\Models\Mission;
 use App\Models\Tag;
-use Illuminate\Support\Str;
-use App\Http\Requests\Api\StructureUploadRequest;
-use App\Models\Reseau;
 use App\Services\ApiEngagement;
 
 class StructureController extends Controller
@@ -38,12 +23,9 @@ class StructureController extends Controller
         return QueryBuilder::for(Structure::role($request->header('Context-Role')))
             ->allowedFilters([
                 AllowedFilter::custom('search', new FiltersStructureSearch),
+                AllowedFilter::exact('department'),
                 'state',
                 'statut_juridique',
-                'department',
-                // AllowedFilter::custom('ceu', new FiltersStructureCeu),
-                // AllowedFilter::custom('lieu', new FiltersStructureLieu),
-                // AllowedFilter::custom('antenne', new FiltersStructureAntenne),
                 // AllowedFilter::custom('rna', new FiltersStructureWithRna),
                 // AllowedFilter::scope('of_reseau'),
             ])

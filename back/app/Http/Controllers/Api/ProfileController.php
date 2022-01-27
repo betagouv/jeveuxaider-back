@@ -7,40 +7,18 @@ use App\Http\Controllers\Controller;
 use App\Models\Profile;
 use App\Http\Requests\Api\ProfileUpdateRequest;
 use Spatie\QueryBuilder\QueryBuilder;
-use Maatwebsite\Excel\Facades\Excel;
-use App\Exports\ProfilesExport;
-use App\Exports\ProfilesReferentsDepartementsExport;
-use App\Exports\ProfilesReferentsRegionsExport;
-use App\Exports\ProfilesTetesDeReseauExport;
-use App\Exports\ProfilesResponsablesExport;
-use App\Filters\FiltersProfileTag;
 use App\Filters\FiltersProfileSearch;
 use App\Filters\FiltersProfileRole;
 use App\Filters\FiltersProfileMinParticipations;
-use App\Filters\FiltersMatchMission;
-use App\Filters\FiltersProfilePostalCode;
-use App\Filters\FiltersDisponibility;
-use App\Filters\FiltersProfileDepartment;
-use App\Filters\FiltersProfileSkill;
-use App\Filters\FiltersProfileZips;
 use App\Http\Requests\ProfileRequest;
-use App\Jobs\NotifyUserOfCompletedExport;
-use App\Models\Mission;
-use App\Models\Participation;
 use App\Models\Tag;
-use App\Models\User;
 use Spatie\QueryBuilder\AllowedFilter;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Auth;
-use Spatie\QueryBuilder\AllowedInclude;
 
 class ProfileController extends Controller
 {
     public function index(Request $request)
     {
         return QueryBuilder::for(Profile::role($request->header('Context-Role')))
-            // ->allowedAppends()
-            // 'last_online_at', 'roles', 'has_user', 'skills', 'domaines', 'tete_de_reseau_waiting_actions', 'referent_waiting_actions', 'referent_region_waiting_actions', 'responsable_waiting_actions'
             ->allowedIncludes([
                 'user',
                 'participationsValidatedCount',
@@ -52,15 +30,10 @@ class ProfileController extends Controller
                 'zip',
                 AllowedFilter::exact('is_visible'),
                 AllowedFilter::custom('min_participations', new FiltersProfileMinParticipations)
-                // AllowedFilter::custom('postal_code', new FiltersProfilePostalCode),
                 // AllowedFilter::custom('zips', new FiltersProfileZips),
-                
                 // AllowedFilter::custom('domaines', new FiltersProfileTag),
-                // AllowedFilter::custom('department', new FiltersProfileDepartment),
                 // AllowedFilter::custom('disponibilities', new FiltersDisponibility),
                 // AllowedFilter::custom('skills', new FiltersProfileSkill),
-                // AllowedFilter::exact('referent_department'),
-                // 'referent_region'
             )
             ->defaultSort('-created_at')
             ->paginate(config('query-builder.results_per_page'));
@@ -135,10 +108,6 @@ class ProfileController extends Controller
     public function show(ProfileRequest $request, Profile $profile)
     {
         return $profile->load(['user', 'territoires', 'structures', 'teteDeReseau'])->append(['avatar', 'skills', 'domaines']);
-
-        // $user = User::with('profile', 'profile.media')->where('id', Auth::guard('api')->user()->id)->first();
-        // $user->append(['roles']);
-        // $user->profile->append(['avatar', 'skills', 'domaines']);
     }
 
     public function update(ProfileUpdateRequest $request, Profile $profile = null)
@@ -156,16 +125,6 @@ class ProfileController extends Controller
             $skills = Tag::whereIn('id', $skills_ids)->get();
             $profile->syncTagsWithType($skills, 'competence');
         }
-
-        // Hack pour éviter de le mettre append -> trop gourmand en queries
-        // $profile['roles'] = $profile->roles;
-        // $profile['domaines'] = $profile->domaines;
-        // $profile['skills'] = $profile->skills;
-        // $profile['participations'] = $profile->participations;
-
-        // if ($profile->isResponsable()) {
-        //     $profile['structures'] = $profile->structures;
-        // }
 
         return $profile;
     }

@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Structure;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
-use App\Filters\FiltersStructureLieu;
 use App\Filters\FiltersStructureSearch;
 use App\Filters\FiltersStructureWithRna;
 use App\Filters\FiltersStructureWithApiId;
@@ -21,7 +20,6 @@ class RnaController extends Controller
             ->allowedFilters([
                 'state',
                 AllowedFilter::exact('department'),
-                AllowedFilter::custom('lieu', new FiltersStructureLieu),
                 AllowedFilter::custom('search', new FiltersStructureSearch),
                 AllowedFilter::custom('rna', new FiltersStructureWithRna),
                 AllowedFilter::custom('api_id', new FiltersStructureWithApiId),

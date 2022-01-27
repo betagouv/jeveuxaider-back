@@ -8,10 +8,7 @@ use Illuminate\Support\Facades\Http;
 class Sendinblue
 {
     private static function api($method, $path, $options = [])
-    {
-
-        ray('CALL SENDINBLUE');
-        
+    {        
         $response = Http::withHeaders(
             [
                 'api-key' => config('services.sendinblue.key'),

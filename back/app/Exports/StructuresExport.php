@@ -2,16 +2,13 @@
 
 namespace App\Exports;
 
-use App\Filters\FiltersStructureAntenne;
 use App\Models\Structure;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithHeadings;
-use App\Filters\FiltersStructureCeu;
 use App\Filters\FiltersStructureSearch;
-use App\Filters\FiltersStructureLieu;
 use App\Filters\FiltersStructureWithRna;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Maatwebsite\Excel\Concerns\Exportable;
@@ -37,11 +34,8 @@ class StructuresExport implements FromCollection, WithMapping, WithHeadings, Sho
                 'department',
                 'state',
                 'statut_juridique',
-                AllowedFilter::custom('ceu', new FiltersStructureCeu),
-                AllowedFilter::custom('lieu', new FiltersStructureLieu),
                 AllowedFilter::custom('search', new FiltersStructureSearch),
                 AllowedFilter::custom('rna', new FiltersStructureWithRna),
-                AllowedFilter::custom('antenne', new FiltersStructureAntenne),
                 AllowedFilter::scope('of_reseau'),
             ])
             ->defaultSort('-created_at')
