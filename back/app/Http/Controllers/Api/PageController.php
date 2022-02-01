@@ -12,41 +12,41 @@ use App\Filters\FiltersTitleBodySearch;
 
 class PageController extends Controller
 {
-    public function index(Request $request)
-    {
-        return QueryBuilder::for(Page::class)
-            ->allowedFilters(
-                AllowedFilter::custom('search', new FiltersTitleBodySearch),
-            )
-            ->defaultSort('-updated_at')
-            ->paginate(config('query-builder.results_per_page'));
-    }
+    // public function index(Request $request)
+    // {
+    //     return QueryBuilder::for(Page::class)
+    //         ->allowedFilters(
+    //             AllowedFilter::custom('search', new FiltersTitleBodySearch),
+    //         )
+    //         ->defaultSort('-updated_at')
+    //         ->paginate(config('query-builder.results_per_page'));
+    // }
 
-    public function store(PageRequest $request)
-    {
-        if (!$request->validated()) {
-            return $request->validated();
-        }
+    // public function store(PageRequest $request)
+    // {
+    //     if (!$request->validated()) {
+    //         return $request->validated();
+    //     }
 
-        $page = Page::create($request->validated());
+    //     $page = Page::create($request->validated());
 
-        return $page;
-    }
+    //     return $page;
+    // }
 
-    public function show(Page $page)
-    {
-        return $page;
-    }
+    // public function show(Page $page)
+    // {
+    //     return $page;
+    // }
 
-    public function update(PageRequest $request, Page $page)
-    {
-        $page->update($request->validated());
+    // public function update(PageRequest $request, Page $page)
+    // {
+    //     $page->update($request->validated());
 
-        return $page;
-    }
+    //     return $page;
+    // }
 
-    public function delete(Request $request, Page $page)
-    {
-        return (string) $page->delete();
-    }
+    // public function delete(Request $request, Page $page)
+    // {
+    //     return (string) $page->delete();
+    // }
 }
