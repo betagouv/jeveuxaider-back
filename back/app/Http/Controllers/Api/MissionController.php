@@ -148,6 +148,9 @@ class MissionController extends Controller
         }
 
         $profilesQueryBuilder =  Profile::where('is_visible', true)
+            ->whereHas('user', function (Builder $query) {
+                $query->whereNull('anonymous_at');
+            })
             ->withAnyTags($mission->domaines)
             ->whereDoesntHave('participations', function (Builder $query) use ($mission) {
                 $query->where('mission_id', $mission->id);

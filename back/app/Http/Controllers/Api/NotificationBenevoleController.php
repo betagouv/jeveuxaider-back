@@ -35,12 +35,12 @@ class NotificationBenevoleController extends Controller
             $profile_id
         )->where('mission_id', request("mission_id"))->count();
         if ($notificationBenevoleCount > 0) {
-            abort(402, "Vous avez déjà envoyé un e-mail à ce bénévole !");
+            abort(402, "Vous avez déjà envoyé un e-mail à ce bénévole");
         }
 
         $notificationBenevoleStats = Profile::getNotificationBenevoleStats($profile_id);
         if ($notificationBenevoleStats['thisMonth'] >= 2) {
-            abort(402, "Le bénévole à déjà été sollicité 2 fois ce mois-ci !");
+            abort(402, "Le bénévole à déjà été sollicité 2 fois ce mois-ci");
         }
 
         $notificationBenevole = NotificationBenevole::create(

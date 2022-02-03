@@ -390,20 +390,20 @@ class Profile extends Model implements HasMedia
     }
 
 
-    // public static function getNotificationBenevoleStats($pid)
-    // {
-    //     $total = NotificationBenevole::where('profile_id', $pid)->count();
-    //     $this_month = NotificationBenevole::where('profile_id', $pid)
-    //         ->whereBetween('created_at', [
-    //             Carbon::now()->startOfMonth(),
-    //             Carbon::now()->endOfMonth()
-    //         ])->count();
+    public static function getNotificationBenevoleStats($pid)
+    {
+        $total = NotificationBenevole::where('profile_id', $pid)->count();
+        $this_month = NotificationBenevole::where('profile_id', $pid)
+            ->whereBetween('created_at', [
+                Carbon::now()->startOfMonth(),
+                Carbon::now()->endOfMonth()
+            ])->count();
 
-    //     return [
-    //         'total' => $total,
-    //         'thisMonth' => $this_month,
-    //     ];
-    // }
+        return [
+            'total' => $total,
+            'thisMonth' => $this_month,
+        ];
+    }
 
     // public function getNotificationBenevoleStatsAttribute()
     // {
