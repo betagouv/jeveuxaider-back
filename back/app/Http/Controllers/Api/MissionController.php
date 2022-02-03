@@ -63,10 +63,10 @@ class MissionController extends Controller
             ->paginate($request->input('itemsPerPage') ?? config('query-builder.results_per_page'));
     }
 
-    public function export(Request $request)
-    {
-        return Excel::download(new MissionsExport($request), 'missions.xlsx');
-    }
+    // public function export(Request $request)
+    // {
+    //     return Excel::download(new MissionsExport($request), 'missions.xlsx');
+    // }
 
     public function show(Request $request, $id)
     {
@@ -112,34 +112,34 @@ class MissionController extends Controller
         return $mission;
     }
 
-    public function delete(MissionDeleteRequest $request, Mission $mission)
-    {
-        return (string) $mission->delete();
-    }
+    // public function delete(MissionDeleteRequest $request, Mission $mission)
+    // {
+    //     return (string) $mission->delete();
+    // }
 
-    public function restore($id)
-    {
-        $mission = Mission::withTrashed()->findOrFail($id);
-        $this->authorize('restore', $mission);
-        return (string) $mission->restore();
-    }
+    // public function restore($id)
+    // {
+    //     $mission = Mission::withTrashed()->findOrFail($id);
+    //     $this->authorize('restore', $mission);
+    //     return (string) $mission->restore();
+    // }
 
-    public function destroy($id)
-    {
-        $mission = Mission::withTrashed()->findOrFail($id);
-        $this->authorize('destroy', $mission);
-        return (string) $mission->forceDelete();
-    }
+    // public function destroy($id)
+    // {
+    //     $mission = Mission::withTrashed()->findOrFail($id);
+    //     $this->authorize('destroy', $mission);
+    //     return (string) $mission->forceDelete();
+    // }
 
-    public function clone(MissionCloneRequest $request, Mission $mission)
-    {
-        return $mission->clone();
-    }
+    // public function clone(MissionCloneRequest $request, Mission $mission)
+    // {
+    //     return $mission->clone();
+    // }
 
-    public function structure(MissionStructureRequest $request, Mission $mission)
-    {
-        return Structure::with('members')->withCount('missions', 'participations', 'waitingParticipations')->where('id', $mission->structure_id)->first();
-    }
+    // public function structure(MissionStructureRequest $request, Mission $mission)
+    // {
+    //     return Structure::with('members')->withCount('missions', 'participations', 'waitingParticipations')->where('id', $mission->structure_id)->first();
+    // }
 
     public function benevoles(Request $request, Mission $mission)
     {
@@ -159,22 +159,26 @@ class MissionController extends Controller
 
 
         return QueryBuilder::for($profilesQueryBuilder)
-            ->allowedAppends('last_online_at', 'skills', 'domaines', 'notification_benevole_stats')
+            ->allowedIncludes([
+                'user',
+                'participationsValidatedCount',
+            ])
             ->allowedFilters(
-                AllowedFilter::custom('zips', new FiltersProfileZips),
-                AllowedFilter::custom('domaine', new FiltersProfileTag),
+                'zip',
                 AllowedFilter::custom('disponibilities', new FiltersDisponibility),
-                AllowedFilter::custom('skills', new FiltersProfileSkill),
                 AllowedFilter::scope('minimum_commitment')
+                // AllowedFilter::custom('zips', new FiltersProfileZips),
+                // AllowedFilter::custom('domaine', new FiltersProfileTag),
+                // AllowedFilter::custom('skills', new FiltersProfileSkill),
             )
             ->defaultSort('-created_at')
             ->paginate(config('query-builder.results_per_page'));
     }
 
-    public function responsable(MissionStructureRequest $request, Mission $mission)
-    {
-        return $mission->responsable;
-    }
+    // public function responsable(MissionStructureRequest $request, Mission $mission)
+    // {
+    //     return $mission->responsable;
+    // }
 
     public function similar(Request $request, Mission $mission)
     {
@@ -192,37 +196,37 @@ class MissionController extends Controller
         return $query->paginate(10)->load('domaine', 'template', 'template.domaine', 'template.media', 'structure');
     }
 
-    public function testimoniesStats(Request $request, Mission $mission)
-    {
-        return $mission->getTestimoniesStats();
-    }
+    // public function testimoniesStats(Request $request, Mission $mission)
+    // {
+    //     return $mission->getTestimoniesStats();
+    // }
 
-    public function sendTestimonyNotifications(Request $request, Mission $mission)
-    {
-        // Seulement pour les missions terminées.
-        if ($mission->state != "Terminée") {
-            abort(403, "La mission doit être terminée !");
-        }
+    // public function sendTestimonyNotifications(Request $request, Mission $mission)
+    // {
+    //     // Seulement pour les missions terminées.
+    //     if ($mission->state != "Terminée") {
+    //         abort(403, "La mission doit être terminée !");
+    //     }
 
-        $participations = $mission->participations()->where('state', 'Validée')->get();
-        foreach ($participations as $participation) {
-            // Skip if notification already exists.
-            if (NotificationTemoignage::where('participation_id', $participation->id)->exists()) {
-                continue;
-            }
+    //     $participations = $mission->participations()->where('state', 'Validée')->get();
+    //     foreach ($participations as $participation) {
+    //         // Skip if notification already exists.
+    //         if (NotificationTemoignage::where('participation_id', $participation->id)->exists()) {
+    //             continue;
+    //         }
 
-            do {
-                $token = Str::random(32);
-            } while (NotificationTemoignage::where('token', $token)->first());
+    //         do {
+    //             $token = Str::random(32);
+    //         } while (NotificationTemoignage::where('token', $token)->first());
 
-            $notificationTemoignage = NotificationTemoignage::create([
-                'token' => $token,
-                'participation_id' => $participation->id,
-                'reminders_sent' => 1,
-            ]);
-            $notificationTemoignage->participation->profile->user->notify(new NotificationTemoignageCreate($notificationTemoignage));
-        }
+    //         $notificationTemoignage = NotificationTemoignage::create([
+    //             'token' => $token,
+    //             'participation_id' => $participation->id,
+    //             'reminders_sent' => 1,
+    //         ]);
+    //         $notificationTemoignage->participation->profile->user->notify(new NotificationTemoignageCreate($notificationTemoignage));
+    //     }
 
-        return $mission->getTestimoniesStats();
-    }
+    //     return $mission->getTestimoniesStats();
+    // }
 }

@@ -142,7 +142,7 @@ class Profile extends Model implements HasMedia
 
     public function getShortNameAttribute()
     {
-        return mb_substr($this->first_name, 0, 1) . mb_substr($this->last_name, 0, 1);
+        return mb_substr($this->first_name, 0, 2);
     }
 
     public function setFirstNameAttribute($value)
