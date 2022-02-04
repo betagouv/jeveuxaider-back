@@ -245,14 +245,14 @@ export default {
         : null
     },
     missionCity() {
-      if (this.mission.city?.includes('Paris')) {
+      if (this.mission.city?.startsWith('Paris ')) {
         return 'Paris'
-      } else if (this.mission.city?.includes('Lyon')) {
+      } else if (this.mission.city?.startsWith('Lyon ')) {
         return 'Lyon'
-      } else if (this.mission.city?.includes('Marseille')) {
+      } else if (this.mission.city?.startsWith('Marseille ')) {
         return 'Marseille'
       } else {
-        return this.mission?.city
+        return this.mission?.city?.replace(' Arrondissement', '')
       }
     },
   },
