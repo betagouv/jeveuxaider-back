@@ -165,6 +165,7 @@ class MissionController extends Controller
             ->allowedIncludes([
                 'user',
                 'participationsValidatedCount',
+                'media',
             ])
             ->allowedFilters(
                 'zip',
@@ -174,6 +175,7 @@ class MissionController extends Controller
                 // AllowedFilter::custom('domaine', new FiltersProfileTag),
                 // AllowedFilter::custom('skills', new FiltersProfileSkill),
             )
+            ->allowedAppends(['avatar'])
             ->defaultSort('-created_at')
             ->paginate(config('query-builder.results_per_page'));
     }

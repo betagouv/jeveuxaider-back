@@ -14,6 +14,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\Tags\HasTags;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Image\Manipulations;
 
 class Profile extends Model implements HasMedia
 {
@@ -58,17 +59,20 @@ class Profile extends Model implements HasMedia
     public function registerMediaConversions(Media $media = null): void
     {
         // * 2 for high pixel density
+        $this->addMediaConversion('thumb_small')
+            ->fit(Manipulations::FIT_CROP, 80, 80)
+            ->nonQueued()
+            ->withResponsiveImages()
+            ->performOnCollections('profiles');
 
-        $this->addMediaConversion('thumb')
-            ->width(80)
-            ->height(80)
+        $this->addMediaConversion('thumb_medium')
+            ->fit(Manipulations::FIT_CROP, 96, 96)
             ->nonQueued()
             ->withResponsiveImages()
             ->performOnCollections('profiles');
 
         $this->addMediaConversion('formPreview')
-            ->width(200)
-            ->height(200)
+            ->fit(Manipulations::FIT_CROP, 200, 200)
             ->nonQueued()
             ->withResponsiveImages()
             ->performOnCollections('profiles');
