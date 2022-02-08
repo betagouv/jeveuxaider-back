@@ -28,14 +28,17 @@ class MediaController extends Controller
     {
         $model = ($media->model_type)::find($media->model_id);
         $model->registerMediaConversions();
-        $manipulations = json_decode($request->post('manipulations'), true) ?? [];
-        $media->manipulations = $this->formatManipulations($manipulations, $model, $media->collection_name);
-        $media->save();
+        $manipulations = $request->input('manipulations');
+        if (!empty($manipulations)) {
+            $media->manipulations = $this->formatManipulations($manipulations, $model, $media->collection_name);
+            $media->save();
 
-        Artisan::call('media-library:regenerate', [
-            '--ids' => $media->id,
-            '--force' => true,
-        ]);
+            Artisan::call('media-library:regenerate', [
+                '--ids' => $media->id,
+                '--force' => true,
+            ]);
+        }
+
 
         return $media->getFormattedMediaField();
     }

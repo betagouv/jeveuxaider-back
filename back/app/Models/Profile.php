@@ -60,8 +60,8 @@ class Profile extends Model implements HasMedia
         // * 2 for high pixel density
 
         $this->addMediaConversion('thumb')
-            ->width(68)
-            ->height(68)
+            ->width(80)
+            ->height(80)
             ->nonQueued()
             ->withResponsiveImages()
             ->performOnCollections('profiles');
