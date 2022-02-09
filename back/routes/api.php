@@ -287,9 +287,7 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::get('domaines', 'Api\DomaineController@index');
     Route::post('domaines', 'Api\DomaineController@store');
     Route::put('domaines/{domaine}', 'Api\DomaineController@update');
-    // Route::post('thematique/{thematique}/upload', 'Api\DomaineController@upload');
-    // Route::delete('thematique/{thematique}/upload', 'Api\DomaineController@uploadDelete');
-    // Route::delete('thematique/{thematique}', 'Api\DomaineController@delete');
+    // Route::delete('domaines/{domaine}', 'Api\DomaineController@delete');
 
 
     // // TAGS

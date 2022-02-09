@@ -24,7 +24,7 @@ class ThematiqueRequest extends FormRequest
             'domaine_id' => 'nullable',
             'description' => 'nullable',
             'title' => 'required',
-            'color' => 'required'
+            'color' => ''
         ];
     }
 }
