@@ -37,6 +37,9 @@ Route::get('structures/{structure}/available-missions', 'Api\StructureController
 Route::get('thematiques/{slugOrId}', 'Api\ThematiqueController@show');
 Route::get('thematiques/{slugOrId}/statistics', 'Api\ThematiqueController@statistics');
 
+Route::get('domaines/{slugOrId}', 'Api\DomaineController@show');
+Route::get('domaines/{slugOrId}/statistics', 'Api\DomaineController@statistics');
+
 // Route::get('statistics/global', 'Api\StatisticsController@global');
 
 // Route::post('sendinblue/contact', 'Api\SendInBlueController@store');
@@ -280,6 +283,14 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     // Route::post('thematique/{thematique}/upload', 'Api\ThematiqueController@upload');
     // Route::delete('thematique/{thematique}/upload', 'Api\ThematiqueController@uploadDelete');
     // Route::delete('thematique/{thematique}', 'Api\ThematiqueController@delete');
+
+    Route::get('domaines', 'Api\DomaineController@index');
+    Route::post('domaines', 'Api\DomaineController@store');
+    Route::put('domaines/{domaine}', 'Api\DomaineController@update');
+    // Route::post('thematique/{thematique}/upload', 'Api\DomaineController@upload');
+    // Route::delete('thematique/{thematique}/upload', 'Api\DomaineController@uploadDelete');
+    // Route::delete('thematique/{thematique}', 'Api\DomaineController@delete');
+
 
     // // TAGS
     // Route::get('tag/{tag}', 'Api\TagController@show');
