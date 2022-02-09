@@ -158,7 +158,7 @@ class Participation extends Model
         if ($this->state != 'Validée') {
             return;
         }
-        
+
         // Skip if notification already exists.
         if (NotificationTemoignage::where('participation_id', $this->id)->exists()) {
             return;
@@ -173,5 +173,10 @@ class Participation extends Model
             'participation_id' => $this->id,
             'reminders_sent' => 1,
         ]);
+    }
+
+    public function getProfileAvatarAttribute()
+    {
+        return $this->profile->getAvatarAttribute();
     }
 }

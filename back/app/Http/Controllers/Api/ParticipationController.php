@@ -38,8 +38,10 @@ class ParticipationController extends Controller
                 'mission.structure.name'
             )
             ->allowedIncludes([
-                'conversation.latestMessage'
+                'conversation.latestMessage',
+                'profile.media',
             ])
+            ->allowedAppends('profile_avatar')
             ->defaultSort('-created_at')
             ->paginate(config('query-builder.results_per_page'));
     }
