@@ -5,30 +5,28 @@ namespace App\Http\Requests\Api;
 use App\Http\Requests\ThematiqueRequest;
 use Illuminate\Validation\Rule;
 
-class ThematiqueUpdateRequest extends ThematiqueRequest
+class DomaineUpdateRequest extends ThematiqueRequest
 {
     public function authorize()
     {
-        return $this->user()->can('update', request()->route('thematique'));
+        return $this->user()->can('update', request()->route('domaine'));
     }
 
 
     public function rules()
     {
-        $thematique = request()->route('thematique');
+        $domaine = request()->route('domaine');
 
         return [
             'name' => [
                 'required',
-                Rule::unique('thematiques')->ignore($thematique->id),
+                Rule::unique('domaines')->ignore($domaine->id),
                 'min:3',
                 'max:255',
             ],
             'published' => 'boolean',
-            'domaine_id' => 'nullable',
             'description' => 'nullable',
             'title' => 'required',
-            'color' => ''
         ];
     }
 }

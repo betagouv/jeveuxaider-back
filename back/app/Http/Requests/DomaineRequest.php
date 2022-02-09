@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ThematiqueRequest extends FormRequest
+class DomaineRequest extends FormRequest
 {
     public function authorize()
     {
@@ -16,15 +16,13 @@ class ThematiqueRequest extends FormRequest
         return [
             'name' => [
                 'required',
-                'unique:thematiques',
+                'unique:domaines',
                 'min:3',
                 'max:255',
             ],
             'published' => 'boolean',
-            'domaine_id' => 'nullable',
             'description' => 'nullable',
             'title' => 'required',
-            'color' => ''
         ];
     }
 }
