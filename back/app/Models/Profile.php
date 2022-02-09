@@ -58,15 +58,21 @@ class Profile extends Model implements HasMedia
 
     public function registerMediaConversions(Media $media = null): void
     {
-        // * 2 for high pixel density
-        $this->addMediaConversion('thumb_small')
+        // 2x for high pixel density
+        $this->addMediaConversion('thumbSmall')
             ->fit(Manipulations::FIT_CROP, 80, 80)
             ->nonQueued()
             ->withResponsiveImages()
             ->performOnCollections('profiles');
 
-        $this->addMediaConversion('thumb_medium')
+        $this->addMediaConversion('thumbMedium')
             ->fit(Manipulations::FIT_CROP, 96, 96)
+            ->nonQueued()
+            ->withResponsiveImages()
+            ->performOnCollections('profiles');
+
+        $this->addMediaConversion('thumbLarge')
+            ->fit(Manipulations::FIT_CROP, 128, 128)
             ->nonQueued()
             ->withResponsiveImages()
             ->performOnCollections('profiles');
