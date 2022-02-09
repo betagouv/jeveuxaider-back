@@ -114,8 +114,8 @@ class Mission extends Model
                 'title' => $this->template->title,
                 'subtitle' => $this->template->subtitle,
                 'photo' => $this->template->photo ? [
-                    'thumb' => $this->template->photo['thumb'],
-                    'large' => $this->template->photo['large'],
+                    // 'thumb' => $this->template->photo['thumb'],  @TODO : réparer après refactoring domaine
+                    // 'large' => $this->template->photo['large'],
                 ] : null,
             ] : null,
             'domaine' => [
