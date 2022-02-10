@@ -72,8 +72,14 @@ class MigrateS3 extends Command
         // }
 
         foreach ($sourceFiles as $file) {
+            if (env('MEDIA_DISK') == 'public') {
+                $localFile = str_replace('public/production/', '', $file);
+            } else {
+                $localFile = $file;
+            }
+
             // If file already exists in destination
-            if (in_array($file, $destinationFiles)) {
+            if (in_array($localFile, $destinationFiles)) {
                 // Overwrite file if argument is present
                 if ($this->option('overwrite')) {
                     $content = Storage::disk($source)->get($file);
@@ -92,6 +98,11 @@ class MigrateS3 extends Command
             } else {
                 $visibility = Storage::disk($source)->getVisibility($file);
                 $content = Storage::disk($source)->get($file);
+
+                if (env('MEDIA_DISK') == 'public') {
+                    $file = str_replace('public/production/', '', $file);
+                }
+
                 Storage::disk($destination)->put($file, $content, $visibility);
                 $this->countOutputLog('copied', $file);
             }
