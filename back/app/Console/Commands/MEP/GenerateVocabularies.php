@@ -57,7 +57,10 @@ class GenerateVocabularies extends Command
                 Term::create([
                     'vocabulary_id' => $skills->id,
                     'name' => $tag->name,
-                    'weight' => $weight
+                    'weight' => $weight,
+                    'properties' => [
+                        'group' => $tag->group
+                    ]
                 ]);
             }
             $this->info($skillsTags->count() . ' skills has been created !');

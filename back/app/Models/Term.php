@@ -12,7 +12,7 @@ class Term extends Model
     protected $guarded = ['id'];
 
     protected $casts = [
-        'is_archived' => 'boolean',
+        'is_published' => 'boolean',
         'properties' => 'json',
     ];
 
