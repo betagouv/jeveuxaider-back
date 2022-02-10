@@ -73,9 +73,9 @@ class MissionController extends Controller
     {
 
         if (is_numeric($id)) {
-            $mission = Mission::with(['structure.members:id,first_name,last_name,mobile,email', 'template.domaine', 'domaine', 'tags', 'responsable'])->withCount('temoignages')->where('id', $id)->first();
+            $mission = Mission::with(['structure.members:id,first_name,last_name,mobile,email', 'template.domaine', 'domaine', 'tags', 'responsable', 'skills'])->withCount('temoignages')->where('id', $id)->first();
             if ($mission) {
-                $mission->append(['skills', 'domaines', 'domaine_secondaire', 'full_address', 'has_places_left']);
+                $mission->append(['domaines', 'domaine_secondaire', 'full_address', 'has_places_left']);
                 $mission->structure->append(['logo']);
             }
         } else {

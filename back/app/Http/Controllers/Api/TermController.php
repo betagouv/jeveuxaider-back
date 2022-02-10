@@ -38,7 +38,7 @@ class TermController extends Controller
 
     public function show(Term $term)
     {
-        return $term;
+        return Term::with('vocabulary')->withCount(['related', 'missions', 'profiles'])->find($term->id);
     }
 
     public function update(TermRequest $request, Vocabulary $vocabulary, Term $term)
