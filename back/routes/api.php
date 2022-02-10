@@ -76,10 +76,8 @@ Route::get('settings/general', 'Api\SettingController@general');
 Route::group(['middleware' => ['auth:api']], function () {
 
     Route::get('user', 'Api\UserController@me');
-    Route::get('user/structure', 'Api\UserController@structure');
-    Route::get('user/roles', 'Api\UserController@roles');
-    Route::get('user/actions', 'Api\ActionController@index');
-    Route::get('user/actions/benevole', 'Api\ActionController@benevole');
+    // Route::get('user/structure', 'Api\UserController@structure');
+    // Route::get('user/roles', 'Api\UserController@roles');
     // Route::post('user/anonymize', 'Api\UserController@anonymize');
     Route::put('user', 'Api\UserController@update');
     Route::get('profiles/{profile}', 'Api\ProfileController@show');
@@ -88,6 +86,9 @@ Route::group(['middleware' => ['auth:api']], function () {
     // Route::delete('profile/{profile}/upload', 'Api\ProfileController@uploadDelete');
     // Route::get('profile/{profile}/participations', 'Api\ProfileController@participations');
     // Route::get('profile/{profile}/statistics', 'Api\ProfileController@statistics');
+
+    Route::get('user/actions', 'Api\ActionController@index');
+    Route::get('user/actions/benevole', 'Api\ActionController@benevole');
 
     Route::post('medias/{modelType}/{modelId}/{collectionName}/{attribute}', 'Api\MediaController@store');
     Route::put('medias/{media}', 'Api\MediaController@update');
@@ -101,7 +102,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     // Route::post('participation', 'Api\ParticipationController@store');
     // Route::post('participation/{participation}/cancel', 'Api\ParticipationController@cancel');
 
-    Route::post('user/password', 'Api\UserController@updatePassword');
+    // Route::post('user/password', 'Api\UserController@updatePassword');
 
 
     // MESSAGES
