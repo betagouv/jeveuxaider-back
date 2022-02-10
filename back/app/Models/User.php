@@ -46,28 +46,28 @@ class User extends Authenticatable
         //     'label' => 'Bénévole'
         // ];
 
-        if($this->is_admin){
+        if ($this->is_admin) {
             $roles[] = [
                 'key' => 'admin',
                 'label' => 'Modérateur'
             ];
         }
 
-        if($this->profile->is_analyste){
+        if ($this->profile->is_analyste) {
             $roles[] = [
                 'key' => 'analyste',
                 'label' => 'Analyste'
             ];
         }
 
-        if($this->profile->referent_department){
+        if ($this->profile->referent_department) {
             $roles[] = [
                 'key' => 'referent',
                 'label' => $this->profile->referent_department
             ];
         }
 
-        if($this->profile->referent_department){
+        if ($this->profile->referent_department) {
             $roles[] = [
                 'key' => 'referent_regional',
                 'label' => $this->profile->referent_region
@@ -75,8 +75,8 @@ class User extends Authenticatable
         }
 
         $structures = $this->profile->structures;
-        if($structures){
-            foreach($structures as $structure) {
+        if ($structures) {
+            foreach ($structures as $structure) {
                 $roles[] = [
                     'key' => 'responsable',
                     'contextable_type' => 'structure',
@@ -87,8 +87,8 @@ class User extends Authenticatable
         }
 
         $territoires = $this->profile->territoires;
-        if($territoires){
-            foreach($territoires as $territoire) {
+        if ($territoires) {
+            foreach ($territoires as $territoire) {
                 $roles[] = [
                     'key' => 'responsable_territoire',
                     'contextable_type' => 'territoire',
