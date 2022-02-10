@@ -48,8 +48,8 @@ class ParticipationController extends Controller
 
     public function show(Request $request, Participation $participation)
     {
-        $participation = $participation->load(['mission', 'profile', 'mission.responsable']);
-        $participation->profile->append(['avatar', 'skills', 'domaines']);
+        $participation = $participation->load(['mission', 'profile', 'mission.responsable', 'profile.skills']);
+        $participation->profile->append(['avatar', 'domaines']);
         $participation->mission->append(['full_address']);
 
         return $participation;
@@ -216,7 +216,7 @@ class ParticipationController extends Controller
 
     public function benevole(ParticipationManageRequest $request, Participation $participation)
     {
-        return $participation->profile->append('roles', 'has_user', 'skills', 'domaines');
+        return $participation->profile->append('roles', 'has_user', 'domaines');
     }
 
     public function mission(Request $request, Participation $participation)

@@ -103,9 +103,11 @@ class MissionController extends Controller
         }
 
         if ($request->has('skills')) {
-            $skills_ids = collect($request->input('skills'))->pluck('id');
-            $skills = Tag::whereIn('id', $skills_ids)->get();
-            $mission->syncTagsWithType($skills, 'competence');
+            $skills =  collect($request->input('skills'));
+            $values = $skills->pluck($skills, 'id')->map(function ($item) {
+                return ['field' => 'profile_skills'];
+            });
+            $mission->skills()->sync($values);
         }
 
         $mission->update($request->validated());

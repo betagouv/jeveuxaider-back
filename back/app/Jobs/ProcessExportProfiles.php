@@ -59,7 +59,7 @@ class ProcessExportProfiles implements ShouldQueue
                 AllowedFilter::custom('role', new FiltersProfileRole),
                 AllowedFilter::custom('domaines', new FiltersProfileTag),
                 AllowedFilter::custom('disponibilities', new FiltersDisponibility),
-                AllowedFilter::custom('skills', new FiltersProfileSkill),
+                // AllowedFilter::custom('skills', new FiltersProfileSkill),
                 // AllowedFilter::custom('match_mission', new FiltersMatchMission),
                 AllowedFilter::exact('is_visible'),
                 AllowedFilter::custom('min_participations', new FiltersProfileMinParticipations),
@@ -70,25 +70,25 @@ class ProcessExportProfiles implements ShouldQueue
             ->get();
 
         $exportFilePath = (new FastExcel($query))
-        ->export($this->fileName, function ($profile) {
-            return [
-                'id' => $profile->id,
-                'user_id' => $profile->user_id,
-                'first_name' => $profile->first_name,
-                'last_name' => $profile->last_name,
-                'email' => $profile->email,
-                'phone' => $profile->phone,
-                'mobile' => $profile->mobile,
-                'zip' => $profile->zip,
-                'referent_department' => $profile->referent_department,
-                'referent_region' => $profile->referent_region,
-                'tete_de_reseau_id' => $profile->tete_de_reseau_id,
-                'service_civique' => $profile->service_civique,
-                'is_visible' => $profile->is_visible,
-                'created_at' => $profile->created_at,
-                'updated_at' => $profile->updated_at,
-            ];
-        });
+            ->export($this->fileName, function ($profile) {
+                return [
+                    'id' => $profile->id,
+                    'user_id' => $profile->user_id,
+                    'first_name' => $profile->first_name,
+                    'last_name' => $profile->last_name,
+                    'email' => $profile->email,
+                    'phone' => $profile->phone,
+                    'mobile' => $profile->mobile,
+                    'zip' => $profile->zip,
+                    'referent_department' => $profile->referent_department,
+                    'referent_region' => $profile->referent_region,
+                    'tete_de_reseau_id' => $profile->tete_de_reseau_id,
+                    'service_civique' => $profile->service_civique,
+                    'is_visible' => $profile->is_visible,
+                    'created_at' => $profile->created_at,
+                    'updated_at' => $profile->updated_at,
+                ];
+            });
 
         Storage::disk('s3')->put($this->filePath, file_get_contents($exportFilePath));
 

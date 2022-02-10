@@ -39,7 +39,7 @@ class ProfilesExport implements FromCollection, WithMapping, WithHeadings, Shoul
                 AllowedFilter::custom('role', new FiltersProfileRole),
                 AllowedFilter::custom('domaines', new FiltersProfileTag),
                 AllowedFilter::custom('disponibilities', new FiltersDisponibility),
-                AllowedFilter::custom('skills', new FiltersProfileSkill),
+                //AllowedFilter::custom('skills', new FiltersProfileSkill),
                 AllowedFilter::exact('is_visible'),
                 AllowedFilter::custom('min_participations', new FiltersProfileMinParticipations),
                 AllowedFilter::exact('referent_department'),

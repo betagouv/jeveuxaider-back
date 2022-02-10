@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 
 class Term extends Model
 {
+    use Searchable;
 
     protected $table = 'terms';
 
@@ -44,5 +46,15 @@ class Term extends Model
     public function missions()
     {
         return $this->morphedByMany(Mission::class, 'termable');
+    }
+
+    public function shouldBeSearchable()
+    {
+        return $this->is_published;
+    }
+
+    public function searchableAs()
+    {
+        return config('scout.prefix') . '_covid_terms';
     }
 }

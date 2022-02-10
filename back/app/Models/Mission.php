@@ -353,7 +353,8 @@ class Mission extends Model
             case 'responsable':
                 // Missions des structures dont je suis responsable
                 $user = Auth::guard('api')->user();
-                if ($user->context_role == 'responsable' && $user->contextable_type == 'structure' &&
+                if (
+                    $user->context_role == 'responsable' && $user->contextable_type == 'structure' &&
                     !empty($user->contextable_id)
                 ) {
                     return $query
@@ -436,9 +437,14 @@ class Mission extends Model
             ->saveSlugsTo('slug');
     }
 
-    public function getSkillsAttribute()
+    // public function getSkillsAttribute()
+    // {
+    //     return $this->tagsWithType('competence')->values();
+    // }
+
+    public function skills()
     {
-        return $this->tagsWithType('competence')->values();
+        return $this->morphToMany(Term::class, 'termable')->wherePivot('field', 'mission_skills');
     }
 
     public function getDomaineSecondaireAttribute()
