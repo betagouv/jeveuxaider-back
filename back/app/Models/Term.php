@@ -57,4 +57,16 @@ class Term extends Model
     {
         return config('scout.prefix') . '_covid_terms';
     }
+
+    public function toSearchableArray()
+    {
+        $vocabulary = Vocabulary::find($this->vocabulary_id);
+
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'group' => $this->properties ? $this->properties['group'] : null,
+            'vocabulary_name' => $vocabulary->name,
+        ];
+    }
 }
