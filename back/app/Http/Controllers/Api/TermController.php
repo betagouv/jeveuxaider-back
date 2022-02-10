@@ -16,7 +16,7 @@ class TermController extends Controller
 
     public function index(Request $request, Vocabulary $vocabulary)
     {
-        return QueryBuilder::for(Term::where('vocabulary_id', $vocabulary->id)->withCount(['related', 'profiles', 'missions']))
+        return QueryBuilder::for(Term::where('vocabulary_id', $vocabulary->id)->withCount(['related']))
             ->allowedFilters([
                 AllowedFilter::exact('is_archived'),
                 AllowedFilter::custom('search', new FiltersNameSearch),
