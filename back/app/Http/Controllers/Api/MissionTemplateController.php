@@ -34,6 +34,8 @@ class MissionTemplateController extends Controller
                 AllowedFilter::scope('of_reseau'),
                 AllowedFilter::callback('with_reseaux', new FiltersTemplatesWithReseau)
             )
+            ->allowedIncludes(['media'])
+            ->allowedAppends(['photo'])
             ->defaultSort('-updated_at')
             ->paginate($paginate);
     }
@@ -49,18 +51,18 @@ class MissionTemplateController extends Controller
 
     public function show(MissionTemplate $missionTemplate)
     {
-        return MissionTemplate::with('reseau')->find($missionTemplate->id);
+        return MissionTemplate::with('reseau')->find($missionTemplate->id)->append(['photo']);
     }
 
     public function statistics(MissionTemplate $missionTemplate)
     {
         return [
-                'missions_count' => Mission::where('template_id',$missionTemplate->id)->count(),
-                'missions_available_count' => Mission::available()->where('template_id',$missionTemplate->id)->count(),
+                'missions_count' => Mission::where('template_id', $missionTemplate->id)->count(),
+                'missions_available_count' => Mission::available()->where('template_id', $missionTemplate->id)->count(),
                 'participations_count' => Participation::whereHas('mission', function (Builder $query) use ($missionTemplate) {
                     $query->where('template_id', $missionTemplate->id);
                 })->count(),
-                'participations_validated_count' => Participation::where('state','Validée')->whereHas('mission', function (Builder $query) use ($missionTemplate) {
+                'participations_validated_count' => Participation::where('state', 'Validée')->whereHas('mission', function (Builder $query) use ($missionTemplate) {
                     $query->where('template_id', $missionTemplate->id);
                 })->count(),
             ];

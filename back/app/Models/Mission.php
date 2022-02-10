@@ -113,10 +113,7 @@ class Mission extends Model
                 'id' => $this->template->id,
                 'title' => $this->template->title,
                 'subtitle' => $this->template->subtitle,
-                'photo' => $this->template->photo ? [
-                    // 'thumb' => $this->template->photo['thumb'],  @TODO : réparer après refactoring domaine
-                    // 'large' => $this->template->photo['large'],
-                ] : null,
+                'photo' => $this->template_id ? $this->template->photo : null,
             ] : null,
             'domaine' => [
                 'id' => $domaine->id,
@@ -356,8 +353,7 @@ class Mission extends Model
             case 'responsable':
                 // Missions des structures dont je suis responsable
                 $user = Auth::guard('api')->user();
-                if (
-                    $user->context_role == 'responsable' && $user->contextable_type == 'structure' &&
+                if ($user->context_role == 'responsable' && $user->contextable_type == 'structure' &&
                     !empty($user->contextable_id)
                 ) {
                     return $query
@@ -506,5 +502,10 @@ class Mission extends Model
             /** @var \App\Models\Participation $participation */
             $participation->sendNotificationTemoignage();
         }
+    }
+
+    public function getTemplatePhotoAttribute()
+    {
+        return $this->template_id ? $this->template->getPhotoAttribute() : null;
     }
 }
