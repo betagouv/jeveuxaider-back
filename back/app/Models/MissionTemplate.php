@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\Image\Manipulations;
 
 class MissionTemplate extends Model implements HasMedia
 {
@@ -31,27 +32,40 @@ class MissionTemplate extends Model implements HasMedia
 
     public function registerMediaConversions(Media $media = null): void
     {
-        $this->addMediaConversion('large')
-            ->width(640)
+        // 2x for high pixel density
+
+        // $this->addMediaConversion('large')
+        //     ->width(640)
+        //     ->nonQueued()
+        //     ->performOnCollections('templates');
+
+        // $this->addMediaConversion('thumb')
+        //     ->width(320)
+        //     ->nonQueued()
+        //     ->performOnCollections('templates');
+
+        // $this->addMediaConversion('xxl')
+        //     ->width(1440)
+        //     ->nonQueued()
+        //     ->performOnCollections('templates');
+
+        $this->addMediaConversion('card')
+            ->fit(Manipulations::FIT_CROP, 600, 600)
             ->nonQueued()
+            ->withResponsiveImages()
             ->performOnCollections('templates');
 
-        $this->addMediaConversion('thumb')
-            ->width(320)
+        $this->addMediaConversion('formPreview')
+            ->fit(Manipulations::FIT_CROP, 200, 200)
             ->nonQueued()
-            ->performOnCollections('templates');
-
-        $this->addMediaConversion('xxl')
-            ->width(1440)
-            ->nonQueued()
+            ->withResponsiveImages()
             ->performOnCollections('templates');
     }
 
     public function getPhotoAttribute()
     {
-        return $this->getMedia('templates', ['attribute' => 'photo'])->map(function ($media) {
-            return $media->getFormattedMediaField();
-        });
+        $media = $this->getFirstMedia('templates', ['attribute' => 'photo']);
+        return $media ? $media->getFormattedMediaField() : null;
     }
 
     public function domaine()
