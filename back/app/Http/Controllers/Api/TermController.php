@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Filters\FiltersNameSearch;
+use App\Filters\FiltersTermHasRelated;
 use App\Http\Requests\TermRequest;
 use App\Models\Term;
 use App\Models\Vocabulary;
@@ -20,6 +21,7 @@ class TermController extends Controller
             ->allowedFilters([
                 AllowedFilter::exact('is_archived'),
                 AllowedFilter::custom('search', new FiltersNameSearch),
+                AllowedFilter::custom('has_related', new FiltersTermHasRelated),
             ])
             ->defaultSort('-updated_at')
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
