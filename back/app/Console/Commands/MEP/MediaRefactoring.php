@@ -86,6 +86,8 @@ class MediaRefactoring extends Command
     {
         if ($media->model_type === 'App\Models\Collectivity') {
             $media->delete();
+        } elseif ($media->model_type === 'App\Models\Tag') {
+            $media->delete();
         }
     }
 }
