@@ -12,7 +12,7 @@ class EnvironmentPathGenerator implements PathGenerator
 
     public function __construct()
     {
-        $this->path = config('app.env') . '/';
+        $this->path = config('filesystems.s3_prefix') . '/';
     }
 
     public function getPath(Media $media): string

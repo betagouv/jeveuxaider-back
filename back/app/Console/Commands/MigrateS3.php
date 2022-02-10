@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Commands\OLD;
+namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
@@ -29,7 +29,7 @@ class MigrateS3 extends Command
     protected $description = 'Migrate all files from S3 to other S3';
 
     protected $log = [];
-    protected $count = ['copied' => 0, 'skipped' => 0, 'deleted' => 0];
+    protected $count = ['copied' => 0, 'skipped' => 0, 'deleted' => 0, 'file_not_exist'];
 
     /**
      * Create a new command instance.
@@ -76,10 +76,17 @@ class MigrateS3 extends Command
             if (in_array($file, $destinationFiles)) {
                 // Overwrite file if argument is present
                 if ($this->option('overwrite')) {
-                    $visibility = Storage::disk($source)->getVisibility($file);
                     $content = Storage::disk($source)->get($file);
-                    Storage::disk($destination)->put($file, $content, $visibility);
-                    $this->countOutputLog('copied', $file);
+                    if($content) {
+                        $visibility = Storage::disk($source)->getVisibility($file);
+                        Storage::disk($destination)->put($file, $content, $visibility);
+                        $this->countOutputLog('copied', $file);
+                    } else {
+                        ray("file not exist", $file);
+                        ray("content", $content);
+                        $this->countOutputLog('file_not_exist', $file);
+                    }
+
                 } else { // Skip file
                     $this->countOutputLog('skipped', $file);
                 }
@@ -103,6 +110,6 @@ class MigrateS3 extends Command
         $this->log[$action][] = $file;
 
         $this->info("\n".strtoupper($action).": $file");
-        Log::debug(strtoupper($action).": $file");
+        // Log::debug(strtoupper($action).": $file");
     }
 }

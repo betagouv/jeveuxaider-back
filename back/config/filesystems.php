@@ -15,6 +15,8 @@ return [
 
     'default' => env('FILESYSTEM_DRIVER', 'local'),
 
+    's3_prefix' => env('S3_PREFIX'),
+
     /*
     |--------------------------------------------------------------------------
     | Filesystem Disks
@@ -61,6 +63,14 @@ return [
             'bucket' => env('S3_BUCKET'),
         ],
 
+        's3_prod' => [
+            'driver' => 's3',
+            'key' => env('S3_PROD_AK'),
+            'secret' => env('S3_PROD_SK'),
+            'endpoint' => env('S3_PROD_ENDPOINT'),
+            'region' => env('S3_PROD_REGION'),
+            'bucket' => env('S3_PROD_BUCKET'),
+        ],
     ],
 
 ];
