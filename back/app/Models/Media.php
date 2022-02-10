@@ -14,11 +14,14 @@ class Media extends SpatieMedia
             $mediaUrls[$conversion] = $this->getSrcset($conversion);
         }
 
+        $manipulations = !empty($this->manipulations[array_key_first($this->manipulations)]) ?
+            $this->manipulations[array_key_first($this->manipulations)] : null;
+
         // name, size, type -> https://developer.mozilla.org/fr/docs/Web/API/File
         return [
             'id' => $this->id,
             'urls' => $mediaUrls,
-            'manipulations' => $this->manipulations ? $this->manipulations[array_key_first($this->manipulations)] : null,
+            'manipulations' => $manipulations,
             'name' => $this->file_name,
             'size' => $this->size,
             'type' => $this->mime_type

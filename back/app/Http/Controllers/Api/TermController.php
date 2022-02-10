@@ -18,7 +18,7 @@ class TermController extends Controller
     {
         return QueryBuilder::for(Term::where('vocabulary_id', $vocabulary->id)->withCount(['related']))
             ->allowedFilters([
-                AllowedFilter::exact('is_published'),
+                AllowedFilter::exact('is_archived'),
                 AllowedFilter::custom('search', new FiltersNameSearch),
             ])
             ->defaultSort('-updated_at')
@@ -34,8 +34,12 @@ class TermController extends Controller
         return $term;
     }
 
+    public function show(Term $term)
+    {
+        return $term;
+    }
 
-    public function update(TermRequest $request, Term $term)
+    public function update(TermRequest $request, Vocabulary $vocabulary, Term $term)
     {
         $term = $term->update($request->validated());
 

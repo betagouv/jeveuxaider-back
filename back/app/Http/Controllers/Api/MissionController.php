@@ -59,6 +59,7 @@ class MissionController extends Controller
                 AllowedFilter::custom('search', new FiltersMissionSearch),
                 AllowedFilter::scope('available'),
             ])
+            ->allowedAppends(['template_photo'])
             ->defaultSort('-created_at')
             ->paginate($request->input('itemsPerPage') ?? config('query-builder.results_per_page'));
     }

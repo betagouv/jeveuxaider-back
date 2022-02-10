@@ -12,7 +12,7 @@ class Term extends Model
     protected $guarded = ['id'];
 
     protected $casts = [
-        'is_archived' => 'boolean',
+        'is_published' => 'boolean',
         'properties' => 'json',
     ];
 
@@ -34,5 +34,15 @@ class Term extends Model
     public function related()
     {
         return $this->hasMany(Termable::class);
+    }
+
+    public function profiles()
+    {
+        return $this->morphedByMany(Profile::class, 'termable');
+    }
+
+    public function missions()
+    {
+        return $this->morphedByMany(Mission::class, 'termable');
     }
 }
