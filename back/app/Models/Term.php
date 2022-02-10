@@ -35,4 +35,14 @@ class Term extends Model
     {
         return $this->hasMany(Termable::class);
     }
+
+    public function profiles()
+    {
+        return $this->morphedByMany(Profile::class, 'termable');
+    }
+
+    public function missions()
+    {
+        return $this->morphedByMany(Mission::class, 'termable');
+    }
 }
