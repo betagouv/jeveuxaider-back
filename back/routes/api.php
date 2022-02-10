@@ -121,7 +121,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     // API ENGAGEMENT
     Route::get('apiengagement/mymission/{id}', 'Api\ApiEngagementController@myMission');
 
-    Route::get('/vocabularies/{vocabulary:slug}/terms', [TaxonomyController::class, 'terms']);
+    Route::get('/vocabularies/{vocabulary:slug}/terms', 'Api\TermController@index');
 });
 
 // Pour info : Les middleware 'auth:api', 'has.context.role.header' ajoutent 9 queries

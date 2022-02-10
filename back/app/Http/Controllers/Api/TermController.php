@@ -1,25 +1,28 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Filters\FiltersNameSearch;
 use App\Http\Requests\TermRequest;
 use App\Models\Term;
 use App\Models\Vocabulary;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
+use App\Http\Controllers\Controller;
 
 class TermController extends Controller
 {
 
-    public function show(Vocabulary $vocabulary)
-    {
-        return $vocabulary;
-    }
-
     public function index(Request $request, Vocabulary $vocabulary)
     {
-        return $vocabulary->terms()->withCount(['related'])->orderBy('weight')->orderBy('name')->get();
+        return QueryBuilder::for(Term::where('vocabulary_id', $vocabulary->id)->withCount(['related']))
+            ->allowedFilters([
+                AllowedFilter::exact('is_published'),
+                AllowedFilter::custom('search', new FiltersNameSearch),
+            ])
+            ->defaultSort('-updated_at')
+            ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
     }
 
     public function store(TermRequest $request, Vocabulary $vocabulary)
