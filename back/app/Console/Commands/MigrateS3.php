@@ -13,7 +13,7 @@ class MigrateS3 extends Command
      *
      * @var string
      */
-    protected $signature = 's3:migrate 
+    protected $signature = 's3:migrate
     {source : Name of the Filesystem disk you want to copy from}
     {destination : Name of the Filesystem disk you want to copy to}
     {--d|delete : Delete files on destination disk which aren\'t on the source disk}
@@ -77,7 +77,7 @@ class MigrateS3 extends Command
                 // Overwrite file if argument is present
                 if ($this->option('overwrite')) {
                     $content = Storage::disk($source)->get($file);
-                    if($content) {
+                    if ($content) {
                         $visibility = Storage::disk($source)->getVisibility($file);
                         Storage::disk($destination)->put($file, $content, $visibility);
                         $this->countOutputLog('copied', $file);
@@ -86,7 +86,6 @@ class MigrateS3 extends Command
                         ray("content", $content);
                         $this->countOutputLog('file_not_exist', $file);
                     }
-
                 } else { // Skip file
                     $this->countOutputLog('skipped', $file);
                 }
@@ -96,7 +95,7 @@ class MigrateS3 extends Command
                 Storage::disk($destination)->put($file, $content, $visibility);
                 $this->countOutputLog('copied', $file);
             }
-            
+
             $progress->advance();
         }
 
