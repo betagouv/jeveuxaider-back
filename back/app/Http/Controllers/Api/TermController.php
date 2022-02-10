@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Filters\FiltersNameSearch;
+use App\Filters\FiltersTermHasRelated;
 use App\Http\Requests\TermRequest;
 use App\Models\Term;
 use App\Models\Vocabulary;
@@ -16,10 +17,11 @@ class TermController extends Controller
 
     public function index(Request $request, Vocabulary $vocabulary)
     {
-        return QueryBuilder::for(Term::where('vocabulary_id', $vocabulary->id)->withCount(['related', 'profiles', 'missions']))
+        return QueryBuilder::for(Term::where('vocabulary_id', $vocabulary->id)->withCount(['related']))
             ->allowedFilters([
-                AllowedFilter::exact('is_published'),
+                AllowedFilter::exact('is_archived'),
                 AllowedFilter::custom('search', new FiltersNameSearch),
+                AllowedFilter::custom('has_related', new FiltersTermHasRelated),
             ])
             ->defaultSort('-updated_at')
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
@@ -34,8 +36,12 @@ class TermController extends Controller
         return $term;
     }
 
+    public function show(Term $term)
+    {
+        return Term::with('vocabulary')->withCount(['related', 'missions', 'profiles'])->find($term->id);
+    }
 
-    public function update(TermRequest $request, Term $term)
+    public function update(TermRequest $request, Vocabulary $vocabulary, Term $term)
     {
         $term = $term->update($request->validated());
 

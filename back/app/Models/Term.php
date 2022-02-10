@@ -3,16 +3,18 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 
 class Term extends Model
 {
+    use Searchable;
 
     protected $table = 'terms';
 
     protected $guarded = ['id'];
 
     protected $casts = [
-        'is_archived' => 'boolean',
+        'is_published' => 'boolean',
         'properties' => 'json',
     ];
 
@@ -44,5 +46,27 @@ class Term extends Model
     public function missions()
     {
         return $this->morphedByMany(Mission::class, 'termable');
+    }
+
+    public function shouldBeSearchable()
+    {
+        return $this->is_published;
+    }
+
+    public function searchableAs()
+    {
+        return config('scout.prefix') . '_covid_terms';
+    }
+
+    public function toSearchableArray()
+    {
+        $vocabulary = Vocabulary::find($this->vocabulary_id);
+
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'group' => $this->properties ? $this->properties['group'] : null,
+            'vocabulary_name' => $vocabulary->name,
+        ];
     }
 }

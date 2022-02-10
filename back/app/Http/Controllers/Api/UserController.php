@@ -24,9 +24,9 @@ class UserController extends Controller
 
     public function me(Request $request)
     {
-        $user = User::with('profile', 'profile.media')->where('id', Auth::guard('api')->user()->id)->first();
+        $user = User::with('profile', 'profile.media', 'profile.skills')->where('id', Auth::guard('api')->user()->id)->first();
         $user->append(['roles']);
-        $user->profile->append(['avatar', 'skills', 'domaines']);
+        $user->profile->append(['avatar', 'domaines']);
 
         return $user;
     }
@@ -116,15 +116,21 @@ class UserController extends Controller
     //     return response()->json(['errors' => $validator->errors()], 400);
     // }
 
-    // public function impersonate(User $user)
-    // {
-    //     return $user->createToken('impersonate');
-    // }
+    public function impersonate(User $user)
+    {
+        $token = $user->createToken('impersonate');
+        $token->token->expires_at = now()->addMinutes(60);
+        $token->token->save();
 
-    // public function stopImpersonate(Token $token)
-    // {
-    //     return (string) $token->revoke();
-    // }
+        return $token;
+    }
+
+    public function stopImpersonate(Token $token)
+    {
+        ray("coucou");
+        ray($token);
+        return (string) $token->revoke();
+    }
 
     // public function anonymize(Request $request)
     // {

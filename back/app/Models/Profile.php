@@ -37,7 +37,7 @@ class Profile extends Model implements HasMedia
 
     protected $appends = ['short_name', 'full_name'];
 
-    protected $checkFields = ['mobile', 'zip', 'type', 'disponibilities', 'commitment__time_period','commitment__duration', 'description', 'birthday', 'skills' ,'domaines'];
+    protected $checkFields = ['mobile', 'zip', 'type', 'disponibilities', 'commitment__time_period', 'commitment__duration', 'description', 'birthday', 'skills', 'domaines'];
 
     protected static $logFillable = true;
 
@@ -330,10 +330,15 @@ class Profile extends Model implements HasMedia
         return $this->tagsWithType('domaine')->pluck('id')->values();
     }
 
-    public function getSkillsAttribute()
+    public function skills()
     {
-        return $this->tagsWithType('competence')->values();
+        return $this->morphToMany(Term::class, 'termable')->wherePivot('field', 'profile_skills');
     }
+
+    // public function getSkillsAttribute()
+    // {
+    //     return $this->tagsWithType('competence')->values();
+    // }
 
     // public function isReferent()
     // {

@@ -123,6 +123,8 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('apiengagement/mymission/{id}', 'Api\ApiEngagementController@myMission');
 
     Route::get('/vocabularies/{vocabulary:slug}/terms', 'Api\TermController@index');
+
+    Route::delete('impersonate/{token}', 'Api\UserController@stopImpersonate');
 });
 
 // Pour info : Les middleware 'auth:api', 'has.context.role.header' ajoutent 9 queries
@@ -330,8 +332,7 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     // Route::delete('page/{page}', 'Api\PageController@delete');
 
     // // IMPERSONNATE
-    // Route::post('impersonate/{user}', 'Api\UserController@impersonate');
-    // Route::delete('impersonate/{token}', 'Api\UserController@stopImpersonate');
+    Route::post('users/{user}/impersonate', 'Api\UserController@impersonate');
 
     // // TABLE EXPORT
     // Route::post('{table}/export/table', 'Api\ConfigController@export');
@@ -355,6 +356,7 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     // Route::delete('reseaux/{reseau}/organisations/{organisation}', 'Api\ReseauController@detachOrganisation');
 
     Route::post('/vocabularies/{vocabulary:slug}/terms', 'Api\TermController@store');
-    Route::post('/terms/{term}', 'Api\TermController@update');
+    Route::put('/vocabularies/{vocabulary:slug}/terms/{term}', 'Api\TermController@update');
+    Route::get('/terms/{term}', 'Api\TermController@show');
     Route::delete('/terms/{term}', 'Api\TermController@delete');
 });
