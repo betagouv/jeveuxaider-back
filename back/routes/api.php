@@ -78,7 +78,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('user', 'Api\UserController@me');
     // Route::get('user/structure', 'Api\UserController@structure');
     // Route::get('user/roles', 'Api\UserController@roles');
-    // Route::post('user/anonymize', 'Api\UserController@anonymize');
+    Route::post('user/anonymize', 'Api\UserController@anonymize');
     Route::put('user', 'Api\UserController@update');
     Route::get('profiles/{profile}', 'Api\ProfileController@show');
     Route::put('profiles/{profile}', 'Api\ProfileController@update');
@@ -195,6 +195,7 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     // STATISTICS
     Route::get('statistics', 'Api\StatisticsController@dashboard');
     Route::get('statistics/organisations/{structure}', 'Api\StatisticsController@organisations');
+    Route::get('statistics/missions/{mission}', 'Api\StatisticsController@missions');
     // Route::get('statistics/missions', 'Api\StatisticsController@missions');
     // Route::get('statistics/departments', 'Api\StatisticsController@departments');
     // Route::get('statistics/places', 'Api\StatisticsController@places');
@@ -312,7 +313,7 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     // Route::delete('document/{document}/upload', 'Api\DocumentController@uploadDelete');
     // Route::delete('document/{document}', 'Api\DocumentController@delete');
 
-    // Route::post('document/{document}/notify', 'Api\DocumentController@notify');
+    Route::post('documents/{document}/notify', 'Api\DocumentController@notify');
 
     // // FAQ
     // Route::post('faq', 'Api\FaqController@store');
