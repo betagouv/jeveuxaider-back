@@ -212,7 +212,7 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     // Route::get('reminders', 'Api\ConfigController@reminders');
 
     // DOCUMENTS
-    // Route::get('documents', 'Api\DocumentController@index');
+    Route::get('documents', 'Api\DocumentController@index');
 
     // MISSIONS TEMPLATES
     Route::get('mission-templates/{missionTemplate}', 'Api\MissionTemplateController@show');
@@ -303,10 +303,10 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     // Route::post('tag/{tag}/upload', 'Api\TagController@upload');
     // Route::delete('tag/{tag}/upload', 'Api\TagController@uploadDelete');
 
-    // // DOCUMENTS
-    // Route::get('document/{document}', 'Api\DocumentController@show');
-    // Route::post('document', 'Api\DocumentController@store');
-    // Route::post('document/{document}', 'Api\DocumentController@update');
+    // DOCUMENTS
+    Route::get('documents/{document}', 'Api\DocumentController@show');
+    Route::post('documents', 'Api\DocumentController@store');
+    Route::put('documents/{document}', 'Api\DocumentController@update');
     // Route::post('document/{document}/upload', 'Api\DocumentController@upload');
     // Route::delete('document/{document}/upload', 'Api\DocumentController@uploadDelete');
     // Route::delete('document/{document}', 'Api\DocumentController@delete');
