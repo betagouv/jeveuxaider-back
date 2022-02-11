@@ -127,28 +127,25 @@ class UserController extends Controller
 
     public function stopImpersonate(Token $token)
     {
-        ray("coucou");
-        ray($token);
         return (string) $token->revoke();
     }
 
-    // public function anonymize(Request $request)
-    // {
-    //     $user = $request->user();
+    public function anonymize(Request $request)
+    {
+        $user = $request->user();
 
-    //     // Si je suis le dernier responsable d'une organisation on la désinscrit
-    //     if ($user->profile->structures) {
-    //         foreach ($user->profile->structures as $structure) {
-    //             if ($structure->members->count() == 1) {
-    //                 $structure->state = 'Désinscrite';
-    //                 $structure->save();
-    //             }
-    //         }
-    //     }
+        // Si je suis le dernier responsable d'une organisation on la désinscrit
+        if ($user->profile->structures) {
+            foreach ($user->profile->structures as $structure) {
+                if ($structure->members->count() == 1) {
+                    $structure->state = 'Désinscrite';
+                    $structure->save();
+                }
+            }
+        }
 
-    //     $user->anonymize();
-    //     $user->token()->revoke();
+        $user->anonymize();
 
-    //     return $user;
-    // }
+        return $user;
+    }
 }

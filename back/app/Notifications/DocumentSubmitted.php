@@ -4,10 +4,11 @@ namespace App\Notifications;
 
 use App\Models\Document;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class DocumentSubmitted extends Notification
+class DocumentSubmitted extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -51,7 +52,7 @@ class DocumentSubmitted extends Notification
             ->subject('Une nouvelle ressource est accessible dans votre espace')
             ->greeting('Bonjour ' . $notifiable->first_name . ',')
             ->line('La ressource « ' . $this->document->title . ' » vient d\'être uploadée dans votre tableau de bord.')
-            ->action('Accéder à mes ressources', url(config('app.url').'/dashboard/ressources'));
+            ->action('Accéder à mes ressources', url(config('app.url') . '/dashboard/ressources'));
     }
 
     /**
