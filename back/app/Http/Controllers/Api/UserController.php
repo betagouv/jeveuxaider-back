@@ -127,8 +127,6 @@ class UserController extends Controller
 
     public function stopImpersonate(Token $token)
     {
-        ray("coucou");
-        ray($token);
         return (string) $token->revoke();
     }
 
@@ -147,7 +145,6 @@ class UserController extends Controller
         }
 
         $user->anonymize();
-        $user->token()->revoke();
 
         return $user;
     }
