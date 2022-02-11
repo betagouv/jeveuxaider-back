@@ -50,13 +50,13 @@ class MissionTemplate extends Model implements HasMedia
         //     ->performOnCollections('templates');
 
         $this->addMediaConversion('card')
-            ->fit(Manipulations::FIT_CROP, 600, 600)
+            ->fit(Manipulations::FIT_CROP, 600, 286)
             ->nonQueued()
             ->withResponsiveImages()
             ->performOnCollections('templates');
 
         $this->addMediaConversion('formPreview')
-            ->fit(Manipulations::FIT_CROP, 200, 200)
+            ->fit(Manipulations::FIT_CROP, 470, 224)
             ->nonQueued()
             ->withResponsiveImages()
             ->performOnCollections('templates');
