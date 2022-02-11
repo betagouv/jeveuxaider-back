@@ -12,13 +12,8 @@ class Document extends Model implements HasMedia
 
     protected $table = 'documents';
 
-    protected $fillable = [
-        'title',
-        'file',
-        'description',
-        'roles',
-        'type',
-        'link'
+    protected $guarded = [
+        'id',
     ];
 
     protected $casts = [
@@ -26,8 +21,6 @@ class Document extends Model implements HasMedia
     ];
 
     protected $appends = ['file'];
-
-    protected $hidden = ['media'];
 
     public function getFileAttribute()
     {

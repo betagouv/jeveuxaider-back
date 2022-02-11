@@ -19,7 +19,7 @@ class DocumentController extends Controller
 {
     public function index(Request $request)
     {
-        return QueryBuilder::for(Document::role($request->header('Context-Role')))
+        return QueryBuilder::for(Document::with(['media'])->role($request->header('Context-Role')))
             ->allowedFilters([
                 AllowedFilter::custom('search', new FiltersTitleBodySearch),
             ])
