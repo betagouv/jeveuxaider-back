@@ -55,7 +55,7 @@ class MissionTemplateWaiting extends Notification implements ShouldQueue
             ->greeting('Bonjour,')
             ->line('Le réseau ' . $this->missionTemplate->reseau->name . ' a posté un nouveau modèle de mission : **' . $this->missionTemplate->title . '**')
             ->line('Passez le statut en "Validé" et cochez la case "En ligne" pour le rendre utilisable par les antennes du réseau sans qu\'il y ait besoin de validations futures par les référents.')
-            ->action('Modérer le modèle de mission', url(config('app.url') . '/admin/contenus/modeles-mission?filter[state]=waiting'));
+            ->action('Modérer le modèle de mission', url(config('app.front_url') . '/admin/contenus/modeles-mission?filter[state]=waiting'));
 
         return $message;
     }

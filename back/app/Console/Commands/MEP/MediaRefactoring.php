@@ -89,5 +89,17 @@ class MediaRefactoring extends Command
         } elseif ($media->model_type === 'App\Models\Tag') {
             $media->delete();
         }
+
+        switch ($media->model_type) {
+            case 'App\Models\Collectivity':
+            case 'App\Models\Tag':
+                $media->delete();
+                break;
+            case 'App\Models\MissionTemplate':
+                if ($media->mime_type === 'image/svg+xml') {
+                    $media->delete();
+                }
+                break;
+        }
     }
 }

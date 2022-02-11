@@ -44,7 +44,7 @@ class RegisterUserVolontaire extends Notification
             ->greeting('Félicitations ' . $notifiable->profile->full_name . ' !')
             ->line('Vous vous êtes inscrit(e) sur JeVeuxAider.gouv.fr, la plateforme publique du bénévolat.')
             ->line('Vous pouvez désormais participer à des missions de bénévolat.')
-            ->action('Trouver une mission', url(config('app.url').'/missions'));
+            ->action('Trouver une mission', url(config('app.front_url').'/missions'));
     }
 
     /**

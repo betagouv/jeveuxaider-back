@@ -53,7 +53,7 @@ class MissionWaitingValidation extends Notification
             ->line('Vous avez proposé une mission : ' . $this->mission->name .'.')
             ->line('Cette mission, avant d’être proposée à un ou plusieurs bénévoles, doit être validée par le service en charge des missions proposées sur JeVeuxAider.gouv.fr.')
             ->line('Nous vous informerons sous peu de la validation de la mission que vous avez proposée.')
-            ->action('Accéder à mon compte', url(config('app.url') . '/dashboard/structure/' . $this->mission->structure->id . '/missions'));
+            ->action('Accéder à mon compte', url(config('app.front_url') . '/dashboard/structure/' . $this->mission->structure->id . '/missions'));
     }
 
     /**

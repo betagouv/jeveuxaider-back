@@ -148,7 +148,7 @@ class PassportController extends Controller
                     [
                         'id_token_hint' => $socialAccount->data['id_token'],
                         'state' => 'franceconnect',
-                        'post_logout_redirect_uri' => config('app.url')
+                        'post_logout_redirect_uri' => config('app.front_url')
                     ]
                 );
         }
@@ -160,7 +160,7 @@ class PassportController extends Controller
 
         $tokenRepository = app(TokenRepository::class);
         $refreshTokenRepository = app(RefreshTokenRepository::class);
-         
+
         // Revoke an access token...
         $tokenRepository->revokeAccessToken($tokenId);
         // Revoke all of the token's refresh tokens...

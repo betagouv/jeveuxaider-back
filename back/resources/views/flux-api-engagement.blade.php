@@ -15,7 +15,7 @@
             <![CDATA[{{ $mission->description }}\n\nObjectifs: \n{{ $mission->objectif }}]]>
         </description>
         <applicationUrl>
-            <![CDATA[{{ config('app.url') }}/missions/{{ $mission->id }}/{{ $mission->slug }}]]>
+            <![CDATA[{{ config('app.front_url') }}/missions/{{ $mission->id }}/{{ $mission->slug }}]]>
         </applicationUrl>
         <organizationName>
             <![CDATA[{{ $mission->structure->name }}]]>
@@ -27,7 +27,7 @@
             <![CDATA[{{ $mission->structure->statut_juridique }}]]>
         </organizationStatusJuridique>
         @php
-            $assoFrontUrl = $mission->structure->statut_juridique == 'Association' ? config('app.url') . '/organisations/' . $mission->structure->slug : null;
+            $assoFrontUrl = $mission->structure->statut_juridique == 'Association' ? config('app.front_url') . '/organisations/' . $mission->structure->slug : null;
         @endphp
         <organizationUrl>
             <![CDATA[{{ $assoFrontUrl }}]]>

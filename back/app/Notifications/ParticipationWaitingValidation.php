@@ -72,7 +72,7 @@ class ParticipationWaitingValidation extends Notification
         $message->line('Vous pouvez échanger avec cette personne directement sur la messagerie de JeVeuxAider.gouv.fr et valider sa participation depuis votre espace de gestion.');
 
         $url = $this->participation->conversation ? '/messages/' . $this->participation->conversation->id : '/messages';
-        $message->action('Accéder à ma messagerie', url(config('app.url') . $url));
+        $message->action('Accéder à ma messagerie', url(config('app.front_url') . $url));
 
         return $message;
     }

@@ -55,7 +55,7 @@ class ParticipationBeingProcessed extends Notification
             ->line('En cas de besoin, vous pouvez le contacter directement via la messagerie de JeVeuxAider.gouv.fr.');
 
         $url = $this->participation->conversation ? '/messages/' . $this->participation->conversation->id : '/messages';
-        $message->action('Accéder à ma messagerie', url(config('app.url') . $url));
+        $message->action('Accéder à ma messagerie', url(config('app.front_url') . $url));
 
         return $message;
     }
