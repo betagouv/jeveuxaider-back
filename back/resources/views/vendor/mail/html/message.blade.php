@@ -1,8 +1,8 @@
 @component('mail::layout')
     {{-- Header --}}
     @slot('header')
-        @component('mail::header', ['url' => config('app.url')])
-            <img src="{{ config('app.url') }}/images/jeveuxaider-logo-mail.png" style="max-width: 273px;">
+        @component('mail::header', ['url' => config('app.front_url')])
+            <img src="{{ config('app.front_url') }}/images/jeveuxaider-logo-mail.png" style="max-width: 273px;">
         @endcomponent
     @endslot
 

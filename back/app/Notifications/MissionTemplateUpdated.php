@@ -60,32 +60,32 @@ class MissionTemplateUpdated extends Notification implements ShouldQueue
             ->greeting('Bonjour,')
             ->line('Le réseau **' . $this->missionTemplate->reseau->name . '** a modifié son modèle de mission : **' . $this->missionTemplate->title . '**');
 
-        if(isset($this->changes['title'])) {
+        if (isset($this->changes['title'])) {
             $message->line('#### Titre (avant / après)');
             $message->line($this->oldMissionTemplate['title']);
             $message->line($this->changes['title']);
         }
 
-        if(isset($this->changes['subtitle'])) {
+        if (isset($this->changes['subtitle'])) {
             $message->line('#### Titre court (avant / après)');
             $message->line($this->oldMissionTemplate['subtitle']);
             $message->line($this->changes['subtitle']);
         }
 
-        if(isset($this->changes['description'])) {
+        if (isset($this->changes['description'])) {
             $message->line('#### Description (avant / après)');
             $message->line(new HtmlString($this->oldMissionTemplate['description']));
             $message->line(new HtmlString($this->changes['description']));
         }
 
-        if(isset($this->changes['objectif'])) {
+        if (isset($this->changes['objectif'])) {
             $message->line('#### Objectif (avant / après)');
             $message->line(new HtmlString($this->oldMissionTemplate['objectif']));
             $message->line(new HtmlString($this->changes['objectif']));
         }
 
 
-        $message->action('Modérer le modèle de mission', url(config('app.url') . '/dashboard/contents/template/' . $this->missionTemplate->id . '/edit'));
+        $message->action('Modérer le modèle de mission', url(config('app.front_url') . '/dashboard/contents/template/' . $this->missionTemplate->id . '/edit'));
 
         return $message;
     }

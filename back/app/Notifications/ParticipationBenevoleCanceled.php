@@ -59,7 +59,7 @@ class ParticipationBenevoleCanceled extends Notification
         }
 
         $url = $this->participation->conversation ? '/messages/' . $this->participation->conversation->id : '/messages';
-        $message->action('Accéder à ma messagerie', url(config('app.url') . $url));
+        $message->action('Accéder à ma messagerie', url(config('app.front_url') . $url));
 
         return $message;
     }

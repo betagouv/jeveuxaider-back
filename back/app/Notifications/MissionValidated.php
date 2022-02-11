@@ -59,7 +59,7 @@ class MissionValidated extends Notification
         }
 
         $message->line("Dès qu'un bénévole candidatera à votre mission, nous vous transmettrons automatiquement ses coordonnées. Vous pourrez alors valider ou refuser sa candidature, et échanger directement avec lui sur la messagerie intégrée à la plateforme.")
-            ->action('Accéder à mon compte', url(config('app.url') . '/dashboard/structure/' . $this->mission->structure->id . '/missions'));
+            ->action('Accéder à mon compte', url(config('app.front_url') . '/dashboard/structure/' . $this->mission->structure->id . '/missions'));
 
         return $message;
     }

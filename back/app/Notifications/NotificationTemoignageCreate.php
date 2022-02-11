@@ -56,7 +56,7 @@ class NotificationTemoignageCreate extends Notification
             ->greeting('Bonjour ' . $notifiable->first_name . ',')
             ->line("La mission « " . $this->mission->name . " » est désormais finie ! " . $this->structure->name . " et toute l'équipe de JVA tenons à vous remercier pour votre engagement.")
             ->line("Prenez désormais le temps de nous raconter votre expérience 😉")
-            ->action('Raconter mon expérience', url(config('app.url') . '/temoignages/' . $this->notificationTemoignage->token))
+            ->action('Raconter mon expérience', url(config('app.front_url') . '/temoignages/' . $this->notificationTemoignage->token))
             ->line("À bientôt sur JeVeuxAider.gouv.fr !");
     }
 

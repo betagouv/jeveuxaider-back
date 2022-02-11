@@ -53,7 +53,7 @@ class TerritoireWaitingValidation extends Notification
             ->greeting('Bonjour,')
             ->line('La collectivité "'. $this->territoire->name .'" a rejoint JeVeuxAider.gouv.fr !')
             ->line('Elle est en attente de validation par un modérateur.')
-            ->action('Voir la collectivité', url(config('app.url') . '/dashboard/territoire/' . $this->territoire->id))
+            ->action('Voir la collectivité', url(config('app.front_url') . '/dashboard/territoire/' . $this->territoire->id))
         ;
     }
 
@@ -73,7 +73,7 @@ class TerritoireWaitingValidation extends Notification
                     ->to('#collectivités-déploiement')
                     ->content('Une nouvelle collectivité vient de s\'inscrire! Elle est en attente de validation.')
                     ->attachment(function ($attachment) use ($territoire) {
-                        $attachment->title($territoire->name, url(config('app.url') . '/dashboard/territoire/' . $territoire->id));
+                        $attachment->title($territoire->name, url(config('app.front_url') . '/dashboard/territoire/' . $territoire->id));
                     });
     }
 

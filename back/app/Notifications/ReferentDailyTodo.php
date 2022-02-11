@@ -62,7 +62,7 @@ class ReferentDailyTodo extends Notification
                 $mailMessage->line('- ' . count($this->missions) . ' nouvelles missions en attente de validation');
             }
         }
-        $mailMessage->action('Gérer les contenus', url(config('app.url') . '/dashboard'));
+        $mailMessage->action('Gérer les contenus', url(config('app.front_url') . '/dashboard'));
 
         $mailMessage->line('Merci beaucoup par avance pour votre action.');
 
