@@ -86,9 +86,6 @@ class StatisticsController extends Controller
         $places_left = $structure->places_left;
         $places_offered = $structure->places_offered;
 
-        ray($places_left);
-        ray($places_offered);
-
         return [
             'missions_total' => $structure->missions()->count(),
             'missions_available' => $structure->missions()->available()->count(),
@@ -100,6 +97,19 @@ class StatisticsController extends Controller
             'response_ratio' => $structure->response_ratio,
             'response_time' => $structure->response_time,
             'score_response_time' => $structure->response_time_score,
+        ];
+    }
+
+    public function missions(Request $request, Mission $mission) 
+    {
+        $participationsStateCount = array_map(function($state) use ($mission) {
+            return $mission->participations()->where('participations.state', $state)->count();
+        }, config('taxonomies.participation_workflow_states.terms'));
+
+
+        return [
+            'participations_total' => $mission->participations()->count(),
+            'participations_state' =>  $participationsStateCount,
         ];
     }
 
