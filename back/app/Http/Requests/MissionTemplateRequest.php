@@ -22,7 +22,7 @@ class MissionTemplateRequest extends FormRequest
             'reseau_id' => '',
             'published' => 'boolean',
             'priority' => 'boolean',
-            'state' => 'required'
+            // 'state' => 'required'
         ];
     }
 }
