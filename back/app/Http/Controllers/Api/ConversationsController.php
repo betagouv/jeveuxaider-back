@@ -80,13 +80,13 @@ class ConversationsController extends Controller
 
     public function benevole(ConversationRequest $request, Conversation $conversation)
     {
-        return Profile::with(['structures:id,name'])->find($conversation->conversable->profile_id)->append('skills', 'domaines');
+        return Profile::with(['structures:id,name'])->find($conversation->conversable->profile_id)->append('domaines');
     }
 
-    public function setStatus(ConversationRequest $request, Conversation $conversation)
-    {
-        $currentUser = User::find(Auth::guard('api')->user()->id);
-        $currentUser->setConversationStatus($conversation, request('status'));
-        return;
-    }
+    // public function setStatus(ConversationRequest $request, Conversation $conversation)
+    // {
+    //     $currentUser = User::find(Auth::guard('api')->user()->id);
+    //     $currentUser->setConversationStatus($conversation, request('status'));
+    //     return;
+    // }
 }
