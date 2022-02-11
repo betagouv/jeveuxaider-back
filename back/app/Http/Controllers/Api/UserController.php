@@ -63,58 +63,13 @@ class UserController extends Controller
         }
 
         $user->update($request->all());
+
+        $user->load('profile', 'profile.media', 'profile.skills');
         $user->append(['roles']);
-        $user->profile->append(['avatar', 'skills', 'domaines']);
+        $user->profile->append(['avatar', 'domaines']);
 
         return $user;
     }
-
-    // Doublon avec ResetPasswordController@reset
-
-    // public function updatePassword(Request $request)
-    // {
-    //     $user = $request->user();
-    //     $inputs = $request->all();
-
-    //     if (!(Hash::check($request->get('current_password'), $user->password))) {
-    //         return response()->json(['errors' => [
-    //             'current_password' => [
-    //                 "L'ancien mot de passe est incorrect"
-    //             ]
-    //         ]], 422);
-    //     }
-
-    //     if (strcmp($request->get('current_password'), $request->get('password')) == 0) {
-    //         return response()->json(['errors' => [
-    //             'password' => [
-    //                 'Le nouveau mot de passe doit être différent de l\'ancien',
-    //             ]
-    //         ]], 422);
-    //     }
-
-    //     $messages = [
-    //         'current_password.required' => 'Le mode de passe actuel est requis',
-    //         'password.required' => 'Le mot de passe est requis',
-    //         'password.min' => 'Votre nouveau mot de passe doit contenir au moins :min caractères',
-    //         'password.confirmed' => 'Les nouveaux mots de passe ne sont pas identiques',
-    //     ];
-
-    //     $validator = Validator::make($inputs, [
-    //         'current_password' => 'required',
-    //         'password' => [
-    //             'required',
-    //             'min:8',
-    //             'confirmed',
-    //         ],
-    //     ], $messages);
-
-    //     if (!$validator->fails()) {
-    //         $user->password = Hash::make($inputs['password']);
-    //         $user->save();
-    //         return response()->json($user, 200);
-    //     }
-    //     return response()->json(['errors' => $validator->errors()], 400);
-    // }
 
     public function impersonate(User $user)
     {
