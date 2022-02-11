@@ -195,6 +195,7 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     // STATISTICS
     Route::get('statistics', 'Api\StatisticsController@dashboard');
     Route::get('statistics/organisations/{structure}', 'Api\StatisticsController@organisations');
+    Route::get('statistics/missions/{mission}', 'Api\StatisticsController@missions');
     // Route::get('statistics/missions', 'Api\StatisticsController@missions');
     // Route::get('statistics/departments', 'Api\StatisticsController@departments');
     // Route::get('statistics/places', 'Api\StatisticsController@places');
@@ -217,6 +218,7 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     // MISSIONS TEMPLATES
     Route::get('mission-templates/{missionTemplate}', 'Api\MissionTemplateController@show');
     Route::get('mission-templates', 'Api\MissionTemplateController@index');
+    Route::post('mission-templates', 'Api\MissionTemplateController@store');
     Route::put('mission-templates/{missionTemplate}', 'Api\MissionTemplateController@update');
     Route::get('mission-templates/{missionTemplate}/statistics', 'Api\MissionTemplateController@statistics');
 
