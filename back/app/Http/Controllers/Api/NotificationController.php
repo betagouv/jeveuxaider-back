@@ -19,6 +19,7 @@ use App\Notifications\ExportReady;
 use App\Notifications\InvitationSent;
 use App\Notifications\MessageCreated;
 use App\Notifications\MissionAlmostFull;
+use App\Notifications\MissionBeingProcessed;
 use App\Notifications\MissionInDraft;
 use App\Notifications\MissionOutdated;
 use App\Notifications\MissionSignaled;
@@ -47,6 +48,7 @@ use App\Notifications\StructureBeingProcessed;
 use App\Notifications\StructureCollectivityValidated;
 use App\Notifications\StructureSignaled;
 use App\Notifications\StructureSubmitted;
+use App\Notifications\StructureValidated;
 
 class NotificationController extends Controller
 {
@@ -92,6 +94,9 @@ class NotificationController extends Controller
             case 'responsable_mission_validated':
                 $notification = new MissionValidated($mission);
                 break;
+            case 'responsable_mission_being_processed':
+                $notification = new MissionBeingProcessed($mission);
+                break;
             case 'responsable_mission_outdated':
                 $notification = new MissionOutdated($mission);
                 break;
@@ -113,7 +118,7 @@ class NotificationController extends Controller
             case 'responsable_organisation_being_processed':
                 $notification = new StructureBeingProcessed($structure);
                 break;
-            case 'responsable_organisation_validated':
+            case 'responsable_association_validated':
                 $notification = new StructureAssociationValidated($structure);
                 break;
             case 'responsable_collectivite_validated':
@@ -121,6 +126,9 @@ class NotificationController extends Controller
                 break;
             case 'responsable_organisation_signaled':
                 $notification = new StructureSignaled($structure);
+                break;
+            case 'responsable_organisation_validated':
+                $notification = new StructureValidated($structure);
                 break;
             case 'admin_reseau_new_lead':
                 $form = [
