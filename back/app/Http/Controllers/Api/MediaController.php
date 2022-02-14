@@ -14,12 +14,13 @@ class MediaController extends Controller
     {
         $model = $this->getModel($modelType, $modelId);
         $manipulations = json_decode($request->post('manipulations'), true) ?? [];
+        $file = $request->file('file');
 
-        // @todo: Random file name
         $media = $model
-            ->addMedia($request->file('file'))
+            ->addMedia($file)
             ->withCustomProperties(['attribute' => $attribute])
             ->withManipulations($this->formatManipulations($manipulations, $model, $collection))
+            ->usingFileName(Str::random(30) . '.' . $file->guessExtension())
             ->toMediaCollection($collection);
 
         return $media->getFormattedMediaField();
