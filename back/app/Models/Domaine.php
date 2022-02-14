@@ -9,6 +9,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
+use Spatie\Image\Manipulations;
 
 class Domaine extends Model implements HasMedia
 {
@@ -42,22 +43,60 @@ class Domaine extends Model implements HasMedia
 
     public function registerMediaConversions(Media $media = null): void
     {
-        $this->addMediaConversion('large')
-            ->width(2000)
-            ->height(750)
-            ->nonQueued()
-            ->performOnCollections('thematiques');
+        // 2x for high pixel density
 
-        $this->addMediaConversion('thumb')
-            ->width(600)
-            ->height(225)
+        // $this->addMediaConversion('large')
+        //     ->width(2000)
+        //     ->height(750)
+        //     ->nonQueued()
+        //     ->performOnCollections('thematiques');
+
+        // $this->addMediaConversion('thumb')
+        //     ->width(600)
+        //     ->height(225)
+        //     ->nonQueued()
+        //     ->performOnCollections('thematiques');
+
+        $this->addMediaConversion('card')
+            ->fit(Manipulations::FIT_CROP, 600, 286)
             ->nonQueued()
-            ->performOnCollections('thematiques');
+            ->withResponsiveImages()
+            ->performOnCollections('domaines_banner');
+
+        $this->addMediaConversion('formPreview')
+            ->fit(Manipulations::FIT_CROP, 470, 224)
+            ->nonQueued()
+            ->withResponsiveImages()
+            ->performOnCollections('domaines_banner');
+
+        $this->addMediaConversion('formPreview')
+            ->fit(Manipulations::FIT_CROP, 400, 400)
+            ->nonQueued()
+            ->withResponsiveImages()
+            ->performOnCollections('domaines_illustrations');
+
+        $this->addMediaConversion('carousel')
+            ->fit(Manipulations::FIT_CROP, 860, 860)
+            ->nonQueued()
+            ->withResponsiveImages()
+            ->performOnCollections('domaines_illustrations');
+    }
+
+    public function getBannerAttribute()
+    {
+        $media = $this->getFirstMedia('domaines_banner');
+        return $media ? $media->getFormattedMediaField() : null;
+    }
+
+    public function getIllustrationsAttribute()
+    {
+        return $this->getMedia('domaines_illustrations', ['attribute' => 'illustrations'])->map(function ($media) {
+            return $media->getFormattedMediaField();
+        })->values();
     }
 
     // public function missionTemplates()
     // {
     //     return $this->hasMany('App\Models\MissionTemplate');
     // }
-
 }

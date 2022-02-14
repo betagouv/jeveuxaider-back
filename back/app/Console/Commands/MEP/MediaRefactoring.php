@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands\MEP;
 
+use App\Models\Domaine;
 use App\Models\Media;
 use Illuminate\Console\Command;
 use Spatie\MediaLibrary\MediaCollections\Models\Media as ModelsMedia;
@@ -53,6 +54,8 @@ class MediaRefactoring extends Command
                 $bar->advance();
             }
 
+            $this->handleDomaineMedias();
+
             $bar->finish();
         }
     }
@@ -70,9 +73,6 @@ class MediaRefactoring extends Command
                 break;
             case 'App\Models\Document':
                 $media->setCustomProperty('attribute', 'file');
-                break;
-            case 'App\Models\Thematique':
-                $media->setCustomProperty('attribute', 'image');
                 break;
             case 'App\Models\MissionTemplate':
                 $media->setCustomProperty('attribute', 'photo');
@@ -100,6 +100,22 @@ class MediaRefactoring extends Command
                     $media->delete();
                 }
                 break;
+        }
+    }
+
+    private function handleDomaineMedias()
+    {
+        $medias = Media::where('model_type', 'App\Models\Thematique')->with(['model'])->get();
+        foreach ($medias as $media) {
+            $thematique = $media->model;
+            $domaine = Domaine::where('name', $thematique->name)->first();
+            if (Media::where('model_type', 'App\Models\Domaine')->where('model_id', $domaine->id)->where('collection_name', 'domaines_banner')->count()) {
+                continue;
+            }
+            $mediaDomaine = $media->copy($domaine, 'domaines');
+            $mediaDomaine->setCustomProperty('attribute', 'banner');
+            $mediaDomaine->collection_name = 'domaines_banner';
+            $mediaDomaine->saveQuietly();
         }
     }
 }

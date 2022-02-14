@@ -26,6 +26,8 @@ class DomaineController extends Controller
             ->allowedFilters([
                 AllowedFilter::custom('search', new FiltersDomaineSearch),
             ])
+            ->allowedIncludes(['media'])
+            ->allowedAppends(['banner'])
             ->defaultSort('-created_at')
             ->paginate(config('query-builder.results_per_page'));
     }
@@ -36,7 +38,7 @@ class DomaineController extends Controller
             ? Domaine::where('id', $slugOrId)->firstOrFail()
             : Domaine::where('slug', $slugOrId)->with(['domaine'])->firstOrFail();
 
-        return $domaine;
+        return $domaine->append(['banner', 'illustrations']);
     }
 
     public function statistics($slugOrId)

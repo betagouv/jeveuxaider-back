@@ -15,6 +15,7 @@ class MediaController extends Controller
         $model = $this->getModel($modelType, $modelId);
         $manipulations = json_decode($request->post('manipulations'), true) ?? [];
 
+        // @todo: Random file name
         $media = $model
             ->addMedia($request->file('file'))
             ->withCustomProperties(['attribute' => $attribute])

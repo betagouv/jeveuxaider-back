@@ -20,7 +20,7 @@ class Media extends SpatieMedia
         // name, size, type -> https://developer.mozilla.org/fr/docs/Web/API/File
         return [
             'id' => $this->id,
-            'urls' => $mediaUrls,
+            'urls' => array_filter($mediaUrls),
             'manipulations' => $manipulations,
             'name' => $this->file_name,
             'size' => $this->size,
