@@ -5,22 +5,23 @@ namespace App\Console\Commands\MEP;
 use App\Models\Domaine;
 use App\Models\Media;
 use Illuminate\Console\Command;
+use Spatie\MediaLibrary\MediaCollections\Models\Media as ModelsMedia;
 
-class MediaDomaineIllustrations extends Command
+class MediaDomaineOrganisationsPartenaires extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'mep:media-domaine-handle-illustrations';
+    protected $signature = 'mep:media-domaine-handle-organisations-partenaires';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = "Media domaine - Handle illustrations";
+    protected $description = "Media domaine - Handle organisations partenaires";
 
     /**
      * Create a new command instance.
@@ -40,14 +41,14 @@ class MediaDomaineIllustrations extends Command
     public function handle()
     {
         $query = Domaine::query();
-        $this->info("Ajout des illustrations secondaires aux modèles de type Domaine");
+        $this->info("Ajout des logos des organisations partenaires aux modèles de type Domaine");
 
         if ($this->confirm('Do you wish to continue?')) {
             $bar = $this->output->createProgressBar($query->count());
             $bar->start();
 
             foreach ($query->cursor() as $domaine) {
-                $this->addSecondaryIllustrations($domaine);
+                $this->addLogosPartenaires($domaine);
                 $bar->advance();
             }
 
@@ -55,41 +56,40 @@ class MediaDomaineIllustrations extends Command
         }
     }
 
-    private function addSecondaryIllustrations($domaine)
+    private function addLogosPartenaires($domaine)
     {
-        foreach ($this->getIllustrationsData($domaine) as $illustration) {
-            $count = Media::where('collection_name', 'domaines_illustrations')
+        foreach ($this->getLogosData($domaine) as $illustration) {
+            $count = Media::where('collection_name', 'domaines_logos_partenaires')
                 ->where('name', $illustration['filename'])
                 ->count();
 
             if (empty($count)) {
                 $domaine->addMedia($illustration['url'])
-                    ->withCustomProperties(['attribute' => 'illustrations'])
+                    ->withCustomProperties(['attribute' => 'logos_partenaires'])
                     ->preservingOriginal()
-                    ->toMediaCollection('domaines_illustrations');
+                    ->toMediaCollection('domaines_logos_partenaires');
             }
         }
     }
 
-    private function getIllustrationsData($domaine)
+    private function getLogosData($domaine)
     {
         $data = [];
-        $folder = '/app/Console/Commands/medias_domaine/secondary_illustrations/';
+        $folder = '/app/Console/Commands/medias_domaine/partners/';
         switch ($domaine->slug) {
-            case 'sante-pour-tous':
-                $count = 6;
-                break;
-
-            case 'solidarite-et-insertion':
-                $count = 6;
-                break;
-
+            case 'art-culture-pour-tous':
             case 'education-pour-tous':
-                $count = 6;
+            case 'protection-de-la-nature':
+            case 'sante-pour-tous':
+                $count = 2;
                 break;
 
-            case 'protection-de-la-nature':
-                $count = 6;
+            case 'cooperation-internationale':
+            case 'memoire-et-citoyennete':
+            case 'prevention-et-protection':
+            case 'solidarite-et-insertion':
+            case 'sport-pour-tous':
+                $count = 3;
                 break;
 
             default:
@@ -100,7 +100,7 @@ class MediaDomaineIllustrations extends Command
         for ($i = 1; $i <= $count; $i++) {
             $data[] = [
                 'filename' => $domaine->slug . '-' . $i,
-                'url' => base_path() . '/' . $folder . $domaine->slug . '-' . $i . '.jpg',
+                'url' => base_path() . '/' . $folder . $domaine->slug . '-partenaire-' . $i . '.jpg',
             ];
         }
 

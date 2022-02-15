@@ -45,41 +45,41 @@ class Domaine extends Model implements HasMedia
     {
         // 2x for high pixel density
 
-        // $this->addMediaConversion('large')
-        //     ->width(2000)
-        //     ->height(750)
-        //     ->nonQueued()
-        //     ->performOnCollections('thematiques');
-
-        // $this->addMediaConversion('thumb')
-        //     ->width(600)
-        //     ->height(225)
-        //     ->nonQueued()
-        //     ->performOnCollections('thematiques');
-
+        // Banner
         $this->addMediaConversion('card')
             ->fit(Manipulations::FIT_CROP, 600, 286)
             ->nonQueued()
             ->withResponsiveImages()
             ->performOnCollections('domaines_banner');
-
         $this->addMediaConversion('formPreview')
             ->fit(Manipulations::FIT_CROP, 470, 224)
             ->nonQueued()
             ->withResponsiveImages()
             ->performOnCollections('domaines_banner');
 
+        // Illustrations
         $this->addMediaConversion('formPreview')
             ->fit(Manipulations::FIT_CROP, 400, 400)
             ->nonQueued()
             ->withResponsiveImages()
             ->performOnCollections('domaines_illustrations');
-
         $this->addMediaConversion('carousel')
             ->fit(Manipulations::FIT_CROP, 860, 860)
             ->nonQueued()
             ->withResponsiveImages()
             ->performOnCollections('domaines_illustrations');
+
+        // Logos partenaires
+        $this->addMediaConversion('formPreview')
+            ->height(80)
+            ->nonQueued()
+            ->withResponsiveImages()
+            ->performOnCollections('domaines_logos_partenaires');
+        $this->addMediaConversion('small')
+            ->height(112)
+            ->nonQueued()
+            ->withResponsiveImages()
+            ->performOnCollections('domaines_logos_partenaires');
     }
 
     public function getBannerAttribute()
@@ -90,7 +90,14 @@ class Domaine extends Model implements HasMedia
 
     public function getIllustrationsAttribute()
     {
-        return $this->getMedia('domaines_illustrations', ['attribute' => 'illustrations'])->map(function ($media) {
+        return $this->getMedia('domaines_illustrations')->map(function ($media) {
+            return $media->getFormattedMediaField();
+        })->values();
+    }
+
+    public function getLogosPartenairesAttribute()
+    {
+        return $this->getMedia('domaines_logos_partenaires')->map(function ($media) {
             return $media->getFormattedMediaField();
         })->values();
     }
