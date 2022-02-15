@@ -86,6 +86,20 @@ class Domaine extends Model implements HasMedia
             ->withResponsiveImages()
             ->format(Manipulations::FORMAT_WEBP)
             ->performOnCollections('domaine__logos_partenaires', 'domaine__logos_partenaires_actifs');
+
+        // Illustrations mission
+        $this->addMediaConversion('card')
+            ->fit(Manipulations::FIT_CROP, 600, 286)
+            ->nonQueued()
+            ->withResponsiveImages()
+            ->format(Manipulations::FORMAT_WEBP)
+            ->performOnCollections('domaine__illustrations_mission');
+        $this->addMediaConversion('formPreview')
+            ->fit(Manipulations::FIT_CROP, 470, 224)
+            ->nonQueued()
+            ->withResponsiveImages()
+            ->format(Manipulations::FORMAT_WEBP)
+            ->performOnCollections('domaine__illustrations_mission');
     }
 
     public function getBannerAttribute()
@@ -111,6 +125,13 @@ class Domaine extends Model implements HasMedia
     public function getLogosPartenairesActifsAttribute()
     {
         return $this->getMedia('domaine__logos_partenaires_actifs')->map(function ($media) {
+            return $media->getFormattedMediaField();
+        })->values();
+    }
+
+    public function getIllustrationsMissionAttribute()
+    {
+        return $this->getMedia('domaine__illustrations_mission')->map(function ($media) {
             return $media->getFormattedMediaField();
         })->values();
     }
