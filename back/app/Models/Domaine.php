@@ -74,12 +74,12 @@ class Domaine extends Model implements HasMedia
             ->height(80)
             ->nonQueued()
             ->withResponsiveImages()
-            ->performOnCollections('domaines_logos_partenaires');
+            ->performOnCollections('domaines_logos_partenaires', 'domaines_logos_partenaires_actifs');
         $this->addMediaConversion('small')
             ->height(112)
             ->nonQueued()
             ->withResponsiveImages()
-            ->performOnCollections('domaines_logos_partenaires');
+            ->performOnCollections('domaines_logos_partenaires', 'domaines_logos_partenaires_actifs');
     }
 
     public function getBannerAttribute()
@@ -98,6 +98,13 @@ class Domaine extends Model implements HasMedia
     public function getLogosPartenairesAttribute()
     {
         return $this->getMedia('domaines_logos_partenaires')->map(function ($media) {
+            return $media->getFormattedMediaField();
+        })->values();
+    }
+
+    public function getLogosPartenairesActifsAttribute()
+    {
+        return $this->getMedia('domaines_logos_partenaires_actifs')->map(function ($media) {
             return $media->getFormattedMediaField();
         })->values();
     }

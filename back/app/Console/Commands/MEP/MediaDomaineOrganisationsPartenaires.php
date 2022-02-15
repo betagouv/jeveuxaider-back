@@ -5,7 +5,6 @@ namespace App\Console\Commands\MEP;
 use App\Models\Domaine;
 use App\Models\Media;
 use Illuminate\Console\Command;
-use Spatie\MediaLibrary\MediaCollections\Models\Media as ModelsMedia;
 
 class MediaDomaineOrganisationsPartenaires extends Command
 {
@@ -14,14 +13,14 @@ class MediaDomaineOrganisationsPartenaires extends Command
      *
      * @var string
      */
-    protected $signature = 'mep:media-domaine-handle-organisations-partenaires';
+    protected $signature = 'mep:media-domaine-add-organisations-partenaires';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = "Media domaine - Handle organisations partenaires";
+    protected $description = "Media domaine - Ajoute les logos des organisations partenaires";
 
     /**
      * Create a new command instance.
@@ -43,7 +42,7 @@ class MediaDomaineOrganisationsPartenaires extends Command
         $query = Domaine::query();
         $this->info("Ajout des logos des organisations partenaires aux modèles de type Domaine");
 
-        if ($this->confirm('Do you wish to continue?')) {
+        if ($this->confirm('Continuer ?')) {
             $bar = $this->output->createProgressBar($query->count());
             $bar->start();
 
@@ -75,7 +74,7 @@ class MediaDomaineOrganisationsPartenaires extends Command
     private function getLogosData($domaine)
     {
         $data = [];
-        $folder = '/app/Console/Commands/medias_domaine/partners/';
+        $folder = 'app/Console/Commands/MEP/medias_domaine/partners/';
         switch ($domaine->slug) {
             case 'art-culture-pour-tous':
             case 'education-pour-tous':
