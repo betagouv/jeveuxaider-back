@@ -50,11 +50,13 @@ class Domaine extends Model implements HasMedia
             ->fit(Manipulations::FIT_CROP, 600, 286)
             ->nonQueued()
             ->withResponsiveImages()
+            ->format(Manipulations::FORMAT_WEBP)
             ->performOnCollections('domaine__banner');
         $this->addMediaConversion('formPreview')
             ->fit(Manipulations::FIT_CROP, 470, 224)
             ->nonQueued()
             ->withResponsiveImages()
+            ->format(Manipulations::FORMAT_WEBP)
             ->performOnCollections('domaine__banner');
 
         // Illustrations
@@ -62,11 +64,13 @@ class Domaine extends Model implements HasMedia
             ->fit(Manipulations::FIT_CROP, 400, 400)
             ->nonQueued()
             ->withResponsiveImages()
+            ->format(Manipulations::FORMAT_WEBP)
             ->performOnCollections('domaine__illustrations');
         $this->addMediaConversion('carousel')
             ->fit(Manipulations::FIT_CROP, 860, 860)
             ->nonQueued()
             ->withResponsiveImages()
+            ->format(Manipulations::FORMAT_WEBP)
             ->performOnCollections('domaine__illustrations');
 
         // Logos partenaires
@@ -74,11 +78,13 @@ class Domaine extends Model implements HasMedia
             ->height(80)
             ->nonQueued()
             ->withResponsiveImages()
+            ->format(Manipulations::FORMAT_WEBP)
             ->performOnCollections('domaine__logos_partenaires', 'domaine__logos_partenaires_actifs');
         $this->addMediaConversion('small')
             ->height(112)
             ->nonQueued()
             ->withResponsiveImages()
+            ->format(Manipulations::FORMAT_WEBP)
             ->performOnCollections('domaine__logos_partenaires', 'domaine__logos_partenaires_actifs');
     }
 

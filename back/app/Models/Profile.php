@@ -63,24 +63,28 @@ class Profile extends Model implements HasMedia
             ->fit(Manipulations::FIT_CROP, 80, 80)
             ->nonQueued()
             ->withResponsiveImages()
+            ->format(Manipulations::FORMAT_WEBP)
             ->performOnCollections('profile__avatar');
 
         $this->addMediaConversion('thumbMedium')
             ->fit(Manipulations::FIT_CROP, 96, 96)
             ->nonQueued()
             ->withResponsiveImages()
+            ->format(Manipulations::FORMAT_WEBP)
             ->performOnCollections('profile__avatar');
 
         $this->addMediaConversion('thumbLarge')
             ->fit(Manipulations::FIT_CROP, 128, 128)
             ->nonQueued()
             ->withResponsiveImages()
+            ->format(Manipulations::FORMAT_WEBP)
             ->performOnCollections('profile__avatar');
 
         $this->addMediaConversion('formPreview')
             ->fit(Manipulations::FIT_CROP, 200, 200)
             ->nonQueued()
             ->withResponsiveImages()
+            ->format(Manipulations::FORMAT_WEBP)
             ->performOnCollections('profile__avatar');
     }
 

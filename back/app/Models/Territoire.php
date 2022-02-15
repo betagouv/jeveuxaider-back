@@ -127,14 +127,16 @@ class Territoire extends Model implements HasMedia
 
         // Banner
         $this->addMediaConversion('card')
-        ->fit(Manipulations::FIT_CROP, 600, 286)
-        ->nonQueued()
-        ->withResponsiveImages()
-        ->performOnCollections('territoire__banner');
+            ->fit(Manipulations::FIT_CROP, 600, 286)
+            ->nonQueued()
+            ->withResponsiveImages()
+            ->format(Manipulations::FORMAT_WEBP)
+            ->performOnCollections('territoire__banner');
         $this->addMediaConversion('formPreview')
             ->fit(Manipulations::FIT_CROP, 470, 224)
             ->nonQueued()
             ->withResponsiveImages()
+            ->format(Manipulations::FORMAT_WEBP)
             ->performOnCollections('territoire__banner');
 
         // Logo
@@ -142,11 +144,13 @@ class Territoire extends Model implements HasMedia
             ->height(80)
             ->nonQueued()
             ->withResponsiveImages()
+            ->format(Manipulations::FORMAT_WEBP)
             ->performOnCollections('territoire__logo');
         $this->addMediaConversion('small')
             ->height(112)
             ->nonQueued()
             ->withResponsiveImages()
+            ->format(Manipulations::FORMAT_WEBP)
             ->performOnCollections('territoire__logo');
     }
 

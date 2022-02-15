@@ -407,11 +407,13 @@ class Structure extends Model implements HasMedia
             ->height(80)
             ->nonQueued()
             ->withResponsiveImages()
+            ->format(Manipulations::FORMAT_WEBP)
             ->performOnCollections('structure__logo');
         $this->addMediaConversion('sm')
             ->height(112)
             ->nonQueued()
             ->withResponsiveImages()
+            ->format(Manipulations::FORMAT_WEBP)
             ->performOnCollections('structure__logo');
 
         // Illustrations overrides
@@ -419,11 +421,13 @@ class Structure extends Model implements HasMedia
             ->fit(Manipulations::FIT_CROP, 400, 400)
             ->nonQueued()
             ->withResponsiveImages()
+            ->format(Manipulations::FORMAT_WEBP)
             ->performOnCollections('structure__override_image_1', 'structure__override_image_2');
         $this->addMediaConversion('xxl')
             ->width(1440)
             ->nonQueued()
             ->withResponsiveImages()
+            ->format(Manipulations::FORMAT_WEBP)
             ->performOnCollections('structure__override_image_1', 'structure__override_image_2');
     }
 
