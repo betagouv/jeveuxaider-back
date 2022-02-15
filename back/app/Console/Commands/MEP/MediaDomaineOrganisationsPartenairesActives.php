@@ -58,15 +58,14 @@ class MediaDomaineOrganisationsPartenairesActives extends Command
     private function addLogosPartenairesActifs($domaine)
     {
         foreach ($this->getLogosData($domaine) as $illustration) {
-            $count = Media::where('collection_name', 'domaines_logos_partenaires_actifs')
+            $count = Media::where('collection_name', 'domaine__logos_partenaires_actifs')
                 ->where('name', $illustration['filename'])
                 ->count();
 
             if (empty($count)) {
                 $domaine->addMedia($illustration['url'])
-                    ->withCustomProperties(['attribute' => 'logos_partenaires_actifs'])
                     ->preservingOriginal()
-                    ->toMediaCollection('domaines_logos_partenaires_actifs');
+                    ->toMediaCollection('domaine__logos_partenaires_actifs');
             }
         }
     }

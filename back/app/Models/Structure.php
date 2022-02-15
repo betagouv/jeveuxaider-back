@@ -17,6 +17,7 @@ use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use App\Models\Tag;
 use App\Traits\HasMissingFields;
+use Spatie\Image\Manipulations;
 
 class Structure extends Model implements HasMedia
 {
@@ -383,41 +384,47 @@ class Structure extends Model implements HasMedia
 
     public function getLogoAttribute()
     {
-        return $this->getMedia('structures', ['attribute' => 'logo'])->map(function ($media) {
-            return $media->getFormattedMediaField();
-        });
+        $media = $this->getFirstMedia('structure__logo');
+        return $media ? $media->getFormattedMediaField() : null;
     }
 
     public function getOverrideImage1Attribute()
     {
-        return $this->getMedia('structures', ['attribute' => 'override_image_1'])->map(function ($media) {
-            return $media->getFormattedMediaField();
-        });
+        $media = $this->getFirstMedia('structure__override_image_1');
+        return $media ? $media->getFormattedMediaField() : null;
     }
 
     public function getOverrideImage2Attribute()
     {
-        return $this->getMedia('structures', ['attribute' => 'override_image_2'])->map(function ($media) {
-            return $media->getFormattedMediaField();
-        });
+        $media = $this->getFirstMedia('structure__override_image_2');
+        return $media ? $media->getFormattedMediaField() : null;
     }
 
     public function registerMediaConversions(Media $media = null): void
     {
-        $this->addMediaConversion('large')
-            ->width(640)
+        // Logo
+        $this->addMediaConversion('formPreview')
+            ->height(80)
             ->nonQueued()
-            ->performOnCollections('structures');
-
-        $this->addMediaConversion('thumb')
-            ->width(320)
+            ->withResponsiveImages()
+            ->performOnCollections('structure__logo');
+        $this->addMediaConversion('sm')
+            ->height(112)
             ->nonQueued()
-            ->performOnCollections('structures');
+            ->withResponsiveImages()
+            ->performOnCollections('structure__logo');
 
+        // Illustrations overrides
+        $this->addMediaConversion('formPreview')
+            ->fit(Manipulations::FIT_CROP, 400, 400)
+            ->nonQueued()
+            ->withResponsiveImages()
+            ->performOnCollections('structure__override_image_1', 'structure__override_image_2');
         $this->addMediaConversion('xxl')
             ->width(1440)
             ->nonQueued()
-            ->performOnCollections('structures');
+            ->withResponsiveImages()
+            ->performOnCollections('structure__override_image_1', 'structure__override_image_2');
     }
 
     public function getSlugOptions(): SlugOptions

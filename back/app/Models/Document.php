@@ -24,7 +24,7 @@ class Document extends Model implements HasMedia
 
     public function getFileAttribute()
     {
-        return $this->getMedia('documents', ['attribute' => 'file'])->map(function ($media) {
+        return $this->getMedia('document__file')->map(function ($media) {
             return $media->getFormattedMediaField();
         });
     }

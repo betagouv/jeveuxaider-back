@@ -34,37 +34,22 @@ class MissionTemplate extends Model implements HasMedia
     {
         // 2x for high pixel density
 
-        // $this->addMediaConversion('large')
-        //     ->width(640)
-        //     ->nonQueued()
-        //     ->performOnCollections('templates');
-
-        // $this->addMediaConversion('thumb')
-        //     ->width(320)
-        //     ->nonQueued()
-        //     ->performOnCollections('templates');
-
-        // $this->addMediaConversion('xxl')
-        //     ->width(1440)
-        //     ->nonQueued()
-        //     ->performOnCollections('templates');
-
         $this->addMediaConversion('card')
             ->fit(Manipulations::FIT_CROP, 600, 286)
             ->nonQueued()
             ->withResponsiveImages()
-            ->performOnCollections('templates');
+            ->performOnCollections('mission_template__photo');
 
         $this->addMediaConversion('formPreview')
             ->fit(Manipulations::FIT_CROP, 470, 224)
             ->nonQueued()
             ->withResponsiveImages()
-            ->performOnCollections('templates');
+            ->performOnCollections('mission_template__photo');
     }
 
     public function getPhotoAttribute()
     {
-        $media = $this->getFirstMedia('templates', ['attribute' => 'photo']);
+        $media = $this->getFirstMedia('mission_template__photo');
         return $media ? $media->getFormattedMediaField() : null;
     }
 

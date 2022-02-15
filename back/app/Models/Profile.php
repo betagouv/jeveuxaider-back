@@ -52,7 +52,7 @@ class Profile extends Model implements HasMedia
 
     public function getAvatarAttribute()
     {
-        $media = $this->getFirstMedia('profiles', ['attribute' => 'avatar']);
+        $media = $this->getFirstMedia('profile__avatar');
         return $media ? $media->getFormattedMediaField() : null;
     }
 
@@ -63,25 +63,25 @@ class Profile extends Model implements HasMedia
             ->fit(Manipulations::FIT_CROP, 80, 80)
             ->nonQueued()
             ->withResponsiveImages()
-            ->performOnCollections('profiles');
+            ->performOnCollections('profile__avatar');
 
         $this->addMediaConversion('thumbMedium')
             ->fit(Manipulations::FIT_CROP, 96, 96)
             ->nonQueued()
             ->withResponsiveImages()
-            ->performOnCollections('profiles');
+            ->performOnCollections('profile__avatar');
 
         $this->addMediaConversion('thumbLarge')
             ->fit(Manipulations::FIT_CROP, 128, 128)
             ->nonQueued()
             ->withResponsiveImages()
-            ->performOnCollections('profiles');
+            ->performOnCollections('profile__avatar');
 
         $this->addMediaConversion('formPreview')
             ->fit(Manipulations::FIT_CROP, 200, 200)
             ->nonQueued()
             ->withResponsiveImages()
-            ->performOnCollections('profiles');
+            ->performOnCollections('profile__avatar');
     }
 
     public function getHasUserAttribute()

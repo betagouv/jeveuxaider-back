@@ -58,15 +58,14 @@ class MediaDomaineIllustrations extends Command
     private function addSecondaryIllustrations($domaine)
     {
         foreach ($this->getIllustrationsData($domaine) as $illustration) {
-            $count = Media::where('collection_name', 'domaines_illustrations')
+            $count = Media::where('collection_name', 'domaine__illustrations')
                 ->where('name', $illustration['filename'])
                 ->count();
 
             if (empty($count)) {
                 $domaine->addMedia($illustration['url'])
-                    ->withCustomProperties(['attribute' => 'illustrations'])
                     ->preservingOriginal()
-                    ->toMediaCollection('domaines_illustrations');
+                    ->toMediaCollection('domaine__illustrations');
             }
         }
     }

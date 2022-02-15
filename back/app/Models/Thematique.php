@@ -62,17 +62,17 @@ class Thematique extends Model implements HasMedia
 
     public function registerMediaConversions(Media $media = null): void
     {
-        $this->addMediaConversion('large')
-            ->width(2000)
-            ->height(750)
-            ->nonQueued()
-            ->performOnCollections('thematiques');
+        // $this->addMediaConversion('large')
+        //     ->width(2000)
+        //     ->height(750)
+        //     ->nonQueued()
+        //     ->performOnCollections('thematiques');
 
-        $this->addMediaConversion('thumb')
-            ->width(600)
-            ->height(225)
-            ->nonQueued()
-            ->performOnCollections('thematiques');
+        // $this->addMediaConversion('thumb')
+        //     ->width(600)
+        //     ->height(225)
+        //     ->nonQueued()
+        //     ->performOnCollections('thematiques');
     }
 
     // public function missionTemplates()
@@ -84,5 +84,4 @@ class Thematique extends Model implements HasMedia
     {
         return $this->belongsTo('App\Models\Tag');
     }
-
 }

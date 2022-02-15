@@ -13,7 +13,7 @@ use Algolia\AlgoliaSearch\PlacesClient;
 use App\Traits\HasMissingFields;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
-use Carbon\Carbon;
+use Spatie\Image\Manipulations;
 
 class Territoire extends Model implements HasMedia
 {
@@ -53,16 +53,14 @@ class Territoire extends Model implements HasMedia
 
     public function getBannerAttribute()
     {
-        return $this->getMedia('territoires', ['attribute' => 'banner'])->map(function ($media) {
-            return $media->getFormattedMediaField();
-        });
+        $media = $this->getFirstMedia('territoire__banner');
+        return $media ? $media->getFormattedMediaField() : null;
     }
 
     public function getLogoAttribute()
     {
-        return $this->getMedia('territoires', ['attribute' => 'logo'])->map(function ($media) {
-            return $media->getFormattedMediaField();
-        });
+        $media = $this->getFirstMedia('territoire__logo');
+        return $media ? $media->getFormattedMediaField() : null;
     }
 
     public function getFullUrlAttribute()
@@ -82,7 +80,6 @@ class Territoire extends Model implements HasMedia
     {
         return Mission::ofTerritoire($this->id)->sum('places_left');
     }
-    
 
     // public function getCompletionRateAttribute()
     // {
@@ -126,16 +123,31 @@ class Territoire extends Model implements HasMedia
 
     public function registerMediaConversions(Media $media = null): void
     {
-        $this->addMediaConversion('large')
-            ->width(2000)
-            ->nonQueued()
-            ->performOnCollections('territoires');
+        // 2x for high pixel density
 
-        $this->addMediaConversion('thumb')
-            ->width(600)
-            ->height(225)
+        // Banner
+        $this->addMediaConversion('card')
+        ->fit(Manipulations::FIT_CROP, 600, 286)
+        ->nonQueued()
+        ->withResponsiveImages()
+        ->performOnCollections('territoire__banner');
+        $this->addMediaConversion('formPreview')
+            ->fit(Manipulations::FIT_CROP, 470, 224)
             ->nonQueued()
-            ->performOnCollections('territoires');
+            ->withResponsiveImages()
+            ->performOnCollections('territoire__banner');
+
+        // Logo
+        $this->addMediaConversion('formPreview')
+            ->height(80)
+            ->nonQueued()
+            ->withResponsiveImages()
+            ->performOnCollections('territoire__logo');
+        $this->addMediaConversion('small')
+            ->height(112)
+            ->nonQueued()
+            ->withResponsiveImages()
+            ->performOnCollections('territoire__logo');
     }
 
     public function responsables()

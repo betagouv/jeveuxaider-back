@@ -6,6 +6,7 @@ use App\Models\Domaine;
 use App\Models\Media;
 use Illuminate\Console\Command;
 use Spatie\MediaLibrary\MediaCollections\Models\Media as ModelsMedia;
+use Illuminate\Support\Str;
 
 class MediaRefactoring extends Command
 {
@@ -63,19 +64,19 @@ class MediaRefactoring extends Command
     private function handleAttributePropertyConversion($media)
     {
         if ($media->hasCustomProperty('field')) {
-            $media->setCustomProperty('attribute', $media->getCustomProperty('field'));
+            $media->collection_name = Str::snake(class_basename($media->model)) . '__' . $media->getCustomProperty('field');
             $media->forgetCustomProperty('field');
         }
 
         switch ($media->model_type) {
             case 'App\Models\Profile':
-                $media->setCustomProperty('attribute', 'avatar');
+                $media->collection_name = 'profile__avatar';
                 break;
             case 'App\Models\Document':
-                $media->setCustomProperty('attribute', 'file');
+                $media->collection_name = 'document__file';
                 break;
             case 'App\Models\MissionTemplate':
-                $media->setCustomProperty('attribute', 'photo');
+                $media->collection_name = 'mission_template__photo';
                 break;
         }
 
@@ -84,17 +85,12 @@ class MediaRefactoring extends Command
 
     private function cleanOldMedia($media)
     {
-        if ($media->model_type === 'App\Models\Collectivity') {
-            $media->delete();
-        } elseif ($media->model_type === 'App\Models\Tag') {
-            $media->delete();
-        }
-
         switch ($media->model_type) {
             case 'App\Models\Collectivity':
             case 'App\Models\Tag':
                 $media->delete();
                 break;
+
             case 'App\Models\MissionTemplate':
                 if ($media->mime_type === 'image/svg+xml') {
                     $media->delete();
@@ -109,12 +105,11 @@ class MediaRefactoring extends Command
         foreach ($medias as $media) {
             $thematique = $media->model;
             $domaine = Domaine::where('name', $thematique->name)->first();
-            if (Media::where('model_type', 'App\Models\Domaine')->where('model_id', $domaine->id)->where('collection_name', 'domaines_banner')->count()) {
+            if (Media::where('model_type', 'App\Models\Domaine')->where('model_id', $domaine->id)->where('collection_name', 'domaine__banner')->count()) {
                 continue;
             }
             $mediaDomaine = $media->copy($domaine, 'domaines');
-            $mediaDomaine->setCustomProperty('attribute', 'banner');
-            $mediaDomaine->collection_name = 'domaines_banner';
+            $mediaDomaine->collection_name = 'domaine__banner';
             $mediaDomaine->saveQuietly();
         }
     }

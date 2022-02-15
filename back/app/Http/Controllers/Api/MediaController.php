@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Artisan;
 
 class MediaController extends Controller
 {
-    public function store(Request $request, String $modelType, Int $modelId, String $collection, String $attribute)
+    public function store(Request $request, String $modelType, Int $modelId, String $collection)
     {
         $model = $this->getModel($modelType, $modelId);
         $manipulations = json_decode($request->post('manipulations'), true) ?? [];
@@ -18,7 +18,6 @@ class MediaController extends Controller
 
         $media = $model
             ->addMedia($file)
-            ->withCustomProperties(['attribute' => $attribute])
             ->withManipulations($this->formatManipulations($manipulations, $model, $collection))
             ->usingFileName(Str::random(30) . '.' . $file->guessExtension())
             ->toMediaCollection($collection);
