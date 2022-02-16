@@ -76,6 +76,7 @@ Route::get('settings/general', 'Api\SettingController@general');
 Route::group(['middleware' => ['auth:api']], function () {
 
     Route::get('user', 'Api\UserController@me');
+    Route::get('user/unreadMessages', 'Api\UserController@unreadMessages');
     // Route::get('user/structure', 'Api\UserController@structure');
     // Route::get('user/roles', 'Api\UserController@roles');
     Route::post('user/anonymize', 'Api\UserController@anonymize');
@@ -111,7 +112,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('conversations/{conversation}/messages', 'Api\ConversationsController@messages');
     Route::post('conversations/{conversation}/messages', 'Api\MessagesController@store');
     Route::get('conversations/{conversation}/benevole', 'Api\ConversationsController@benevole');
-    // Route::post('conversation/{conversation}/setStatus', 'Api\ConversationsController@setStatus');
+    Route::post('conversations/{conversation}/setStatus', 'Api\ConversationsController@setStatus');
 
     // Route::post('invitation/{token}/resend', 'Api\InvitationController@resend');
     // Route::post('invitation/{token}/accept', 'Api\InvitationController@accept');
