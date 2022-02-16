@@ -73,9 +73,9 @@ class UserController extends Controller
 
         $user->update($request->all());
 
-        $user->load('profile', 'profile.media', 'profile.skills');
+        $user->load('profile', 'profile.media', 'profile.skills', 'profile.domaines');
         $user->append(['roles']);
-        $user->profile->append(['avatar', 'domaines']);
+        $user->profile->append(['avatar']);
 
         return $user;
     }
