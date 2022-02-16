@@ -52,7 +52,6 @@ class ConversationsController extends Controller
     public function show(ConversationRequest $request, Conversation $conversation)
     {
         $currentUser = User::find(Auth::guard('api')->user()->id);
-        ray("mark conversation as Read", $conversation);
         $currentUser->markConversationAsRead($conversation);
 
         return Conversation::with(
@@ -84,10 +83,10 @@ class ConversationsController extends Controller
         return Profile::with(['structures:id,name'])->find($conversation->conversable->profile_id)->append('domaines');
     }
 
-    // public function setStatus(ConversationRequest $request, Conversation $conversation)
-    // {
-    //     $currentUser = User::find(Auth::guard('api')->user()->id);
-    //     $currentUser->setConversationStatus($conversation, request('status'));
-    //     return;
-    // }
+    public function setStatus(ConversationRequest $request, Conversation $conversation)
+    {
+        $currentUser = User::find(Auth::guard('api')->user()->id);
+        $currentUser->setConversationStatus($conversation, request('status'));
+        return;
+    }
 }
