@@ -40,12 +40,12 @@ class GenerateDomainesFromThematiques extends Command
      */
     public function handle()
     {
-        $thematiques = Thematique::all();
+        $thematiques = Thematique::with('domaine')->get();
         $this->info($thematiques->count() . ' domaines will be generated');
         if ($this->confirm('Do you wish to continue?')) {
             $thematiques->map(function ($thematique) {
                 Domaine::create([
-                    'name' => $thematique->name,
+                    'name' => $thematique->domaine->name,
                     'title' => $thematique->title,
                     'published' => $thematique->published,
                     'description' => $thematique->description,
