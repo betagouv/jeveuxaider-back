@@ -33,9 +33,7 @@ class UserController extends Controller
 
     public function unreadMessages(Request $request)
     {
-        ray("que donne le call ?");
         $user = User::find(Auth::guard('api')->user()->id);
-        ray($user->getUnreadConversationsCount());
 
         return $user->getUnreadConversationsCount();
     }
