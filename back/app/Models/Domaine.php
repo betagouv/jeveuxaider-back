@@ -100,6 +100,20 @@ class Domaine extends Model implements HasMedia
             ->withResponsiveImages()
             ->format(Manipulations::FORMAT_WEBP)
             ->performOnCollections('domaine__illustrations_mission');
+
+        // Illustrations organisation
+        $this->addMediaConversion('large')
+            ->fit(Manipulations::FIT_CROP, 1890, 900)
+            ->nonQueued()
+            ->withResponsiveImages()
+            ->format(Manipulations::FORMAT_WEBP)
+            ->performOnCollections('domaine__illustrations_organisation');
+        $this->addMediaConversion('formPreview')
+            ->fit(Manipulations::FIT_CROP, 470, 224)
+            ->nonQueued()
+            ->withResponsiveImages()
+            ->format(Manipulations::FORMAT_WEBP)
+            ->performOnCollections('domaine__illustrations_organisation');
     }
 
     public function getBannerAttribute()
@@ -132,6 +146,13 @@ class Domaine extends Model implements HasMedia
     public function getIllustrationsMissionAttribute()
     {
         return $this->getMedia('domaine__illustrations_mission')->map(function ($media) {
+            return $media->getFormattedMediaField();
+        })->values();
+    }
+
+    public function getIllustrationsOrganisationAttribute()
+    {
+        return $this->getMedia('domaine__illustrations_organisation')->map(function ($media) {
             return $media->getFormattedMediaField();
         })->values();
     }
