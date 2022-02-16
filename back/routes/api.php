@@ -60,7 +60,7 @@ Route::get('territoires/{territoire}/available-cities', 'Api\TerritoireControlle
 // Route::get('tags', 'Api\TagController@index');
 
 Route::post('reseaux/lead', 'Api\ReseauController@lead');
-// Route::get('reseaux/{reseau}', 'Api\ReseauController@show')->whereNumber('reseau');
+Route::get('reseaux/{reseau}', 'Api\ReseauController@show');
 // Route::get('reseaux/test', 'Api\ReseauController@test');
 
 // Route::get('notification-temoignage/{token}', 'Api\NotificationTemoignageController@show');
@@ -76,6 +76,7 @@ Route::get('settings/general', 'Api\SettingController@general');
 Route::group(['middleware' => ['auth:api']], function () {
 
     Route::get('user', 'Api\UserController@me');
+    Route::get('user/unreadMessages', 'Api\UserController@unreadMessages');
     // Route::get('user/structure', 'Api\UserController@structure');
     // Route::get('user/roles', 'Api\UserController@roles');
     Route::post('user/anonymize', 'Api\UserController@anonymize');
@@ -107,11 +108,11 @@ Route::group(['middleware' => ['auth:api']], function () {
 
     // MESSAGES
     Route::get('conversations', 'Api\ConversationsController@index');
-    Route::get('conversation/{conversation}', 'Api\ConversationsController@show')->where('conversation', '[0-9]+');
+    Route::get('conversations/{conversation}', 'Api\ConversationsController@show')->where('conversation', '[0-9]+');
     Route::get('conversations/{conversation}/messages', 'Api\ConversationsController@messages');
-    // Route::post('conversations/{conversation}/messages', 'Api\MessagesController@store');
-    Route::get('conversation/{conversation}/benevole', 'Api\ConversationsController@benevole');
-    // Route::post('conversation/{conversation}/setStatus', 'Api\ConversationsController@setStatus');
+    Route::post('conversations/{conversation}/messages', 'Api\MessagesController@store');
+    Route::get('conversations/{conversation}/benevole', 'Api\ConversationsController@benevole');
+    Route::post('conversations/{conversation}/setStatus', 'Api\ConversationsController@setStatus');
 
     // Route::post('invitation/{token}/resend', 'Api\InvitationController@resend');
     // Route::post('invitation/{token}/accept', 'Api\InvitationController@accept');
@@ -348,8 +349,8 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     // Route::delete('territoire/{territoire}', 'Api\TerritoireController@delete');
 
     // // RESEAUX
-    // Route::post('reseaux', 'Api\ReseauController@store');
-    // Route::post('reseaux/{reseau}', 'Api\ReseauController@update');
+    Route::post('reseaux', 'Api\ReseauController@store');
+    Route::put('reseaux/{reseau}', 'Api\ReseauController@update');
     // Route::get('reseaux/{reseau}/responsables', 'Api\ReseauController@responsables');
     // Route::get('reseaux/{reseau}/invitations-responsables', 'Api\ReseauController@invitationsResponsables');
     // Route::post('reseaux/{reseau}/organisations', 'Api\ReseauController@attachOrganisations');
