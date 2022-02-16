@@ -274,7 +274,7 @@ class Profile extends Model implements HasMedia
     {
         return $query
             ->whereHas(
-                'tags',
+                'domaines',
                 function (Builder $query) use ($domain_id) {
                     $query->where('id', $domain_id);
                 }
@@ -328,10 +328,15 @@ class Profile extends Model implements HasMedia
         return $this->hasMany('App\Models\Participation')->where('state', 'Validée');
     }
 
-    public function getDomainesAttribute()
+    // public function getDomainesAttribute()
+    // {
+    //     // return $this->tagsWithType('domaine')->values();
+    //     return $this->tagsWithType('domaine')->pluck('id')->values();
+    // }
+
+    public function domaines()
     {
-        // return $this->tagsWithType('domaine')->values();
-        return $this->tagsWithType('domaine')->pluck('id')->values();
+        return $this->morphToMany(Domaine::class, 'domainable')->wherePivot('field', 'profile_domaines');
     }
 
     public function skills()

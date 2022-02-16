@@ -175,11 +175,7 @@ class Structure extends Model implements HasMedia
     {
         return $query
             ->whereHas('missions', function (Builder $query) use ($domain_id) {
-                $query->where('domaine_id', $domain_id)
-                    ->orWhere('domaine_secondary_id', $domain_id)
-                    ->orWhereHas('template', function (Builder $query) use ($domain_id) {
-                        $query->where('domaine_id', $domain_id);
-                    });
+                $query->domaine($domain_id);
             });
     }
 

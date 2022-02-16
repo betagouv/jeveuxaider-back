@@ -114,15 +114,20 @@ class Reseau extends Model implements HasMedia
         return $structure;
     }
 
-    public function getDomainesAttribute()
+    public function domaines()
     {
-        return $this->tagsWithType('domaine')->values();
+        return $this->morphToMany(Domaine::class, 'domainable')->wherePivot('field', 'reseau_domaines');
     }
 
-    public function getDomainesWithImageAttribute()
-    {
-        return Tag::whereIn('id', $this->tagsWithType('domaine')->pluck('id'))->get()->toArray();
-    }
+    // public function getDomainesAttribute()
+    // {
+    //     return $this->tagsWithType('domaine')->values();
+    // }
+
+    // public function getDomainesWithImageAttribute()
+    // {
+    //     return Tag::whereIn('id', $this->tagsWithType('domaine')->pluck('id'))->get()->toArray();
+    // }
 
     public function getFullAddressAttribute()
     {

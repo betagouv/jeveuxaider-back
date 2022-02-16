@@ -109,7 +109,7 @@ class ProfileController extends Controller
 
     public function show(ProfileRequest $request, Profile $profile)
     {
-        return $profile->load(['user', 'territoires', 'structures', 'teteDeReseau', 'skills'])->loadCount(['participations', 'participationsValidated'])->append(['avatar', 'domaines']);
+        return $profile->load(['user', 'territoires', 'structures', 'teteDeReseau', 'skills', 'domaines'])->loadCount(['participations', 'participationsValidated'])->append(['avatar']);
     }
 
     public function update(ProfileUpdateRequest $request, Profile $profile = null)
@@ -117,9 +117,11 @@ class ProfileController extends Controller
         $profile->update($request->validated());
 
         if ($request->has('domaines')) {
-            $domaines_ids = $request->input('domaines');
-            $domaines = Tag::whereIn('id', $domaines_ids)->get();
-            $profile->syncTagsWithType($domaines, 'domaine');
+            $domaines = collect($request->input('domaines'));
+            $values = $domaines->pluck($domaines, 'id')->map(function ($item) {
+                return ['field' => 'profile_domaines'];
+            });
+            $profile->domaines()->sync($values);
         }
 
         if ($request->has('skills')) {

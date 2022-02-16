@@ -24,18 +24,18 @@ class UserController extends Controller
 
     public function me(Request $request)
     {
-        $user = User::with('profile', 'profile.media', 'profile.skills')->find(Auth::guard('api')->user()->id);
+        $user = User::with('profile', 'profile.media', 'profile.skills', 'profile.domaines')->find(Auth::guard('api')->user()->id);
         $user->append(['roles']);
-        $user->profile->append(['avatar', 'domaines']);
+        $user->profile->append(['avatar']);
 
         return $user;
     }
 
     public function unreadMessages(Request $request)
     {
-        ray("que donne le call ?");
+        // ray("que donne le call ?");
         $user = User::find(Auth::guard('api')->user()->id);
-        ray($user->getUnreadConversationsCount());
+        // ray($user->getUnreadConversationsCount());
 
         return $user->getUnreadConversationsCount();
     }

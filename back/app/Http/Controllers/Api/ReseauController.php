@@ -38,7 +38,7 @@ class ReseauController extends Controller
     {
         $reseau = (is_numeric($slugOrId))
         ? Reseau::where('id', $slugOrId)
-            ->with(['responsables'])
+            ->with(['responsables', 'domaines'])
             ->withCount('structures', 'missions', 'missionTemplates', 'invitationsAntennes', 'responsables')
             ->firstOrFail()
         : Reseau::where('slug', $slugOrId)
@@ -53,14 +53,15 @@ class ReseauController extends Controller
                         }])
                         ->orderBy('missions_count', 'DESC')
                         ->limit(5);
-                }
+                },
+                'domaines'
             ])
             ->firstOrFail()
             //->append(['domaines_with_image', 'participations_max']);
             ->append(['participations_max']);
 
        //  return $reseau->append(["domaines", "logo", "override_image_1", "override_image_2"]);
-        return $reseau->append(["domaines"]);
+        return $reseau;
     }
 
     public function store(ReseauRequest $request)
@@ -80,10 +81,18 @@ class ReseauController extends Controller
 
     public function update(ReseauUpdateRequest $request, Reseau $reseau)
     {
+        // if ($request->has('domaines')) {
+        //     $domaines_ids = collect($request->input('domaines'))->pluck('id');
+        //     $domaines = Tag::whereIn('id', $domaines_ids)->get();
+        //     $reseau->syncTagsWithType($domaines, 'domaine');
+        // }
+
         if ($request->has('domaines')) {
-            $domaines_ids = collect($request->input('domaines'))->pluck('id');
-            $domaines = Tag::whereIn('id', $domaines_ids)->get();
-            $reseau->syncTagsWithType($domaines, 'domaine');
+            $domaines =  collect($request->input('domaines'));
+            $values = $domaines->pluck($domaines, 'id')->map(function ($item) {
+                return ['field' => 'reseau_domaines'];
+            });
+            $reseau->domaines()->sync($values);
         }
 
         return $reseau->update($request->validated());
