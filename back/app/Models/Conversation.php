@@ -60,10 +60,10 @@ class Conversation extends Model
     }
 
     // TEMP LARAVEL 7. DISPO DANS LARAVEL 8
-    public function saveQuietly(array $options = [])
-    {
-        return static::withoutEvents(function () use ($options) {
-            return $this->save($options);
-        });
-    }
+    // public function saveQuietly(array $options = [])
+    // {
+    //     return static::withoutEvents(function () use ($options) {
+    //         return $this->save($options);
+    //     });
+    // }
 }
