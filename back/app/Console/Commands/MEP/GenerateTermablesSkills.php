@@ -57,7 +57,7 @@ class GenerateTermablesSkills extends Command
                         'term_id' => $term->id,
                         'termable_id' => $taggable->taggable_id,
                         'termable_type' => $taggable->taggable_type,
-                        'field' => 'profile_skills',
+                        'field' => $taggable->taggable_type == "App\Models\Profile" ? 'profile_skills' : 'mission_skills',
                     ]);
                     // $this->info($taggable->tag_id . '-' . $taggable->tag->name . ' term created.');
                 } else {
