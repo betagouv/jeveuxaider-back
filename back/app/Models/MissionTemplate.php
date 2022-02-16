@@ -57,7 +57,7 @@ class MissionTemplate extends Model implements HasMedia
 
     public function domaine()
     {
-        return $this->belongsTo('App\Models\Tag');
+        return $this->belongsTo('App\Models\Domaine');
     }
 
     public function missions()

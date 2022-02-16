@@ -96,10 +96,10 @@ class Structure extends Model implements HasMedia
         }
     }
 
-    public function getDomainesAttribute()
-    {
-        return $this->tagsWithType('domaine')->pluck('id')->values();
-    }
+    // public function getDomainesAttribute()
+    // {
+    //     return $this->tagsWithType('domaine')->pluck('id')->values();
+    // }
 
     // public function getDomainesWithImageAttribute()
     // {
@@ -176,8 +176,9 @@ class Structure extends Model implements HasMedia
         return $query
             ->whereHas('missions', function (Builder $query) use ($domain_id) {
                 $query->where('domaine_id', $domain_id)
-                    ->orWhereHas('tags', function (Builder $query) use ($domain_id) {
-                        $query->where('id', $domain_id);
+                    ->orWhere('domaine_secondary_id', $domain_id)
+                    ->orWhereHas('template', function (Builder $query) use ($domain_id) {
+                        $query->where('domaine_id', $domain_id);
                     });
             });
     }
@@ -288,14 +289,19 @@ class Structure extends Model implements HasMedia
         );
     }
 
-    public function secondariesDomainesFromMissions()
+    public function domaines()
     {
-        return $this->hasManyDeep(
-            'App\Models\Tag',
-            ['App\Models\Mission', 'taggables'],
-            [null, ['taggable_type', 'taggable_id']]
-        );
+        return $this->morphToMany(Domaine::class, 'domainable')->wherePivot('field', 'structure_domaines');
     }
+
+    // public function secondariesDomainesFromMissions()
+    // {
+    //     return $this->hasManyDeep(
+    //         'App\Models\Tag',
+    //         ['App\Models\Mission', 'taggables'],
+    //         [null, ['taggable_type', 'taggable_id']]
+    //     );
+    // }
 
     public function addMember(Profile $profile, $role)
     {
@@ -329,11 +335,6 @@ class Structure extends Model implements HasMedia
     public function addMission($values)
     {
         $mission = $this->missions()->create($values);
-
-        if (!empty($values['tags'])) {
-            $mission->syncTagsWithType($values['tags'], 'domaine');
-        }
-
         return $mission;
     }
 

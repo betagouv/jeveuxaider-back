@@ -30,10 +30,9 @@ class StructureController extends Controller
                 // AllowedFilter::scope('of_reseau'),
             ])
             ->allowedIncludes([
-                'tags'
+                'domaines'
             ])
             ->allowedAppends([
-                'domaines',
                 'places_left',
             ])
             ->defaultSort('-created_at')
@@ -79,7 +78,7 @@ class StructureController extends Controller
             abort(403);
         }
 
-        return $structure->load(['territoire', 'members'])->append(['domaines', 'full_address']);
+        return $structure->load(['territoire', 'members', 'domaines'])->append(['full_address']);
     }
 
     public function associationSlugOrId(Request $request, $slugOrId)
@@ -91,11 +90,11 @@ class StructureController extends Controller
 
         if ($structure) {
             $structure->append(['places_left', 'domaines']);
-            if($structure->domaines){
+            if ($structure->domaines) {
                 // @TODO: Append l'url de l'image
             }
         }
-        
+
         return $structure;
     }
 
@@ -137,9 +136,11 @@ class StructureController extends Controller
         // }
 
         if ($request->has('domaines')) {
-            $domaines_ids = $request->input('domaines');
-            $domaines = Tag::whereIn('id', $domaines_ids)->get();
-            $structure->syncTagsWithType($domaines, 'domaine');
+            $domaines =  collect($request->input('domaines'));
+            $values = $domaines->pluck($domaines, 'id')->map(function ($item) {
+                return ['field' => 'structure_domaines'];
+            });
+            $structure->domaines()->sync($values);
         }
 
         if ($request->has('tete_de_reseau_id')) {

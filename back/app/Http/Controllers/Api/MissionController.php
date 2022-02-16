@@ -73,9 +73,9 @@ class MissionController extends Controller
     {
 
         if (is_numeric($id)) {
-            $mission = Mission::with(['structure.members:id,first_name,last_name,mobile,email', 'template.domaine', 'domaine', 'tags', 'responsable', 'skills'])->withCount('temoignages')->where('id', $id)->first();
+            $mission = Mission::with(['structure.members:id,first_name,last_name,mobile,email', 'template.domaine', 'domaine', 'domaineSecondary', 'responsable', 'skills'])->withCount('temoignages')->where('id', $id)->first();
             if ($mission) {
-                $mission->append(['domaines', 'domaine_secondaire', 'full_address', 'has_places_left']);
+                $mission->append(['full_address', 'has_places_left']);
                 $mission->structure->append(['logo']);
             }
         } else {
@@ -96,12 +96,6 @@ class MissionController extends Controller
 
     public function update(MissionUpdateRequest $request, Mission $mission)
     {
-        if ($request->has('domaine_secondaire')) {
-            $domaine_id = collect($request->input('domaine_secondaire'))->get('id');
-            $domaine_secondaire = Tag::where('id', $domaine_id)->get();
-            $mission->syncTagsWithType($domaine_secondaire, 'domaine');
-        }
-
         if ($request->has('skills')) {
             $skills =  collect($request->input('skills'));
             $values = $skills->pluck($skills, 'id')->map(function ($item) {
@@ -111,7 +105,6 @@ class MissionController extends Controller
         }
 
         $mission->update($request->validated());
-
         return $mission;
     }
 

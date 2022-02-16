@@ -61,7 +61,7 @@ class GenerateTermablesSkills extends Command
                     ]);
                     // $this->info($taggable->tag_id . '-' . $taggable->tag->name . ' term created.');
                 } else {
-                    $this->warn($taggable->tag_id . '-' . $taggable->tag->name . 'not found. Skipped.');
+                    $this->warn($taggable->tag_id . ' - ' . $taggable->tag->name . ' not found. Skipped.');
                 }
                 $bar->advance();
             }

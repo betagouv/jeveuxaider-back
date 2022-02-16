@@ -76,13 +76,17 @@ class Mission extends Model
 
     public function makeAllSearchableUsing(Builder $query)
     {
-        return $query->with(['structure', 'template.domaine', 'template.media', 'tags', 'domaine']);
+        return $query->with(['structure', 'template.domaine', 'template.media', 'tags', 'domaine', 'domaineSecondary']);
     }
 
     public function toSearchableArray()
     {
 
         $domaine = $this->template_id ? $this->template->domaine : $this->domaine;
+        $domaines = [$domaine->name];
+        if ($this->domaine_secondary_id) {
+            $domaines[] = $this->domaineSecondary->name;
+        }
 
         $mission = [
             'id' => $this->id,
@@ -107,28 +111,26 @@ class Mission extends Model
             'type' => $this->type,
             'template_subtitle' => $this->template ? $this->template->subtitle : null,
             'template_title' => $this->template ? $this->template->title : null,
-            'domaine_name' => $this->domaine_name, // @TODO: à retirer quand facet ok coté Algolia
-            'domaine_image' => $this->template ? $this->template->image : $this->domaine->image, // @TODO: à retirer
+            // 'domaine_name' => $this->domaine_name, // @TODO: à retirer quand facet ok coté Algolia
+            // 'domaine_image' => $this->template ? $this->template->image : $this->domaine->image, // @TODO: à retirer
             'template' => $this->template ? [
                 'id' => $this->template->id,
                 'title' => $this->template->title,
                 'subtitle' => $this->template->subtitle,
                 'photo' => $this->template_id ? $this->template->photo : null,
             ] : null,
+            'domaine_id' => $domaine->id,
             'domaine' => [
                 'id' => $domaine->id,
                 'name' => $domaine->name,
             ],
-            'domaines' => $this->domaines->map(function ($domaine) {
-                return $domaine->name;
-            }),
+            'domaines' => $domaines,
             'provider' => 'reserve_civique',
             'publisher_name' => 'Réserve Civique',
             'post_date' => strtotime($this->created_at),
             'start_date' => $this->start_date ? strtotime($this->start_date) : null,
             'end_date' => $this->end_date ? strtotime($this->end_date) : null,
             'thumbnail' => $this->thumbnail,
-            'domaine_id' => $this->template ? $this->template->domaine_id : $this->domaine_id,
             'template_id' => $this->template_id,
             'score' => $this->score,
             'is_priority' => $this->is_priority,
@@ -144,25 +146,25 @@ class Mission extends Model
         return $mission;
     }
 
-    // @TODO: à retirer quand facet algolia ok
-    public function getDomaineNameAttribute()
-    {
-        if ($this->template_id) {
-            return $this->template->domaine ? $this->template->domaine->name : null;
-        }
+    // // @TODO: à retirer quand facet algolia ok
+    // public function getDomaineNameAttribute()
+    // {
+    //     if ($this->template_id) {
+    //         return $this->template->domaine ? $this->template->domaine->name : null;
+    //     }
 
-        return $this->domaine ? $this->domaine->name : null;
-    }
+    //     return $this->domaine ? $this->domaine->name : null;
+    // }
 
-    public function getDomainesAttribute()
-    {
-        $domains =  collect([
-            $this->template ? $this->template->domaine : $this->domaine,
-            $this->domaine_secondaire
-        ])->filter();
+    // public function getDomainesAttribute()
+    // {
+    //     $domains =  collect([
+    //         $this->template ? $this->template->domaine : $this->domaine,
+    //         $this->domaine_secondaire
+    //     ])->filter();
 
-        return $domains;
-    }
+    //     return $domains;
+    // }
 
     public function user()
     {
@@ -186,7 +188,12 @@ class Mission extends Model
 
     public function domaine()
     {
-        return $this->belongsTo('App\Models\Tag');
+        return $this->belongsTo('App\Models\Domaine');
+    }
+
+    public function domaineSecondary()
+    {
+        return $this->belongsTo('App\Models\Domaine');
     }
 
     public function template()
@@ -315,9 +322,7 @@ class Mission extends Model
     {
         return $query
             ->where('domaine_id', $domain_id)
-            ->orWhereHas('tags', function (Builder $query) use ($domain_id) {
-                $query->where('id', $domain_id);
-            })
+            ->orWhere('domaine_secondary_id', $domain_id)
             ->orWhereHas('template', function (Builder $query) use ($domain_id) {
                 $query->where('domaine_id', $domain_id);
             });
@@ -353,8 +358,7 @@ class Mission extends Model
             case 'responsable':
                 // Missions des structures dont je suis responsable
                 $user = Auth::guard('api')->user();
-                if (
-                    $user->context_role == 'responsable' && $user->contextable_type == 'structure' &&
+                if ($user->context_role == 'responsable' && $user->contextable_type == 'structure' &&
                     !empty($user->contextable_id)
                 ) {
                     return $query
@@ -447,10 +451,10 @@ class Mission extends Model
         return $this->morphToMany(Term::class, 'termable')->wherePivot('field', 'mission_skills');
     }
 
-    public function getDomaineSecondaireAttribute()
-    {
-        return $this->tagsWithType('domaine')->first();
-    }
+    // public function getDomaineSecondaireAttribute()
+    // {
+    //     return $this->tagsWithType('domaine')->first();
+    // }
 
     public function setCommitmentTotal()
     {
