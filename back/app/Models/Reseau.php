@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Tags\HasTags;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -17,6 +18,7 @@ class Reseau extends Model implements HasMedia
     use HasTags;
     use InteractsWithMedia;
     use HasSlug;
+    use LogsActivity;
 
     protected $table = 'reseaux';
 
@@ -31,6 +33,11 @@ class Reseau extends Model implements HasMedia
         'is_published' => 'boolean',
     ];
 
+    protected static $logFillable = true;
+
+    protected static $logOnlyDirty = true;
+
+    protected static $submitEmptyLogs = false;
 
     public function responsables()
     {
