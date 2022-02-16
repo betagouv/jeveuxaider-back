@@ -38,6 +38,7 @@ class ReseauController extends Controller
     {
         $reseau = (is_numeric($slugOrId))
         ? Reseau::where('id', $slugOrId)
+            ->with(['responsables'])
             ->withCount('structures', 'missions', 'missionTemplates', 'invitationsAntennes', 'responsables')
             ->firstOrFail()
         : Reseau::where('slug', $slugOrId)
@@ -55,7 +56,8 @@ class ReseauController extends Controller
                 }
             ])
             ->firstOrFail()
-            ->append(['domaines_with_image', 'participations_max']);
+            //->append(['domaines_with_image', 'participations_max']);
+            ->append(['participations_max']);
 
        //  return $reseau->append(["domaines", "logo", "override_image_1", "override_image_2"]);
         return $reseau->append(["domaines"]);
