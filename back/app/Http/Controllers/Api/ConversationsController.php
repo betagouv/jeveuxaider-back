@@ -52,6 +52,7 @@ class ConversationsController extends Controller
     public function show(ConversationRequest $request, Conversation $conversation)
     {
         $currentUser = User::find(Auth::guard('api')->user()->id);
+        ray("mark conversation as Read", $conversation);
         $currentUser->markConversationAsRead($conversation);
 
         return Conversation::with(

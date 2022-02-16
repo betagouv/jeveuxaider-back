@@ -268,18 +268,18 @@ class User extends Authenticatable
         return $this;
     }
 
-    public static function getUnreadConversations($id)
-    {
-        return User::find($id)->conversations()
-            ->whereHas('messages')
-            ->where(function ($query) {
-                $query->whereRaw('conversations_users.read_at < conversations.updated_at')
-                    ->orWhere('conversations_users.read_at', null);
-            })
-            ->where('conversations_users.status', true)
-            ->pluck('conversations.id')
-            ->toArray();
-    }
+    // public static function getUnreadConversations($id)
+    // {
+    //     return User::find($id)->conversations()
+    //         ->whereHas('messages')
+    //         ->where(function ($query) {
+    //             $query->whereRaw('conversations_users.read_at < conversations.updated_at')
+    //                 ->orWhere('conversations_users.read_at', null);
+    //         })
+    //         ->where('conversations_users.status', true)
+    //         ->pluck('conversations.id')
+    //         ->toArray();
+    // }
 
     public function getUnreadConversationsCount()
     {
@@ -293,18 +293,18 @@ class User extends Authenticatable
             ->count();
     }
 
-    public static function getNbParticipationsOver($pid)
-    {
-        return Profile::find($pid)->participations->whereIn('state', ['Validée', 'Terminée'])->count();
-    }
+    // public static function getNbParticipationsOver($pid)
+    // {
+    //     return Profile::find($pid)->participations->whereIn('state', ['Validée', 'Terminée'])->count();
+    // }
 
-    public static function getNbTodayParticipationsOnPendingValidation($pid)
-    {
-        $result = Profile::find($pid)->participations()->whereIn('state', ['En attente de validation'])
-            ->whereDate('created_at', '>=', (Carbon::createMidnightDate()))
-            ->count();
-        return $result;
-    }
+    // public static function getNbTodayParticipationsOnPendingValidation($pid)
+    // {
+    //     $result = Profile::find($pid)->participations()->whereIn('state', ['En attente de validation'])
+    //         ->whereDate('created_at', '>=', (Carbon::createMidnightDate()))
+    //         ->count();
+    //     return $result;
+    // }
 
     public function activities()
     {
