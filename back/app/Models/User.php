@@ -67,6 +67,13 @@ class User extends Authenticatable
             ];
         }
 
+        if ($this->profile->tete_de_reseau_id) {
+            $roles[] = [
+                'key' => 'tete_de_reseau',
+                'label' => $this->profile->teteDeReseau->name
+            ];
+        }
+
         if ($this->profile->referent_department) {
             $roles[] = [
                 'key' => 'referent_regional',

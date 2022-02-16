@@ -60,7 +60,7 @@ Route::get('territoires/{territoire}/available-cities', 'Api\TerritoireControlle
 // Route::get('tags', 'Api\TagController@index');
 
 Route::post('reseaux/lead', 'Api\ReseauController@lead');
-// Route::get('reseaux/{reseau}', 'Api\ReseauController@show')->whereNumber('reseau');
+Route::get('reseaux/{reseau}', 'Api\ReseauController@show')->whereNumber('reseau');
 // Route::get('reseaux/test', 'Api\ReseauController@test');
 
 // Route::get('notification-temoignage/{token}', 'Api\NotificationTemoignageController@show');
@@ -349,8 +349,8 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     // Route::delete('territoire/{territoire}', 'Api\TerritoireController@delete');
 
     // // RESEAUX
-    // Route::post('reseaux', 'Api\ReseauController@store');
-    // Route::post('reseaux/{reseau}', 'Api\ReseauController@update');
+    Route::post('reseaux', 'Api\ReseauController@store');
+    Route::put('reseaux/{reseau}', 'Api\ReseauController@update');
     // Route::get('reseaux/{reseau}/responsables', 'Api\ReseauController@responsables');
     // Route::get('reseaux/{reseau}/invitations-responsables', 'Api\ReseauController@invitationsResponsables');
     // Route::post('reseaux/{reseau}/organisations', 'Api\ReseauController@attachOrganisations');
