@@ -27,7 +27,7 @@ class StructureController extends Controller
                 'state',
                 'statut_juridique',
                 // AllowedFilter::custom('rna', new FiltersStructureWithRna),
-                // AllowedFilter::scope('of_reseau'),
+                AllowedFilter::scope('ofReseau'),
             ])
             ->allowedIncludes([
                 'domaines'

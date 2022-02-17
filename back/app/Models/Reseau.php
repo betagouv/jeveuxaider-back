@@ -51,7 +51,12 @@ class Reseau extends Model implements HasMedia
 
     public function missions()
     {
-        return $this->hasManyDeep('App\Models\Mission', ['reseau_structure', 'App\Models\Structure']);
+        return $this->hasManyDeep(Mission::class, ['reseau_structure', Structure::class]);
+    }
+
+    public function participations()
+    {
+        return $this->hasManyDeepFromRelations($this->missions(), (new Mission)->participations());
     }
 
     public function getParticipationsMaxAttribute()

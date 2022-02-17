@@ -120,19 +120,21 @@ class StatisticsController extends Controller
             return $reseau->missions()->where('missions.state', $state)->count();
         }, config('taxonomies.mission_workflow_states.terms'));
 
-        // $participationsStateCount = array_map(function($state) use ($reseau) {
-        //     return $reseau->participations()->where('participations.state', $state)->count();
-        // }, config('taxonomies.participation_workflow_states.terms'));
+        $participationsStateCount = array_map(function($state) use ($reseau) {
+            return $reseau->participations()->where('participations.state', $state)->count();
+        }, config('taxonomies.participation_workflow_states.terms'));
 
         // $places_left = $structure->places_left;
         // $places_offered = $structure->places_offered;
 
         return [
+            'organisations_total' => Structure::ofReseau($reseau->id)->count(),
+            'organisations_actives' => Mission::ofReseau($reseau->id)->pluck('structure_id')->unique()->count(),
             'missions_total' => $reseau->missions()->count(),
             'missions_available' => $reseau->missions()->available()->count(),
             'missions_state' =>  $missionsStateCount,
-            // 'participations_total' => $reseau->participations()->count(),
-            // 'participations_state' =>  $participationsStateCount,
+            'participations_total' => $reseau->participations()->count(),
+            'participations_state' =>  $participationsStateCount,
             // 'places_left' => $places_left,
             // 'places_occupation_rate' => $places_left ? round((($places_offered - $places_left) / $places_offered) * 100) : 0,
         ];

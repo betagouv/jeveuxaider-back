@@ -32,6 +32,7 @@ class ParticipationController extends Controller
                 AllowedFilter::custom('search', new FiltersParticipationSearch),
                 AllowedFilter::exact('mission_id'),
                 AllowedFilter::exact('mission.department'),
+                AllowedFilter::scope('ofReseau'),
                 'state',
                 'mission.zip',
                 'mission.type',
