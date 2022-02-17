@@ -81,9 +81,11 @@ class Mission extends Model
 
     public function toSearchableArray()
     {
-
+        $domaines = [];
         $domaine = $this->template_id ? $this->template->domaine : $this->domaine;
-        $domaines = [$domaine->name];
+        if($domaine){
+            $domaines[] = $domaine->name;
+        }
         if ($this->domaine_secondary_id) {
             $domaines[] = $this->domaineSecondary->name;
         }
@@ -119,11 +121,11 @@ class Mission extends Model
                 'subtitle' => $this->template->subtitle,
                 'photo' => $this->template_id ? $this->template->photo : null,
             ] : null,
-            'domaine_id' => $domaine->id,
-            'domaine' => [
+            'domaine_id' => $domaine ? $domaine->id : null,
+            'domaine' => $domaine ? [
                 'id' => $domaine->id,
                 'name' => $domaine->name,
-            ],
+            ] : null,
             'domaines' => $domaines,
             'provider' => 'reserve_civique',
             'publisher_name' => 'Réserve Civique',
