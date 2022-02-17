@@ -61,6 +61,7 @@ Route::get('territoires/{territoire}/available-cities', 'Api\TerritoireControlle
 
 Route::post('reseaux/lead', 'Api\ReseauController@lead');
 Route::get('reseaux/{reseau}', 'Api\ReseauController@show');
+Route::get('reseaux/{reseau}/structures', 'Api\ReseauController@structures');
 // Route::get('reseaux/test', 'Api\ReseauController@test');
 
 // Route::get('notification-temoignage/{token}', 'Api\NotificationTemoignageController@show');
@@ -197,6 +198,7 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::get('statistics', 'Api\StatisticsController@dashboard');
     Route::get('statistics/organisations/{structure}', 'Api\StatisticsController@organisations');
     Route::get('statistics/missions/{mission}', 'Api\StatisticsController@missions');
+    Route::get('statistics/reseaux/{reseau}', 'Api\StatisticsController@reseaux');
     // Route::get('statistics/missions', 'Api\StatisticsController@missions');
     // Route::get('statistics/departments', 'Api\StatisticsController@departments');
     // Route::get('statistics/places', 'Api\StatisticsController@places');

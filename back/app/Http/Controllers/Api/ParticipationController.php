@@ -32,6 +32,7 @@ class ParticipationController extends Controller
                 AllowedFilter::custom('search', new FiltersParticipationSearch),
                 AllowedFilter::exact('mission_id'),
                 AllowedFilter::exact('mission.department'),
+                AllowedFilter::scope('ofReseau'),
                 'state',
                 'mission.zip',
                 'mission.type',
@@ -48,8 +49,8 @@ class ParticipationController extends Controller
 
     public function show(Request $request, Participation $participation)
     {
-        $participation = $participation->load(['mission', 'profile', 'mission.responsable', 'profile.skills']);
-        $participation->profile->append(['avatar', 'domaines']);
+        $participation = $participation->load(['mission', 'profile', 'mission.responsable', 'profile.skills', 'profile.domaines']);
+        $participation->profile->append(['avatar']);
         $participation->mission->append(['full_address']);
 
         return $participation;

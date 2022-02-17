@@ -49,7 +49,7 @@ class Mission extends Model
 
     protected $with = ['template'];
 
-    protected static $logFillable = true;
+    protected static $logUnguarded = true;
 
     protected static $logOnlyDirty = true;
 
@@ -81,9 +81,11 @@ class Mission extends Model
 
     public function toSearchableArray()
     {
-
+        $domaines = [];
         $domaine = $this->template_id ? $this->template->domaine : $this->domaine;
-        $domaines = [$domaine->name];
+        if($domaine){
+            $domaines[] = $domaine->name;
+        }
         if ($this->domaine_secondary_id) {
             $domaines[] = $this->domaineSecondary->name;
         }
@@ -119,11 +121,11 @@ class Mission extends Model
                 'subtitle' => $this->template->subtitle,
                 'photo' => $this->template_id ? $this->template->photo : null,
             ] : null,
-            'domaine_id' => $domaine->id,
-            'domaine' => [
+            'domaine_id' => $domaine ? $domaine->id : null,
+            'domaine' => $domaine ? [
                 'id' => $domaine->id,
                 'name' => $domaine->name,
-            ],
+            ] : null,
             'domaines' => $domaines,
             'provider' => 'reserve_civique',
             'publisher_name' => 'Réserve Civique',
@@ -302,8 +304,8 @@ class Mission extends Model
 
     public function scopeAvailable($query)
     {
-        return $query->where('state', 'Validée')->whereHas('structure', function (Builder $query) {
-            $query->where('state', 'Validée');
+        return $query->where('missions.state', 'Validée')->whereHas('structure', function (Builder $query) {
+            $query->where('structures.state', 'Validée');
         });
     }
 

@@ -27,7 +27,7 @@ class StructureController extends Controller
                 'state',
                 'statut_juridique',
                 // AllowedFilter::custom('rna', new FiltersStructureWithRna),
-                // AllowedFilter::scope('of_reseau'),
+                AllowedFilter::scope('ofReseau'),
             ])
             ->allowedIncludes([
                 'domaines'
@@ -74,6 +74,9 @@ class StructureController extends Controller
 
     public function show(Request $request, Structure $structure)
     {
+
+        ray($structure);
+
         if (Auth::guard('api')->user()->cannot('view', $structure)) {
             abort(403);
         }
@@ -89,10 +92,8 @@ class StructureController extends Controller
                         ->first();
 
         if ($structure) {
-            $structure->append(['places_left', 'domaines']);
-            if ($structure->domaines) {
-                // @TODO: Append l'url de l'image
-            }
+            $structure->load(['domaines']);
+            $structure->append(['places_left', 'full_address']);
         }
 
         return $structure;
