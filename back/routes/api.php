@@ -150,10 +150,10 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
 
     // STRUCTURE INVITATIONS
     // Route::get('structure/{structure}/invitations', 'Api\StructureController@invitations');
-    // Route::post('invitation', 'Api\InvitationController@store');
 
     // INVITATIONS
-    // Route::get('invitations', 'Api\InvitationController@index');
+    Route::get('invitations', 'Api\InvitationController@index');
+    Route::post('invitations', 'Api\InvitationController@store');
 
     // MISSIONS
     Route::get('missions', 'Api\MissionController@index');

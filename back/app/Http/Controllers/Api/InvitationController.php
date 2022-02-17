@@ -25,26 +25,26 @@ class InvitationController extends Controller
         return QueryBuilder::for(Invitation::class)
             ->allowedFilters(
                 AllowedFilter::scope('of_reseau'),
+                AllowedFilter::scope('of_structure'),
                 AllowedFilter::custom('search', new FiltersInvitationSearch),
             )
             ->defaultSort('-created_at')
             ->paginate(10);
     }
 
-    public function show(Request $request, String $token)
-    {
-        $invitation = Invitation::whereToken($token)->first();
+    // public function show(Request $request, String $token)
+    // {
+    //     $invitation = Invitation::whereToken($token)->first();
 
-        if (!$invitation) {
-            abort(404, "L'invitation n'est plus disponible");
-        }
+    //     if (!$invitation) {
+    //         abort(404, "L'invitation n'est plus disponible");
+    //     }
 
-        return $invitation;
-    }
+    //     return $invitation;
+    // }
 
     public function store(InvitationRequest $request)
     {
-
         // RESPONSABLE ORGANISATION
         if (in_array($request->input('role'), ['responsable_organisation'])) {
             $profile = Profile::where('email', 'ILIKE', $request->input('email'))->first();
@@ -74,78 +74,78 @@ class InvitationController extends Controller
         return $invitation;
     }
 
-    public function resend(String $token)
-    {
-        $invitation = Invitation::whereToken($token)->first();
+    // public function resend(String $token)
+    // {
+    //     $invitation = Invitation::whereToken($token)->first();
 
-        if (!$invitation) {
-            abort(402, "L'invitation n'est plus disponible");
-        }
+    //     if (!$invitation) {
+    //         abort(402, "L'invitation n'est plus disponible");
+    //     }
 
-        $diffTimestamp = Carbon::now()->timestamp - $invitation->last_sent_at->timestamp;
-        if ($diffTimestamp < 3600) {
-            abort(402, "Vous devez attendre " . floor(60 - ($diffTimestamp / 60)) . " minutes pour renvoyer l'email d'invitation");
-        }
+    //     $diffTimestamp = Carbon::now()->timestamp - $invitation->last_sent_at->timestamp;
+    //     if ($diffTimestamp < 3600) {
+    //         abort(402, "Vous devez attendre " . floor(60 - ($diffTimestamp / 60)) . " minutes pour renvoyer l'email d'invitation");
+    //     }
 
-        $invitation->update(['last_sent_at' => Carbon::now()]);
-        $invitation->notify(new InvitationSent($invitation));
+    //     $invitation->update(['last_sent_at' => Carbon::now()]);
+    //     $invitation->notify(new InvitationSent($invitation));
 
-        return $invitation;
-    }
+    //     return $invitation;
+    // }
 
-    public function accept(String $token)
-    {
-        $invitation = Invitation::whereToken($token)->first();
+    // public function accept(String $token)
+    // {
+    //     $invitation = Invitation::whereToken($token)->first();
 
-        if (!$invitation) {
-            abort(402, "L'invitation n'est plus disponible");
-        }
+    //     if (!$invitation) {
+    //         abort(402, "L'invitation n'est plus disponible");
+    //     }
 
-        $invitation->accept();
-        $invitation->delete();
+    //     $invitation->accept();
+    //     $invitation->delete();
 
-        return $invitation;
-    }
+    //     return $invitation;
+    // }
 
-    public function delete(String $token)
-    {
-        $invitation = Invitation::whereToken($token)->first();
+    // public function delete(String $token)
+    // {
+    //     $invitation = Invitation::whereToken($token)->first();
 
-        if (!$invitation) {
-            abort(402, "L'invitation n'est plus disponible");
-        }
+    //     if (!$invitation) {
+    //         abort(402, "L'invitation n'est plus disponible");
+    //     }
 
-        return (string) $invitation->delete();
-    }
+    //     return (string) $invitation->delete();
+    // }
 
-    public function register(RegisterInvitationRequest $request, String $token)
-    {
-        $invitation = Invitation::whereToken($token)->first();
+    // public function register(RegisterInvitationRequest $request, String $token)
+    // {
+    //     $invitation = Invitation::whereToken($token)->first();
 
-        if (!$invitation) {
-            abort(402, "L'invitation n'est plus disponible");
-        }
+    //     if (!$invitation) {
+    //         abort(402, "L'invitation n'est plus disponible");
+    //     }
 
-        $user = User::create(
-            [
-                'name' => request("email"),
-                'email' => request("email"),
-                'password' => Hash::make(request("password")),
-                'utm_source' => 'invitation'
-            ]
-        );
+    //     $user = User::create(
+    //         [
+    //             'name' => request("email"),
+    //             'email' => request("email"),
+    //             'password' => Hash::make(request("password")),
+    //             'utm_source' => 'invitation'
+    //         ]
+    //     );
 
-        $attributes = $request->validated();
-        $attributes['user_id'] = $user->id;
+    //     $attributes = $request->validated();
+    //     $attributes['user_id'] = $user->id;
 
-        $profile = Profile::firstOrCreate(
-            ['email' => request('email')],
-            $attributes
-        );
+    //     $profile = Profile::firstOrCreate(
+    //         ['email' => request('email')],
+    //         $attributes
+    //     );
 
-        $invitation->accept();
-        $invitation->delete();
+    //     $invitation->accept();
+    //     $invitation->delete();
 
-        return User::with(['profile.territoires', 'profile.structures', 'profile.participations'])->where('id', $user->id)->first();
-    }
+    //     return User::with(['profile.territoires', 'profile.structures', 'profile.participations'])->where('id', $user->id)->first();
+    // }
 }

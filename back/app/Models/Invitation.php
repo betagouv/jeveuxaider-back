@@ -17,9 +17,9 @@ class Invitation extends Model
         'last_sent_at' => 'datetime'
     ];
 
-    protected $with = ['invitable'];
+    // protected $with = ['invitable'];
 
-    protected $appends = ['is_registered'];
+    // protected $appends = ['is_registered'];
 
     public function setEmailAttribute($value)
     {
@@ -47,6 +47,14 @@ class Invitation extends Model
             ->where('invitable_type', 'App\Models\Reseau')
             ->where('invitable_id', $reseau_id)
             ->where('role', 'responsable_antenne');
+    }
+
+    public function scopeOfStructure($query, $structure_id)
+    {
+        return $query
+            ->where('invitable_type', 'App\Models\Structure')
+            ->where('invitable_id', $structure_id)
+            ->where('role', 'responsable_organisation');
     }
 
     public function getIsRegisteredAttribute()
