@@ -46,7 +46,15 @@ class Invitation extends Model
         return $query
             ->where('invitable_type', 'App\Models\Reseau')
             ->where('invitable_id', $reseau_id)
-            ->where('role', 'responsable_antenne');
+            ->where('role', 'responsable_reseau');
+    }
+
+    public function scopeOfTerritoire($query, $territoire_id)
+    {
+        return $query
+            ->where('invitable_type', 'App\Models\Territoire')
+            ->where('invitable_id', $territoire_id)
+            ->where('role', 'responsable_territoire');
     }
 
     public function scopeOfStructure($query, $structure_id)
