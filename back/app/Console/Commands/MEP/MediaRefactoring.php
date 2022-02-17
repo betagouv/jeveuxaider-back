@@ -104,7 +104,8 @@ class MediaRefactoring extends Command
         $medias = Media::where('model_type', 'App\Models\Thematique')->with(['model'])->get();
         foreach ($medias as $media) {
             $thematique = $media->model;
-            $domaine = Domaine::where('name', $thematique->name)->first();
+            $thematique->load('domaine');
+            $domaine = Domaine::where('name', $thematique->domaine->name)->first();
             if (Media::where('model_type', 'App\Models\Domaine')->where('model_id', $domaine->id)->where('collection_name', 'domaine__banner')->count()) {
                 continue;
             }

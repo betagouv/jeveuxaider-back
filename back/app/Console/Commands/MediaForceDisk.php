@@ -13,7 +13,7 @@ class MediaForceDisk extends Command
      *
      * @var string
      */
-    protected $signature = 'media-force-disk  {disk : Name of the disk to use}';
+    protected $signature = 'media-force-disk {disk : Name of the disk to use}';
 
     /**
      * The console command description.
