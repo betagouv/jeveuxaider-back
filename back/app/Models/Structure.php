@@ -54,7 +54,8 @@ class Structure extends Model implements HasMedia
 
     protected $checkFields = ['description', 'domaines', 'publics_beneficiaires', 'address', 'department', 'logo', 'email', 'phone', 'website'];
 
-    // protected $appends = ['full_url', 'full_address', 'domaines', 'logo', 'places_left', 'override_image_1', 'override_image_2'];
+    //protected $appends = ['full_url', 'full_address', 'domaines', 'logo', 'places_left', 'override_image_1', 'override_image_2'];
+    protected $appends = ['full_url', 'full_address'];
 
     protected static $logUnguarded = true;
 
