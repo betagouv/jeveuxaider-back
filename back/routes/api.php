@@ -115,9 +115,9 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('conversations/{conversation}/benevole', 'Api\ConversationsController@benevole');
     Route::post('conversations/{conversation}/setStatus', 'Api\ConversationsController@setStatus');
 
-    // Route::post('invitation/{token}/resend', 'Api\InvitationController@resend');
+    Route::post('invitations/{token}/resend', 'Api\InvitationController@resend');
+    Route::delete('invitations/{token}/delete', 'Api\InvitationController@delete');
     // Route::post('invitation/{token}/accept', 'Api\InvitationController@accept');
-    // Route::delete('invitation/{token}/delete', 'Api\InvitationController@delete');
 
     Route::post('logout', 'Api\PassportController@logout');
 

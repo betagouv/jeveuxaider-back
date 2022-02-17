@@ -68,7 +68,7 @@ class ParticipationController extends Controller
             ->where('mission_id', request("mission_id"))->count();
 
         if ($participationCount > 0) {
-            abort(402, "Désolé, vous avez déjà participé à cette mission !");
+            abort(422, "Désolé, vous avez déjà participé à cette mission !");
         }
 
         $mission = Mission::find(request("mission_id"));
@@ -85,7 +85,7 @@ class ParticipationController extends Controller
             return $participation;
         }
 
-        abort(402, "Désolé, la mission n'a plus de place disponible !");
+        abort(422, "Désolé, la mission n'a plus de place disponible !");
     }
 
     public function update(ParticipationUpdateRequest $request, Participation $participation)

@@ -25,6 +25,7 @@ class InvitationController extends Controller
         return QueryBuilder::for(Invitation::class)
             ->allowedFilters(
                 AllowedFilter::scope('of_reseau'),
+                AllowedFilter::scope('of_territoire'),
                 AllowedFilter::scope('of_structure'),
                 AllowedFilter::custom('search', new FiltersInvitationSearch),
             )
@@ -49,7 +50,7 @@ class InvitationController extends Controller
         if (in_array($request->input('role'), ['responsable_organisation'])) {
             $profile = Profile::where('email', 'ILIKE', $request->input('email'))->first();
             if ($profile && $profile->structures->count() > 0) {
-                abort(402, "Cet email est déjà rattaché à une organisation");
+                abort(422, "Cet email est déjà rattaché à une organisation");
             }
         }
 
@@ -58,7 +59,7 @@ class InvitationController extends Controller
             $properties = $request->input('properties');
             $structure = Structure::where('name', 'ILIKE', $properties['antenne_name'])->first();
             if ($structure) {
-                abort(402, "Cette structure est déjà inscrite sur la plateforme");
+                abort(422, "Cette structure est déjà inscrite sur la plateforme");
             }
         }
 
@@ -74,31 +75,31 @@ class InvitationController extends Controller
         return $invitation;
     }
 
-    // public function resend(String $token)
-    // {
-    //     $invitation = Invitation::whereToken($token)->first();
+    public function resend(String $token)
+    {
+        $invitation = Invitation::whereToken($token)->first();
 
-    //     if (!$invitation) {
-    //         abort(402, "L'invitation n'est plus disponible");
-    //     }
+        if (!$invitation) {
+            abort(422, "L'invitation n'est plus disponible");
+        }
 
-    //     $diffTimestamp = Carbon::now()->timestamp - $invitation->last_sent_at->timestamp;
-    //     if ($diffTimestamp < 3600) {
-    //         abort(402, "Vous devez attendre " . floor(60 - ($diffTimestamp / 60)) . " minutes pour renvoyer l'email d'invitation");
-    //     }
+        $diffTimestamp = Carbon::now()->timestamp - $invitation->last_sent_at->timestamp;
+        if ($diffTimestamp < 3600) {
+            abort(422, "Vous devez attendre " . floor(60 - ($diffTimestamp / 60)) . " minutes pour renvoyer l'email d'invitation");
+        }
 
-    //     $invitation->update(['last_sent_at' => Carbon::now()]);
-    //     $invitation->notify(new InvitationSent($invitation));
+        $invitation->update(['last_sent_at' => Carbon::now()]);
+        $invitation->notify(new InvitationSent($invitation));
 
-    //     return $invitation;
-    // }
+        return $invitation;
+    }
 
     // public function accept(String $token)
     // {
     //     $invitation = Invitation::whereToken($token)->first();
 
     //     if (!$invitation) {
-    //         abort(402, "L'invitation n'est plus disponible");
+    //         abort(422, "L'invitation n'est plus disponible");
     //     }
 
     //     $invitation->accept();
@@ -107,23 +108,23 @@ class InvitationController extends Controller
     //     return $invitation;
     // }
 
-    // public function delete(String $token)
-    // {
-    //     $invitation = Invitation::whereToken($token)->first();
+    public function delete(String $token)
+    {
+        $invitation = Invitation::whereToken($token)->first();
 
-    //     if (!$invitation) {
-    //         abort(402, "L'invitation n'est plus disponible");
-    //     }
+        if (!$invitation) {
+            abort(422, "L'invitation n'est plus disponible");
+        }
 
-    //     return (string) $invitation->delete();
-    // }
+        return (string) $invitation->delete();
+    }
 
     // public function register(RegisterInvitationRequest $request, String $token)
     // {
     //     $invitation = Invitation::whereToken($token)->first();
 
     //     if (!$invitation) {
-    //         abort(402, "L'invitation n'est plus disponible");
+    //         abort(422, "L'invitation n'est plus disponible");
     //     }
 
     //     $user = User::create(
