@@ -33,7 +33,7 @@ class Reseau extends Model implements HasMedia
         'is_published' => 'boolean',
     ];
 
-    protected static $logFillable = true;
+    protected static $logUnguarded = true;
 
     protected static $logOnlyDirty = true;
 

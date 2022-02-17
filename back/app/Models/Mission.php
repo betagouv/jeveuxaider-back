@@ -49,7 +49,7 @@ class Mission extends Model
 
     protected $with = ['template'];
 
-    protected static $logFillable = true;
+    protected static $logUnguarded = true;
 
     protected static $logOnlyDirty = true;
 
