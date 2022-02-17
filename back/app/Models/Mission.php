@@ -302,8 +302,8 @@ class Mission extends Model
 
     public function scopeAvailable($query)
     {
-        return $query->where('state', 'Validée')->whereHas('structure', function (Builder $query) {
-            $query->where('state', 'Validée');
+        return $query->where('missions.state', 'Validée')->whereHas('structure', function (Builder $query) {
+            $query->where('structures.state', 'Validée');
         });
     }
 

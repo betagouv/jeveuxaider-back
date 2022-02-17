@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Mission;
 use App\Models\Participation;
 use App\Models\Profile;
+use App\Models\Reseau;
 use App\Models\Structure;
 use App\Models\Tag;
 use App\Models\Territoire;
@@ -73,7 +74,7 @@ class StatisticsController extends Controller
 
     }
 
-    public function organisations(Request $request, Structure $structure) 
+    public function organisations(Request $request, Structure $structure)
     {
         $missionsStateCount = array_map(function($state) use ($structure) {
             return $structure->missions()->where('state', $state)->count();
@@ -100,7 +101,7 @@ class StatisticsController extends Controller
         ];
     }
 
-    public function missions(Request $request, Mission $mission) 
+    public function missions(Request $request, Mission $mission)
     {
         $participationsStateCount = array_map(function($state) use ($mission) {
             return $mission->participations()->where('participations.state', $state)->count();
@@ -110,6 +111,30 @@ class StatisticsController extends Controller
         return [
             'participations_total' => $mission->participations()->count(),
             'participations_state' =>  $participationsStateCount,
+        ];
+    }
+
+    public function reseaux(Request $request, Reseau $reseau)
+    {
+        $missionsStateCount = array_map(function($state) use ($reseau) {
+            return $reseau->missions()->where('missions.state', $state)->count();
+        }, config('taxonomies.mission_workflow_states.terms'));
+
+        // $participationsStateCount = array_map(function($state) use ($reseau) {
+        //     return $reseau->participations()->where('participations.state', $state)->count();
+        // }, config('taxonomies.participation_workflow_states.terms'));
+
+        // $places_left = $structure->places_left;
+        // $places_offered = $structure->places_offered;
+
+        return [
+            'missions_total' => $reseau->missions()->count(),
+            'missions_available' => $reseau->missions()->available()->count(),
+            'missions_state' =>  $missionsStateCount,
+            // 'participations_total' => $reseau->participations()->count(),
+            // 'participations_state' =>  $participationsStateCount,
+            // 'places_left' => $places_left,
+            // 'places_occupation_rate' => $places_left ? round((($places_offered - $places_left) / $places_offered) * 100) : 0,
         ];
     }
 
