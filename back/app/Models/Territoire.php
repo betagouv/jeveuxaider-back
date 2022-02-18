@@ -3,11 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use App\Models\Media as ModelMedia;
 use Illuminate\Support\Facades\Auth;
 use Algolia\AlgoliaSearch\PlacesClient;
 use App\Traits\HasMissingFields;
@@ -40,7 +40,7 @@ class Territoire extends Model implements HasMedia
     protected $checkFields = ['banner', 'suffix_title', 'department', 'zips' ,'tags' ,'seo_recruit_title', 'seo_recruit_description', 'seo_engage_title', 'seo_engage_paragraphs'];
 
     protected $appends = ['full_url'];
-    // protected $appends = ['completion_rate', 'full_url', 'banner', 'logo', 'permissions'];
+    // protected $appends = ['completion_rate', 'full_url', 'permissions'];
 
     //protected $hidden = ['media'];
 
@@ -51,17 +51,15 @@ class Territoire extends Model implements HasMedia
     protected static $submitEmptyLogs = false;
 
 
-    // public function getBannerAttribute()
-    // {
-    //     $media = $this->getFirstMedia('territoire__banner');
-    //     return $media ? $media->getFormattedMediaField() : null;
-    // }
+    public function banner()
+    {
+        return $this->morphOne(ModelMedia::class, 'model')->where('collection_name', 'territoire__banner');
+    }
 
-    // public function getLogoAttribute()
-    // {
-    //     $media = $this->getFirstMedia('territoire__logo');
-    //     return $media ? $media->getFormattedMediaField() : null;
-    // }
+    public function logo()
+    {
+        return $this->morphOne(ModelMedia::class, 'model')->where('collection_name', 'territoire__logo');
+    }
 
     public function getFullUrlAttribute()
     {
@@ -141,13 +139,13 @@ class Territoire extends Model implements HasMedia
 
         // Logo
         $this->addMediaConversion('formPreview')
-            ->height(80)
+            ->height(208)
             ->nonQueued()
             ->withResponsiveImages()
             ->format(Manipulations::FORMAT_WEBP)
             ->performOnCollections('territoire__logo');
         $this->addMediaConversion('small')
-            ->height(112)
+            ->height(220)
             ->nonQueued()
             ->withResponsiveImages()
             ->format(Manipulations::FORMAT_WEBP)
