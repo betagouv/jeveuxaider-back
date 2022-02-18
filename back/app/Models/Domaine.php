@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use App\Models\Media as ModelMedia;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use Spatie\Image\Manipulations;
@@ -116,49 +117,33 @@ class Domaine extends Model implements HasMedia
             ->performOnCollections('domaine__illustrations_organisation');
     }
 
-    public function getBannerAttribute()
+    public function banner()
     {
-        $media = $this->getFirstMedia('domaine__banner');
-        return $media ? $media->getFormattedMediaField() : null;
+        return $this->morphOne(ModelMedia::class, 'model')->where('collection_name', 'domaine__banner');
     }
 
-    public function getIllustrationsAttribute()
+    public function illustrations()
     {
-        return $this->getMedia('domaine__illustrations')->map(function ($media) {
-            return $media->getFormattedMediaField();
-        })->values();
+        return $this->morphMany(ModelMedia::class, 'model')->where('collection_name', 'domaine__illustrations');
     }
 
-    public function getLogosPartenairesAttribute()
+    public function illustrationsOrganisation()
     {
-        return $this->getMedia('domaine__logos_partenaires')->map(function ($media) {
-            return $media->getFormattedMediaField();
-        })->values();
+        return $this->morphMany(ModelMedia::class, 'model')->where('collection_name', 'domaine__illustrations_organisation');
     }
 
-    public function getLogosPartenairesActifsAttribute()
+    public function illustrationsMission()
     {
-        return $this->getMedia('domaine__logos_partenaires_actifs')->map(function ($media) {
-            return $media->getFormattedMediaField();
-        })->values();
+        return $this->morphMany(ModelMedia::class, 'model')->where('collection_name', 'domaine__illustrations_mission');
     }
 
-    public function getIllustrationsMissionAttribute()
+    public function logosPartenaires()
     {
-        return $this->getMedia('domaine__illustrations_mission')->map(function ($media) {
-            return $media->getFormattedMediaField();
-        })->values();
+        return $this->morphMany(ModelMedia::class, 'model')->where('collection_name', 'domaine__logos_partenaires');
     }
 
-    public function getIllustrationsOrganisationAttribute()
+    public function logosPartenairesActifs()
     {
-        return $this->getMedia('domaine__illustrations_organisation')->map(function ($media) {
-            return $media->getFormattedMediaField();
-        })->values();
+        return $this->morphMany(ModelMedia::class, 'model')->where('collection_name', 'domaine__logos_partenaires_actifs');
     }
-
-    // public function missionTemplates()
-    // {
-    //     return $this->hasMany('App\Models\MissionTemplate');
-    // }
 }

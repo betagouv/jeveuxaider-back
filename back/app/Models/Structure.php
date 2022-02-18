@@ -380,23 +380,23 @@ class Structure extends Model implements HasMedia
     //     });
     // }
 
-    public function getLogoAttribute()
-    {
-        $media = $this->getFirstMedia('structure__logo');
-        return $media ? $media->getFormattedMediaField() : null;
-    }
+    // public function getLogoAttribute()
+    // {
+    //     $media = $this->getFirstMedia('structure__logo');
+    //     return $media ? $media->getFormattedMediaField() : null;
+    // }
 
-    public function getOverrideImage1Attribute()
-    {
-        $media = $this->getFirstMedia('structure__override_image_1');
-        return $media ? $media->getFormattedMediaField() : null;
-    }
+    // public function getOverrideImage1Attribute()
+    // {
+    //     $media = $this->getFirstMedia('structure__override_image_1');
+    //     return $media ? $media->getFormattedMediaField() : null;
+    // }
 
-    public function getOverrideImage2Attribute()
-    {
-        $media = $this->getFirstMedia('structure__override_image_2');
-        return $media ? $media->getFormattedMediaField() : null;
-    }
+    // public function getOverrideImage2Attribute()
+    // {
+    //     $media = $this->getFirstMedia('structure__override_image_2');
+    //     return $media ? $media->getFormattedMediaField() : null;
+    // }
 
     public function registerMediaConversions(Media $media = null): void
     {

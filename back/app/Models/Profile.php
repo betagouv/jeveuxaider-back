@@ -15,6 +15,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\Tags\HasTags;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Image\Manipulations;
+use App\Models\Media as ModelMedia;
 
 class Profile extends Model implements HasMedia
 {
@@ -50,10 +51,9 @@ class Profile extends Model implements HasMedia
         $this->attributes['email'] = mb_strtolower($value);
     }
 
-    public function getAvatarAttribute()
+    public function avatar()
     {
-        $media = $this->getFirstMedia('profile__avatar');
-        return $media ? $media->getFormattedMediaField() : null;
+        return $this->morphOne(ModelMedia::class, 'model')->where('collection_name', 'profile__avatar');
     }
 
     public function registerMediaConversions(Media $media = null): void

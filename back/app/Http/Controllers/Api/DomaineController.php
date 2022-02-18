@@ -22,12 +22,10 @@ class DomaineController extends Controller
     public function index()
     {
         return QueryBuilder::for(Domaine::class)
-            ->with(['media'])
             ->allowedFilters([
                 AllowedFilter::custom('search', new FiltersDomaineSearch),
             ])
-            ->allowedIncludes(['media'])
-            ->allowedAppends(['banner'])
+            ->allowedIncludes(['banner'])
             ->defaultSort('-created_at')
             ->paginate(config('query-builder.results_per_page'));
     }
@@ -38,7 +36,7 @@ class DomaineController extends Controller
             ? Domaine::where('id', $slugOrId)->firstOrFail()
             : Domaine::where('slug', $slugOrId)->with(['domaine'])->firstOrFail();
 
-        return $domaine->append(['banner', 'illustrations', 'logos_partenaires', 'logos_partenaires_actifs', 'illustrations_mission', 'illustrations_organisation']);
+        return $domaine->load(['banner', 'illustrations', 'illustrationsOrganisation', 'illustrationsMission', 'logosPartenaires', 'logosPartenairesActifs']);
     }
 
     public function statistics($slugOrId)

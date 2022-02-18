@@ -109,7 +109,7 @@ class ProfileController extends Controller
 
     public function show(ProfileRequest $request, Profile $profile)
     {
-        return $profile->load(['user', 'territoires', 'structures', 'teteDeReseau', 'skills', 'domaines'])->loadCount(['participations', 'participationsValidated'])->append(['avatar']);
+        return $profile->load(['user', 'territoires', 'structures', 'teteDeReseau', 'skills', 'domaines', 'avatar'])->loadCount(['participations', 'participationsValidated']);
     }
 
     public function update(ProfileUpdateRequest $request, Profile $profile = null)

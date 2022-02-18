@@ -22,12 +22,12 @@ class Document extends Model implements HasMedia
 
     protected $appends = ['file'];
 
-    public function getFileAttribute()
-    {
-        return $this->getMedia('document__file')->map(function ($media) {
-            return $media->getFormattedMediaField();
-        });
-    }
+    // public function getFileAttribute()
+    // {
+    //     return $this->getMedia('document__file')->map(function ($media) {
+    //         return $media->getFormattedMediaField();
+    //     });
+    // }
 
     public function scopeRole($query, $contextRole)
     {

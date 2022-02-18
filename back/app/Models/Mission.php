@@ -83,7 +83,7 @@ class Mission extends Model
     {
         $domaines = [];
         $domaine = $this->template_id ? $this->template->domaine : $this->domaine;
-        if($domaine){
+        if ($domaine) {
             $domaines[] = $domaine->name;
         }
         if ($this->domaine_secondary_id) {
@@ -201,6 +201,11 @@ class Mission extends Model
     public function template()
     {
         return $this->belongsTo('App\Models\MissionTemplate');
+    }
+
+    public function illustrations()
+    {
+        return $this->morphToMany(Media::class, 'mediable')->wherePivot('field', 'mission_illustrations');
     }
 
     public function getFullAddressAttribute()
