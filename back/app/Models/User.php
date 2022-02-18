@@ -68,22 +68,27 @@ class User extends Authenticatable
         }
 
         if ($this->profile->tete_de_reseau_id) {
+            $reseau = Reseau::find($this->profile->tete_de_reseau_id);
             $roles[] = [
                 'key' => 'tete_de_reseau',
                 'contextable_type' => 'reseau',
-                'contextable_id' => $this->profile->tete_de_reseau_id,
-                'label' => $this->profile->teteDeReseau->name
+                'contextable_id' => $reseau->id,
+                'label' => $reseau->name
             ];
         }
 
-        if ($this->profile->referent_department) {
+        if ($this->profile->referent_region) {
             $roles[] = [
                 'key' => 'referent_regional',
                 'label' => $this->profile->referent_region
             ];
         }
 
-        $structures = $this->profile->structures;
+        $structures = $this->profile->structures; // LAZYLOADING
+        // $structures = Structure::whereHas('members', function($query){
+        //     return $query->where('profile_id', $this->profile->id);
+        // });
+
         if ($structures) {
             foreach ($structures as $structure) {
                 $roles[] = [
@@ -95,7 +100,10 @@ class User extends Authenticatable
             }
         }
 
-        $territoires = $this->profile->territoires;
+        $territoires = $this->profile->territoires; // LAZYLOADING
+        // // $structures = Structure::whereHas('members', function($query){
+        // //     return $query->where('profile_id', $this->profile->id);
+        // // });
         if ($territoires) {
             foreach ($territoires as $territoire) {
                 $roles[] = [
@@ -208,23 +216,20 @@ class User extends Authenticatable
     }
 
     // @TODO: context_role si null doit être volontaire
-
-    // public function getContextRoleAttribute()
+    // public function getContextRoleAttribute($value)
     // {
-    //     if (empty($this->attributes['context_role']) || $this->attributes['context_role'] == 'volontaire') {
-    //         if ($this->profile) {
-    //             $userRoles = array_filter($this->profile->roles, function ($role) {
-    //                 return $role === true;
-    //             });
-    //             if (count($userRoles) > 0) {
-    //                 $this->attributes['context_role'] = array_key_first($userRoles);
-    //             }
-    //         }
+    //     if($value){
+    //         return $value;
     //     }
 
-    //     return $this->attributes['context_role'] ?? null;
+    //     if((isset($this->roles[0]))) {
+    //         return $this->roles[0]['key'];
+    //     }
+
+    //     return $value;
     // }
 
+    // @TODO: PB avec LAZYLOADING 
     // public function getContextableTypeAttribute()
     // {
     //     if ($this->attributes['context_role'] == 'responsable' && $this->attributes['contextable_type'] == null) {
@@ -238,6 +243,7 @@ class User extends Authenticatable
     //     return $this->attributes['contextable_type'] ?? null;
     // }
 
+    // @TODO: PB avec LAZYLOADING 
     // public function getContextableIdAttribute()
     // {
     //     if ($this->attributes['context_role'] == 'responsable' && $this->attributes['contextable_type'] == null) {
