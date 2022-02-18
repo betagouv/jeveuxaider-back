@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use App\Models\Media as ModelMedia;
 use Spatie\Image\Manipulations;
 
 class MissionTemplate extends Model implements HasMedia
@@ -49,11 +50,10 @@ class MissionTemplate extends Model implements HasMedia
             ->performOnCollections('mission_template__photo');
     }
 
-    // public function getPhotoAttribute()
-    // {
-    //     $media = $this->getFirstMedia('mission_template__photo');
-    //     return $media ? $media->getFormattedMediaField() : null;
-    // }
+    public function photo()
+    {
+        return $this->morphOne(ModelMedia::class, 'model')->where('collection_name', 'mission_template__photo');
+    }
 
     public function domaine()
     {

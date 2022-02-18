@@ -119,48 +119,31 @@ class Domaine extends Model implements HasMedia
 
     public function banner()
     {
-        // return $this->media()->where()
         return $this->morphOne(ModelMedia::class, 'model')->where('collection_name', 'domaine__banner');
     }
 
-    // public function getBannerAttribute()
-    // {
-    //     $media = $this->getFirstMedia('domaine__banner');
-    //     return $media ? $media->getFormattedMediaField() : null;
-    // }
+    public function illustrations()
+    {
+        return $this->morphMany(ModelMedia::class, 'model')->where('collection_name', 'domaine__illustrations');
+    }
 
-    // public function getIllustrationsAttribute()
-    // {
-    //     return $this->getMedia('domaine__illustrations')->map(function ($media) {
-    //         return $media->getFormattedMediaField();
-    //     })->values();
-    // }
+    public function illustrationsOrganisation()
+    {
+        return $this->morphMany(ModelMedia::class, 'model')->where('collection_name', 'domaine__illustrations_organisation');
+    }
 
-    // public function getLogosPartenairesAttribute()
-    // {
-    //     return $this->getMedia('domaine__logos_partenaires')->map(function ($media) {
-    //         return $media->getFormattedMediaField();
-    //     })->values();
-    // }
+    public function illustrationsMission()
+    {
+        return $this->morphMany(ModelMedia::class, 'model')->where('collection_name', 'domaine__illustrations_mission');
+    }
 
-    // public function getLogosPartenairesActifsAttribute()
-    // {
-    //     return $this->getMedia('domaine__logos_partenaires_actifs')->map(function ($media) {
-    //         return $media->getFormattedMediaField();
-    //     })->values();
-    // }
+    public function logosPartenaires()
+    {
+        return $this->morphMany(ModelMedia::class, 'model')->where('collection_name', 'domaine__logos_partenaires');
+    }
 
-    // public function getIllustrationsMissionAttribute()
-    // {
-    //     return $this->getMedia('domaine__illustrations_mission')->map(function ($media) {
-    //         return $media->getFormattedMediaField();
-    //     })->values();
-    // }
-
-    // public function getIllustrationsOrganisationAttribute()
-    // {
-    //     return $this->getMedia('domaine__illustrations_organisation')->map(function ($media) {
-    //         return $media->getFormattedMediaField();
-    //     })->values();
-    // }
+    public function logosPartenairesActifs()
+    {
+        return $this->morphMany(ModelMedia::class, 'model')->where('collection_name', 'domaine__logos_partenaires_actifs');
+    }
 }

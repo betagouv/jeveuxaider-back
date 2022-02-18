@@ -34,8 +34,7 @@ class MissionTemplateController extends Controller
                 AllowedFilter::scope('of_reseau'),
                 AllowedFilter::callback('with_reseaux', new FiltersTemplatesWithReseau)
             )
-            ->allowedIncludes(['media'])
-            ->allowedAppends(['photo'])
+            ->allowedIncludes(['photo'])
             ->defaultSort('-updated_at')
             ->paginate($paginate);
     }
@@ -51,7 +50,7 @@ class MissionTemplateController extends Controller
 
     public function show(MissionTemplate $missionTemplate)
     {
-        return MissionTemplate::with('reseau')->find($missionTemplate->id)->append(['photo']);
+        return MissionTemplate::with('reseau')->find($missionTemplate->id)->load(['photo']);
     }
 
     public function statistics(MissionTemplate $missionTemplate)
