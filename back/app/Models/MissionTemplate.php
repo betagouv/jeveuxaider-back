@@ -49,11 +49,11 @@ class MissionTemplate extends Model implements HasMedia
             ->performOnCollections('mission_template__photo');
     }
 
-    public function getPhotoAttribute()
-    {
-        $media = $this->getFirstMedia('mission_template__photo');
-        return $media ? $media->getFormattedMediaField() : null;
-    }
+    // public function getPhotoAttribute()
+    // {
+    //     $media = $this->getFirstMedia('mission_template__photo');
+    //     return $media ? $media->getFormattedMediaField() : null;
+    // }
 
     public function domaine()
     {

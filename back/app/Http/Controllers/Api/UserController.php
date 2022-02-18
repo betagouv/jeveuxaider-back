@@ -26,7 +26,6 @@ class UserController extends Controller
     {
         $user = User::with('profile', 'profile.media', 'profile.skills', 'profile.domaines')->find(Auth::guard('api')->user()->id);
         $user->append(['roles']);
-        $user->profile->append(['avatar']);
 
         return $user;
     }
@@ -73,7 +72,6 @@ class UserController extends Controller
 
         $user->load('profile', 'profile.media', 'profile.skills', 'profile.domaines');
         $user->append(['roles']);
-        $user->profile->append(['avatar']);
 
         return $user;
     }

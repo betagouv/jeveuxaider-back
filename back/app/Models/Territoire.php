@@ -51,17 +51,17 @@ class Territoire extends Model implements HasMedia
     protected static $submitEmptyLogs = false;
 
 
-    public function getBannerAttribute()
-    {
-        $media = $this->getFirstMedia('territoire__banner');
-        return $media ? $media->getFormattedMediaField() : null;
-    }
+    // public function getBannerAttribute()
+    // {
+    //     $media = $this->getFirstMedia('territoire__banner');
+    //     return $media ? $media->getFormattedMediaField() : null;
+    // }
 
-    public function getLogoAttribute()
-    {
-        $media = $this->getFirstMedia('territoire__logo');
-        return $media ? $media->getFormattedMediaField() : null;
-    }
+    // public function getLogoAttribute()
+    // {
+    //     $media = $this->getFirstMedia('territoire__logo');
+    //     return $media ? $media->getFormattedMediaField() : null;
+    // }
 
     public function getFullUrlAttribute()
     {

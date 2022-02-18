@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use App\Models\Media as ModelMedia;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use Spatie\Image\Manipulations;
@@ -116,49 +117,50 @@ class Domaine extends Model implements HasMedia
             ->performOnCollections('domaine__illustrations_organisation');
     }
 
-    public function getBannerAttribute()
+    public function banner()
     {
-        $media = $this->getFirstMedia('domaine__banner');
-        return $media ? $media->getFormattedMediaField() : null;
+        // return $this->media()->where()
+        return $this->morphOne(ModelMedia::class, 'model')->where('collection_name', 'domaine__banner');
     }
 
-    public function getIllustrationsAttribute()
-    {
-        return $this->getMedia('domaine__illustrations')->map(function ($media) {
-            return $media->getFormattedMediaField();
-        })->values();
-    }
-
-    public function getLogosPartenairesAttribute()
-    {
-        return $this->getMedia('domaine__logos_partenaires')->map(function ($media) {
-            return $media->getFormattedMediaField();
-        })->values();
-    }
-
-    public function getLogosPartenairesActifsAttribute()
-    {
-        return $this->getMedia('domaine__logos_partenaires_actifs')->map(function ($media) {
-            return $media->getFormattedMediaField();
-        })->values();
-    }
-
-    public function getIllustrationsMissionAttribute()
-    {
-        return $this->getMedia('domaine__illustrations_mission')->map(function ($media) {
-            return $media->getFormattedMediaField();
-        })->values();
-    }
-
-    public function getIllustrationsOrganisationAttribute()
-    {
-        return $this->getMedia('domaine__illustrations_organisation')->map(function ($media) {
-            return $media->getFormattedMediaField();
-        })->values();
-    }
-
-    // public function missionTemplates()
+    // public function getBannerAttribute()
     // {
-    //     return $this->hasMany('App\Models\MissionTemplate');
+    //     $media = $this->getFirstMedia('domaine__banner');
+    //     return $media ? $media->getFormattedMediaField() : null;
+    // }
+
+    // public function getIllustrationsAttribute()
+    // {
+    //     return $this->getMedia('domaine__illustrations')->map(function ($media) {
+    //         return $media->getFormattedMediaField();
+    //     })->values();
+    // }
+
+    // public function getLogosPartenairesAttribute()
+    // {
+    //     return $this->getMedia('domaine__logos_partenaires')->map(function ($media) {
+    //         return $media->getFormattedMediaField();
+    //     })->values();
+    // }
+
+    // public function getLogosPartenairesActifsAttribute()
+    // {
+    //     return $this->getMedia('domaine__logos_partenaires_actifs')->map(function ($media) {
+    //         return $media->getFormattedMediaField();
+    //     })->values();
+    // }
+
+    // public function getIllustrationsMissionAttribute()
+    // {
+    //     return $this->getMedia('domaine__illustrations_mission')->map(function ($media) {
+    //         return $media->getFormattedMediaField();
+    //     })->values();
+    // }
+
+    // public function getIllustrationsOrganisationAttribute()
+    // {
+    //     return $this->getMedia('domaine__illustrations_organisation')->map(function ($media) {
+    //         return $media->getFormattedMediaField();
+    //     })->values();
     // }
 }

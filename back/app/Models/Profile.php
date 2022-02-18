@@ -50,11 +50,11 @@ class Profile extends Model implements HasMedia
         $this->attributes['email'] = mb_strtolower($value);
     }
 
-    public function getAvatarAttribute()
-    {
-        $media = $this->getFirstMedia('profile__avatar');
-        return $media ? $media->getFormattedMediaField() : null;
-    }
+    // public function getAvatarAttribute()
+    // {
+    //     $media = $this->getFirstMedia('profile__avatar');
+    //     return $media ? $media->getFormattedMediaField() : null;
+    // }
 
     public function registerMediaConversions(Media $media = null): void
     {

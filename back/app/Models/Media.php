@@ -7,6 +7,24 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media as SpatieMedia;
 
 class Media extends SpatieMedia
 {
+    protected $appends = ['urls', 'manipulation'];
+
+    public function getUrlsAttribute()
+    {
+        $mediaUrls = ['original' => $this->getFullUrl()];
+        foreach ($this->getMediaConversionNames() as $conversion) {
+            $mediaUrls[$conversion] = $this->getSrcset($conversion);
+        }
+
+        return array_filter($mediaUrls);
+    }
+
+    public function getManipulationAttribute()
+    {
+        return !empty($this->manipulations[array_key_first($this->manipulations)]) ?
+        $this->manipulations[array_key_first($this->manipulations)] : null;
+    }
+
     public function getFormattedMediaField()
     {
         $mediaUrls = ['original' => $this->getFullUrl()];

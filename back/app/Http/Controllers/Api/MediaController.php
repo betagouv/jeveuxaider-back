@@ -22,7 +22,7 @@ class MediaController extends Controller
             ->usingFileName(Str::random(30) . '.' . $file->guessExtension())
             ->toMediaCollection($collection);
 
-        return $media->getFormattedMediaField();
+        return $media;
     }
 
     public function update(Request $request, Media $media)
@@ -41,7 +41,7 @@ class MediaController extends Controller
         }
 
 
-        return $media->getFormattedMediaField();
+        return $media;
     }
 
     public function delete(Request $request, Media $media)
