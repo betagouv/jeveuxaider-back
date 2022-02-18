@@ -118,13 +118,13 @@ export default {
       let end = this.conversation.conversable.mission.end_date
 
       start = this.$options.filters.formatCustom(start, 'D MMM YYYY')
-      end = this.$options.filters.formatCustom(end, 'D MMM YYYY')
+      end = end ? this.$options.filters.formatCustom(end, 'D MMM YYYY') : null
 
       if (start == end) {
         return start
       }
 
-      return `${start} - ${end}`
+      return end ? `${start} - ${end}` : `À partir du ${start}`
     },
     recipient() {
       return this.conversation.users.filter((user) => {

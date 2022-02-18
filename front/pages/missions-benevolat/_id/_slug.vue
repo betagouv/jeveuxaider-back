@@ -673,11 +673,14 @@ export default {
       return this.mission.structure
     },
     structureType() {
+      let tmpStatut = this.structure.statut_juridique
+      if (this.structure.statut_juridique == 'Organisation publique') {
+        tmpStatut = 'Structure publique'
+      } else if (this.structure.statut_juridique == 'Organisation privée') {
+        tmpStatut = 'Structure privée'
+      }
       let status = this.$options.filters
-        .labelFromValue(
-          this.structure.statut_juridique,
-          'structure_legal_status'
-        )
+        .labelFromValue(tmpStatut, 'structure_legal_status')
         .toLowerCase()
       if (status == 'autre') {
         status = 'organisation'
