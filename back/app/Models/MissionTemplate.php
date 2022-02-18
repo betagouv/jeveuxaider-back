@@ -8,6 +8,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use App\Models\Media as ModelMedia;
 use Spatie\Image\Manipulations;
+use Illuminate\Support\Facades\Auth;
 
 class MissionTemplate extends Model implements HasMedia
 {
@@ -73,5 +74,18 @@ class MissionTemplate extends Model implements HasMedia
     public function scopeOfReseau($query, $reseau_id)
     {
         $query->where('reseau_id', $reseau_id);
+    }
+
+    public function scopeRole($query, $contextRole)
+    {
+        switch ($contextRole) {
+            case 'admin':
+                return $query;
+                break;
+            case 'tete_de_reseau':
+                return $query->ofReseau(Auth::guard('api')->user()->profile->tete_de_reseau_id);
+                break;
+            
+        }
     }
 }

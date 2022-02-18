@@ -25,7 +25,7 @@ class MissionTemplateController extends Controller
     {
         $paginate = $request->has('pagination') ? $request->input('pagination') : config('query-builder.results_per_page');
 
-        return QueryBuilder::for(MissionTemplate::with(['domaine', 'reseau'])->withCount(['missions']))
+        return QueryBuilder::for(MissionTemplate::role($request->header('Context-Role'))->with(['domaine', 'reseau'])->withCount(['missions']))
             ->allowedFilters(
                 'state',
                 AllowedFilter::custom('search', new FiltersTitleBodySearch),

@@ -64,6 +64,20 @@ class ActionController extends Controller
                     'value' => isset($user->profile->structures[0]) ? $user->profile->structures[0]->missing_fields : false,
                 ];
                 break;
+            case 'tete_de_reseau':
+                $actions[] = [
+                    'type' => 'participations_waiting_validation',
+                    'value' => Participation::role($request->header('Context-Role'))->where('state', 'En attente de validation')->count(),
+                ];
+                $actions[] = [
+                    'type' => 'participations_in_progress',
+                    'value' => Participation::role($request->header('Context-Role'))->where('state', 'En cours de traitement')->count(),
+                ];
+                $actions[] = [
+                    'type' => 'missions_outdated',
+                    'value' => Mission::role($request->header('Context-Role'))->where('end_date', '<', Carbon::now())->where('state', 'Validée')->count(),
+                ];
+                break;
             case 'referent':
             case 'referent_regional':
                 $actions[] = [

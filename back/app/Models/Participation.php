@@ -71,10 +71,7 @@ class Participation extends Model
                     });
                 break;
             case 'tete_de_reseau':
-                return $query
-                    ->whereHas('mission.structure.reseaux', function (Builder $query) {
-                        $query->where('reseaux.id', Auth::guard('api')->user()->profile->teteDeReseau->id);
-                    });
+                return $query->ofReseau(Auth::guard('api')->user()->profile->teteDeReseau->id);
                 break;
             case 'responsable':
                 $user = Auth::guard('api')->user();

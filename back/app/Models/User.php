@@ -70,6 +70,8 @@ class User extends Authenticatable
         if ($this->profile->tete_de_reseau_id) {
             $roles[] = [
                 'key' => 'tete_de_reseau',
+                'contextable_type' => 'reseau',
+                'contextable_id' => $this->profile->tete_de_reseau_id,
                 'label' => $this->profile->teteDeReseau->name
             ];
         }

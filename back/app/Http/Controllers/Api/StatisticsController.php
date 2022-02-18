@@ -49,6 +49,7 @@ class StatisticsController extends Controller
                 break;
             case 'referent':
             case 'referent_regional':
+            case 'tete_de_reseau':
                 return [
                     'organisations' => Structure::role($request->header('Context-Role'))->count(),
                     'organisations_actives' => $missionsAvailable->pluck('structure_id')->unique()->count(),
@@ -124,19 +125,23 @@ class StatisticsController extends Controller
             return $reseau->participations()->where('participations.state', $state)->count();
         }, config('taxonomies.participation_workflow_states.terms'));
 
-        // $places_left = $structure->places_left;
-        // $places_offered = $structure->places_offered;
+        $missionsAvailable = Mission::ofReseau($reseau->id)
+            ->available()
+            ->get();
+
+        $placesLeft = $missionsAvailable->sum('places_left');
+        $placesOffered = $missionsAvailable->sum('participations_max');
 
         return [
-            'organisations_total' => Structure::ofReseau($reseau->id)->count(),
+            'organisations' => Structure::ofReseau($reseau->id)->count(),
             'organisations_actives' => Mission::ofReseau($reseau->id)->pluck('structure_id')->unique()->count(),
-            'missions_total' => $reseau->missions()->count(),
-            'missions_available' => $reseau->missions()->available()->count(),
+            'missions' => $reseau->missions()->count(),
+            'missions_actives' => $reseau->missions()->available()->count(),
             'missions_state' =>  $missionsStateCount,
-            'participations_total' => $reseau->participations()->count(),
+            'participations' => $reseau->participations()->count(),
             'participations_state' =>  $participationsStateCount,
-            // 'places_left' => $places_left,
-            // 'places_occupation_rate' => $places_left ? round((($places_offered - $places_left) / $places_offered) * 100) : 0,
+            'places_left' => $placesLeft,
+            'places_occupation_rate' => $placesOffered ? round((($placesOffered - $placesLeft) / $placesOffered) * 100) : 0,
         ];
     }
 
