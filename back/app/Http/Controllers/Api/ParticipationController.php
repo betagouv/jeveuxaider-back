@@ -40,9 +40,8 @@ class ParticipationController extends Controller
             )
             ->allowedIncludes([
                 'conversation.latestMessage',
-                'profile.media',
+                'profile.avatar',
             ])
-            ->allowedAppends('profile_avatar')
             ->defaultSort('-created_at')
             ->paginate(config('query-builder.results_per_page'));
     }

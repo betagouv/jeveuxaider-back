@@ -45,7 +45,7 @@ class MissionController extends Controller
     public function index(Request $request)
     {
         return QueryBuilder::for(Mission::role($request->header('Context-Role')))
-            ->with(['domaine', 'template', 'template.domaine', 'template.media', 'structure'])
+            ->with(['domaine', 'template', 'template.domaine', 'structure'])
             ->allowedFilters([
                 'state',
                 'type',
@@ -60,7 +60,7 @@ class MissionController extends Controller
                 AllowedFilter::custom('search', new FiltersMissionSearch),
                 AllowedFilter::scope('available'),
             ])
-            ->allowedAppends(['template_photo'])
+            ->allowedIncludes(['template.photo'])
             ->defaultSort('-created_at')
             ->paginate($request->input('itemsPerPage') ?? config('query-builder.results_per_page'));
     }
@@ -139,15 +139,17 @@ class MissionController extends Controller
 
     public function benevoles(Request $request, Mission $mission)
     {
-        if (!$mission->has_places_left || $mission->state != 'Validée' || $mission->structure->state != 'Validée') {
-            abort(403, "Vous n'êtes pas autorisé à accéder à ce contenu");
+        if ($request->header('Context-Role') !== 'admin' && (!$mission->has_places_left || $mission->state != 'Validée' || $mission->structure->state != 'Validée')) {
+            abort(401, "Vous n'êtes pas autorisé à accéder à ce contenu");
         }
 
-        $profilesQueryBuilder =  Profile::where('is_visible', true)
+        $domaineId = $mission->template_id ? $mission->template->domaine_id : $mission->domaine_id;
+
+        $profilesQueryBuilder = Profile::where('is_visible', true)
             ->whereHas('user', function (Builder $query) {
                 $query->whereNull('anonymous_at');
             })
-            ->withAnyTags($mission->domaines)
+            ->domaine($domaineId)
             ->whereDoesntHave('participations', function (Builder $query) use ($mission) {
                 $query->where('mission_id', $mission->id);
             });
@@ -161,7 +163,7 @@ class MissionController extends Controller
             ->allowedIncludes([
                 'user',
                 'participationsValidatedCount',
-                'media',
+                'avatar',
             ])
             ->allowedFilters(
                 'zip',
@@ -171,7 +173,6 @@ class MissionController extends Controller
                 // AllowedFilter::custom('domaine', new FiltersProfileTag),
                 // AllowedFilter::custom('skills', new FiltersProfileSkill),
             )
-            ->allowedAppends(['avatar'])
             ->defaultSort('-created_at')
             ->paginate(config('query-builder.results_per_page'));
     }

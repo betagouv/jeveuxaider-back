@@ -24,7 +24,7 @@ class UserController extends Controller
 
     public function me(Request $request)
     {
-        $user = User::with('profile', 'profile.media', 'profile.skills', 'profile.domaines')->find(Auth::guard('api')->user()->id);
+        $user = User::with('profile', 'profile.avatar', 'profile.skills', 'profile.domaines')->find(Auth::guard('api')->user()->id);
         $user->append(['roles']);
 
         return $user;

@@ -22,9 +22,8 @@ class ProfileController extends Controller
             ->allowedIncludes([
                 'user',
                 'participationsValidatedCount',
-                'media',
+                'avatar',
             ])
-            ->allowedAppends(['avatar'])
             ->allowedFilters(
                 AllowedFilter::custom('search', new FiltersProfileSearch),
                 AllowedFilter::custom('role', new FiltersProfileRole),

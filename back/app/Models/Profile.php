@@ -328,12 +328,6 @@ class Profile extends Model implements HasMedia
         return $this->hasMany('App\Models\Participation')->where('state', 'Validée');
     }
 
-    // public function getDomainesAttribute()
-    // {
-    //     // return $this->tagsWithType('domaine')->values();
-    //     return $this->tagsWithType('domaine')->pluck('id')->values();
-    // }
-
     public function domaines()
     {
         return $this->morphToMany(Domaine::class, 'domainable')->wherePivot('field', 'profile_domaines');
@@ -343,11 +337,6 @@ class Profile extends Model implements HasMedia
     {
         return $this->morphToMany(Term::class, 'termable')->wherePivot('field', 'profile_skills');
     }
-
-    // public function getSkillsAttribute()
-    // {
-    //     return $this->tagsWithType('competence')->values();
-    // }
 
     // public function isReferent()
     // {

@@ -448,20 +448,10 @@ class Mission extends Model
             ->saveSlugsTo('slug');
     }
 
-    // public function getSkillsAttribute()
-    // {
-    //     return $this->tagsWithType('competence')->values();
-    // }
-
     public function skills()
     {
         return $this->morphToMany(Term::class, 'termable')->wherePivot('field', 'mission_skills');
     }
-
-    // public function getDomaineSecondaireAttribute()
-    // {
-    //     return $this->tagsWithType('domaine')->first();
-    // }
 
     public function setCommitmentTotal()
     {
@@ -519,10 +509,5 @@ class Mission extends Model
             /** @var \App\Models\Participation $participation */
             $participation->sendNotificationTemoignage();
         }
-    }
-
-    public function getTemplatePhotoAttribute()
-    {
-        return $this->template_id ? $this->template->getPhotoAttribute() : null;
     }
 }

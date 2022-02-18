@@ -30,8 +30,6 @@ class MissionTemplate extends Model implements HasMedia
         'published' => 'boolean',
     ];
 
-    // protected $appends = ['photo'];
-
     public function registerMediaConversions(Media $media = null): void
     {
         // 2x for high pixel density
@@ -85,7 +83,6 @@ class MissionTemplate extends Model implements HasMedia
             case 'tete_de_reseau':
                 return $query->ofReseau(Auth::guard('api')->user()->profile->tete_de_reseau_id);
                 break;
-            
         }
     }
 }
