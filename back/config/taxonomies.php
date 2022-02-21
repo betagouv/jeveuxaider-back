@@ -69,17 +69,17 @@ return [
     |--------------------------------------------------------------------------
     |
     */
-    // 'structure_workflow_states' => [
-    //     "vocabulary" => "Statut",
-    //     "terms" => [
-    //         "En attente de validation" => "En attente de validation",
-    //         "En cours de traitement" => "En cours de traitement",
-    //         // "En attente de correction" => "En attente de correction",
-    //         "Validée" => "Validée",
-    //         "Signalée" => "Signalée",
-    //         "Désinscrite" => "Désinscrite"
-    //     ]
-    // ],
+    'structure_workflow_states' => [
+        "vocabulary" => "Statut",
+        "terms" => [
+            "En attente de validation" => "En attente de validation",
+            "En cours de traitement" => "En cours de traitement",
+            // "En attente de correction" => "En attente de correction",
+            "Validée" => "Validée",
+            "Signalée" => "Signalée",
+            "Désinscrite" => "Désinscrite"
+        ]
+    ],
 
     /*
     |--------------------------------------------------------------------------
