@@ -74,9 +74,6 @@ class StructureController extends Controller
 
     public function show(Request $request, Structure $structure)
     {
-
-        ray($structure);
-
         if (Auth::guard('api')->user()->cannot('view', $structure)) {
             abort(403);
         }

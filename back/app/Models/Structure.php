@@ -91,9 +91,12 @@ class Structure extends Model implements HasMedia
                     ->whereIn('department', config('taxonomies.regions.departments')[Auth::guard('api')->user()->profile->referent_region]);
                 break;
             case 'tete_de_reseau':
-                return $query->whereHas('reseaux', function (Builder $query) {
-                    $query->where('reseaux.id', Auth::guard('api')->user()->profile->teteDeReseau->id);
-                });
+                return $query->ofReseau(Auth::guard('api')->user()->profile->tete_de_reseau_id);
+                break;
+            case 'responsable_territoire':
+                $user = Auth::guard('api')->user();
+                return $query->ofTerritoire($user->contextable_id);
+                break;
         }
     }
 

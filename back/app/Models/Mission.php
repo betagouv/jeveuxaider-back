@@ -365,16 +365,12 @@ class Mission extends Model
             case 'responsable':
                 // Missions des structures dont je suis responsable
                 $user = Auth::guard('api')->user();
-                if ($user->context_role == 'responsable' && $user->contextable_type == 'structure' &&
-                    !empty($user->contextable_id)
-                ) {
-                    return $query
-                        ->where('structure_id', $user->contextable_id);
-                } else {
-                    return $query
-                        ->where('structure_id', $user->profile->structures->pluck('id')->first());
-                }
+                return $query->where('structure_id',$user->contextable_id);
                 break;
+            case 'responsable_territoire':
+                    $user = Auth::guard('api')->user();
+                    return $query->ofTerritoire($user->contextable_id);
+                    break;
             case 'referent':
                 // Missions qui sont dans mon département
                 return $query
@@ -393,9 +389,7 @@ class Mission extends Model
             case 'tete_de_reseau':
                 // Missions qui sont dans une structure rattachée à mon réseau
                 return $query
-                    ->whereHas('structure.reseaux', function (Builder $query) {
-                        $query->where('reseaux.id', Auth::guard('api')->user()->profile->teteDeReseau->id);
-                    });
+                    ->ofReseau(Auth::guard('api')->user()->profile->tete_de_reseau_id);
                 break;
         }
     }

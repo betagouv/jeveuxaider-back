@@ -35,7 +35,6 @@ class PassportController extends Controller
             [
                 'name' => request("email"),
                 'email' => request("email"),
-                'context_role' => 'volontaire',
                 'password' => Hash::make(request("password")),
                 'utm_source' => is_array($utmSource) ? current($utmSource) : $utmSource,
             ]
