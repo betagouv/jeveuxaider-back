@@ -78,7 +78,7 @@ class StructureController extends Controller
             abort(403);
         }
 
-        return $structure->load(['territoire', 'members', 'domaines'])->append(['full_address']);
+        return $structure->load(['territoire', 'members', 'domaines', 'logo'])->append(['full_address']);
     }
 
     public function associationSlugOrId(Request $request, $slugOrId)
