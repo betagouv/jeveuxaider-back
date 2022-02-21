@@ -45,8 +45,8 @@ class TerritoireController extends Controller
     public function show($slugOrId)
     {
         $territoire = (is_numeric($slugOrId))
-            ? Territoire::where('id', $slugOrId)->with(['responsables', 'banner', 'logo'])->firstOrFail()
-            : Territoire::where('slug', $slugOrId)->with(['banner', 'logo'])->firstOrFail();
+            ? Territoire::where('id', $slugOrId)->with(['responsables', 'banner', 'logo', 'promotedOrganisations'])->firstOrFail()
+            : Territoire::where('slug', $slugOrId)->with(['banner', 'logo', 'promotedOrganisations'])->firstOrFail();
 
         return $territoire;
 

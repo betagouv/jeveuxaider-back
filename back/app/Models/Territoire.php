@@ -154,13 +154,13 @@ class Territoire extends Model implements HasMedia
             ->nonQueued()
             ->withResponsiveImages()
             ->format(Manipulations::FORMAT_WEBP)
-            ->performOnCollections('territoire__logo');
+            ->performOnCollections('territoire__logo', 'territoire__promoted_organisations');
         $this->addMediaConversion('small')
             ->height(220)
             ->nonQueued()
             ->withResponsiveImages()
             ->format(Manipulations::FORMAT_WEBP)
-            ->performOnCollections('territoire__logo');
+            ->performOnCollections('territoire__logo', 'territoire__promoted_organisations');
     }
 
     public function responsables()
