@@ -171,6 +171,12 @@ class Reseau extends Model implements HasMedia
             ->withResponsiveImages()
             ->format(Manipulations::FORMAT_WEBP)
             ->performOnCollections('reseau__logo');
+        $this->addMediaConversion('large')
+            ->height(240)
+            ->nonQueued()
+            ->withResponsiveImages()
+            ->format(Manipulations::FORMAT_WEBP)
+            ->performOnCollections('reseau__logo');
 
         // Illustrations 1 & 2
         $this->addMediaConversion('card')
