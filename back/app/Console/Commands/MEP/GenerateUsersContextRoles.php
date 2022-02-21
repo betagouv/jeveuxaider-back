@@ -145,27 +145,6 @@ class GenerateUsersContextRoles extends Command
         $bar->finish();
     }
 
-    private function updateResponsableTerritoiresWithNoContextRole($query)
-    {
-        $bar = $this->output->createProgressBar($query->count());
-        $bar->start();
-        foreach ($query->cursor() as $profile) {
-            $territoire = $profile->territoires->first();
-            if ($territoire) {
-                $profile->user->context_role = 'responsable_territoire';
-                $profile->user->contextable_type = 'territoire';
-                $profile->user->contextable_id = $territoire->id;
-                $profile->user->saveQuietly();
-                $this->info('territoire id ' . $territoire->id . ' will be added to user ' . $profile->user_id);
-            } else {
-                $profile->user->context_role = null;
-                $profile->user->saveQuietly();
-                $this->warn('No territoire for will be added to profile ' . $profile->user_id);
-            }
-            $bar->advance();
-        }
-        $bar->finish();
-    }
     private function updateResponsableWithNoContextRole($query)
     {
         $bar = $this->output->createProgressBar($query->count());
@@ -188,6 +167,28 @@ class GenerateUsersContextRoles extends Command
         $bar->finish();
     }
 
+    private function updateResponsableTerritoiresWithNoContextRole($query)
+    {
+        $bar = $this->output->createProgressBar($query->count());
+        $bar->start();
+        foreach ($query->cursor() as $profile) {
+            $territoire = $profile->territoires->first();
+            if ($territoire) {
+                $profile->user->context_role = 'responsable_territoire';
+                $profile->user->contextable_type = 'territoire';
+                $profile->user->contextable_id = $territoire->id;
+                $profile->user->saveQuietly();
+                $this->info('territoire id ' . $territoire->id . ' will be added to user ' . $profile->user_id);
+            } else {
+                $profile->user->context_role = null;
+                $profile->user->saveQuietly();
+                $this->warn('No territoire for will be added to profile ' . $profile->user_id);
+            }
+            $bar->advance();
+        }
+        $bar->finish();
+    }
+
     private function updateReferentDepWithNoContextRole($query)
     {
         $bar = $this->output->createProgressBar($query->count());
@@ -197,7 +198,7 @@ class GenerateUsersContextRoles extends Command
             $user->contextable_type = null;
             $user->contextable_id = null;
             $user->saveQuietly();
-            $this->info($user->email . ' has been switched to admin referent');
+            $this->info($user->email . ' has been switched to referent context_role');
             $bar->advance();
         }
         $bar->finish();
@@ -212,7 +213,7 @@ class GenerateUsersContextRoles extends Command
             $user->contextable_type = null;
             $user->contextable_id = null;
             $user->saveQuietly();
-            $this->info($user->email . ' has been switched to admin referent');
+            $this->info($user->email . ' has been switched to referent_regional context_role');
             $bar->advance();
         }
         $bar->finish();
