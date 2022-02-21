@@ -44,11 +44,11 @@ class HandleDomaineIdForMissions extends Command
         $this->info('Table missions, colonne domaine_id : ce script va écraser la relation vers un tag et la remplacer par une liaison avec un domaine');
 
         if ($this->confirm('Continuer ?')) {
-            $this->handleMissionSecondaryDomain();
+            $this->handleMissionDomain();
         }
     }
 
-    private function handleMissionSecondaryDomain()
+    private function handleMissionDomain()
     {
         $query = Mission::whereNotNull('domaine_id');
         $bar = $this->output->createProgressBar($query->count());
