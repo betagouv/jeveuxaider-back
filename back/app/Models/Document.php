@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use App\Models\Media as ModelMedia;
 
 class Document extends Model implements HasMedia
 {
@@ -19,15 +20,6 @@ class Document extends Model implements HasMedia
     protected $casts = [
         'roles' => 'array'
     ];
-
-    protected $appends = ['file'];
-
-    // public function getFileAttribute()
-    // {
-    //     return $this->getMedia('document__file')->map(function ($media) {
-    //         return $media->getFormattedMediaField();
-    //     });
-    // }
 
     public function scopeRole($query, $contextRole)
     {
@@ -44,5 +36,10 @@ class Document extends Model implements HasMedia
                 return $query->whereJsonContains('roles', 'responsable');
                 break;
         }
+    }
+
+    public function file()
+    {
+        return $this->morphOne(ModelMedia::class, 'model')->where('collection_name', 'document__file');
     }
 }

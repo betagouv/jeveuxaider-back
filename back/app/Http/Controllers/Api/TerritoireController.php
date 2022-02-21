@@ -32,6 +32,9 @@ class TerritoireController extends Controller
                 AllowedFilter::exact('is_published'),
                 AllowedFilter::custom('search', new FiltersTerritoireSearch),
             ])
+            ->allowedIncludes([
+                'banner',
+            ])
             ->allowedAppends([
                 'places_left',
             ])
@@ -42,12 +45,8 @@ class TerritoireController extends Controller
     public function show($slugOrId)
     {
         $territoire = (is_numeric($slugOrId))
-            ? Territoire::where('id', $slugOrId)->with(['responsables', 'promotedOrganisations', 'promotedOrganisations.media'])->firstOrFail()
-            : Territoire::where('slug', $slugOrId)->with(['promotedOrganisations', 'promotedOrganisations.media'])->firstOrFail();
-
-        foreach ($territoire->promotedOrganisations as $structure) {
-            $structure->setAppends(['logo']);
-        }
+            ? Territoire::where('id', $slugOrId)->with(['responsables', 'banner', 'logo'])->firstOrFail()
+            : Territoire::where('slug', $slugOrId)->with(['banner', 'logo'])->firstOrFail();
 
         return $territoire;
 

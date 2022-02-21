@@ -67,6 +67,7 @@ class MediaDomaineIlustrationsMissions extends Command
                     ->usingFileName($illustration['filename'])
                     ->usingName($illustration['filename'])
                     ->preservingOriginal()
+                    ->withCustomProperties(['old_thumbnail' => $illustration['old_thumbnail']])
                     ->toMediaCollection('domaine__illustrations_mission');
             }
         }
@@ -127,6 +128,7 @@ class MediaDomaineIlustrationsMissions extends Command
             $data[] = [
                 'filename' => $domaine->slug . '-' . $i . '.webp',
                 'url' => base_path() . '/' . $folder . $id . '_' . $i . '@2x.webp',
+                'old_thumbnail' => $id . '_' . $i
             ];
         }
 

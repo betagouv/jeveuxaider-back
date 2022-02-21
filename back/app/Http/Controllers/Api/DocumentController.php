@@ -19,17 +19,18 @@ class DocumentController extends Controller
 {
     public function index(Request $request)
     {
-        return QueryBuilder::for(Document::with(['media'])->role($request->header('Context-Role')))
+        return QueryBuilder::for(Document::role($request->header('Context-Role')))
             ->allowedFilters([
                 AllowedFilter::custom('search', new FiltersTitleBodySearch),
             ])
+            ->allowedIncludes(['file'])
             ->defaultSort('-updated_at')
             ->paginate(config('query-builder.results_per_page'));
     }
 
     public function show(Document $document)
     {
-        return $document;
+        return $document->load(['file']);
     }
 
     public function store(DocumentCreateRequest $request)
