@@ -288,7 +288,7 @@ class Profile extends Model implements HasMedia
 
     public function reseau()
     {
-        return $this->belongsTo(Reseau::class);
+        return $this->belongsTo(Reseau::class, 'tete_de_reseau_id');
     }
 
     public function missions()

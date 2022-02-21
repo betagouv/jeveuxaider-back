@@ -175,9 +175,4 @@ class Participation extends Model
             'reminders_sent' => 1,
         ]);
     }
-
-    public function getProfileAvatarAttribute()
-    {
-        return $this->profile->getAvatarAttribute();
-    }
 }

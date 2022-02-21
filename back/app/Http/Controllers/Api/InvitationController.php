@@ -24,10 +24,11 @@ class InvitationController extends Controller
     {
         return QueryBuilder::for(Invitation::class)
             ->allowedFilters(
+                'role',
                 AllowedFilter::scope('of_reseau'),
                 AllowedFilter::scope('of_territoire'),
                 AllowedFilter::scope('of_structure'),
-                AllowedFilter::custom('search', new FiltersInvitationSearch),
+                // AllowedFilter::custom('search', new FiltersInvitationSearch),
             )
             ->defaultSort('-created_at')
             ->paginate(10);
