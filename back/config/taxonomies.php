@@ -93,7 +93,6 @@ return [
             "Brouillon" => "Brouillon",
             "En attente de validation" => "En attente de validation",
             "En cours de traitement" => "En cours de traitement",
-            //"En attente de correction" => "En attente de correction",
             "Validée" => "Validée",
             "Terminée" => "Terminée",
             "Signalée" => "Signalée",
@@ -299,17 +298,17 @@ return [
     |--------------------------------------------------------------------------
     |
     */
-    // 'mission_publics_beneficiaires' => [
-    //     "vocabulary" => "Publics bénéficiaires",
-    //     "terms" => [
-    //         "seniors" => "Personnes âgées",
-    //         "persons_with_disabilities" => "Personnes en situation de handicap",
-    //         "people_in_difficulty" => "Personnes en difficulté",
-    //         "parents" => "Parents",
-    //         "children" => "Jeunes / enfants",
-    //         "any_public" => "Tous publics"
-    //     ]
-    // ],
+    'mission_publics_beneficiaires' => [
+        "vocabulary" => "Publics bénéficiaires",
+        "terms" => [
+            "seniors" => "Personnes âgées",
+            "persons_with_disabilities" => "Personnes en situation de handicap",
+            "people_in_difficulty" => "Personnes en difficulté",
+            "parents" => "Parents",
+            "children" => "Jeunes / enfants",
+            "any_public" => "Tous publics"
+        ]
+    ],
 
     /*
     |--------------------------------------------------------------------------

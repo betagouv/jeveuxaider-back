@@ -50,6 +50,7 @@ class StatisticsController extends Controller
             case 'referent':
             case 'referent_regional':
             case 'tete_de_reseau':
+            case 'responsable_territoire':
                 return [
                     'organisations' => Structure::role($request->header('Context-Role'))->count(),
                     'organisations_actives' => $missionsAvailable->pluck('structure_id')->unique()->count(),
