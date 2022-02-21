@@ -69,17 +69,17 @@ return [
     |--------------------------------------------------------------------------
     |
     */
-    // 'structure_workflow_states' => [
-    //     "vocabulary" => "Statut",
-    //     "terms" => [
-    //         "En attente de validation" => "En attente de validation",
-    //         "En cours de traitement" => "En cours de traitement",
-    //         // "En attente de correction" => "En attente de correction",
-    //         "Validée" => "Validée",
-    //         "Signalée" => "Signalée",
-    //         "Désinscrite" => "Désinscrite"
-    //     ]
-    // ],
+    'structure_workflow_states' => [
+        "vocabulary" => "Statut",
+        "terms" => [
+            "En attente de validation" => "En attente de validation",
+            "En cours de traitement" => "En cours de traitement",
+            // "En attente de correction" => "En attente de correction",
+            "Validée" => "Validée",
+            "Signalée" => "Signalée",
+            "Désinscrite" => "Désinscrite"
+        ]
+    ],
 
     /*
     |--------------------------------------------------------------------------
@@ -87,19 +87,19 @@ return [
     |--------------------------------------------------------------------------
     |
     */
-    // 'mission_workflow_states' => [
-    //     "vocabulary" => "Statut",
-    //     "terms" => [
-    //         "Brouillon" => "Brouillon",
-    //         "En attente de validation" => "En attente de validation",
-    //         "En cours de traitement" => "En cours de traitement",
-    //         //"En attente de correction" => "En attente de correction",
-    //         "Validée" => "Validée",
-    //         "Terminée" => "Terminée",
-    //         "Signalée" => "Signalée",
-    //         "Annulée" => "Annulée",
-    //     ]
-    // ],
+    'mission_workflow_states' => [
+        "vocabulary" => "Statut",
+        "terms" => [
+            "Brouillon" => "Brouillon",
+            "En attente de validation" => "En attente de validation",
+            "En cours de traitement" => "En cours de traitement",
+            //"En attente de correction" => "En attente de correction",
+            "Validée" => "Validée",
+            "Terminée" => "Terminée",
+            "Signalée" => "Signalée",
+            "Annulée" => "Annulée",
+        ]
+    ],
 
     /*
     |--------------------------------------------------------------------------
@@ -610,37 +610,37 @@ return [
     |--------------------------------------------------------------------------
     |
     */
-    // 'participation_workflow_states' => [
-    //     "vocabulary" => "Statut",
-    //     "terms" => [
-    //         "En attente de validation" => "En attente de validation",
-    //         "En cours de traitement" => "En cours de traitement",
-    //         "Validée" => "Validée",
-    //         "Refusée" => "Refusée",
-    //         "Annulée" => "Annulée"
-    //     ]
-    // ],
+    'participation_workflow_states' => [
+        "vocabulary" => "Statut",
+        "terms" => [
+            "En attente de validation" => "En attente de validation",
+            "En cours de traitement" => "En cours de traitement",
+            "Validée" => "Validée",
+            "Refusée" => "Refusée",
+            "Annulée" => "Annulée"
+        ]
+    ],
 
-    // 'participation_declined_reasons' => [
-    //     "vocabulary" => "Reasons",
-    //     "terms" => [
-    //         "no_response" => "Le bénévole ne répond pas.",
-    //         "requirements_not_fulfilled" => "Le bénévole ne correspond pas aux besoins.",
-    //         "change_mind" => "Le bénévole a changé d'avis.",
-    //         "mission_terminated" => "La mission est terminée.",
-    //         "other" => "Autres.",
-    //     ]
-    // ],
+    'participation_declined_reasons' => [
+        "vocabulary" => "Reasons",
+        "terms" => [
+            "no_response" => "Le bénévole ne répond pas.",
+            "requirements_not_fulfilled" => "Le bénévole ne correspond pas aux besoins.",
+            "change_mind" => "Le bénévole a changé d'avis.",
+            "mission_terminated" => "La mission est terminée.",
+            "other" => "Autres.",
+        ]
+    ],
 
-    // 'participation_canceled_by_benevole_reasons' => [
-    //     "vocabulary" => "Reasons",
-    //     "terms" => [
-    //         "no_response" => "L'organisation ne répond pas.",
-    //         "requirements_not_fulfilled" => "La mission ne correspond pas à mes attentes.",
-    //         "not_available" => "Je ne suis plus disponible.",
-    //         "other" => "Autres.",
-    //     ]
-    // ],
+    'participation_canceled_by_benevole_reasons' => [
+        "vocabulary" => "Reasons",
+        "terms" => [
+            "no_response" => "L'organisation ne répond pas.",
+            "requirements_not_fulfilled" => "La mission ne correspond pas à mes attentes.",
+            "not_available" => "Je ne suis plus disponible.",
+            "other" => "Autres.",
+        ]
+    ],
 
     /*
     |--------------------------------------------------------------------------
