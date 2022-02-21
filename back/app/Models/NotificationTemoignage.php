@@ -50,7 +50,7 @@ class NotificationTemoignage extends Model
             case 'tete_de_reseau':
                 return $query
                     ->whereHas('participation.mission.structure.reseaux', function (Builder $query) {
-                        $query->where('reseaux.id', Auth::guard('api')->user()->profile->teteDeReseau->id);
+                        $query->where('reseaux.id', Auth::guard('api')->user()->profile->tete_de_reseau_id);
                     });
                 break;
             case 'responsable':

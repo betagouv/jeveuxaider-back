@@ -8,15 +8,15 @@ return [
     |--------------------------------------------------------------------------
     |
     */
-    'interest_ratings' => [
-        "vocabulary" => "Intérets",
-        "terms" => [
-            "Très intéressé" => "Très intéressé",
-            "Assez intéressé" => "Assez intéressé",
-            "Intéressé" => "Intéressé",
-            "Peu intéressé" => "Peu intéressé",
-        ]
-    ],
+    // 'interest_ratings' => [
+    //     "vocabulary" => "Intérets",
+    //     "terms" => [
+    //         "Très intéressé" => "Très intéressé",
+    //         "Assez intéressé" => "Assez intéressé",
+    //         "Intéressé" => "Intéressé",
+    //         "Peu intéressé" => "Peu intéressé",
+    //     ]
+    // ],
 
     /*
     |--------------------------------------------------------------------------
@@ -24,13 +24,13 @@ return [
     |--------------------------------------------------------------------------
     |
     */
-    'interet_defense_types' => [
-        "vocabulary" => "Types",
-        "terms" => [
-            "Au sein d'une préparation militaire ?" => "Au sein d'une préparation militaire ?",
-            "Au sein d'une association de souvenir" => "Au sein d'une association de souvenir",
-        ]
-    ],
+    // 'interet_defense_types' => [
+    //     "vocabulary" => "Types",
+    //     "terms" => [
+    //         "Au sein d'une préparation militaire ?" => "Au sein d'une préparation militaire ?",
+    //         "Au sein d'une association de souvenir" => "Au sein d'une association de souvenir",
+    //     ]
+    // ],
 
     /*
     |--------------------------------------------------------------------------
@@ -38,15 +38,15 @@ return [
     |--------------------------------------------------------------------------
     |
     */
-    'interet_defense_domaines' => [
-        "vocabulary" => "Domaines",
-        "terms" => [
-            "Armée de terre" => "Armée de terre",
-            "Armée de l'air" => "Armée de l'air",
-            "Marine" => "Marine",
-            "Pas de préférence" => "Pas de préférence"
-        ]
-    ],
+    // 'interet_defense_domaines' => [
+    //     "vocabulary" => "Domaines",
+    //     "terms" => [
+    //         "Armée de terre" => "Armée de terre",
+    //         "Armée de l'air" => "Armée de l'air",
+    //         "Marine" => "Marine",
+    //         "Pas de préférence" => "Pas de préférence"
+    //     ]
+    // ],
 
     /*
     |--------------------------------------------------------------------------
@@ -54,14 +54,14 @@ return [
     |--------------------------------------------------------------------------
     |
     */
-    'interet_securite_domaines' => [
-        "vocabulary" => "Domaines",
-        "terms" => [
-            "En tant que pompier volontaire" => "En tant que pompier volontaire",
-            "Au sein de la gendarmerie" => "Au sein de la gendarmerie",
-            "Dans une association de protection civile" => "Dans une association de protection civile",
-        ]
-    ],
+    // 'interet_securite_domaines' => [
+    //     "vocabulary" => "Domaines",
+    //     "terms" => [
+    //         "En tant que pompier volontaire" => "En tant que pompier volontaire",
+    //         "Au sein de la gendarmerie" => "Au sein de la gendarmerie",
+    //         "Dans une association de protection civile" => "Dans une association de protection civile",
+    //     ]
+    // ],
 
     /*
     |--------------------------------------------------------------------------
@@ -69,17 +69,17 @@ return [
     |--------------------------------------------------------------------------
     |
     */
-    'structure_workflow_states' => [
-        "vocabulary" => "Statut",
-        "terms" => [
-            "En attente de validation" => "En attente de validation",
-            "En cours de traitement" => "En cours de traitement",
-            // "En attente de correction" => "En attente de correction",
-            "Validée" => "Validée",
-            "Signalée" => "Signalée",
-            "Désinscrite" => "Désinscrite"
-        ]
-    ],
+    // 'structure_workflow_states' => [
+    //     "vocabulary" => "Statut",
+    //     "terms" => [
+    //         "En attente de validation" => "En attente de validation",
+    //         "En cours de traitement" => "En cours de traitement",
+    //         // "En attente de correction" => "En attente de correction",
+    //         "Validée" => "Validée",
+    //         "Signalée" => "Signalée",
+    //         "Désinscrite" => "Désinscrite"
+    //     ]
+    // ],
 
     /*
     |--------------------------------------------------------------------------
@@ -87,19 +87,19 @@ return [
     |--------------------------------------------------------------------------
     |
     */
-    'mission_workflow_states' => [
-        "vocabulary" => "Statut",
-        "terms" => [
-            "Brouillon" => "Brouillon",
-            "En attente de validation" => "En attente de validation",
-            "En cours de traitement" => "En cours de traitement",
-            //"En attente de correction" => "En attente de correction",
-            "Validée" => "Validée",
-            "Terminée" => "Terminée",
-            "Signalée" => "Signalée",
-            "Annulée" => "Annulée",
-        ]
-    ],
+    // 'mission_workflow_states' => [
+    //     "vocabulary" => "Statut",
+    //     "terms" => [
+    //         "Brouillon" => "Brouillon",
+    //         "En attente de validation" => "En attente de validation",
+    //         "En cours de traitement" => "En cours de traitement",
+    //         //"En attente de correction" => "En attente de correction",
+    //         "Validée" => "Validée",
+    //         "Terminée" => "Terminée",
+    //         "Signalée" => "Signalée",
+    //         "Annulée" => "Annulée",
+    //     ]
+    // ],
 
     /*
     |--------------------------------------------------------------------------
@@ -107,14 +107,14 @@ return [
     |--------------------------------------------------------------------------
     |
     */
-    'mission_handicap' => [
-        "vocabulary" => "Mission ouverte aux personnes en situation de handicap",
-        "terms" => [
-            "Oui" => "Oui",
-            "Oui mais en adaptant la mission" => "Oui mais en adaptant la mission",
-            "Non" => "Non"
-        ]
-    ],
+    // 'mission_handicap' => [
+    //     "vocabulary" => "Mission ouverte aux personnes en situation de handicap",
+    //     "terms" => [
+    //         "Oui" => "Oui",
+    //         "Oui mais en adaptant la mission" => "Oui mais en adaptant la mission",
+    //         "Non" => "Non"
+    //     ]
+    // ],
 
     /*
     |--------------------------------------------------------------------------
@@ -122,16 +122,16 @@ return [
     |--------------------------------------------------------------------------
     |
     */
-    'structure_legal_status' => [
-        "vocabulary" => "Statut Juridique",
-        "terms" => [
-            "Association" => "Association",
-            "Collectivité" => "Collectivité",
-            "Structure publique" => "Organisation publique",
-            "Structure privée" => "Organisation privée",
-            "Autre" => "Autre",
-        ]
-    ],
+    // 'structure_legal_status' => [
+    //     "vocabulary" => "Statut Juridique",
+    //     "terms" => [
+    //         "Association" => "Association",
+    //         "Collectivité" => "Collectivité",
+    //         "Structure publique" => "Organisation publique",
+    //         "Structure privée" => "Organisation privée",
+    //         "Autre" => "Autre",
+    //     ]
+    // ],
 
     /*
     |--------------------------------------------------------------------------
@@ -139,19 +139,19 @@ return [
     |--------------------------------------------------------------------------
     |
     */
-    'association_types' => [
-        "vocabulary" => "Types d'association",
-        "terms" => [
-            "Agrément jeunesse et éducation populaire" => "Agrément jeunesse et éducation populaire",
-            "Agrément service civique" => "Agrément service civique",
-            "Association complémentaire de l'enseignement public" => "Association complémentaire de l'enseignement public",
-            "Associations d'usagers du système de santé" => "Associations d'usagers du système de santé",
-            "Association sportive affiliée à une fédération sportive agréée par l'État" => "Association sportive affiliée à une fédération sportive agréée par l'État",
-            "Agrément des associations de protection de l'environnement" => "Agrément des associations de protection de l'environnement",
-            "Association agréée de sécurité civile" => "Association agréée de sécurité civile",
-            "Autre agrément" => "Autre agrément",
-        ]
-    ],
+    // 'association_types' => [
+    //     "vocabulary" => "Types d'association",
+    //     "terms" => [
+    //         "Agrément jeunesse et éducation populaire" => "Agrément jeunesse et éducation populaire",
+    //         "Agrément service civique" => "Agrément service civique",
+    //         "Association complémentaire de l'enseignement public" => "Association complémentaire de l'enseignement public",
+    //         "Associations d'usagers du système de santé" => "Associations d'usagers du système de santé",
+    //         "Association sportive affiliée à une fédération sportive agréée par l'État" => "Association sportive affiliée à une fédération sportive agréée par l'État",
+    //         "Agrément des associations de protection de l'environnement" => "Agrément des associations de protection de l'environnement",
+    //         "Association agréée de sécurité civile" => "Association agréée de sécurité civile",
+    //         "Autre agrément" => "Autre agrément",
+    //     ]
+    // ],
 
     /*
     |--------------------------------------------------------------------------
@@ -159,15 +159,15 @@ return [
     |--------------------------------------------------------------------------
     |
     */
-    'structure_publique_types' => [
-        "vocabulary" => "Types structure publique",
-        "terms" => [
-            "Etablissement scolaire" => "Etablissement scolaire",
-            "Etablissement public de santé" => "Etablissement public de santé",
-            "Etablissement public" => "Etablissement public",
-            "Service de l'Etat" => "Service de l'Etat",
-        ]
-    ],
+    // 'structure_publique_types' => [
+    //     "vocabulary" => "Types structure publique",
+    //     "terms" => [
+    //         "Etablissement scolaire" => "Etablissement scolaire",
+    //         "Etablissement public de santé" => "Etablissement public de santé",
+    //         "Etablissement public" => "Etablissement public",
+    //         "Service de l'Etat" => "Service de l'Etat",
+    //     ]
+    // ],
 
     /*
     |--------------------------------------------------------------------------
@@ -175,17 +175,17 @@ return [
     |--------------------------------------------------------------------------
     |
     */
-    'structure_publique_etat_types' => [
-        "vocabulary" => "Types établissement publique",
-        "terms" => [
-            "SDIS (Service départemental d'Incendie et de Secours)" => "SDIS (Service départemental d'Incendie et de Secours)",
-            "Gendarmerie" => "Gendarmerie",
-            "Police" => "Police",
-            "Armées" => "Armées",
-            "Autre service de l'état" => "Autre service de l'état",
-            "Autre établissement public" => "Autre établissement public",
-        ]
-    ],
+    // 'structure_publique_etat_types' => [
+    //     "vocabulary" => "Types établissement publique",
+    //     "terms" => [
+    //         "SDIS (Service départemental d'Incendie et de Secours)" => "SDIS (Service départemental d'Incendie et de Secours)",
+    //         "Gendarmerie" => "Gendarmerie",
+    //         "Police" => "Police",
+    //         "Armées" => "Armées",
+    //         "Autre service de l'état" => "Autre service de l'état",
+    //         "Autre établissement public" => "Autre établissement public",
+    //     ]
+    // ],
 
     /*
     |--------------------------------------------------------------------------
@@ -193,14 +193,14 @@ return [
     |--------------------------------------------------------------------------
     |
     */
-    'structure_privee_types' => [
-        "vocabulary" => "Types structure publique",
-        "terms" => [
-            "Établissement de santé privé d'intérêt collectif" => "Établissement de santé privé d'intérêt collectif",
-            "Entreprise agréée ESUS" => "Entreprise agréée ESUS",
-            "Autre" => "Autre",
-        ]
-    ],
+    // 'structure_privee_types' => [
+    //     "vocabulary" => "Types structure publique",
+    //     "terms" => [
+    //         "Établissement de santé privé d'intérêt collectif" => "Établissement de santé privé d'intérêt collectif",
+    //         "Entreprise agréée ESUS" => "Entreprise agréée ESUS",
+    //         "Autre" => "Autre",
+    //     ]
+    // ],
 
     /*
     |--------------------------------------------------------------------------
@@ -208,13 +208,13 @@ return [
     |--------------------------------------------------------------------------
     |
     */
-    'mission_formats' => [
-        "vocabulary" => "Formats de mission",
-        "terms" => [
-            "Mission ponctuelle" => "Mission ponctuelle",
-            "Mission récurrente" => "Mission récurrente",
-        ]
-    ],
+    // 'mission_formats' => [
+    //     "vocabulary" => "Formats de mission",
+    //     "terms" => [
+    //         "Mission ponctuelle" => "Mission ponctuelle",
+    //         "Mission récurrente" => "Mission récurrente",
+    //     ]
+    // ],
 
     /*
     |--------------------------------------------------------------------------
@@ -222,13 +222,13 @@ return [
     |--------------------------------------------------------------------------
     |
     */
-    'mission_types' => [
-        "vocabulary" => "Types de mission",
-        "terms" => [
-            "Mission en présentiel" => "Mission en présentiel",
-            "Mission à distance" => "Mission à distance",
-        ]
-    ],
+    // 'mission_types' => [
+    //     "vocabulary" => "Types de mission",
+    //     "terms" => [
+    //         "Mission en présentiel" => "Mission en présentiel",
+    //         "Mission à distance" => "Mission à distance",
+    //     ]
+    // ],
 
     /*
     |--------------------------------------------------------------------------
@@ -236,13 +236,13 @@ return [
     |--------------------------------------------------------------------------
     |
     */
-    'mission_periodes' => [
-        "vocabulary" => "Périodes",
-        "terms" => [
-            'Pendant les vacances scolaires' => "Pendant les vacances scolaires",
-            'En-dehors des vacances scolaires (mercredi après-midi, soirées et/ou weekends)' => "En-dehors des vacances scolaires (mercredi après-midi, soirées et/ou weekends)",
-        ]
-    ],
+    // 'mission_periodes' => [
+    //     "vocabulary" => "Périodes",
+    //     "terms" => [
+    //         'Pendant les vacances scolaires' => "Pendant les vacances scolaires",
+    //         'En-dehors des vacances scolaires (mercredi après-midi, soirées et/ou weekends)' => "En-dehors des vacances scolaires (mercredi après-midi, soirées et/ou weekends)",
+    //     ]
+    // ],
 
     /*
     |--------------------------------------------------------------------------
@@ -278,20 +278,20 @@ return [
     |--------------------------------------------------------------------------
     |
     */
-    'mission_domaines' => [
-        "vocabulary" => "Domaines de mission",
-        "terms" => [
-            "Je distribue des produits de première nécessité (aliments, hygiène, …) et des repas aux plus démunis" => "Je distribue des produits de première nécessité (aliments, hygiène, …) et des repas aux plus démunis, dans la rue ou au sein d’établissements (accueil de jour, centres d’hébergement, hôtels accueillant des personnes en isolement).",
-            "Je garde des enfants de soignants ou d’une structure de l’Aide Sociale à l’Enfance" => "Je garde des enfants des personnels indispensables à la gestion de la crise sanitaire ou d’une organisation de l’Aide Sociale à l’Enfance",
-            "Je maintiens un lien (téléphone, visio, mail, …) avec des personnes fragiles isolées (âgées, malades, situation de handicap, de pauvreté, de précarité, etc.)" => "Je maintien un lien avec des personnes fragiles isolées (âgées, malades, situation de handicap, de pauvreté, de précarité, etc.)",
-            "Je fais les courses de produits essentiels pour mes voisins les plus fragiles." => "Je fais les courses de produits essentiels pour mes voisins les plus fragiles.",
-            //"soutien_aux_personnes_agees_en_etablissement" => "J’aide les personnels des EHPAD sur des tâches du quotidien et/ou les résidents à maintenir un lien avec leurs proches grâce aux outils numériques.",
-            "soutien_scolaire_a_distance" => "J’aide les élèves à faire leurs devoirs.",
-            "fabrication_distribution_equipements" => "Je participe à la confection d’équipements de protection grand public ou à leur distribution.",
-            "soutien_mobilisation_sanitaire" => "J’aide les personnels des établissements de santé ou participe à une action à but sanitaire.",
-            "soutien_reprise_missions_service_public" => "Je contribue à la reprise des missions de service public en lien avec la population.",
-        ]
-    ],
+    // 'mission_domaines' => [
+    //     "vocabulary" => "Domaines de mission",
+    //     "terms" => [
+    //         "Je distribue des produits de première nécessité (aliments, hygiène, …) et des repas aux plus démunis" => "Je distribue des produits de première nécessité (aliments, hygiène, …) et des repas aux plus démunis, dans la rue ou au sein d’établissements (accueil de jour, centres d’hébergement, hôtels accueillant des personnes en isolement).",
+    //         "Je garde des enfants de soignants ou d’une structure de l’Aide Sociale à l’Enfance" => "Je garde des enfants des personnels indispensables à la gestion de la crise sanitaire ou d’une organisation de l’Aide Sociale à l’Enfance",
+    //         "Je maintiens un lien (téléphone, visio, mail, …) avec des personnes fragiles isolées (âgées, malades, situation de handicap, de pauvreté, de précarité, etc.)" => "Je maintien un lien avec des personnes fragiles isolées (âgées, malades, situation de handicap, de pauvreté, de précarité, etc.)",
+    //         "Je fais les courses de produits essentiels pour mes voisins les plus fragiles." => "Je fais les courses de produits essentiels pour mes voisins les plus fragiles.",
+    //         //"soutien_aux_personnes_agees_en_etablissement" => "J’aide les personnels des EHPAD sur des tâches du quotidien et/ou les résidents à maintenir un lien avec leurs proches grâce aux outils numériques.",
+    //         "soutien_scolaire_a_distance" => "J’aide les élèves à faire leurs devoirs.",
+    //         "fabrication_distribution_equipements" => "Je participe à la confection d’équipements de protection grand public ou à leur distribution.",
+    //         "soutien_mobilisation_sanitaire" => "J’aide les personnels des établissements de santé ou participe à une action à but sanitaire.",
+    //         "soutien_reprise_missions_service_public" => "Je contribue à la reprise des missions de service public en lien avec la population.",
+    //     ]
+    // ],
 
     /*
     |--------------------------------------------------------------------------
@@ -299,17 +299,17 @@ return [
     |--------------------------------------------------------------------------
     |
     */
-    'mission_publics_beneficiaires' => [
-        "vocabulary" => "Publics bénéficiaires",
-        "terms" => [
-            "seniors" => "Personnes âgées",
-            "persons_with_disabilities" => "Personnes en situation de handicap",
-            "people_in_difficulty" => "Personnes en difficulté",
-            "parents" => "Parents",
-            "children" => "Jeunes / enfants",
-            "any_public" => "Tous publics"
-        ]
-    ],
+    // 'mission_publics_beneficiaires' => [
+    //     "vocabulary" => "Publics bénéficiaires",
+    //     "terms" => [
+    //         "seniors" => "Personnes âgées",
+    //         "persons_with_disabilities" => "Personnes en situation de handicap",
+    //         "people_in_difficulty" => "Personnes en difficulté",
+    //         "parents" => "Parents",
+    //         "children" => "Jeunes / enfants",
+    //         "any_public" => "Tous publics"
+    //     ]
+    // ],
 
     /*
     |--------------------------------------------------------------------------
@@ -317,14 +317,14 @@ return [
     |--------------------------------------------------------------------------
     |
     */
-    'mission_publics_volontaires' => [
-        "vocabulary" => "Publics volontaires",
-        "terms" => [
-            // "Personnes en situation de handicap" => "Personnes en situation de handicap",
-            "Mineurs" => "Mineurs",
-            "Jeunes volontaires du Service National Universel" => "Jeunes volontaires du Service National Universel"
-        ]
-    ],
+    // 'mission_publics_volontaires' => [
+    //     "vocabulary" => "Publics volontaires",
+    //     "terms" => [
+    //         // "Personnes en situation de handicap" => "Personnes en situation de handicap",
+    //         "Mineurs" => "Mineurs",
+    //         "Jeunes volontaires du Service National Universel" => "Jeunes volontaires du Service National Universel"
+    //     ]
+    // ],
 
     /*
     |--------------------------------------------------------------------------
@@ -610,37 +610,37 @@ return [
     |--------------------------------------------------------------------------
     |
     */
-    'participation_workflow_states' => [
-        "vocabulary" => "Statut",
-        "terms" => [
-            "En attente de validation" => "En attente de validation",
-            "En cours de traitement" => "En cours de traitement",
-            "Validée" => "Validée",
-            "Refusée" => "Refusée",
-            "Annulée" => "Annulée"
-        ]
-    ],
+    // 'participation_workflow_states' => [
+    //     "vocabulary" => "Statut",
+    //     "terms" => [
+    //         "En attente de validation" => "En attente de validation",
+    //         "En cours de traitement" => "En cours de traitement",
+    //         "Validée" => "Validée",
+    //         "Refusée" => "Refusée",
+    //         "Annulée" => "Annulée"
+    //     ]
+    // ],
 
-    'participation_declined_reasons' => [
-        "vocabulary" => "Reasons",
-        "terms" => [
-            "no_response" => "Le bénévole ne répond pas.",
-            "requirements_not_fulfilled" => "Le bénévole ne correspond pas aux besoins.",
-            "change_mind" => "Le bénévole a changé d'avis.",
-            "mission_terminated" => "La mission est terminée.",
-            "other" => "Autres.",
-        ]
-    ],
+    // 'participation_declined_reasons' => [
+    //     "vocabulary" => "Reasons",
+    //     "terms" => [
+    //         "no_response" => "Le bénévole ne répond pas.",
+    //         "requirements_not_fulfilled" => "Le bénévole ne correspond pas aux besoins.",
+    //         "change_mind" => "Le bénévole a changé d'avis.",
+    //         "mission_terminated" => "La mission est terminée.",
+    //         "other" => "Autres.",
+    //     ]
+    // ],
 
-    'participation_canceled_by_benevole_reasons' => [
-        "vocabulary" => "Reasons",
-        "terms" => [
-            "no_response" => "L'organisation ne répond pas.",
-            "requirements_not_fulfilled" => "La mission ne correspond pas à mes attentes.",
-            "not_available" => "Je ne suis plus disponible.",
-            "other" => "Autres.",
-        ]
-    ],
+    // 'participation_canceled_by_benevole_reasons' => [
+    //     "vocabulary" => "Reasons",
+    //     "terms" => [
+    //         "no_response" => "L'organisation ne répond pas.",
+    //         "requirements_not_fulfilled" => "La mission ne correspond pas à mes attentes.",
+    //         "not_available" => "Je ne suis plus disponible.",
+    //         "other" => "Autres.",
+    //     ]
+    // ],
 
     /*
     |--------------------------------------------------------------------------
@@ -648,14 +648,14 @@ return [
     |--------------------------------------------------------------------------
     |
     */
-    'tag_types' => [
-        "vocabulary" => "Type de tag",
-        "terms" => [
-            "domaine" => "Domaine d'action",
-            "competence" => "Compétence",
-            "other" => "Autre"
-        ]
-    ],
+    // 'tag_types' => [
+    //     "vocabulary" => "Type de tag",
+    //     "terms" => [
+    //         "domaine" => "Domaine d'action",
+    //         "competence" => "Compétence",
+    //         "other" => "Autre"
+    //     ]
+    // ],
 
     /*
     |--------------------------------------------------------------------------
@@ -663,132 +663,132 @@ return [
     |--------------------------------------------------------------------------
     |
     */
-    'tag_groups' => [
-        "vocabulary" => "Groupe de tag",
-        "terms" => [
-            "Accompagnement de la personne" => "Accompagnement de la personne",
-            "Accueil en hôtellerie" => "Accueil en hôtellerie",
-            "Accueil et promotion touristique" => "Accueil et promotion touristique",
-            "Achats" => "Achats",
-            "Action sociale, socio-éducative et socio-culturelle" => "Action sociale, socio-éducative et socio-culturelle",
-            "Adaptabilité" => "Adaptabilité",
-            "Affaires et support technique client" => "Affaires et support technique client",
-            "Aide à la vie quotidienne" => "Aide à la vie quotidienne",
-            "Alimentaire" => "Alimentaire",
-            "Animation d'activités de loisirs" => "Animation d'activités de loisirs",
-            "Animation de spectacles" => "Animation de spectacles",
-            "Apprendre à apprendre" => "Apprendre à apprendre",
-            "Artistes - interprètes du spectacle" => "Artistes - interprètes du spectacle",
-            "Arts plastiques" => "Arts plastiques",
-            "Assurance" => "Assurance",
-            "Auto-évaluation" => "Auto-évaluation",
-            "Banque" => "Banque",
-            "Bois" => "Bois",
-            "Céramique" => "Céramique",
-            "Chimie et pharmacie" => "Chimie et pharmacie",
-            "Commerce alimentaire et métiers de bouche" => "Commerce alimentaire et métiers de bouche",
-            "Commerce non alimentaire et de prestations de confort" => "Commerce non alimentaire et de prestations de confort",
-            "Communication" => "Communication",
-            "Compétences analytiques" => "Compétences analytiques",
-            "Comptabilité et gestion" => "Comptabilité et gestion",
-            "Conception et études" => "Conception et études",
-            "Conception et mise en oeuvre des politiques publiques" => "Conception et mise en oeuvre des politiques publiques",
-            "Conception et production de spectacles" => "Conception et production de spectacles",
-            "Conception, commercialisation et vente de produits touristiques" => "Conception, commercialisation et vente de produits touristiques",
-            "Conception, recherche, études et développement" => "Conception, recherche, études et développement",
-            "Conduite et encadrement de chantier - travaux" => "Conduite et encadrement de chantier - travaux",
-            "Contrôle public" => "Contrôle public",
-            "Créativité" => "Créativité",
-            "Cuir et textile" => "Cuir et textile",
-            "Culture et gestion documentaire" => "Culture et gestion documentaire",
-            "Décoration" => "Décoration",
-            "Défense, sécurité publique et secours" => "Défense, sécurité publique et secours",
-            "Développement territorial et emploi" => "Développement territorial et emploi",
-            "Direction d'entreprise" => "Direction d'entreprise",
-            "Direction de magasin de détail" => "Direction de magasin de détail",
-            "Direction, encadrement et pilotage de fabrication et production industrielles" => "Direction, encadrement et pilotage de fabrication et production industrielles",
-            "Droit" => "Droit",
-            "Edition et communication" => "Edition et communication",
-            "Electronique et électricité" => "Electronique et électricité",
-            "Encadrement" => "Encadrement",
-            "Energie" => "Energie",
-            "Engins agricoles et forestiers" => "Engins agricoles et forestiers",
-            "Engins de chantier" => "Engins de chantier",
-            "Entretien technique" => "Entretien technique",
-            "Equipements de production, équipements collectifs" => "Equipements de production, équipements collectifs",
-            "Equipements domestiques et informatique" => "Equipements domestiques et informatique",
-            "Espaces naturels et espaces verts" => "Espaces naturels et espaces verts",
-            "Etudes et assistance technique" => "Etudes et assistance technique",
-            "Extraction" => "Extraction",
-            "Fibres et papier" => "Fibres et papier",
-            "Finance" => "Finance",
-            "Force de vente" => "Force de vente",
-            "Formation initiale et continue" => "Formation initiale et continue",
-            "Gestion administrative banque et assurances" => "Gestion administrative banque et assurances",
-            "Gestion de conflit" => "Gestion de conflit",
-            "Gestion et direction" => "Gestion et direction",
-            "Grande distribution" => "Grande distribution",
-            "Hygiène Sécurité Environnement -HSE- industriels" => "Hygiène Sécurité Environnement -HSE- industriels",
-            "Images et sons" => "Images et sons",
-            "Immobilier" => "Immobilier",
-            "Industries graphiques" => "Industries graphiques",
-            "Instruments de musique" => "Instruments de musique",
-            "Leadership positif" => "Leadership positif",
-            "Magasinage, manutention des charges et déménagement" => "Magasinage, manutention des charges et déménagement",
-            "Matériaux de construction, céramique et verre" => "Matériaux de construction, céramique et verre",
-            "Mécanique, travail des métaux et outillage" => "Mécanique, travail des métaux et outillage",
-            "Métal, verre, bijouterie et horlogerie" => "Métal, verre, bijouterie et horlogerie",
-            "Méthodes et gestion industrielles" => "Méthodes et gestion industrielles",
-            "Montage de structures" => "Montage de structures",
-            "Négociation" => "Négociation",
-            "Nettoyage et propreté industriels" => "Nettoyage et propreté industriels",
-            "Organisation de la circulation des marchandises" => "Organisation de la circulation des marchandises",
-            "Organisation et études" => "Organisation et études",
-            "Papier et carton" => "Papier et carton",
-            "Personnel d'encadrement de la logistique" => "Personnel d'encadrement de la logistique",
-            "Personnel d'encadrement du transport routier" => "Personnel d'encadrement du transport routier",
-            "Personnel d'étage en hôtellerie" => "Personnel d'étage en hôtellerie",
-            "Personnel de conduite du transport routier" => "Personnel de conduite du transport routier",
-            "Personnel navigant du transport aérien" => "Personnel navigant du transport aérien",
-            "Personnel navigant du transport maritime et fluvial" => "Personnel navigant du transport maritime et fluvial",
-            "Personnel navigant du transport terrestre" => "Personnel navigant du transport terrestre",
-            "Personnel sédentaire du transport aérien" => "Personnel sédentaire du transport aérien",
-            "Personnel sédentaire du transport ferroviaire et réseau filo guidé" => "Personnel sédentaire du transport ferroviaire et réseau filo guidé",
-            "Personnel sédentaire du transport maritime et fluvial" => "Personnel sédentaire du transport maritime et fluvial",
-            "Plastique, caoutchouc" => "Plastique, caoutchouc",
-            "Praticiens médicaux" => "Praticiens médicaux",
-            "Praticiens médico-techniques" => "Praticiens médico-techniques",
-            "Préparation et conditionnement" => "Préparation et conditionnement",
-            "Production" => "Production",
-            "Production culinaire" => "Production culinaire",
-            "Professionnels médico-techniques" => "Professionnels médico-techniques",
-            "Propreté et environnement urbain" => "Propreté et environnement urbain",
-            "Publicité" => "Publicité",
-            "Qualité et analyses industrielles" => "Qualité et analyses industrielles",
-            "Recherche" => "Recherche",
-            "Rééducation et appareillage" => "Rééducation et appareillage",
-            "Résolution de problèmes" => "Résolution de problèmes",
-            "Ressources humaines" => "Ressources humaines",
-            "Second oeuvre" => "Second oeuvre",
-            "Secrétariat et assistance" => "Secrétariat et assistance",
-            "Sécurité privée" => "Sécurité privée",
-            "Service" => "Service",
-            "Services funéraires" => "Services funéraires",
-            "Soins aux animaux" => "Soins aux animaux",
-            "Soins paramédicaux" => "Soins paramédicaux",
-            "Sport professionnel" => "Sport professionnel",
-            "Stratégie commerciale, marketing et supervision des ventes" => "Stratégie commerciale, marketing et supervision des ventes",
-            "Systèmes d'information et de télécommunication" => "Systèmes d'information et de télécommunication",
-            "Taxidermie" => "Taxidermie",
-            "Techniciens du spectacle" => "Techniciens du spectacle",
-            "Tissu et cuirs" => "Tissu et cuirs",
-            "Traitements thermiques et traitements de surfaces" => "Traitements thermiques et traitements de surfaces",
-            "Travail en équipe" => "Travail en équipe",
-            "Travaux d'accès difficile" => "Travaux d'accès difficile",
-            "Travaux et gros oeuvre" => "Travaux et gros oeuvre",
-            "Véhicules, engins, aéronefs" => "Véhicules, engins, aéronefs",
-        ]
-    ],
+    // 'tag_groups' => [
+    //     "vocabulary" => "Groupe de tag",
+    //     "terms" => [
+    //         "Accompagnement de la personne" => "Accompagnement de la personne",
+    //         "Accueil en hôtellerie" => "Accueil en hôtellerie",
+    //         "Accueil et promotion touristique" => "Accueil et promotion touristique",
+    //         "Achats" => "Achats",
+    //         "Action sociale, socio-éducative et socio-culturelle" => "Action sociale, socio-éducative et socio-culturelle",
+    //         "Adaptabilité" => "Adaptabilité",
+    //         "Affaires et support technique client" => "Affaires et support technique client",
+    //         "Aide à la vie quotidienne" => "Aide à la vie quotidienne",
+    //         "Alimentaire" => "Alimentaire",
+    //         "Animation d'activités de loisirs" => "Animation d'activités de loisirs",
+    //         "Animation de spectacles" => "Animation de spectacles",
+    //         "Apprendre à apprendre" => "Apprendre à apprendre",
+    //         "Artistes - interprètes du spectacle" => "Artistes - interprètes du spectacle",
+    //         "Arts plastiques" => "Arts plastiques",
+    //         "Assurance" => "Assurance",
+    //         "Auto-évaluation" => "Auto-évaluation",
+    //         "Banque" => "Banque",
+    //         "Bois" => "Bois",
+    //         "Céramique" => "Céramique",
+    //         "Chimie et pharmacie" => "Chimie et pharmacie",
+    //         "Commerce alimentaire et métiers de bouche" => "Commerce alimentaire et métiers de bouche",
+    //         "Commerce non alimentaire et de prestations de confort" => "Commerce non alimentaire et de prestations de confort",
+    //         "Communication" => "Communication",
+    //         "Compétences analytiques" => "Compétences analytiques",
+    //         "Comptabilité et gestion" => "Comptabilité et gestion",
+    //         "Conception et études" => "Conception et études",
+    //         "Conception et mise en oeuvre des politiques publiques" => "Conception et mise en oeuvre des politiques publiques",
+    //         "Conception et production de spectacles" => "Conception et production de spectacles",
+    //         "Conception, commercialisation et vente de produits touristiques" => "Conception, commercialisation et vente de produits touristiques",
+    //         "Conception, recherche, études et développement" => "Conception, recherche, études et développement",
+    //         "Conduite et encadrement de chantier - travaux" => "Conduite et encadrement de chantier - travaux",
+    //         "Contrôle public" => "Contrôle public",
+    //         "Créativité" => "Créativité",
+    //         "Cuir et textile" => "Cuir et textile",
+    //         "Culture et gestion documentaire" => "Culture et gestion documentaire",
+    //         "Décoration" => "Décoration",
+    //         "Défense, sécurité publique et secours" => "Défense, sécurité publique et secours",
+    //         "Développement territorial et emploi" => "Développement territorial et emploi",
+    //         "Direction d'entreprise" => "Direction d'entreprise",
+    //         "Direction de magasin de détail" => "Direction de magasin de détail",
+    //         "Direction, encadrement et pilotage de fabrication et production industrielles" => "Direction, encadrement et pilotage de fabrication et production industrielles",
+    //         "Droit" => "Droit",
+    //         "Edition et communication" => "Edition et communication",
+    //         "Electronique et électricité" => "Electronique et électricité",
+    //         "Encadrement" => "Encadrement",
+    //         "Energie" => "Energie",
+    //         "Engins agricoles et forestiers" => "Engins agricoles et forestiers",
+    //         "Engins de chantier" => "Engins de chantier",
+    //         "Entretien technique" => "Entretien technique",
+    //         "Equipements de production, équipements collectifs" => "Equipements de production, équipements collectifs",
+    //         "Equipements domestiques et informatique" => "Equipements domestiques et informatique",
+    //         "Espaces naturels et espaces verts" => "Espaces naturels et espaces verts",
+    //         "Etudes et assistance technique" => "Etudes et assistance technique",
+    //         "Extraction" => "Extraction",
+    //         "Fibres et papier" => "Fibres et papier",
+    //         "Finance" => "Finance",
+    //         "Force de vente" => "Force de vente",
+    //         "Formation initiale et continue" => "Formation initiale et continue",
+    //         "Gestion administrative banque et assurances" => "Gestion administrative banque et assurances",
+    //         "Gestion de conflit" => "Gestion de conflit",
+    //         "Gestion et direction" => "Gestion et direction",
+    //         "Grande distribution" => "Grande distribution",
+    //         "Hygiène Sécurité Environnement -HSE- industriels" => "Hygiène Sécurité Environnement -HSE- industriels",
+    //         "Images et sons" => "Images et sons",
+    //         "Immobilier" => "Immobilier",
+    //         "Industries graphiques" => "Industries graphiques",
+    //         "Instruments de musique" => "Instruments de musique",
+    //         "Leadership positif" => "Leadership positif",
+    //         "Magasinage, manutention des charges et déménagement" => "Magasinage, manutention des charges et déménagement",
+    //         "Matériaux de construction, céramique et verre" => "Matériaux de construction, céramique et verre",
+    //         "Mécanique, travail des métaux et outillage" => "Mécanique, travail des métaux et outillage",
+    //         "Métal, verre, bijouterie et horlogerie" => "Métal, verre, bijouterie et horlogerie",
+    //         "Méthodes et gestion industrielles" => "Méthodes et gestion industrielles",
+    //         "Montage de structures" => "Montage de structures",
+    //         "Négociation" => "Négociation",
+    //         "Nettoyage et propreté industriels" => "Nettoyage et propreté industriels",
+    //         "Organisation de la circulation des marchandises" => "Organisation de la circulation des marchandises",
+    //         "Organisation et études" => "Organisation et études",
+    //         "Papier et carton" => "Papier et carton",
+    //         "Personnel d'encadrement de la logistique" => "Personnel d'encadrement de la logistique",
+    //         "Personnel d'encadrement du transport routier" => "Personnel d'encadrement du transport routier",
+    //         "Personnel d'étage en hôtellerie" => "Personnel d'étage en hôtellerie",
+    //         "Personnel de conduite du transport routier" => "Personnel de conduite du transport routier",
+    //         "Personnel navigant du transport aérien" => "Personnel navigant du transport aérien",
+    //         "Personnel navigant du transport maritime et fluvial" => "Personnel navigant du transport maritime et fluvial",
+    //         "Personnel navigant du transport terrestre" => "Personnel navigant du transport terrestre",
+    //         "Personnel sédentaire du transport aérien" => "Personnel sédentaire du transport aérien",
+    //         "Personnel sédentaire du transport ferroviaire et réseau filo guidé" => "Personnel sédentaire du transport ferroviaire et réseau filo guidé",
+    //         "Personnel sédentaire du transport maritime et fluvial" => "Personnel sédentaire du transport maritime et fluvial",
+    //         "Plastique, caoutchouc" => "Plastique, caoutchouc",
+    //         "Praticiens médicaux" => "Praticiens médicaux",
+    //         "Praticiens médico-techniques" => "Praticiens médico-techniques",
+    //         "Préparation et conditionnement" => "Préparation et conditionnement",
+    //         "Production" => "Production",
+    //         "Production culinaire" => "Production culinaire",
+    //         "Professionnels médico-techniques" => "Professionnels médico-techniques",
+    //         "Propreté et environnement urbain" => "Propreté et environnement urbain",
+    //         "Publicité" => "Publicité",
+    //         "Qualité et analyses industrielles" => "Qualité et analyses industrielles",
+    //         "Recherche" => "Recherche",
+    //         "Rééducation et appareillage" => "Rééducation et appareillage",
+    //         "Résolution de problèmes" => "Résolution de problèmes",
+    //         "Ressources humaines" => "Ressources humaines",
+    //         "Second oeuvre" => "Second oeuvre",
+    //         "Secrétariat et assistance" => "Secrétariat et assistance",
+    //         "Sécurité privée" => "Sécurité privée",
+    //         "Service" => "Service",
+    //         "Services funéraires" => "Services funéraires",
+    //         "Soins aux animaux" => "Soins aux animaux",
+    //         "Soins paramédicaux" => "Soins paramédicaux",
+    //         "Sport professionnel" => "Sport professionnel",
+    //         "Stratégie commerciale, marketing et supervision des ventes" => "Stratégie commerciale, marketing et supervision des ventes",
+    //         "Systèmes d'information et de télécommunication" => "Systèmes d'information et de télécommunication",
+    //         "Taxidermie" => "Taxidermie",
+    //         "Techniciens du spectacle" => "Techniciens du spectacle",
+    //         "Tissu et cuirs" => "Tissu et cuirs",
+    //         "Traitements thermiques et traitements de surfaces" => "Traitements thermiques et traitements de surfaces",
+    //         "Travail en équipe" => "Travail en équipe",
+    //         "Travaux d'accès difficile" => "Travaux d'accès difficile",
+    //         "Travaux et gros oeuvre" => "Travaux et gros oeuvre",
+    //         "Véhicules, engins, aéronefs" => "Véhicules, engins, aéronefs",
+    //     ]
+    // ],
 
     /*
     |--------------------------------------------------------------------------
@@ -796,31 +796,31 @@ return [
     |--------------------------------------------------------------------------
     |
     */
-    'profile_disponibilities' => [
-        "vocabulary" => "Disponibilités",
-        "terms" => [
-            "flexible" => "Flexible",
-            "journee" => "En journée",
-            "soiree" => "En soirée",
-            "semaine" => "La semaine",
-            "weekend" => "Le week-end",
-            "jours_feries" => "Pendant les jours fériés",
-            "vacances" => "Pendant les vacances",
-        ]
-    ],
+    // 'profile_disponibilities' => [
+    //     "vocabulary" => "Disponibilités",
+    //     "terms" => [
+    //         "flexible" => "Flexible",
+    //         "journee" => "En journée",
+    //         "soiree" => "En soirée",
+    //         "semaine" => "La semaine",
+    //         "weekend" => "Le week-end",
+    //         "jours_feries" => "Pendant les jours fériés",
+    //         "vacances" => "Pendant les vacances",
+    //     ]
+    // ],
 
-    'profile_types' => [
-        "vocabulary" => "Type de profil",
-        "terms" => [
-            "etudiant" => "Étudiant",
-            "salarie" => "Salarié",
-            "travailleur_independant" => "Travailleur Indépendant",
-            "agent_fonction_publique" => "Agent de la Fonction Publique",
-            "retraite" => "Retraité",
-            "chomeur" => "Sans activité professionnelle",
-            "autre" => "Autre",
-        ]
-    ],
+    // 'profile_types' => [
+    //     "vocabulary" => "Type de profil",
+    //     "terms" => [
+    //         "etudiant" => "Étudiant",
+    //         "salarie" => "Salarié",
+    //         "travailleur_independant" => "Travailleur Indépendant",
+    //         "agent_fonction_publique" => "Agent de la Fonction Publique",
+    //         "retraite" => "Retraité",
+    //         "chomeur" => "Sans activité professionnelle",
+    //         "autre" => "Autre",
+    //     ]
+    // ],
 
     /*
     |--------------------------------------------------------------------------
@@ -828,18 +828,18 @@ return [
     |--------------------------------------------------------------------------
     |
     */
-    'roles' => [
-        "vocabulary" => "Roles",
-        "terms" => [
-            "responsable_organisation" => "Responsable d'une organisation",
-            "responsable_territoire" => "Responsable d'un territoire",
-            "referent_departemental" => "Référent départemental",
-            "referent_regional" => "Référent régional",
-            "tete_de_reseau" => "Tête de réseau national",
-            "datas_analyst" => "Datas analyste",
-            "benevole" => "Bénévole",
-        ]
-    ],
+    // 'roles' => [
+    //     "vocabulary" => "Roles",
+    //     "terms" => [
+    //         "responsable_organisation" => "Responsable d'une organisation",
+    //         "responsable_territoire" => "Responsable d'un territoire",
+    //         "referent_departemental" => "Référent départemental",
+    //         "referent_regional" => "Référent régional",
+    //         "tete_de_reseau" => "Tête de réseau national",
+    //         "datas_analyst" => "Datas analyste",
+    //         "benevole" => "Bénévole",
+    //     ]
+    // ],
 
     /*
     |--------------------------------------------------------------------------
@@ -847,19 +847,19 @@ return [
     |--------------------------------------------------------------------------
     |
     */
-    'invitations_roles' => [
-        "vocabulary" => "Roles",
-        "terms" => [
-            "responsable_organisation" => "Responsable d'une organisation",
-            "responsable_reseau" => "Responsable d'un réseau",
-            "responsable_antenne" => "Invitation à créer son antenne",
-            "responsable_territoire" => "Responsable d'un territoire",
-            "referent_departemental" => "Référent départemental",
-            "referent_regional" => "Référent régional",
-            "datas_analyst" => "Datas analyste",
-            "benevole" => "Bénévole",
-        ]
-    ],
+    // 'invitations_roles' => [
+    //     "vocabulary" => "Roles",
+    //     "terms" => [
+    //         "responsable_organisation" => "Responsable d'une organisation",
+    //         "responsable_reseau" => "Responsable d'un réseau",
+    //         "responsable_antenne" => "Invitation à créer son antenne",
+    //         "responsable_territoire" => "Responsable d'un territoire",
+    //         "referent_departemental" => "Référent départemental",
+    //         "referent_regional" => "Référent régional",
+    //         "datas_analyst" => "Datas analyste",
+    //         "benevole" => "Bénévole",
+    //     ]
+    // ],
 
     /*
     |--------------------------------------------------------------------------
@@ -867,21 +867,21 @@ return [
     |--------------------------------------------------------------------------
     |
     */
-    'territoires_types' => [
-        "vocabulary" => "Type des territoires",
-        "terms" => [
-            "department" => "Département",
-            "city" => "Ville",
-        ]
-    ],
-    'territoires_states' => [
-        "vocabulary" => "Statut des territoires",
-        "terms" => [
-            "waiting" => "En attente de validation",
-            "validated" => "Validée",
-            "refused" => "Refusée",
-        ]
-    ],
+    // 'territoires_types' => [
+    //     "vocabulary" => "Type des territoires",
+    //     "terms" => [
+    //         "department" => "Département",
+    //         "city" => "Ville",
+    //     ]
+    // ],
+    // 'territoires_states' => [
+    //     "vocabulary" => "Statut des territoires",
+    //     "terms" => [
+    //         "waiting" => "En attente de validation",
+    //         "validated" => "Validée",
+    //         "refused" => "Refusée",
+    //     ]
+    // ],
 
     /*
     |--------------------------------------------------------------------------
@@ -889,13 +889,13 @@ return [
     |--------------------------------------------------------------------------
     |
     */
-    'document_types' => [
-        "vocabulary" => "Document types",
-        "terms" => [
-            "file" => "Fichier",
-            "link" => "Lien",
-        ]
-    ],
+    // 'document_types' => [
+    //     "vocabulary" => "Document types",
+    //     "terms" => [
+    //         "file" => "Fichier",
+    //         "link" => "Lien",
+    //     ]
+    // ],
 
 
     /*
@@ -904,17 +904,17 @@ return [
     |--------------------------------------------------------------------------
     |
     */
-    'duration' => [
-        "vocabulary" => "Durée",
-        "terms" => [
-            "1_hour" => "1 heure",
-            "2_hours" => "2 heures",
-            "half_day" => "Une demi-journée",
-            "day" => "1 jour",
-            "3_days" => "3 jours",
-            "5_days" => "5 jours",
-        ]
-    ],
+    // 'duration' => [
+    //     "vocabulary" => "Durée",
+    //     "terms" => [
+    //         "1_hour" => "1 heure",
+    //         "2_hours" => "2 heures",
+    //         "half_day" => "Une demi-journée",
+    //         "day" => "1 jour",
+    //         "3_days" => "3 jours",
+    //         "5_days" => "5 jours",
+    //     ]
+    // ],
 
     /*
     |--------------------------------------------------------------------------
@@ -922,14 +922,14 @@ return [
     |--------------------------------------------------------------------------
     |
     */
-    'time_period' => [
-        "vocabulary" => "Période de temps",
-        "terms" => [
-            "week" => "semaine",
-            "month" => "mois",
-            "year" => "an"
-        ]
-    ],
+    // 'time_period' => [
+    //     "vocabulary" => "Période de temps",
+    //     "terms" => [
+    //         "week" => "semaine",
+    //         "month" => "mois",
+    //         "year" => "an"
+    //     ]
+    // ],
 
     /*
     |--------------------------------------------------------------------------
@@ -937,15 +937,15 @@ return [
     |--------------------------------------------------------------------------
     |
     */
-    'grade' => [
-        "vocabulary" => "Note",
-        "terms" => [
-            "1" => "1 étoile",
-            "2" => "2 étoiles",
-            "3" => "3 étoiles",
-            "4" => "4 étoiles",
-            "5" => "5 étoiles",
-        ]
-    ],
+    // 'grade' => [
+    //     "vocabulary" => "Note",
+    //     "terms" => [
+    //         "1" => "1 étoile",
+    //         "2" => "2 étoiles",
+    //         "3" => "3 étoiles",
+    //         "4" => "4 étoiles",
+    //         "5" => "5 étoiles",
+    //     ]
+    // ],
 
 ];

@@ -288,11 +288,6 @@ class Profile extends Model implements HasMedia
 
     public function reseau()
     {
-        return $this->belongsTo('App\Models\Structure');
-    }
-
-    public function teteDeReseau()
-    {
         return $this->belongsTo(Reseau::class);
     }
 

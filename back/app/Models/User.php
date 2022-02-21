@@ -41,11 +41,6 @@ class User extends Authenticatable
     {
         $roles = [];
 
-        // $roles[] = [
-        //     'key' => 'volontaire',
-        //     'label' => 'Bénévole'
-        // ];
-
         if ($this->is_admin) {
             $roles[] = [
                 'key' => 'admin',
@@ -68,15 +63,16 @@ class User extends Authenticatable
         }
 
         if ($this->profile->tete_de_reseau_id) {
+            $reseau = Reseau::find($this->profile->tete_de_reseau_id);
             $roles[] = [
                 'key' => 'tete_de_reseau',
                 'contextable_type' => 'reseau',
-                'contextable_id' => $this->profile->tete_de_reseau_id,
-                'label' => $this->profile->teteDeReseau->name
+                'contextable_id' => $reseau->id,
+                'label' => $reseau->name
             ];
         }
 
-        if ($this->profile->referent_department) {
+        if ($this->profile->referent_region) {
             $roles[] = [
                 'key' => 'referent_regional',
                 'label' => $this->profile->referent_region
@@ -109,29 +105,6 @@ class User extends Authenticatable
 
         return $roles;
     }
-
-    // public static function currentUser()
-    // {
-    //     if (!Auth::guard('api')->user()) {
-    //         return null;
-    //     }
-
-    //     // $id = Auth::guard('api')->user()->id;
-    //     // $user = User::with(['profile.structures', 'profile.territoires', 'profile.structures.territoire', 'profile.participations', 'profile.teteDeReseau'])->where('id', $id)->first();
-    //     // $user['profile']['roles'] = $user->profile->roles; // Hack pour éviter de le mettre append -> trop gourmand en queries
-    //     // $user['profile']['skills'] = $user->profile->skills; // Hack pour éviter de le mettre append -> trop gourmand en queries
-    //     // $user['profile']['domaines'] = $user->profile->domaines; // Hack pour éviter de le mettre append -> trop gourmand en queries
-    //     // $user['social_accounts'] = $user->socialAccounts; // Hack pour éviter de le mettre append -> trop gourmand en queries
-    //     // $user['unreadConversations'] = self::getUnreadConversations($id);
-    //     // $user['nbParticipationsOver'] = self::getNbParticipationsOver($user->profile->id);
-    //     // $user['nbTodayParticipationsOnPendingValidation'] =
-    //     //     self::getNbTodayParticipationsOnPendingValidation($user->profile->id);
-
-    //     $user = User::with('profile', 'profile.media')->where('id', Auth::guard('api')->user()->id)->first();
-    //     $user->profile->append(['avatar']);
-
-    //     return $user;
-    // }
 
     public function profile()
     {
@@ -206,50 +179,6 @@ class User extends Authenticatable
             'type' => 'chat'
         ]);
     }
-
-    // @TODO: context_role si null doit être volontaire
-
-    // public function getContextRoleAttribute()
-    // {
-    //     if (empty($this->attributes['context_role']) || $this->attributes['context_role'] == 'volontaire') {
-    //         if ($this->profile) {
-    //             $userRoles = array_filter($this->profile->roles, function ($role) {
-    //                 return $role === true;
-    //             });
-    //             if (count($userRoles) > 0) {
-    //                 $this->attributes['context_role'] = array_key_first($userRoles);
-    //             }
-    //         }
-    //     }
-
-    //     return $this->attributes['context_role'] ?? null;
-    // }
-
-    // public function getContextableTypeAttribute()
-    // {
-    //     if ($this->attributes['context_role'] == 'responsable' && $this->attributes['contextable_type'] == null) {
-    //         if ($this->profile->structures->first()) {
-    //             return 'structure';
-    //         } elseif ($this->profile->territoires->first()) {
-    //             return 'territoire';
-    //         }
-    //     }
-
-    //     return $this->attributes['contextable_type'] ?? null;
-    // }
-
-    // public function getContextableIdAttribute()
-    // {
-    //     if ($this->attributes['context_role'] == 'responsable' && $this->attributes['contextable_type'] == null) {
-    //         if ($this->profile->structures->first()) {
-    //             return $this->profile->structures->first()['id'];
-    //         } elseif ($this->profile->territoires->first()) {
-    //             return $this->profile->territoires->first()['id'];
-    //         }
-    //     }
-
-    //     return $this->attributes['contextable_id'] ?? null;
-    // }
 
     public function anonymize()
     {
