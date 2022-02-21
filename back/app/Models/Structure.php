@@ -18,6 +18,7 @@ use Spatie\Sluggable\SlugOptions;
 use App\Models\Tag;
 use App\Traits\HasMissingFields;
 use Spatie\Image\Manipulations;
+use App\Models\Media as ModelMedia;
 
 class Structure extends Model implements HasMedia
 {
@@ -383,23 +384,21 @@ class Structure extends Model implements HasMedia
     //     });
     // }
 
-    // public function getLogoAttribute()
-    // {
-    //     $media = $this->getFirstMedia('structure__logo');
-    //     return $media ? $media->getFormattedMediaField() : null;
-    // }
 
-    // public function getOverrideImage1Attribute()
-    // {
-    //     $media = $this->getFirstMedia('structure__override_image_1');
-    //     return $media ? $media->getFormattedMediaField() : null;
-    // }
+    public function logo()
+    {
+        return $this->morphOne(ModelMedia::class, 'model')->where('collection_name', 'structure__logo');
+    }
 
-    // public function getOverrideImage2Attribute()
-    // {
-    //     $media = $this->getFirstMedia('structure__override_image_2');
-    //     return $media ? $media->getFormattedMediaField() : null;
-    // }
+    public function overrideImage1()
+    {
+        return $this->morphOne(ModelMedia::class, 'model')->where('collection_name', 'structure__override_image_1');
+    }
+
+    public function overrideImage2()
+    {
+        return $this->morphOne(ModelMedia::class, 'model')->where('collection_name', 'structure__override_image_2');
+    }
 
     public function registerMediaConversions(Media $media = null): void
     {
@@ -410,7 +409,7 @@ class Structure extends Model implements HasMedia
             ->withResponsiveImages()
             ->format(Manipulations::FORMAT_WEBP)
             ->performOnCollections('structure__logo');
-        $this->addMediaConversion('sm')
+        $this->addMediaConversion('small')
             ->height(112)
             ->nonQueued()
             ->withResponsiveImages()

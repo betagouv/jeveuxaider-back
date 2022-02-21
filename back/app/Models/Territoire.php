@@ -61,6 +61,11 @@ class Territoire extends Model implements HasMedia
         return $this->morphOne(ModelMedia::class, 'model')->where('collection_name', 'territoire__logo');
     }
 
+    public function promotedOrganisations()
+    {
+        return $this->morphMany(ModelMedia::class, 'model')->where('collection_name', 'territoire__promoted_organisations');
+    }
+
     public function getFullUrlAttribute()
     {
         switch ($this->type) {
@@ -130,6 +135,12 @@ class Territoire extends Model implements HasMedia
             ->withResponsiveImages()
             ->format(Manipulations::FORMAT_WEBP)
             ->performOnCollections('territoire__banner');
+        $this->addMediaConversion('large')
+            ->width(2000)
+            ->nonQueued()
+            ->withResponsiveImages()
+            ->format(Manipulations::FORMAT_WEBP)
+            ->performOnCollections('territoire__banner');
         $this->addMediaConversion('formPreview')
             ->fit(Manipulations::FIT_CROP, 470, 224)
             ->nonQueued()
@@ -139,7 +150,7 @@ class Territoire extends Model implements HasMedia
 
         // Logo
         $this->addMediaConversion('formPreview')
-            ->height(208)
+            ->height(80)
             ->nonQueued()
             ->withResponsiveImages()
             ->format(Manipulations::FORMAT_WEBP)
@@ -167,10 +178,10 @@ class Territoire extends Model implements HasMedia
         return $this->belongsTo('App\Models\Structure');
     }
 
-    public function promotedOrganisations()
-    {
-        return $this->morphedByMany('App\Models\Structure', 'relation', 'territoire_relations');
-    }
+    // public function promotedOrganisations()
+    // {
+    //     return $this->morphedByMany('App\Models\Structure', 'relation', 'territoire_relations');
+    // }
 
     public function addResponsable(Profile $profile)
     {

@@ -70,8 +70,8 @@ class GenerateUsersContextRoles extends Command
 
         // Tête de réseau
         $teteDeReseauQuery = Profile::whereNotNull('tete_de_reseau_id')->whereHas('user', function ($query) {
-            $query->where('context_role','!=','tete_de_reseau');
-        });;
+            $query->where('context_role', '!=', 'tete_de_reseau');
+        });
         $this->info($teteDeReseauQuery->count() . ' têtes de réseau will be updated');
         if ($this->confirm('Do you wish to continue?')) {
             $this->updateTetesDeReseau($teteDeReseauQuery);
