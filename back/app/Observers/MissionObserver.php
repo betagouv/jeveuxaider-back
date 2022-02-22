@@ -92,8 +92,8 @@ class MissionObserver
                     }
                     break;
                 case 'Annulée':
-                    if ($mission->responsable) {
-                        foreach ($mission->participations->whereIn("state", ["En attente de validation", "En cours de traitement"]) as $participation) {
+                    if ($mission->responsable_id) {
+                        foreach (Participation::where('mission_id', $mission->id)->whereIn("state", ["En attente de validation", "En cours de traitement"]) as $participation) {
                             $participation->update(['state' => 'Annulée']);
                         }
                     }
@@ -132,7 +132,8 @@ class MissionObserver
     public function saving(Mission $mission)
     {
         // Calcul Places Left
-        $places_left = $mission->participations_max - $mission->participations->whereIn('state', Participation::ACTIVE_STATUS)->count();
+        $participations_validated = Participation::where('mission_id', $mission->id)->whereIn('state', Participation::ACTIVE_STATUS)->count();
+        $places_left = $mission->participations_max - $participations_validated;
         $mission->places_left = $places_left < 0 ? 0 : $places_left;
 
         if ($mission->commitment__duration) {

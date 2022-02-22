@@ -199,6 +199,21 @@ class User extends Authenticatable
         return $this;
     }
 
+    public function resetContextRole()
+    {
+        if (!empty($this->roles)) {
+            $role = $this->roles[0];
+            $this->context_role = $role['key'];
+            $this->contextable_type = isset($role['contextable_type']) ? $role['contextable_type'] : null;
+            $this->contextable_id = isset($role['contextable_id']) ? $role['contextable_id'] : null;
+        } else {
+            $this->context_role = 'volontaire';
+            $this->contextable_type = null;
+            $this->contextable_id = null;
+        }
+        $this->saveQuietly();
+    }
+
     // public static function getUnreadConversations($id)
     // {
     //     return User::find($id)->conversations()

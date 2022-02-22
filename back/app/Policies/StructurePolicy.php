@@ -61,6 +61,17 @@ class StructurePolicy
         return false;
     }
 
+    public function unregister(User $user, Structure $structure)
+    {
+        $ids = Structure::role(request()->header('Context-Role'))->get()->pluck('id')->all();
+
+        if (in_array($structure->id, $ids)) {
+            return true;
+        }
+
+        return false;
+    }
+
     public function destroy(User $user, Structure $structure)
     {
         return false;

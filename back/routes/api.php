@@ -99,6 +99,7 @@ Route::group(['middleware' => ['auth:api']], function () {
 
     Route::post('structure', 'Api\StructureController@store');
     Route::put('structures/{structure}', 'Api\StructureController@update');
+    Route::post('structures/{structure}/unregister', 'Api\StructureController@unregister');
     // Route::post('structure/{structure}/upload/{field}', 'Api\StructureController@upload');
     // Route::delete('structure/{structure}/upload/{field}', 'Api\StructureController@uploadDelete');
 
