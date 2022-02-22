@@ -78,7 +78,7 @@ class MediaDomaineIlustrationsOrganisations extends Command
         $data = [];
         $folder = 'app/Console/Commands/MEP/medias_domaine/organisations/';
         switch ($domaine->slug) {
-            case 'art-culture-pour-tous':
+            case 'art-et-culture-pour-tous':
                 $id = 11;
                 $count = 5;
                 break;

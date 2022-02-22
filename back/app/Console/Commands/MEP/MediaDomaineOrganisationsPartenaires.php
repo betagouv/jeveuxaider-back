@@ -75,7 +75,7 @@ class MediaDomaineOrganisationsPartenaires extends Command
         $data = [];
         $folder = 'app/Console/Commands/MEP/medias_domaine/partners/';
         switch ($domaine->slug) {
-            case 'art-culture-pour-tous':
+            case 'art-et-culture-pour-tous':
             case 'education-pour-tous':
             case 'protection-de-la-nature':
             case 'sante-pour-tous':
