@@ -390,6 +390,11 @@ class Structure extends Model implements HasMedia
         return $this->morphOne(ModelMedia::class, 'model')->where('collection_name', 'structure__logo');
     }
 
+    public function illustrations()
+    {
+        return $this->morphToMany(Media::class, 'mediable')->wherePivot('field', 'organisation_illustrations');
+    }
+
     public function overrideImage1()
     {
         return $this->morphOne(ModelMedia::class, 'model')->where('collection_name', 'structure__override_image_1');

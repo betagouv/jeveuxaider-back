@@ -30,7 +30,8 @@ class StructureController extends Controller
                 AllowedFilter::scope('ofReseau'),
             ])
             ->allowedIncludes([
-                'domaines'
+                'domaines',
+                'illustrations'
             ])
             ->allowedAppends([
                 'places_left',
@@ -57,7 +58,7 @@ class StructureController extends Controller
     public function availableMissions(Request $request, Structure $structure)
     {
 
-        $query = QueryBuilder::for(Mission::with([ 'domaine', 'template', 'template.domaine', 'template.media', 'structure']))
+        $query = QueryBuilder::for(Mission::with([ 'domaine', 'template', 'template.domaine', 'template.photo', 'illustrations', 'structure']))
         //->allowedAppends(['domaines'])
         ->available()
         ->where('structure_id', $structure->id);
@@ -78,7 +79,7 @@ class StructureController extends Controller
             abort(403);
         }
 
-        return $structure->load(['territoire', 'members', 'domaines', 'logo'])->append(['full_address']);
+        return $structure->load(['territoire', 'members', 'domaines', 'logo', 'illustrations'])->append(['full_address']);
     }
 
     public function associationSlugOrId(Request $request, $slugOrId)
@@ -89,7 +90,7 @@ class StructureController extends Controller
                         ->first();
 
         if ($structure) {
-            $structure->load(['domaines']);
+            $structure->load(['domaines', 'illustrations']);
             $structure->append(['places_left', 'full_address']);
         }
 
