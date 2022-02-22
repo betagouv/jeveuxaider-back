@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Filters\FiltersParticipationSearch;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Participation;
 use App\Models\Profile;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
@@ -11,6 +13,7 @@ use Illuminate\Support\Facades\Validator;
 use Laravel\Passport\Token;
 use Spatie\QueryBuilder\QueryBuilder;
 use Illuminate\Support\Facades\Auth;
+use Spatie\QueryBuilder\AllowedFilter;
 
 class UserController extends Controller
 {
@@ -28,6 +31,22 @@ class UserController extends Controller
         $user->append(['roles']);
 
         return $user;
+    }
+
+    public function participations(Request $request)
+    {
+        $user = User::with(['profile'])->find(Auth::guard('api')->user()->id);
+        return QueryBuilder::for(Participation::where('profile_id', $user->profile->id)->with('profile', 'mission'))
+        ->allowedFilters(
+            AllowedFilter::custom('search', new FiltersParticipationSearch),
+            'state',
+        )
+        ->allowedIncludes([
+            'conversation.latestMessage',
+            'profile.avatar',
+        ])
+        ->defaultSort('-created_at')
+        ->paginate(config('query-builder.results_per_page'));
     }
 
     public function unreadMessages(Request $request)
