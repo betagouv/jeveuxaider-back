@@ -30,6 +30,7 @@ class ReseauController extends Controller
                 AllowedFilter::exact('id'),
                 'name',
             ])
+            ->allowedIncludes(['illustration1'])
             ->defaultSort('-created_at')
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
     }
@@ -38,10 +39,11 @@ class ReseauController extends Controller
     {
         $reseau = (is_numeric($slugOrId))
         ? Reseau::where('id', $slugOrId)
-            ->with(['responsables', 'domaines'])
+            ->with(['responsables', 'domaines', 'logo', 'illustration1', 'illustration2'])
             ->withCount('structures', 'missions', 'missionTemplates', 'invitationsAntennes', 'responsables')
             ->firstOrFail()
         : Reseau::where('slug', $slugOrId)
+            ->with(['domaines', 'logo', 'illustration1', 'illustration2'])
             ->withCount(['structures' => function ($query) {
                 $query->where('state', 'Validée');
             }])
@@ -53,8 +55,7 @@ class ReseauController extends Controller
                         }])
                         ->orderBy('missions_count', 'DESC')
                         ->limit(5);
-                },
-                'domaines'
+                }
             ])
             ->firstOrFail()
             //->append(['domaines_with_image', 'participations_max']);

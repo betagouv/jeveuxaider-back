@@ -415,6 +415,12 @@ class Structure extends Model implements HasMedia
             ->withResponsiveImages()
             ->format(Manipulations::FORMAT_WEBP)
             ->performOnCollections('structure__logo');
+        $this->addMediaConversion('large')
+            ->height(240)
+            ->nonQueued()
+            ->withResponsiveImages()
+            ->format(Manipulations::FORMAT_WEBP)
+            ->performOnCollections('structure__logo');
 
         // Illustrations overrides
         $this->addMediaConversion('formPreview')

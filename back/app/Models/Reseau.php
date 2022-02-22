@@ -11,6 +11,8 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
+use Spatie\Image\Manipulations;
+use App\Models\Media as ModelMedia;
 
 class Reseau extends Model implements HasMedia
 {
@@ -139,55 +141,63 @@ class Reseau extends Model implements HasMedia
         return "{$this->address}, {$this->zip} {$this->city}";
     }
 
-    // public function getLogoAttribute()
-    // {
-    //     return $this->getMediaUrls('logo');
-    // }
+    public function logo()
+    {
+        return $this->morphOne(ModelMedia::class, 'model')->where('collection_name', 'reseau__logo');
+    }
 
-    // public function getOverrideImage1Attribute()
-    // {
-    //     return $this->getMediaUrls('override_image_1');
-    // }
+    public function illustration1()
+    {
+        return $this->morphOne(ModelMedia::class, 'model')->where('collection_name', 'reseau__illustration_1');
+    }
 
-    // public function getOverrideImage2Attribute()
-    // {
-    //     return $this->getMediaUrls('override_image_2');
-    // }
+    public function illustration2()
+    {
+        return $this->morphOne(ModelMedia::class, 'model')->where('collection_name', 'reseau__illustration_2');
+    }
 
-    // protected function getMediaUrls($field)
-    // {
-    //     $media = $this->getFirstMedia('reseaux', ['field' => $field]);
-    //     if ($media) {
-    //         $mediaUrls = ['original' => $media->getFullUrl()];
-    //         foreach ($media->getGeneratedConversions() as $key => $conversion) {
-    //             // $mediaUrls[$key] = $media->getUrl($key);
-    //             $mediaUrls[$key] = $media->getSrcset($key);
-    //         }
-    //         return $mediaUrls;
-    //     }
-    //     return null;
-    // }
+    public function registerMediaConversions(Media $media = null): void
+    {
+        // Logo
+        $this->addMediaConversion('formPreview')
+            ->height(80)
+            ->nonQueued()
+            ->withResponsiveImages()
+            ->format(Manipulations::FORMAT_WEBP)
+            ->performOnCollections('reseau__logo');
+        $this->addMediaConversion('small')
+            ->height(112)
+            ->nonQueued()
+            ->withResponsiveImages()
+            ->format(Manipulations::FORMAT_WEBP)
+            ->performOnCollections('reseau__logo');
+        $this->addMediaConversion('large')
+            ->height(240)
+            ->nonQueued()
+            ->withResponsiveImages()
+            ->format(Manipulations::FORMAT_WEBP)
+            ->performOnCollections('reseau__logo');
 
-    // public function registerMediaConversions(Media $media = null): void
-    // {
-    //     $this->addMediaConversion('thumb')
-    //         ->width(320)
-    //         ->nonQueued()
-    //         ->withResponsiveImages()
-    //         ->performOnCollections('reseaux');
-
-    //     $this->addMediaConversion('large')
-    //         ->width(640)
-    //         ->nonQueued()
-    //         ->withResponsiveImages()
-    //         ->performOnCollections('reseaux');
-
-    //     $this->addMediaConversion('xxl')
-    //         ->width(1440)
-    //         ->nonQueued()
-    //         ->withResponsiveImages()
-    //         ->performOnCollections('reseaux');
-    // }
+        // Illustrations 1 & 2
+        $this->addMediaConversion('card')
+            ->fit(Manipulations::FIT_CROP, 600, 286)
+            ->nonQueued()
+            ->withResponsiveImages()
+            ->format(Manipulations::FORMAT_WEBP)
+            ->performOnCollections('reseau__illustration_1', 'reseau__illustration_2');
+        $this->addMediaConversion('large')
+            ->width(1440)
+            ->nonQueued()
+            ->withResponsiveImages()
+            ->format(Manipulations::FORMAT_WEBP)
+            ->performOnCollections('reseau__illustration_1', 'reseau__illustration_2');
+        $this->addMediaConversion('formPreview')
+            ->fit(Manipulations::FIT_CROP, 470, 224)
+            ->nonQueued()
+            ->withResponsiveImages()
+            ->format(Manipulations::FORMAT_WEBP)
+            ->performOnCollections('reseau__illustration_1', 'reseau__illustration_2');
+    }
 
     public function getFullUrlAttribute()
     {
