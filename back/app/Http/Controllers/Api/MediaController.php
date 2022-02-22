@@ -20,7 +20,7 @@ class MediaController extends Controller
                 'model_type',
                 AllowedFilter::exact('model_id'),
             ])
-            ->defaultSort('-created_at')
+            ->defaultSort('id')
             ->paginate($request->input('itemsPerPage') ?? config('query-builder.results_per_page'));
     }
 

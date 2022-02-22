@@ -14,6 +14,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\MissionsExport;
 use App\Filters\FiltersDisponibility;
 use App\Filters\FiltersMissionSearch;
+use App\Filters\FiltersMissionIsTemplate;
 use App\Filters\FiltersMissionPlacesLeft;
 use App\Filters\FiltersMissionPublicsVolontaires;
 use App\Filters\FiltersProfileSkill;
@@ -34,7 +35,7 @@ class MissionController extends Controller
     public function prioritaires(Request $request)
     {
         return  QueryBuilder::for(Mission::where('is_priority', true))
-            ->with(['domaine', 'template', 'template.domaine', 'template.media', 'structure'])
+            ->with(['domaine', 'template', 'template.domaine', 'template.photo', 'illustrations', 'structure'])
             ->allowedFilters([
                 AllowedFilter::custom('search', new FiltersMissionSearch),
             ])
@@ -60,8 +61,9 @@ class MissionController extends Controller
                 AllowedFilter::custom('publics_volontaires', new FiltersMissionPublicsVolontaires),
                 AllowedFilter::custom('search', new FiltersMissionSearch),
                 AllowedFilter::scope('available'),
+                AllowedFilter::custom('is_template', new FiltersMissionIsTemplate),
             ])
-            ->allowedIncludes(['template.photo'])
+            ->allowedIncludes(['template.photo', 'illustrations'])
             ->defaultSort('-created_at')
             ->paginate($request->input('itemsPerPage') ?? config('query-builder.results_per_page'));
     }
@@ -75,7 +77,7 @@ class MissionController extends Controller
     {
 
         if (is_numeric($id)) {
-            $mission = Mission::with(['structure.members:id,first_name,last_name,mobile,email', 'template.domaine', 'domaine', 'domaineSecondary', 'responsable', 'skills', 'illustrations'])->withCount('temoignages')->where('id', $id)->first();
+            $mission = Mission::with(['structure.members:id,first_name,last_name,mobile,email', 'template.domaine', 'domaine', 'domaineSecondary', 'responsable', 'skills', 'template.photo', 'illustrations'])->withCount('temoignages')->where('id', $id)->first();
             if ($mission) {
                 $mission->append(['full_address', 'has_places_left']);
             }

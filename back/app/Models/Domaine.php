@@ -96,7 +96,7 @@ class Domaine extends Model implements HasMedia
             ->format(Manipulations::FORMAT_WEBP)
             ->performOnCollections('domaine__illustrations_mission');
         $this->addMediaConversion('formPreview')
-            ->fit(Manipulations::FIT_CROP, 470, 224)
+            ->fit(Manipulations::FIT_CROP, 576, 274)
             ->nonQueued()
             ->withResponsiveImages()
             ->format(Manipulations::FORMAT_WEBP)

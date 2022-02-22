@@ -76,7 +76,7 @@ class Mission extends Model
 
     public function makeAllSearchableUsing(Builder $query)
     {
-        return $query->with(['structure', 'template.domaine', 'template.media', 'tags', 'domaine', 'domaineSecondary']);
+        return $query->with(['structure', 'template.domaine', 'template.photo', 'illustrations', /*'tags',*/ 'domaine', 'domaineSecondary']);
     }
 
     public function toSearchableArray()
@@ -132,7 +132,7 @@ class Mission extends Model
             'post_date' => strtotime($this->created_at),
             'start_date' => $this->start_date ? strtotime($this->start_date) : null,
             'end_date' => $this->end_date ? strtotime($this->end_date) : null,
-            'thumbnail' => $this->thumbnail,
+            'illustrations' => $this->illustrations,
             'template_id' => $this->template_id,
             'score' => $this->score,
             'is_priority' => $this->is_priority,
@@ -365,11 +365,11 @@ class Mission extends Model
             case 'responsable':
                 // Missions des structures dont je suis responsable
                 $user = Auth::guard('api')->user();
-                return $query->where('structure_id',$user->contextable_id);
+                return $query->where('structure_id', $user->contextable_id);
                 break;
             case 'responsable_territoire':
                     $user = Auth::guard('api')->user();
-                    return $query->ofTerritoire($user->contextable_id);
+                return $query->ofTerritoire($user->contextable_id);
                     break;
             case 'referent':
                 // Missions qui sont dans mon département
