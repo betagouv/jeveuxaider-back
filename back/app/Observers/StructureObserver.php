@@ -98,10 +98,9 @@ class StructureObserver
                         }
                     }
                     //  Si territoire relié on dépublie
-                    if($structure->statut_juridique == 'Collectivité')
-                    {
+                    if ($structure->statut_juridique == 'Collectivité') {
                         $territoire = Territoire::where('structure_id', $structure->id)->first();
-                        if($territoire){
+                        if ($territoire) {
                             $territoire->update([
                                 'is_published' => false,
                                 'state' => 'refused',
@@ -114,15 +113,15 @@ class StructureObserver
                     $structure->members()->detach();
 
                     foreach ($members as $member) {
-                        $user = User::find($member->user->id);
-                        if ($user->context_role == 'responsable') {
-                            $user->context_role = null;
-                            $user->save();
+                        $user = User::find($member->user_id);
+                        if ($user->context_role == 'responsable' && $user->contextable_id == $structure->id) {
+                            $user->resetContextRole();
                         }
                     }
 
                     if ($structure->missions) {
                         foreach ($structure->missions->where("state", "En attente de validation") as $mission) {
+                            $mission->load(['structure']);
                             $mission->update(['state' => 'Annulée']);
                         }
 

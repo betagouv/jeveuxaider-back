@@ -87,7 +87,7 @@ class Participation extends Model
     public function scopeOfStructure($query, $structure_id)
     {
         return $query->whereHas('mission', function (Builder $query) use ($structure_id) {
-            $query->ofReseau($structure_id);
+            $query->where('structure_id', $structure_id);
         });
     }
 
@@ -108,11 +108,10 @@ class Participation extends Model
 
     public function scopeStructure($query, $value)
     {
+        ray($value);
         return $query
             ->whereHas('mission', function (Builder $query) use ($value) {
-                $query->whereHas('structure', function (Builder $query) use ($value) {
-                    $query->where('id', $value);
-                });
+                $query->where('structure_id', $value);
             });
     }
 

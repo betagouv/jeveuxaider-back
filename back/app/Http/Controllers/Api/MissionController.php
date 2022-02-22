@@ -52,6 +52,7 @@ class MissionController extends Controller
                 AllowedFilter::exact('department'),
                 AllowedFilter::exact('responsable.id'),
                 AllowedFilter::exact('template_id'),
+                AllowedFilter::exact('structure.id'),
                 AllowedFilter::exact('structure.name'),
                 AllowedFilter::scope('ofReseau'),
                 AllowedFilter::scope('domaine'),
