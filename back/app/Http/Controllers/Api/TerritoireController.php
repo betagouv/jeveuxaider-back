@@ -71,11 +71,6 @@ class TerritoireController extends Controller
     {
         $territoire = Territoire::create($request->all());
 
-        if (!empty($request['promoted_organisations'])) {
-            $ids = array_column($request['promoted_organisations'], 'id');
-            $territoire->promotedOrganisations()->sync($ids);
-        }
-
         return $territoire;
     }
 
@@ -83,9 +78,6 @@ class TerritoireController extends Controller
     {
         $request = $request->validated();
         $territoire->update($request);
-
-        $ids = !empty($request['promoted_organisations']) ? array_column($request['promoted_organisations'], 'id') : [];
-        $territoire->promotedOrganisations()->sync($ids);
 
         return $territoire;
     }

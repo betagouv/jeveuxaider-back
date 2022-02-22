@@ -96,12 +96,12 @@ class PassportController extends Controller
         ]);
 
         // MAPPING DOMAINES ACTIONS API ENGAGEMENT
-        if ($request->has('structure_api') && $request->input('structure_api')) {
-            $domaine = ApiEngagement::prepareStructureDomaines($request->input('structure_api'));
-            if ($domaine) {
-                $structure->attachTag($domaine, 'domaine');
-            }
-        }
+        // if ($request->has('structure_api') && $request->input('structure_api')) {
+        //     $domaine = ApiEngagement::prepareStructureDomaines($request->input('structure_api'));
+        //     if ($domaine) {
+        //         $structure->attachTag($domaine, 'domaine');
+        //     }
+        // }
 
         // UPDATE LOG
         Activity::where('subject_type', 'App\Models\Structure')
@@ -125,14 +125,13 @@ class PassportController extends Controller
             $territoire = Territoire::create([
                 'structure_id' => $structure->id,
                 'name' => preg_replace("/(^Mairie (des|du|de|d')*)/mi", "", $structure->name),
-                'suffix_title' => 'à ' . $structure->city ?? $structure->name,
+                'suffix_title' => 'à ' . $structure->name,
                 'zips' => $structure->zip ? [$structure->zip] : [],
                 'department' => $structure->department,
                 'is_published' => false,
                 'type' => 'city',
                 'state' => 'waiting',
             ]);
-            $territoire->save();
             $responsable = $structure->responsables->first();
             if ($responsable) {
                 $territoire->addResponsable($responsable);

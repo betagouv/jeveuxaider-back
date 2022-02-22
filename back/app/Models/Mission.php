@@ -47,6 +47,8 @@ class Mission extends Model
     //     'permissions',
     // ];
 
+    protected $appends = ['full_url', 'full_address'];
+
     protected $with = ['template'];
 
     protected static $logUnguarded = true;

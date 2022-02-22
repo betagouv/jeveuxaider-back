@@ -44,8 +44,8 @@ Route::get('domaines/{slugOrId}/statistics', 'Api\DomaineController@statistics')
 
 // Route::post('sendinblue/contact', 'Api\SendInBlueController@store');
 
-// Route::get('invitation/{token}', 'Api\InvitationController@show');
-// Route::post('invitation/{token}/register', 'Api\InvitationController@register');
+Route::get('invitations/{token}', 'Api\InvitationController@show');
+Route::post('invitations/{token}/register', 'Api\InvitationController@register');
 
 // Route::post('firstname', 'Api\ProfileController@firstname');
 
@@ -78,6 +78,7 @@ Route::group(['middleware' => ['auth:api']], function () {
 
     Route::get('user', 'Api\UserController@me');
     Route::get('user/unreadMessages', 'Api\UserController@unreadMessages');
+    Route::get('user/participations', 'Api\UserController@participations');
     // Route::get('user/structure', 'Api\UserController@structure');
     // Route::get('user/roles', 'Api\UserController@roles');
     Route::post('user/anonymize', 'Api\UserController@anonymize');
@@ -119,7 +120,7 @@ Route::group(['middleware' => ['auth:api']], function () {
 
     Route::post('invitations/{token}/resend', 'Api\InvitationController@resend');
     Route::delete('invitations/{token}/delete', 'Api\InvitationController@delete');
-    // Route::post('invitation/{token}/accept', 'Api\InvitationController@accept');
+    Route::post('invitations/{token}/accept', 'Api\InvitationController@accept');
 
     Route::post('logout', 'Api\PassportController@logout');
 

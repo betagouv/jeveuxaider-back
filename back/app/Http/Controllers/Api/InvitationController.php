@@ -13,6 +13,7 @@ use App\Models\User;
 use App\Notifications\InvitationSent;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Spatie\QueryBuilder\QueryBuilder;
 use Illuminate\Support\Str;
@@ -34,16 +35,18 @@ class InvitationController extends Controller
             ->paginate(10);
     }
 
-    // public function show(Request $request, String $token)
-    // {
-    //     $invitation = Invitation::whereToken($token)->first();
+    public function show(Request $request, String $token)
+    {
+        $invitation = Invitation::whereToken($token)->first();
 
-    //     if (!$invitation) {
-    //         abort(404, "L'invitation n'est plus disponible");
-    //     }
-
-    //     return $invitation;
-    // }
+        if (!$invitation) {
+            abort(404, "L'invitation n'est plus disponible");
+        }
+        $invitation->load("invitable");
+        $invitation->append("is_registered");
+        
+        return $invitation;
+    }
 
     public function store(InvitationRequest $request)
     {
@@ -95,19 +98,22 @@ class InvitationController extends Controller
         return $invitation;
     }
 
-    // public function accept(String $token)
-    // {
-    //     $invitation = Invitation::whereToken($token)->first();
+    public function accept(String $token)
+    {
+        $invitation = Invitation::whereToken($token)->first();
 
-    //     if (!$invitation) {
-    //         abort(422, "L'invitation n'est plus disponible");
-    //     }
+        if (!$invitation) {
+            abort(422, "L'invitation n'est plus disponible");
+        }
 
-    //     $invitation->accept();
-    //     $invitation->delete();
+        $invitation->accept();
 
-    //     return $invitation;
-    // }
+        $user = User::find(Auth::guard('api')->user()->id);
+        $user->resetContextRole();
+        $invitation->delete();
+
+        return $invitation;
+    }
 
     public function delete(String $token)
     {
@@ -120,34 +126,31 @@ class InvitationController extends Controller
         return (string) $invitation->delete();
     }
 
-    // public function register(RegisterInvitationRequest $request, String $token)
-    // {
-    //     $invitation = Invitation::whereToken($token)->first();
+    public function register(RegisterInvitationRequest $request, String $token)
+    {
+        $invitation = Invitation::whereToken($token)->first();
 
-    //     if (!$invitation) {
-    //         abort(422, "L'invitation n'est plus disponible");
-    //     }
+        if (!$invitation) {
+            abort(422, "L'invitation n'est plus disponible");
+        }
 
-    //     $user = User::create(
-    //         [
-    //             'name' => request("email"),
-    //             'email' => request("email"),
-    //             'password' => Hash::make(request("password")),
-    //             'utm_source' => 'invitation'
-    //         ]
-    //     );
+        $user = User::create(
+            [
+                'name' => request("email"),
+                'email' => request("email"),
+                'password' => Hash::make(request("password")),
+                'utm_source' => 'invitation'
+            ]
+        );
 
-    //     $attributes = $request->validated();
-    //     $attributes['user_id'] = $user->id;
+        $attributes = $request->validated();
+        $attributes['user_id'] = $user->id;
 
-    //     $profile = Profile::firstOrCreate(
-    //         ['email' => request('email')],
-    //         $attributes
-    //     );
+        $profile = Profile::firstOrCreate(
+            ['email' => request('email')],
+            $attributes
+        );
 
-    //     $invitation->accept();
-    //     $invitation->delete();
-
-    //     return User::with(['profile.territoires', 'profile.structures', 'profile.participations'])->where('id', $user->id)->first();
-    // }
+        return $profile;
+    }
 }

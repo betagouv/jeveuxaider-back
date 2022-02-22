@@ -32,8 +32,9 @@ class StatisticsController extends Controller
         $placesLeft = $missionsAvailable->sum('places_left');
         $placesOffered = $missionsAvailable->sum('participations_max');
 
-        switch($request->header('Context-Role')){
+        switch ($request->header('Context-Role')) {
             case 'admin':
+            case 'analyste':
                 return [
                     'organisations' => Structure::count(),
                     'organisations_actives' => $missionsAvailable->pluck('structure_id')->unique()->count(),
@@ -73,16 +74,15 @@ class StatisticsController extends Controller
                 ];
                 break;
         }
-
     }
 
     public function organisations(Request $request, Structure $structure)
     {
-        $missionsStateCount = array_map(function($state) use ($structure) {
+        $missionsStateCount = array_map(function ($state) use ($structure) {
             return $structure->missions()->where('state', $state)->count();
         }, config('taxonomies.mission_workflow_states.terms'));
 
-        $participationsStateCount = array_map(function($state) use ($structure) {
+        $participationsStateCount = array_map(function ($state) use ($structure) {
             return $structure->participations()->where('participations.state', $state)->count();
         }, config('taxonomies.participation_workflow_states.terms'));
 
@@ -105,7 +105,7 @@ class StatisticsController extends Controller
 
     public function missions(Request $request, Mission $mission)
     {
-        $participationsStateCount = array_map(function($state) use ($mission) {
+        $participationsStateCount = array_map(function ($state) use ($mission) {
             return $mission->participations()->where('participations.state', $state)->count();
         }, config('taxonomies.participation_workflow_states.terms'));
 
@@ -118,11 +118,11 @@ class StatisticsController extends Controller
 
     public function reseaux(Request $request, Reseau $reseau)
     {
-        $missionsStateCount = array_map(function($state) use ($reseau) {
+        $missionsStateCount = array_map(function ($state) use ($reseau) {
             return $reseau->missions()->where('missions.state', $state)->count();
         }, config('taxonomies.mission_workflow_states.terms'));
 
-        $participationsStateCount = array_map(function($state) use ($reseau) {
+        $participationsStateCount = array_map(function ($state) use ($reseau) {
             return $reseau->participations()->where('participations.state', $state)->count();
         }, config('taxonomies.participation_workflow_states.terms'));
 

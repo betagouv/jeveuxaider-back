@@ -37,6 +37,11 @@ class ProfileObserver
         if ($oldEmail != $newEmail) {
             $profile->user()->update(['email' => $newEmail]);
         }
+
+        if ($profile->isDirty(['referent_region','referent_department','is_analyste'])) {
+            $profile->user->resetContextRole();
+        }
+
         if (config('app.env') === 'production') {
             if ($profile->user) {
                 SendinblueSyncUser::dispatch($profile->user);
