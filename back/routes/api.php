@@ -78,6 +78,7 @@ Route::group(['middleware' => ['auth:api']], function () {
 
     Route::get('user', 'Api\UserController@me');
     Route::get('user/unreadMessages', 'Api\UserController@unreadMessages');
+    Route::get('user/participations', 'Api\UserController@participations');
     // Route::get('user/structure', 'Api\UserController@structure');
     // Route::get('user/roles', 'Api\UserController@roles');
     Route::post('user/anonymize', 'Api\UserController@anonymize');

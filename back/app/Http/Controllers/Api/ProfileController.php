@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Filters\FiltersParticipationSearch;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Profile;
@@ -11,6 +12,7 @@ use App\Filters\FiltersProfileSearch;
 use App\Filters\FiltersProfileRole;
 use App\Filters\FiltersProfileMinParticipations;
 use App\Http\Requests\ProfileRequest;
+use App\Models\Participation;
 use App\Models\Tag;
 use Spatie\QueryBuilder\AllowedFilter;
 
@@ -39,16 +41,6 @@ class ProfileController extends Controller
             ->defaultSort('-created_at')
             ->paginate(config('query-builder.results_per_page'));
     }
-
-    // public function participations(Request $request, Profile $profile)
-    // {
-    //     return QueryBuilder::for(Participation::with(['mission.structure','conversation'])->where('profile_id', $profile->id))
-    //         ->allowedFilters(
-    //             'state'
-    //         )
-    //         ->defaultSort('-created_at')
-    //         ->paginate(8);
-    // }
 
     // public function statistics(Request $request, Profile $profile)
     // {

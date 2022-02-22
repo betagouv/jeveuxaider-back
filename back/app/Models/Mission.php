@@ -47,6 +47,8 @@ class Mission extends Model
     //     'permissions',
     // ];
 
+    protected $appends = ['full_url', 'full_address'];
+
     protected $with = ['template'];
 
     protected static $logUnguarded = true;
@@ -365,11 +367,11 @@ class Mission extends Model
             case 'responsable':
                 // Missions des structures dont je suis responsable
                 $user = Auth::guard('api')->user();
-                return $query->where('structure_id',$user->contextable_id);
+                return $query->where('structure_id', $user->contextable_id);
                 break;
             case 'responsable_territoire':
                     $user = Auth::guard('api')->user();
-                    return $query->ofTerritoire($user->contextable_id);
+                return $query->ofTerritoire($user->contextable_id);
                     break;
             case 'referent':
                 // Missions qui sont dans mon département
