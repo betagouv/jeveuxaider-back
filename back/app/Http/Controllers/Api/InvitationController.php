@@ -13,6 +13,7 @@ use App\Models\User;
 use App\Notifications\InvitationSent;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Spatie\QueryBuilder\QueryBuilder;
 use Illuminate\Support\Str;
@@ -34,16 +35,18 @@ class InvitationController extends Controller
             ->paginate(10);
     }
 
-    // public function show(Request $request, String $token)
-    // {
-    //     $invitation = Invitation::whereToken($token)->first();
+    public function show(Request $request, String $token)
+    {
+        $invitation = Invitation::whereToken($token)->first();
 
-    //     if (!$invitation) {
-    //         abort(404, "L'invitation n'est plus disponible");
-    //     }
-
-    //     return $invitation;
-    // }
+        if (!$invitation) {
+            abort(404, "L'invitation n'est plus disponible");
+        }
+        $invitation->load("invitable");
+        $invitation->append("is_registered");
+        
+        return $invitation;
+    }
 
     public function store(InvitationRequest $request)
     {
@@ -95,19 +98,20 @@ class InvitationController extends Controller
         return $invitation;
     }
 
-    // public function accept(String $token)
-    // {
-    //     $invitation = Invitation::whereToken($token)->first();
+    public function accept(String $token)
+    {
+        $invitation = Invitation::whereToken($token)->first();
 
-    //     if (!$invitation) {
-    //         abort(422, "L'invitation n'est plus disponible");
-    //     }
+        if (!$invitation) {
+            abort(422, "L'invitation n'est plus disponible");
+        }
 
-    //     $invitation->accept();
-    //     $invitation->delete();
+        $invitation->accept();
+        //Auth::guard('api')->user()->resetContextRole();
+        $invitation->delete();
 
-    //     return $invitation;
-    // }
+        return $invitation;
+    }
 
     public function delete(String $token)
     {
