@@ -100,9 +100,17 @@ class MissionController extends Controller
         if ($request->has('skills')) {
             $skills =  collect($request->input('skills'));
             $values = $skills->pluck($skills, 'id')->map(function ($item) {
-                return ['field' => 'profile_skills'];
+                return ['field' => 'mission_skills'];
             });
             $mission->skills()->sync($values);
+        }
+
+        if ($request->has('illustrations')) {
+            $illustrations =  collect($request->input('illustrations'));
+            $values = $illustrations->pluck($illustrations, 'id')->map(function ($item) {
+                return ['field' => 'mission_illustrations'];
+            });
+            $mission->illustrations()->sync($values);
         }
 
         $mission->update($request->validated());

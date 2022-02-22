@@ -78,7 +78,7 @@ class MediaDomaineIlustrationsMissions extends Command
         $data = [];
         $folder = 'app/Console/Commands/MEP/medias_domaine/missions/';
         switch ($domaine->slug) {
-            case 'art-culture-pour-tous':
+            case 'art-et-culture-pour-tous':
                 $id = 11;
                 $count = 9;
                 break;

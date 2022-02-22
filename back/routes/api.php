@@ -92,6 +92,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('user/actions', 'Api\ActionController@index');
     Route::get('user/actions/benevole', 'Api\ActionController@benevole');
 
+    Route::get('medias', 'Api\MediaController@index');
     Route::post('medias/{modelType}/{modelId}/{collectionName}', 'Api\MediaController@store');
     Route::put('medias/{media}', 'Api\MediaController@update');
     Route::delete('medias/{media}', 'Api\MediaController@delete');

@@ -7,9 +7,23 @@ use Illuminate\Support\Str;
 use App\Models\Media;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Artisan;
+use Spatie\QueryBuilder\QueryBuilder;
+use Spatie\QueryBuilder\AllowedFilter;
 
 class MediaController extends Controller
 {
+    public function index(Request $request)
+    {
+        return QueryBuilder::for(Media::class)
+            ->allowedFilters([
+                'collection_name',
+                'model_type',
+                AllowedFilter::exact('model_id'),
+            ])
+            ->defaultSort('-created_at')
+            ->paginate($request->input('itemsPerPage') ?? config('query-builder.results_per_page'));
+    }
+
     public function store(Request $request, String $modelType, Int $modelId, String $collection)
     {
         $model = $this->getModel($modelType, $modelId);
