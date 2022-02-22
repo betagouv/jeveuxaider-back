@@ -45,7 +45,7 @@ Route::get('domaines/{slugOrId}/statistics', 'Api\DomaineController@statistics')
 // Route::post('sendinblue/contact', 'Api\SendInBlueController@store');
 
 Route::get('invitations/{token}', 'Api\InvitationController@show');
-// Route::post('invitations/{token}/register', 'Api\InvitationController@register');
+Route::post('invitations/{token}/register', 'Api\InvitationController@register');
 
 // Route::post('firstname', 'Api\ProfileController@firstname');
 

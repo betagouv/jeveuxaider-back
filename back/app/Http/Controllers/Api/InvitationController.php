@@ -107,7 +107,9 @@ class InvitationController extends Controller
         }
 
         $invitation->accept();
-        //Auth::guard('api')->user()->resetContextRole();
+
+        $user = User::find(Auth::guard('api')->user()->id);
+        $user->resetContextRole();
         $invitation->delete();
 
         return $invitation;
@@ -124,34 +126,31 @@ class InvitationController extends Controller
         return (string) $invitation->delete();
     }
 
-    // public function register(RegisterInvitationRequest $request, String $token)
-    // {
-    //     $invitation = Invitation::whereToken($token)->first();
+    public function register(RegisterInvitationRequest $request, String $token)
+    {
+        $invitation = Invitation::whereToken($token)->first();
 
-    //     if (!$invitation) {
-    //         abort(422, "L'invitation n'est plus disponible");
-    //     }
+        if (!$invitation) {
+            abort(422, "L'invitation n'est plus disponible");
+        }
 
-    //     $user = User::create(
-    //         [
-    //             'name' => request("email"),
-    //             'email' => request("email"),
-    //             'password' => Hash::make(request("password")),
-    //             'utm_source' => 'invitation'
-    //         ]
-    //     );
+        $user = User::create(
+            [
+                'name' => request("email"),
+                'email' => request("email"),
+                'password' => Hash::make(request("password")),
+                'utm_source' => 'invitation'
+            ]
+        );
 
-    //     $attributes = $request->validated();
-    //     $attributes['user_id'] = $user->id;
+        $attributes = $request->validated();
+        $attributes['user_id'] = $user->id;
 
-    //     $profile = Profile::firstOrCreate(
-    //         ['email' => request('email')],
-    //         $attributes
-    //     );
+        $profile = Profile::firstOrCreate(
+            ['email' => request('email')],
+            $attributes
+        );
 
-    //     $invitation->accept();
-    //     $invitation->delete();
-
-    //     return User::with(['profile.territoires', 'profile.structures', 'profile.participations'])->where('id', $user->id)->first();
-    // }
+        return $profile;
+    }
 }
