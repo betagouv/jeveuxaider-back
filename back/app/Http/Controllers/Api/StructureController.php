@@ -252,6 +252,14 @@ class StructureController extends Controller
 
         $mission = $structure->addMission($attributes);
 
+        if ($request->has('illustrations')) {
+            $illustrations =  collect($request->input('illustrations'));
+            $values = $illustrations->pluck($illustrations, 'id')->map(function ($item) {
+                return ['field' => 'mission_illustrations'];
+            });
+            $mission->illustrations()->sync($values);
+        }
+
         return $mission;
     }
 
