@@ -32,6 +32,7 @@ class Document extends Model implements HasMedia
                 return $query->whereJsonContains('roles', 'referent');
                 break;
             case 'responsable':
+            case 'responsable_territoire':
             case 'tete_de_reseau':
                 return $query->whereJsonContains('roles', 'responsable');
                 break;
