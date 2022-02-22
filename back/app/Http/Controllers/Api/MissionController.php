@@ -52,6 +52,7 @@ class MissionController extends Controller
                 AllowedFilter::exact('department'),
                 AllowedFilter::exact('responsable.id'),
                 AllowedFilter::exact('template_id'),
+                AllowedFilter::exact('structure.id'),
                 AllowedFilter::exact('structure.name'),
                 AllowedFilter::scope('ofReseau'),
                 AllowedFilter::scope('domaine'),
@@ -99,9 +100,17 @@ class MissionController extends Controller
         if ($request->has('skills')) {
             $skills =  collect($request->input('skills'));
             $values = $skills->pluck($skills, 'id')->map(function ($item) {
-                return ['field' => 'profile_skills'];
+                return ['field' => 'mission_skills'];
             });
             $mission->skills()->sync($values);
+        }
+
+        if ($request->has('illustrations')) {
+            $illustrations =  collect($request->input('illustrations'));
+            $values = $illustrations->pluck($illustrations, 'id')->map(function ($item) {
+                return ['field' => 'mission_illustrations'];
+            });
+            $mission->illustrations()->sync($values);
         }
 
         $mission->update($request->validated());

@@ -154,6 +154,19 @@ class StructureController extends Controller
         //return Structure::with(['members'])->withCount('missions')->where('id', $structure->id)->first()->append('completion_rate');
     }
 
+    public function unregister(Structure $structure)
+    {
+        if (Auth::guard('api')->user()->cannot('unregister', $structure)) {
+            abort(403, "Vous n'avez pas les droits nécéssaires pour réaliser cette action");
+        }
+
+        $structure->update([
+            'state' => 'Désinscrite'
+        ]);
+
+        return $structure;
+    }
+
     // public function delete(StructureDeleteRequest $request, Structure $structure)
     // {
     //     if ($structure->missions()->exists()) {
