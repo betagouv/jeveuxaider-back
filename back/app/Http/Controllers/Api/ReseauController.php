@@ -30,7 +30,7 @@ class ReseauController extends Controller
                 AllowedFilter::exact('id'),
                 'name',
             ])
-            ->allowedIncludes(['illustration1'])
+            ->allowedIncludes(['illustrations', 'overrideImage1'])
             ->defaultSort('-created_at')
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
     }
@@ -39,11 +39,11 @@ class ReseauController extends Controller
     {
         $reseau = (is_numeric($slugOrId))
         ? Reseau::where('id', $slugOrId)
-            ->with(['responsables', 'domaines', 'logo', 'illustration1', 'illustration2'])
+            ->with(['responsables', 'domaines', 'logo', 'illustrations', 'overrideImage1', 'overrideImage2'])
             ->withCount('structures', 'missions', 'missionTemplates', 'invitationsAntennes', 'responsables')
             ->firstOrFail()
         : Reseau::where('slug', $slugOrId)
-            ->with(['domaines', 'logo', 'illustration1', 'illustration2'])
+            ->with(['domaines', 'logo', 'illustrations', 'overrideImage1', 'overrideImage2'])
             ->withCount(['structures' => function ($query) {
                 $query->where('state', 'Validée');
             }])

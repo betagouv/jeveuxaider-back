@@ -103,6 +103,18 @@ class Domaine extends Model implements HasMedia
             ->performOnCollections('domaine__illustrations_mission');
 
         // Illustrations organisation
+        $this->addMediaConversion('card')
+            ->fit(Manipulations::FIT_CROP, 600, 286)
+            ->nonQueued()
+            ->withResponsiveImages()
+            ->format(Manipulations::FORMAT_WEBP)
+            ->performOnCollections('domaine__illustrations_organisation');
+        $this->addMediaConversion('sidebar')
+            ->fit(Manipulations::FIT_CROP, 768, 366)
+            ->nonQueued()
+            ->withResponsiveImages()
+            ->format(Manipulations::FORMAT_WEBP)
+            ->performOnCollections('domaine__illustrations_organisation');
         $this->addMediaConversion('large')
             ->fit(Manipulations::FIT_CROP, 1890, 900)
             ->nonQueued()
