@@ -392,7 +392,7 @@ class Structure extends Model implements HasMedia
 
     public function illustrations()
     {
-        return $this->morphToMany(Media::class, 'mediable')->wherePivot('field', 'organisation_illustrations');
+        return $this->morphToMany(ModelMedia::class, 'mediable')->wherePivot('field', 'organisation_illustrations');
     }
 
     public function overrideImage1()
@@ -428,14 +428,26 @@ class Structure extends Model implements HasMedia
             ->performOnCollections('structure__logo');
 
         // Illustrations overrides
-        $this->addMediaConversion('formPreview')
-            ->fit(Manipulations::FIT_CROP, 400, 400)
+        $this->addMediaConversion('card')
+            ->fit(Manipulations::FIT_CROP, 600, 286)
             ->nonQueued()
             ->withResponsiveImages()
             ->format(Manipulations::FORMAT_WEBP)
             ->performOnCollections('structure__override_image_1', 'structure__override_image_2');
-        $this->addMediaConversion('xxl')
-            ->width(1440)
+        $this->addMediaConversion('sidebar')
+            ->fit(Manipulations::FIT_CROP, 768, 366)
+            ->nonQueued()
+            ->withResponsiveImages()
+            ->format(Manipulations::FORMAT_WEBP)
+            ->performOnCollections('structure__override_image_1', 'structure__override_image_2');
+        $this->addMediaConversion('large')
+            ->fit(Manipulations::FIT_CROP, 1890, 900)
+            ->nonQueued()
+            ->withResponsiveImages()
+            ->format(Manipulations::FORMAT_WEBP)
+            ->performOnCollections('structure__override_image_1', 'structure__override_image_2');
+        $this->addMediaConversion('formPreview')
+            ->fit(Manipulations::FIT_CROP, 400, 400)
             ->nonQueued()
             ->withResponsiveImages()
             ->format(Manipulations::FORMAT_WEBP)

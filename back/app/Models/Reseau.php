@@ -146,14 +146,19 @@ class Reseau extends Model implements HasMedia
         return $this->morphOne(ModelMedia::class, 'model')->where('collection_name', 'reseau__logo');
     }
 
-    public function illustration1()
+    public function illustrations()
     {
-        return $this->morphOne(ModelMedia::class, 'model')->where('collection_name', 'reseau__illustration_1');
+        return $this->morphToMany(ModelMedia::class, 'mediable')->wherePivot('field', 'reseau_illustrations');
     }
 
-    public function illustration2()
+    public function overrideImage1()
     {
-        return $this->morphOne(ModelMedia::class, 'model')->where('collection_name', 'reseau__illustration_2');
+        return $this->morphOne(ModelMedia::class, 'model')->where('collection_name', 'reseau__override_image_1');
+    }
+
+    public function overrideImage2()
+    {
+        return $this->morphOne(ModelMedia::class, 'model')->where('collection_name', 'reseau__override_image_2');
     }
 
     public function registerMediaConversions(Media $media = null): void
@@ -178,25 +183,25 @@ class Reseau extends Model implements HasMedia
             ->format(Manipulations::FORMAT_WEBP)
             ->performOnCollections('reseau__logo');
 
-        // Illustrations 1 & 2
+        // Illustrations overrides
         $this->addMediaConversion('card')
             ->fit(Manipulations::FIT_CROP, 600, 286)
             ->nonQueued()
             ->withResponsiveImages()
             ->format(Manipulations::FORMAT_WEBP)
-            ->performOnCollections('reseau__illustration_1', 'reseau__illustration_2');
+            ->performOnCollections('reseau__override_image_1', 'reseau__override_image_2');
         $this->addMediaConversion('large')
-            ->width(1440)
+            ->fit(Manipulations::FIT_CROP, 1890, 900)
             ->nonQueued()
             ->withResponsiveImages()
             ->format(Manipulations::FORMAT_WEBP)
-            ->performOnCollections('reseau__illustration_1', 'reseau__illustration_2');
+            ->performOnCollections('reseau__override_image_1', 'reseau__override_image_2');
         $this->addMediaConversion('formPreview')
             ->fit(Manipulations::FIT_CROP, 470, 224)
             ->nonQueued()
             ->withResponsiveImages()
             ->format(Manipulations::FORMAT_WEBP)
-            ->performOnCollections('reseau__illustration_1', 'reseau__illustration_2');
+            ->performOnCollections('reseau__override_image_1', 'reseau__override_image_2');
     }
 
     public function getFullUrlAttribute()
