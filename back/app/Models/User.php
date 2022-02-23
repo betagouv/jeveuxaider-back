@@ -252,6 +252,16 @@ class User extends Authenticatable
     //     return $result;
     // }
 
+    public function getStatisticsAttribute(){
+
+        return [
+            'new_participations_today' => Participation::where('profile_id',$this->profile->id)
+                    ->whereIn('state', ['En attente de validation'])
+                    ->whereDate('created_at', '>=', (Carbon::createMidnightDate()))
+                    ->count()
+        ];
+    }
+
     public function activities()
     {
         return $this->morphMany('App\Models\Activity', 'causer');

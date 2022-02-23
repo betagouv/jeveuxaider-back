@@ -42,12 +42,12 @@ Route::get('domaines/{slugOrId}/statistics', 'Api\DomaineController@statistics')
 
 // Route::get('statistics/global', 'Api\StatisticsController@global');
 
-// Route::post('sendinblue/contact', 'Api\SendInBlueController@store');
+Route::post('sendinblue/contact', 'Api\SendInBlueController@store');
 
 Route::get('invitations/{token}', 'Api\InvitationController@show');
 Route::post('invitations/{token}/register', 'Api\InvitationController@register');
 
-// Route::post('firstname', 'Api\ProfileController@firstname');
+Route::post('firstname', 'Api\ProfileController@firstname');
 
 Route::get('franceconnect/login-authorize', 'Auth\FranceConnectController@oauthLoginAuthorize');
 Route::get('franceconnect/login-callback', 'Auth\FranceConnectController@oauthLoginCallback');
@@ -104,7 +104,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     // Route::post('structure/{structure}/upload/{field}', 'Api\StructureController@upload');
     // Route::delete('structure/{structure}/upload/{field}', 'Api\StructureController@uploadDelete');
 
-    // Route::post('participation', 'Api\ParticipationController@store');
+    Route::post('participations', 'Api\ParticipationController@store');
     // Route::post('participation/{participation}/cancel', 'Api\ParticipationController@cancel');
 
     // Route::post('user/password', 'Api\UserController@updatePassword');
