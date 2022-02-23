@@ -31,7 +31,8 @@ class StructureController extends Controller
             ])
             ->allowedIncludes([
                 'domaines',
-                'illustrations'
+                'illustrations',
+                'overrideImage1'
             ])
             ->allowedAppends([
                 'places_left',
@@ -79,7 +80,7 @@ class StructureController extends Controller
             abort(403);
         }
 
-        return $structure->load(['territoire', 'members', 'domaines', 'logo', 'illustrations'])->append(['full_address']);
+        return $structure->load(['territoire', 'members', 'domaines', 'logo', 'illustrations', 'overrideImage1', 'overrideImage2'])->append(['full_address']);
     }
 
     public function associationSlugOrId(Request $request, $slugOrId)
@@ -90,7 +91,7 @@ class StructureController extends Controller
                         ->first();
 
         if ($structure) {
-            $structure->load(['domaines', 'illustrations']);
+            $structure->load(['domaines', 'illustrations', 'overrideImage1', 'overrideImage2']);
             $structure->append(['places_left', 'full_address']);
         }
 
@@ -146,6 +147,14 @@ class StructureController extends Controller
             if ($request->input('tete_de_reseau_id')) {
                 $structure->reseaux()->syncWithoutDetaching([$request->input('tete_de_reseau_id')]);
             }
+        }
+
+        if ($request->has('illustrations')) {
+            $illustrations =  collect($request->input('illustrations'));
+            $values = $illustrations->pluck($illustrations, 'id')->map(function ($item) {
+                return ['field' => 'reseau_illustrations'];
+            });
+            $structure->illustrations()->sync($values);
         }
 
         $structure->update($request->validated());
