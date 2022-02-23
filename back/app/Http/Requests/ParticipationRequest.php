@@ -26,7 +26,6 @@ class ParticipationRequest extends FormRequest
         return [
             'mission_id' => 'required',
             'profile_id' => 'required',
-            'state' => 'required'
         ];
     }
 
@@ -40,7 +39,6 @@ class ParticipationRequest extends FormRequest
         return [
             'mission_id.required' => 'La mission est requise',
             'profile_id.required' => 'Le profil est requis',
-            'state.required' => 'Un statut est requis'
         ];
     }
 }

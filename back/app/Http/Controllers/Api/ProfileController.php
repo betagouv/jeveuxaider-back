@@ -176,14 +176,14 @@ class ProfileController extends Controller
     //     }
     // }
 
-    // public function firstname(Request $request)
-    // {
-    //     $profile = Profile::where('email', 'ILIKE', request('email'))->first();
+    public function firstname(Request $request)
+    {
+        $profile = Profile::where('email', 'ILIKE', request('email'))->first();
 
-    //     if (!$profile) {
-    //         return null;
-    //     }
+        if (!$profile) {
+            return null;
+        }
 
-    //     return collect($profile)->only('first_name', 'email');
-    // }
+        return collect($profile)->only('first_name', 'email');
+    }
 }

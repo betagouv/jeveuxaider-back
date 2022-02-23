@@ -26,7 +26,9 @@ class SendInBlueController extends Controller
         ]);
 
         try {
-            $result = $apiInstance->createContact($createContact);
+            if (config('app.env') === 'production') {
+                $result = $apiInstance->createContact($createContact);
+            }
         } catch (\Exception $e) {
             return $e->getMessage();
         }

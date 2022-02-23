@@ -50,6 +50,7 @@ class MissionController extends Controller
             ->allowedFilters([
                 'state',
                 'type',
+                AllowedFilter::exact('id'),
                 AllowedFilter::exact('department'),
                 AllowedFilter::exact('responsable.id'),
                 AllowedFilter::exact('template_id'),
