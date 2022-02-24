@@ -152,7 +152,7 @@ class StructureController extends Controller
         if ($request->has('illustrations')) {
             $illustrations =  collect($request->input('illustrations'));
             $values = $illustrations->pluck($illustrations, 'id')->map(function ($item) {
-                return ['field' => 'reseau_illustrations'];
+                return ['field' => 'organisation_illustrations'];
             });
             $structure->illustrations()->sync($values);
         }

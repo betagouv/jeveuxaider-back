@@ -122,7 +122,7 @@ class Domaine extends Model implements HasMedia
             ->format(Manipulations::FORMAT_WEBP)
             ->performOnCollections('domaine__illustrations_organisation');
         $this->addMediaConversion('large')
-            ->fit(Manipulations::FIT_CROP, 1890, 900)
+            ->height(1080)
             ->nonQueued()
             ->withResponsiveImages()
             ->format(Manipulations::FORMAT_WEBP)
