@@ -28,11 +28,12 @@ class SendInBlueController extends Controller
         try {
             if (config('app.env') === 'production') {
                 $result = $apiInstance->createContact($createContact);
+                return $result;
             }
         } catch (\Exception $e) {
             return $e->getMessage();
         }
 
-        return $result;
+        return false;
     }
 }
