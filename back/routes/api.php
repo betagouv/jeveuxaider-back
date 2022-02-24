@@ -64,11 +64,11 @@ Route::get('reseaux/{reseau}', 'Api\ReseauController@show');
 Route::get('reseaux/{reseau}/structures', 'Api\ReseauController@structures');
 // Route::get('reseaux/test', 'Api\ReseauController@test');
 
-// Route::get('notification-temoignage/{token}', 'Api\NotificationTemoignageController@show');
-// Route::get('participation/{participation}/temoignage', 'Api\TemoignageController@fromParticipation');
+Route::get('notification-temoignage/{token}', 'Api\NotificationTemoignageController@show');
+Route::get('participations/{participation}/temoignage', 'Api\ParticipationController@temoignage');
 // Route::get('participation/{participation}/benevole-name', 'Api\ParticipationController@benevoleName');
 // Route::get('participation/{participation}/mission', 'Api\ParticipationController@mission');
-// Route::post('temoignage', 'Api\TemoignageController@store');
+Route::post('temoignages', 'Api\TemoignageController@store');
 
 
 Route::get('settings/messages', 'Api\SettingController@messages');

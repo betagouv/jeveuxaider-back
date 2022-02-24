@@ -41,7 +41,7 @@ class TemoignageController extends Controller
         // Seulement si temoignage non existant.
         $temoignagesCount = Temoignage::where('participation_id', request("participation_id"))->count();
         if ($temoignagesCount > 0) {
-            abort(403, "Un témoignage existe déjà pour cette participation !");
+            abort(422, "Un témoignage existe déjà pour cette participation !");
         }
 
         return Temoignage::create($request->validated());
