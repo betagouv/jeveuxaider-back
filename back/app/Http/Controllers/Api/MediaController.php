@@ -47,11 +47,6 @@ class MediaController extends Controller
         if (!empty($manipulations)) {
             $media->manipulations = $this->formatManipulations($manipulations, $model, $media->collection_name);
             $media->save();
-
-            Artisan::call('media-library:regenerate', [
-                '--ids' => $media->id,
-                '--force' => true,
-            ]);
         }
 
 

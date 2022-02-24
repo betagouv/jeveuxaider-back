@@ -62,7 +62,6 @@ class Domaine extends Model implements HasMedia
         $this->addMediaConversion('formPreview')
             ->fit(Manipulations::FIT_CROP, 470, 224)
             ->nonQueued()
-            ->withResponsiveImages()
             ->format(Manipulations::FORMAT_WEBP)
             ->performOnCollections('domaine__banner');
 
@@ -70,7 +69,6 @@ class Domaine extends Model implements HasMedia
         $this->addMediaConversion('formPreview')
             ->fit(Manipulations::FIT_CROP, 400, 400)
             ->nonQueued()
-            ->withResponsiveImages()
             ->format(Manipulations::FORMAT_WEBP)
             ->performOnCollections('domaine__illustrations');
         $this->addMediaConversion('carousel')
@@ -84,7 +82,6 @@ class Domaine extends Model implements HasMedia
         $this->addMediaConversion('formPreview')
             ->height(80)
             ->nonQueued()
-            ->withResponsiveImages()
             ->format(Manipulations::FORMAT_WEBP)
             ->performOnCollections('domaine__logos_partenaires', 'domaine__logos_partenaires_actifs');
         $this->addMediaConversion('small')
@@ -104,31 +101,13 @@ class Domaine extends Model implements HasMedia
         $this->addMediaConversion('formPreview')
             ->fit(Manipulations::FIT_CROP, 576, 274)
             ->nonQueued()
-            ->withResponsiveImages()
             ->format(Manipulations::FORMAT_WEBP)
             ->performOnCollections('domaine__illustrations_mission');
 
         // Illustrations organisation
-        $this->addMediaConversion('card')
-            ->fit(Manipulations::FIT_CROP, 600, 286)
-            ->nonQueued()
-            ->withResponsiveImages()
-            ->format(Manipulations::FORMAT_WEBP)
-            ->performOnCollections('domaine__illustrations_organisation');
-        $this->addMediaConversion('sidebar')
-            ->fit(Manipulations::FIT_CROP, 768, 366)
-            ->nonQueued()
-            ->withResponsiveImages()
-            ->format(Manipulations::FORMAT_WEBP)
-            ->performOnCollections('domaine__illustrations_organisation');
         $this->addMediaConversion('large')
-            ->height(1080)
-            ->nonQueued()
-            ->withResponsiveImages()
-            ->format(Manipulations::FORMAT_WEBP)
-            ->performOnCollections('domaine__illustrations_organisation');
-        $this->addMediaConversion('formPreview')
-            ->fit(Manipulations::FIT_CROP, 470, 224)
+            ->height(900)
+            ->crop(Manipulations::CROP_CENTER, 1400, 900)
             ->nonQueued()
             ->withResponsiveImages()
             ->format(Manipulations::FORMAT_WEBP)

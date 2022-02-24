@@ -91,7 +91,7 @@ class StructureController extends Controller
                         ->first();
 
         if ($structure) {
-            $structure->load(['domaines', 'illustrations', 'overrideImage1', 'overrideImage2']);
+            $structure->load(['domaines', 'logo', 'illustrations', 'overrideImage1', 'overrideImage2']);
             $structure->append(['places_left', 'full_address']);
         }
 

@@ -411,7 +411,6 @@ class Structure extends Model implements HasMedia
         $this->addMediaConversion('formPreview')
             ->height(80)
             ->nonQueued()
-            ->withResponsiveImages()
             ->format(Manipulations::FORMAT_WEBP)
             ->performOnCollections('structure__logo');
         $this->addMediaConversion('small')
@@ -428,26 +427,9 @@ class Structure extends Model implements HasMedia
             ->performOnCollections('structure__logo');
 
         // Illustrations overrides
-        $this->addMediaConversion('card')
-            ->fit(Manipulations::FIT_CROP, 600, 286)
-            ->nonQueued()
-            ->withResponsiveImages()
-            ->format(Manipulations::FORMAT_WEBP)
-            ->performOnCollections('structure__override_image_1', 'structure__override_image_2');
-        $this->addMediaConversion('sidebar')
-            ->fit(Manipulations::FIT_CROP, 768, 366)
-            ->nonQueued()
-            ->withResponsiveImages()
-            ->format(Manipulations::FORMAT_WEBP)
-            ->performOnCollections('structure__override_image_1', 'structure__override_image_2');
         $this->addMediaConversion('large')
-            ->height(1080)
-            ->nonQueued()
-            ->withResponsiveImages()
-            ->format(Manipulations::FORMAT_WEBP)
-            ->performOnCollections('structure__override_image_1', 'structure__override_image_2');
-        $this->addMediaConversion('formPreview')
-            ->fit(Manipulations::FIT_CROP, 400, 400)
+            ->height(900)
+            ->crop(Manipulations::CROP_CENTER, 1400, 900)
             ->nonQueued()
             ->withResponsiveImages()
             ->format(Manipulations::FORMAT_WEBP)
