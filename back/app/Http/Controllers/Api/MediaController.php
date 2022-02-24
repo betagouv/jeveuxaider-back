@@ -21,7 +21,7 @@ class MediaController extends Controller
                 AllowedFilter::exact('model_id'),
             ])
             ->defaultSort('id')
-            ->paginate($request->input('itemsPerPage') ?? config('query-builder.results_per_page'));
+            ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
     }
 
     public function store(Request $request, String $modelType, Int $modelId, String $collection)

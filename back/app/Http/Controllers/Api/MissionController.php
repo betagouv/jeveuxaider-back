@@ -40,7 +40,7 @@ class MissionController extends Controller
                 AllowedFilter::custom('search', new FiltersMissionSearch),
             ])
             ->defaultSort('-created_at')
-            ->paginate($request->input('itemsPerPage') ?? config('query-builder.results_per_page'));
+            ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
     }
 
     public function index(Request $request)
@@ -66,7 +66,7 @@ class MissionController extends Controller
             ])
             ->allowedIncludes(['template.photo', 'illustrations'])
             ->defaultSort('-created_at')
-            ->paginate($request->input('itemsPerPage') ?? config('query-builder.results_per_page'));
+            ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
     }
 
     // public function export(Request $request)

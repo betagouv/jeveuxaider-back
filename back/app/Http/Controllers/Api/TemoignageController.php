@@ -7,7 +7,6 @@ use App\Models\Temoignage;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\TemoignageCreateRequest;
-use App\Models\Participation;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
 
@@ -16,20 +15,26 @@ class TemoignageController extends Controller
     public function index(Request $request)
     {
         return QueryBuilder::for(Temoignage::role($request->header('Context-Role')))
-            ->with('participation', 'participation.profile')
+            ->with('participation.mission', 'participation.mission.structure', 'participation.profile')
             ->allowedFilters(
                 AllowedFilter::exact('participation.mission.id'),
                 AllowedFilter::exact('grade'),
                 AllowedFilter::custom('search', new FiltersTemoignageSearch),
             )
             ->defaultSort('-created_at')
-            ->paginate(config('query-builder.results_per_page'));
+            ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
     }
 
-    public function fromParticipation(Request $request, Participation $participation)
+    public function show(Request $request, Temoignage $temoignage)
     {
-        return Temoignage::where('participation_id', $participation->id)->first();
+        $temoignage->load('participation.mission','participation.mission.responsable', 'participation.mission.structure', 'participation.profile');
+        return $temoignage;
     }
+
+    // public function fromParticipation(Request $request, Participation $participation)
+    // {
+    //     return Temoignage::where('participation_id', $participation->id)->first();
+    // }
 
     public function store(TemoignageCreateRequest $request)
     {

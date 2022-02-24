@@ -71,7 +71,7 @@ class StructureController extends Controller
         return $query
             ->defaultSort('-updated_at')
             ->allowedSorts(['places_left', 'type'])
-            ->paginate($request->input('itemsPerPage') ?? config('query-builder.results_per_page'));
+            ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
     }
 
     public function show(Request $request, Structure $structure)

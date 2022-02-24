@@ -541,7 +541,7 @@ export default {
       organisation.id,
       {
         append: 'domaines',
-        itemsPerPage: 6,
+        pagination: 6,
         sort: '-places_left',
       }
     )
