@@ -17,6 +17,7 @@ use App\Http\Requests\Api\ParticipationDeclineRequest;
 use App\Http\Requests\Api\ParticipationManageRequest;
 use App\Models\Conversation;
 use App\Models\Mission;
+use App\Models\Temoignage;
 use App\Models\User;
 use App\Notifications\ParticipationBenevoleCanceled;
 use App\Notifications\ParticipationDeclined;
@@ -227,5 +228,10 @@ class ParticipationController extends Controller
     public function benevoleName(Request $request, Participation $participation)
     {
         return $participation->profile->only(['id', 'first_name', 'last_name']);
+    }
+
+    public function temoignage(Request $request, Participation $participation)
+    {
+        return Temoignage::where('participation_id', $participation->id)->first();
     }
 }
