@@ -80,7 +80,7 @@ class ConversationsController extends Controller
 
     public function benevole(ConversationRequest $request, Conversation $conversation)
     {
-        return Profile::with(['structures:id,name'])->find($conversation->conversable->profile_id)->append('domaines');
+        return Profile::with(['structures:id,name','domaines'])->find($conversation->conversable->profile_id);
     }
 
     public function setStatus(ConversationRequest $request, Conversation $conversation)
