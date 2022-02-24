@@ -32,7 +32,7 @@ Route::get('structures/{rnaOrName}/exist', 'Api\StructureController@exist');
 Route::get('structures/{structure}/available-missions', 'Api\StructureController@availableMissions');
 
 // Route::get('bootstrap', 'Api\ConfigController@bootstrap');
-// Route::get('sitemap', 'Api\ConfigController@sitemap');
+Route::get('sitemap', 'Api\ConfigController@sitemap');
 
 // Route::get('thematiques/{slugOrId}', 'Api\ThematiqueController@show');
 // Route::get('thematiques/{slugOrId}/statistics', 'Api\ThematiqueController@statistics');
