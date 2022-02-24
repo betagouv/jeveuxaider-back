@@ -141,7 +141,7 @@ export default {
     async onParticipationUpdate(participation) {
       // A participation update adds 1 or 2 new messages, so re-fetch them.
       const messages = await this.$api.fetchMessages(this.conversation.id, {
-        itemsPerPage:
+        pagination:
           this.$store.getters['messaging/messages'].length +
           this.$store.getters['messaging/newMessagesCount'],
       })

@@ -75,7 +75,7 @@ class ConversationsController extends Controller
 
         return QueryBuilder::for(Message::where('conversation_id', $conversation->id)->with(['from']))
             ->defaultSort('-id')
-            ->paginate($request->input('itemsPerPage') ?? config('query-builder.results_per_page'));
+            ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
     }
 
     public function benevole(ConversationRequest $request, Conversation $conversation)
