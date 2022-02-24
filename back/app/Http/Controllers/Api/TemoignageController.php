@@ -7,7 +7,6 @@ use App\Models\Temoignage;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\TemoignageCreateRequest;
-use App\Models\Participation;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
 
@@ -23,7 +22,7 @@ class TemoignageController extends Controller
                 AllowedFilter::custom('search', new FiltersTemoignageSearch),
             )
             ->defaultSort('-created_at')
-            ->paginate(config('query-builder.results_per_page'));
+            ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
     }
 
     public function show(Request $request, Temoignage $temoignage)
@@ -37,14 +36,14 @@ class TemoignageController extends Controller
     //     return Temoignage::where('participation_id', $participation->id)->first();
     // }
 
-    // public function store(TemoignageCreateRequest $request)
-    // {
-    //     // Seulement si temoignage non existant.
-    //     $temoignagesCount = Temoignage::where('participation_id', request("participation_id"))->count();
-    //     if ($temoignagesCount > 0) {
-    //         abort(403, "Un témoignage existe déjà pour cette participation !");
-    //     }
+    public function store(TemoignageCreateRequest $request)
+    {
+        // Seulement si temoignage non existant.
+        $temoignagesCount = Temoignage::where('participation_id', request("participation_id"))->count();
+        if ($temoignagesCount > 0) {
+            abort(403, "Un témoignage existe déjà pour cette participation !");
+        }
 
-    //     return Temoignage::create($request->validated());
-    // }
+        return Temoignage::create($request->validated());
+    }
 }
