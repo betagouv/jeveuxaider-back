@@ -16,7 +16,7 @@ class TemoignageController extends Controller
     public function index(Request $request)
     {
         return QueryBuilder::for(Temoignage::role($request->header('Context-Role')))
-            ->with('participation', 'participation.profile')
+            ->with('participation.mission', 'participation.mission.structure', 'participation.profile')
             ->allowedFilters(
                 AllowedFilter::exact('participation.mission.id'),
                 AllowedFilter::exact('grade'),
@@ -26,19 +26,25 @@ class TemoignageController extends Controller
             ->paginate(config('query-builder.results_per_page'));
     }
 
-    public function fromParticipation(Request $request, Participation $participation)
+    public function show(Request $request, Temoignage $temoignage)
     {
-        return Temoignage::where('participation_id', $participation->id)->first();
+        $temoignage->load('participation.mission','participation.mission.responsable', 'participation.mission.structure', 'participation.profile');
+        return $temoignage;
     }
 
-    public function store(TemoignageCreateRequest $request)
-    {
-        // Seulement si temoignage non existant.
-        $temoignagesCount = Temoignage::where('participation_id', request("participation_id"))->count();
-        if ($temoignagesCount > 0) {
-            abort(403, "Un témoignage existe déjà pour cette participation !");
-        }
+    // public function fromParticipation(Request $request, Participation $participation)
+    // {
+    //     return Temoignage::where('participation_id', $participation->id)->first();
+    // }
 
-        return Temoignage::create($request->validated());
-    }
+    // public function store(TemoignageCreateRequest $request)
+    // {
+    //     // Seulement si temoignage non existant.
+    //     $temoignagesCount = Temoignage::where('participation_id', request("participation_id"))->count();
+    //     if ($temoignagesCount > 0) {
+    //         abort(403, "Un témoignage existe déjà pour cette participation !");
+    //     }
+
+    //     return Temoignage::create($request->validated());
+    // }
 }

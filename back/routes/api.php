@@ -247,7 +247,8 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     // Route::get('actions', 'Api\ActionController@index');
 
     // TEMOIGNAGES
-    // Route::get('temoignages', 'Api\TemoignageController@index');
+    Route::get('temoignages', 'Api\TemoignageController@index');
+    Route::get('temoignages/{temoignage}', 'Api\TemoignageController@show');
     // Route::get('notifications-temoignages', 'Api\NotificationTemoignageController@index');
     // Route::get('participation/{participation}/notification-temoignage', 'Api\NotificationTemoignageController@fromParticipation');
     // Route::get('notification-temoignage/{notificationTemoignage}/resend', 'Api\NotificationTemoignageController@resend');

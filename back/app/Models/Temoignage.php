@@ -43,24 +43,25 @@ class Temoignage extends Model
                     });
                 break;
             case 'tete_de_reseau':
-                return $query
-                    ->whereHas('participation.mission.structure.reseaux', function (Builder $query) {
-                        $query->where('reseaux.id', Auth::guard('api')->user()->profile->tete_de_reseau_id);
-                    });
+                return $query->ofReseau(Auth::guard('api')->user()->profile->tete_de_reseau_id);
                 break;
             case 'responsable':
-                $user = Auth::guard('api')->user();
-                return $query
-                    ->whereHas('participation', function (Builder $query) use ($user) {
-                        $query->whereHas('mission', function (Builder $query) use ($user) {
-                            if ($user->context_role == 'responsable' && $user->contextable_type == 'structure' && !empty($user->contextable_id)) {
-                                $query->where('structure_id', $user->contextable_id);
-                            } else {
-                                $query->where('structure_id', $user->profile->structures->pluck('id')->first());
-                            }
-                        });
-                    });
+                return $query->ofStructure(Auth::guard('api')->user()->contextable_id);
                 break;
         }
+    }
+
+    public function scopeOfStructure($query, $structure_id)
+    {
+        return $query->whereHas('participation', function (Builder $query) use ($structure_id) {
+            $query->ofStructure($structure_id);
+        });
+    }
+
+    public function scopeOfReseau($query, $reseau_id)
+    {
+        return $query->whereHas('participation', function (Builder $query) use ($reseau_id) {
+            $query->ofReseau($reseau_id);
+        });
     }
 }
