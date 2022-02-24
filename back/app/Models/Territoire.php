@@ -144,7 +144,6 @@ class Territoire extends Model implements HasMedia
         $this->addMediaConversion('formPreview')
             ->fit(Manipulations::FIT_CROP, 470, 224)
             ->nonQueued()
-            ->withResponsiveImages()
             ->format(Manipulations::FORMAT_WEBP)
             ->performOnCollections('territoire__banner');
 
@@ -152,7 +151,6 @@ class Territoire extends Model implements HasMedia
         $this->addMediaConversion('formPreview')
             ->height(80)
             ->nonQueued()
-            ->withResponsiveImages()
             ->format(Manipulations::FORMAT_WEBP)
             ->performOnCollections('territoire__logo', 'territoire__promoted_organisations');
         $this->addMediaConversion('small')

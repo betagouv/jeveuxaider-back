@@ -44,7 +44,6 @@ class MissionTemplate extends Model implements HasMedia
         $this->addMediaConversion('formPreview')
             ->fit(Manipulations::FIT_CROP, 470, 224)
             ->nonQueued()
-            ->withResponsiveImages()
             ->format(Manipulations::FORMAT_WEBP)
             ->performOnCollections('mission_template__photo');
     }

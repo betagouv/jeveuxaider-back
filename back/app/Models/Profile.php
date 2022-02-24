@@ -83,7 +83,6 @@ class Profile extends Model implements HasMedia
         $this->addMediaConversion('formPreview')
             ->fit(Manipulations::FIT_CROP, 200, 200)
             ->nonQueued()
-            ->withResponsiveImages()
             ->format(Manipulations::FORMAT_WEBP)
             ->performOnCollections('profile__avatar');
     }

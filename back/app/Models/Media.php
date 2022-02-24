@@ -12,8 +12,8 @@ class Media extends SpatieMedia
     public function getUrlsAttribute()
     {
         $mediaUrls = ['original' => $this->getFullUrl()];
-        foreach ($this->getMediaConversionNames() as $conversion) {
-            $mediaUrls[$conversion] = $this->getSrcset($conversion);
+        foreach ($this->getConversionsNames() as $conversion) {
+            $mediaUrls[$conversion] = $this->getSrcset($conversion) ?: $this->getUrl($conversion);
         }
 
         return array_filter($mediaUrls);
@@ -25,24 +25,12 @@ class Media extends SpatieMedia
         $this->manipulations[array_key_first($this->manipulations)] : null;
     }
 
-    // public function getFormattedMediaField()
-    // {
-    //     $mediaUrls = ['original' => $this->getFullUrl()];
-    //     foreach ($this->getMediaConversionNames() as $conversion) {
-    //         $mediaUrls[$conversion] = $this->getSrcset($conversion);
-    //     }
-
-    //     $manipulations = !empty($this->manipulations[array_key_first($this->manipulations)]) ?
-    //         $this->manipulations[array_key_first($this->manipulations)] : null;
-
-    //     // name, size, type -> https://developer.mozilla.org/fr/docs/Web/API/File
-    //     return [
-    //         'id' => $this->id,
-    //         'urls' => array_filter($mediaUrls),
-    //         'manipulations' => $manipulations,
-    //         'name' => $this->file_name,
-    //         'size' => $this->size,
-    //         'type' => $this->mime_type
-    //     ];
-    // }
+    private function getConversionsNames()
+    {
+        $this->load('model');
+        $this->model->registerMediaConversions();
+        return array_filter(array_map(function ($conversion) {
+            return $conversion->shouldBePerformedOn($this->collection_name) ? $conversion->getName() : null;
+        }, $this->model->mediaConversions));
+    }
 }
