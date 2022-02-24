@@ -34,6 +34,9 @@ class NotificationBenevole extends Model
     public function scopeRole($query, $contextRole)
     {
         switch ($contextRole) {
+            case 'admin':
+                return $query;
+                break;
             case 'responsable':
                 $user = Auth::guard('api')->user();
                 return $query
@@ -45,6 +48,9 @@ class NotificationBenevole extends Model
                         }
                     });
             break;
+            default:
+                abort(403, 'This action is not authorized');
+                break;
         }
     }
 }

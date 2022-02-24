@@ -66,6 +66,9 @@ class NotificationTemoignage extends Model
                         });
                     });
                 break;
+            default:
+                abort(403, 'This action is not authorized');
+                break;
         }
     }
 }

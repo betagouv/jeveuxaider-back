@@ -48,6 +48,9 @@ class Temoignage extends Model
             case 'responsable':
                 return $query->ofStructure(Auth::guard('api')->user()->contextable_id);
                 break;
+            default:
+                abort(403, 'This action is not authorized');
+                break;
         }
     }
 

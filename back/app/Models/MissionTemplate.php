@@ -83,6 +83,9 @@ class MissionTemplate extends Model implements HasMedia
             case 'tete_de_reseau':
                 return $query->ofReseau(Auth::guard('api')->user()->profile->tete_de_reseau_id);
                 break;
+            default:
+                abort(403, 'This action is not authorized');
+                break;
         }
     }
 }

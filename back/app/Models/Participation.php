@@ -81,6 +81,9 @@ class Participation extends Model
                 $user = Auth::guard('api')->user();
                 return $query->ofTerritoire($user->contextable_id);
                 break;
+            default:
+                abort(403, 'This action is not authorized');
+                break;
         }
     }
 

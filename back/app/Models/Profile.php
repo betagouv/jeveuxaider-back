@@ -245,7 +245,6 @@ class Profile extends Model implements HasMedia
                 )->orWhereHas('structures', function (Builder $query) use ($structures_id) {
                     $query->whereIn('id', $structures_id);
                 });
-                //return $query->where('id', -1);
                 break;
             default:
                 abort(403, 'This action is not authorized');

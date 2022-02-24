@@ -37,16 +37,6 @@ class Mission extends Model
         'country' => 'France'
     ];
 
-    // protected $appends = [
-    //     'full_url',
-    //     'full_address',
-    //     'has_places_left',
-    //     'participations_count',
-    //     'participations_total',
-    //     'domaine_name',
-    //     'permissions',
-    // ];
-
     protected $appends = ['full_url', 'full_address'];
 
     protected $with = ['template'];
@@ -370,9 +360,9 @@ class Mission extends Model
                 return $query->where('structure_id', $user->contextable_id);
                 break;
             case 'responsable_territoire':
-                    $user = Auth::guard('api')->user();
+                $user = Auth::guard('api')->user();
                 return $query->ofTerritoire($user->contextable_id);
-                    break;
+                break;
             case 'referent':
                 // Missions qui sont dans mon département
                 return $query
@@ -393,6 +383,9 @@ class Mission extends Model
                 return $query
                     ->ofReseau(Auth::guard('api')->user()->profile->tete_de_reseau_id);
                 break;
+            default:
+                // Securite
+                return $query->whereNull('id');
         }
     }
 
