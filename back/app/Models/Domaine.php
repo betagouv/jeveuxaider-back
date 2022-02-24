@@ -53,6 +53,12 @@ class Domaine extends Model implements HasMedia
             ->withResponsiveImages()
             ->format(Manipulations::FORMAT_WEBP)
             ->performOnCollections('domaine__banner');
+        $this->addMediaConversion('large')
+            ->fit(Manipulations::FIT_CROP, 1600, 600)
+            ->nonQueued()
+            ->withResponsiveImages()
+            ->format(Manipulations::FORMAT_WEBP)
+            ->performOnCollections('domaine__banner');
         $this->addMediaConversion('formPreview')
             ->fit(Manipulations::FIT_CROP, 470, 224)
             ->nonQueued()

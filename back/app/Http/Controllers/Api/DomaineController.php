@@ -34,7 +34,7 @@ class DomaineController extends Controller
     {
         $domaine = (is_numeric($slugOrId))
             ? Domaine::where('id', $slugOrId)->firstOrFail()
-            : Domaine::where('slug', $slugOrId)->with(['domaine'])->firstOrFail();
+            : Domaine::where('slug', $slugOrId)->firstOrFail();
 
         return $domaine->load(['banner', 'illustrations', 'illustrationsOrganisation', 'illustrationsMission', 'logosPartenaires', 'logosPartenairesActifs']);
     }

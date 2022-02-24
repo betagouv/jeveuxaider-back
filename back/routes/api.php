@@ -34,8 +34,8 @@ Route::get('structures/{structure}/available-missions', 'Api\StructureController
 // Route::get('bootstrap', 'Api\ConfigController@bootstrap');
 // Route::get('sitemap', 'Api\ConfigController@sitemap');
 
-Route::get('thematiques/{slugOrId}', 'Api\ThematiqueController@show');
-Route::get('thematiques/{slugOrId}/statistics', 'Api\ThematiqueController@statistics');
+// Route::get('thematiques/{slugOrId}', 'Api\ThematiqueController@show');
+// Route::get('thematiques/{slugOrId}/statistics', 'Api\ThematiqueController@statistics');
 
 Route::get('domaines/{slugOrId}', 'Api\DomaineController@show');
 Route::get('domaines/{slugOrId}/statistics', 'Api\DomaineController@statistics');
