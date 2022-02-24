@@ -191,7 +191,7 @@ class Reseau extends Model implements HasMedia
             ->format(Manipulations::FORMAT_WEBP)
             ->performOnCollections('reseau__override_image_1', 'reseau__override_image_2');
         $this->addMediaConversion('large')
-            ->fit(Manipulations::FIT_CROP, 1890, 900)
+            ->height(1080)
             ->nonQueued()
             ->withResponsiveImages()
             ->format(Manipulations::FORMAT_WEBP)
