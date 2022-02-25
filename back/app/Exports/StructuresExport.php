@@ -29,14 +29,14 @@ class StructuresExport implements FromCollection, WithMapping, WithHeadings, Sho
      */
     public function collection()
     {
-        return QueryBuilder::for(Structure::role($this->role)->with('user'))
+        return QueryBuilder::for(Structure::role($this->role))
             ->allowedFilters([
-                'department',
+                AllowedFilter::custom('search', new FiltersStructureSearch),
+                AllowedFilter::exact('department'),
                 'state',
                 'statut_juridique',
-                AllowedFilter::custom('search', new FiltersStructureSearch),
-                AllowedFilter::custom('rna', new FiltersStructureWithRna),
-                AllowedFilter::scope('of_reseau'),
+                // AllowedFilter::custom('rna', new FiltersStructureWithRna),
+                AllowedFilter::scope('ofReseau'),
             ])
             ->defaultSort('-created_at')
             ->get();
@@ -49,15 +49,11 @@ class StructuresExport implements FromCollection, WithMapping, WithHeadings, Sho
             'nom',
             'rna',
             'statut',
-            'reponse_ratio',
-            'reponse_delai',
             'statut_juridique',
             'association_types',
             'structure_publique_type',
             'structure_publique_etat_type',
             'structure_privee_type',
-            'siret',
-            'description',
             'adresse_complete',
             'adresse',
             'departement',
@@ -72,31 +68,23 @@ class StructuresExport implements FromCollection, WithMapping, WithHeadings, Sho
             'twitter',
             'date_creation',
             'date_modification',
-            // 'utilisateur_id',
-            // 'utilisateur_email',
-            // 'user_first_name',
-            // 'user_last_name',
         ];
     }
 
     public function map($structure): array
     {
-        $responsable = $structure->responsables->first();
+        // $responsable = $structure->responsables->first();
 
         return [
             $structure->id,
             $structure->name,
             $structure->rna,
             $structure->state,
-            $structure->response_ratio,
-            $structure->response_time,
             $structure->statut_juridique,
             $structure->association_types,
             $structure->structure_publique_type,
             $structure->structure_publique_etat_type,
             $structure->structure_privee_type,
-            $structure->siret,
-            $structure->description,
             $structure->full_address,
             $structure->address,
             $structure->department,
@@ -111,8 +99,6 @@ class StructuresExport implements FromCollection, WithMapping, WithHeadings, Sho
             $structure->twitter,
             $structure->created_at,
             $structure->updated_at,
-            // $structure->user_id,
-            // $responsable ? $responsable->email : '',
         ];
     }
 }

@@ -139,7 +139,7 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
 
     // STRUCTURES
     Route::get('structures', 'Api\StructureController@index');
-    Route::get('structures/{structure}', 'Api\StructureController@show');
+    Route::get('structures/{structure}', 'Api\StructureController@show')->whereNumber('structure');
     Route::post('structures/{structure}/missions', 'Api\StructureController@addMission');
 
     // Route::delete('structure/{structure}', 'Api\StructureController@delete');
@@ -188,7 +188,7 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::post('notifications-benevoles', 'Api\NotificationBenevoleController@store');
 
     // EXPORT
-    // Route::get('structures/export', 'Api\StructureController@export');
+    Route::get('structures/export', 'Api\StructureController@export');
     // Route::get('territoires/export', 'Api\TerritoireController@export');
     // Route::get('missions/export', 'Api\MissionController@export');
     // Route::get('profiles/export', 'Api\ProfileController@export');

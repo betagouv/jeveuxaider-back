@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Exports\StructuresExport;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Structure;
@@ -12,9 +13,11 @@ use App\Http\Requests\Api\MissionCreateRequest;
 use Spatie\QueryBuilder\AllowedFilter;
 use Illuminate\Support\Facades\Auth;
 use App\Filters\FiltersStructureSearch;
+use App\Jobs\NotifyUserOfCompletedExport;
 use App\Models\Mission;
 use App\Models\Tag;
 use App\Services\ApiEngagement;
+use Illuminate\Support\Str;
 
 class StructureController extends Controller
 {
@@ -41,28 +44,28 @@ class StructureController extends Controller
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
     }
 
-    // public function export(Request $request)
-    // {
-    //     $folder = 'public/'. config('app.env').'/exports/'.$request->user()->id . '/';
-    //     $fileName = 'organisations-' . Str::random(8) . '.csv';
-    //     $filePath = $folder . $fileName;
+    public function export(Request $request)
+    {
+        $folder = 'public/' . config('app.env') . '/exports/' . $request->user()->id . '/';
+        $fileName = 'organisations-' . Str::random(8) . '.csv';
+        $filePath = $folder . $fileName;
 
-    //     (new StructuresExport($request->header('Context-Role')))
-    //         ->queue($filePath, 's3')
-    //         ->chain([
-    //             new NotifyUserOfCompletedExport($request->user(), $filePath),
-    //         ]);
+        (new StructuresExport($request->header('Context-Role')))
+            ->queue($filePath, 's3')
+            ->chain([
+                new NotifyUserOfCompletedExport($request->user(), $filePath),
+            ]);
 
-    //     return response()->json(['message'=> 'Export en cours...'], 200);
-    // }
+        return response()->json(['message' => 'Export en cours...'], 200);
+    }
 
     public function availableMissions(Request $request, Structure $structure)
     {
 
-        $query = QueryBuilder::for(Mission::with([ 'domaine', 'template', 'template.domaine', 'template.photo', 'illustrations', 'structure']))
-        //->allowedAppends(['domaines'])
-        ->available()
-        ->where('structure_id', $structure->id);
+        $query = QueryBuilder::for(Mission::with(['domaine', 'template', 'template.domaine', 'template.photo', 'illustrations', 'structure']))
+            //->allowedAppends(['domaines'])
+            ->available()
+            ->where('structure_id', $structure->id);
 
         if ($request->has('exclude')) {
             $query->where('id', '<>', $request->input('exclude'));
@@ -87,8 +90,8 @@ class StructureController extends Controller
     {
         $query = (is_numeric($slugOrId)) ? Structure::where('id', $slugOrId) : Structure::where('slug', $slugOrId);
         $structure = $query->where('state', 'Validée')
-                        ->where('statut_juridique', 'Association')
-                        ->first();
+            ->where('statut_juridique', 'Association')
+            ->first();
 
         if ($structure) {
             $structure->load(['domaines', 'logo', 'illustrations', 'overrideImage1', 'overrideImage2']);

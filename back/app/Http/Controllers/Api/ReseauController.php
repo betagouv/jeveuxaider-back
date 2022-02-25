@@ -38,11 +38,11 @@ class ReseauController extends Controller
     public function show($slugOrId)
     {
         $reseau = (is_numeric($slugOrId))
-        ? Reseau::where('id', $slugOrId)
+            ? Reseau::where('id', $slugOrId)
             ->with(['responsables', 'domaines', 'logo', 'illustrations', 'overrideImage1', 'overrideImage2'])
             ->withCount('structures', 'missions', 'missionTemplates', 'invitationsAntennes', 'responsables')
             ->firstOrFail()
-        : Reseau::where('slug', $slugOrId)
+            : Reseau::where('slug', $slugOrId)
             ->with(['domaines', 'logo', 'illustrations', 'overrideImage1', 'overrideImage2'])
             ->withCount(['structures' => function ($query) {
                 $query->where('state', 'Validée');
@@ -61,7 +61,7 @@ class ReseauController extends Controller
             //->append(['domaines_with_image', 'participations_max']);
             ->append(['participations_max']);
 
-       //  return $reseau->append(["domaines", "logo", "override_image_1", "override_image_2"]);
+        //  return $reseau->append(["domaines", "logo", "override_image_1", "override_image_2"]);
         return $reseau;
     }
 
@@ -82,12 +82,6 @@ class ReseauController extends Controller
 
     public function update(ReseauUpdateRequest $request, Reseau $reseau)
     {
-        // if ($request->has('domaines')) {
-        //     $domaines_ids = collect($request->input('domaines'))->pluck('id');
-        //     $domaines = Tag::whereIn('id', $domaines_ids)->get();
-        //     $reseau->syncTagsWithType($domaines, 'domaine');
-        // }
-
         if ($request->has('domaines')) {
             $domaines =  collect($request->input('domaines'));
             $values = $domaines->pluck($domaines, 'id')->map(function ($item) {
@@ -148,58 +142,6 @@ class ReseauController extends Controller
         $reseau->deleteResponsable($responsable);
         return $reseau->responsables;
     }
-
-    // public function upload(ReseauUploadRequest $request, Reseau $reseau, String $field)
-    // {
-    //     // Delete previous file
-    //     if ($media = $reseau->getFirstMedia('reseaux', ['field' => $field])) {
-    //         $media->delete();
-    //     }
-
-    //     $data = $request->all();
-    //     $extension = $request->file('image')->guessExtension();
-    //     $name = Str::random(30);
-
-    //     $cropSettings = json_decode($data['cropSettings']);
-    //     if (!empty($cropSettings)) {
-    //         $stringCropSettings = implode(",", [
-    //             $cropSettings->width,
-    //             $cropSettings->height,
-    //             $cropSettings->x,
-    //             $cropSettings->y
-    //         ]);
-    //     } else {
-    //         $pathName = $request->file('image')->getPathname();
-    //         $infos = getimagesize($pathName);
-    //         $stringCropSettings = implode(",", [
-    //             $infos[0],
-    //             $infos[1],
-    //             0,
-    //             0
-    //         ]);
-    //     }
-
-    //     $reseau
-    //         ->addMedia($request->file('image'))
-    //         ->usingName($name)
-    //         ->usingFileName($name . '.' . $extension)
-    //         ->withCustomProperties(['field' => $field])
-    //         ->withManipulations([
-    //             'thumb' => ['manualCrop' => $stringCropSettings],
-    //             'large' => ['manualCrop' => $stringCropSettings],
-    //             'xxl' => ['manualCrop' => $stringCropSettings]
-    //         ])
-    //         ->toMediaCollection('reseaux');
-
-    //     return $reseau;
-    // }
-
-    // public function uploadDelete(ReseauUploadRequest $request, Reseau $reseau, String $field)
-    // {
-    //     if ($media = $reseau->getFirstMedia('reseaux', ['field' => $field])) {
-    //         $media->delete();
-    //     }
-    // }
 
     public function structures(Request $request, Reseau $reseau)
     {
