@@ -28,9 +28,6 @@ class TerritoiresExport implements FromCollection, WithMapping, WithHeadings, Sh
                 AllowedFilter::exact('is_published'),
                 AllowedFilter::custom('search', new FiltersTerritoireSearch),
             ])
-            ->allowedAppends([
-                'full_url',
-            ])
             ->defaultSort('-created_at')
             ->get();
     }
@@ -47,7 +44,6 @@ class TerritoiresExport implements FromCollection, WithMapping, WithHeadings, Sh
             'zips',
             'state',
             'is_published',
-            'missing_fields',
             'full_url',
             'structure_id'
         ];
@@ -66,7 +62,6 @@ class TerritoiresExport implements FromCollection, WithMapping, WithHeadings, Sh
             $territoire->zips,
             $territoire->state,
             $territoire->is_published,
-            $territoire->missing_fields,
             $territoire->full_url,
             $territoire->structure_id,
         ];

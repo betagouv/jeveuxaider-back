@@ -69,11 +69,6 @@ class MissionController extends Controller
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
     }
 
-    // public function export(Request $request)
-    // {
-    //     return Excel::download(new MissionsExport($request), 'missions.xlsx');
-    // }
-
     public function show(Request $request, $id)
     {
 
