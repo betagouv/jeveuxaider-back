@@ -8,16 +8,20 @@ use Maatwebsite\Excel\Concerns\FromCollection;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
 use App\Filters\FiltersParticipationSearch;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 
-class ParticipationsExport implements FromCollection, WithMapping, WithHeadings
+class ParticipationsExport implements FromCollection, WithMapping, WithHeadings, ShouldQueue
 {
-    private $request;
+    use Exportable;
 
-    public function __construct(Request $request)
+    private $role;
+
+    public function __construct($role)
     {
-        $this->request = $request;
+        $this->role = $role;
     }
 
     /**
@@ -25,11 +29,12 @@ class ParticipationsExport implements FromCollection, WithMapping, WithHeadings
      */
     public function collection()
     {
-        return QueryBuilder::for(Participation::role($this->request->header('Context-Role')))
+        return QueryBuilder::for(Participation::role($this->role)->with(['profile', 'mission']))
             ->allowedFilters(
                 AllowedFilter::custom('search', new FiltersParticipationSearch),
                 AllowedFilter::exact('mission_id'),
                 AllowedFilter::exact('mission.department'),
+                AllowedFilter::scope('ofReseau'),
                 'state',
                 'mission.zip',
                 'mission.type',
@@ -43,20 +48,16 @@ class ParticipationsExport implements FromCollection, WithMapping, WithHeadings
     {
         return [
             'id',
-            'structure_id',
-            'structure_nom',
+            'statut',
             'mission_id',
             'mission_nom',
-            'responsable_nom',
-            'responsable_email',
             'profile_id',
-            'prenom',
-            'nom',
-            'mobile',
-            'email',
-            'code_postal',
-            'date_anniversaire',
-            'statut',
+            'benevole_prenom',
+            'benevole_nom',
+            'benevole_mobile',
+            'benevole_email',
+            'benevole_code_postal',
+            'benevole_date_anniversaire',
             'date_creation',
             'date_modification'
         ];
@@ -64,17 +65,14 @@ class ParticipationsExport implements FromCollection, WithMapping, WithHeadings
 
     public function map($participation): array
     {
-        $hidden = ($participation->mission && $participation->mission->state == 'Signalée') && $this->request->header('Context-Role') == 'responsable'
+        $hidden = ($participation->mission && $participation->mission->state == 'Signalée') && $this->role == 'responsable'
             ? true : false;
 
         return [
             $participation->id,
-            $participation->mission ? $participation->mission->structure_id : '',
-            $participation->mission ? ($participation->mission->structure ? $participation->mission->structure->name : '') : '',
+            $participation->state,
             $participation->mission_id,
             $participation->mission ? $participation->mission->name : '',
-            $participation->mission && $participation->mission->responsable ? $participation->mission->responsable->full_name : '',
-            $participation->mission && $participation->mission->responsable ? $participation->mission->responsable->email : '',
             $participation->profile_id,
             $participation->profile && !$hidden ? $participation->profile->first_name : '',
             $participation->profile && !$hidden ? $participation->profile->last_name : '',
@@ -82,7 +80,6 @@ class ParticipationsExport implements FromCollection, WithMapping, WithHeadings
             $participation->profile && !$hidden ? $participation->profile->email : '',
             $participation->profile && !$hidden ? $participation->profile->zip : '',
             $participation->profile && !$hidden ? $participation->profile->birthday : '',
-            $participation->state,
             $participation->created_at,
             $participation->updated_at
         ];

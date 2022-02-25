@@ -62,7 +62,6 @@ class ParticipationController extends Controller
 
     public function store(ParticipationCreateRequest $request)
     {
-        ray('participation store');
         $currentUser = User::find(Auth::guard('api')->user()->id);
         $participationCount = Participation::where('state', '!=', 'Annulée')->where('profile_id', request("profile_id"))
             ->where('mission_id', request("mission_id"))->count();
