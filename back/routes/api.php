@@ -366,6 +366,9 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     // Route::delete('reseaux/{reseau}/responsables/{responsable}', 'Api\ReseauController@deleteResponsable');
     // Route::delete('reseaux/{reseau}/organisations/{organisation}', 'Api\ReseauController@detachOrganisation');
 
+    // EXPORTS
+    Route::get('export/territoires', 'Api\ExportController@territoires');
+
     Route::post('/vocabularies/{vocabulary:slug}/terms', 'Api\TermController@store');
     Route::put('/vocabularies/{vocabulary:slug}/terms/{term}', 'Api\TermController@update');
     Route::get('/terms/{term}', 'Api\TermController@show');
