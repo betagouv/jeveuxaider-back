@@ -129,21 +129,25 @@ class Territoire extends Model implements HasMedia
         // 2x for high pixel density
 
         // Banner
-        $this->addMediaConversion('card')
-            ->fit(Manipulations::FIT_CROP, 600, 286)
+        $this->addMediaConversion('desktop')
+            ->width(2850)
+            ->crop(Manipulations::CROP_CENTER, 2850, 900)
             ->nonQueued()
             ->withResponsiveImages()
             ->format(Manipulations::FORMAT_WEBP)
             ->performOnCollections('territoire__banner');
-        $this->addMediaConversion('large')
-            ->width(2000)
+        $this->addMediaConversion('tablet')
+            ->width(1536)
+            ->crop(Manipulations::CROP_CENTER, 1536, 960)
             ->nonQueued()
             ->withResponsiveImages()
             ->format(Manipulations::FORMAT_WEBP)
             ->performOnCollections('territoire__banner');
-        $this->addMediaConversion('formPreview')
-            ->fit(Manipulations::FIT_CROP, 470, 224)
+        $this->addMediaConversion('mobile')
+            ->height(1144)
+            ->crop(Manipulations::CROP_CENTER, 850, 1144)
             ->nonQueued()
+            ->withResponsiveImages()
             ->format(Manipulations::FORMAT_WEBP)
             ->performOnCollections('territoire__banner');
 
