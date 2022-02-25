@@ -2,6 +2,7 @@
 
 namespace App\Exports;
 
+use App\Filters\FiltersMissionIsTemplate;
 use Illuminate\Http\Request;
 use App\Models\Mission;
 use Maatwebsite\Excel\Concerns\FromCollection;
@@ -11,14 +12,19 @@ use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use App\Filters\FiltersMissionSearch;
 use App\Filters\FiltersMissionPlacesLeft;
+use App\Filters\FiltersMissionPublicsVolontaires;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Maatwebsite\Excel\Concerns\Exportable;
 
-class MissionsExport implements FromCollection, WithMapping, WithHeadings
+class MissionsExport implements FromCollection, WithMapping, WithHeadings, ShouldQueue
 {
-    private $request;
+    use Exportable;
 
-    public function __construct(Request $request)
+    private $role;
+
+    public function __construct($role)
     {
-        $this->request = $request;
+        $this->role = $role;
     }
 
     /**
@@ -26,22 +32,23 @@ class MissionsExport implements FromCollection, WithMapping, WithHeadings
      */
     public function collection()
     {
-        return QueryBuilder::for(Mission::role($this->request->header('Context-Role')))
+        return QueryBuilder::for(Mission::role($this->role))
             ->allowedFilters([
-                'name',
                 'state',
                 'type',
-                'structure.statut_juridique',
-                AllowedFilter::exact('department'),
-                AllowedFilter::exact('template_id'),
-                AllowedFilter::exact('structure_id'),
                 AllowedFilter::exact('id'),
-                AllowedFilter::custom('search', new FiltersMissionSearch),
-                AllowedFilter::custom('place', new FiltersMissionPlacesLeft),
+                AllowedFilter::exact('department'),
+                AllowedFilter::exact('responsable.id'),
+                AllowedFilter::exact('template_id'),
+                AllowedFilter::exact('structure.id'),
+                AllowedFilter::exact('structure.name'),
+                AllowedFilter::scope('ofReseau'),
                 AllowedFilter::scope('domaine'),
-                AllowedFilter::exact('responsable_id'),
-                AllowedFilter::scope('minimum_commitment'),
-                AllowedFilter::scope('of_reseau')
+                AllowedFilter::custom('place', new FiltersMissionPlacesLeft),
+                AllowedFilter::custom('publics_volontaires', new FiltersMissionPublicsVolontaires),
+                AllowedFilter::custom('search', new FiltersMissionSearch),
+                AllowedFilter::scope('available'),
+                AllowedFilter::custom('is_template', new FiltersMissionIsTemplate),
             ])
             ->defaultSort('-created_at')
             ->get();
@@ -51,10 +58,12 @@ class MissionsExport implements FromCollection, WithMapping, WithHeadings
     {
         return [
             'id',
+            'structure_id',
             'nom',
             'statut',
             'description',
             'type',
+            'periodicite',
             'adresse_complete',
             'adresse',
             'code_postal',
@@ -65,18 +74,12 @@ class MissionsExport implements FromCollection, WithMapping, WithHeadings
             'longitude',
             'date_debut',
             'date_fin',
-            'date_creation',
-            'date_modification',
-            'structure',
-            'structure_id',
             'nb_participations_max',
             'nb_places_restantes',
-            'dates_infos',
-            'responsable',
-            'responsable_id',
-            'responsable_email',
-            'domaine',
-            'template'
+            'engagement_duree',
+            'engagement_periode',
+            'date_creation',
+            'date_modification',
         ];
     }
 
@@ -84,10 +87,12 @@ class MissionsExport implements FromCollection, WithMapping, WithHeadings
     {
         return [
             $mission->id,
+            $mission->structure_id,
             $mission->name,
             $mission->state,
             $mission->description,
             $mission->type,
+            $mission->periodicite,
             $mission->full_address,
             $mission->address,
             $mission->zip,
@@ -98,18 +103,12 @@ class MissionsExport implements FromCollection, WithMapping, WithHeadings
             $mission->longitude,
             $mission->start_date,
             $mission->end_date,
-            $mission->created_at,
-            $mission->updated_at,
-            $mission->structure ? $mission->structure->name : '',
-            $mission->structure ? $mission->structure->id : '',
             $mission->participations_max,
             $mission->places_left,
-            $mission->dates_infos,
-            $mission->responsable ? $mission->responsable->full_name : '',
-            $mission->responsable ? $mission->responsable->id : '',
-            $mission->responsable ? $mission->responsable->email : '',
-            $mission->template ? $mission->template->domaine->name : $mission->domaine->name,
-            $mission->template ? $mission->template->title : '',
+            $mission->commitment__duration,
+            $mission->commitment__time_period,
+            $mission->created_at,
+            $mission->updated_at,
         ];
     }
 }
