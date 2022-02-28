@@ -74,12 +74,12 @@ class ParticipationPolicy
         return false;
     }
 
-    public function massValidation()
-    {
-        if (in_array(request()->header('Context-Role'), ['responsable'])) {
-            return true;
-        }
+    // public function massValidation()
+    // {
+    //     if (in_array(request()->header('Context-Role'), ['responsable'])) {
+    //         return true;
+    //     }
 
-        return false;
-    }
+    //     return false;
+    // }
 }

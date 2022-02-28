@@ -76,11 +76,11 @@ class Structure extends Model implements HasMedia
             case 'analyste':
                 return $query;
                 break;
-                // case 'responsable': // -> Est ce utile ?
-                //     return $query->whereHas('responsables', function (Builder $query) {
-                //         $query->where('profile_id', Auth::guard('api')->user()->profile->id);
-                //     });
-                //     break;
+            case 'responsable':
+                return $query->whereHas('responsables', function (Builder $query) {
+                    $query->where('profile_id', Auth::guard('api')->user()->profile->id);
+                });
+                break;
             case 'referent':
                 return $query
                     ->whereNotNull('department')

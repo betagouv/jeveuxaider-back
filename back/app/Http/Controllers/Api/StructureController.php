@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Filters\FiltersStructureSearch;
 use App\Jobs\NotifyUserOfCompletedExport;
 use App\Models\Mission;
+use App\Models\Participation;
 use App\Models\Tag;
 use App\Services\ApiEngagement;
 use Illuminate\Support\Str;
@@ -163,6 +164,30 @@ class StructureController extends Controller
         ]);
 
         return $structure;
+    }
+
+    public function waitingParticipations(Structure $structure)
+    {
+        if (Auth::guard('api')->user()->cannot('update', $structure)) {
+            abort(403, "Vous n'avez pas les droits nécéssaires pour réaliser cette action");
+        }
+
+        return Participation::ofStructure($structure->id)->where('state','En attente de validation')->count();
+    }
+
+    public function validateWaitingParticipations(Structure $structure)
+    {
+        if (Auth::guard('api')->user()->cannot('update', $structure)) {
+            abort(403, "Vous n'avez pas les droits nécéssaires pour réaliser cette action");
+        }
+
+        Participation::role('responsable')->where('state', 'En attente de validation')->chunk(50, function($collection){
+            $collection->map(function ($participation) {
+                $participation->update(['state' => 'Validée']);
+            });
+        });
+
+        return true;
     }
 
     // public function delete(StructureDeleteRequest $request, Structure $structure)

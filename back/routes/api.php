@@ -101,6 +101,8 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('structure', 'Api\StructureController@store');
     Route::put('structures/{structure}', 'Api\StructureController@update');
     Route::post('structures/{structure}/unregister', 'Api\StructureController@unregister');
+    Route::post('structures/{structure}/waiting-participations', 'Api\StructureController@waitingParticipations');
+    Route::post('structures/{structure}/validate-waiting-participations', 'Api\StructureController@validateWaitingParticipations');
     // Route::post('structure/{structure}/upload/{field}', 'Api\StructureController@upload');
     // Route::delete('structure/{structure}/upload/{field}', 'Api\StructureController@uploadDelete');
 

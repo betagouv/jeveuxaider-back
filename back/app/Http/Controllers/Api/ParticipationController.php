@@ -196,13 +196,13 @@ class ParticipationController extends Controller
         return (string) $participation->delete();
     }
 
-    public function massValidation(Request $request)
-    {
-        $participations = Participation::role('responsable')->where('state', 'En attente de validation')->get();
-        foreach ($participations as $participation) {
-            $participation->update(['state' => 'Validée']);
-        }
-    }
+    // public function massValidation(Request $request)
+    // {
+    //     $participations = Participation::role('responsable')->where('state', 'En attente de validation')->get();
+    //     foreach ($participations as $participation) {
+    //         $participation->update(['state' => 'Validée']);
+    //     }
+    // }
 
     public function conversation(ParticipationManageRequest $request, Participation $participation)
     {
