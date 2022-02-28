@@ -179,7 +179,7 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     // Route::get('participation/{participation}/conversation', 'Api\ParticipationController@conversation');
     // Route::get('participation/{participation}/benevole', 'Api\ParticipationController@benevole');
     // Route::delete('participation/{participation}', 'Api\ParticipationController@delete');
-    // Route::post('participation/{participation}', 'Api\ParticipationController@update');
+    Route::put('participations/{participation}', 'Api\ParticipationController@update');
     // Route::post('participation/{participation}/decline', 'Api\ParticipationController@decline');
     // Route::post('participations/mass-validation', 'Api\ParticipationController@massValidation');
 

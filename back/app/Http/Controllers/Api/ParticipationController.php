@@ -49,8 +49,8 @@ class ParticipationController extends Controller
 
     public function show(Request $request, Participation $participation)
     {
-        $participation = $participation->load(['mission', 'profile', 'mission.responsable', 'profile.skills', 'profile.domaines', 'profile.avatar']);
-        $participation->mission->append(['full_address']);
+        $participation = $participation->load(['mission', 'profile', 'conversation', 'mission.responsable', 'profile.skills', 'profile.domaines', 'profile.avatar']);
+        // $participation->mission->append(['full_address']);
 
         return $participation;
     }
