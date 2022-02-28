@@ -243,10 +243,10 @@ class Structure extends Model implements HasMedia
         return $this->belongsTo('App\Models\User');
     }
 
-    public function reseau()
-    {
-        return $this->belongsTo('App\Models\Structure');
-    }
+    // public function reseau()
+    // {
+    //     return $this->belongsTo('App\Models\Structure');
+    // }
 
     public function reseaux()
     {
