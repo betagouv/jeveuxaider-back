@@ -9,8 +9,11 @@ use App\Jobs\NotifyUserOfCompletedExport;
 use Illuminate\Support\Str;
 use App\Exports\MissionsExport;
 use App\Exports\ParticipationsExport;
+use App\Exports\ProfilesExport;
 use App\Exports\TerritoiresExport;
 use App\Exports\ReseauxExport;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class ExportController extends Controller
 {
@@ -81,6 +84,27 @@ class ExportController extends Controller
         $filePath = $folder . $fileName;
 
         (new ReseauxExport())
+            ->queue($filePath, 's3')
+            ->chain([
+                new NotifyUserOfCompletedExport($request->user(), $filePath),
+            ]);
+
+        return response()->json(['message' => 'Export en cours...'], 200);
+    }
+
+    public function profiles(Request $request)
+    {
+        $currentUser = User::find(Auth::guard('api')->user()->id);
+
+        if(!$currentUser->profile->can_export_profiles){
+            abort(403, "Vous n'avez pas les droits nécéssaires");
+        }
+
+        $folder = 'public/' . config('app.env') . '/exports/' . $request->user()->id . '/';
+        $fileName = 'profiles-' . Str::random(8) . '.csv';
+        $filePath = $folder . $fileName;
+
+        (new ProfilesExport($request->header('Context-Role')))
             ->queue($filePath, 's3')
             ->chain([
                 new NotifyUserOfCompletedExport($request->user(), $filePath),

@@ -35,15 +35,11 @@ class ProfilesExport implements FromCollection, WithMapping, WithHeadings, Shoul
         return QueryBuilder::for(Profile::role($this->role))
             ->allowedFilters(
                 AllowedFilter::custom('search', new FiltersProfileSearch),
-                AllowedFilter::custom('zips', new FiltersProfileZips),
                 AllowedFilter::custom('role', new FiltersProfileRole),
-                AllowedFilter::custom('domaines', new FiltersProfileTag),
-                AllowedFilter::custom('disponibilities', new FiltersDisponibility),
-                //AllowedFilter::custom('skills', new FiltersProfileSkill),
+                'department',
+                'zip',
                 AllowedFilter::exact('is_visible'),
-                AllowedFilter::custom('min_participations', new FiltersProfileMinParticipations),
-                AllowedFilter::exact('referent_department'),
-                'referent_region'
+                AllowedFilter::custom('min_participations', new FiltersProfileMinParticipations)
             )
             ->defaultSort('-created_at')
             ->get();
