@@ -49,7 +49,7 @@ class ParticipationController extends Controller
 
     public function show(Request $request, Participation $participation)
     {
-        $participation = $participation->load(['mission', 'profile', 'conversation', 'mission.responsable', 'profile.skills', 'profile.domaines', 'profile.avatar']);
+        $participation = $participation->load(['mission', 'profile', 'conversation', 'conversation.latestMessage', 'mission.responsable', 'profile.skills', 'profile.domaines', 'profile.avatar']);
         // $participation->mission->append(['full_address']);
 
         return $participation;
@@ -101,7 +101,7 @@ class ParticipationController extends Controller
             $participation->conversation->touch();
         }
 
-        return $participation;
+        return $participation->load(['conversation', 'conversation.latestMessage']);
     }
 
     public function decline(ParticipationDeclineRequest $request, Participation $participation)
@@ -141,7 +141,8 @@ class ParticipationController extends Controller
             $participation->mission->update();
         }
 
-        return $participation;
+        // @todo: latestMessage n'est pas le dernier
+        return $participation->load(['conversation', 'conversation.latestMessage']);
     }
 
     public function cancel(ParticipationCancelRequest $request, Participation $participation)
