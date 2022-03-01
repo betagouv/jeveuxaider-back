@@ -147,6 +147,8 @@ class ParticipationController extends Controller
 
     public function cancel(ParticipationCancelRequest $request, Participation $participation)
     {
+        $participation->load('conversation');
+
         if ($participation->conversation) {
             $currentUser = User::find(Auth::guard('api')->user()->id);
 

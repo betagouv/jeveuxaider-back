@@ -107,7 +107,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     // Route::delete('structure/{structure}/upload/{field}', 'Api\StructureController@uploadDelete');
 
     Route::post('participations', 'Api\ParticipationController@store');
-    // Route::post('participation/{participation}/cancel', 'Api\ParticipationController@cancel');
+    Route::put('participations/{participation}/cancel', 'Api\ParticipationController@cancel');
 
     // Route::post('user/password', 'Api\UserController@updatePassword');
 

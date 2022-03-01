@@ -14,7 +14,7 @@ class MessagesController extends Controller
     {
         $currentUser = User::find(Auth::guard('api')->user()->id);
         $message = $currentUser->sendMessage($conversation->id, request('content'));
-        $message->from; // HACK
+        $message->load('from');
 
         $currentUser->markConversationAsRead($conversation);
 
