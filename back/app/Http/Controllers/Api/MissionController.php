@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Mission;
 use App\Http\Requests\Api\MissionUpdateRequest;
 use App\Http\Requests\Api\MissionStructureRequest;
-use App\Http\Requests\Api\MissionCloneRequest;
+use App\Http\Requests\Api\MissionDuplicateRequest;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
 use Maatwebsite\Excel\Facades\Excel;
@@ -134,10 +134,10 @@ class MissionController extends Controller
     //     return (string) $mission->forceDelete();
     // }
 
-    // public function clone(MissionCloneRequest $request, Mission $mission)
-    // {
-    //     return $mission->clone();
-    // }
+    public function duplicate(MissionDuplicateRequest $request, Mission $mission)
+    {
+        return $mission->duplicate();
+    }
 
     // public function structure(MissionStructureRequest $request, Mission $mission)
     // {

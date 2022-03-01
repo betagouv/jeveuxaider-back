@@ -80,4 +80,15 @@ class MissionPolicy
     {
         return false;
     }
+
+    public function duplicate(User $user, Mission $mission)
+    {
+        $ids = Mission::role('responsable')->get()->pluck('id')->all();
+
+        if (in_array($mission->id, $ids) && request()->header('Context-Role') === 'responsable') {
+            return true;
+        }
+
+        return false;
+    }
 }
