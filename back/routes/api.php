@@ -107,7 +107,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     // Route::delete('structure/{structure}/upload/{field}', 'Api\StructureController@uploadDelete');
 
     Route::post('participations', 'Api\ParticipationController@store');
-    // Route::post('participation/{participation}/cancel', 'Api\ParticipationController@cancel');
+    Route::put('participations/{participation}/cancel', 'Api\ParticipationController@cancel');
 
     // Route::post('user/password', 'Api\UserController@updatePassword');
 
@@ -166,7 +166,7 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::get('missions/{mission}/benevoles', 'Api\MissionController@benevoles');
     // Route::get('mission/{mission}/responsable', 'Api\MissionController@responsable');
     Route::put('missions/{mission}', 'Api\MissionController@update');
-    // Route::post('mission/{mission}/clone', 'Api\MissionController@clone');
+    Route::post('missions/{mission}/duplicate', 'Api\MissionController@duplicate');
     // Route::delete('mission/{mission}', 'Api\MissionController@delete');
     // Route::get('mission/{mission}/structure', 'Api\MissionController@structure');
     // Route::post('mission/{mission}/restore', 'Api\MissionController@restore');
