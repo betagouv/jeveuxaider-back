@@ -50,7 +50,7 @@ class MissionTemplateController extends Controller
 
     public function show(MissionTemplate $missionTemplate)
     {
-        return MissionTemplate::with('reseau')->find($missionTemplate->id)->load(['photo']);
+        return $missionTemplate->load(['reseau','photo','domaine']);
     }
 
     public function statistics(MissionTemplate $missionTemplate)

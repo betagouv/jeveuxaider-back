@@ -409,7 +409,7 @@ class Mission extends Model
         return $query;
     }
 
-    public function clone()
+    public function duplicate()
     {
         $mission = $this->replicate();
         $mission->state = 'Brouillon';

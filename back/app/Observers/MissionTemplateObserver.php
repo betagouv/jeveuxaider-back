@@ -34,7 +34,7 @@ class MissionTemplateObserver
             });
         }
 
-        if($missionTemplate->reseau_id && $missionTemplate->published) {
+        if($missionTemplate->reseau_id && $missionTemplate->published && !$missionTemplate->isDirty('state')) {
             if(isset($changes) && count($changes) > 1) { // ignore updated_at
                 Notification::route('mail', ['giulietta.bressy@gmail.com', 'nassim.merzouk@beta.gouv.fr'])->notify(new MissionTemplateUpdated($missionTemplate, $missionTemplate->getOriginal(), $changes));
             }
