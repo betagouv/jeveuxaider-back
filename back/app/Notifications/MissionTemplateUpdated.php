@@ -85,7 +85,7 @@ class MissionTemplateUpdated extends Notification implements ShouldQueue
         }
 
 
-        $message->action('Modérer le modèle de mission', url(config('app.front_url') . '/dashboard/contents/template/' . $this->missionTemplate->id . '/edit'));
+        $message->action('Modérer le modèle de mission', url(config('app.front_url') . '/admin/contenus/modeles-mission/' . $this->missionTemplate->id . '/edit'));
 
         return $message;
     }
