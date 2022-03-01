@@ -69,7 +69,7 @@ class StructureController extends Controller
             abort(403);
         }
 
-        return $structure->load(['territoire', 'members', 'domaines', 'logo', 'illustrations', 'overrideImage1', 'overrideImage2'])->append(['full_address']);
+        return $structure->load(['territoire', 'members', 'domaines', 'reseaux', 'logo', 'illustrations', 'overrideImage1', 'overrideImage2']);
     }
 
     public function associationSlugOrId(Request $request, $slugOrId)
@@ -81,7 +81,7 @@ class StructureController extends Controller
 
         if ($structure) {
             $structure->load(['domaines', 'logo', 'illustrations', 'overrideImage1', 'overrideImage2']);
-            $structure->append(['places_left', 'full_address']);
+            $structure->append(['places_left']);
         }
 
         return $structure;
@@ -132,9 +132,11 @@ class StructureController extends Controller
             $structure->domaines()->sync($values);
         }
 
-        if ($request->has('tete_de_reseau_id')) {
-            if ($request->input('tete_de_reseau_id')) {
-                $structure->reseaux()->syncWithoutDetaching([$request->input('tete_de_reseau_id')]);
+        if ($request->has('reseaux')) {
+            if ($request->input('reseaux')) {
+                //  $structure->reseaux()->syncWithoutDetaching([$request->input('tete_de_reseau_id')]);
+                $reseaux =  collect($request->input('reseaux'));
+                $structure->reseaux()->sync($reseaux->pluck('id'));
             }
         }
 

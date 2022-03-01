@@ -73,6 +73,11 @@ class MissionTemplate extends Model implements HasMedia
         $query->where('reseau_id', $reseau_id);
     }
 
+    public function scopeAvailable($query)
+    {
+        $query->where('published', true)->where('state', 'validated');
+    }
+
     public function scopeRole($query, $contextRole)
     {
         switch ($contextRole) {
@@ -81,6 +86,9 @@ class MissionTemplate extends Model implements HasMedia
                 break;
             case 'tete_de_reseau':
                 return $query->ofReseau(Auth::guard('api')->user()->profile->tete_de_reseau_id);
+                break;
+            case 'responsable':
+                return $query->available();
                 break;
             default:
                 abort(403, 'This action is not authorized');
