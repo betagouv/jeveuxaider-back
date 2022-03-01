@@ -61,6 +61,9 @@ class MissionRequest extends FormRequest
             'state' => [
                 function ($attribute, $value, $fail) {
                     if ($this->mission && $this->mission->state !== $value) { // State will  change
+                        if($value == 'Validée' && $this->mission->structure->state != 'Validée'){
+                            $fail('Vous devez valider la structure au préalable.');
+                        }
                         if (! $this->user()->can('changeState', [$this->mission, $value])) {
                             $fail('Vous n\'êtes pas autorisé à changer le statut de cette mission.');
                         }
