@@ -35,6 +35,8 @@ use App\Observers\ReseauObserver;
 use App\Observers\TemoignageObserver;
 use App\Observers\TerritoireObserver;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -45,7 +47,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        if ($this->app->environment() !== 'production') {
+        if ($this->app->environment() == 'local') {
             $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
         }
 
@@ -87,5 +89,13 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Model::preventLazyLoading(true);
+
+        if ($this->app->environment('staging')) {
+            if(Auth::guard('api')->user()) {
+                Mail::alwaysTo(Auth::guard('api')->user()->email);
+            } else {
+                Mail::alwaysTo("pinto.jeremy@gmail.com");
+            }
+        }
     }
 }

@@ -40,9 +40,9 @@ class StructureController extends Controller
                 'illustrations',
                 'overrideImage1'
             ])
-            ->allowedAppends([
-                'places_left',
-            ])
+            // ->allowedAppends([
+            //     'places_left',
+            // ])
             ->defaultSort('-created_at')
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
     }
@@ -51,7 +51,6 @@ class StructureController extends Controller
     {
 
         $query = QueryBuilder::for(Mission::with(['domaine', 'template', 'template.domaine', 'template.photo', 'illustrations', 'structure']))
-            //->allowedAppends(['domaines'])
             ->available()
             ->where('structure_id', $structure->id);
 

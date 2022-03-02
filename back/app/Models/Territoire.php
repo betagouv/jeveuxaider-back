@@ -14,6 +14,7 @@ use App\Traits\HasMissingFields;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use Spatie\Image\Manipulations;
+use Spatie\Activitylog\LogOptions;
 
 class Territoire extends Model implements HasMedia
 {
@@ -43,13 +44,6 @@ class Territoire extends Model implements HasMedia
     // protected $appends = ['completion_rate', 'full_url', 'permissions'];
 
     //protected $hidden = ['media'];
-
-    protected static $logUnguarded = true;
-
-    protected static $logOnlyDirty = true;
-
-    protected static $submitEmptyLogs = false;
-
 
     public function banner()
     {
@@ -122,6 +116,14 @@ class Territoire extends Model implements HasMedia
         return SlugOptions::create()
             ->generateSlugsFrom(['name'])
             ->saveSlugsTo('slug');
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['*'])
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs();
     }
 
     public function registerMediaConversions(Media $media = null): void

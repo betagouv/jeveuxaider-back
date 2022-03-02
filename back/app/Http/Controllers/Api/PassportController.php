@@ -8,8 +8,6 @@ use App\Models\User;
 use App\Models\Profile;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
-use Lcobucci\JWT\Parser;
-use Laravel\Passport\Token;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Support\Facades\Password;
 use App\Notifications\RegisterUserVolontaire;
@@ -21,8 +19,6 @@ use App\Models\Structure;
 use App\Models\Territoire;
 use App\Services\ApiEngagement;
 use Illuminate\Support\Facades\Auth;
-use Laravel\Passport\TokenRepository;
-use Laravel\Passport\RefreshTokenRepository;
 
 class PassportController extends Controller
 {
@@ -156,21 +152,9 @@ class PassportController extends Controller
                 );
         }
 
-        $bearerToken = request()->bearerToken();
-        $tokenId = (new Parser())->parse($bearerToken)->getClaim('jti');
-        // $token = Token::find($tokenId);
-        // $token->revoke();
-
-        $tokenRepository = app(TokenRepository::class);
-        $refreshTokenRepository = app(RefreshTokenRepository::class);
-
-        // Revoke an access token...
-        $tokenRepository->revokeAccessToken($tokenId);
-        // Revoke all of the token's refresh tokens...
-        $refreshTokenRepository->revokeRefreshTokensByAccessTokenId($tokenId);
+        $request->user()->token()->revoke();
 
         return [
-            // 'token' => $token,
             'franceConnectLogoutUrl' => isset($franceConnectLogoutUrl) ? $franceConnectLogoutUrl : null
         ];
     }
