@@ -7,6 +7,7 @@ use App\Models\Structure;
 use App\Models\Territoire;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 
 class MediaTerritoireAddPromotedOrganisations extends Command
 {
@@ -61,9 +62,13 @@ class MediaTerritoireAddPromotedOrganisations extends Command
             $logo = Media::where('collection_name', "structure__logo")
                 ->where('model_id', $relation->relation_id)->first();
             if ($logo) {
-                $mediaTerritoire = $logo->copy($territoire, 'territoire__promoted_organisations');
-                $mediaTerritoire->name = $structure->name;
-                $mediaTerritoire->saveQuietly();
+                try {
+                    $mediaTerritoire = $logo->copy($territoire, 'territoire__promoted_organisations');
+                    $mediaTerritoire->name = $structure->name;
+                    $mediaTerritoire->saveQuietly();
+                } catch (\Throwable $th) {
+                    $this->warn('Media # ' . $logo->id . ' : File not found (' . $logo->getFullUrl() . '). Skipped.');
+                }
             }
 
             $bar->advance();
