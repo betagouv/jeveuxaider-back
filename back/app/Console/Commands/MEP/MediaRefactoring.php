@@ -109,9 +109,13 @@ class MediaRefactoring extends Command
             if (Media::where('model_type', 'App\Models\Domaine')->where('model_id', $domaine->id)->where('collection_name', 'domaine__banner')->count()) {
                 continue;
             }
-            $mediaDomaine = $media->copy($domaine, 'domaines');
-            $mediaDomaine->collection_name = 'domaine__banner';
-            $mediaDomaine->saveQuietly();
+            try {
+                $mediaDomaine = $media->copy($domaine, 'domaines');
+                $mediaDomaine->collection_name = 'domaine__banner';
+                $mediaDomaine->saveQuietly();
+            } catch (\Throwable $th) {
+                $this->warn('Media # ' . $media->id . ' : File not found (' . $media->getFullUrl() . '). Skipped.');
+            }
         }
     }
 }
