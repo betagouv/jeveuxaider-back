@@ -13,6 +13,7 @@ use Carbon\Carbon;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use App\Helpers\Utils;
+use Spatie\Activitylog\LogOptions;
 
 class Mission extends Model
 {
@@ -46,6 +47,11 @@ class Mission extends Model
     protected static $logOnlyDirty = true;
 
     protected static $submitEmptyLogs = false;
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults();
+    }
 
     public function shouldBeSearchable()
     {

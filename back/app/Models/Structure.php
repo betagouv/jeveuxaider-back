@@ -19,6 +19,7 @@ use App\Models\Tag;
 use App\Traits\HasMissingFields;
 use Spatie\Image\Manipulations;
 use App\Models\Media as ModelMedia;
+use Spatie\Activitylog\LogOptions;
 
 class Structure extends Model implements HasMedia
 {
@@ -67,6 +68,11 @@ class Structure extends Model implements HasMedia
     public function getFullUrlAttribute()
     {
         return "/organisations/$this->slug";
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults();
     }
 
     public function scopeRole($query, $contextRole)

@@ -13,6 +13,7 @@ use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use Spatie\Image\Manipulations;
 use App\Models\Media as ModelMedia;
+use Spatie\Activitylog\LogOptions;
 
 class Reseau extends Model implements HasMedia
 {
@@ -40,6 +41,12 @@ class Reseau extends Model implements HasMedia
     protected static $logOnlyDirty = true;
 
     protected static $submitEmptyLogs = false;
+
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults();
+    }
 
     public function responsables()
     {

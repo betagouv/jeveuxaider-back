@@ -16,6 +16,7 @@ use Spatie\Tags\HasTags;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Image\Manipulations;
 use App\Models\Media as ModelMedia;
+use Spatie\Activitylog\LogOptions;
 
 class Profile extends Model implements HasMedia
 {
@@ -45,6 +46,11 @@ class Profile extends Model implements HasMedia
     protected static $logOnlyDirty = true;
 
     protected static $submitEmptyLogs = false;
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults();
+    }
 
     public function setEmailAttribute($value)
     {

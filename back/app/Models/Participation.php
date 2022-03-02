@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Support\Str;
+use Spatie\Activitylog\LogOptions;
 
 class Participation extends Model
 {
@@ -35,6 +36,11 @@ class Participation extends Model
     protected static $logOnlyDirty = true;
 
     protected static $submitEmptyLogs = false;
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults();
+    }
 
     public function mission()
     {

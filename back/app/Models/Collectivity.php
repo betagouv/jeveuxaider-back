@@ -9,6 +9,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\Activitylog\LogOptions;
 
 class Collectivity extends Model implements HasMedia
 {
@@ -31,5 +32,10 @@ class Collectivity extends Model implements HasMedia
             ->height(225)
             ->nonQueued()
             ->performOnCollections('collectivities');
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults();
     }
 }

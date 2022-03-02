@@ -14,6 +14,7 @@ use App\Traits\HasMissingFields;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use Spatie\Image\Manipulations;
+use Spatie\Activitylog\LogOptions;
 
 class Territoire extends Model implements HasMedia
 {
@@ -122,6 +123,11 @@ class Territoire extends Model implements HasMedia
         return SlugOptions::create()
             ->generateSlugsFrom(['name'])
             ->saveSlugsTo('slug');
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults();
     }
 
     public function registerMediaConversions(Media $media = null): void
