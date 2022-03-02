@@ -62,13 +62,12 @@ class MediaTerritoireAddPromotedOrganisations extends Command
             $logo = Media::where('collection_name', "structure__logo")
                 ->where('model_id', $relation->relation_id)->first();
             if ($logo) {
-                $exist = File::exists($logo->getPath());
-                if (!$exist) {
-                    $this->warn('Media # ' . $logo->id() . ' : File not found (' . $logo->getFullUrl() . '). Skipped.');
-                } else {
+                try {
                     $mediaTerritoire = $logo->copy($territoire, 'territoire__promoted_organisations');
                     $mediaTerritoire->name = $structure->name;
                     $mediaTerritoire->saveQuietly();
+                } catch (\Throwable $th) {
+                    $this->warn('Media # ' . $logo->id . ' : File not found (' . $logo->getFullUrl() . '). Skipped.');
                 }
             }
 
