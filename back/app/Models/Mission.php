@@ -42,15 +42,12 @@ class Mission extends Model
 
     protected $with = ['template'];
 
-    protected static $logUnguarded = true;
-
-    protected static $logOnlyDirty = true;
-
-    protected static $submitEmptyLogs = false;
-
     public function getActivitylogOptions(): LogOptions
     {
-        return LogOptions::defaults();
+        return LogOptions::defaults()
+            ->logOnly(['*'])
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs();
     }
 
     public function shouldBeSearchable()

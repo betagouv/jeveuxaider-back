@@ -35,9 +35,9 @@ class TerritoireController extends Controller
             ->allowedIncludes([
                 'banner',
             ])
-            ->allowedAppends([
-                'places_left',
-            ])
+            // ->allowedAppends([
+            //     'places_left',
+            // ])
             ->defaultSort('-created_at')
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
     }

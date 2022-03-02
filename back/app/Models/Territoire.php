@@ -45,13 +45,6 @@ class Territoire extends Model implements HasMedia
 
     //protected $hidden = ['media'];
 
-    protected static $logUnguarded = true;
-
-    protected static $logOnlyDirty = true;
-
-    protected static $submitEmptyLogs = false;
-
-
     public function banner()
     {
         return $this->morphOne(ModelMedia::class, 'model')->where('collection_name', 'territoire__banner');
@@ -127,7 +120,10 @@ class Territoire extends Model implements HasMedia
 
     public function getActivitylogOptions(): LogOptions
     {
-        return LogOptions::defaults();
+        return LogOptions::defaults()
+            ->logOnly(['*'])
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs();
     }
 
     public function registerMediaConversions(Media $media = null): void

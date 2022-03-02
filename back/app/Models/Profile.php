@@ -41,15 +41,12 @@ class Profile extends Model implements HasMedia
 
     protected $checkFields = ['mobile', 'zip', 'type', 'disponibilities', 'commitment__time_period', 'commitment__duration', 'description', 'birthday', 'skills', 'domaines'];
 
-    protected static $logFillable = true;
-
-    protected static $logOnlyDirty = true;
-
-    protected static $submitEmptyLogs = false;
-
     public function getActivitylogOptions(): LogOptions
     {
-        return LogOptions::defaults();
+        return LogOptions::defaults()
+            ->logOnly(['*'])
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs();
     }
 
     public function setEmailAttribute($value)
