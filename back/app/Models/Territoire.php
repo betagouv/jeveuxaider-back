@@ -194,11 +194,8 @@ class Territoire extends Model implements HasMedia
     {
         $this->responsables()->detach($profile);
 
-        if ($profile->user->contextable_type == 'territoire') {
-            $profile->user->contextable_type = null;
-            $profile->user->contextable_id = null;
-            $profile->user->save();
-        }
+        $profile->user->resetContextRole();
+        $profile->user->save();
 
         return $this->load('responsables');
     }
