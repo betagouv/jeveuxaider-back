@@ -94,7 +94,7 @@
     "post-root-package-install": [
       "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
     ],
-    "post-install-cmd": [
+    "pre-install-cmd": [
       "if [ -n \"$OAUTH_PUBLIC_KEY\" ] ; then echo \"$OAUTH_PUBLIC_KEY\" | base64 -d > storage/oauth-public.key ; fi",
       "if [ -n \"$OAUTH_PRIVATE_KEY\" ] ; then echo \"$OAUTH_PRIVATE_KEY\" | base64 -d > storage/oauth-private.key ; fi"
     ],
