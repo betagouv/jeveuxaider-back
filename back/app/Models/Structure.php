@@ -318,10 +318,8 @@ class Structure extends Model implements HasMedia
 
         $user = User::find($profile->user_id);
 
-        if ($user->context_role == 'responsable') {
-            $user->context_role = null;
-            $user->save();
-        }
+        $user->resetContextRole();
+        $user->save();
 
         $this->resetResponsable($profile);
 

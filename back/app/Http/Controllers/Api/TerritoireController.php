@@ -111,11 +111,11 @@ class TerritoireController extends Controller
     //         ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
     // }
 
-    // public function deleteResponsable(Request $request, Territoire $territoire, Profile $responsable)
-    // {
-    //     $territoire->deleteResponsable($responsable);
-    //     return $territoire->responsables;
-    // }
+    public function deleteResponsable(Request $request, Territoire $territoire, Profile $responsable)
+    {
+        $territoire->deleteResponsable($responsable);
+        return $territoire->responsables;
+    }
 
     // public function promotedMissions(Request $request, Territoire $territoire)
     // {

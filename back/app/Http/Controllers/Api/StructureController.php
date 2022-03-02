@@ -13,9 +13,11 @@ use App\Http\Requests\Api\MissionCreateRequest;
 use Spatie\QueryBuilder\AllowedFilter;
 use Illuminate\Support\Facades\Auth;
 use App\Filters\FiltersStructureSearch;
+use App\Http\Requests\StructureRequest;
 use App\Jobs\NotifyUserOfCompletedExport;
 use App\Models\Mission;
 use App\Models\Participation;
+use App\Models\Profile;
 use App\Models\Tag;
 use App\Services\ApiEngagement;
 use Illuminate\Support\Str;
@@ -260,11 +262,11 @@ class StructureController extends Controller
     //     return $structure->members;
     // }
 
-    // public function deleteMember(StructureRequest $request, Structure $structure, Profile $member)
-    // {
-    //     $structure->deleteMember($member);
-    //     return $structure->members;
-    // }
+    public function deleteMember(StructureRequest $request, Structure $structure, Profile $member)
+    {
+        $structure->deleteMember($member);
+        return $structure->members;
+    }
 
     public function addMission(MissionCreateRequest $request, Structure $structure)
     {

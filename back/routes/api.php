@@ -143,12 +143,12 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::get('structures', 'Api\StructureController@index');
     Route::get('structures/{structure}', 'Api\StructureController@show');
     Route::post('structures/{structure}/missions', 'Api\StructureController@addMission');
+    Route::delete('structures/{structure}/members/{member}', 'Api\StructureController@deleteMember');
 
     // Route::delete('structure/{structure}', 'Api\StructureController@delete');
     // Route::post('structure/{structure}/restore', 'Api\StructureController@restore');
     // Route::get('structure/{structure}/members', 'Api\StructureController@members');
     // Route::post('structure/{structure}/members', 'Api\StructureController@addMember');
-    // Route::delete('structure/{structure}/members/{member}', 'Api\StructureController@deleteMember');
     // Route::get('structure/{structure}/actions', 'Api\ActionController@structure');
     // Route::post('structure/{structure}/reseaux', 'Api\StructureController@attachReseaux');
     // Route::delete('structure/{structure}/reseaux/{reseau}', 'Api\StructureController@detachReseau');
@@ -240,11 +240,11 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::post('territoires', 'Api\TerritoireController@store');
     Route::put('territoires/{territoire}', 'Api\TerritoireController@update');
     Route::get('territoires/{territoire}/statistics', 'Api\TerritoireController@statistics');
+    Route::delete('territoires/{territoire}/responsables/{responsable}', 'Api\TerritoireController@deleteResponsable');
     // Route::get('territoire/{territoire}/responsables', 'Api\TerritoireController@responsables');
     // Route::get('territoire/{territoire}/invitations', 'Api\TerritoireController@invitations');
     // Route::post('territoire/{territoire}/upload/{field}', 'Api\TerritoireController@upload');
     // Route::delete('territoire/{territoire}/upload/{field}', 'Api\TerritoireController@uploadDelete');
-    // Route::delete('territoire/{territoire}/responsables/{responsable}', 'Api\TerritoireController@deleteResponsable');
 
     // Route::get('statistics/{type}/{id}', 'Api\StatisticsController@fetch');
 
@@ -362,11 +362,12 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     // // RESEAUX
     Route::post('reseaux', 'Api\ReseauController@store');
     Route::put('reseaux/{reseau}', 'Api\ReseauController@update');
+    Route::delete('reseaux/{reseau}/responsables/{responsable}', 'Api\ReseauController@deleteResponsable');
     // Route::get('reseaux/{reseau}/responsables', 'Api\ReseauController@responsables');
     // Route::get('reseaux/{reseau}/invitations-responsables', 'Api\ReseauController@invitationsResponsables');
     // Route::post('reseaux/{reseau}/organisations', 'Api\ReseauController@attachOrganisations');
     // Route::delete('reseaux/{reseau}', 'Api\ReseauController@delete');
-    // Route::delete('reseaux/{reseau}/responsables/{responsable}', 'Api\ReseauController@deleteResponsable');
+    
     // Route::delete('reseaux/{reseau}/organisations/{organisation}', 'Api\ReseauController@detachOrganisation');
 
     // EXPORTS
