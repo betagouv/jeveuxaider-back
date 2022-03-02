@@ -54,7 +54,7 @@ class StructureObserver
             }
         }
 
-        if (config('app.env') === 'production') {
+        if (config('services.sendinblue.sync')) {
             SendinblueSyncUser::dispatch($structure->user);
         }
     }
@@ -179,7 +179,7 @@ class StructureObserver
         // }
 
         // MAJ SENDINBLUE
-        if (config('app.env') === 'production') {
+        if (config('services.sendinblue.sync')) {
             if ($structure->isDirty('name')) {
                 $structure->responsables->each(function ($profile, $key) {
                     if ($profile->user) { // Parfois il n'y a pas de user car ce sont des profiles invités

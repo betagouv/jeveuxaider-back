@@ -16,7 +16,7 @@ class ProfileObserver
      */
     public function created(Profile $profile)
     {
-        if (config('app.env') === 'production') {
+        if (config('services.sendinblue.sync')) {
             if ($profile->user) {
                 SendinblueSyncUser::dispatch($profile->user);
             }
@@ -42,7 +42,7 @@ class ProfileObserver
             $profile->user->resetContextRole();
         }
 
-        if (config('app.env') === 'production') {
+        if (config('services.sendinblue.sync')) {
             if ($profile->user) {
                 SendinblueSyncUser::dispatch($profile->user);
             }

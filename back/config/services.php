@@ -56,6 +56,7 @@ return [
 
     'sendinblue' => [
         'key' => env('SENDINBLUE_KEY'),
+        'sync' => env('SENDINBLUE_SYNC')
     ],
 
     'slack' => [

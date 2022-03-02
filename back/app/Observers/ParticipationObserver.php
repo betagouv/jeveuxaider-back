@@ -27,7 +27,7 @@ class ParticipationObserver
         $structure->saveQuietly();
 
         // Maj Sendinblue
-        if (config('app.env') === 'production') {
+        if (config('services.sendinblue.sync')) {
             SendinblueSyncUser::dispatch($participation->profile->user);
         }
 
@@ -64,7 +64,7 @@ class ParticipationObserver
                         $participation->profile->notify(new ParticipationValidated($participation));
 
                         // MAJ SENDINBLUE
-                        if (config('app.env') === 'production') {
+                        if (config('services.sendinblue.sync')) {
                             SendinblueSyncUser::dispatch($participation->profile->user);
                         }
                     }
@@ -102,7 +102,7 @@ class ParticipationObserver
         }
 
         // MAJ SENDINBLUE
-        if (config('app.env') === 'production') {
+        if (config('services.sendinblue.sync')) {
             if ($participation->profile) {
                 SendinblueSyncUser::dispatch($participation->profile->user);
             }

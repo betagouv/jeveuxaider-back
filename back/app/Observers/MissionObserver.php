@@ -43,7 +43,7 @@ class MissionObserver
         }
 
         // MAJ SENDINBLUE
-        if (config('app.env') === 'production') {
+        if (config('services.sendinblue.sync')) {
             $mission->structure->responsables->each(function ($profile, $key) {
                 if ($profile->user) { // Parfois il n'y a pas de user car ce sont des profiles invités
                     SendinblueSyncUser::dispatch($profile->user);
@@ -150,7 +150,7 @@ class MissionObserver
     public function deleting(Mission $mission)
     {
         // MAJ SENDINBLUE
-        if (config('app.env') === 'production') {
+        if (config('services.sendinblue.sync')) {
             $mission->structure->responsables->each(function ($profile, $key) {
                 if ($profile->user) { // Parfois il n'y a pas de user car ce sont des profiles invités
                     SendinblueSyncUser::dispatch($profile->user);
