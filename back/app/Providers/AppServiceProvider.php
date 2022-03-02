@@ -89,8 +89,8 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Model::preventLazyLoading(true);
-
-        if ($this->app->environment('staging')) {
+        
+        if (config("mail.reroute")) {
             if(Auth::guard('api')->user()) {
                 Mail::alwaysTo(Auth::guard('api')->user()->email);
             } else {
