@@ -84,6 +84,9 @@ class Reseau extends Model implements HasMedia
     public function deleteResponsable(Profile $profile)
     {
         $profile->tete_de_reseau_id = null;
+        $profile->user->resetContextRole();
+        $profile->user->save();
+
         $profile->save();
 
         return $this->load('responsables');

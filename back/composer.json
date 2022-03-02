@@ -13,7 +13,7 @@
     "anourvalar/eloquent-serialize": "^1.1",
     "axlon/laravel-postal-code-validation": "^3.0",
     "doctrine/dbal": "^2.10",
-    "facade/ignition": "^2.11",
+    "facade/ignition": "^2.17",
     "fideloper/proxy": "^4.0",
     "guzzlehttp/guzzle": "^7.0.1",
     "itsgoingd/clockwork": "^5.0",
