@@ -116,7 +116,7 @@ return [
     |
     |
     */
-
+    'api_key' => env('API_KEY', null),
     'api_engagement_key' => env('API_ENGAGEMENT_KEY', null),
 
     /*
