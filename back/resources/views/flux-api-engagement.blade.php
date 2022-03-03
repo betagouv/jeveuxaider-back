@@ -81,55 +81,74 @@
             </remote>
         @endif
         @php
-            $domain_id = $mission->template ? $mission->template->domaine->id : $mission->domaine->id;
+            $domain_id = ($mission->template ? $mission->template->domaine?->id : $mission->domaine) ? $mission->domaine?->id : null;
         @endphp
         @switch($domain_id)
-            @case(1) {{-- Mobilisation covid-19 --}}
+            @case(5)
+                {{-- Mobilisation covid-19 --}}
                 <domain>
                     <![CDATA[sante]]>
                 </domain>
             @break
-            @case(2) {{-- Éducation pour tous --}}
+
+            @case(9)
+                {{-- Éducation pour tous --}}
                 <domain>
                     <![CDATA[education]]>
                 </domain>
             @break
-            @case(3) {{-- Santé pour tous --}}
+
+            @case(1)
+                {{-- Santé pour tous --}}
                 <domain>
                     <![CDATA[sante]]>
                 </domain>
             @break
-            @case(4) {{-- Protection de la nature --}}
+
+            @case(10)
+                {{-- Protection de la nature --}}
                 <domain>
                     <![CDATA[environnement]]>
                 </domain>
             @break
-            @case(6) {{-- Solidarité et insertion --}}
+
+            @case(7)
+                {{-- Solidarité et insertion --}}
                 <domain>
                     <![CDATA[solidarite-insertion]]>
                 </domain>
             @break
-            @case(7) {{-- Sport pour tous --}}
+
+            @case(4)
+                {{-- Sport pour tous --}}
                 <domain>
                     <![CDATA[sport]]>
                 </domain>
             @break
-            @case(8) {{-- Prévention et protection --}}
+
+            @case(2)
+                {{-- Prévention et protection --}}
                 <domain>
                     <![CDATA[autre]]>
                 </domain>
             @break
-            @case(9) {{-- Mémoire et citoyenneté --}}
+
+            @case(8)
+                {{-- Mémoire et citoyenneté --}}
                 <domain>
                     <![CDATA[vivre-ensemble]]>
                 </domain>
             @break
-            @case(10) {{-- Coopération internationale --}}
+
+            @case(6)
+                {{-- Coopération internationale --}}
                 <domain>
                     <![CDATA[vivre-ensemble]]>
                 </domain>
             @break
-            @case(11) {{-- Art et culture pour tous --}}
+
+            @case(3)
+                {{-- Art et culture pour tous --}}
                 <domain>
                     <![CDATA[culture-loisirs]]>
                 </domain>
@@ -139,7 +158,9 @@
         <publicsBeneficiaires>
             @if ($mission->publics_beneficiaires)
                 @foreach ($mission->publics_beneficiaires as $public_beneficiaire)
-                    <value><![CDATA[{{ $public_beneficiaire }}]]></value>
+                    <value>
+                        <![CDATA[{{ $public_beneficiaire }}]]>
+                    </value>
                 @endforeach
             @endif
         </publicsBeneficiaires>
@@ -147,14 +168,16 @@
         <publicsVolontaires>
             @if ($mission->publics_volontaires)
                 @foreach ($mission->publics_volontaires as $public_volontaire)
-                    <value><![CDATA[{{ $public_volontaire }}]]></value>
+                    <value>
+                        <![CDATA[{{ $public_volontaire }}]]>
+                    </value>
                 @endforeach
             @endif
         </publicsVolontaires>
 
         <snu>
             @php
-                $isSnu = !empty($mission->publics_volontaires) && in_array('Jeunes volontaires du Service National Universel', $mission->publics_volontaires) ;
+                $isSnu = !empty($mission->publics_volontaires) && in_array('Jeunes volontaires du Service National Universel', $mission->publics_volontaires);
             @endphp
             <![CDATA[{{ $isSnu ? 'yes' : 'no' }}]]>
         </snu>
