@@ -31,13 +31,18 @@ class ParticipationController extends Controller
         return QueryBuilder::for(Participation::role($request->header('Context-Role'))->with('profile', 'mission'))
             ->allowedFilters(
                 AllowedFilter::custom('search', new FiltersParticipationSearch),
-                AllowedFilter::exact('mission_id'),
+                AllowedFilter::exact('mission.id'),
+                AllowedFilter::exact('mission.name'),
                 AllowedFilter::exact('mission.department'),
+                AllowedFilter::exact('mission.structure.name'),
+                AllowedFilter::exact('mission.structure.id'),
+                AllowedFilter::exact('mission.template.id'),
+                AllowedFilter::exact('profile.id'),
                 AllowedFilter::scope('ofReseau'),
+                AllowedFilter::scope('OfTerritoire'),
                 'state',
                 'mission.zip',
                 'mission.type',
-                'mission.structure.name'
             )
             ->allowedIncludes([
                 'conversation.latestMessage',

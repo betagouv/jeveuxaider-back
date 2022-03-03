@@ -84,70 +84,70 @@
             $domain_id = ($mission->template ? $mission->template->domaine?->id : $mission->domaine) ? $mission->domaine?->id : null;
         @endphp
         @switch($domain_id)
-            @case(1)
+            @case(5)
                 {{-- Mobilisation covid-19 --}}
                 <domain>
                     <![CDATA[sante]]>
                 </domain>
             @break
 
-            @case(2)
+            @case(9)
                 {{-- Éducation pour tous --}}
                 <domain>
                     <![CDATA[education]]>
                 </domain>
             @break
 
-            @case(3)
+            @case(1)
                 {{-- Santé pour tous --}}
                 <domain>
                     <![CDATA[sante]]>
                 </domain>
             @break
 
-            @case(4)
+            @case(10)
                 {{-- Protection de la nature --}}
                 <domain>
                     <![CDATA[environnement]]>
                 </domain>
             @break
 
-            @case(6)
+            @case(7)
                 {{-- Solidarité et insertion --}}
                 <domain>
                     <![CDATA[solidarite-insertion]]>
                 </domain>
             @break
 
-            @case(7)
+            @case(4)
                 {{-- Sport pour tous --}}
                 <domain>
                     <![CDATA[sport]]>
                 </domain>
             @break
 
-            @case(8)
+            @case(2)
                 {{-- Prévention et protection --}}
                 <domain>
                     <![CDATA[autre]]>
                 </domain>
             @break
 
-            @case(9)
+            @case(8)
                 {{-- Mémoire et citoyenneté --}}
                 <domain>
                     <![CDATA[vivre-ensemble]]>
                 </domain>
             @break
 
-            @case(10)
+            @case(6)
                 {{-- Coopération internationale --}}
                 <domain>
                     <![CDATA[vivre-ensemble]]>
                 </domain>
             @break
 
-            @case(11)
+            @case(3)
                 {{-- Art et culture pour tous --}}
                 <domain>
                     <![CDATA[culture-loisirs]]>
