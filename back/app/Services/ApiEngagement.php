@@ -99,70 +99,70 @@ class ApiEngagement
         switch ($mission['domain']) {
             case 'environnement':
                 return [
-                    'id' => 4,
+                    'id' => 10,
                     'name' => 'Protection de la nature',
                 ];
                 break;
 
             case 'solidarite-insertion':
                 return [
-                    'id' => 6,
+                    'id' => 7,
                     'name' => 'Solidarité et insertion',
                 ];
                 break;
 
             case 'sante':
                 return [
-                    'id' => 3,
+                    'id' => 1,
                     'name' => 'Santé pour tous',
                 ];
                 break;
 
             case 'culture-loisirs':
                 return [
-                    'id' => 11,
+                    'id' => 3,
                     'name' => 'Art et culture pour tous',
                 ];
                 break;
 
             case 'education':
                 return [
-                    'id' => 2,
+                    'id' => 9,
                     'name' => 'Éducation pour tous',
                 ];
                 break;
 
             case 'emploi':
                 return [
-                    'id' => 6,
+                    'id' => 7,
                     'name' => 'Solidarité et insertion',
                 ];
                 break;
 
             case 'sport':
                 return [
-                    'id' => 7,
+                    'id' => 4,
                     'name' => 'Sport pour tous',
                 ];
                 break;
 
             case 'humanitaire':
                 return [
-                    'id' => 6,
+                    'id' => 7,
                     'name' => 'Solidarité et insertion',
                 ];
                 break;
 
             case 'animaux':
                 return [
-                    'id' => 4,
+                    'id' => 10,
                     'name' => 'Protection de la nature',
                 ];
                 break;
 
             case 'vivre-ensemble':
                 return [
-                    'id' => 6,
+                    'id' => 7,
                     'name' => 'Solidarité et insertion',
                 ];
                 break;
@@ -171,7 +171,7 @@ class ApiEngagement
                 return [
                     'id' => 9,
                     'name' => 'Autre',
-                    'logo' => ''
+                    // 'logo' => ''
                 ];
                 break;
 
@@ -179,7 +179,7 @@ class ApiEngagement
                 return [
                     'id' => 9,
                     'name' => '',
-                    'logo' => ''
+                    // 'logo' => ''
                 ];
                 break;
         }
@@ -351,7 +351,7 @@ class ApiEngagement
                     $attributes['twitter'] = $structure->twitter;
                 }
 
-                if($structure->address != $structure->city){
+                if ($structure->address != $structure->city) {
                     if ($structure->latitude && $structure->longitude) {
                         $attributes['coordonnees']['adresse']['location'] = [
                             'lat' => $structure->latitude,
