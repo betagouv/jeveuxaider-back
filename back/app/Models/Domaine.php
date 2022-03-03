@@ -114,6 +114,11 @@ class Domaine extends Model implements HasMedia
             ->performOnCollections('domaine__illustrations_organisation');
     }
 
+    public function missionTemplates()
+    {
+        return $this->hasMany(MissionTemplate::class);
+    }
+
     public function banner()
     {
         return $this->morphOne(ModelMedia::class, 'model')->where('collection_name', 'domaine__banner');

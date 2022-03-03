@@ -56,7 +56,6 @@ class Structure extends Model implements HasMedia
 
     protected $checkFields = ['description', 'domaines', 'publics_beneficiaires', 'address', 'department', 'logo', 'email', 'phone', 'website'];
 
-    //protected $appends = ['full_url', 'full_address', 'domaines', 'logo', 'places_left', 'override_image_1', 'override_image_2'];
     protected $appends = ['full_url', 'full_address'];
 
     public function getFullUrlAttribute()
@@ -106,16 +105,6 @@ class Structure extends Model implements HasMedia
                 break;
         }
     }
-
-    // public function getDomainesAttribute()
-    // {
-    //     return $this->tagsWithType('domaine')->pluck('id')->values();
-    // }
-
-    // public function getDomainesWithImageAttribute()
-    // {
-    //     return Tag::whereIn('id', $this->tagsWithType('domaine')->pluck('id'))->get()->toArray();
-    // }
 
     public function setNameAttribute($value)
     {
@@ -379,15 +368,6 @@ class Structure extends Model implements HasMedia
 
         return $scoreResponseTime > 0 ? $scoreResponseTime : 0;
     }
-
-    // TEMP LARAVEL 7. DISPO DANS LARAVEL 8
-    // public function saveQuietly(array $options = [])
-    // {
-    //     return static::withoutEvents(function () use ($options) {
-    //         return $this->save($options);
-    //     });
-    // }
-
 
     public function logo()
     {

@@ -22,6 +22,7 @@ class DomaineController extends Controller
     public function index()
     {
         return QueryBuilder::for(Domaine::class)
+            ->withCount(['missionTemplates'])
             ->allowedFilters([
                 AllowedFilter::custom('search', new FiltersDomaineSearch),
             ])
