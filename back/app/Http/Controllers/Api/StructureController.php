@@ -26,7 +26,7 @@ class StructureController extends Controller
 {
     public function index(Request $request)
     {
-        return QueryBuilder::for(Structure::role($request->header('Context-Role')))
+        $results = QueryBuilder::for(Structure::role($request->header('Context-Role')))
             ->allowedFilters([
                 AllowedFilter::custom('search', new FiltersStructureSearch),
                 AllowedFilter::exact('department'),
@@ -42,11 +42,13 @@ class StructureController extends Controller
                 'illustrations',
                 'overrideImage1'
             ])
-            // ->allowedAppends([
-            //     'places_left',
-            // ])
             ->defaultSort('-created_at')
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
+
+        $results->append(['places_left']);
+
+
+        return $results;
     }
 
     public function availableMissions(Request $request, Structure $structure)
