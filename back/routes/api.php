@@ -109,7 +109,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('participations', 'Api\ParticipationController@store');
     Route::put('participations/{participation}/cancel', 'Api\ParticipationController@cancel');
 
-    // Route::post('user/password', 'Api\UserController@updatePassword');
+    Route::post('user/password', 'Api\UserController@updatePassword');
 
 
     // MESSAGES

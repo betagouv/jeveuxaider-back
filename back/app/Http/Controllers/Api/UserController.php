@@ -95,6 +95,43 @@ class UserController extends Controller
         return $user;
     }
 
+    public function updatePassword(Request $request)
+    {
+        $user = $request->user();
+        $inputs = $request->all();
+
+        if (!(Hash::check($request->get('current_password'), $user->password))) {
+            abort(422,"L'ancien mot de passe est incorrect");
+        }
+
+        if (strcmp($request->get('current_password'), $request->get('password')) == 0) {
+            abort(422,'Le nouveau mot de passe doit être différent de l\'ancien');
+        }
+
+        $messages = [
+            'current_password.required' => 'Le mode de passe actuel est requis',
+            'password.required' => 'Le mot de passe est requis',
+            'password.min' => 'Votre nouveau mot de passe doit contenir au moins :min caractères',
+            'password.confirmed' => 'Les nouveaux mots de passe ne sont pas identiques',
+        ];
+
+        $validator = Validator::make($inputs, [
+            'current_password' => 'required',
+            'password' => [
+                'required',
+                'min:8',
+                'confirmed',
+            ],
+        ], $messages);
+
+        if (!$validator->fails()) {
+            $user->password = Hash::make($inputs['password']);
+            $user->save();
+            return response()->json($user, 200);
+        }
+        return response()->json(['errors'=> $validator->errors()], 422);
+    }
+
     public function impersonate(User $user)
     {
         $token = $user->createToken('impersonate');
