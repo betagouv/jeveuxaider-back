@@ -114,7 +114,6 @@ class Participation extends Model
 
     public function scopeStructure($query, $value)
     {
-        ray($value);
         return $query
             ->whereHas('mission', function (Builder $query) use ($value) {
                 $query->where('structure_id', $value);

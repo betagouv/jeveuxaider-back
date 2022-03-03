@@ -30,10 +30,12 @@ class StructureController extends Controller
             ->allowedFilters([
                 AllowedFilter::custom('search', new FiltersStructureSearch),
                 AllowedFilter::exact('department'),
+                AllowedFilter::exact('reseaux.id'),
+                AllowedFilter::exact('reseaux.name'),
                 'state',
                 'statut_juridique',
                 // AllowedFilter::custom('rna', new FiltersStructureWithRna),
-                AllowedFilter::scope('ofReseau'),
+                // AllowedFilter::scope('ofReseau'),
             ])
             ->allowedIncludes([
                 'domaines',
