@@ -27,6 +27,7 @@ class InvitationController extends Controller
             ->allowedFilters(
                 'role',
                 AllowedFilter::scope('of_reseau'),
+                AllowedFilter::scope('of_reseau_and_role_antenne'),
                 AllowedFilter::scope('of_territoire'),
                 AllowedFilter::scope('of_structure'),
                 // AllowedFilter::custom('search', new FiltersInvitationSearch),
