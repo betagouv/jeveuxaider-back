@@ -47,7 +47,6 @@ class StructureController extends Controller
 
         $results->append(['places_left']);
 
-
         return $results;
     }
 
