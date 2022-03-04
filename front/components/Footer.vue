@@ -116,6 +116,12 @@
           </div>
 
           <div class="mt-6">
+            <nuxt-link
+              to="/accessibilite"
+              class="mr-2 hover:underline border-r pr-2"
+            >
+              Accessibilité : Non conforme
+            </nuxt-link>
             Sauf mention contraire, tous les textes de ce site sont sous
             <a
               href="https://github.com/etalab/licence-ouverte/blob/master/LO.md"
@@ -312,6 +318,7 @@ export default {
         {
           name: `Plan du site`,
           url: `/sitemap.xml`,
+          component: 'a',
         },
         // {
         //   name: `Accessibilité`,

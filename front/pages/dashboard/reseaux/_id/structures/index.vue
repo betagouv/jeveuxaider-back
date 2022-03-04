@@ -11,11 +11,7 @@
           :initial-value="query['filter[search]']"
           @changed="onFilterChange"
         />
-        <el-badge
-          v-if="activeFilters > 1"
-          :value="activeFilters - 1"
-          type="primary"
-        >
+        <el-badge :value="activeFilters || null" type="primary">
           <el-button
             icon="el-icon-s-operation"
             class="!ml-4"
@@ -24,14 +20,6 @@
             Filtres avancés
           </el-button>
         </el-badge>
-        <el-button
-          v-else
-          icon="el-icon-s-operation"
-          class="!ml-4"
-          @click="showFilters = !showFilters"
-        >
-          Filtres avancés
-        </el-button>
       </div>
       <div v-if="showFilters" class="flex flex-wrap gap-4 mb-4">
         <SearchFiltersQueryInput
@@ -187,9 +175,8 @@ export default {
     }
   },
   async fetch() {
-    this.query['filter[of_reseau]'] = this.$route.params.id
     const { data } = await this.$api.fetchStructures({
-      ...this.query,
+      ...this.fullQuery,
       include: 'missionsCount',
       append: 'completion_rate',
     })
@@ -198,11 +185,17 @@ export default {
     this.fromRow = data.from
     this.toRow = data.to
   },
+  computed: {
+    fullQuery() {
+      // exposed + forced filters
+      return { ...this.query, 'filter[of_reseau]': this.$route.params.id }
+    },
+  },
   methods: {
     onExport() {
       this.loadingExport = true
       this.$api
-        .exportStructures(this.query)
+        .exportStructures(this.fullQuery)
         .then(() => {
           this.loadingExport = false
           // fileDownload(response.data, 'organisation.xlsx')

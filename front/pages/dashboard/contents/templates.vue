@@ -36,7 +36,7 @@
           :initial-value="query['filter[search]']"
           @changed="onFilterChange"
         />
-        <el-badge v-if="activeFilters" :value="activeFilters" type="primary">
+        <el-badge :value="activeFilters || null" type="primary">
           <el-button
             icon="el-icon-s-operation"
             class="!ml-4"
@@ -45,14 +45,6 @@
             Filtres avancés
           </el-button>
         </el-badge>
-        <el-button
-          v-else
-          icon="el-icon-s-operation"
-          class="!ml-4"
-          @click="showFilters = !showFilters"
-        >
-          Filtres avancés
-        </el-button>
       </div>
       <div v-if="showFilters" class="flex flex-wrap gap-4 mb-4">
         <SearchFiltersQuery
@@ -70,19 +62,10 @@
           "
           @changed="onFilterChange"
         />
-        <SearchFiltersQuery
+        <SearchFiltersQueryReseaux
           type="select"
-          name="reseau.id"
-          :value="query['filter[of_reseau]']"
+          name="of_reseau"
           label="Réseau"
-          :options="
-            reseaux.map((reseau) => {
-              return {
-                label: reseau.name,
-                value: reseau.id,
-              }
-            })
-          "
           @changed="onFilterChange"
         />
       </div>
@@ -209,10 +192,8 @@ export default {
       return error({ statusCode: 403 })
     }
     const domaines = await $api.fetchTags({ 'filter[type]': 'domaine' })
-    const reseaux = await $api.fetchReseaux()
     return {
       domaines: domaines.data.data,
-      reseaux: reseaux.data.data,
     }
   },
   data() {

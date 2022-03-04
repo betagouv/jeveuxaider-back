@@ -16,13 +16,13 @@
 
     <StructureApiSearchInputWithResults
       class="flex-1 overflow-y-auto"
-      :initial-search="row.name"
-      :initial-city="row.city"
+      :initial-search="row.rna ? row.rna : row.name"
+      :initial-city="row.rna ? null : row.city"
       :structure="row"
       @selected="onOrganisationSelected"
     />
 
-    <div class="border-t pt-4 flex items-end justify-end">
+    <div class="border-t pt-4 flex items-end justify-end gap-2">
       <el-button :loading="loadingNA" @click="onSubmitRnaNA"
         >RNA non applicable</el-button
       >

@@ -1,313 +1,66 @@
 <template>
   <div>
-    <nuxt-link
-      v-if="$store.getters.contextRole === 'admin'"
-      :to="`/dashboard/structure/${organisation.id}/edit`"
-      class="fixed bottom-0 p-2 z-50 bg-white rounded-full m-4 shadow-lg hover:shadow-2xl border"
+    <SectionOrganisationEditShortcut
+      :link="`/dashboard/structure/${organisation.id}/edit`"
+    />
+
+    <SectionOrganisationPresentation
+      :organisation="organisation"
+      :src-set="image1"
     >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        class="h-5 w-5"
-        viewBox="0 0 20 20"
-        fill="currentColor"
+      <footer
+        slot="anchors"
+        class="grid divide-x divide-gray-200 text-center border-t"
+        :class="[
+          { 'grid-cols-3': missions.data.length && organisation.donation },
+          {
+            'grid-cols-2':
+              (missions.data.length && !organisation.donation) ||
+              (organisation.donation && !missions.data.length),
+          },
+        ]"
       >
-        <path
-          d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"
-        /></svg
-    ></nuxt-link>
-
-    <!-- ROW 1 -->
-    <div class="relative bg-white md:grid md:grid-cols-3 lg:grid-cols-2">
-      <!-- 1 -- LEFT -->
-      <div class="col-span-2 lg:col-span-1">
-        <header class="border-b flex justify-between items-stretch">
-          <div class="p-4 border-r flex items-center">
-            <img src="/images/logo_arianne.svg" width="55" class="my-auto" />
-          </div>
-
-          <div class="p-4 flex items-center">
-            <span class="text-xs uppercase text-gray-500 mr-3"
-              >Encouragé par</span
-            >
-            <nuxt-link to="/">
-              <img
-                src="@/assets/images/jeveuxaider-logo.svg"
-                alt="Bénévolat je veux aider"
-                title="Bénévolat association"
-                width="140"
-              />
-            </nuxt-link>
-          </div>
-        </header>
-
-        <div class="px-4 max-w-3xl ml-auto">
-          <div class="pb-4 md:p-8 lg:pt-6 xl:p-16 xl:pt-8">
-            <Breadcrumb
-              class="breadcrumb"
-              :items="[{ label: organisation.name }]"
-            />
-
-            <img
-              v-if="organisation.logo"
-              :src="
-                organisation.logo.large
-                  ? organisation.logo.large
-                  : organisation.logo.original
-              "
-              :alt="organisation.name"
-              class="my-8 h-auto"
-              style="max-width: 16rem; max-height: 10rem"
-            />
-
-            <h1
-              class="mt-2 mb-6 text-3xl leading-8 font-bold tracking-tight text-gray-900 sm:text-5xl sm:leading-13"
-            >
-              <div v-if="legalStatus">Découvrez {{ legalStatus }}</div>
-              <span class="font-extrabold">{{ organisation.name }}</span>
-            </h1>
-
-            <client-only :placeholder="organisation.description">
-              <v-clamp
-                tag="div"
-                :max-lines="5"
-                autoresize
-                class="text-gray-500 text-lg"
-                :expanded="expandDescription"
-              >
-                {{ organisation.description }}
-
-                <template slot="after" slot-scope="{ clamped }">
-                  <span
-                    v-if="clamped"
-                    class="uppercase text-black text-sm font-semibold cursor-pointer"
-                    @click="expandDescription = true"
-                  >
-                    Lire plus</span
-                  >
-                </template>
-              </v-clamp>
-            </client-only>
-          </div>
-        </div>
-
-        <footer
-          class="grid divide-x divide-gray-200 text-center border-t"
-          :class="[
-            { 'grid-cols-3': missions.data.length && organisation.donation },
-            {
-              'grid-cols-2':
-                (missions.data.length && !organisation.donation) ||
-                (organisation.donation && !missions.data.length),
-            },
-          ]"
+        <button
+          v-if="missions.data.length"
+          v-scroll-to="'#missions'"
+          class="footer--button"
         >
-          <button
-            v-if="missions.data.length"
-            v-scroll-to="'#missions'"
-            class="footer--button"
-          >
-            Devenir bénévole
-          </button>
+          Devenir bénévole
+        </button>
 
-          <button
-            v-if="organisation.donation"
-            v-scroll-to="'#faire-un-don'"
-            class="footer--button"
-          >
-            Faire un don
-          </button>
+        <button
+          v-if="organisation.donation"
+          v-scroll-to="'#faire-un-don'"
+          class="footer--button"
+        >
+          Faire un don
+        </button>
 
-          <button v-scroll-to="'#infos'" class="footer--button">
-            Infos pratiques
-          </button>
-        </footer>
-      </div>
+        <button v-scroll-to="'#infos'" class="footer--button">
+          Infos pratiques
+        </button>
+      </footer>
+    </SectionOrganisationPresentation>
 
-      <!-- 1 -- RIGHT -->
-      <div>
-        <img
-          :src="image1.default"
-          :srcset="image1.x2 ? `${image1.x2} 2x` : false"
-          class="md:absolute object-cover w-full md:w-1/3 lg:w-1/2 h-full"
-          @error="defaultImg($event, 'image_1')"
-        />
-      </div>
-    </div>
-
-    <!-- ROW 2 -->
-    <div
-      class="flex flex-col md:grid md:grid-cols-3 lg:grid-cols-2 relative bg-white"
-    >
-      <!-- 2 -- LEFT -->
-      <div class="order-2 md:order-1">
-        <img
-          :src="image2.default"
-          :srcset="image2.x2 ? `${image2.x2} 2x` : false"
-          class="md:absolute object-cover w-full md:w-1/3 lg:w-1/2 h-full"
-          @error="defaultImg($event, 'image_2')"
-        />
-      </div>
-
-      <!-- 2 -- RIGHT -->
+    <SectionOrganisationDetails :organisation="organisation" :src-set="image2">
       <div
-        class="order-1 md:order-2 col-span-2 lg:col-span-1"
-        :style="`background-color: ${color}`"
+        v-if="organisation.places_left > 0"
+        slot="nbBenevoles"
+        class="text-2xl sm:text-4xl font-extrabold text-white mb-8 tracking-tight"
       >
-        <div class="max-w-3xl mr-auto">
-          <div class="text-white px-4 py-8 md:p-8 xl:p-16">
-            <div
-              v-if="organisation.places_left"
-              class="font-extrabold text-4xl mb-4"
-            >
-              {{ organisation.places_left | formatNumber }}
-              {{
-                organisation.places_left
-                  | pluralize(['bénévole recherché', 'bénévoles recherchés'])
-              }}
-            </div>
-
-            <!-- DOMAINES -->
-            <template v-if="organisation.domaines">
-              <div class="flex items-center mb-4">
-                <div class="flex-none uppercase font-bold text-sm mr-4">
-                  Causes défendues
-                </div>
-                <hr class="w-full border-white opacity-25" />
-              </div>
-
-              <div v-if="!organisation.domaines_with_image.length">
-                Non renseigné
-              </div>
-
-              <div v-else class="grid lg:grid-cols-2 gap-3 xl:gap-x-6">
-                <div
-                  v-for="domaine in organisation.domaines_with_image"
-                  :key="domaine.id"
-                  class="flex items-start"
-                >
-                  <div class="flex-none w-6 h-6 mr-3">
-                    <img :src="domaine.image" :alt="domaine.name.fr" />
-                  </div>
-                  <div class="">{{ domaine.name.fr }}</div>
-                </div>
-              </div>
-            </template>
-
-            <!-- PUBLICS -->
-            <template v-if="organisation.publics_beneficiaires">
-              <div class="flex items-center mb-4 mt-8">
-                <div class="flex-none uppercase font-bold text-sm mr-4">
-                  Bénéficiaires
-                </div>
-                <hr class="w-full border-white opacity-25" />
-              </div>
-
-              <div v-if="!organisation.publics_beneficiaires.length">
-                Non renseigné
-              </div>
-
-              <div
-                v-for="(
-                  public_beneficiaire, key
-                ) in organisation.publics_beneficiaires"
-                v-else
-                :key="key"
-                class="flex items-center mb-3"
-              >
-                <div
-                  class="public-wrapper w-6 h-6 mr-3 flex items-center justify-center"
-                  v-html="iconPublicType(public_beneficiaire)"
-                />
-
-                <div>
-                  {{
-                    public_beneficiaire
-                      | labelFromValue('mission_publics_beneficiaires')
-                  }}
-                </div>
-              </div>
-            </template>
-
-            <!-- SHARE -->
-            <template
-              v-if="
-                organisation.website ||
-                organisation.facebook ||
-                organisation.twitter ||
-                organisation.instagram
-              "
-            >
-              <div class="flex items-center mb-4 mt-8">
-                <div class="flex-none uppercase font-bold text-sm mr-4">
-                  En savoir plus
-                </div>
-                <hr class="w-full border-white opacity-25" />
-              </div>
-
-              <div class="flex -m-1">
-                <!-- STRUCTURE LINK -->
-                <button
-                  v-if="organisation.website"
-                  class="m-1 hover:scale-110 transform transition will-change-transform !outline-none focus-within:ring border border-white rounded-full w-10 h-10 flex items-center justify-center"
-                  @click="goTo(organisation.website)"
-                >
-                  <img
-                    class="flex-none"
-                    src="/images/link.svg"
-                    :alt="organisation.name"
-                  />
-                </button>
-
-                <!-- FACEBOOK -->
-                <button
-                  v-if="organisation.facebook"
-                  class="m-1 hover:scale-110 transform transition will-change-transform !outline-none focus-within:ring border border-white rounded-full w-10 h-10 flex items-center justify-center"
-                  @click="goTo(organisation.facebook)"
-                >
-                  <img
-                    class="flex-none"
-                    src="/images/facebook.svg"
-                    alt="Facebook"
-                  />
-                </button>
-
-                <!-- TWITTER -->
-                <button
-                  v-if="organisation.twitter"
-                  class="m-1 hover:scale-110 transform transition will-change-transform !outline-none focus-within:ring border border-white rounded-full w-10 h-10 flex items-center justify-center"
-                  @click="goTo(organisation.twitter)"
-                >
-                  <img
-                    class="flex-none"
-                    src="/images/twitter_white_2.svg"
-                    alt="twitter"
-                  />
-                </button>
-
-                <!-- INSTAGRAM -->
-                <button
-                  v-if="organisation.instagram"
-                  class="m-1 hover:scale-110 transform transition will-change-transform !outline-none focus-within:ring border border-white rounded-full w-10 h-10 flex items-center justify-center"
-                  @click="goTo(organisation.instagram)"
-                >
-                  <img
-                    class="flex-none"
-                    src="/images/instagram.svg"
-                    alt="instagram"
-                  />
-                </button>
-              </div>
-            </template>
-          </div>
-        </div>
+        {{ organisation.places_left | formatNumber }}
+        {{
+          organisation.places_left
+            | pluralize(['bénévole recherché', 'bénévoles recherchés'])
+        }}
       </div>
-    </div>
+    </SectionOrganisationDetails>
 
     <!-- MISSIONS -->
     <div v-if="missions.data.length" id="missions" class="pt-16 pb-32">
       <div class="container px-4 mx-auto">
         <h2
-          class="text-center mb-12 text-3xl leading-8 font-bold tracking-tight text-gray-900 sm:text-5xl sm:leading-tight"
+          class="text-center mb-12 text-3xl sm:text-5xl sm:!leading-[1.1] tracking-tighter text-gray-900"
         >
           <span>Trouvez une mission dans {{ legalStatus }}</span>
           <br class="hidden xl:block" />
@@ -467,64 +220,15 @@
       </div>
     </div>
 
-    <!-- ROW 3 -->
-    <div
-      id="infos"
-      class="relative bg-white md:grid md:grid-cols-3 lg:grid-cols-2"
-    >
-      <!-- 3 -- LEFT -->
-      <div class="col-span-2 lg:col-span-1 md:border-b">
-        <div class="px-4 max-w-3xl ml-auto">
-          <div class="pt-4 pb-8 md:p-8 lg:pt-6 xl:p-16 xl:pt-8">
-            <h2
-              class="mt-2 mb-6 text-3xl leading-8 font-bold tracking-tight text-gray-900 sm:text-4xl sm:leading-10"
-            >
-              <span v-if="legalStatus">Contactez {{ legalStatus }}</span>
-              <br class="hidden xl:block" />
-              <span class="font-extrabold">{{ organisation.name }}</span>
-            </h2>
-
-            <div class="mb-8">
-              <div class="text-gray-500 font-bold uppercase">Adresse</div>
-              <p>{{ organisation.full_address }}</p>
-            </div>
-
-            <div>
-              <div class="text-gray-500 font-bold uppercase">Contact</div>
-              <p>
-                <span v-if="organisation.phone">
-                  Téléphone&nbsp;: {{ organisation.phone }}<br />
-                </span>
-                <span v-if="organisation.email"
-                  >E-mail&nbsp;: {{ organisation.email }}</span
-                >
-                <span v-if="!organisation.email && !organisation.phone"
-                  >Non renseigné</span
-                >
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 3 -- RIGHT -->
-      <div>
-        <iframe
-          width="100%"
-          height="100%"
-          style="border: 0; min-height: 320px"
-          loading="lazy"
-          allowfullscreen
-          :src="`https://www.google.com/maps/embed/v1/place?key=${$config.google.places}
-            &q=${organisation.full_address}`"
-        />
-      </div>
-    </div>
+    <SectionOrganisationContact :organisation="organisation" />
   </div>
 </template>
 
 <script>
+import OrganisationMixin from '@/mixins/OrganisationMixin'
+
 export default {
+  mixins: [OrganisationMixin],
   layout: 'organisation',
   async asyncData({ $api, params, error, redirect }) {
     const organisation = await $api.getAssociationBySlugOrId(params.slug)
@@ -537,7 +241,10 @@ export default {
       return error({ statusCode: 404 })
     }
 
-    const missions = await $api.fetchStructureAvailableMissionsWithPagination(
+    // @todo: Utiliser plutôt $algoliaApi.getMissions
+    const {
+      data: missions,
+    } = await $api.fetchStructureAvailableMissionsWithPagination(
       organisation.id,
       {
         append: 'domaines',
@@ -548,12 +255,7 @@ export default {
 
     return {
       organisation,
-      missions: missions.data,
-    }
-  },
-  data() {
-    return {
-      expandDescription: false,
+      missions,
     }
   },
   head() {
@@ -589,86 +291,25 @@ export default {
     }
   },
   computed: {
-    legalStatus() {
-      let output
-      switch (this.organisation.statut_juridique) {
-        case 'Association':
-          output = "l'association"
-          break
-        case 'Collectivité':
-          output = 'la collectivité'
-          break
-        case 'Structure publique':
-          output = "l'organisation publique"
-          break
-        case 'Structure privée':
-          output = "l'organisation privée"
-          break
-        default:
-          output = "l'organisation"
-          break
-      }
-
-      return output
-    },
-    color() {
-      return this.organisation.color ? this.organisation.color : '#B91C1C'
-    },
     image1() {
-      let illustration1 = {}
-      if (this.organisation?.override_image_1?.original) {
-        illustration1 = {
-          default:
-            this.organisation.override_image_1.xxl ??
-            this.organisation.override_image_1.original,
-          x2: null,
-        }
-      } else if (this.organisation.image_1) {
-        illustration1 = {
-          default: `/images/organisations/domaines/${this.organisation.image_1}.jpg`,
-          x2: `/images/organisations/domaines/${this.organisation.image_1}@2x.jpg`,
-        }
-      } else if (this.organisation.domaines.length > 0) {
-        illustration1 = {
-          default: `/images/organisations/domaines/${this.organisation.domaines[0].id}_1.jpg`,
-          x2: `/images/organisations/domaines/${this.organisation.domaines[0].id}_1@2x.jpg`,
-        }
-      } else {
-        illustration1 = {
-          default: `/images/organisations/domaines/1_1.jpg`,
-          x2: `/images/organisations/domaines/1_1@2x.jpg`,
-        }
-      }
-
-      return illustration1
+      return (
+        this.organisation?.override_image_1?.xxl ??
+        (this.organisation?.image_1
+          ? `/images/organisations/domaines/${this.organisation.image_1}.jpg, /images/organisations/domaines/${this.organisation.image_1}@2x.jpg`
+          : this.organisation.domaines.length > 0
+          ? `/images/organisations/domaines/${this.organisation.domaines[0].id}_1.jpg, /images/organisations/domaines/${this.organisation.domaines[0].id}_1@2x.jpg`
+          : `/images/organisations/domaines/1_1.jpg, /images/organisations/domaines/1_1@2x.jpg`)
+      )
     },
     image2() {
-      let illustration2 = {}
-      if (this.organisation?.override_image_2?.original) {
-        illustration2 = {
-          default:
-            this.organisation.override_image_2.xxl ??
-            this.organisation.override_image_2.original,
-          x2: null,
-        }
-      } else if (this.organisation.image_2) {
-        illustration2 = {
-          default: `/images/organisations/domaines/${this.organisation.image_2}.jpg`,
-          x2: `/images/organisations/domaines/${this.organisation.image_2}@2x.jpg`,
-        }
-      } else if (this.organisation.domaines.length > 0) {
-        illustration2 = {
-          default: `/images/organisations/domaines/${this.organisation.domaines[0].id}_2.jpg`,
-          x2: `/images/organisations/domaines/${this.organisation.domaines[0].id}_2@2x.jpg`,
-        }
-      } else {
-        illustration2 = {
-          default: `/images/organisations/domaines/2_1.jpg`,
-          x2: `/images/organisations/domaines/2_1@2x.jpg`,
-        }
-      }
-
-      return illustration2
+      return (
+        this.organisation?.override_image_2?.xxl ??
+        (this.organisation?.image_2
+          ? `/images/organisations/domaines/${this.organisation.image_2}.jpg, /images/organisations/domaines/${this.organisation.image_2}@2x.jpg`
+          : this.organisation.domaines.length > 0
+          ? `/images/organisations/domaines/${this.organisation.domaines[0].id}_1.jpg, /images/organisations/domaines/${this.organisation.domaines[0].id}_1@2x.jpg`
+          : `/images/organisations/domaines/2_1.jpg, /images/organisations/domaines/2_1@2x.jpg`)
+      )
     },
   },
   methods: {
@@ -679,43 +320,6 @@ export default {
         })
       window.open(url, '_blank')
     },
-    defaultImg(e, field) {
-      switch (field) {
-        case 'image_1':
-          e.target.src = `/images/organisations/domaines/1_1.jpg`
-          e.target.srcset = `/images/organisations/domaines/1_1@2x.jpg 2x`
-          break
-        case 'image_2':
-          e.target.src = `/images/organisations/domaines/2_1.jpg`
-          e.target.srcset = `/images/organisations/domaines/2_1@2x.jpg 2x`
-          break
-      }
-    },
-    iconPublicType(publicType) {
-      let icon
-      switch (publicType) {
-        case 'seniors':
-          icon = require('@/assets/images/icones/personnes_agees.svg?raw')
-          break
-        case 'persons_with_disabilities':
-          icon = require('@/assets/images/icones/handicap.svg?raw')
-          break
-        case 'people_in_difficulty':
-          icon = require('@/assets/images/icones/helping_hand.svg?raw')
-          break
-        case 'parents':
-          icon = require('@/assets/images/icones/parents.svg?raw')
-          break
-        case 'children':
-          icon = require('@/assets/images/icones/jeunes_enfants.svg?raw')
-          break
-        case 'any_public':
-          icon = require('@/assets/images/icones/tous_public.svg?raw')
-          break
-      }
-
-      return icon
-    },
   },
 }
 </script>
@@ -723,19 +327,6 @@ export default {
 <style lang="postcss" scoped>
 * {
   @apply border-gray-200;
-}
-
-.breadcrumb {
-  border-bottom: 0 !important;
-  ::v-deep ol {
-    @apply px-0 !important;
-  }
-}
-
-.public-wrapper {
-  ::v-deep svg {
-    @apply w-full h-full;
-  }
 }
 
 .card--mission--wrapper {
@@ -757,17 +348,5 @@ export default {
 
 .card--don {
   max-width: 1038px;
-}
-
-.footer--button {
-  font-size: 10px;
-  @apply font-bold uppercase py-6 outline-none transition-colors ease-in-out duration-200;
-  &:focus-visible,
-  &:hover {
-    @apply bg-gray-100;
-  }
-  @screen sm {
-    @apply text-sm;
-  }
 }
 </style>

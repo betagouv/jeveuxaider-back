@@ -355,7 +355,7 @@ export default {
           hid: 'description',
           name: 'description',
           content:
-            "Trouvez des missions en quelques clics. Devenez bénévole près de chez vous ou à distance. Faites vivre l'engagement de chacun pour tous ! Plus de 300 000 bénévoles sont déjà inscrits.",
+            "Trouvez des missions en quelques clics. Devenez bénévole près de chez vous ou à distance. Faites vivre l'engagement de chacun pour tous ! Plus de 350 000 bénévoles sont déjà inscrits.",
         },
         {
           hid: 'og:image',

@@ -34,53 +34,37 @@
     </el-table-column>
     <el-table-column label="Places" width="150">
       <template slot-scope="scope">
-        <template v-if="['Annulée', 'Signalée'].includes(scope.row.state)">
-          N/A
-        </template>
-        <template v-else>
-          <div class="flex items-center justify-between">
-            <div class="leading-snug">
-              <div v-if="scope.row.has_places_left" class="flex">
-                <div style="width: 90px">
-                  {{ scope.row.places_left }}
-                  {{ scope.row.places_left | pluralize(['place', 'places']) }}
-                </div>
-              </div>
-              <div v-else>Complet</div>
-              <div class="text-secondary text-xs">
-                {{ scope.row.participations_count }} /
-                {{ scope.row.participations_max }}
+        <div class="flex items-center justify-between">
+          <div class="leading-snug">
+            <div v-if="scope.row.has_places_left" class="flex">
+              <div style="width: 90px">
+                {{ scope.row.places_left }}
+                {{ scope.row.places_left | pluralize(['place', 'places']) }}
               </div>
             </div>
-
-            <el-button
-              v-if="
-                scope.row.permissions.canFindBenevoles &&
-                $store.getters.contextRole == 'responsable'
-              "
-              v-tooltip="{
-                delay: { show: 700, hide: 100 },
-                content: 'Trouver des bénévoles',
-              }"
-              type="primary"
-              plain
-              size="mini"
-              icon="el-icon-search"
-              @click.stop.prevent="$router.push(prefilteredUrl(scope.row))"
-            ></el-button>
-
-            <!-- <nuxt-link
-              v-if="
-                scope.row.state == 'Validée' &&
-                scope.row.has_places_left &&
-                $store.getters.contextRole == 'responsable'
-              "
-              :to="`/dashboard/mission/${scope.row.id}/trouver-des-benevoles`"
-            >
-              <el-button size="mini" round> Trouver des bénévoles </el-button>
-            </nuxt-link> -->
+            <div v-else>Complet</div>
+            <div class="text-secondary text-xs">
+              {{ scope.row.participations_count }} /
+              {{ scope.row.participations_max }}
+            </div>
           </div>
-        </template>
+
+          <el-button
+            v-if="
+              scope.row.permissions.canFindBenevoles &&
+              $store.getters.contextRole == 'responsable'
+            "
+            v-tooltip="{
+              delay: { show: 700, hide: 100 },
+              content: 'Trouver des bénévoles',
+            }"
+            type="primary"
+            plain
+            size="mini"
+            icon="el-icon-search"
+            @click.stop.prevent="$router.push(prefilteredUrl(scope.row))"
+          ></el-button>
+        </div>
       </template>
     </el-table-column>
     <el-table-column

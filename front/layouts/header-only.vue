@@ -1,16 +1,18 @@
 <template>
-  <div class="relative h-full">
+  <div class="h-full flex flex-col">
     <Header />
-    <img
-      class="z-1 object-cover absolute"
-      alt="Je Veux Aider"
-      :srcSet="bgHeroMultipleSizes.srcSet"
-      :src="bgHeroMultipleSizes.src"
-      width="100%"
-      height="100%"
-    />
-    <div class="p-6 lg:p-12">
-      <Nuxt :nuxt-child-key="$route.fullPath" class="" />
+    <div class="relative flex-1">
+      <img
+        class="z-1 object-cover absolute w-full h-full"
+        alt="Je Veux Aider"
+        :srcSet="bgHeroMultipleSizes.srcSet"
+        :src="bgHeroMultipleSizes.src"
+        width="2400"
+        height="1477"
+      />
+      <div class="p-6 lg:p-12">
+        <Nuxt :nuxt-child-key="$route.fullPath" />
+      </div>
     </div>
     <transition name="fade">
       <LazySearchOverlay

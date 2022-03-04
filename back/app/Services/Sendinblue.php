@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Http;
 class Sendinblue
 {
     private static function api($method, $path, $options = [])
-    {        
+    {
         $response = Http::withHeaders(
             [
                 'api-key' => config('services.sendinblue.key'),
@@ -97,6 +97,8 @@ class Sendinblue
             'ORGA_NAME' => $organisation ? $organisation->name : null,
             'ORGA_CODE_POSTAL' => $organisation ? $organisation->zip : null,
             'ORGA_NB_MISSION' => $organisation ? $organisation->missions->count() : null,
+            'REFERENT_DEPARTEMENT' => $user->profile->isReferent() ? $user->profile->referent_department : null,
+            'REFERENT_REGION' => $user->profile->isReferentRegional() ? $user->profile->referent_region : null,
         ];
 
         if ($withSMS) {

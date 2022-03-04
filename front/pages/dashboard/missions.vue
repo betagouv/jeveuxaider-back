@@ -17,30 +17,33 @@
       </div>
     </div>
     <div class="px-12 mb-3 flex flex-wrap">
-      <div class="flex w-full mb-4">
+      <div class="flex w-full mb-4 space-x-4">
         <SearchFiltersQueryMain
           name="search"
           placeholder="Rechercher par mots clés, mission ou structure..."
           :initial-value="query['filter[search]']"
           @changed="onFilterChange"
         />
-        <el-badge v-if="activeFilters" :value="activeFilters" type="primary">
+        <el-badge :value="activeFilters || null" type="primary">
           <el-button
             icon="el-icon-s-operation"
-            class="!ml-4"
             @click="showFilters = !showFilters"
           >
             Filtres avancés
           </el-button>
         </el-badge>
-        <el-button
-          v-else
-          icon="el-icon-s-operation"
-          class="!ml-4"
-          @click="showFilters = !showFilters"
-        >
-          Filtres avancés
-        </el-button>
+
+        <SearchSort
+          default="-created_at"
+          :sorts="[
+            { label: 'Nombre de places décroissant', value: '-places_left' },
+            { label: 'Nombre de places croissant', value: 'places_left' },
+            { label: 'Modifications les plus récentes', value: '-updated_at' },
+            { label: 'Modifications les moins récentes', value: 'updated_at' },
+            { label: 'Les plus récentes', value: '-created_at' },
+            { label: 'Les moins récentes', value: 'created_at' },
+          ]"
+        />
       </div>
       <div v-if="showFilters" class="flex flex-wrap gap-4 mb-4">
         <SearchFiltersQuery

@@ -245,14 +245,14 @@ export default {
         : null
     },
     missionCity() {
-      if (this.mission.city?.includes('Paris')) {
+      if (this.mission.city?.startsWith('Paris ')) {
         return 'Paris'
-      } else if (this.mission.city?.includes('Lyon')) {
+      } else if (this.mission.city?.startsWith('Lyon ')) {
         return 'Lyon'
-      } else if (this.mission.city?.includes('Marseille')) {
+      } else if (this.mission.city?.startsWith('Marseille ')) {
         return 'Marseille'
       } else {
-        return this.mission?.city
+        return this.mission?.city?.replace(' Arrondissement', '')
       }
     },
   },
@@ -261,14 +261,15 @@ export default {
 
 <style lang="postcss" scoped>
 .card--mission {
-  box-shadow: 0px 4px 14px 0px rgba(0, 0, 0, 0.05);
+  /* box-shadow: 0px 4px 14px 0px rgba(0, 0, 0, 0.05); */
+  box-shadow: 0px 20px 40px rgba(0, 0, 0, 0.1);
   @apply transition;
   @screen sm {
     &:hover {
       .thumbnail--wrapper img {
         transform: scale(1.05);
       }
-      @apply shadow-xl;
+      box-shadow: 0px 20px 40px rgba(0, 0, 0, 0.15);
     }
   }
 }

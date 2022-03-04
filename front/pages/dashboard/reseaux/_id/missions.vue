@@ -16,7 +16,7 @@
           :initial-value="query['filter[search]']"
           @changed="onFilterChange"
         />
-        <el-badge v-if="activeFilters" :value="activeFilters" type="primary">
+        <el-badge :value="activeFilters || null" type="primary">
           <el-button
             icon="el-icon-s-operation"
             class="!ml-4"
@@ -25,14 +25,6 @@
             Filtres avancés
           </el-button>
         </el-badge>
-        <el-button
-          v-else
-          icon="el-icon-s-operation"
-          class="!ml-4"
-          @click="showFilters = !showFilters"
-        >
-          Filtres avancés
-        </el-button>
       </div>
       <div v-if="showFilters" class="flex flex-wrap gap-4 mb-4">
         <SearchFiltersQuery
@@ -206,20 +198,25 @@ export default {
     }
   },
   async fetch() {
-    this.query['filter[of_reseau]'] = this.$route.params.id
     const { data } = await this.$api.fetchMissions({
-      ...this.query,
+      ...this.fullQuery,
     })
     this.tableData = data.data
     this.totalRows = data.total
     this.fromRow = data.from
     this.toRow = data.to
   },
+  computed: {
+    fullQuery() {
+      // exposed + forced filters
+      return { ...this.query, 'filter[of_reseau]': this.$route.params.id }
+    },
+  },
   methods: {
     onExport() {
       this.loadingExport = true
       this.$api
-        .exportMissions(this.query)
+        .exportMissions(this.fullQuery)
         .then((response) => {
           this.loadingExport = false
           fileDownload(response.data, 'missions.xlsx')

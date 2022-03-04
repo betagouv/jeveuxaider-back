@@ -160,7 +160,7 @@ class ConfigController extends Controller
             ->map(function ($mission) {
                 $date = new Carbon($mission->updated_at);
                 return [
-                    'url' => '/missions-benevolat/' . $mission->id . '/' . $mission->slug,
+                    'url' => $mission->full_url,
                     'lastmod' => $date->lt(Carbon::now()->startOfMonth()) ? Carbon::now()->startOfMonth() : $mission->updated_at,
                 ];
             });
@@ -172,7 +172,7 @@ class ConfigController extends Controller
             ->map(function ($territoire) {
                 $date = new Carbon($territoire->updated_at);
                 return [
-                    'url' => '/departements/' . $territoire->slug,
+                    'url' => $territoire->full_url,
                     'lastmod' => $date->lt(Carbon::now()->startOfMonth()) ? Carbon::now()->startOfMonth() : $territoire->updated_at,
                 ];
             });
@@ -183,7 +183,7 @@ class ConfigController extends Controller
             ->get()
             ->map(function ($territoire) {
                 return [
-                    'url' => '/villes/' . $territoire->slug,
+                    'url' => $territoire->full_url,
                     'lastmod' => Carbon::now()->subDays(1),
                 ];
             });
@@ -192,7 +192,7 @@ class ConfigController extends Controller
             ->get()
             ->map(function ($domaine) {
                 return [
-                    'url' => '/domaines-action/' . $domaine->slug,
+                    'url' => $domaine->full_url,
                     'lastmod' => Carbon::now()->subDays(1),
                 ];
             });
@@ -203,7 +203,16 @@ class ConfigController extends Controller
             ->get()
             ->map(function ($organisation) {
                 return [
-                    'url' => '/organisations/' . $organisation->slug,
+                    'url' => $organisation->full_url,
+                    'lastmod' => Carbon::now()->subDays(1),
+                ];
+            });
+
+        $reseauxUrls = Reseau::where('is_published', true)
+            ->get()
+            ->map(function ($reseau) {
+                return [
+                    'url' => $reseau->full_url,
                     'lastmod' => Carbon::now()->subDays(1),
                 ];
             });
@@ -215,6 +224,7 @@ class ConfigController extends Controller
             ...$citiesUrls,
             ...$domainesUrls,
             ...$organisationsUrls,
+            ...$reseauxUrls,
         ];
     }
 }

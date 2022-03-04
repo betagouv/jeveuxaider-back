@@ -69,6 +69,7 @@ export default {
     '@/plugins/atinternet.client.js',
     { src: '~/plugins/vue-cropper.js', mode: 'client' },
     '@/plugins/plausible.client.js',
+    '@/plugins/api-algolia.js',
   ],
 
   router: {},
@@ -89,7 +90,6 @@ export default {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     '@nuxtjs/axios',
-    '@nuxtjs/sitemap',
     'cookie-universal-nuxt',
     'nuxt-lazy-load',
     'portal-vue/nuxt',
@@ -99,6 +99,7 @@ export default {
     'cookie-universal-nuxt',
     'vue-scrollto/nuxt',
     '@nuxtjs/gtm',
+    '@nuxtjs/sitemap', // Need to be last.
   ],
 
   gtm: {

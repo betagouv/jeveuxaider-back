@@ -103,7 +103,11 @@ class Mission extends Model
                 'name' => $this->structure->name,
                 'response_time' => $this->structure->response_time,
                 'response_time_score' => $this->structure->response_time_score,
-                'response_ratio' => $this->structure->response_ratio
+                'response_ratio' => $this->structure->response_ratio,
+                'reseau' => $this->structure->reseau ? [
+                    'id' => $this->structure->reseau->id,
+                    'name' => $this->structure->reseau->name,
+                ] : null,
             ] : null,
             'type' => $this->type,
             'template_subtitle' => $this->template ? $this->template->subtitle : null,
@@ -205,7 +209,7 @@ class Mission extends Model
 
     public function getFullAddressAttribute()
     {
-        return "{$this->address} {$this->zip} {$this->city}";
+        return ($this->address == $this->city) ? "{$this->zip} {$this->city}" : "{$this->address} {$this->zip} {$this->city}";
     }
 
     public function getHasPlacesLeftAttribute()

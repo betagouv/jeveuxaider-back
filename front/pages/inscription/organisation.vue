@@ -387,17 +387,17 @@ export default {
       return [
         {
           key: 'choix_orga_type',
-          title: 'Excellent choix !',
+          title: 'Excellent choix !',
           subtitle: 'Vous êtes...',
         },
         {
           key: 'choix_orga_nom',
           title:
             this.$route.query.orga_type === 'Collectivité'
-              ? 'Voilà un grand pas<br /> pour votre collectivité !'
+              ? 'Voilà un grand pas<br /> pour votre collectivité !'
               : this.$route.query.orga_type === 'Association'
-              ? 'Votre association est <br /> la bienvenue chez nous !'
-              : 'Voilà un grand pas<br /> pour votre organisation !',
+              ? 'Votre association est <br /> la bienvenue chez nous !'
+              : 'Voilà un grand pas<br /> pour votre organisation !',
           subtitle: 'Quel est son petit nom ?',
         },
         {
@@ -413,8 +413,8 @@ export default {
         },
         {
           key: 'form_reseau',
-          title: 'Voilà un grand pas<br /> pour votre réseau !',
-          subtitle: 'Quel est le nom de votre tête de réseau ?',
+          title: 'Voilà un grand pas<br /> pour votre réseau !',
+          subtitle: 'Quel est le nom de votre tête de réseau ?',
         },
       ]
     },

@@ -33,7 +33,13 @@
 
 @endforeach
 
+{{-- Salutation --}}
+@if (!empty($salutation))
+{{ $salutation }}
+@else
 Bien cordialement,<br>L'équipe de JeVeuxAider.gouv.fr
+@endif
+
 
 {{-- Subcopy --}}
 @isset($actionText)

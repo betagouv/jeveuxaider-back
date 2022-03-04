@@ -84,7 +84,7 @@
               <p
                 class="pt-10 pb-16 lg:pb-0 leading-10 text-4xl font-medium text-white sm:mt-5 tracking-tight"
               >
-                Plus de <b class="font-bold">300 000 bénévoles</b> <br />sont
+                Plus de <b class="font-bold">350 000 bénévoles</b> <br />sont
                 déjà inscrits.
               </p>
             </div>
@@ -338,7 +338,7 @@
         <h3
           class="text-center leading-8 pb-8 text-[#242526] text-sm font-medium text-3xl tracking-tight px-4"
         >
-          Plus de <b class="font-bold">4000 organisations</b> ont déjà rejoint
+          Plus de <b class="font-bold">7000 organisations</b> ont déjà rejoint
           JeVeuxAider.gouv.fr
         </h3>
         <div class="overflow-hidden">

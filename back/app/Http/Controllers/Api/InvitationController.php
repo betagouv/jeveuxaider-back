@@ -45,7 +45,7 @@ class InvitationController extends Controller
         }
         $invitation->load("invitable");
         $invitation->append("is_registered");
-        
+
         return $invitation;
     }
 
