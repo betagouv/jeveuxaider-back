@@ -52,7 +52,7 @@ class MissionSubmitted extends Notification
             ->greeting('Bonjour ' . $notifiable->first_name . ',')
             ->line('L\'organisation « ' . $this->mission->structure->name . ' » propose une mission : ' . $this->mission->name)
             ->line('Vous pouvez, sur votre espace personnel la consulter et valider cette mission.')
-            ->action('Accéder à mon compte', url(config('app.front_url'). '/dashboard/missions'));
+            ->action('Accéder à mon compte', url(config('app.front_url'). '/admin/missions'));
     }
 
     /**
