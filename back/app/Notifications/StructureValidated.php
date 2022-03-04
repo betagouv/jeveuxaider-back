@@ -52,7 +52,7 @@ class StructureValidated extends Notification
             ->greeting('Bonjour ' . $notifiable->first_name . ',')
             ->line('Votre organisation « ' . $this->structure->name . ' » vient d\'être validée.')
             ->line('Vous pouvez désormais publier directement vos missions depuis votre espace organisation.')
-            ->action('Publier une mission', url(config('app.front_url') . '/dashboard/structure/' . $this->structure->id . '/missions'));
+            ->action('Publier une mission', url(config('app.front_url') . '/admin/organisations/' . $this->structure->id . '/missions/add'));
     }
 
     /**

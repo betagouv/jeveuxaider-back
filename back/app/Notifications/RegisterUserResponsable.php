@@ -47,7 +47,7 @@ class RegisterUserResponsable extends Notification
             ->line("Vous vous êtes inscrit sur JeVeuxAider.gouv.fr, la plateforme publique du bénévolat.")
             ->line('Votre organisation « ' . $this->structure->name . ' » est en cours de validation.')
             ->line('Vous pouvez désormais proposer des missions de bénévolat qui seront visibles sur la plateforme une fois votre organisation validée.')
-            ->action('Créer une mission', url(config('app.front_url') . '/dashboard/structure/' . $this->structure->id . '/missions/add'));
+            ->action('Créer une mission', url(config('app.front_url') . '/admin/organisations/' . $this->structure->id . '/missions/add'));
     }
 
     /**

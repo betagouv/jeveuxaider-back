@@ -55,9 +55,9 @@ class ResponsableDailyTodo extends Notification implements ShouldQueue
             ->line('Des bénévoles souhaitent vous aider !')
             ->line('Votre action est requise pour valider leur participation :');
         if (count($this->participations) == 1) {
-            $mailMessage->action(count($this->participations) . ' participation en attente', url(config('app.front_url') . '/dashboard/participations'));
+            $mailMessage->action(count($this->participations) . ' participation en attente', url(config('app.front_url') . '/dashboard'));
         } else {
-            $mailMessage->action(count($this->participations) . ' participations en attente', url(config('app.front_url') . '/dashboard/participations'));
+            $mailMessage->action(count($this->participations) . ' participations en attente', url(config('app.front_url') . '/dashboard'));
         }
         $mailMessage->line('Afin d’assurer vos recrutements de bénévoles, veuillez leur répondre au plus vite.')
             ->line('Vous pouvez aussi les contacter directement ou échanger avec eux sur la messagerie de JeVeuxAider.gouv.fr.')

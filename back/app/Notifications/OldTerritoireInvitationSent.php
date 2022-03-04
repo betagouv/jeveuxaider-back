@@ -9,7 +9,7 @@ use App\Models\Structure;
 use App\Models\Territoire;
 use App\Models\User;
 
-class TerritoireInvitationSent extends Notification
+class OldTerritoireInvitationSent extends Notification
 {
     use Queueable;
 

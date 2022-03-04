@@ -52,7 +52,7 @@ class ParticipationCanceled extends Notification
             ->greeting('Bonjour ' . $notifiable->first_name . ',')
             ->line('Nous sommes au regret de vous informer que votre participation à la mission « ' . $this->participation->mission->name . ' » est annulée.')
             ->line('Nous vous invitons à proposer votre aide sur une autre mission disponible sur JeVeuxAider.gouv.fr')
-            ->action('Toutes nos missions', url(config('app.front_url') . '/missions'))
+            ->action('Toutes nos missions', url(config('app.front_url') . '/missions-benevolat'))
         ;
     }
 

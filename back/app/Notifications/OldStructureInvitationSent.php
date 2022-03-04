@@ -8,7 +8,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use App\Models\Structure;
 use App\Models\User;
 
-class StructureInvitationSent extends Notification
+class OldStructureInvitationSent extends Notification
 {
     use Queueable;
 

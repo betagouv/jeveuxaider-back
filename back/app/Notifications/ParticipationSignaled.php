@@ -53,7 +53,7 @@ class ParticipationSignaled extends Notification
             ->line('Votre mission « ' . $this->participation->mission->name . ' » à laquelle vous vous êtes inscrit.e a été annulée car l\'organisation ' . $this->participation->mission->structure->name. ' ne répond pas aux exigences de la Charte de la Réserve Civique et/ou aux règles fixés par le Décret n° 2017-930 du 9 mai 2017 relatif à la réserve civique.')
             ->line('Par conséquent, votre participation a automatiquement été annulée et anonymisée. L\'organisation n\'a donc plus accès à votre identité ou à vos coordonnées sur la plateforme.')
             ->line('Rendez vous dès à présent sur JeVeuxAider.gouv.fr pour découvrir les nouvelles missions en ligne !')
-            ->action('Toutes nos missions', url(config('app.front_url') . '/missions'))
+            ->action('Toutes nos missions', url(config('app.front_url') . '/missions-benevolat'))
         ;
     }
 

@@ -53,7 +53,7 @@ class NoNewMission extends Notification
             ->greeting('Bonjour ' . $notifiable->first_name . ' 👋,')
             ->line("Cela fait quelques temps que vous n’avez pas proposé de mission sur JeVeuxAider.gouv.fr.")
             ->line("💡 Si vous souhaitez à nouveau recruter des bénévoles, vous pouvez publier une nouvelle mission en moins de 5 minutes.")
-            ->action("Je propose une mission", url(config('app.front_url'). '/dashboard/structure/' . $this->structure->id . '/missions/add'))
+            ->action("Je propose une mission", url(config('app.front_url'). '/admin/organisations/' . $this->structure->id . '/missions/add'))
             ->line("En cas de besoin, vous pouvez répondre à ce mail pour échanger directement avec le support utilisateurs !");
     }
 

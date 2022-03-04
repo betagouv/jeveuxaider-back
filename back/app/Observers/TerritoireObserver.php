@@ -3,6 +3,8 @@
 namespace App\Observers;
 
 use App\Models\Territoire;
+use App\Notifications\TerritoireWaitingValidation;
+use Illuminate\Support\Facades\Notification;
 
 class TerritoireObserver
 {
@@ -10,6 +12,14 @@ class TerritoireObserver
     {
         if (in_array($territoire->type, ['city'])) {
             $territoire->setCoordonates();
+        }
+    }
+
+    public function created(Territoire $territoire)
+    {
+        if($territoire->state == 'waiting') {
+            Notification::route('slack', config('services.slack.hook_url'))
+            ->notify(new TerritoireWaitingValidation($territoire));
         }
     }
 

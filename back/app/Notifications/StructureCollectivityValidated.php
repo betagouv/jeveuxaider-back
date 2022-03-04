@@ -52,7 +52,7 @@ class StructureCollectivityValidated extends Notification
             ->line("- 🔑 On vous donne toutes les clés pour faire de votre expérience un succès !")
             ->line(new HtmlString("Pour vous inscrire, c'est par ici 👉 : <a href='https://app.livestorm.co/jeveuxaider/session-decouverte-collectivites-territoriales?type=detailed'>https://app.livestorm.co/jeveuxaider/session-decouverte-collectivites-territoriales?type=detailed</a>"))
             ->line("D'ici là, vous pouvez déjà poster vos premières missions et vous familiariser avec la plateforme.")
-            ->action('Créer une mission', url(config('app.front_url') . '/dashboard/structure/' . $this->structure->id . '/missions/add'))
+            ->action('Créer une mission', url(config('app.front_url') . '/admin/organisations/' . $this->structure->id . '/missions/add'))
             ->line("JeVeuxAider.gouv.fr a pour mission de faciliter vos recrutements de bénévoles et de faire grandir l’engagement en France. Merci pour votre confiance !")
         ;
 

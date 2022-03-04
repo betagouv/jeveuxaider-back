@@ -8,7 +8,6 @@ use App\Models\Profile;
 use App\Models\Structure;
 use App\Models\Territoire;
 use App\Models\User;
-use App\Notifications\TerritoireWaitingValidation;
 use App\Notifications\RegisterUserResponsable;
 use App\Notifications\StructureAssociationValidated;
 use App\Notifications\StructureCollectivityValidated;
@@ -16,7 +15,6 @@ use App\Notifications\StructureSignaled;
 use App\Notifications\StructureSubmitted;
 use App\Notifications\StructureValidated;
 use App\Services\ApiEngagement;
-use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Auth;
 use App\Notifications\StructureBeingProcessed;
 
@@ -164,20 +162,6 @@ class StructureObserver
             }
         }
 
-        // STRUCTURE PUBLIQUE TYPE
-        // if (!$structure->getOriginal('statut_juridique') && $structure->statut_juridique) {
-        //     if ($structure->statut_juridique == 'Collectivité') {
-        //         $this->createTerritoire($structure);
-        //     }
-        // }
-
-        // // SI PAS DE TERRITIORE RELIE ET TYPE COLLECTIVITE
-        // if ($structure->statut_juridique == 'Collectivité' && !$structure->territoire) {
-        //     if ($structure->zip && $structure->department) {
-        //         $this->createTerritoire($structure);
-        //     }
-        // }
-
         // MAJ SENDINBLUE
         if (config('services.sendinblue.sync')) {
             if ($structure->isDirty('name')) {
@@ -211,27 +195,4 @@ class StructureObserver
         });
     }
 
-    // private function createTerritoire($structure)
-    // {
-
-    //     $territoire = Territoire::create([
-    //         'structure_id' => $structure->id,
-    //         'name' => preg_replace("/(^Mairie (des|du|de|d')*)/mi", "", $structure->name),
-    //         'suffix_title' => 'à ' . $structure->city ?? $structure->name,
-    //         'zips' => $structure->zip ? [$structure->zip] : [],
-    //         'department' => $structure->department,
-    //         'is_published' => false,
-    //         'type' => 'city',
-    //         'state' => 'waiting',
-    //     ]);
-    //     $territoire->save();
-
-    //     $responsable = $structure->responsables->first();
-    //     if ($responsable) {
-    //         $territoire->addResponsable($responsable);
-    //     }
-
-    //     Notification::route('slack', config('services.slack.hook_url'))
-    //         ->notify(new TerritoireWaitingValidation($territoire));
-    // }
 }
