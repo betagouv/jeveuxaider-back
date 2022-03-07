@@ -77,24 +77,19 @@ class StructureObserver
                             $responsable->notify(new StructureAssociationValidated($structure));
                         }
                     }
-                    if ($structure->missions) {
-                        foreach ($structure->missions->where("state", "En attente de validation") as $mission) {
-                            $mission->update(['state' => 'Validée']);
-                        }
-                        foreach ($structure->missions->where("state", "Validée") as $mission) {
-                            $mission->searchable();
-                        }
-                    }
+                    // Update all missions linked to template to 'Validée' status
+                    $structure->missions()->whereNotNull('template_id')->where("state", "En attente de validation")->get()->map(function($mission){
+                        $mission->update(['state' => 'Validée']);
+                    });
                     break;
                 case 'Signalée':
                     if ($responsable) {
                         $responsable->notify(new StructureSignaled($structure));
                     }
-                    if ($structure->missions) {
-                        foreach ($structure->missions as $mission) {
-                            $mission->update(['state' => 'Signalée']);
-                        }
-                    }
+                    // Update all missions to 'Signalée' status
+                    $structure->missions()->get()->map(function($mission){
+                        $mission->update(['state' => 'Signalée']);
+                    });
                     //  Si territoire relié on dépublie
                     if ($structure->statut_juridique == 'Collectivité') {
                         $territoire = Territoire::where('structure_id', $structure->id)->first();
@@ -119,7 +114,6 @@ class StructureObserver
 
                     if ($structure->missions) {
                         foreach ($structure->missions->where("state", "En attente de validation") as $mission) {
-                            $mission->load(['structure']);
                             $mission->update(['state' => 'Annulée']);
                         }
 

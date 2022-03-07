@@ -63,6 +63,8 @@ class MissionObserver
         $oldState = $mission->getOriginal('state');
         $newState = $mission->state;
 
+        $mission->load('responsable');
+
         if ($oldState != $newState) {
             switch ($newState) {
                 case 'Validée':
@@ -92,7 +94,7 @@ class MissionObserver
                     }
                     break;
                 case 'Annulée':
-                    if ($mission->responsable_id) {
+                    if ($mission->responsable) {
                         foreach (Participation::where('mission_id', $mission->id)->whereIn("state", ["En attente de validation", "En cours de traitement"]) as $participation) {
                             $participation->update(['state' => 'Annulée']);
                         }

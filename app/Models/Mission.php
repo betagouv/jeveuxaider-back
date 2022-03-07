@@ -71,11 +71,13 @@ class Mission extends Model
 
     public function makeAllSearchableUsing(Builder $query)
     {
-        return $query->with(['structure', 'template.domaine', 'template.photo', 'illustrations', /*'tags',*/ 'domaine', 'domaineSecondary']);
+        return $query->with(['structure', 'template.domaine', 'template.photo', 'illustrations', 'domaine', 'domaineSecondary']);
     }
 
     public function toSearchableArray()
     {
+        $this->load(['structure', 'template.domaine', 'template.photo', 'illustrations', 'domaine', 'domaineSecondary']);
+
         $domaines = [];
         $domaine = $this->template_id ? $this->template->domaine : $this->domaine;
         if ($domaine) {
@@ -437,6 +439,7 @@ class Mission extends Model
     {
         return SlugOptions::create()
             ->generateSlugsFrom(function ($mission) {
+                $mission->load('structure');
                 return !empty($mission->city)
                     ? "benevolat-{$mission->structure->name}-{$mission->city}"
                     : "benevolat-{$mission->structure->name}";
