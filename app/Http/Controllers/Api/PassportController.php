@@ -32,6 +32,7 @@ class PassportController extends Controller
                 'name' => request("email"),
                 'email' => request("email"),
                 'password' => Hash::make(request("password")),
+                'context_role' => 'volontaire',
                 'utm_source' => is_array($utmSource) ? current($utmSource) : $utmSource,
             ]
         );
@@ -90,6 +91,14 @@ class PassportController extends Controller
             'contextable_type' => 'structure',
             'contextable_id' => $structure->id,
         ]);
+
+        // MAPPING DOMAINES ACTIONS API ENGAGEMENT
+        // if ($request->has('structure_api') && $request->input('structure_api')) {
+        //     $domaine = ApiEngagement::prepareStructureDomaines($request->input('structure_api'));
+        //     if ($domaine) {
+        //         $structure->attachTag($domaine, 'domaine');
+        //     }
+        // }
 
         // UPDATE LOG
         Activity::where('subject_type', 'App\Models\Structure')
