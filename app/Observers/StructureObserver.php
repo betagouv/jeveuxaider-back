@@ -29,11 +29,11 @@ class StructureObserver
     public function created(Structure $structure)
     {
 
-        // Si admin
-        $user = Auth::guard('api')->user();
-        if ($user && $user->is_admin) {
-            return;
-        }
+        // Si admin -> Commentez pour éviter les plantages tant qu'on n'a pas pris la décision de ce qu'on fait
+        // $user = Auth::guard('api')->user();
+        // if ($user && $user->is_admin) {
+        //     return;
+        // }
 
         if ($structure->user->profile) {
             $notification = new RegisterUserResponsable($structure);
@@ -49,6 +49,24 @@ class StructureObserver
                 Profile::where('referent_department', $structure->department)->get()->map(function ($profile) use ($structure) {
                     $profile->notify(new StructureSubmitted($structure));
                 });
+            }
+        }
+
+        // COLLECTIVITE
+        if ($structure->statut_juridique === 'Collectivité') {
+            $territoire = Territoire::create([
+                'structure_id' => $structure->id,
+                'name' => preg_replace("/(^Mairie (des|du|de|d')*)/mi", "", $structure->name),
+                'suffix_title' => 'à ' . $structure->name,
+                'zips' => $structure->zip ? [$structure->zip] : [],
+                'department' => $structure->department,
+                'is_published' => false,
+                'type' => 'city',
+                'state' => 'waiting',
+            ]);
+            $responsable = $structure->responsables->first();
+            if ($responsable) {
+                $territoire->addResponsable($responsable);
             }
         }
 
