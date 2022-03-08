@@ -85,6 +85,7 @@ class FranceConnectController extends Controller
         $notification = new RegisterUserVolontaire($user);
         $user->notify($notification);
 
-        return User::with(['profile.structures', 'profile.participations','socialAccounts'])->where('id', $user->id)->first();
+        // return User::with(['profile.structures', 'profile.participations','socialAccounts'])->where('id', $user->id)->first();
+        return User::with(['socialAccounts'])->where('id', $user->id)->first();
     }
 }
