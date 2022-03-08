@@ -87,10 +87,10 @@ class PassportController extends Controller
 
         $structure = Structure::create($structureAttributes);
 
-        $user->update([
-            'contextable_type' => 'structure',
-            'contextable_id' => $structure->id,
-        ]);
+        // $user->update([
+        //     'contextable_type' => 'structure',
+        //     'contextable_id' => $structure->id,
+        // ]);
 
         // MAPPING DOMAINES ACTIONS API ENGAGEMENT
         // if ($request->has('structure_api') && $request->input('structure_api')) {
@@ -116,24 +116,6 @@ class PassportController extends Controller
                     ]
                 ]
             );
-
-        // COLLECTIVITE
-        if (request('structure_statut_juridique') === 'Collectivité') {
-            $territoire = Territoire::create([
-                'structure_id' => $structure->id,
-                'name' => preg_replace("/(^Mairie (des|du|de|d')*)/mi", "", $structure->name),
-                'suffix_title' => 'à ' . $structure->name,
-                'zips' => $structure->zip ? [$structure->zip] : [],
-                'department' => $structure->department,
-                'is_published' => false,
-                'type' => 'city',
-                'state' => 'waiting',
-            ]);
-            $responsable = $structure->responsables->first();
-            if ($responsable) {
-                $territoire->addResponsable($responsable);
-            }
-        }
 
         return $user;
     }
