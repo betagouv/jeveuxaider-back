@@ -146,7 +146,6 @@ class ParticipationController extends Controller
             $participation->mission->update();
         }
 
-        // @todo: latestMessage n'est pas le dernier
         return $participation->load(['conversation', 'conversation.latestMessage']);
     }
 
