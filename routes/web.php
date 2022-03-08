@@ -13,6 +13,10 @@
 
 Route::get('api/api-engagement/flux', 'Api\EngagementController@feed');
 
+Route::get('phpmyinfo', function () {
+    phpinfo(); 
+})->name('phpmyinfo');
+
 Route::group(['middleware' => ['has.api.key']], function () {
     Route::get('api/api-engagement/missions', 'Api\EngagementController@missions');
     Route::get('api/api-engagement/organisations', 'Api\EngagementController@organisations');

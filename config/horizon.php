@@ -175,7 +175,16 @@ return [
                 'nice' => 0,
             ],
         ],
-
+        'staging' => [
+            'supervisor-1' => [
+                'connection' => 'redis',
+                'queue' => ['emails', 'sendinblue', 'default'],
+                'balance' => 'simple',
+                'processes' => 10,
+                'tries' => 3,
+                'nice' => 0,
+            ],
+        ],
         'local' => [
             'supervisor-1' => [
                 'connection' => 'redis',

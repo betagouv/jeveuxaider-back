@@ -196,7 +196,7 @@ class TerritoireController extends Controller
 
     // public function export(Request $request)
     // {
-    //     $folder = 'public/' . config('app.env') . '/exports/' . $request->user()->id . '/';
+    //     $folder = 'public/' . config('filesystems.s3_prefix') . '/exports/' . $request->user()->id . '/';
     //     $fileName = 'territoires-' . Str::random(8) . '.csv';
     //     $filePath = $folder . $fileName;
 
