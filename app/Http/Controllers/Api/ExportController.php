@@ -19,12 +19,12 @@ class ExportController extends Controller
 {
     public function structures(Request $request)
     {
-        $folder = 'public/' . config('app.env') . '/exports/' . $request->user()->id . '/';
+        $folder = 'public/exports/structures/' . $request->user()->id . '/';
         $fileName = 'organisations-' . Str::random(8) . '.csv';
         $filePath = $folder . $fileName;
 
         (new StructuresExport($request->header('Context-Role')))
-            ->queue($filePath, 's3')
+            ->store($filePath, 's3')
             ->chain([
                 new NotifyUserOfCompletedExport($request->user(), $filePath),
             ]);
@@ -34,7 +34,7 @@ class ExportController extends Controller
 
     public function missions(Request $request)
     {
-        $folder = 'public/' . config('app.env') . '/exports/' . $request->user()->id . '/';
+        $folder = 'public/exports/missions/' . $request->user()->id . '/';
         $fileName = 'missions-' . Str::random(8) . '.csv';
         $filePath = $folder . $fileName;
 
@@ -49,7 +49,7 @@ class ExportController extends Controller
 
     public function participations(Request $request)
     {
-        $folder = 'public/' . config('app.env') . '/exports/' . $request->user()->id . '/';
+        $folder = 'public/exports/participations/' . $request->user()->id . '/';
         $fileName = 'participations-' . Str::random(8) . '.csv';
         $filePath = $folder . $fileName;
 
@@ -64,7 +64,7 @@ class ExportController extends Controller
 
     public function territoires(Request $request)
     {
-        $folder = 'public/' . config('app.env') . '/exports/' . $request->user()->id . '/';
+        $folder = 'public/exports/participations/territoires/' . $request->user()->id . '/';
         $fileName = 'territoires-' . Str::random(8) . '.csv';
         $filePath = $folder . $fileName;
 
@@ -79,7 +79,7 @@ class ExportController extends Controller
 
     public function reseaux(Request $request)
     {
-        $folder = 'public/' . config('app.env') . '/exports/' . $request->user()->id . '/';
+        $folder = 'public/exports/participations/reseaux/' . $request->user()->id . '/';
         $fileName = 'reseaux-' . Str::random(8) . '.csv';
         $filePath = $folder . $fileName;
 
@@ -100,7 +100,7 @@ class ExportController extends Controller
             abort(403, "Vous n'avez pas les droits nécéssaires");
         }
 
-        $folder = 'public/' . config('app.env') . '/exports/' . $request->user()->id . '/';
+        $folder = 'public/exports/participations/profiles/' . $request->user()->id . '/';
         $fileName = 'profiles-' . Str::random(8) . '.csv';
         $filePath = $folder . $fileName;
 

@@ -28,7 +28,6 @@
     "maatwebsite/excel": "^3.1",
     "predis/predis": "^1.1",
     "propaganistas/laravel-phone": "^4.2",
-    "rap2hpoutre/fast-excel": "^3.2",
     "s-ichikawa/laravel-sendgrid-driver": "^2.0",
     "sendinblue/api-v3-sdk": "7.x.x",
     "spatie/geocoder": "^3.5",
