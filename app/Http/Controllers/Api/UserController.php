@@ -17,14 +17,6 @@ use Spatie\QueryBuilder\AllowedFilter;
 
 class UserController extends Controller
 {
-    // public function index()
-    // {
-    //     return QueryBuilder::for(User::class)
-    //             ->allowedFilters('name', 'is_admin')
-    //             ->defaultSort('-created_at')
-    //             ->paginate(config('query-builder.results_per_page'));
-    // }
-
     public function me(Request $request)
     {
         $user = User::with('profile', 'profile.avatar', 'profile.skills', 'profile.domaines', 'profile.reseau')->find(Auth::guard('api')->user()->id);
@@ -43,7 +35,7 @@ class UserController extends Controller
         )
         ->allowedIncludes([
             'conversation.latestMessage',
-            'profile.avatar',
+            'mission.responsable.avatar'
         ])
         ->defaultSort('-created_at')
         ->paginate(config('query-builder.results_per_page'));
