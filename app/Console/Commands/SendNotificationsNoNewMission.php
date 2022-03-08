@@ -35,20 +35,21 @@ class SendNotificationsNoNewMission extends Command
      */
     public function handle()
     {
-        $query = Structure::where('state', 'Validée')
-        ->whereHas('missions', function (Builder $query) {
-            return $query->whereBetween('created_at', [
-                Carbon::now()->subMonths(3)->startOfDay(),
-                Carbon::now()->subMonths(3)->endOfDay()
-            ])
-            // The last mission. Cannot use latest() here as it is not a simple orderBy.
-            ->whereIn('id', function (QueryBuilder $query) {
-                $query
-                    ->selectRaw('max(id)')
-                    ->from('missions')
-                    ->whereColumn('structure_id', 'structures.id');
+        $query = Structure::with(['responsables'])->where('state', 'Validée')
+            ->whereHas('missions', function (Builder $query) {
+                return $query
+                    ->whereBetween('created_at', [
+                        Carbon::now()->subMonths(3)->startOfDay(),
+                        Carbon::now()->subMonths(3)->endOfDay()
+                    ])
+                    // The last mission. Cannot use latest() here as it is not a simple orderBy.
+                    ->whereIn('id', function (QueryBuilder $query) {
+                        $query
+                            ->selectRaw('max(id)')
+                            ->from('missions')
+                            ->whereColumn('structure_id', 'structures.id');
+                    });
             });
-        });
 
         foreach ($query->get() as $structure) {
             Notification::send($structure->responsables->first(), new NoNewMission($structure));

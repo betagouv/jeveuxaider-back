@@ -31,7 +31,7 @@ class SendNotificationsMissionOutdated extends Command
      */
     public function handle()
     {
-        $query = Mission::where('state', 'Validée')
+        $query = Mission::with(['responsable'])->where('state', 'Validée')
         ->whereBetween('end_date', [
             Carbon::now()->subDays(15)->startOfDay(),
             Carbon::now()->subDays(15)->endOfDay()

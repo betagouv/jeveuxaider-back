@@ -31,7 +31,7 @@ class SendNotificationsMissionInDraft extends Command
      */
     public function handle()
     {
-        $query = Mission::where('state', 'Brouillon')
+        $query = Mission::with(['responsable'])->where('state', 'Brouillon')
         ->whereBetween('created_at', [
             Carbon::now()->subDays(7)->startOfDay(),
             Carbon::now()->subDays(7)->endOfDay()
