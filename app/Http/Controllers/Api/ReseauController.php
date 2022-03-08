@@ -37,12 +37,15 @@ class ReseauController extends Controller
 
     public function show($slugOrId)
     {
-        $reseau = (is_numeric($slugOrId))
-            ? Reseau::where('id', $slugOrId)
+
+        if (is_numeric($slugOrId)) {
+            return Reseau::where('id', $slugOrId)
             ->with(['responsables', 'domaines', 'logo', 'illustrations', 'overrideImage1', 'overrideImage2'])
             ->withCount('structures', 'missions', 'missionTemplates', 'invitationsAntennes', 'responsables')
-            ->firstOrFail()
-            : Reseau::where('slug', $slugOrId)
+            ->firstOrFail();
+        }
+
+        return Reseau::where('slug', $slugOrId)
             ->with(['domaines', 'logo', 'illustrations', 'overrideImage1', 'overrideImage2'])
             ->withCount(['structures' => function ($query) {
                 $query->where('state', 'Validée');
@@ -58,11 +61,7 @@ class ReseauController extends Controller
                 }
             ])
             ->firstOrFail()
-            //->append(['domaines_with_image', 'participations_max']);
             ->append(['participations_max']);
-
-        //  return $reseau->append(["domaines", "logo", "override_image_1", "override_image_2"]);
-        return $reseau;
     }
 
     public function store(ReseauRequest $request)
