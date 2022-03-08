@@ -47,10 +47,13 @@ class NotificationToBenevole extends Notification
      */
     public function toMail($notifiable)
     {
+        $this->notificationBenevole->mission->load(['domaine', 'template.domaine']);
+        $domaine = $this->notificationBenevole->mission->template_id ? $this->notificationBenevole->mission->template->domaine : $this->notificationBenevole->mission->domaine;
+
         return (new MailMessage)
             ->subject("{$this->notificationBenevole->mission->structure->name} vous propose une mission de bénévolat")
             ->greeting('Bonjour ' . $notifiable->first_name . ',')
-            ->line("L'organisation {$this->notificationBenevole->mission->structure->name} vous propose une nouvelle mission de bénévolat dans le domaine d'action **{$this->notificationBenevole->mission->domaines[0]->name}**.")
+            ->line("L'organisation {$this->notificationBenevole->mission->structure->name} vous propose une nouvelle mission de bénévolat dans le domaine d'action **{$domaine->name}**.")
             ->line("Votre profil correspond à celui des bénévoles recherchés.")
             ->line("")
             ->line("La mission :")
