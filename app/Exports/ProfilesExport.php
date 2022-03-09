@@ -2,37 +2,31 @@
 
 namespace App\Exports;
 
-use App\Filters\FiltersDisponibility;
-use App\Filters\FiltersMatchMission;
 use App\Filters\FiltersProfileMinParticipations;
 use App\Models\Profile;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
 use App\Filters\FiltersProfileSearch;
 use App\Filters\FiltersProfileRole;
-use App\Filters\FiltersProfileSkill;
-use App\Filters\FiltersProfileTag;
-use App\Filters\FiltersProfileZips;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Maatwebsite\Excel\Concerns\Exportable;
-use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 
-class ProfilesExport implements FromCollection, WithMapping, WithHeadings, ShouldQueue
+class ProfilesExport implements FromQuery, WithMapping, WithHeadings
 {
     use Exportable;
 
-    private $role;
+    private $request;
 
-    public function __construct($role)
+    public function __construct($request)
     {
-        $this->role = $role;
+        $this->request = $request;
     }
 
-    public function collection()
+    public function query()
     {
-        return QueryBuilder::for(Profile::role($this->role))
+        return QueryBuilder::for(Profile::role($this->request->header('Context-Role')))
             ->allowedFilters(
                 AllowedFilter::custom('search', new FiltersProfileSearch),
                 AllowedFilter::custom('role', new FiltersProfileRole),
@@ -41,8 +35,7 @@ class ProfilesExport implements FromCollection, WithMapping, WithHeadings, Shoul
                 AllowedFilter::exact('is_visible'),
                 AllowedFilter::custom('min_participations', new FiltersProfileMinParticipations)
             )
-            ->defaultSort('-created_at')
-            ->get();
+            ->defaultSort('-created_at');
     }
 
     public function headings(): array

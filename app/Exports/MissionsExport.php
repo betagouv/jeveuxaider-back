@@ -5,7 +5,6 @@ namespace App\Exports;
 use App\Filters\FiltersMissionIsTemplate;
 use Illuminate\Http\Request;
 use App\Models\Mission;
-use Maatwebsite\Excel\Concerns\FromCollection;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
 use Maatwebsite\Excel\Concerns\WithMapping;
@@ -13,26 +12,23 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 use App\Filters\FiltersMissionSearch;
 use App\Filters\FiltersMissionPlacesLeft;
 use App\Filters\FiltersMissionPublicsVolontaires;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Maatwebsite\Excel\Concerns\Exportable;
+use Maatwebsite\Excel\Concerns\FromQuery;
 
-class MissionsExport implements FromCollection, WithMapping, WithHeadings, ShouldQueue
+class MissionsExport implements FromQuery, WithMapping, WithHeadings
 {
     use Exportable;
 
-    private $role;
+    private $request;
 
-    public function __construct($role)
+    public function __construct(Request $request)
     {
-        $this->role = $role;
+        $this->request = $request;
     }
 
-    /**
-     * @return \Illuminate\Support\Collection
-     */
-    public function collection()
+    public function query()
     {
-        return QueryBuilder::for(Mission::role($this->role))
+        return QueryBuilder::for(Mission::role($this->request->header('Context-Role')))
             ->allowedFilters([
                 'state',
                 'type',
@@ -50,8 +46,7 @@ class MissionsExport implements FromCollection, WithMapping, WithHeadings, Shoul
                 AllowedFilter::scope('available'),
                 AllowedFilter::custom('is_template', new FiltersMissionIsTemplate),
             ])
-            ->defaultSort('-created_at')
-            ->get();
+            ->defaultSort('-created_at');
     }
 
     public function headings(): array
@@ -61,7 +56,7 @@ class MissionsExport implements FromCollection, WithMapping, WithHeadings, Shoul
             'structure_id',
             'nom',
             'statut',
-            'description',
+            // 'description',
             'type',
             'periodicite',
             'adresse_complete',
@@ -90,7 +85,7 @@ class MissionsExport implements FromCollection, WithMapping, WithHeadings, Shoul
             $mission->structure_id,
             $mission->name,
             $mission->state,
-            $mission->description,
+            // $mission->description,
             $mission->type,
             $mission->periodicite,
             $mission->full_address,

@@ -73,31 +73,32 @@ class Structure extends Model implements HasMedia
 
     public function scopeRole($query, $contextRole)
     {
+        $user =  Auth::guard('api')->user();
+
         switch ($contextRole) {
             case 'admin':
             case 'analyste':
                 return $query;
                 break;
             case 'responsable':
-                return $query->whereHas('responsables', function (Builder $query) {
-                    $query->where('profile_id', Auth::guard('api')->user()->profile->id);
+                return $query->whereHas('responsables', function (Builder $query) use ($user) {
+                    $query->where('profile_id', $user->profile->id);
                 });
                 break;
             case 'referent':
                 return $query
                     ->whereNotNull('department')
-                    ->where('department', Auth::guard('api')->user()->profile->referent_department);
+                    ->where('department', $user->profile->referent_department);
                 break;
             case 'referent_regional':
                 return $query
                     ->whereNotNull('department')
-                    ->whereIn('department', config('taxonomies.regions.departments')[Auth::guard('api')->user()->profile->referent_region]);
+                    ->whereIn('department', config('taxonomies.regions.departments')[$user->profile->referent_region]);
                 break;
             case 'tete_de_reseau':
-                return $query->ofReseau(Auth::guard('api')->user()->profile->tete_de_reseau_id);
+                return $query->ofReseau($user->profile->tete_de_reseau_id);
                 break;
             case 'responsable_territoire':
-                $user = Auth::guard('api')->user();
                 return $query->ofTerritoire($user->contextable_id);
                 break;
             default:

@@ -3,43 +3,37 @@
 namespace App\Exports;
 
 use App\Models\Structure;
-use Maatwebsite\Excel\Concerns\FromCollection;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use App\Filters\FiltersStructureSearch;
-use App\Filters\FiltersStructureWithRna;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Maatwebsite\Excel\Concerns\Exportable;
+use Maatwebsite\Excel\Concerns\FromQuery;
+use Illuminate\Http\Request;
 
-class StructuresExport implements FromCollection, WithMapping, WithHeadings, ShouldQueue
+class StructuresExport implements FromQuery, WithMapping, WithHeadings
 {
     use Exportable;
 
-    private $role;
+    private $request;
 
-    public function __construct($role)
+    public function __construct(Request $request)
     {
-        $this->role = $role;
+        $this->request = $request;
     }
 
-    /**
-     * @return \Illuminate\Support\Collection
-     */
-    public function collection()
+    public function query()
     {
-        return QueryBuilder::for(Structure::role($this->role))
+        return QueryBuilder::for(Structure::role($this->request->header('Context-Role')))
             ->allowedFilters([
                 AllowedFilter::custom('search', new FiltersStructureSearch),
                 AllowedFilter::exact('department'),
                 'state',
                 'statut_juridique',
-                // AllowedFilter::custom('rna', new FiltersStructureWithRna),
                 AllowedFilter::scope('ofReseau'),
             ])
-            ->defaultSort('-created_at')
-            ->get();
+            ->defaultSort('-created_at');
     }
 
     public function headings(): array
@@ -73,8 +67,6 @@ class StructuresExport implements FromCollection, WithMapping, WithHeadings, Sho
 
     public function map($structure): array
     {
-        // $responsable = $structure->responsables->first();
-
         return [
             $structure->id,
             $structure->name,

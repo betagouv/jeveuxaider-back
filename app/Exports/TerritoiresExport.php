@@ -3,23 +3,22 @@
 namespace App\Exports;
 
 use App\Models\Territoire;
-use Maatwebsite\Excel\Concerns\FromCollection;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithHeadings;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Maatwebsite\Excel\Concerns\Exportable;
 use App\Filters\FiltersTerritoireSearch;
+use Maatwebsite\Excel\Concerns\FromQuery;
 
-class TerritoiresExport implements FromCollection, WithMapping, WithHeadings, ShouldQueue
+class TerritoiresExport implements FromQuery, WithMapping, WithHeadings
 {
     use Exportable;
 
     /**
      * @return \Illuminate\Support\Collection
      */
-    public function collection()
+    public function query()
     {
         return QueryBuilder::for(Territoire::class)
             ->allowedFilters([
@@ -28,8 +27,7 @@ class TerritoiresExport implements FromCollection, WithMapping, WithHeadings, Sh
                 AllowedFilter::exact('is_published'),
                 AllowedFilter::custom('search', new FiltersTerritoireSearch),
             ])
-            ->defaultSort('-created_at')
-            ->get();
+            ->defaultSort('-created_at');
     }
 
     public function headings(): array

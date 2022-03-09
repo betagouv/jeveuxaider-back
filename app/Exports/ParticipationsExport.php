@@ -4,32 +4,28 @@ namespace App\Exports;
 
 use Illuminate\Http\Request;
 use App\Models\Participation;
-use Maatwebsite\Excel\Concerns\FromCollection;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
 use App\Filters\FiltersParticipationSearch;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Maatwebsite\Excel\Concerns\Exportable;
+use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 
-class ParticipationsExport implements FromCollection, WithMapping, WithHeadings, ShouldQueue
+class ParticipationsExport implements FromQuery, WithMapping, WithHeadings
 {
     use Exportable;
 
-    private $role;
+    private $request;
 
-    public function __construct($role)
+    public function __construct(Request $request)
     {
-        $this->role = $role;
+        $this->request = $request;
     }
 
-    /**
-     * @return \Illuminate\Support\Collection
-     */
-    public function collection()
+    public function query()
     {
-        return QueryBuilder::for(Participation::role($this->role)->with(['profile', 'mission']))
+        return QueryBuilder::for(Participation::role($this->request->header('Context-Role'))->with(['profile', 'mission']))
             ->allowedFilters(
                 AllowedFilter::custom('search', new FiltersParticipationSearch),
                 AllowedFilter::exact('mission_id'),
@@ -40,8 +36,7 @@ class ParticipationsExport implements FromCollection, WithMapping, WithHeadings,
                 'mission.type',
                 'mission.structure.name'
             )
-            ->defaultSort('-created_at')
-            ->get();
+            ->defaultSort('-created_at');
     }
 
     public function headings(): array
@@ -65,7 +60,7 @@ class ParticipationsExport implements FromCollection, WithMapping, WithHeadings,
 
     public function map($participation): array
     {
-        $hidden = ($participation->mission && $participation->mission->state == 'Signalée') && $this->role == 'responsable'
+        $hidden = ($participation->mission && $participation->mission->state == 'Signalée') && $this->request->header('Context-Role') == 'responsable'
             ? true : false;
 
         return [
