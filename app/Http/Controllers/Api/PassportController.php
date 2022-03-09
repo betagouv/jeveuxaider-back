@@ -87,10 +87,10 @@ class PassportController extends Controller
 
         $structure = Structure::create($structureAttributes);
 
-        // $user->update([
-        //     'contextable_type' => 'structure',
-        //     'contextable_id' => $structure->id,
-        // ]);
+        $user->update([
+            'contextable_type' => 'structure',
+            'contextable_id' => $structure->id,
+        ]);
 
         // MAPPING DOMAINES ACTIONS API ENGAGEMENT
         // if ($request->has('structure_api') && $request->input('structure_api')) {

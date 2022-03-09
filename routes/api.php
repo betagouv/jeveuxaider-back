@@ -373,6 +373,9 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::get('export/territoires', 'Api\ExportController@territoires');
     Route::get('export/reseaux', 'Api\ExportController@reseaux');
 
+    // SCRIPTS
+    Route::post('scripts/migrate-organisation-missions', 'Api\ScriptController@migrateOrganisationMissions');
+
     Route::post('/vocabularies/{vocabulary:slug}/terms', 'Api\TermController@store');
     Route::put('/vocabularies/{vocabulary:slug}/terms/{term}', 'Api\TermController@update');
     Route::get('/terms/{term}', 'Api\TermController@show');
