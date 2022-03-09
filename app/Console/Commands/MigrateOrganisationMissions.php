@@ -15,7 +15,7 @@ class MigrateOrganisationMissions extends Command
      *
      * @var string
      */
-    protected $signature = 'migrate-organisation-missions {id?*} {--origin=} {--destination=} ';
+    protected $signature = 'migrate-organisation-missions {id?*} {--origin=} {--destination=}';
 
     /**
      * The console command description.
@@ -25,7 +25,8 @@ class MigrateOrganisationMissions extends Command
     protected $description = 'Migrate missions from an organisation to another one
                                 {id : if present, only for these given mission ids}
                                 {--origin= : The organisation origin ID}
-                                {--destination= : The organisation destination ID}';
+                                {--destination= : The organisation destination ID}
+                                ';
 
     /**
      * Create a new command instance.
@@ -74,57 +75,68 @@ class MigrateOrganisationMissions extends Command
         }
 
         $count = $missionsQuery->count();
+
+        if (app()->runningInConsole()) {
+            if ($this->confirm("{$count} missions(s) will be migrated from {$structureOrigin->name} to {$structureDestination->name}")) {
+                $this->executeScript($count, $missionsQuery, $structureOrigin, $structureDestination);
+            }
+        } else {
+            $this->executeScript($count, $missionsQuery, $structureOrigin, $structureDestination);
+        }
+    }
+
+    private function executeScript($count, $missionsQuery, $structureOrigin, $structureDestination)
+    {
         $addedMembers = [];
-        if ($this->confirm("{$count} missions(s) will be migrated from {$structureOrigin->name} to {$structureDestination->name}")) {
-            // Migre le responsable de la mission dans la nouvelle structure.
-            $bar = $this->output->createProgressBar($count);
+
+        // Migre le responsable de la mission dans la nouvelle structure.
+        $bar = $this->output->createProgressBar($count);
+        $bar->start();
+        foreach ($missionsQuery->cursor() as $mission) {
+            $addedMembers[] = $mission->responsable;
+            $structureDestination->members()
+                ->syncWithPivotValues($mission->responsable_id, ['role' => 'responsable'], false);
+            $bar->advance();
+        }
+        $bar->finish();
+        $this->line(PHP_EOL);
+        foreach ($addedMembers as $member) {
+            $this->info($member->email  . ' #' . $member->id . ' has been added to ' . $structureDestination->name . ' #' . $structureDestination->id);
+        }
+
+        // Migre les missions vers la nouvelle structure.
+        $missionsQuery->update([
+            'structure_id' => $structureDestination->id,
+        ]);
+        $this->info(PHP_EOL . '<options=bold;fg=blue>' . $count . ' missions(s) has been migrated.</>');
+
+        // Si les responsables migrés n'ont plus aucune mission dans l'ancienne structure,
+        // les supprimer des membres.
+        if (count($addedMembers) > 0) {
+            $this->info('<options=bold;fg=blue>Begining cleaning of members in structure origin (' . $structureOrigin->name . ')</>' . PHP_EOL);
+            $deletedMembers = [];
+            $bar = $this->output->createProgressBar(count($addedMembers));
             $bar->start();
-            foreach ($missionsQuery->cursor() as $mission) {
-                $addedMembers[] = $mission->responsable;
-                $structureDestination->members()
-                    ->syncWithPivotValues($mission->responsable_id, ['role' => 'responsable'], false);
+            foreach ($addedMembers as $member) {
+                $count = $structureOrigin->missions->where('responsable_id', $member->id)->count();
+                if ($count == 0) {
+                    $deletedMembers[] = $member;
+                    $structureOrigin->members()->detach($member);
+                    // Force contextable_id s'il correspondait à l'ancienne structure.
+                    $user = $member->user;
+                    if ($user->contextable_id == $structureOrigin->id) {
+                        $user->contextable_id = $structureDestination->id;
+                        // Prevent updated_at timestamp change.
+                        $user->timestamps = false;
+                        $user->saveQuietly();
+                    }
+                }
                 $bar->advance();
             }
             $bar->finish();
             $this->line(PHP_EOL);
-            foreach ($addedMembers as $member) {
-                $this->info($member->email  . ' #' . $member->id . ' has been added to ' . $structureDestination->name . ' #' . $structureDestination->id);
-            }
-
-            // Migre les missions vers la nouvelle structure.
-            $missionsQuery->update([
-                'structure_id' => $structureDestination->id,
-            ]);
-            $this->info(PHP_EOL . '<options=bold;fg=blue>' . $count . ' missions(s) has been migrated.</>');
-
-            // Si les responsables migrés n'ont plus aucune mission dans l'ancienne structure,
-            // les supprimer des membres.
-            if (count($addedMembers) > 0) {
-                $this->info('<options=bold;fg=blue>Begining cleaning of members in structure origin (' . $structureOrigin->name . ')</>' . PHP_EOL);
-                $deletedMembers = [];
-                $bar = $this->output->createProgressBar(count($addedMembers));
-                $bar->start();
-                foreach ($addedMembers as $member) {
-                    $count = $structureOrigin->missions->where('responsable_id', $member->id)->count();
-                    if ($count == 0) {
-                        $deletedMembers[] = $member;
-                        $structureOrigin->members()->detach($member);
-                        // Force contextable_id s'il correspondait à l'ancienne structure.
-                        $user = $member->user;
-                        if ($user->contextable_id == $structureOrigin->id) {
-                            $user->contextable_id = $structureDestination->id;
-                            // Prevent updated_at timestamp change.
-                            $user->timestamps = false;
-                            $user->saveQuietly();
-                        }
-                    }
-                    $bar->advance();
-                }
-                $bar->finish();
-                $this->line(PHP_EOL);
-                foreach ($deletedMembers as $member) {
-                    $this->info($member->email  . ' #' . $member->id . ' has been deleted from ' .$structureOrigin->name . ' #' . $structureOrigin->id);
-                }
+            foreach ($deletedMembers as $member) {
+                $this->info($member->email  . ' #' . $member->id . ' has been deleted from ' . $structureOrigin->name . ' #' . $structureOrigin->id);
             }
         }
     }
