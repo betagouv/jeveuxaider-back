@@ -6,8 +6,9 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\Models\Mission;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class MissionInDraft extends Notification
+class MissionInDraft extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -26,6 +27,13 @@ class MissionInDraft extends Notification
     public function __construct(Mission $mission)
     {
         $this->mission = $mission;
+    }
+
+    public function viaQueues()
+    {
+        return [
+            'mail' => 'emails',
+        ];
     }
 
     /**

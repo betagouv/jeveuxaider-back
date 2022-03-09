@@ -6,8 +6,9 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\Models\Structure;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class StructureSubmitted extends Notification
+class StructureSubmitted extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -26,6 +27,13 @@ class StructureSubmitted extends Notification
     public function __construct(Structure $structure)
     {
         $this->structure = $structure;
+    }
+
+    public function viaQueues()
+    {
+        return [
+            'mail' => 'emails',
+        ];
     }
 
     /**

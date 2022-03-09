@@ -5,8 +5,9 @@ namespace App\Notifications;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class RegisterUserResponsable extends Notification
+class RegisterUserResponsable extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -20,6 +21,13 @@ class RegisterUserResponsable extends Notification
     public function __construct($structure)
     {
         $this->structure = $structure;
+    }
+
+    public function viaQueues()
+    {
+        return [
+            'mail' => 'emails',
+        ];
     }
 
     /**

@@ -7,8 +7,9 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\Models\Participation;
 use Illuminate\Support\HtmlString;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class ParticipationWaitingValidation extends Notification
+class ParticipationWaitingValidation extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -39,6 +40,13 @@ class ParticipationWaitingValidation extends Notification
     public function via($notifiable)
     {
         return ['mail'];
+    }
+
+    public function viaQueues()
+    {
+        return [
+            'mail' => 'emails',
+        ];
     }
 
     /**

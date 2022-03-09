@@ -43,6 +43,7 @@ class ProfileUpdateRequest extends ProfileRequest
             'birthday' => 'nullable|date|before:-16 years|after:-100 years',
             'phone' => 'nullable|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
             'is_visible' => 'boolean',
+            'service_civique' => 'boolean',
             'disponibilities' => '',
             'description' => '',
             'domaines' => '',

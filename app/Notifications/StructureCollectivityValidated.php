@@ -6,8 +6,9 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Support\HtmlString;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class StructureCollectivityValidated extends Notification
+class StructureCollectivityValidated extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -32,6 +33,13 @@ class StructureCollectivityValidated extends Notification
     public function via($notifiable)
     {
         return ['mail'];
+    }
+
+    public function viaQueues()
+    {
+        return [
+            'mail' => 'emails',
+        ];
     }
 
     /**
