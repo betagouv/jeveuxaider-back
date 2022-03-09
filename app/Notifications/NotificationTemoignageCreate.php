@@ -6,8 +6,9 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\Models\NotificationTemoignage;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class NotificationTemoignageCreate extends Notification
+class NotificationTemoignageCreate extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -30,6 +31,13 @@ class NotificationTemoignageCreate extends Notification
         $this->mission = $this->participation->mission;
         $this->profile = $this->participation->profile;
         $this->structure = $this->mission->structure;
+    }
+
+    public function viaQueues()
+    {
+        return [
+            'mail' => 'emails',
+        ];
     }
 
     /**

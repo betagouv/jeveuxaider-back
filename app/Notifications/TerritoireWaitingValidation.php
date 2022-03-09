@@ -7,8 +7,9 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\Models\Territoire;
 use Illuminate\Notifications\Messages\SlackMessage;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class TerritoireWaitingValidation extends Notification
+class TerritoireWaitingValidation extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -27,6 +28,13 @@ class TerritoireWaitingValidation extends Notification
     public function __construct(Territoire $territoire)
     {
         $this->territoire = $territoire;
+    }
+
+    public function viaQueues()
+    {
+        return [
+            'mail' => 'emails',
+        ];
     }
 
     /**

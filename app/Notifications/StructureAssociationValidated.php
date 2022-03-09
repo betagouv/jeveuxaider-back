@@ -6,8 +6,9 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Support\HtmlString;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class StructureAssociationValidated extends Notification
+class StructureAssociationValidated extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -21,6 +22,13 @@ class StructureAssociationValidated extends Notification
     public function __construct($structure)
     {
         $this->structure = $structure;
+    }
+
+    public function viaQueues()
+    {
+        return [
+            'mail' => 'emails',
+        ];
     }
 
     /**

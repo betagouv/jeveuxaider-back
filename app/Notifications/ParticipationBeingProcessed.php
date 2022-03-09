@@ -6,8 +6,9 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\Models\Participation;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class ParticipationBeingProcessed extends Notification
+class ParticipationBeingProcessed extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -26,6 +27,13 @@ class ParticipationBeingProcessed extends Notification
     public function __construct(Participation $participation)
     {
         $this->participation = $participation;
+    }
+
+    public function viaQueues()
+    {
+        return [
+            'mail' => 'emails',
+        ];
     }
 
     /**
@@ -50,7 +58,7 @@ class ParticipationBeingProcessed extends Notification
         $message = (new MailMessage)
             ->subject('Votre demande de participation est en cours de traitement')
             ->greeting('Bonjour ' . $notifiable->first_name . ',')
-            ->line('Votre demande de participation à la mission « ' . $this->participation->mission->name .' » est actuellement en cours de traitement.')
+            ->line('Votre demande de participation à la mission « ' . $this->participation->mission->name .' » est actuellement en cours de traitement.')
             ->line('Le responsable de la mission vous contactera très prochainement pour un premier échange.')
             ->line('En cas de besoin, vous pouvez le contacter directement via la messagerie de JeVeuxAider.gouv.fr.');
 

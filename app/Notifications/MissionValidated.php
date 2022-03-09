@@ -6,8 +6,9 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\Models\Mission;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class MissionValidated extends Notification
+class MissionValidated extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -27,6 +28,14 @@ class MissionValidated extends Notification
     {
         $this->mission = $mission;
     }
+
+    public function viaQueues()
+    {
+        return [
+            'mail' => 'emails',
+        ];
+    }
+
 
     /**
      * Get the notification's delivery channels.

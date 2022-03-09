@@ -6,8 +6,9 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\Models\Participation;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class ParticipationCanceled extends Notification
+class ParticipationCanceled extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -26,6 +27,13 @@ class ParticipationCanceled extends Notification
     public function __construct(Participation $participation)
     {
         $this->participation = $participation;
+    }
+
+    public function viaQueues()
+    {
+        return [
+            'mail' => 'emails',
+        ];
     }
 
     /**
