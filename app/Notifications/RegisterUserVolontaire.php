@@ -5,8 +5,9 @@ namespace App\Notifications;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class RegisterUserVolontaire extends Notification
+class RegisterUserVolontaire extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -29,6 +30,13 @@ class RegisterUserVolontaire extends Notification
     public function via($notifiable)
     {
         return ['mail'];
+    }
+
+    public function viaQueues()
+    {
+        return [
+            'mail' => 'emails',
+        ];
     }
 
     /**

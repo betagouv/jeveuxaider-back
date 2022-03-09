@@ -6,8 +6,9 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\Models\Mission;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class MissionAlmostFull extends Notification
+class MissionAlmostFull extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -37,6 +38,13 @@ class MissionAlmostFull extends Notification
     public function via($notifiable)
     {
         return ['mail'];
+    }
+
+    public function viaQueues()
+    {
+        return [
+            'mail' => 'emails',
+        ];
     }
 
     /**

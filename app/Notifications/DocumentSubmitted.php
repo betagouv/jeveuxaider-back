@@ -29,6 +29,13 @@ class DocumentSubmitted extends Notification implements ShouldQueue
         $this->document = $document;
     }
 
+    public function viaQueues()
+    {
+        return [
+            'mail' => 'emails',
+        ];
+    }
+
     /**
      * Get the notification's delivery channels.
      *

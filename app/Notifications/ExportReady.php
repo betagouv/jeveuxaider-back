@@ -6,8 +6,9 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\Models\User;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class ExportReady extends Notification
+class ExportReady extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -34,6 +35,13 @@ class ExportReady extends Notification
     public function via($notifiable)
     {
         return ['mail'];
+    }
+
+    public function viaQueues()
+    {
+        return [
+            'mail' => 'emails',
+        ];
     }
 
     /**

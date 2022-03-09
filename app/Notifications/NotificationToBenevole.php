@@ -6,8 +6,9 @@ use App\Models\NotificationBenevole;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class NotificationToBenevole extends Notification
+class NotificationToBenevole extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -26,6 +27,13 @@ class NotificationToBenevole extends Notification
     public function __construct(NotificationBenevole $notificationBenevole)
     {
         $this->notificationBenevole = $notificationBenevole;
+    }
+
+    public function viaQueues()
+    {
+        return [
+            'mail' => 'emails',
+        ];
     }
 
     /**
