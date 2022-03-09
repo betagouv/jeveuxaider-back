@@ -133,7 +133,7 @@ class Mission extends Model
             'post_date' => strtotime($this->created_at),
             'start_date' => $this->start_date ? strtotime($this->start_date) : null,
             'end_date' => $this->end_date ? strtotime($this->end_date) : null,
-            'illustrations' => $this->illustrations,
+            'illustrations' => $this->illustrations->all(),
             'template_id' => $this->template_id,
             'score' => $this->score,
             'is_priority' => $this->is_priority,
