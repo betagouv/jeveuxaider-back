@@ -33,7 +33,7 @@ class MissionRequest extends FormRequest
             'information' => '',
             'objectif' => 'required_without:template_id',
             'description' => 'required_without:template_id',
-            'address' => 'requiredIf:type,Mission en présentiel',
+            'address' => '',
             'latitude' => 'requiredIf:type,Mission en présentiel',
             'longitude' => 'requiredIf:type,Mission en présentiel',
             'zip' => 'requiredIf:type,Mission en présentiel',
