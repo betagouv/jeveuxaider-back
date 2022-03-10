@@ -114,9 +114,11 @@ class StructureController extends Controller
         );
 
         if ($request->has('domaines')) {
-            $domaines_ids = $request->input('domaines');
-            $domaines = Tag::whereIn('id', $domaines_ids)->get();
-            $structure->syncTagsWithType($domaines, 'domaine');
+            $domaines =  collect($request->input('domaines'));
+            $values = $domaines->pluck($domaines, 'id')->map(function ($item) {
+                return ['field' => 'structure_domaines'];
+            });
+            $structure->domaines()->sync($values);
         }
 
         return $structure;
