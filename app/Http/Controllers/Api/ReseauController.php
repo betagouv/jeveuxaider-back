@@ -78,6 +78,14 @@ class ReseauController extends Controller
             $reseau->domaines()->sync($values);
         }
 
+        if ($request->has('illustrations')) {
+            $illustrations =  collect(array_filter($request->input('illustrations')));
+            $values = $illustrations->pluck($illustrations, 'id')->map(function ($item) {
+                return ['field' => 'reseau_illustrations'];
+            });
+            $reseau->illustrations()->sync($values);
+        }
+
         return $reseau;
     }
 
