@@ -21,6 +21,7 @@ use App\Models\Profile;
 use App\Models\Tag;
 use App\Services\ApiEngagement;
 use Illuminate\Support\Str;
+use Spatie\QueryBuilder\AllowedInclude;
 
 class StructureController extends Controller
 {
@@ -40,7 +41,8 @@ class StructureController extends Controller
             ->allowedIncludes([
                 'domaines',
                 'illustrations',
-                'overrideImage1'
+                'overrideImage1',
+                AllowedInclude::count('missionsCount')
             ])
             ->defaultSort('-created_at')
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));

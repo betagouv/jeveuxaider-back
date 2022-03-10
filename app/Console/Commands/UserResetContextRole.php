@@ -24,7 +24,7 @@ class UserResetContextRole extends Command
      * @var string
      */
     protected $description = 'Reset context role
-                                {--origin= : The user ID}';
+                                {--user= : The user ID}';
 
     /**
      * Create a new command instance.
@@ -62,7 +62,6 @@ class UserResetContextRole extends Command
         $this->info("Current contextable_id " . $user->contextable_id);
 
         if(count($user->roles)){
-            $newRole = $user->roles[0];
             $this->info("New context_role " . serialize($user->roles[0]));
         } else {
             $this->info("New context_role volontaire");

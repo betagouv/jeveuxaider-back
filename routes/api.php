@@ -375,6 +375,7 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
 
     // SCRIPTS
     Route::post('scripts/migrate-organisation-missions', 'Api\ScriptController@migrateOrganisationMissions');
+    Route::post('scripts/user-reset-context-role', 'Api\ScriptController@resetUserContextRole');
 
     Route::post('/vocabularies/{vocabulary:slug}/terms', 'Api\TermController@store');
     Route::put('/vocabularies/{vocabulary:slug}/terms/{term}', 'Api\TermController@update');
