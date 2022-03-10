@@ -71,9 +71,11 @@ class ReseauController extends Controller
         );
 
         if ($request->has('domaines')) {
-            $domaines_ids = collect($request->input('domaines'))->pluck('id');
-            $domaines = Tag::whereIn('id', $domaines_ids)->get();
-            $reseau->syncTagsWithType($domaines, 'domaine');
+            $domaines =  collect($request->input('domaines'));
+            $values = $domaines->pluck($domaines, 'id')->map(function ($item) {
+                return ['field' => 'reseau_domaines'];
+            });
+            $reseau->domaines()->sync($values);
         }
 
         return $reseau;

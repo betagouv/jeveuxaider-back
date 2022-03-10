@@ -188,7 +188,7 @@ return [
                 'connection' => 'redis',
                 'queue' => ['media'],
                 'balance' => 'simple',
-                'processes' => 10,
+                'processes' => 5,
                 'tries' => 3,
                 'timeout' => 900,
             ],
