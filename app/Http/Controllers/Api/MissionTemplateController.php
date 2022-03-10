@@ -35,7 +35,7 @@ class MissionTemplateController extends Controller
                 AllowedFilter::callback('with_reseaux', new FiltersTemplatesWithReseau)
             )
             ->allowedIncludes(['photo'])
-            ->defaultSort('-updated_at')
+            ->defaultSort('-created_at')
             ->paginate($paginate);
     }
 
