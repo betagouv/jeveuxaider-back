@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\ScriptMigrateOrganisationMissionsRequest;
 use App\Models\Structure;
+use App\Models\User;
 use Illuminate\Support\Facades\Artisan;
 
 class ScriptController extends Controller
@@ -47,6 +48,22 @@ class ScriptController extends Controller
                 '--no-interaction' => true
             ]);
         }
+    }
 
+    public function resetUserContextRole(Request $request)
+    {
+        if(!$request->has('profile')) {
+            abort(422, "Un utilisateur est requis");
+        }
+
+        $user = User::find($request->input('profile')['user_id']);
+
+        if(!$user){
+            abort(422, "L'utilisateur n'existe plus");
+        }
+
+        $user->resetContextRole();
+
+        return $user;
     }
 }

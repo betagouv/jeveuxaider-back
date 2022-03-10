@@ -29,6 +29,7 @@ use App\Services\ApiEngagement;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 use App\Notifications\NotificationTemoignageCreate;
+use Spatie\QueryBuilder\AllowedInclude;
 
 class MissionController extends Controller
 {
@@ -66,7 +67,11 @@ class MissionController extends Controller
                 AllowedFilter::scope('available'),
                 AllowedFilter::custom('is_template', new FiltersMissionIsTemplate),
             ])
-            ->allowedIncludes(['template.photo', 'illustrations'])
+            ->allowedIncludes([
+                'template.photo',
+                 'illustrations',
+                 AllowedInclude::count('participationsCount')
+            ])
             ->defaultSort('-created_at')
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
     }
