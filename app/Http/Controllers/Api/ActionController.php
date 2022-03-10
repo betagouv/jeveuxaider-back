@@ -85,14 +85,6 @@ class ActionController extends Controller
                     'value' => $user->getUnreadConversationsCount()
                 ];
                 $actions[] = [
-                    'type' => 'participations_waiting_validation',
-                    'value' => Participation::role($request->header('Context-Role'))->where('state', 'En attente de validation')->count(),
-                ];
-                $actions[] = [
-                    'type' => 'participations_in_progress',
-                    'value' => Participation::role($request->header('Context-Role'))->where('state', 'En cours de traitement')->count(),
-                ];
-                $actions[] = [
                     'type' => 'organisations_waiting_validation',
                     'value' => Structure::role($request->header('Context-Role'))->where('state', 'En attente de validation')->count()
                 ];
