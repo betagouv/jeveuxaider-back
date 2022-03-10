@@ -184,6 +184,14 @@ return [
                 'tries' => 3,
                 'nice' => 0,
             ],
+            'supervisor-long-running' => [
+                'connection' => 'redis',
+                'queue' => ['media'],
+                'balance' => 'simple',
+                'processes' => 10,
+                'tries' => 3,
+                'timeout' => 900,
+            ],
         ],
         'local' => [
             'supervisor-1' => [
