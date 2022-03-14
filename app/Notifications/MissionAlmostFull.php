@@ -56,7 +56,7 @@ class MissionAlmostFull extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->from("contact@reserve-civique.on.crisp.email", "JeVeuxAider.gouv.fr")
+            ->from("ne-pas-repondre@jeveuxaider.beta.gouv.fr", "JeVeuxAider.gouv.fr")
             ->subject("Votre mission « " . $this->mission->name . " » est bientôt complète !")
             ->greeting('Bonjour ' . $notifiable->first_name . ' 👋,')
             ->line("Félicitations, votre mission est bientôt complète ! Pour rappel, lorsque votre mission est complète, les bénévoles ne peuvent plus y candidater.")

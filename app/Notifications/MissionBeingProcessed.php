@@ -56,7 +56,7 @@ class MissionBeingProcessed extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         $message =  (new MailMessage)
-            ->from("contact@reserve-civique.on.crisp.email", "JeVeuxAider.gouv.fr")
+            ->from("ne-pas-repondre@jeveuxaider.beta.gouv.fr", "JeVeuxAider.gouv.fr")
             ->subject('Votre mission est en cours de traitement')
             ->greeting('Bonjour ' . $notifiable->first_name . ',');
         $message->line("Votre mission « " . $this->mission->name . " » est actuellement en cours de traitement.");
