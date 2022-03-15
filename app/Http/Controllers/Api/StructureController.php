@@ -191,7 +191,7 @@ class StructureController extends Controller
             abort(403, "Vous n'avez pas les droits nécéssaires pour réaliser cette action");
         }
 
-        Participation::role('responsable')->where('state', 'En attente de validation')->chunk(50, function($collection){
+        Participation::with(['profile','mission','mission.structure','conversation'])->role('responsable')->where('state', 'En attente de validation')->chunk(50, function($collection){
             $collection->map(function ($participation) {
                 $participation->update(['state' => 'Validée']);
             });
