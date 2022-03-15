@@ -11,6 +11,7 @@ class ConversationObserver
     {
         // CALCULATE AVERAGE STRUCTURE RESPONSES WHEN RESPONSE TIME IS FILLED
         if ($conversation->wasChanged('response_time')) {
+            $conversation->load('conversable.mission.structure');
             $conversation->conversable->mission->structure->setResponseTime()->saveQuietly();
         }
     }
