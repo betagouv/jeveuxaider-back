@@ -83,6 +83,8 @@ class MissionRequest extends FormRequest
             'commitment__duration' => 'required',
             'commitment__time_period' => '',
             'is_priority' => '',
+            'is_snu_mig_compatible' => '',
+            'snu_mig_places' => 'required_if:is_snu_mig_compatible,true',
         ];
     }
 
@@ -105,7 +107,8 @@ class MissionRequest extends FormRequest
             'end_date.date_format' => 'La date de fin doit être au format YYYY-MM-DD H:i:s',
             'end_date.after' => 'La date de fin doit être supérieur à celle de début',
             'name.required_without' => 'Le nom de la mission est requis',
-            'responsable_id.required' => 'Sélectionnez le contact principal de la mission'
+            'responsable_id.required' => 'Sélectionnez le contact principal de la mission',
+            'snu_mig_places.required_if' => 'Merci d\'indiquer le nombre de places pour les jeunes du SNU'
         ];
     }
 }

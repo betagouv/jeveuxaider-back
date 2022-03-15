@@ -29,6 +29,7 @@ class Mission extends Model
         'publics_beneficiaires' => 'array',
         'publics_volontaires' => 'array',
         'is_priority' => 'boolean',
+        'is_snu_mig_compatible' => 'boolean',
         'start_date' => 'datetime:Y-m-d\TH:i',
         'end_date' => 'datetime:Y-m-d\TH:i'
     ];
@@ -71,12 +72,12 @@ class Mission extends Model
 
     public function makeAllSearchableUsing(Builder $query)
     {
-        return $query->with(['structure', 'template.domaine', 'template.photo', 'illustrations', 'domaine', 'domaineSecondary']);
+        return $query->with(['structure', 'structure.reseaux', 'template.domaine', 'template.photo', 'illustrations', 'domaine', 'domaineSecondary']);
     }
 
     public function toSearchableArray()
     {
-        $this->load(['structure', 'template.domaine', 'template.photo', 'illustrations', 'domaine', 'domaineSecondary']);
+        $this->load(['structure', 'structure.reseaux:id,name', 'template.domaine', 'template.photo', 'illustrations', 'domaine', 'domaineSecondary']);
 
         $domaines = [];
         $domaine = $this->template_id ? $this->template->domaine : $this->domaine;
@@ -110,6 +111,7 @@ class Mission extends Model
                     'id' => $this->structure->reseau->id,
                     'name' => $this->structure->reseau->name,
                 ] : null,
+                'reseaux' => $this->structure->reseaux ? $this->structure->reseaux->all() : null,
             ] : null,
             'type' => $this->type,
             'template_subtitle' => $this->template ? $this->template->subtitle : null,
@@ -137,6 +139,8 @@ class Mission extends Model
             'template_id' => $this->template_id,
             'score' => $this->score,
             'is_priority' => $this->is_priority,
+            'is_snu_mig_compatible' => $this->is_snu_mig_compatible,
+            'snu_mig_places' => $this->snu_mig_places,
         ];
 
         if ($this->latitude && $this->longitude) {

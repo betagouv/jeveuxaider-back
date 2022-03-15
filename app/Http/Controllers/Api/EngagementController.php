@@ -28,15 +28,62 @@ class EngagementController extends Controller
         return response()->view('flux-api-engagement', compact('missions'))->header('Content-Type', 'text/xml');
     }
 
-    public function missions()
+    public function missions(Request $request)
     {
-        $structuresNotInApi = [25, 7383, 5577]; // Bénénovat
-        $missions = Mission::with(['domaine', 'template', 'template.domaine', 'template.photo', 'structure'])->whereHas('structure', function (Builder $query) use ($structuresNotInApi) {
-            $query->where('state', 'Validée')
-                  ->whereNotIn('id', $structuresNotInApi);
-        })->where('state', 'Validée')->where('places_left', '>', 0)->get();
 
-        return response()->view('flux-api-engagement', compact('missions'))->header('Content-Type', 'text/xml');
+        $validator = Validator::make($_GET, [
+            'apikey' => 'required',
+            'pagination' => 'numeric|max:100',
+        ]);
+
+        if ($validator->fails()) {
+            return new Response($validator->errors()->all(), 401);
+        }
+
+        $results = QueryBuilder::for(Mission::where('state', 'Validée')->where('places_left', '>', 0))
+            ->with(['domaine', 'template', 'template.domaine', 'template.photo', 'structure'])
+            ->allowedFilters([
+                AllowedFilter::exact('department'),
+                'state',
+                AllowedFilter::custom('search', new FiltersStructureSearch),
+            ])
+            ->defaultSort('-id')
+            ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
+
+        $results->getCollection()->transform(function($mission, $key) {
+            return $mission->toSearchableArray();
+        });
+
+        return response()->json($results);
+    }
+
+    public function missionsSnuMig(Request $request)
+    {
+
+        $validator = Validator::make($_GET, [
+            'apikey' => 'required',
+            'pagination' => 'numeric|max:100',
+        ]);
+
+        if ($validator->fails()) {
+            return new Response($validator->errors()->all(), 401);
+        }
+
+        $results = QueryBuilder::for(Mission::where('state', 'Validée')->where('is_snu_mig_compatible', true))
+            ->with(['domaine', 'template', 'template.domaine', 'template.photo', 'structure'])
+            ->allowedFilters([
+                AllowedFilter::exact('department'),
+                'state',
+                AllowedFilter::custom('search', new FiltersStructureSearch),
+            ])
+            ->defaultSort('-id')
+            ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
+
+        $results->getCollection()->transform(function($mission, $key) {
+            return $mission->toSearchableArray();
+        });
+
+        return response()->json($results);
     }
 
     public function organisations(Request $request)

@@ -39,7 +39,7 @@ class ParticipationController extends Controller
                 AllowedFilter::exact('mission.template.id'),
                 AllowedFilter::exact('profile.id'),
                 AllowedFilter::scope('ofReseau'),
-                AllowedFilter::scope('OfTerritoire'),
+                AllowedFilter::scope('ofTerritoire'),
                 'state',
                 'mission.zip',
                 'mission.type',

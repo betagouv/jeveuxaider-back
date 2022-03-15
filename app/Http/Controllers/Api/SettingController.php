@@ -40,6 +40,7 @@ class SettingController
     {
 
         $settings->blog_active = $request->input('blog_active');
+        $settings->snu_mig_active = $request->input('snu_mig_active');
         $settings->maintenance_mode_active = $request->input('maintenance_mode_active');
         $settings->light_mode_active = $request->input('light_mode_active');
         $settings->france_connect_active = $request->input('france_connect_active');
