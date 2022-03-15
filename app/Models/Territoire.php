@@ -136,34 +136,34 @@ class Territoire extends Model implements HasMedia
             ->crop(Manipulations::CROP_CENTER, 2850, 900)
             ->nonQueued()
             ->withResponsiveImages()
-            ->format(Manipulations::FORMAT_WEBP)
+            // ->format(Manipulations::FORMAT_WEBP)
             ->performOnCollections('territoire__banner');
         $this->addMediaConversion('tablet')
             ->width(1536)
             ->crop(Manipulations::CROP_CENTER, 1536, 960)
             ->nonQueued()
             ->withResponsiveImages()
-            ->format(Manipulations::FORMAT_WEBP)
+            // ->format(Manipulations::FORMAT_WEBP)
             ->performOnCollections('territoire__banner');
         $this->addMediaConversion('mobile')
             ->height(1144)
             ->crop(Manipulations::CROP_CENTER, 850, 1144)
             ->nonQueued()
             ->withResponsiveImages()
-            ->format(Manipulations::FORMAT_WEBP)
+            // ->format(Manipulations::FORMAT_WEBP)
             ->performOnCollections('territoire__banner');
 
         // Logo
         $this->addMediaConversion('formPreview')
             ->height(80)
             ->nonQueued()
-            ->format(Manipulations::FORMAT_WEBP)
+            // ->format(Manipulations::FORMAT_WEBP)
             ->performOnCollections('territoire__logo', 'territoire__promoted_organisations');
         $this->addMediaConversion('small')
             ->height(220)
             ->nonQueued()
             ->withResponsiveImages()
-            ->format(Manipulations::FORMAT_WEBP)
+            // ->format(Manipulations::FORMAT_WEBP)
             ->performOnCollections('territoire__logo', 'territoire__promoted_organisations');
     }
 

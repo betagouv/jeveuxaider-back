@@ -151,7 +151,7 @@ return [
     |
     */
 
-    'memory_limit' => 512,
+    'memory_limit' => 1024,
 
     /*
     |--------------------------------------------------------------------------
@@ -189,7 +189,7 @@ return [
                 'queue' => ['media'],
                 'balance' => 'simple',
                 'processes' => 5,
-                'tries' => 3,
+                'tries' => 10,
                 'timeout' => 900,
             ],
         ],

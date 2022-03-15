@@ -46,7 +46,7 @@ class MissionController extends Controller
 
     public function index(Request $request)
     {
-        return QueryBuilder::for(Mission::role($request->header('Context-Role')))
+        $result = QueryBuilder::for(Mission::role($request->header('Context-Role')))
             ->with(['domaine', 'template', 'template.domaine', 'structure'])
             ->allowedFilters([
                 'state',
@@ -75,6 +75,9 @@ class MissionController extends Controller
             ])
             ->defaultSort('-created_at')
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
+
+            $result->append('has_places_left');
+            return $result;
     }
 
     public function show(Request $request, $id)
