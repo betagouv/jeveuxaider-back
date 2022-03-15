@@ -51,44 +51,44 @@ class Domaine extends Model implements HasMedia
             ->fit(Manipulations::FIT_CROP, 600, 286)
             ->nonQueued()
             ->withResponsiveImages()
-            ->format(Manipulations::FORMAT_WEBP)
+            // ->format(Manipulations::FORMAT_WEBP)
             ->performOnCollections('domaine__banner');
         $this->addMediaConversion('large')
             ->fit(Manipulations::FIT_CROP, 1600, 600)
             ->nonQueued()
             ->withResponsiveImages()
-            ->format(Manipulations::FORMAT_WEBP)
+            // ->format(Manipulations::FORMAT_WEBP)
             ->performOnCollections('domaine__banner');
         $this->addMediaConversion('formPreview')
             ->fit(Manipulations::FIT_CROP, 470, 224)
             ->nonQueued()
-            ->format(Manipulations::FORMAT_WEBP)
+            // ->format(Manipulations::FORMAT_WEBP)
             ->performOnCollections('domaine__banner');
 
         // Illustrations
         $this->addMediaConversion('formPreview')
             ->fit(Manipulations::FIT_CROP, 400, 400)
             ->nonQueued()
-            ->format(Manipulations::FORMAT_WEBP)
+            // ->format(Manipulations::FORMAT_WEBP)
             ->performOnCollections('domaine__illustrations');
         $this->addMediaConversion('carousel')
             ->fit(Manipulations::FIT_CROP, 860, 860)
             ->nonQueued()
             ->withResponsiveImages()
-            ->format(Manipulations::FORMAT_WEBP)
+            // ->format(Manipulations::FORMAT_WEBP)
             ->performOnCollections('domaine__illustrations');
 
         // Logos partenaires
         $this->addMediaConversion('formPreview')
             ->height(80)
             ->nonQueued()
-            ->format(Manipulations::FORMAT_WEBP)
+            // ->format(Manipulations::FORMAT_WEBP)
             ->performOnCollections('domaine__logos_partenaires', 'domaine__logos_partenaires_actifs');
         $this->addMediaConversion('small')
             ->height(112)
             ->nonQueued()
             ->withResponsiveImages()
-            ->format(Manipulations::FORMAT_WEBP)
+            // ->format(Manipulations::FORMAT_WEBP)
             ->performOnCollections('domaine__logos_partenaires', 'domaine__logos_partenaires_actifs');
 
         // Illustrations mission
@@ -96,12 +96,12 @@ class Domaine extends Model implements HasMedia
             ->fit(Manipulations::FIT_CROP, 600, 286)
             ->nonQueued()
             ->withResponsiveImages()
-            ->format(Manipulations::FORMAT_WEBP)
+            // ->format(Manipulations::FORMAT_WEBP)
             ->performOnCollections('domaine__illustrations_mission');
         $this->addMediaConversion('formPreview')
             ->fit(Manipulations::FIT_CROP, 576, 274)
             ->nonQueued()
-            ->format(Manipulations::FORMAT_WEBP)
+            // ->format(Manipulations::FORMAT_WEBP)
             ->performOnCollections('domaine__illustrations_mission');
 
         // Illustrations organisation
@@ -110,7 +110,7 @@ class Domaine extends Model implements HasMedia
             ->crop(Manipulations::CROP_CENTER, 1400, 900)
             ->nonQueued()
             ->withResponsiveImages()
-            ->format(Manipulations::FORMAT_WEBP)
+            // ->format(Manipulations::FORMAT_WEBP)
             ->performOnCollections('domaine__illustrations_organisation');
     }
 
