@@ -25,7 +25,7 @@ class TerritoireController extends Controller
 {
     public function index(Request $request)
     {
-        return QueryBuilder::for(Territoire::class)
+        $results =  QueryBuilder::for(Territoire::class)
             ->allowedFilters([
                 'state',
                 'type',
@@ -35,11 +35,12 @@ class TerritoireController extends Controller
             ->allowedIncludes([
                 'banner',
             ])
-            // ->allowedAppends([
-            //     'places_left',
-            // ])
             ->defaultSort('-created_at')
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
+
+        $results->append(['places_left']);
+
+        return $results;
     }
 
     public function show($slugOrId)
