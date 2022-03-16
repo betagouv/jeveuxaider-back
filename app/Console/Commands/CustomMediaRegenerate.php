@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use Error;
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
@@ -42,13 +43,27 @@ class CustomMediaRegenerate extends Command
             return;
         }
 
-        $mediaFiles = $this->getMediaToBeRegenerated();
+        // $mediaFiles = $this->getMediaToBeRegenerated();
+        $query = Media::where('is_regenerated', FALSE);
+        $modelType = $this->argument('modelType') ?? '';
+        if ($modelType !== '') {
+            $query->where('model_type', $modelType);
+        }
+        $ids = $this->option('ids');
+        if (!empty($ids)) {
+            if (! is_array($ids)) {
+                $ids = explode(',', $ids);
+            }
+            if (count($ids) === 1 && Str::contains($ids[0], ',')) {
+                $ids = explode(',', $ids[0]);
+            }
+            $query->whereIn('id', $ids);
+        }
 
-        $progressBar = $this->output->createProgressBar($mediaFiles->count());
+        $progressBar = $this->output->createProgressBar($query->count());
 
-        $mediaFiles->each(function (Media $media) use ($progressBar) {
-            $this->warn('MEDIA ID : ' . $media->id);
-
+        $query->get()->each(function (Media $media) use ($progressBar) {
+            $this->warn("Media id {$media->id}");
             try {
                 $this->fileManipulator->createDerivedFiles(
                     $media,
@@ -56,7 +71,11 @@ class CustomMediaRegenerate extends Command
                     $this->option('only-missing'),
                     $this->option('with-responsive-images')
                 );
+                $media->is_regenerated = TRUE;
+                $media->saveQuietly();
             } catch (Exception $exception) {
+                $this->warn("ERROR Media id {$media->id}");
+                $this->warn($exception->getMessage());
                 $this->errorMessages[$media->getKey()] = $exception->getMessage();
             }
 

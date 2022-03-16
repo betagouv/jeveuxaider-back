@@ -19,6 +19,12 @@ class ParticipationWaitingValidation extends Notification implements ShouldQueue
      * @var Participation
      */
     public $participation;
+    /**
+     * The order instance.
+     *
+     * @var Sructure
+     */
+    public $structure;
 
     /**
      * Create a new notification instance.
