@@ -25,6 +25,8 @@ class NotificationTemoignageCreate extends Notification implements ShouldQueue
      * @var Participation
      */
     public $participation;
+    public $mission;
+    public $structure;
 
     /**
      * Create a new notification instance.
@@ -35,6 +37,8 @@ class NotificationTemoignageCreate extends Notification implements ShouldQueue
     {
         $this->notificationTemoignage = $notificationTemoignage;
         $this->participation = $this->notificationTemoignage->participation;
+        $this->mission = $this->participation->mission;
+        $this->structure = $this->mission->structure;
     }
 
     public function viaQueues()
@@ -66,7 +70,7 @@ class NotificationTemoignageCreate extends Notification implements ShouldQueue
         return (new MailMessage)
             ->subject("Comment s'est déroulée votre mission ?")
             ->greeting('Bonjour ' . $notifiable->first_name . ',')
-            ->line("La mission « " . $this->participation->mission->name . " » est désormais finie ! " . $this->mission->structure->name . " et toute l'équipe de JVA tenons à vous remercier pour votre engagement.")
+            ->line("La mission « " . $this->mission->name . " » est désormais finie ! " . $this->structure->name . " et toute l'équipe de JVA tenons à vous remercier pour votre engagement.")
             ->line("Prenez désormais le temps de nous raconter votre expérience 😉")
             ->action('Raconter mon expérience', url(config('app.front_url') . '/temoignages/' . $this->notificationTemoignage->token))
             ->line("À bientôt sur JeVeuxAider.gouv.fr !");
