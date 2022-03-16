@@ -63,7 +63,7 @@ class CustomMediaRegenerate extends Command
         $progressBar = $this->output->createProgressBar($query->count());
 
         $query->get()->each(function (Media $media) use ($progressBar) {
-            $this->warn("Media id {$media->id}");
+            // $this->warn("Media id {$media->id}");
             try {
                 $this->fileManipulator->createDerivedFiles(
                     $media,
