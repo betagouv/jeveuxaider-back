@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use Error;
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
@@ -42,13 +43,16 @@ class CustomMediaRegenerate extends Command
             return;
         }
 
-        $mediaFiles = $this->getMediaToBeRegenerated();
+        // $mediaFiles = $this->getMediaToBeRegenerated();
+        $query = Media::where('is_regenerated', FALSE);
+        $modelType = $this->argument('modelType') ?? '';
+        if ($modelType !== '') {
+            $query->where('model_type', $modelType);
+        }
 
-        $progressBar = $this->output->createProgressBar($mediaFiles->count());
+        $progressBar = $this->output->createProgressBar($query->count());
 
-        $mediaFiles->each(function (Media $media) use ($progressBar) {
-            $this->warn('MEDIA ID : ' . $media->id);
-
+        $query->get()->each(function (Media $media) use ($progressBar) {
             try {
                 $this->fileManipulator->createDerivedFiles(
                     $media,
@@ -56,7 +60,11 @@ class CustomMediaRegenerate extends Command
                     $this->option('only-missing'),
                     $this->option('with-responsive-images')
                 );
+                $media->is_regenerated = TRUE;
+                $media->saveQuietly();
             } catch (Exception $exception) {
+                $this->warn("ERROR Media id {$media->id}");
+                $this->warn($exception->getMessage());
                 $this->errorMessages[$media->getKey()] = $exception->getMessage();
             }
 
