@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Passport\HasApiTokens;
 use App\Notifications\ResetPassword;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 
 class User extends Authenticatable
@@ -230,7 +231,9 @@ class User extends Authenticatable
     public function getUnreadConversationsCount()
     {
         return $this->conversations()
-            ->whereHas('messages')
+            ->whereHas('messages', function (Builder $query) {
+                $query ->where('from_id', '!=', $this->id);
+            })            
             ->where(function ($query) {
                 $query->whereRaw('conversations_users.read_at < conversations.updated_at')
                     ->orWhere('conversations_users.read_at', null);
