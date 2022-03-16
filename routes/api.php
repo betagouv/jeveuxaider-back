@@ -268,6 +268,10 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     // RESEAUX
     Route::get('reseaux', 'Api\ReseauController@index');
     // Route::get('structure/{structure}/reseaux', 'Api\StructureController@reseaux');
+
+    // SNU
+    Route::get('user/snu-actions', 'Api\ActionController@snuWaitingActions');
+
 });
 
 // ONLY ADMIN
