@@ -49,6 +49,16 @@ class CustomMediaRegenerate extends Command
         if ($modelType !== '') {
             $query->where('model_type', $modelType);
         }
+        $ids = $this->option('ids') ?? '';
+        if ($ids !== '') {
+            if (! is_array($ids)) {
+                $ids = explode(',', $ids);
+            }
+            if (count($ids) === 1 && Str::contains($ids[0], ',')) {
+                $ids = explode(',', $ids[0]);
+            }
+            $query->whereIn('id', $ids);
+        }
 
         $progressBar = $this->output->createProgressBar($query->count());
 
