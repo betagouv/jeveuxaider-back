@@ -8,6 +8,7 @@ use App\Models\Mission;
 use App\Models\MissionTemplate;
 use App\Models\Participation;
 use App\Models\Territoire;
+use App\Services\Snu;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -115,6 +116,43 @@ class ActionController extends Controller
             'type' => 'search_missions',
             'value' => true
         ];
+
+        return $actions;
+    }
+
+    public function snuWaitingActions(Request $request)
+    {
+        $actions =  [];
+        $user = $request->user();
+        $snuService = new Snu();
+        $email = $user->email;
+        $email = 'testjva1@example.com';
+
+        $items = $snuService->getWaitingActionsFromEmail($email);
+
+        if($items){
+            if(isset($items['waitingValidation'])){
+                $actions[] = [
+                    'type' => 'snu_waiting_validation',
+                    'value' => $items['waitingValidation'],
+                    'href' => config('app.snu_api_url') . '/jeveuxaider/signin?email=' . $email . '&token=' . config('app.snu_api_token'),
+                ];
+            }
+            if(isset($items['contractToBeSigned'])){
+                $actions[] = [
+                    'type' => 'snu_contract_to_be_signed',
+                    'value' => $items['contractToBeSigned'],
+                    'href' => config('app.snu_api_url') . '/jeveuxaider/signin?email=' . $email . '&token=' . config('app.snu_api_token'),
+                ];
+            }
+            if(isset($items['contractToBeFilled'])){
+                $actions[] = [
+                    'type' => 'snu_contract_to_be_filled',
+                    'value' => $items['contractToBeFilled'],
+                    'href' => config('app.snu_api_url') . '/jeveuxaider/signin?email=' . $email . '&token=' . config('app.snu_api_token'),
+                ];
+            }
+        }
 
         return $actions;
     }
