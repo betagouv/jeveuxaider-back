@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class InvitationRequest extends FormRequest
 {
@@ -26,7 +27,16 @@ class InvitationRequest extends FormRequest
     {
         $rules = [
             'user_id' => 'required',
-            'email' => 'email|required|unique:invitations,email',
+            'email' => [
+                'email',
+                'required',
+                Rule::unique('invitations')->where(function ($query) {
+                    return $query->where('role', request()->input('role'))
+                        ->where('email', request()->input('email'))
+                        ->where('invitable_type', request()->input('invitable_type'))
+                        ->where('invitable_id', request()->input('invitable_id'));
+                }),
+            ],
             'role' => 'required',
             'invitable_id' => 'required_if:role,responsable_organisation,responsable_territoire,responsable_reseau,responsable_antenne',
             'invitable_type' => '',
