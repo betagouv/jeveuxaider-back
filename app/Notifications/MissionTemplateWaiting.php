@@ -12,13 +12,6 @@ class MissionTemplateWaiting extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    public function viaQueues()
-    {
-        return [
-            'mail' => 'emails',
-        ];
-    }
-
     public $missionTemplate;
 
     /**
@@ -29,6 +22,13 @@ class MissionTemplateWaiting extends Notification implements ShouldQueue
     public function __construct(MissionTemplate $missionTemplate)
     {
         $this->missionTemplate = $missionTemplate;
+    }
+
+    public function viaQueues()
+    {
+        return [
+            'mail' => 'emails',
+        ];
     }
 
     /**

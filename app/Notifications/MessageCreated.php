@@ -12,13 +12,6 @@ class MessageCreated extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    public function viaQueues()
-    {
-        return [
-            'mail' => 'emails',
-        ];
-    }
-
     public $message;
 
     /**
@@ -29,6 +22,13 @@ class MessageCreated extends Notification implements ShouldQueue
     public function __construct(Message $message)
     {
         $this->message = $message;
+    }
+
+    public function viaQueues()
+    {
+        return [
+            'mail' => 'emails',
+        ];
     }
 
     /**
