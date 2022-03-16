@@ -23,7 +23,8 @@ class CustomMediaRegenerate extends Command
     {--X|exclude-starting-id : Exclude the provided id when regenerating from a specific id}
     {--only-missing : Regenerate only missing conversions}
     {--with-responsive-images : Regenerate responsive images}
-    {--force : Force the operation to run when in production}';
+    {--force : Force the operation to run when in production}
+    {--debug : Print the media id for debug}';
 
     protected $description = 'Regenerate the derived images of media';
 
@@ -63,7 +64,10 @@ class CustomMediaRegenerate extends Command
         $progressBar = $this->output->createProgressBar($query->count());
 
         $query->get()->each(function (Media $media) use ($progressBar) {
-            // $this->warn("Media id {$media->id}");
+            if($this->option('debug')) {
+                $this->warn("Media id {$media->id}");
+            }
+
             try {
                 $this->fileManipulator->createDerivedFiles(
                     $media,
