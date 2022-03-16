@@ -43,6 +43,7 @@ class EngagementController extends Controller
         $results = QueryBuilder::for(Mission::where('state', 'Validée')->where('places_left', '>', 0))
             ->with(['domaine', 'template', 'template.domaine', 'template.photo', 'structure'])
             ->allowedFilters([
+                AllowedFilter::exact('is_snu_mig_compatible'),
                 AllowedFilter::exact('department'),
                 'state',
                 AllowedFilter::custom('search', new FiltersStructureSearch),
