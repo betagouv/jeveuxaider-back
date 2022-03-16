@@ -49,8 +49,8 @@ class CustomMediaRegenerate extends Command
         if ($modelType !== '') {
             $query->where('model_type', $modelType);
         }
-        $ids = $this->option('ids') ?? '';
-        if ($ids !== '') {
+        $ids = $this->option('ids');
+        if (!empty($ids)) {
             if (! is_array($ids)) {
                 $ids = explode(',', $ids);
             }
