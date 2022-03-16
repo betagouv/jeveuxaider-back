@@ -48,6 +48,8 @@ class MediaRefactoring extends Command
             $bar = $this->output->createProgressBar($query->count());
             $bar->start();
 
+            $this->deleteMediasThatCauseErrors();
+
             foreach ($query->cursor() as $media) {
                 $this->handleAttributePropertyConversion($media);
                 $media->saveQuietly();
@@ -117,5 +119,19 @@ class MediaRefactoring extends Command
                 $this->warn('Media # ' . $media->id . ' : File not found (' . $media->getFullUrl() . '). Skipped.');
             }
         }
+    }
+
+    private function deleteMediasThatCauseErrors()
+    {
+        $ids = [
+            6418,
+            6417,
+            4353,
+            6423,
+            6424,
+            7593
+        ];
+
+        Media::whereIn('id', $ids)->delete();
     }
 }

@@ -173,19 +173,19 @@ class Reseau extends Model implements HasMedia
         $this->addMediaConversion('formPreview')
             ->height(80)
             ->nonQueued()
-            // ->format(Manipulations::FORMAT_WEBP)
+            ->format(Manipulations::FORMAT_WEBP)
             ->performOnCollections('reseau__logo');
         $this->addMediaConversion('small')
             ->height(112)
             ->nonQueued()
             ->withResponsiveImages()
-            // ->format(Manipulations::FORMAT_WEBP)
+            ->format(Manipulations::FORMAT_WEBP)
             ->performOnCollections('reseau__logo');
         $this->addMediaConversion('large')
             ->height(240)
             ->nonQueued()
             ->withResponsiveImages()
-            // ->format(Manipulations::FORMAT_WEBP)
+            ->format(Manipulations::FORMAT_WEBP)
             ->performOnCollections('reseau__logo');
 
         // Illustrations overrides
@@ -194,7 +194,7 @@ class Reseau extends Model implements HasMedia
             ->crop(Manipulations::CROP_CENTER, 1400, 900)
             ->nonQueued()
             ->withResponsiveImages()
-            // ->format(Manipulations::FORMAT_WEBP)
+            ->format(Manipulations::FORMAT_WEBP)
             ->performOnCollections('reseau__override_image_1', 'reseau__override_image_2');
     }
 
