@@ -126,7 +126,6 @@ class ActionController extends Controller
         $user = $request->user();
         $snuService = new Snu();
         $email = $user->email;
-        $email = 'testjva1@example.com';
 
         $items = $snuService->getWaitingActionsFromEmail($email);
 
