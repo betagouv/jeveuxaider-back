@@ -200,74 +200,6 @@ class StructureController extends Controller
         return true;
     }
 
-    // public function delete(StructureDeleteRequest $request, Structure $structure)
-    // {
-    //     if ($structure->missions()->exists()) {
-    //         return response()->json(['errors'=> [
-    //             'password' => [
-    //                 "L'organisation ne peut pas être supprimée car elle a des missions liées.",
-    //             ]
-    //         ]], 400);
-    //     }
-
-    //     if ($structure->territoire) {
-    //         $structure->territoire->update(['structure_id' => null]);
-    //     }
-
-    //     return (string) $structure->delete();
-    // }
-
-    // public function restore($id)
-    // {
-    //     $structure = Structure::withTrashed()->findOrFail($id);
-    //     $this->authorize('restore', $structure);
-    //     return (string) $structure->restore();
-    // }
-
-    // public function destroy($id)
-    // {
-    //     $structure = Structure::withTrashed()->findOrFail($id);
-    //     $this->authorize('destroy', $structure);
-    //     return (string) $structure->forceDelete();
-    // }
-
-    // public function members(StructureRequest $request, Structure $structure)
-    // {
-    //     return $structure->members;
-    // }
-
-    // public function reseaux(StructureRequest $request, Structure $structure)
-    // {
-    //     return $structure->reseaux;
-    // }
-
-    // public function invitations(StructureRequest $request, Structure $structure)
-    // {
-    //     return $structure->invitations;
-    // }
-
-    // public function addMember(StructureInvitationRequest $request, Structure $structure)
-    // {
-    //     $profile = Profile::where('email', 'ILIKE', request('email'))->first();
-    //     $user = $request->user();
-    //     $role = request('role');
-
-    //     if ($structure->members()->where('email', 'ILIKE', request('email'))->first()) {
-    //         return response()->json(['errors' => [
-    //             'members' => ['Ce profil appartient déjà à l\'équipe']
-    //         ]], 422);
-    //     }
-
-    //     if (!$profile) {
-    //         $profile = Profile::create($request->validated());
-    //     }
-
-    //     $structure->addMember($profile, $role);
-    //     $profile->notify(new StructureInvitationSent($structure, $user, $role));
-
-    //     return $structure->members;
-    // }
-
     public function deleteMember(StructureRequest $request, Structure $structure, Profile $member)
     {
         $structure->deleteMember($member);
@@ -303,66 +235,6 @@ class StructureController extends Controller
         return $mission;
     }
 
-    // public function upload(StructureUploadRequest $request, Structure $structure, String $field)
-    // {
-
-    //     // Delete previous file
-    //     if ($media = $structure->getFirstMedia('structures', ['field' => $field])) {
-    //         $media->delete();
-    //     }
-
-    //     $data = $request->all();
-    //     $extension = $request->file('image')->guessExtension();
-    //     $name = Str::random(30);
-
-    //     $cropSettings = json_decode($data['cropSettings']);
-    //     if (!empty($cropSettings)) {
-    //         $stringCropSettings = implode(",", [
-    //             $cropSettings->width,
-    //             $cropSettings->height,
-    //             $cropSettings->x,
-    //             $cropSettings->y
-    //         ]);
-    //     } else {
-    //         $pathName = $request->file('image')->getPathname();
-    //         $infos = getimagesize($pathName);
-    //         $stringCropSettings = implode(",", [
-    //             $infos[0],
-    //             $infos[1],
-    //             0,
-    //             0
-    //         ]);
-    //     }
-
-    //     $structure
-    //         ->addMedia($request->file('image'))
-    //         ->usingName($name)
-    //         ->usingFileName($name . '.' . $extension)
-    //         ->withCustomProperties(['field' => $field])
-    //         ->withManipulations([
-    //             'thumb' => ['manualCrop' => $stringCropSettings],
-    //             'large' => ['manualCrop' => $stringCropSettings],
-    //             'xxl' => ['manualCrop' => $stringCropSettings]
-    //         ])
-    //         ->toMediaCollection('structures');
-
-    //     return $structure;
-    // }
-
-    // public function uploadDelete(StructureUploadRequest $request, Structure $structure, String $field)
-    // {
-    //     if ($media = $structure->getFirstMedia('structures', ['field' => $field])) {
-    //         $media->delete();
-    //     }
-    // }
-
-    // public function pushApiEngagement(Request $request, Structure $structure)
-    // {
-    //     if ($structure && $structure->canBeSendToApiEngagement()) {
-    //         return (new ApiEngagement())->syncAssociation($structure);
-    //     }
-    // }
-
     public function exist(Request $request, $apiId)
     {
         $structure = Structure::where('api_id', '=', $apiId)
@@ -378,20 +250,4 @@ class StructureController extends Controller
             'responsable_fullname' => $structure->responsables->first() ? $structure->responsables->first()->full_name : null
         ];
     }
-
-    // public function attachReseaux(Request $request, Structure $structure)
-    // {
-    //     if ($request->input('reseaux')) {
-    //         $structure->reseaux()->syncWithoutDetaching($request->input('reseaux'));
-    //     }
-
-    //     return $structure;
-    // }
-
-    // public function detachReseau(Request $request, Structure $structure, Reseau $reseau)
-    // {
-    //     $structure->reseaux()->detach($reseau->id);
-
-    //     return $structure;
-    // }
 }
