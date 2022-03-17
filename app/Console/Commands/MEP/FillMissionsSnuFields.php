@@ -41,10 +41,6 @@ class FillMissionsSnuFields extends Command
         $missionsSnu = Mission::whereJsonContains('publics_volontaires', "Jeunes volontaires du Service National Universel");
         $this->info($missionsSnu->count() . ' missions will be updated');
         if ($this->confirm('Do you wish to continue?')) {
-            $missionsSnu->update([
-                'is_snu_mig_compatible' => true,
-                'snu_mig_places' => 1,
-            ]);
 
             $bar = $this->output->createProgressBar($missionsSnu->count());
             $bar->start();
@@ -53,6 +49,12 @@ class FillMissionsSnuFields extends Command
                 $mission->publics_volontaires = collect($mission->publics_volontaires)->filter(function($item){
                     return $item != "Jeunes volontaires du Service National Universel";
                 })->values();
+
+                if($mission->type == 'Mission en présentiel'){
+                    $mission->is_snu_mig_compatible = true;
+                    $mission->snu_mig_places = $mission->places_left;
+                }
+
                 $mission->saveQuietly();
                 $bar->advance();
             }
