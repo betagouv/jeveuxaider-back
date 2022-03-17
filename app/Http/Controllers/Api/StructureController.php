@@ -75,7 +75,7 @@ class StructureController extends Controller
             abort(403);
         }
 
-        return $structure->load(['territoire', 'members', 'domaines', 'reseaux', 'logo', 'illustrations', 'overrideImage1', 'overrideImage2']);
+        return $structure->load(['territoire', 'members', 'domaines', 'reseaux', 'logo', 'illustrations', 'overrideImage1', 'overrideImage2'])->append(['missing_fields', 'completion_rate']);
     }
 
     public function associationSlugOrId(Request $request, $slugOrId)
