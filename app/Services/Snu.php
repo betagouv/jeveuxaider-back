@@ -15,7 +15,7 @@ class Snu
             $response = Http::get(config('app.snu_api_url') . '/jeveuxaider/actions', [
                 'email' => $email,
                 'token' => config('app.snu_api_token')
-            ])->throw();
+            ]);
 
             return isset($response['data']) ? $response['data']['actions'] : null;
         } catch (ConnectionException $e) {

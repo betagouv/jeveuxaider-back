@@ -9,6 +9,7 @@ use App\Models\MissionTemplate;
 use App\Models\Participation;
 use App\Models\Territoire;
 use App\Services\Snu;
+use App\Settings\GeneralSettings;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -120,12 +121,16 @@ class ActionController extends Controller
         return $actions;
     }
 
-    public function snuWaitingActions(Request $request)
+    public function snuWaitingActions(Request $request, GeneralSettings $settings)
     {
         $actions =  [];
         $user = $request->user();
         $snuService = new Snu();
         $email = $user->email;
+
+        if(!$settings->snu_mig_active) {
+            return;
+        }
 
         $items = $snuService->getWaitingActionsFromEmail($email);
 

@@ -435,7 +435,8 @@ return [
             "973" => "Guyane",
             "974" => "La Réunion",
             "976" => "Mayotte",
-            "987" => "Polynésie française"
+            "987" => "Polynésie française",
+            "98" => "Nouvelle-Calédonie"
         ]
     ],
 
@@ -549,7 +550,8 @@ return [
             "973" => "Guyane",
             "974" => "La Réunion",
             "976" => "Mayotte",
-            "987" => "Polynésie française"
+            "987" => "Polynésie française",
+            "98" => "Nouvelle-Calédonie"
         ]
     ],
 
