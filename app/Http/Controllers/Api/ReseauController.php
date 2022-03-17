@@ -42,7 +42,7 @@ class ReseauController extends Controller
             return Reseau::where('id', $slugOrId)
             ->with(['responsables', 'domaines', 'logo', 'illustrations', 'overrideImage1', 'overrideImage2'])
             ->withCount('structures', 'missions', 'missionTemplates', 'invitationsAntennes', 'responsables')
-            ->firstOrFail();
+            ->firstOrFail()->append(['missing_fields', 'completion_rate']);
         }
 
         return Reseau::where('slug', $slugOrId)

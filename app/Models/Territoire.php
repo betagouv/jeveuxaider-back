@@ -38,7 +38,7 @@ class Territoire extends Model implements HasMedia
         'state' => 'validated'
     ];
 
-    protected $checkFields = ['banner', 'suffix_title', 'department', 'zips' ,'tags' ,'seo_recruit_title', 'seo_recruit_description', 'seo_engage_title', 'seo_engage_paragraphs'];
+    protected $checkFields = ['banner', 'suffix_title', 'department', 'zips' ,'seo_recruit_title', 'seo_recruit_description', 'seo_engage_title', 'seo_engage_paragraphs'];
 
     protected $appends = ['full_url'];
     // protected $appends = ['completion_rate', 'full_url', 'permissions'];
