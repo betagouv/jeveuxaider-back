@@ -436,7 +436,7 @@ return [
             "974" => "La Réunion",
             "976" => "Mayotte",
             "987" => "Polynésie française",
-            "98" => "Nouvelle-Calédonie"
+            "988" => "Nouvelle-Calédonie"
         ]
     ],
 
@@ -551,7 +551,7 @@ return [
             "974" => "La Réunion",
             "976" => "Mayotte",
             "987" => "Polynésie française",
-            "98" => "Nouvelle-Calédonie"
+            "988" => "Nouvelle-Calédonie"
         ]
     ],
 
