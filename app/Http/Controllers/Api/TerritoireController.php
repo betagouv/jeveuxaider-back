@@ -50,12 +50,6 @@ class TerritoireController extends Controller
             : Territoire::where('slug', $slugOrId)->with(['banner', 'logo', 'promotedOrganisations'])->firstOrFail();
 
         return $territoire;
-
-        // return $territoire->setAppends([
-        //      'banner',
-        //       'logo',
-        //     'permissions'
-        // ]);
     }
 
     public function statistics(Territoire $territoire)
