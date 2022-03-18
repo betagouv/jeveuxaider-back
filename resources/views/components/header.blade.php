@@ -10,7 +10,7 @@
                         <img
                             class="h-6"
                             src="@/assets/images/logo-header.png"
-                            alt="JeVeuxAider"
+                            alt="JeVeuxAider.gouv.fr"
                         />
                     </a>
                 </div>
