@@ -12,6 +12,7 @@ class ActivityObserver
         $user = Auth::guard('api')->user();
 
         if ($activity->subject_type == 'App\Models\Participation') {
+            $activity->subject->load('profile');
             $subject_type = $activity->subject->profile->full_name;
         } elseif ($activity->subject_type == 'App\Models\Profile') {
             $subject_type = $activity->subject->full_name;

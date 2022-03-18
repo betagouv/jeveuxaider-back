@@ -160,7 +160,7 @@ class NotificationController extends Controller
                 $notification = new MessageCreated($message);
                 break;
             case 'mission_template_created':
-                $missionTemplate = MissionTemplate::latest()->first();
+                $missionTemplate = MissionTemplate::whereHas('reseau')->latest()->first();
                 $notification = new MissionTemplateWaiting($missionTemplate);
                 break;
             case 'moderateur_daily_todo':
