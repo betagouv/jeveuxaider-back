@@ -306,7 +306,10 @@ return [
             "people_in_difficulty" => "Personnes en difficulté",
             "parents" => "Parents",
             "children" => "Jeunes / enfants",
-            "any_public" => "Tous publics"
+            "refugees" => "Nouveaux Arrivants / Réfugiés",
+            "people_being_excluded" => "Personnes en situation d’exclusion",
+            "people_sick" => "Personnes malades",
+            "any_public" => "Tous publics",
         ]
     ],
 

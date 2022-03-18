@@ -114,6 +114,7 @@ class GenerateUsersContextRoles extends Command
                     ->whereDoesntHave('territoires')
                     ->whereNull('referent_department')
                     ->whereNull('referent_region')
+                    ->whereNull('tete_de_reseau_id')
                     ->where('is_analyste', false);
             });
         $this->info($benevolesQuery->count() . ' benevoles will be updated');
