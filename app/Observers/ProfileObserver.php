@@ -38,7 +38,7 @@ class ProfileObserver
             $profile->user()->update(['email' => $newEmail]);
         }
 
-        if ($profile->isDirty(['referent_region','referent_department','is_analyste'])) {
+        if ($profile->isDirty(['referent_region','referent_department','is_analyste','tete_de_reseau_id'])) {
             $profile->user->resetContextRole();
         }
 
