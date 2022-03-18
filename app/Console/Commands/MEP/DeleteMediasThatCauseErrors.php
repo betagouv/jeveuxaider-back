@@ -45,7 +45,9 @@ class DeleteMediasThatCauseErrors extends Command
             4353,
             6423,
             6424,
-            7593
+            7593,
+            11111,
+            9231
         ];
 
         $optionIds = $this->option('ids');
