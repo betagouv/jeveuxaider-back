@@ -225,9 +225,10 @@ class GenerateUsersContextRoles extends Command
         $bar = $this->output->createProgressBar($query->count());
         $bar->start();
         foreach ($query->cursor() as $profile) {
+            $reseau = $profile->reseau->first();
             $profile->user->context_role = 'tete_de_reseau';
-            $profile->user->contextable_type = null;
-            $profile->user->contextable_id = null;
+            $profile->user->contextable_type = 'reseau';
+            $profile->user->contextable_id = $reseau->id;
             $profile->user->saveQuietly();
             $this->info($profile->user->email . ' has been switched to tete_de_reseau context_role');
             $bar->advance();
