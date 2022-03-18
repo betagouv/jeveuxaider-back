@@ -31,7 +31,7 @@
                 </div>
             </div>
             <div class="mt-8 lg:mt-3">
-                <div class="mb-8" style="font-size:13px;">Suivez JeVeuxAider</div>
+                <div class="mb-8" style="font-size:13px;">Suivez JeVeuxAider.gouv.fr</div>
                 <div class="flex -m-2 overflow-hidden justify-center lg:justify-start">
                     <a class="m-2 flex-shrink-0 flex items-center justify-center border rounded-full w-10 h-10 transition opacity-75 hover:opacity-100" href="https://twitter.com/ReserveCivique" target="_blank">
                         <img src="/images/twitter_white.svg" alt="Twitter" />

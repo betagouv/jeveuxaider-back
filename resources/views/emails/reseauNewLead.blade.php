@@ -22,5 +22,5 @@ Bonjour,
 
 Bonne journée,
 
-Le code de JeVeuxAider
+Le code de JeVeuxAider.gouv.fr
 @endcomponent
