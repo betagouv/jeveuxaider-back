@@ -24,7 +24,7 @@ class ConversationsController extends Controller
     {
         return QueryBuilder::for(
             Conversation::role($request->header('Context-Role'))->with(
-                ['latestMessage', 'users', 'conversable' => function (MorphTo $morphTo) {
+                ['latestMessage', 'users', 'users.profile.avatar', 'conversable' => function (MorphTo $morphTo) {
                     $morphTo->morphWith(
                         [
                             Participation::class => [
@@ -55,7 +55,7 @@ class ConversationsController extends Controller
         $currentUser->markConversationAsRead($conversation);
 
         return Conversation::with(
-            ['users', 'latestMessage', 'conversable' => function (MorphTo $morphTo) {
+            ['users', 'users.profile.avatar', 'latestMessage', 'conversable' => function (MorphTo $morphTo) {
                 $morphTo->morphWith(
                     [
                         Participation::class => [
@@ -73,7 +73,7 @@ class ConversationsController extends Controller
     public function messages(ConversationRequest $request, Conversation $conversation)
     {
 
-        return QueryBuilder::for(Message::where('conversation_id', $conversation->id)->with(['from']))
+        return QueryBuilder::for(Message::where('conversation_id', $conversation->id)->with(['from', 'from.profile.avatar']))
             ->defaultSort('-id')
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
     }
