@@ -35,8 +35,6 @@ class StructureController extends Controller
                 AllowedFilter::exact('reseaux.name'),
                 'state',
                 'statut_juridique',
-                // AllowedFilter::custom('rna', new FiltersStructureWithRna),
-                // AllowedFilter::scope('ofReseau'),
             ])
             ->allowedIncludes([
                 'domaines',
@@ -95,10 +93,6 @@ class StructureController extends Controller
 
     public function store(StructureCreateRequest $request)
     {
-        // if (!$request->validated()) {
-        //     return $request->validated();
-        // }
-
         $structureAttributes = [
             'user_id' => Auth::guard('api')->user()->id,
         ];
@@ -128,10 +122,6 @@ class StructureController extends Controller
 
     public function update(StructureUpdateRequest $request, Structure $structure)
     {
-        // if (!$request->validated()) {
-        //     return $request->validated();
-        // }
-
         if ($request->has('domaines')) {
             $domaines =  collect($request->input('domaines'));
             $values = $domaines->pluck($domaines, 'id')->map(function ($item) {
@@ -159,8 +149,6 @@ class StructureController extends Controller
         $structure->update($request->validated());
 
         return $structure;
-
-        //return Structure::with(['members'])->withCount('missions')->where('id', $structure->id)->first()->append('completion_rate');
     }
 
     public function unregister(Structure $structure)
