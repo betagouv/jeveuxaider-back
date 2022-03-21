@@ -20,6 +20,8 @@ use App\Traits\HasMissingFields;
 use Spatie\Image\Manipulations;
 use App\Models\Media as ModelMedia;
 use Spatie\Activitylog\LogOptions;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+
 
 class Structure extends Model implements HasMedia
 {
@@ -447,5 +449,12 @@ class Structure extends Model implements HasMedia
         return $this->state == 'Validée' && $this->statut_juridique == 'Association'
             && $this->rna && $this->rna != 'N/A'
             && $this->api_id && $this->api_id != 'N/A';
+    }
+
+    protected function description(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => strip_tags($value),
+        );
     }
 }

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class Temoignage extends Model
 {
@@ -66,5 +67,12 @@ class Temoignage extends Model
         return $query->whereHas('participation', function (Builder $query) use ($reseau_id) {
             $query->ofReseau($reseau_id);
         });
+    }
+
+    protected function testimony(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => strip_tags($value),
+        );
     }
 }

@@ -17,6 +17,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Image\Manipulations;
 use App\Models\Media as ModelMedia;
 use Spatie\Activitylog\LogOptions;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class Profile extends Model implements HasMedia
 {
@@ -418,4 +419,11 @@ class Profile extends Model implements HasMedia
     // {
     //     return self::getNotificationBenevoleStats($this->id);
     // }
+
+    protected function description(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => strip_tags($value),
+        );
+    }
 }

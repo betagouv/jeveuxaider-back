@@ -15,6 +15,7 @@ use Spatie\Image\Manipulations;
 use App\Models\Media as ModelMedia;
 use App\Traits\HasMissingFields;
 use Spatie\Activitylog\LogOptions;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class Reseau extends Model implements HasMedia
 {
@@ -212,5 +213,12 @@ class Reseau extends Model implements HasMedia
         return SlugOptions::create()
             ->generateSlugsFrom(['id', 'name'])
             ->saveSlugsTo('slug');
+    }
+
+    protected function description(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => strip_tags($value),
+        );
     }
 }

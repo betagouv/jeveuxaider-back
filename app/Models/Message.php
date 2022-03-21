@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class Message extends Model
 {
@@ -20,5 +21,12 @@ class Message extends Model
     public function conversation()
     {
         return $this->belongsTo('App\Models\Conversation');
+    }
+
+    protected function content(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => strip_tags($value),
+        );
     }
 }
