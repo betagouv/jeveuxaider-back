@@ -70,9 +70,6 @@ class Sendinblue
                     case "Unable to create contact, SMS is already associate with another Contact":
                         self::sync($user, false);
                         break;
-                    default:
-                        report(new \Exception("Sendinblue sync failed for user $user->email with code " . $response['code'] . ' and message ' . $response['message']));
-                        break;
                 }
             }
         }
