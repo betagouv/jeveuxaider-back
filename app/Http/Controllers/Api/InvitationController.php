@@ -51,6 +51,13 @@ class InvitationController extends Controller
 
     public function store(InvitationRequest $request)
     {
+
+        if ($request->input('email') == $request->user()->email) {
+            if(!$request->user()->is_admin){
+                abort(422, "Vous ne pouvez pas vous inviter vous-même");
+            }
+        }
+
         // RESPONSABLE ORGANISATION
         if (in_array($request->input('role'), ['responsable_organisation'])) {
             $profile = Profile::where('email', 'ILIKE', $request->input('email'))->first();

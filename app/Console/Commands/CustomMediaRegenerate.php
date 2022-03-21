@@ -24,7 +24,8 @@ class CustomMediaRegenerate extends Command
     {--only-missing : Regenerate only missing conversions}
     {--with-responsive-images : Regenerate responsive images}
     {--force : Force the operation to run when in production}
-    {--debug : Print the media id for debug}';
+    {--debug : Print the media id for debug}
+    {--reset-is-regenerated : Force is_regenerated to false before runing the script}';
 
     protected $description = 'Regenerate the derived images of media';
 
@@ -44,8 +45,13 @@ class CustomMediaRegenerate extends Command
             return;
         }
 
+        if ($this->option('reset-is-regenerated')) {
+            Media::query()->update(['is_regenerated' => FALSE]);
+        }
+
         // $mediaFiles = $this->getMediaToBeRegenerated();
         $query = Media::where('is_regenerated', FALSE);
+
         $modelType = $this->argument('modelType') ?? '';
         if ($modelType !== '') {
             $query->where('model_type', $modelType);
@@ -64,7 +70,7 @@ class CustomMediaRegenerate extends Command
         $progressBar = $this->output->createProgressBar($query->count());
 
         $query->get()->each(function (Media $media) use ($progressBar) {
-            if($this->option('debug')) {
+            if ($this->option('debug')) {
                 $this->warn("Media id {$media->id}");
             }
 

@@ -226,15 +226,15 @@ class ParticipationController extends Controller
         return $participation->profile->append('roles', 'has_user', 'domaines');
     }
 
-    public function mission(Request $request, Participation $participation)
-    {
-        return $participation->mission->load('structure');
-    }
+    // public function mission(Request $request, Participation $participation)
+    // {
+    //     return $participation->mission->load('structure');
+    // }
 
-    public function benevoleName(Request $request, Participation $participation)
-    {
-        return $participation->profile->only(['id', 'first_name', 'last_name']);
-    }
+    // public function benevoleName(Request $request, Participation $participation)
+    // {
+    //     return $participation->profile->only(['id', 'first_name', 'last_name']);
+    // }
 
     public function temoignage(Request $request, Participation $participation)
     {

@@ -436,6 +436,14 @@ class Mission extends Model
         }
 
         $mission->save();
+
+        if ($this->illustrations) {
+            $values = $this->illustrations->pluck($this->illustrations, 'id')->map(function ($item) {
+                return ['field' => 'mission_illustrations'];
+            });
+            $mission->illustrations()->sync($values);
+        }
+
         return $mission;
     }
 

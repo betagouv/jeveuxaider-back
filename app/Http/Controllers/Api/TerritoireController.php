@@ -46,16 +46,10 @@ class TerritoireController extends Controller
     public function show($slugOrId)
     {
         $territoire = (is_numeric($slugOrId))
-            ? Territoire::where('id', $slugOrId)->with(['responsables', 'banner', 'logo', 'promotedOrganisations'])->firstOrFail()
+            ? Territoire::where('id', $slugOrId)->with(['responsables', 'banner', 'logo', 'promotedOrganisations'])->firstOrFail()->append(['missing_fields','completion_rate'])
             : Territoire::where('slug', $slugOrId)->with(['banner', 'logo', 'promotedOrganisations'])->firstOrFail();
 
         return $territoire;
-
-        // return $territoire->setAppends([
-        //      'banner',
-        //       'logo',
-        //     'permissions'
-        // ]);
     }
 
     public function statistics(Territoire $territoire)

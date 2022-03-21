@@ -12,6 +12,7 @@ class ActivityObserver
         $user = Auth::guard('api')->user();
 
         if ($activity->subject_type == 'App\Models\Participation') {
+            $activity->subject->load('profile');
             $subject_type = $activity->subject->profile->full_name;
         } elseif ($activity->subject_type == 'App\Models\Profile') {
             $subject_type = $activity->subject->full_name;
@@ -23,7 +24,7 @@ class ActivityObserver
             "subject_title" => $subject_type,
             "full_name" => $user && $user->profile ? $user->profile->full_name : '',
             "causer_id" => $user && $user->profile ? $user->profile->id : '',
-            "context_role" => $user->contextRole ?? 'volontaire'
+            "context_role" => $user->context_role ?? 'volontaire'
         ];
     }
 }

@@ -11,7 +11,7 @@ trait HasMissingFields
     {
 
         if(!$this->checkFields){
-            return;
+            return [];
         }
 
         $missingFields = [];
@@ -28,8 +28,15 @@ trait HasMissingFields
             }
         }
 
-        return count($missingFields) ? $missingFields : null;
+        return count($missingFields) ? $missingFields : [];
 
+    }
+
+    public function getCompletionRateAttribute()
+    {
+        $missingFields = $this->getMissingFieldsAttribute();
+
+        return count($this->checkFields) > 0 ? 100 - round(count($missingFields) * 100 / count($this->checkFields)) : 100;
     }
 
 }

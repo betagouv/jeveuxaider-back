@@ -13,6 +13,7 @@ use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use Spatie\Image\Manipulations;
 use App\Models\Media as ModelMedia;
+use App\Traits\HasMissingFields;
 use Spatie\Activitylog\LogOptions;
 
 class Reseau extends Model implements HasMedia
@@ -22,6 +23,7 @@ class Reseau extends Model implements HasMedia
     use InteractsWithMedia;
     use HasSlug;
     use LogsActivity;
+    use HasMissingFields;
 
     protected $table = 'reseaux';
 
@@ -35,6 +37,8 @@ class Reseau extends Model implements HasMedia
         'publics_beneficiaires' => 'array',
         'is_published' => 'boolean',
     ];
+
+    protected $checkFields = ['logo', 'description', 'phone', 'email', 'address', 'zip', 'city', 'department', 'website', 'domaines'];
 
     public function getActivitylogOptions(): LogOptions
     {
@@ -87,10 +91,10 @@ class Reseau extends Model implements HasMedia
     public function deleteResponsable(Profile $profile)
     {
         $profile->tete_de_reseau_id = null;
+        $profile->save();
+
         $profile->user->resetContextRole();
         $profile->user->save();
-
-        $profile->save();
 
         return $this->load('responsables');
     }

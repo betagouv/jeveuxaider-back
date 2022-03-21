@@ -306,7 +306,10 @@ return [
             "people_in_difficulty" => "Personnes en difficulté",
             "parents" => "Parents",
             "children" => "Jeunes / enfants",
-            "any_public" => "Tous publics"
+            "refugees" => "Nouveaux Arrivants / Réfugiés",
+            "people_being_excluded" => "Personnes en situation d’exclusion",
+            "people_sick" => "Personnes malades",
+            "any_public" => "Tous publics",
         ]
     ],
 
@@ -436,7 +439,7 @@ return [
             "974" => "La Réunion",
             "976" => "Mayotte",
             "987" => "Polynésie française",
-            "98" => "Nouvelle-Calédonie"
+            "988" => "Nouvelle-Calédonie"
         ]
     ],
 
@@ -551,7 +554,7 @@ return [
             "974" => "La Réunion",
             "976" => "Mayotte",
             "987" => "Polynésie française",
-            "98" => "Nouvelle-Calédonie"
+            "988" => "Nouvelle-Calédonie"
         ]
     ],
 
