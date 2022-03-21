@@ -45,6 +45,7 @@ class MissionObserver
         // MAJ SENDINBLUE
         if (config('services.sendinblue.sync')) {
             $mission->structure->responsables->each(function ($profile, $key) {
+                $profile->load('user');
                 if ($profile->user) { // Parfois il n'y a pas de user car ce sont des profiles invités
                     SendinblueSyncUser::dispatch($profile->user);
                 }
@@ -154,6 +155,7 @@ class MissionObserver
         // MAJ SENDINBLUE
         if (config('services.sendinblue.sync')) {
             $mission->structure->responsables->each(function ($profile, $key) {
+                $profile->load('user');
                 if ($profile->user) { // Parfois il n'y a pas de user car ce sont des profiles invités
                     SendinblueSyncUser::dispatch($profile->user);
                 }
