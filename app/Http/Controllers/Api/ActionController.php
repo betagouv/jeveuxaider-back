@@ -61,10 +61,15 @@ class ActionController extends Controller
                     'type' => 'missions_outdated',
                     'value' => Mission::role($request->header('Context-Role'))->where('end_date', '<', Carbon::now())->where('state', 'Validée')->count(),
                 ];
-                $actions[] = [
-                    'type' => 'organisation_incomplete',
-                    'value' => isset($user->profile->structures[0]) ? $user->profile->structures[0]->missing_fields : false,
-                ];
+                if($user->contextable_id){
+                    $structure = Structure::find($user->contextable_id);
+                    if($structure){
+                        $actions[] = [
+                            'type' => 'organisation_incomplete',
+                            'value' => $structure->missing_fields,
+                        ];
+                    }
+                }
                 break;
             case 'tete_de_reseau':
                 $actions[] = [
