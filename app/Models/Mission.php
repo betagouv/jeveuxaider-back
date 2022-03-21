@@ -14,6 +14,7 @@ use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use App\Helpers\Utils;
 use Spatie\Activitylog\LogOptions;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class Mission extends Model
 {
@@ -520,5 +521,26 @@ class Mission extends Model
             /** @var \App\Models\Participation $participation */
             $participation->sendNotificationTemoignage();
         }
+    }
+
+    protected function objectif(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => strip_tags($value, '<p><b><strong><ul><ol><li><i>'),
+        );
+    }
+
+    protected function information(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => strip_tags($value, '<p><b><strong><ul><ol><li><i>'),
+        );
+    }
+
+    protected function description(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => strip_tags($value, '<p><b><strong><ul><ol><li><i>'),
+        );
     }
 }

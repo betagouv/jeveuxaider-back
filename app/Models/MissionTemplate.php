@@ -9,6 +9,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use App\Models\Media as ModelMedia;
 use Spatie\Image\Manipulations;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class MissionTemplate extends Model implements HasMedia
 {
@@ -94,5 +95,19 @@ class MissionTemplate extends Model implements HasMedia
                 abort(403, 'This action is not authorized');
                 break;
         }
+    }
+
+    protected function description(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => strip_tags($value, '<p><b><strong><ul><ol><li><i>'),
+        );
+    }
+
+    protected function objectif(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => strip_tags($value, '<p><b><strong><ul><ol><li><i>'),
+        );
     }
 }
