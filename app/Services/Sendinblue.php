@@ -97,8 +97,8 @@ class Sendinblue
             'ORGA_NAME' => $organisation ? $organisation->name : null,
             'ORGA_CODE_POSTAL' => $organisation ? $organisation->zip : null,
             'ORGA_NB_MISSION' => $organisation ? $organisation->missions->count() : null,
-            'REFERENT_DEPARTEMENT' => $user->profile->isReferent() ? $user->profile->referent_department : null,
-            'REFERENT_REGION' => $user->profile->isReferentRegional() ? $user->profile->referent_region : null,
+            'REFERENT_DEPARTEMENT' => $user->profile->referent_department ? $user->profile->referent_department : null,
+            'REFERENT_REGION' => $user->profile->referent_region ? $user->profile->referent_region : null,
         ];
 
         if ($withSMS) {
