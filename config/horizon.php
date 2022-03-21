@@ -173,6 +173,7 @@ return [
                 'processes' => 10,
                 'tries' => 3,
                 'nice' => 0,
+                'timeout' => 0,
             ],
             'supervisor-long-running' => [
                 'connection' => 'redis',
