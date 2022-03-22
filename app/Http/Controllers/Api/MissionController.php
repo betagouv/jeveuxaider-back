@@ -70,8 +70,8 @@ class MissionController extends Controller
             ])
             ->allowedIncludes([
                 'template.photo',
-                 'illustrations',
-                 AllowedInclude::count('participationsCount')
+                'illustrations',
+                AllowedInclude::count('participationsCount')
             ])
             ->defaultSort('-created_at')
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));

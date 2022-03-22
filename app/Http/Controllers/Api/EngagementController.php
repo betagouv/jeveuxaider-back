@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Filters\FiltersMissionIsTemplate;
+use App\Filters\FiltersMissionPlacesLeft;
+use App\Filters\FiltersMissionPublicsVolontaires;
+use App\Filters\FiltersMissionSearch;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Mission;
@@ -40,51 +44,79 @@ class EngagementController extends Controller
             return new Response($validator->errors()->all(), 401);
         }
 
-        $results = QueryBuilder::for(Mission::where('state', 'Validée')->where('places_left', '>', 0))
-            ->with(['domaine', 'template', 'template.domaine', 'template.photo', 'structure'])
+        $missionsQueryBuilder = Mission::where('state', 'Validée')
+            ->where('places_left', '>', 0)
+            ->whereHas('structure', function (Builder $query) {
+                $query->where('state', 'Validée')
+                      ->whereNotIn('id', [25, 7383, 5577]);
+            });
+
+        $results = QueryBuilder::for($missionsQueryBuilder)
+            ->with(['responsable','domaine', 'template', 'template.domaine', 'template.photo', 'structure','illustrations'])
             ->allowedFilters([
-                AllowedFilter::exact('is_snu_mig_compatible'),
-                AllowedFilter::exact('department'),
                 'state',
-                AllowedFilter::custom('search', new FiltersStructureSearch),
+                'type',
+                AllowedFilter::exact('id'),
+                AllowedFilter::exact('department'),
+                AllowedFilter::exact('responsable.id'),
+                AllowedFilter::exact('template.id'),
+                AllowedFilter::exact('structure.id'),
+                AllowedFilter::exact('structure.name'),
+                AllowedFilter::exact('structure.reseaux.id'),
+                AllowedFilter::exact('structure.reseaux.name'),
+                AllowedFilter::exact('is_snu_mig_compatible'),
+                AllowedFilter::scope('domaine'),
+                AllowedFilter::scope('ofTerritoire'),
+                AllowedFilter::custom('place', new FiltersMissionPlacesLeft),
+                AllowedFilter::custom('publics_volontaires', new FiltersMissionPublicsVolontaires),
+                AllowedFilter::custom('search', new FiltersMissionSearch),
+                AllowedFilter::scope('available'),
+                AllowedFilter::custom('is_template', new FiltersMissionIsTemplate),
             ])
             ->defaultSort('-id')
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
 
         $results->getCollection()->transform(function($mission, $key) {
-            return $mission->toSearchableArray();
+            return [
+                ...$mission->toSearchableArray(),
+                'responsable' => $mission->responsable ? [
+                    'id' => $mission->responsable->id,
+                    'first_name' => $mission->responsable->first_name,
+                    'last_name' => $mission->responsable->last_name,
+                    'email' => $mission->responsable->email,
+                ] : null
+            ];
         });
 
         return response()->json($results);
     }
 
-    public function missionsSnuMig(Request $request)
+    public function organisation(Request $request, Structure $organisation)
     {
 
         $validator = Validator::make($_GET, [
             'apikey' => 'required',
-            'pagination' => 'numeric|max:100',
         ]);
 
         if ($validator->fails()) {
             return new Response($validator->errors()->all(), 401);
         }
 
-        $results = QueryBuilder::for(Mission::where('state', 'Validée')->where('is_snu_mig_compatible', true))
-            ->with(['domaine', 'template', 'template.domaine', 'template.photo', 'structure'])
-            ->allowedFilters([
-                AllowedFilter::exact('department'),
-                'state',
-                AllowedFilter::custom('search', new FiltersStructureSearch),
-            ])
-            ->defaultSort('-id')
-            ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
+        $organisation->load('members');
 
-        $results->getCollection()->transform(function($mission, $key) {
-            return $mission->toSearchableArray();
-        });
+        $organisation = [
+            ...$organisation->toSearchableArray(),
+            'responsables' => $organisation->has('members') ? $organisation->members->map(function($responsable){
+                return [
+                    'id' => $responsable->id,
+                    'first_name' => $responsable->first_name,
+                    'last_name' => $responsable->last_name,
+                    'email' => $responsable->email,
+                ];
+            })->all() : null,
+        ];
 
-        return response()->json($results);
+        return response()->json($organisation);
     }
 
     public function organisations(Request $request)

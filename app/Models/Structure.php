@@ -457,4 +457,47 @@ class Structure extends Model implements HasMedia
             get: fn ($value) => strip_tags($value),
         );
     }
+
+    public function toSearchableArray()
+    {
+        $this->load(['reseaux', 'domaines']);
+
+        return [
+            'id' => $this->id,
+            'rna' => $this->rna,
+            'api_id' => $this->api_id,
+            'name' => $this->name,
+            'state' => $this->state,
+            'phone' => $this->phone,
+            'email' => $this->email,
+            'url' => $this->full_url,
+            'description' => $this->description,
+            'statut_juridique' => $this->statut_juridique,
+            'association_types' => $this->association_types,
+            'structure_publique_type' => $this->structure_publique_type,
+            'structure_publique_etat_type' => $this->structure_publique_etat_type,
+            'structure_privee_type' => $this->structure_privee_type,
+            'address' => [
+                'full' => $this->full_address,
+                'address' => $this->address,
+                'zip' => $this->zip,
+                'city' => $this->city,
+                'department' => $this->department,
+                'country' => $this->country,
+                'latitude' => $this->latitude,
+                'longitude' => $this->longitude,
+            ],
+            'website' => $this->website,
+            'facebook' => $this->facebook,
+            'twitter' => $this->twitter,
+            'instagram' => $this->instagram,
+            'donation' => $this->donation,
+            'created_at' => $this->created_at,
+            'publics_beneficiaires' => $this->publics_beneficiaires,
+            'domaines' => $this->domaines ? $this->domaines->map(function($domaine){
+                return $domaine['name'];
+            })->all() : null,
+            'reseaux' => $this->reseaux ? $this->reseaux->all() : null,
+        ];
+    }
 }
