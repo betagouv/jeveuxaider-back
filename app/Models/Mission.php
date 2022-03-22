@@ -249,15 +249,15 @@ class Mission extends Model
         $this->attributes['name'] = isset($this->attributes['template_id']) ? null : $value;
     }
 
-    public function getDescriptionAttribute($value)
-    {
-        return $this->template_id ? $this->template->description : $value;
-    }
+    // public function getDescriptionAttribute($value)
+    // {
+    //     return $this->template_id ? $this->template->description : $value;
+    // }
 
-    public function getObjectifAttribute($value)
-    {
-        return $this->template_id ? $this->template->objectif : $value;
-    }
+    // public function getObjectifAttribute($value)
+    // {
+    //     return $this->template_id ? $this->template->objectif : $value;
+    // }
 
     public function getScoreAttribute()
     {
@@ -526,7 +526,9 @@ class Mission extends Model
     protected function objectif(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => strip_tags($value, '<p><b><strong><ul><ol><li><i>'),
+            get: fn ($value) => $this->template_id ?
+                strip_tags($this->template->objectif, '<p><b><strong><ul><ol><li><i>') :
+                strip_tags($value, '<p><b><strong><ul><ol><li><i>'),
         );
     }
 
@@ -540,7 +542,9 @@ class Mission extends Model
     protected function description(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => strip_tags($value, '<p><b><strong><ul><ol><li><i>'),
+            get: fn ($value) => $this->template_id ?
+                strip_tags($this->template->description, '<p><b><strong><ul><ol><li><i>') :
+                strip_tags($value, '<p><b><strong><ul><ol><li><i>'),
         );
     }
 }
