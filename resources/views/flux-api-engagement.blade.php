@@ -181,6 +181,13 @@
             @endphp
             <![CDATA[{{ $isSnu ? 'yes' : 'no' }}]]>
         </snu>
+        <image>
+            @if ($mission->template && $mission->template->photo)
+                <![CDATA[{{ $mission->template->photo->urls['original'] }}]]>
+            @elseif ($mission->illustrations && isset($mission->illustrations[0]))
+                <![CDATA[{{ $mission->illustrations[0]->urls['original'] }}]]>
+            @endif
+        </image>
     </mission>
 @endforeach
 </source>

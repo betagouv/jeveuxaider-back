@@ -20,7 +20,7 @@ class EngagementController extends Controller
     public function feed()
     {
         $structuresNotInApi = [25, 7383, 5577]; // Bénénovat
-        $missions = Mission::with(['domaine', 'template', 'template.domaine', 'template.photo', 'structure'])->whereHas('structure', function (Builder $query) use ($structuresNotInApi) {
+        $missions = Mission::with(['domaine', 'template', 'template.domaine', 'template.photo', 'structure', 'illustrations'])->whereHas('structure', function (Builder $query) use ($structuresNotInApi) {
             $query->where('state', 'Validée')
                   ->whereNotIn('id', $structuresNotInApi);
         })->where('state', 'Validée')->where('places_left', '>', 0)->get();
