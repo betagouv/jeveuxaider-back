@@ -56,7 +56,7 @@ class Structure extends Model implements HasMedia
 
     protected $hidden = ['media'];
 
-    protected $checkFields = ['description', 'domaines', 'publics_beneficiaires', 'address', 'department', 'logo', 'email', 'phone', 'website'];
+    protected $checkFields = ['description', 'domaines', 'publics_beneficiaires', 'website'];
 
     protected $appends = ['full_url', 'full_address'];
 
