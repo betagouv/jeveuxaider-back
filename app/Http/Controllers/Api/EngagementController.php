@@ -52,7 +52,7 @@ class EngagementController extends Controller
             });
 
         $results = QueryBuilder::for($missionsQueryBuilder)
-            ->with(['responsable','domaine', 'template', 'template.domaine', 'template.photo', 'structure','illustrations'])
+            ->with(['responsable','domaine', 'template', 'template.domaine', 'template.photo', 'structure', 'illustrations'])
             ->allowedFilters([
                 'state',
                 'type',
@@ -77,15 +77,7 @@ class EngagementController extends Controller
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
 
         $results->getCollection()->transform(function($mission, $key) {
-            return [
-                ...$mission->toSearchableArray(),
-                'responsable' => $mission->responsable ? [
-                    'id' => $mission->responsable->id,
-                    'first_name' => $mission->responsable->first_name,
-                    'last_name' => $mission->responsable->last_name,
-                    'email' => $mission->responsable->email,
-                ] : null
-            ];
+           return $mission->format();
         });
 
         return response()->json($results);
@@ -102,21 +94,7 @@ class EngagementController extends Controller
             return new Response($validator->errors()->all(), 401);
         }
 
-        $organisation->load('members');
-
-        $organisation = [
-            ...$organisation->toSearchableArray(),
-            'responsables' => $organisation->has('members') ? $organisation->members->map(function($responsable){
-                return [
-                    'id' => $responsable->id,
-                    'first_name' => $responsable->first_name,
-                    'last_name' => $responsable->last_name,
-                    'email' => $responsable->email,
-                ];
-            })->all() : null,
-        ];
-
-        return response()->json($organisation);
+        return response()->json($organisation->format());
     }
 
     public function organisations(Request $request)
@@ -132,7 +110,7 @@ class EngagementController extends Controller
         }
 
         $results = QueryBuilder::for(Structure::where('state', 'Validée'))
-            ->with(['members', 'reseaux:id,name','domaines:id,name'])
+            ->with(['members', 'reseaux:id,name','domaines:id,name','overrideImage1', 'illustrations'])
             ->allowedFilters([
                 AllowedFilter::exact('department'),
                 'state',
@@ -142,18 +120,8 @@ class EngagementController extends Controller
             ->defaultSort('-id')
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
 
-        $results->getCollection()->transform(function($organisation, $key) {
-            return [
-                ...$organisation->toSearchableArray(),
-                'responsables' => $organisation->has('members') ? $organisation->members->map(function($responsable){
-                    return [
-                        'id' => $responsable->id,
-                        'first_name' => $responsable->first_name,
-                        'last_name' => $responsable->last_name,
-                        'email' => $responsable->email,
-                    ];
-                })->all() : null,
-            ];
+        $results->getCollection()->transform(function($organisation) {
+            return $organisation->format();
         });
 
         return response()->json($results);
@@ -168,4 +136,5 @@ class EngagementController extends Controller
     {
         return (new ApiEngagement())->delete();
     }
+
 }

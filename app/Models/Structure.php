@@ -458,6 +458,7 @@ class Structure extends Model implements HasMedia
         );
     }
 
+    // ALGOLIA
     public function toSearchableArray()
     {
         $this->load(['reseaux', 'domaines']);
@@ -498,6 +499,75 @@ class Structure extends Model implements HasMedia
                 return $domaine['name'];
             })->all() : null,
             'reseaux' => $this->reseaux ? $this->reseaux->all() : null,
+        ];
+    }
+
+    public function getPictureAttribute()
+    {
+
+        if($this->overrideImage1){
+            return $this->overrideImage1->urls;
+        }
+
+        return $this->illustrations->first() ? $this->illustrations->first()->urls : null;
+    }
+
+    // ENDPOINT
+    public function format() {
+        return [
+            'id' => $this->id,
+            'rna' => $this->rna,
+            'api_id' => $this->api_id,
+            'name' => $this->name,
+            'picture' => $this->picture,
+            'state' => $this->state,
+            'phone' => $this->phone,
+            'email' => $this->email,
+            'url' => $this->full_url,
+            'description' => $this->description,
+            'statut_juridique' => $this->statut_juridique,
+            'association_types' => $this->association_types,
+            'structure_publique_type' => $this->structure_publique_type,
+            'structure_publique_etat_type' => $this->structure_publique_etat_type,
+            'structure_privee_type' => $this->structure_privee_type,
+            'address' => [
+                'full' => $this->full_address,
+                'address' => $this->address,
+                'zip' => $this->zip,
+                'city' => $this->city,
+                'department' => $this->department,
+                'country' => $this->country,
+                'latitude' => $this->latitude,
+                'longitude' => $this->longitude,
+            ],
+            'website' => $this->website,
+            'facebook' => $this->facebook,
+            'twitter' => $this->twitter,
+            'instagram' => $this->instagram,
+            'donation' => $this->donation,
+            'publics_beneficiaires' => $this->publics_beneficiaires,
+            'domaines' => $this->domaines ? $this->domaines->map(function($domaine){
+                return [
+                    'id' => $domaine->id,
+                    'name' => $domaine->name,
+                ];
+            })->all() : null,
+            'reseaux' => $this->reseaux ? $this->reseaux->map(function($reseau){
+                return [
+                    'id' => $reseau->id,
+                    'name' => $reseau->name,
+                ];
+            })->all() : null,
+            'responsables' => $this->members ? $this->members->map(function($responsable){
+                return [
+                    'id' => $responsable->id,
+                    'first_name' => $responsable->first_name,
+                    'last_name' => $responsable->last_name,
+                    'email' => $responsable->email,
+                ];
+            })->all() : null,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
         ];
     }
 }

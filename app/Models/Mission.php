@@ -214,6 +214,16 @@ class Mission extends Model
         return $this->morphToMany(Media::class, 'mediable')->wherePivot('field', 'mission_illustrations');
     }
 
+    public function getPictureAttribute()
+    {
+
+        if($this->template_id){
+            return $this->template->photo->urls;
+        }
+
+        return $this->illustrations->first() ? $this->illustrations->first()->urls : null;
+    }
+
     public function getFullAddressAttribute()
     {
         return ($this->address == $this->city) ? "{$this->zip} {$this->city}" : "{$this->address} {$this->zip} {$this->city}";
@@ -546,5 +556,51 @@ class Mission extends Model
                 strip_tags($this->template->description, '<p><b><strong><ul><ol><li><i>') :
                 strip_tags($value, '<p><b><strong><ul><ol><li><i>'),
         );
+    }
+
+    public function format() {
+        $domaine = $this->template_id ? $this->template->domaine : $this->domaine;
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'state' => $this->structure->state,
+            'type' => $this->type,
+            'domaine' => $domaine ? [
+                'id' => $domaine->id,
+                'name' => $domaine->name,
+            ] : null,
+            'start_date' => $this->start_date,
+            'end_date' => $this->end_date,
+            'description' => $this->description,
+            'objectifs' => $this->objectif,
+            'participations_max' => $this->participations_max,
+            'places_left' => $this->places_left,
+            'slug' => $this->slug,
+            'is_snu_mig_compatible' => $this->is_snu_mig_compatible,
+            'snu_mig_places' => $this->snu_mig_places,
+            'picture' => $this->picture,
+            'address' => [
+                'full' => $this->full_address,
+                'address' => $this->address,
+                'city' => $this->city,
+                'zip' => $this->zip,
+                'department' => $this->department,
+            ],
+            'structure' => $this->structure ? [
+                'id' => $this->structure->id,
+                'name' => $this->structure->name,
+                'rna' => $this->structure->rna,
+                'api_id' => $this->structure->api_id,
+                'state' => $this->structure->state,
+            ] : null,
+            'responsable' => $this->responsable ? [
+                'id' => $this->responsable->id,
+                'first_name' => $this->responsable->first_name,
+                'last_name' => $this->responsable->last_name,
+                'email' => $this->responsable->email,
+            ] : null,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
+        ];
     }
 }
