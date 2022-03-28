@@ -13,13 +13,15 @@ class FiltersParticipationSearch implements Filter
             if (is_numeric($value)) {
                 $query->where('id', $value);
             } else {
+                if (is_array($value)) {
+                    $value = implode(',', $value);
+                }
                 $terms = explode(" ", $value);
                 $query->whereHas('profile', function (Builder $query) use ($terms) {
                     foreach ($terms as $term) {
                         $query->whereRaw("CONCAT(first_name, ' ', last_name, ' ', email) ILIKE ?", ['%' . $term . '%']);
                     }
                 });
-
             }
         });
     }

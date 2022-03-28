@@ -11,10 +11,11 @@ class FiltersStructureSearch implements Filter
     {
         return $query->where(function ($query) use ($value) {
             if (is_numeric($value)) {
-                $query
-                ->where('zip', 'ILIKE', '%' . $value . '%')
-                ->orWhere('id', $value);
+                $query->where('id', $value);
             } else {
+                if (is_array($value)) {
+                    $value = implode(',', $value);
+                }
                 $terms = explode(" ", $value);
                 foreach ($terms as $term) {
                     $query->whereRaw("CONCAT(name, ' ', city, ' ', rna) ILIKE ?", ['%' . $term . '%']);
