@@ -203,4 +203,21 @@ class TerritoireController extends Controller
 
     //     return response()->json(['message' => 'Export en cours...'], 200);
     // }
+
+    public function exist(Request $request, $name)
+    {
+        $territoire = Territoire::whereIn('state', ['waiting', 'validated'])
+            ->where('name', 'ILIKE', $name)
+            ->first();
+
+        if ($territoire === null) {
+            return false;
+        }
+
+        return [
+            'territoire_id' => $territoire->id,
+            'territoire_name' => $territoire->name,
+            'responsable_fullname' => $territoire->responsables->first() ? $territoire->responsables->first()->full_name : null
+        ];
+    }
 }

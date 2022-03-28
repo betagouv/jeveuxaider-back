@@ -223,10 +223,20 @@ class StructureController extends Controller
         return $mission;
     }
 
-    public function exist(Request $request, $apiId)
+    public function exist(Request $request, $rnaOrName)
     {
-        $structure = Structure::where('api_id', '=', $apiId)
-            ->orWhere('name', 'ILIKE', $apiId)
+        $structure = Structure::whereIn('state', ['En attente de validation', 'Validée'])
+            ->where(function($query) use ($rnaOrName){
+                $query->where('api_id', '=', $rnaOrName)
+                    ->orWhere('name', 'ILIKE', $rnaOrName);
+            })
+            ->orWhere(function($query) use ($rnaOrName){
+                $query->whereHas('territoire', function($query) use ($rnaOrName) {
+                    $query
+                        ->whereIn('state', ['waiting', 'validated'])
+                        ->where('name', 'ILIKE', $rnaOrName);
+                });
+            })
             ->first();
 
         if ($structure === null) {
@@ -234,6 +244,7 @@ class StructureController extends Controller
         }
 
         return [
+            'structure_id' => $structure->id,
             'structure_name' => $structure->name,
             'responsable_fullname' => $structure->responsables->first() ? $structure->responsables->first()->full_name : null
         ];
