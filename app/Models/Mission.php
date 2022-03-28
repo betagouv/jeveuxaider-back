@@ -32,7 +32,9 @@ class Mission extends Model
         'is_priority' => 'boolean',
         'is_snu_mig_compatible' => 'boolean',
         'start_date' => 'datetime:Y-m-d\TH:i',
-        'end_date' => 'datetime:Y-m-d\TH:i'
+        'end_date' => 'datetime:Y-m-d\TH:i',
+        'latitude' => 'float',
+        'longitude' => 'float',
     ];
 
     protected $attributes = [
@@ -582,9 +584,12 @@ class Mission extends Model
             'address' => [
                 'full' => $this->full_address,
                 'address' => $this->address,
-                'city' => $this->city,
                 'zip' => $this->zip,
+                'city' => $this->city,
                 'department' => $this->department,
+                'country' => $this->country,
+                'latitude' => $this->latitude,
+                'longitude' => $this->longitude,
             ],
             'structure' => $this->structure ? [
                 'id' => $this->structure->id,
