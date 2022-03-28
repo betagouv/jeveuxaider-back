@@ -575,7 +575,7 @@ class Mission extends Model
             'objectifs' => $this->objectif,
             'participations_max' => $this->participations_max,
             'places_left' => $this->places_left,
-            'slug' => $this->slug,
+            'url' => $this->full_url,
             'is_snu_mig_compatible' => $this->is_snu_mig_compatible,
             'snu_mig_places' => $this->snu_mig_places,
             'picture' => $this->picture,
