@@ -144,8 +144,15 @@ class ActionController extends Controller
         if($items){
             if(isset($items['waitingValidation'])){
                 $actions[] = [
-                    'type' => 'snu_waiting_validation',
+                    'type' => 'snu_application_waiting_validation',
                     'value' => $items['waitingValidation'],
+                    'href' => config('app.snu_api_url') . '/jeveuxaider/signin?email=' . $email . '&token=' . config('app.snu_api_token'),
+                ];
+            }
+            if(isset($items['applicationWaitingValidation'])){
+                $actions[] = [
+                    'type' => 'snu_application_waiting_validation',
+                    'value' => $items['applicationWaitingValidation'],
                     'href' => config('app.snu_api_url') . '/jeveuxaider/signin?email=' . $email . '&token=' . config('app.snu_api_token'),
                 ];
             }
@@ -160,6 +167,27 @@ class ActionController extends Controller
                 $actions[] = [
                     'type' => 'snu_contract_to_be_filled',
                     'value' => $items['contractToBeFilled'],
+                    'href' => config('app.snu_api_url') . '/jeveuxaider/signin?email=' . $email . '&token=' . config('app.snu_api_token'),
+                ];
+            }
+            if(isset($items['missionWaitingCorrection'])){
+                $actions[] = [
+                    'type' => 'snu_mission_waiting_correction',
+                    'value' => $items['missionWaitingCorrection'],
+                    'href' => config('app.snu_api_url') . '/jeveuxaider/signin?email=' . $email . '&token=' . config('app.snu_api_token'),
+                ];
+            }
+            if(isset($items['missionInProgress'])){
+                $actions[] = [
+                    'type' => 'snu_mission_in_progress',
+                    'value' => $items['missionInProgress'],
+                    'href' => config('app.snu_api_url') . '/jeveuxaider/signin?email=' . $email . '&token=' . config('app.snu_api_token'),
+                ];
+            }
+            if(isset($items['volunteerToHost'])){
+                $actions[] = [
+                    'type' => 'snu_volunteer_to_host',
+                    'value' => $items['volunteerToHost'],
                     'href' => config('app.snu_api_url') . '/jeveuxaider/signin?email=' . $email . '&token=' . config('app.snu_api_token'),
                 ];
             }
