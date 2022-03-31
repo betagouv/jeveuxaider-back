@@ -573,6 +573,11 @@ class Mission extends Model
             ] : null,
             'start_date' => $this->start_date,
             'end_date' => $this->end_date,
+            'commitment' => [
+                'time_period' => $this->commitment__time_period,
+                'duration' => $this->commitment__duration,
+                'total_hours_per_year' => $this->commitment__total,
+            ],
             'description' => $this->description,
             'objectifs' => $this->objectif,
             'participations_max' => $this->participations_max,
