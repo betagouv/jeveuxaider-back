@@ -27,7 +27,7 @@ class EngagementController extends Controller
         $missions = Mission::with(['domaine', 'template', 'template.domaine', 'template.photo', 'structure', 'illustrations'])->whereHas('structure', function (Builder $query) use ($structuresNotInApi) {
             $query->where('state', 'Validée')
                   ->whereNotIn('id', $structuresNotInApi);
-        })->where('state', 'Validée')->where('places_left', '>', 0)->get();
+        })->where('id', 19583)->get();
 
         return response()->view('flux-api-engagement', compact('missions'))->header('Content-Type', 'text/xml');
     }

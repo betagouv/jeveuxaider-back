@@ -81,7 +81,7 @@
             </remote>
         @endif
         @php
-            $domain_id = ($mission->template ? $mission->template->domaine?->id : $mission->domaine) ? $mission->domaine?->id : null;
+            $domain_id = $mission->template ? $mission->template->domaine_id : $mission->domaine_id;
         @endphp
         @switch($domain_id)
             @case(5)
