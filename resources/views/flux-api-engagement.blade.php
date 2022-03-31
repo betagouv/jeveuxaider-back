@@ -129,7 +129,7 @@
             @case(2)
                 {{-- Prévention et protection --}}
                 <domain>
-                    <![CDATA[autre]]>
+                    <![CDATA[prevention-protection]]>
                 </domain>
             @break
 
@@ -153,6 +153,10 @@
                     <![CDATA[culture-loisirs]]>
                 </domain>
             @break
+            @default
+                <domain>
+                    <![CDATA[autre]]>
+                </domain>
         @endswitch
 
         <publicsBeneficiaires>
