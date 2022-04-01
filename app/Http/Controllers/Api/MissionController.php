@@ -74,6 +74,11 @@ class MissionController extends Controller
                 AllowedInclude::count('participationsCount')
             ])
             ->defaultSort('-created_at')
+            ->allowedSorts([
+                'created_at',
+                'updated_at',
+                'places_left'
+            ])
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
 
             $result->append('has_places_left');

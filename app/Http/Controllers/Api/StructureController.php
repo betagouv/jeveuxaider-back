@@ -20,8 +20,11 @@ use App\Models\Participation;
 use App\Models\Profile;
 use App\Models\Tag;
 use App\Services\ApiEngagement;
+use App\Sorts\StructureMissionsCountSort;
+use App\Sorts\StructurePlacesLeftSort;
 use Illuminate\Support\Str;
 use Spatie\QueryBuilder\AllowedInclude;
+use Spatie\QueryBuilder\AllowedSort;
 
 class StructureController extends Controller
 {
@@ -43,6 +46,12 @@ class StructureController extends Controller
                 AllowedInclude::count('missionsCount')
             ])
             ->defaultSort('-created_at')
+            ->allowedSorts([
+                'created_at',
+                'updated_at',
+                AllowedSort::custom('missions_count', new StructureMissionsCountSort()),
+                AllowedSort::custom('places_left', new StructurePlacesLeftSort())
+            ])
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
 
         $results->append(['places_left']);
@@ -170,7 +179,7 @@ class StructureController extends Controller
             abort(403, "Vous n'avez pas les droits nécéssaires pour réaliser cette action");
         }
 
-        return Participation::ofStructure($structure->id)->where('state','En attente de validation')->count();
+        return Participation::ofStructure($structure->id)->where('state', 'En attente de validation')->count();
     }
 
     public function validateWaitingParticipations(Structure $structure)
@@ -179,7 +188,7 @@ class StructureController extends Controller
             abort(403, "Vous n'avez pas les droits nécéssaires pour réaliser cette action");
         }
 
-        Participation::with(['profile','mission','mission.structure','conversation'])->role('responsable')->where('state', 'En attente de validation')->chunk(50, function($collection){
+        Participation::with(['profile', 'mission', 'mission.structure', 'conversation'])->role('responsable')->where('state', 'En attente de validation')->chunk(50, function ($collection) {
             $collection->map(function ($participation) {
                 $participation->update(['state' => 'Validée']);
             });
@@ -226,12 +235,12 @@ class StructureController extends Controller
     public function exist(Request $request, $rnaOrName)
     {
         $structure = Structure::whereIn('state', ['En attente de validation', 'Validée'])
-            ->where(function($query) use ($rnaOrName){
+            ->where(function ($query) use ($rnaOrName) {
                 $query->where('api_id', '=', $rnaOrName)
                     ->orWhere('name', 'ILIKE', $rnaOrName);
             })
-            ->orWhere(function($query) use ($rnaOrName){
-                $query->whereHas('territoire', function($query) use ($rnaOrName) {
+            ->orWhere(function ($query) use ($rnaOrName) {
+                $query->whereHas('territoire', function ($query) use ($rnaOrName) {
                     $query
                         ->whereIn('state', ['waiting', 'validated'])
                         ->where('name', 'ILIKE', $rnaOrName);

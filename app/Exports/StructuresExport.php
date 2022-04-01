@@ -8,9 +8,12 @@ use Spatie\QueryBuilder\AllowedFilter;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use App\Filters\FiltersStructureSearch;
+use App\Sorts\StructureMissionsCountSort;
+use App\Sorts\StructurePlacesLeftSort;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Illuminate\Http\Request;
+use Spatie\QueryBuilder\AllowedSort;
 
 class StructuresExport implements FromQuery, WithMapping, WithHeadings
 {
@@ -33,7 +36,13 @@ class StructuresExport implements FromQuery, WithMapping, WithHeadings
                 'statut_juridique',
                 AllowedFilter::scope('ofReseau'),
             ])
-            ->defaultSort('-created_at');
+            ->defaultSort('-created_at')
+            ->allowedSorts([
+                'created_at',
+                'updated_at',
+                AllowedSort::custom('missions_count', new StructureMissionsCountSort()),
+                AllowedSort::custom('places_left', new StructurePlacesLeftSort())
+            ]);
     }
 
     public function headings(): array
