@@ -128,6 +128,7 @@ class Mission extends Model
                 'photo' => $this->template_id ? $this->template->photo : null,
             ] : null,
             'domaine_id' => $domaine ? $domaine->id : null,
+            'domaine_secondary_id' => $this->domaine_secondary_id,
             'domaine' => $domaine ? [
                 'id' => $domaine->id,
                 'name' => $domaine->name,
