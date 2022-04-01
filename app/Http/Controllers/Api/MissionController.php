@@ -57,6 +57,7 @@ class MissionController extends Controller
                 AllowedFilter::exact('template.id'),
                 AllowedFilter::exact('structure.id'),
                 AllowedFilter::exact('structure.name'),
+                'structure.statut_juridique',
                 AllowedFilter::exact('structure.reseaux.id'),
                 AllowedFilter::exact('structure.reseaux.name'),
                 AllowedFilter::exact('is_snu_mig_compatible'),

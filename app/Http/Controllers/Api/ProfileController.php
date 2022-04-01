@@ -14,7 +14,9 @@ use App\Filters\FiltersProfileMinParticipations;
 use App\Http\Requests\ProfileRequest;
 use App\Models\Participation;
 use App\Models\Tag;
+use App\Sorts\ProfileParticipationsValidatedCountSort;
 use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\AllowedSort;
 
 class ProfileController extends Controller
 {
@@ -39,6 +41,10 @@ class ProfileController extends Controller
                 // AllowedFilter::custom('skills', new FiltersProfileSkill),
             )
             ->defaultSort('-created_at')
+            ->allowedSorts([
+                'created_at',
+                AllowedSort::custom('participations_validated_count', new ProfileParticipationsValidatedCountSort()),
+            ])
             ->paginate(config('query-builder.results_per_page'));
     }
 
