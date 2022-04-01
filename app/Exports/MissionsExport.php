@@ -49,7 +49,12 @@ class MissionsExport implements FromQuery, WithMapping, WithHeadings
                 AllowedFilter::scope('available'),
                 AllowedFilter::custom('is_template', new FiltersMissionIsTemplate),
             ])
-            ->defaultSort('-created_at');
+            ->defaultSort('-created_at')
+            ->allowedSorts([
+                'created_at',
+                'updated_at',
+                'places_left'
+            ]);
     }
 
     public function headings(): array
