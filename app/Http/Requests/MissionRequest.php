@@ -28,7 +28,7 @@ class MissionRequest extends FormRequest
             'name' => 'required_without:template_id|min:3|max:255',
             'responsable_id' => 'required',
             'start_date' => 'required|date',
-            'end_date' => 'nullable|date|after:start_date',
+            'end_date' => 'nullable|date|after_or_equal:start_date',
             'structure_id' => '',
             'information' => '',
             'objectif' => 'required_without:template_id',
