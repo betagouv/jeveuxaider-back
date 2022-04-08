@@ -39,7 +39,7 @@ class AirtableSyncMissions extends Command
      */
     public function handle()
     {
-        $query = Mission::with(['structure', 'domaine', 'template.domaine']);
+        $query = Mission::with(['structure', 'domaine', 'template.domaine'])->whereIn('state', ['En attente de validation', 'En cours de traitement', 'Validée']);
 
         if ($this->confirm($query->count() . ' missions will be added or updated in Airtable')) {
             $start = now();
