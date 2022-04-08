@@ -75,12 +75,12 @@ class Mission extends Model
 
     public function makeAllSearchableUsing(Builder $query)
     {
-        return $query->with(['structure', 'structure.reseaux', 'template.domaine', 'template.photo', 'illustrations', 'domaine', 'domaineSecondary']);
+        return $query->with(['structure', 'structure.reseaux', 'activity', 'template.activity', 'template.domaine', 'template.photo', 'illustrations', 'domaine', 'domaineSecondary']);
     }
 
     public function toSearchableArray()
     {
-        $this->load(['structure', 'structure.reseaux:id,name', 'template.domaine', 'template.photo', 'illustrations', 'domaine', 'domaineSecondary']);
+        $this->load(['structure', 'structure.reseaux:id,name','activity', 'template.activity', 'template.domaine', 'template.photo', 'illustrations', 'domaine', 'domaineSecondary']);
 
         $domaines = [];
         $domaine = $this->template_id ? $this->template->domaine : $this->domaine;
@@ -90,6 +90,8 @@ class Mission extends Model
         if ($this->domaine_secondary_id) {
             $domaines[] = $this->domaineSecondary->name;
         }
+
+        $activity = $this->template_id ? $this->template->activity : $this->activity;
 
         $mission = [
             'id' => $this->id,
@@ -126,6 +128,10 @@ class Mission extends Model
                 'title' => $this->template->title,
                 'subtitle' => $this->template->subtitle,
                 'photo' => $this->template_id ? $this->template->photo : null,
+            ] : null,
+            'activity' => $activity ? [
+                'id' => $activity->id,
+                'name' => $activity->name,
             ] : null,
             'domaine_id' => $domaine ? $domaine->id : null,
             'domaine_secondary_id' => $this->domaine_secondary_id,
@@ -195,6 +201,11 @@ class Mission extends Model
     public function participations()
     {
         return $this->hasMany('App\Models\Participation', 'mission_id');
+    }
+
+    public function activity()
+    {
+        return $this->belongsTo('App\Models\Activity');
     }
 
     public function domaine()
@@ -351,6 +362,15 @@ class Mission extends Model
             ->orWhere('domaine_secondary_id', $domain_id)
             ->orWhereHas('template', function (Builder $query) use ($domain_id) {
                 $query->where('domaine_id', $domain_id);
+            });
+    }
+
+    public function scopeOfActivity($query, $activity_id)
+    {
+        return $query
+            ->where('activity_id', $activity_id)
+            ->orWhereHas('template', function (Builder $query) use ($activity_id) {
+                $query->where('activity_id', $activity_id);
             });
     }
 

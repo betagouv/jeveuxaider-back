@@ -10,7 +10,6 @@ use App\Http\Requests\Api\DocumentDeleteRequest;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
 use App\Filters\FiltersTitleBodySearch;
-use App\Http\Requests\Api\DocumentUploadRequest;
 use App\Models\Profile;
 use App\Notifications\DocumentSubmitted;
 use Illuminate\Http\Request;
@@ -46,28 +45,6 @@ class DocumentController extends Controller
 
         return $document;
     }
-
-    // public function upload(DocumentUploadRequest $request, Document $document)
-    // {
-
-    //     // Delete previous file
-    //     if ($media = $document->getFirstMedia('documents')) {
-    //         $media->delete();
-    //     }
-
-    //     $document
-    //         ->addMedia($request->file('file'))
-    //         ->toMediaCollection('documents');
-
-    //     return $document;
-    // }
-
-    // public function uploadDelete(DocumentDeleteRequest $request, Document $document)
-    // {
-    //     if ($media = $document->getFirstMedia('documents')) {
-    //         $media->delete();
-    //     }
-    // }
 
     public function delete(DocumentDeleteRequest $request, Document $document)
     {

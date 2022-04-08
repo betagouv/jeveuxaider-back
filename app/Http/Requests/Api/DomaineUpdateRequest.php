@@ -2,14 +2,14 @@
 
 namespace App\Http\Requests\Api;
 
-use App\Http\Requests\ThematiqueRequest;
+use App\Http\Requests\DomaineRequest;
 use Illuminate\Validation\Rule;
 
-class DomaineUpdateRequest extends ThematiqueRequest
+class DomaineUpdateRequest extends DomaineRequest
 {
     public function authorize()
     {
-        return $this->user()->can('update', request()->route('domaine'));
+        return $this->user()->isAdmin();
     }
 
 

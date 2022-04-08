@@ -113,7 +113,7 @@ class Reseau extends Model implements HasMedia
         $this->structures()->attach($structure->id);
 
         // UPDATE LOG
-        Activity::where('subject_type', 'App\Models\Structure')
+        ActivityLog::where('subject_type', 'App\Models\Structure')
             ->where('subject_id', $structure->id)
             ->where('description', 'created')
             ->update(
@@ -136,16 +136,6 @@ class Reseau extends Model implements HasMedia
     {
         return $this->morphToMany(Domaine::class, 'domainable')->wherePivot('field', 'reseau_domaines');
     }
-
-    // public function getDomainesAttribute()
-    // {
-    //     return $this->tagsWithType('domaine')->values();
-    // }
-
-    // public function getDomainesWithImageAttribute()
-    // {
-    //     return Tag::whereIn('id', $this->tagsWithType('domaine')->pluck('id'))->get()->toArray();
-    // }
 
     public function getFullAddressAttribute()
     {

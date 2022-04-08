@@ -63,6 +63,7 @@ class MissionController extends Controller
                 AllowedFilter::exact('is_snu_mig_compatible'),
                 AllowedFilter::scope('domaine'),
                 AllowedFilter::scope('ofTerritoire'),
+                AllowedFilter::scope('ofActivity'),
                 AllowedFilter::custom('place', new FiltersMissionPlacesLeft),
                 AllowedFilter::custom('publics_volontaires', new FiltersMissionPublicsVolontaires),
                 AllowedFilter::custom('search', new FiltersMissionSearch),

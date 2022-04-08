@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api;
 use App\Exports\TerritoiresExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\TerritoireUpdateRequest;
-use App\Http\Requests\Api\TerritoireUploadRequest;
 use App\Http\Requests\Api\TerritoireDeleteRequest;
 use App\Http\Requests\TerritoireRequest;
 use App\Models\Mission;
@@ -82,95 +81,11 @@ class TerritoireController extends Controller
     //     return (string) $territoire->delete();
     // }
 
-    // public function responsables(Request $request, Territoire $territoire)
-    // {
-    //     return $territoire->responsables;
-    // }
-
-    // public function invitations(Request $request, Territoire $territoire)
-    // {
-    //     return $territoire->invitations;
-    // }
-
-    // public function missions(Request $request, Territoire $territoire)
-    // {
-    //     $query = QueryBuilder::for(Mission::with('domaine'))
-    //         ->allowedAppends(['domaines'])
-    //         ->available()
-    //         ->territoire($territoire->id)
-    //         ->with('structure');
-
-    //     return $query
-    //         ->defaultSort('-updated_at')
-    //         ->allowedSorts(['places_left', 'type'])
-    //         ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
-    // }
-
     public function deleteResponsable(Request $request, Territoire $territoire, Profile $responsable)
     {
         $territoire->deleteResponsable($responsable);
         return $territoire->responsables;
     }
-
-    // public function promotedMissions(Request $request, Territoire $territoire)
-    // {
-    //     $missions = $territoire->promotedMissions();
-    //     return $missions;
-    // }
-
-    // public function upload(TerritoireUploadRequest $request, Territoire $territoire, String $field)
-    // {
-
-    //     // Delete previous file
-    //     if ($media = $territoire->getFirstMedia('territoires', ['field' => $field])) {
-    //         $media->delete();
-    //     }
-
-    //     $data = $request->all();
-    //     $extension = $request->file('image')->guessExtension();
-    //     $name = Str::random(30);
-
-    //     $cropSettings = json_decode($data['cropSettings']);
-    //     if (!empty($cropSettings)) {
-    //         $stringCropSettings = implode(",", [
-    //             $cropSettings->width,
-    //             $cropSettings->height,
-    //             $cropSettings->x,
-    //             $cropSettings->y
-    //         ]);
-    //     } else {
-    //         $pathName = $request->file('image')->getPathname();
-    //         $infos = getimagesize($pathName);
-    //         $stringCropSettings = implode(",", [
-    //             $infos[0],
-    //             $infos[1],
-    //             0,
-    //             0
-    //         ]);
-    //     }
-
-    //     $territoire
-    //         ->addMedia($request->file('image'))
-    //         ->usingName($name)
-    //         ->usingFileName($name . '.' . $extension)
-    //         ->withCustomProperties(['field' => $field])
-    //         ->withManipulations([
-    //             'large' => ['manualCrop' => $stringCropSettings],
-    //             'thumb' => ['manualCrop' => $stringCropSettings]
-    //         ])
-    //         ->toMediaCollection('territoires');
-
-    //     return $territoire;
-    // }
-
-    // public function uploadDelete(TerritoireDeleteRequest $request, Territoire $territoire, String $field)
-    // {
-    //     if ($media = $territoire->getFirstMedia('territoires', ['field' => $field])) {
-    //         $media->delete();
-    //     }
-
-    //     return true;
-    // }
 
     public function availableCities(Request $request, Territoire $territoire)
     {
@@ -188,21 +103,6 @@ class TerritoireController extends Controller
 
         return array_slice($cities, 0, 10);
     }
-
-    // public function export(Request $request)
-    // {
-    //     $folder = 'public/' . config('filesystems.s3_prefix') . '/exports/' . $request->user()->id . '/';
-    //     $fileName = 'territoires-' . Str::random(8) . '.csv';
-    //     $filePath = $folder . $fileName;
-
-    //     (new TerritoiresExport($request->header('Context-Role')))
-    //         ->queue($filePath, 's3')
-    //         ->chain([
-    //             new NotifyUserOfCompletedExport($request->user(), $filePath),
-    //         ]);
-
-    //     return response()->json(['message' => 'Export en cours...'], 200);
-    // }
 
     public function exist(Request $request, $name)
     {

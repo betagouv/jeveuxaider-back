@@ -34,6 +34,8 @@ Route::get('sitemap', 'Api\ConfigController@sitemap');
 Route::get('domaines/{slugOrId}', 'Api\DomaineController@show');
 Route::get('domaines/{slugOrId}/statistics', 'Api\DomaineController@statistics');
 
+Route::get('activities/{slugOrId}', 'Api\ActivityController@show');
+
 // Route::get('statistics/global', 'Api\StatisticsController@global');
 
 Route::post('sendinblue/contact', 'Api\SendInBlueController@store');
@@ -160,9 +162,6 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::get('statistics/missions/{mission}', 'Api\StatisticsController@missions');
     Route::get('statistics/reseaux/{reseau}', 'Api\StatisticsController@reseaux');
 
-    // REMINDERS
-    // Route::get('reminders', 'Api\ConfigController@reminders');
-
     // DOCUMENTS
     Route::get('documents', 'Api\DocumentController@index');
 
@@ -173,8 +172,8 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::put('mission-templates/{missionTemplate}', 'Api\MissionTemplateController@update');
     Route::get('mission-templates/{missionTemplate}/statistics', 'Api\MissionTemplateController@statistics');
 
-    // ACTIVITIES
-    Route::get('activities', 'Api\ActivityController@index');
+    // ACTIVITY LOGS
+    Route::get('activity-logs', 'Api\ActivityLogController@index');
 
     // TERRITOIRES
     Route::post('territoires', 'Api\TerritoireController@store');
@@ -202,11 +201,7 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
 
     Route::get('notifications/{key}', 'Api\NotificationController@show');
 
-    // // DOMAINES D'ACTIONS
-    Route::get('thematiques', 'Api\ThematiqueController@index');
-    Route::post('thematiques', 'Api\ThematiqueController@store');
-    Route::put('thematiques/{thematique}', 'Api\ThematiqueController@update');
-
+    // DOMAINES D'ACTIONS
     Route::get('domaines', 'Api\DomaineController@index');
     Route::post('domaines', 'Api\DomaineController@store');
     Route::put('domaines/{domaine}', 'Api\DomaineController@update');
@@ -238,4 +233,11 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::put('/vocabularies/{vocabulary:slug}/terms/{term}', 'Api\TermController@update');
     Route::get('/terms/{term}', 'Api\TermController@show');
     Route::delete('/terms/{term}', 'Api\TermController@delete');
+
+    // ACTIVITIES
+    Route::get('activities', 'Api\ActivityController@index');
+    Route::post('activities', 'Api\ActivityController@store');
+    Route::put('activities/{activity}', 'Api\ActivityController@update');
+    Route::get('activities/{activity}/statistics', 'Api\ActivityController@statistics');
+
 });

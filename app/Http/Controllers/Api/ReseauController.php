@@ -5,18 +5,14 @@ namespace App\Http\Controllers\Api;
 use App\Filters\FiltersReseauSearch;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\ReseauUpdateRequest;
-use App\Http\Requests\Api\ReseauUploadRequest;
 use App\Http\Requests\ReseauRequest;
 use App\Models\Profile;
 use App\Models\Reseau;
-use App\Models\Structure;
 use App\Notifications\ReseauNewLead;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
-use App\Models\Tag;
-use Illuminate\Support\Str;
 
 class ReseauController extends Controller
 {

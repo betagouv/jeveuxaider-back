@@ -128,6 +128,14 @@ class Participation extends Model
             });
     }
 
+    public function scopeOfActivity($query, $activity_id)
+    {
+        return $query
+            ->whereHas('mission', function (Builder $query) use ($activity_id) {
+                $query->ofActivity($activity_id);
+            });
+    }
+
     public function scopeOfTerritoire($query, $territoire_id)
     {
         return $query->whereHas('mission', function (Builder $query) use ($territoire_id) {

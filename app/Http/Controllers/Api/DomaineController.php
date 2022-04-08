@@ -9,9 +9,6 @@ use App\Http\Requests\Api\DomaineCreateRequest;
 use App\Http\Requests\Api\DomaineUpdateRequest;
 use App\Http\Requests\Api\DomaineDeleteRequest;
 use Spatie\QueryBuilder\QueryBuilder;
-use Illuminate\Support\Str;
-use App\Models\MissionTemplate;
-use App\Models\Mission;
 use App\Models\Participation;
 use App\Models\Profile;
 use App\Models\Structure;
@@ -27,7 +24,7 @@ class DomaineController extends Controller
                 AllowedFilter::custom('search', new FiltersDomaineSearch),
             ])
             ->allowedIncludes(['banner'])
-            ->defaultSort('-created_at')
+            ->defaultSort('name')
             ->paginate(config('query-builder.results_per_page'));
     }
 
