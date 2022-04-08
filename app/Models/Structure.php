@@ -22,7 +22,6 @@ use App\Models\Media as ModelMedia;
 use Spatie\Activitylog\LogOptions;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 
-
 class Structure extends Model implements HasMedia
 {
     use SoftDeletes, LogsActivity, HasRelationships, HasTags, InteractsWithMedia, HasSlug, HasMissingFields;
@@ -401,7 +400,8 @@ class Structure extends Model implements HasMedia
             ->format(Manipulations::FORMAT_WEBP)
             ->performOnCollections('structure__logo');
         $this->addMediaConversion('small')
-            ->height(112)
+            ->width(240)
+            ->height(96)
             ->nonQueued()
             ->withResponsiveImages()
             ->format(Manipulations::FORMAT_WEBP)
@@ -495,7 +495,7 @@ class Structure extends Model implements HasMedia
             'donation' => $this->donation,
             'created_at' => $this->created_at,
             'publics_beneficiaires' => $this->publics_beneficiaires,
-            'domaines' => $this->domaines ? $this->domaines->map(function($domaine){
+            'domaines' => $this->domaines ? $this->domaines->map(function ($domaine) {
                 return $domaine['name'];
             })->all() : null,
             'reseaux' => $this->reseaux ? $this->reseaux->all() : null,
@@ -505,7 +505,7 @@ class Structure extends Model implements HasMedia
     public function getPictureAttribute()
     {
 
-        if($this->overrideImage1){
+        if ($this->overrideImage1) {
             return $this->overrideImage1->urls;
         }
 
@@ -513,7 +513,8 @@ class Structure extends Model implements HasMedia
     }
 
     // ENDPOINT
-    public function format() {
+    public function format()
+    {
         return [
             'id' => $this->id,
             'rna' => $this->rna,
@@ -546,19 +547,19 @@ class Structure extends Model implements HasMedia
             'instagram' => $this->instagram,
             'donation' => $this->donation,
             'publics_beneficiaires' => $this->publics_beneficiaires,
-            'domaines' => $this->domaines ? $this->domaines->map(function($domaine){
+            'domaines' => $this->domaines ? $this->domaines->map(function ($domaine) {
                 return [
                     'id' => $domaine->id,
                     'name' => $domaine->name,
                 ];
             })->all() : null,
-            'reseaux' => $this->reseaux ? $this->reseaux->map(function($reseau){
+            'reseaux' => $this->reseaux ? $this->reseaux->map(function ($reseau) {
                 return [
                     'id' => $reseau->id,
                     'name' => $reseau->name,
                 ];
             })->all() : null,
-            'responsables' => $this->members ? $this->members->map(function($responsable){
+            'responsables' => $this->members ? $this->members->map(function ($responsable) {
                 return [
                     'id' => $responsable->id,
                     'first_name' => $responsable->first_name,

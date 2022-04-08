@@ -1,4 +1,4 @@
 {
-  "phpSniffer.standard": "back/phpcs.xml",
+  "phpSniffer.standard": "phpcs.xml",
   "editor.formatOnSave": true
 }
