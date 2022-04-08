@@ -27,6 +27,7 @@ class ActivityController extends Controller
             ])
             ->allowedIncludes([
                 'banner',
+                'domaines',
             ])
             ->defaultSort('-name')
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
