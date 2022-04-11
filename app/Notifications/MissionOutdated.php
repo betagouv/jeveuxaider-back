@@ -56,7 +56,6 @@ class MissionOutdated extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->from("ne-pas-repondre@jeveuxaider.beta.gouv.fr", "JeVeuxAider.gouv.fr")
             ->subject("Votre mission « " . $this->mission->name . " » a-t-elle pris fin ?")
             ->greeting('Bonjour ' . $notifiable->first_name . ' 👋,')
             ->line("L'une de vos missions est arrivée à échéance : la date de fin que vous avez renseignée est dépassée. Deux solutions s'offrent à vous :")

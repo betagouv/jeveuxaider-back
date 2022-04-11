@@ -60,6 +60,11 @@ return [
         'name' => env('MAIL_FROM_NAME', 'Example'),
     ],
 
+    'reply_to' => [
+        'address' => env('MAIL_REPLY_TO_ADDRESS', 'hello@example.com'),
+        'name' => env('MAIL_REPLY_TO_NAME', 'hello@example.com'),
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | E-Mail Encryption Protocol
@@ -133,5 +138,5 @@ return [
 
     'log_channel' => env('MAIL_LOG_CHANNEL'),
 
-    'reroute' => env('MAIL_REROUTE', FALSE),
+    'reroute' => env('MAIL_REROUTE', false),
 ];

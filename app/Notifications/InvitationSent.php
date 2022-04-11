@@ -88,7 +88,6 @@ class InvitationSent extends Notification implements ShouldQueue
     {
         $message = (new MailMessage)
             ->subject("Invitation en attente")
-            ->from("ne-pas-repondre@jeveuxaider.beta.gouv.fr", "JeVeuxAider.gouv.fr")
             ->greeting("Bonjour,")
             ->line($this->invitation->user->profile->full_name . " vous invite à rejoindre la plateforme JeVeuxAider.gouv.fr afin de gérer l'organisation " . $this->invitation->invitable->name)
             ->action("Voir l'invitation", url(config('app.front_url') . '/invitations/' . $this->invitation->token))
@@ -102,7 +101,6 @@ class InvitationSent extends Notification implements ShouldQueue
     {
         $message = (new MailMessage)
             ->subject("Invitation en attente")
-            ->from("ne-pas-repondre@jeveuxaider.beta.gouv.fr", "JeVeuxAider.gouv.fr")
             ->greeting("Bonjour,")
             ->line($this->invitation->user->profile->full_name . " vous invite à rejoindre la plateforme JeVeuxAider.gouv.fr afin de gérer le territoire " . $this->invitation->invitable->name)
             ->action("Voir l'invitation", url(config('app.front_url') . '/invitations/' . $this->invitation->token))
@@ -116,7 +114,6 @@ class InvitationSent extends Notification implements ShouldQueue
     {
         $message = (new MailMessage)
             ->subject("Invitation en attente")
-            ->from("ne-pas-repondre@jeveuxaider.beta.gouv.fr", "JeVeuxAider.gouv.fr")
             ->greeting("Bonjour,")
             ->line($this->invitation->user->profile->full_name . " vous invite à créer un compte pour l'organisation " . $this->invitation->properties['antenne_name'] . " sur JeVeuxAider.gouv.fr.")
             ->action("Voir l'invitation", url(config('app.front_url') . '/invitations/' . $this->invitation->token))
@@ -130,7 +127,6 @@ class InvitationSent extends Notification implements ShouldQueue
     {
         $message = (new MailMessage)
             ->subject("Invitation en attente")
-            ->from("ne-pas-repondre@jeveuxaider.beta.gouv.fr", "JeVeuxAider.gouv.fr")
             ->greeting("Bonjour,")
             ->line($this->invitation->user->profile->full_name . " vous invite à superviser le réseau " . $this->invitation->invitable->name . " sur JeVeuxAider.gouv.fr")
             ->action("Voir l'invitation", url(config('app.front_url') . '/invitations/' . $this->invitation->token))
@@ -147,7 +143,6 @@ class InvitationSent extends Notification implements ShouldQueue
 
         $message = (new MailMessage)
             ->subject("Invitation en attente")
-            ->from("ne-pas-repondre@jeveuxaider.beta.gouv.fr", "JeVeuxAider.gouv.fr")
             ->greeting("Bonjour,")
             ->line($this->invitation->user->profile->full_name . " vous invite à devenir référent du département " . $departmentName . " (" . $departmentNumber . ") sur la plateforme JeVeuxAider.gouv.fr")
             ->action("Voir l'invitation", url(config('app.front_url') . '/invitations/' . $this->invitation->token))
@@ -161,7 +156,6 @@ class InvitationSent extends Notification implements ShouldQueue
     {
         $message = (new MailMessage)
             ->subject("Invitation en attente")
-            ->from("ne-pas-repondre@jeveuxaider.beta.gouv.fr", "JeVeuxAider.gouv.fr")
             ->greeting("Bonjour,")
             ->line($this->invitation->user->profile->full_name . " vous invite à devenir référent de la région " . $this->invitation->properties['referent_regional'] . " sur la plateforme JeVeuxAider.gouv.fr")
             ->action("Voir l'invitation", url(config('app.front_url') . '/invitations/' . $this->invitation->token))
@@ -175,7 +169,6 @@ class InvitationSent extends Notification implements ShouldQueue
     {
         $message = (new MailMessage)
             ->subject("Invitation en attente")
-            ->from("ne-pas-repondre@jeveuxaider.beta.gouv.fr", "JeVeuxAider.gouv.fr")
             ->greeting("Bonjour,")
             ->line($this->invitation->user->profile->full_name . " vous invite à accéder au tableau de bord de la plateforme JeVeuxAider.gouv.fr")
             ->action("Voir l'invitation", url(config('app.front_url') . '/invitations/' . $this->invitation->token))
@@ -188,7 +181,6 @@ class InvitationSent extends Notification implements ShouldQueue
     {
         $message = (new MailMessage)
             ->subject("Invitation en attente")
-            ->from("ne-pas-repondre@jeveuxaider.beta.gouv.fr", "JeVeuxAider.gouv.fr")
             ->greeting("Bonjour,")
             ->line($this->invitation->user->profile->full_name . " vous invite à accéder à la plateforme JeVeuxAider.gouv.fr")
             ->action("Voir l'invitation", url(config('app.front_url') . '/invitations/' . $this->invitation->token))
@@ -202,7 +194,6 @@ class InvitationSent extends Notification implements ShouldQueue
     {
         $message = (new MailMessage)
             ->subject('Invitation en attente')
-            ->from("ne-pas-repondre@jeveuxaider.beta.gouv.fr", "JeVeuxAider.gouv.fr")
             ->greeting('Bonjour,')
             ->line($this->invitation->user->profile->full_name . ' vous invite à accéder à la plateforme JeVeuxAider.gouv.fr.')
             ->action("Voir l'invitation", url(config('app.front_url') . '/invitations/' . $this->invitation->token));

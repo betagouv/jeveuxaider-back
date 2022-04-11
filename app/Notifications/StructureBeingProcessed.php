@@ -56,7 +56,6 @@ class StructureBeingProcessed extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         $message =  (new MailMessage)
-            ->from("ne-pas-repondre@jeveuxaider.beta.gouv.fr", "JeVeuxAider.gouv.fr")
             ->subject('L’inscription de votre organisation est en cours de traitement')
             ->greeting('Bonjour ' . $notifiable->first_name . ',');
         $message->line("L’inscription de votre organisation « " . $this->structure->name . " » est actuellement en cours de traitement.");
