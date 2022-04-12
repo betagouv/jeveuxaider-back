@@ -49,6 +49,7 @@ use App\Notifications\StructureCollectivityValidated;
 use App\Notifications\StructureSignaled;
 use App\Notifications\StructureSubmitted;
 use App\Notifications\StructureValidated;
+use App\Notifications\UserAnonymize;
 
 class NotificationController extends Controller
 {
@@ -185,13 +186,16 @@ class NotificationController extends Controller
                 $notification = new NotificationToBenevole($notificationBenevole);
                 break;
             case 'referent_waiting_actions':
-                $notification = new ReferentDailyTodo([1,2],[1,2]);
+                $notification = new ReferentDailyTodo([1,2], [1,2]);
                 break;
             case 'reset_password':
                 $notification = new ResetPassword('token');
                 break;
             case 'responsable_waiting_actions':
                 $notification = new ResponsableDailyTodo([1,2,3]);
+                break;
+            case 'user_anonymize':
+                $notification = new UserAnonymize();
                 break;
         }
 
