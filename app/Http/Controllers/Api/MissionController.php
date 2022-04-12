@@ -153,6 +153,10 @@ class MissionController extends Controller
 
     public function duplicate(MissionDuplicateRequest $request, Mission $mission)
     {
+        if ($mission->template_id && (!$mission->template->published || $mission->template->state !== 'validated')) {
+            abort('422', "Le modèle de cette mission n'est plus disponible.");
+        }
+
         return $mission->duplicate();
     }
 
