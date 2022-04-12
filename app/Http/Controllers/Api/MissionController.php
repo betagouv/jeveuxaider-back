@@ -157,7 +157,16 @@ class MissionController extends Controller
             abort('422', "Le modèle de cette mission n'est plus disponible.");
         }
 
-        return $mission->duplicate();
+        $new = $mission->duplicate();
+
+        activity()
+            ->causedBy($request->user())
+            ->performedOn($new)
+            ->withProperties(['attributes' => ['from_id' => $mission->id]])
+            ->event('duplicated')
+            ->log('duplicated');
+
+        return $new;
     }
 
     // public function structure(MissionStructureRequest $request, Mission $mission)
