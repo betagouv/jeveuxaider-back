@@ -148,6 +148,7 @@ class ReseauController extends Controller
 
     public function deleteResponsable(Request $request, Reseau $reseau, Profile $responsable)
     {
+        $this->authorize('update', $reseau);
         $reseau->deleteResponsable($responsable);
         return $reseau->responsables;
     }
