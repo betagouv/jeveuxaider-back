@@ -115,4 +115,9 @@ class MissionTemplate extends Model implements HasMedia
             get: fn ($value) => strip_tags($value, '<p><b><strong><ul><ol><li><i>'),
         );
     }
+
+    public function getPlacesLeftAttribute()
+    {
+        return Mission::available()->ofTemplate($this->id)->sum('places_left');
+    }
 }

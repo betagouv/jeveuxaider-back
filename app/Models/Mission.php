@@ -365,6 +365,12 @@ class Mission extends Model
             });
     }
 
+    public function scopeOfTemplate($query, $template_id)
+    {
+        return $query
+            ->where('template_id', $template_id);
+    }
+
     public function scopeOfActivity($query, $activity_id)
     {
         return $query

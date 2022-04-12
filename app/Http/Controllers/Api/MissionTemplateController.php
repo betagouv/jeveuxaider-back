@@ -20,9 +20,8 @@ class MissionTemplateController extends Controller
 {
     public function index(Request $request)
     {
-        $paginate = $request->has('pagination') ? $request->input('pagination') : config('query-builder.results_per_page');
 
-        return QueryBuilder::for(MissionTemplate::role($request->header('Context-Role'))->with(['domaine', 'reseau'])->withCount(['missions']))
+        $results = QueryBuilder::for(MissionTemplate::role($request->header('Context-Role')))
             ->allowedFilters(
                 'state',
                 AllowedFilter::custom('search', new FiltersTitleBodySearch),
@@ -31,9 +30,15 @@ class MissionTemplateController extends Controller
                 AllowedFilter::scope('of_reseau'),
                 AllowedFilter::callback('with_reseaux', new FiltersTemplatesWithReseau)
             )
-            ->allowedIncludes(['photo'])
+            ->allowedIncludes(['photo', 'domaine', 'reseau', 'missions'])
             ->defaultSort('-updated_at')
-            ->paginate($paginate);
+            ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
+
+            if($request->has('append')){
+                $results->append($request->input('append'));
+            }
+
+        return $results;
     }
 
     public function store(MissionTemplateCreateRequest $request)
