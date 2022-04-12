@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Domaine;
 use App\Models\Territoire;
 use App\Models\Structure;
 use App\Models\Mission;
 use App\Models\Reseau;
-use App\Models\Thematique;
 use Carbon\Carbon;
 
 class ConfigController extends Controller
@@ -80,7 +80,7 @@ class ConfigController extends Controller
                 ];
             });
 
-        $domainesUrls = Thematique::where('published', true)
+        $domainesUrls = Domaine::where('published', true)
             ->get()
             ->map(function ($domaine) {
                 return [

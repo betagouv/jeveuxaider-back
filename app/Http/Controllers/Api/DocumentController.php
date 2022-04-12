@@ -20,6 +20,7 @@ class DocumentController extends Controller
     {
         return QueryBuilder::for(Document::role($request->header('Context-Role')))
             ->allowedFilters([
+                AllowedFilter::exact('is_published'),
                 AllowedFilter::custom('search', new FiltersTitleBodySearch),
             ])
             ->allowedIncludes(['file'])
@@ -46,7 +47,7 @@ class DocumentController extends Controller
         return $document;
     }
 
-    public function delete(DocumentDeleteRequest $request, Document $document)
+    public function delete(Request $request, Document $document)
     {
         return (string) $document->delete();
     }

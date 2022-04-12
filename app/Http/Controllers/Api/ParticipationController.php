@@ -41,6 +41,7 @@ class ParticipationController extends Controller
                 AllowedFilter::scope('ofReseau'),
                 AllowedFilter::scope('ofTerritoire'),
                 AllowedFilter::scope('ofActivity'),
+                AllowedFilter::scope('ofDomaine'),
                 'state',
                 'mission.zip',
                 'mission.type',

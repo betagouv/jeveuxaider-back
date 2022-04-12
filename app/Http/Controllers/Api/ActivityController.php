@@ -12,7 +12,7 @@ use App\Filters\FiltersActivitySearch;
 use App\Http\Requests\ActivityRequest;
 use App\Models\Activity;
 use App\Models\Participation;
-use Illuminate\Database\Eloquent\Builder;
+use Spatie\QueryBuilder\AllowedInclude;
 
 class ActivityController extends Controller
 {
@@ -28,6 +28,7 @@ class ActivityController extends Controller
             ->allowedIncludes([
                 'banner',
                 'domaines',
+                'missions'
             ])
             ->defaultSort('-name')
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
@@ -82,6 +83,18 @@ class ActivityController extends Controller
         }
 
         return $activity;
+    }
+
+    public function delete(Request $request, Activity $activity)
+    {
+
+        $relatedMissionsCount = Mission::ofActivity($activity->id)->count();
+
+        if ($relatedMissionsCount) {
+            abort('422', "Cette activité est reliée à {$relatedMissionsCount} mission(s)");
+        }
+
+        return (string) $activity->delete();
     }
 
 }

@@ -355,7 +355,7 @@ class Mission extends Model
             ->whereIn('department', config('taxonomies.regions.departments')[$value]);
     }
 
-    public function scopeDomaine($query, $domain_id)
+    public function scopeOfDomaine($query, $domain_id)
     {
         return $query
             ->where('domaine_id', $domain_id)

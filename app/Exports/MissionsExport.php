@@ -43,7 +43,7 @@ class MissionsExport implements FromQuery, WithMapping, WithHeadings
                 AllowedFilter::exact('structure.reseaux.name'),
                 AllowedFilter::exact('is_snu_mig_compatible'),
                 AllowedFilter::scope('ofReseau'),
-                AllowedFilter::scope('domaine'),
+                AllowedFilter::scope('ofDomaine'),
                 AllowedFilter::scope('ofTerritoire'),
                 AllowedFilter::scope('ofActivity'),
                 AllowedFilter::custom('place', new FiltersMissionPlacesLeft),

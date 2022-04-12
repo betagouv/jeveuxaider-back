@@ -61,7 +61,7 @@ class MissionController extends Controller
                 AllowedFilter::exact('structure.reseaux.id'),
                 AllowedFilter::exact('structure.reseaux.name'),
                 AllowedFilter::exact('is_snu_mig_compatible'),
-                AllowedFilter::scope('domaine'),
+                AllowedFilter::scope('ofDomaine'),
                 AllowedFilter::scope('ofTerritoire'),
                 AllowedFilter::scope('ofActivity'),
                 AllowedFilter::custom('place', new FiltersMissionPlacesLeft),
@@ -174,7 +174,7 @@ class MissionController extends Controller
             ->whereHas('user', function (Builder $query) {
                 $query->whereNull('anonymous_at');
             })
-            ->domaine($domaineId)
+            ->ofDomaine($domaineId)
             ->whereDoesntHave('participations', function (Builder $query) use ($mission) {
                 $query->where('mission_id', $mission->id);
             });

@@ -7,12 +7,14 @@ use App\Http\Controllers\Controller;
 use App\Models\Domaine;
 use App\Http\Requests\Api\DomaineCreateRequest;
 use App\Http\Requests\Api\DomaineUpdateRequest;
-use App\Http\Requests\Api\DomaineDeleteRequest;
+use App\Models\Mission;
 use Spatie\QueryBuilder\QueryBuilder;
 use App\Models\Participation;
 use App\Models\Profile;
+use App\Models\Reseau;
 use App\Models\Structure;
 use Spatie\QueryBuilder\AllowedFilter;
+use Illuminate\Http\Request;
 
 class DomaineController extends Controller
 {
@@ -44,9 +46,13 @@ class DomaineController extends Controller
             : Domaine::where('slug', $slugOrId)->firstOrFail();
 
         return [
-            'structures_count' => Structure::domaine($domaine->id)->count(),
-            'participations_count' => Participation::domaine($domaine->id)->count(),
-            'volontaires_count' => Profile::domaine($domaine->id)->count(),
+            'structures_count' => Structure::ofDomaine($domaine->id)->count(),
+            'participations_count' => Participation::ofDomaine($domaine->id)->count(),
+            'volontaires_count' => Profile::ofDomaine($domaine->id)->count(),
+            'missions_count' => Mission::ofDomaine($domaine->id)->count(),
+            'missions_available_count' => Mission::ofDomaine($domaine->id)->available()->count(),
+            'participations_count' => Participation::ofDomaine($domaine->id)->count(),
+            'participations_validated_count' => Participation::ofDomaine($domaine->id)->where('state', 'Validée')->count(),
         ];
     }
 
@@ -64,8 +70,23 @@ class DomaineController extends Controller
         return $domaine;
     }
 
-    // public function delete(DomaineDeleteRequest $request, Domaine $domaine)
-    // {
-    //     return (string) $domaine->delete();
-    // }
+    public function delete(Request $request, Domaine $domaine)
+    {
+
+        $relatedMissionsCount = Mission::ofDomaine($domaine->id)->count();
+        $relatedStructuresCount = Structure::ofDomaine($domaine->id)->count();
+        $relatedReseauxCount = Reseau::ofDomaine($domaine->id)->count();
+
+        if ($relatedMissionsCount) {
+            abort('422', "Cette activité est reliée à {$relatedMissionsCount} mission(s)");
+        }
+        if ($relatedStructuresCount) {
+            abort('422', "Cette activité est reliée à {$relatedStructuresCount} organisation(s)");
+        }
+        if ($relatedReseauxCount) {
+            abort('422', "Cette activité est reliée à {$relatedReseauxCount} reseau(x)");
+        }
+
+        return (string) $domaine->delete();
+    }
 }

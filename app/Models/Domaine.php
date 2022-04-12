@@ -26,6 +26,10 @@ class Domaine extends Model implements HasMedia
         'published' => 'boolean',
     ];
 
+    protected $attributes = [
+        'published' => false,
+    ];
+
     protected $appends = ['full_url'];
 
     public function getSlugOptions(): SlugOptions

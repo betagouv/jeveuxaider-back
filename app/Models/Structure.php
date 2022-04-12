@@ -174,11 +174,11 @@ class Structure extends Model implements HasMedia
             ->whereIn('department', config('taxonomies.regions.departments')[$value]);
     }
 
-    public function scopeDomaine($query, $domain_id)
+    public function scopeOfDomaine($query, $domain_id)
     {
         return $query
             ->whereHas('missions', function (Builder $query) use ($domain_id) {
-                $query->domaine($domain_id);
+                $query->ofDomaine($domain_id);
             });
     }
 
