@@ -136,7 +136,7 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::get('missions/{mission}/benevoles', 'Api\MissionController@benevoles');
     Route::put('missions/{mission}', 'Api\MissionController@update');
     Route::post('missions/{mission}/duplicate', 'Api\MissionController@duplicate');
-    Route::delete('missions/{mission}/delete', 'Api\MissionController@delete');
+    Route::delete('missions/{mission}', 'Api\MissionController@delete');
 
     // PROFILES
     Route::get('profiles', 'Api\ProfileController@index');
@@ -209,14 +209,14 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::get('domaines', 'Api\DomaineController@index');
     Route::post('domaines', 'Api\DomaineController@store');
     Route::put('domaines/{domaine}', 'Api\DomaineController@update');
-    Route::delete('domaines/{domaine}/delete', 'Api\DomaineController@delete');
+    Route::delete('domaines/{domaine}', 'Api\DomaineController@delete');
 
     // DOCUMENTS
     Route::get('documents/{document}', 'Api\DocumentController@show');
     Route::post('documents', 'Api\DocumentController@store');
     Route::put('documents/{document}', 'Api\DocumentController@update');
     Route::post('documents/{document}/notify', 'Api\DocumentController@notify');
-    Route::delete('documents/{document}/delete', 'Api\DocumentController@delete');
+    Route::delete('documents/{document}', 'Api\DocumentController@delete');
 
     // IMPERSONNATE
     Route::post('users/{user}/impersonate', 'Api\UserController@impersonate');
@@ -225,7 +225,7 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::post('reseaux', 'Api\ReseauController@store');
     Route::put('reseaux/{reseau}', 'Api\ReseauController@update');
     Route::delete('reseaux/{reseau}/responsables/{responsable}', 'Api\ReseauController@deleteResponsable');
-    Route::delete('reseaux/{reseau}/delete', 'Api\ReseauController@delete');
+    Route::delete('reseaux/{reseau}', 'Api\ReseauController@delete');
 
     // EXPORTS
     Route::get('export/territoires', 'Api\ExportController@territoires');
@@ -245,6 +245,9 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::post('activities', 'Api\ActivityController@store');
     Route::put('activities/{activity}', 'Api\ActivityController@update');
     Route::get('activities/{activity}/statistics', 'Api\ActivityController@statistics');
-    Route::delete('activities/{activity}/delete', 'Api\ActivityController@delete');
+    Route::delete('activities/{activity}', 'Api\ActivityController@delete');
+
+    // TERRITOIRES
+    Route::delete('territoires/{territoire}', 'Api\TerritoireController@delete');
 
 });

@@ -78,10 +78,14 @@ class TerritoireController extends Controller
         return $territoire;
     }
 
-    // public function delete(Request $request, Territoire $territoire)
-    // {
-    //     return (string) $territoire->delete();
-    // }
+    public function delete(Request $request, Territoire $territoire)
+    {
+        $territoire->responsables->map(function ($responsable) use ($territoire) {
+            $territoire->deleteResponsable($responsable);
+        });
+
+        return (string) $territoire->delete();
+    }
 
     public function deleteResponsable(Request $request, Territoire $territoire, Profile $responsable)
     {
