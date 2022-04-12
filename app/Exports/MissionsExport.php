@@ -38,6 +38,7 @@ class MissionsExport implements FromQuery, WithMapping, WithHeadings
                 AllowedFilter::exact('template_id'),
                 AllowedFilter::exact('structure.id'),
                 AllowedFilter::exact('structure.name'),
+                'structure.statut_juridique',
                 AllowedFilter::exact('structure.reseaux.id'),
                 AllowedFilter::exact('structure.reseaux.name'),
                 AllowedFilter::exact('is_snu_mig_compatible'),

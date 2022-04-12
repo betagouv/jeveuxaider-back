@@ -9,6 +9,7 @@ use App\Models\Participation;
 use App\Models\Profile;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use App\Notifications\UserAnonymize;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Passport\Token;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -93,11 +94,11 @@ class UserController extends Controller
         $inputs = $request->all();
 
         if (!(Hash::check($request->get('current_password'), $user->password))) {
-            abort(422,"L'ancien mot de passe est incorrect");
+            abort(422, "L'ancien mot de passe est incorrect");
         }
 
         if (strcmp($request->get('current_password'), $request->get('password')) == 0) {
-            abort(422,'Le nouveau mot de passe doit être différent de l\'ancien');
+            abort(422, 'Le nouveau mot de passe doit être différent de l\'ancien');
         }
 
         $messages = [
@@ -141,6 +142,8 @@ class UserController extends Controller
     public function anonymize(Request $request)
     {
         $user = $request->user();
+        $notification = new UserAnonymize($user);
+        $user->notify($notification);
 
         // Si je suis le dernier responsable d'une organisation on la désinscrit
         if ($user->profile->structures) {

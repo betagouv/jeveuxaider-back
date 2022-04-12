@@ -57,6 +57,7 @@ class MissionController extends Controller
                 AllowedFilter::exact('template.id'),
                 AllowedFilter::exact('structure.id'),
                 AllowedFilter::exact('structure.name'),
+                'structure.statut_juridique',
                 AllowedFilter::exact('structure.reseaux.id'),
                 AllowedFilter::exact('structure.reseaux.name'),
                 AllowedFilter::exact('is_snu_mig_compatible'),
@@ -89,7 +90,7 @@ class MissionController extends Controller
     {
 
         if (is_numeric($id)) {
-            $mission = Mission::with(['structure.members:id,first_name,last_name,mobile,email', 'template.domaine', 'domaine', 'domaineSecondary', 'responsable', 'skills', 'template.photo', 'illustrations', 'structure.illustrations', 'structure.overrideImage1'])->withCount('temoignages')->where('id', $id)->first();
+            $mission = Mission::with(['structure.members:id,first_name,last_name,mobile,email', 'template.domaine', 'domaine', 'domaineSecondary', 'responsable', 'skills', 'template.photo', 'illustrations', 'structure.illustrations', 'structure.overrideImage1', 'structure.logo'])->withCount('temoignages')->where('id', $id)->first();
             if ($mission) {
                 $mission->append(['full_address', 'has_places_left']);
             }

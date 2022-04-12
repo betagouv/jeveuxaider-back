@@ -54,10 +54,11 @@ class StructureObserver
 
         // COLLECTIVITE
         if ($structure->statut_juridique === 'Collectivité') {
+            $name = preg_replace("/(^Mairie (des|du|de|d')*)/mi", "", $structure->name);
             $territoire = Territoire::create([
                 'structure_id' => $structure->id,
-                'name' => preg_replace("/(^Mairie (des|du|de|d')*)/mi", "", $structure->name),
-                'suffix_title' => 'à ' . $structure->name,
+                'name' => $name,
+                'suffix_title' => 'à ' . $name,
                 'zips' => $structure->zip ? [$structure->zip] : [],
                 'department' => $structure->department,
                 'is_published' => false,
@@ -96,7 +97,7 @@ class StructureObserver
                         }
                     }
                     // Update all missions linked to template to 'Validée' status
-                    $structure->missions()->whereNotNull('template_id')->where("state", "En attente de validation")->get()->map(function($mission){
+                    $structure->missions()->whereNotNull('template_id')->where("state", "En attente de validation")->get()->map(function ($mission) {
                         $mission->update(['state' => 'Validée']);
                     });
                     break;
@@ -105,7 +106,7 @@ class StructureObserver
                         $responsable->notify(new StructureSignaled($structure));
                     }
                     // Update all missions to 'Signalée' status
-                    $structure->missions()->get()->map(function($mission){
+                    $structure->missions()->get()->map(function ($mission) {
                         $mission->update(['state' => 'Signalée']);
                     });
                     //  Si territoire relié on dépublie
@@ -207,5 +208,4 @@ class StructureObserver
             $structure->deleteMember($responsable);
         });
     }
-
 }

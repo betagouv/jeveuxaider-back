@@ -96,6 +96,10 @@ class Sendinblue
             'ORGA_NB_MISSION' => $organisation ? $organisation->missions->count() : null,
             'REFERENT_DEPARTEMENT' => $user->profile->referent_department ? $user->profile->referent_department : null,
             'REFERENT_REGION' => $user->profile->referent_region ? $user->profile->referent_region : null,
+            'IS_VISIBLE' => $user->profile->is_visible,
+            'DISPONIBILITES' => $user->profile->disponibilities,
+            'DISPO_TIME_DURATION' => $user->profile->commitment__duration,
+            'DISPO_TIME_PERIOD' => $user->profile->commitment__time_period,
         ];
 
         if ($withSMS) {

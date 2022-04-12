@@ -58,7 +58,6 @@ class MissionInDraft extends Notification implements ShouldQueue
         $label = $this->mission->template_id ? "Enregistrer et publier" : "Soumettre à validation";
 
         return (new MailMessage)
-            ->from("ne-pas-repondre@jeveuxaider.beta.gouv.fr", "JeVeuxAider.gouv.fr")
             ->subject("Votre mission « " . $this->mission->name . " » est restée au statut « Brouillon »")
             ->greeting('Bonjour ' . $notifiable->first_name . ' 👋,')
             ->line("L'une de vos missions est encore au statut « Brouillon » : les visiteurs ne peuvent pas la consulter pour le moment. C'est dommage !")

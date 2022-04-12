@@ -136,7 +136,7 @@
             @case(8)
                 {{-- Mémoire et citoyenneté --}}
                 <domain>
-                    <![CDATA[vivre-ensemble]]>
+                    <![CDATA[mémoire et citoyenneté]]>
                 </domain>
             @break
 

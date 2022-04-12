@@ -62,4 +62,10 @@ return [
     'slack' => [
         'hook_url' => env('SLACK_HOOK_URL'),
     ],
+
+    'airtable' => [
+        'key' => env('AIRTABLE_KEY'),
+        'base' => env('AIRTABLE_BASE'),
+        'table' => env('AIRTABLE_TABLE')
+    ],
 ];

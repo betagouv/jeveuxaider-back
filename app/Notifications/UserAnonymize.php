@@ -5,28 +5,20 @@ namespace App\Notifications;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
-use App\Models\Mission;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class MissionAlmostFull extends Notification implements ShouldQueue
+class UserAnonymize extends Notification implements ShouldQueue
 {
     use Queueable;
-
-    /**
-     * The order instance.
-     *
-     * @var Mission
-     */
-    public $mission;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(Mission $mission)
+    public function __construct()
     {
-        $this->mission = $mission;
+        //
     }
 
     /**
@@ -56,12 +48,10 @@ class MissionAlmostFull extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject("Votre mission « " . $this->mission->name . " » est bientôt complète !")
-            ->greeting('Bonjour ' . $notifiable->first_name . ' 👋,')
-            ->line("Félicitations, votre mission est bientôt complète ! Pour rappel, lorsque votre mission est complète, les bénévoles ne peuvent plus y candidater.")
-            ->line("Si vous le souhaitez, vous pouvez en un clic augmenter le nombre de bénévoles recherchés.")
-            ->action("J'augmente la jauge de la mission", url(config('app.front_url'). '/admin/missions/' . $this->mission->id . '/edit'))
-            ->line("En cas de besoin, vous pouvez répondre à ce mail pour échanger directement avec le support utilisateurs !");
+            ->subject('Suppression de votre compte sur JeVeuxAider.gouv.fr')
+            ->greeting('Bonjour,')
+            ->line('Votre compte sur JeVeuxAider.gouv.fr a bien été supprimé.')
+            ->line('Cette action est irréversible : pour utiliser la plateforme à nouveau, vous devrez recréer un compte.');
     }
 
     /**

@@ -48,7 +48,6 @@ class NoNewMission extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->from("ne-pas-repondre@jeveuxaider.beta.gouv.fr", "JeVeuxAider.gouv.fr")
             ->subject("Publiez une nouvelle mission sur JeVeuxAider.gouv.fr")
             ->greeting('Bonjour ' . $notifiable->first_name . ' 👋,')
             ->line("Cela fait quelques temps que vous n’avez pas proposé de mission sur JeVeuxAider.gouv.fr.")
