@@ -221,6 +221,7 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::post('reseaux', 'Api\ReseauController@store');
     Route::put('reseaux/{reseau}', 'Api\ReseauController@update');
     Route::delete('reseaux/{reseau}/responsables/{responsable}', 'Api\ReseauController@deleteResponsable');
+    Route::delete('reseaux/{reseau}/delete', 'Api\ReseauController@delete');
 
     // EXPORTS
     Route::get('export/territoires', 'Api\ExportController@territoires');
