@@ -22,6 +22,7 @@ use App\Filters\FiltersProfileTag;
 use App\Filters\FiltersProfileZips;
 use App\Http\Requests\Api\MissionDeleteRequest;
 use App\Models\NotificationTemoignage;
+use App\Models\Participation;
 use App\Models\Profile;
 use App\Models\Structure;
 use App\Models\Tag;
@@ -137,6 +138,17 @@ class MissionController extends Controller
     // {
     //     return (string) $mission->delete();
     // }
+
+    public function delete(MissionDeleteRequest $request, Mission $mission)
+    {
+        $relatedParticipationsCount = Participation::where('mission_id',$mission->id)->count();
+
+        if ($relatedParticipationsCount) {
+            abort('422', "Cette mission est reliée à {$relatedParticipationsCount} participation(s)");
+        }
+
+        return (string) $mission->delete();
+    }
 
     // public function restore($id)
     // {

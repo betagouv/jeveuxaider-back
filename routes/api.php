@@ -136,6 +136,7 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::get('missions/{mission}/benevoles', 'Api\MissionController@benevoles');
     Route::put('missions/{mission}', 'Api\MissionController@update');
     Route::post('missions/{mission}/duplicate', 'Api\MissionController@duplicate');
+    Route::delete('missions/{mission}/delete', 'Api\MissionController@delete');
 
     // PROFILES
     Route::get('profiles', 'Api\ProfileController@index');
@@ -191,6 +192,9 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     // SNU
     Route::get('user/snu-actions', 'Api\ActionController@snuWaitingActions');
 
+    // ACTIVITIES
+    Route::get('activities', 'Api\ActivityController@index');
+
 });
 
 // ONLY ADMIN
@@ -238,7 +242,6 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::delete('/terms/{term}', 'Api\TermController@delete');
 
     // ACTIVITIES
-    Route::get('activities', 'Api\ActivityController@index');
     Route::post('activities', 'Api\ActivityController@store');
     Route::put('activities/{activity}', 'Api\ActivityController@update');
     Route::get('activities/{activity}/statistics', 'Api\ActivityController@statistics');
