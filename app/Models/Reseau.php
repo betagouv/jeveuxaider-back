@@ -220,4 +220,9 @@ class Reseau extends Model implements HasMedia
                 $query->where('id',$domain_id);
             });
     }
+
+    public function getPlacesLeftAttribute()
+    {
+        return Mission::available()->ofReseau($this->id)->sum('places_left');
+    }
 }

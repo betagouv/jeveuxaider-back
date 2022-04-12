@@ -152,4 +152,9 @@ class Domaine extends Model implements HasMedia
     {
         return $this->morphMany(ModelMedia::class, 'model')->where('collection_name', 'domaine__logos_partenaires_actifs');
     }
+
+    public function getPlacesLeftAttribute()
+    {
+        return Mission::available()->ofDomaine($this->id)->sum('places_left');
+    }
 }

@@ -37,7 +37,9 @@ class TerritoireController extends Controller
             ->defaultSort('-created_at')
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
 
-        $results->append(['places_left']);
+        if($request->has('append')){
+            $results->append($request->input('append'));
+        }
 
         return $results;
     }

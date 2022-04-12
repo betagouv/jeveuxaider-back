@@ -45,9 +45,9 @@ class Activity extends Model implements HasMedia
         return $this->morphMany(ModelMedia::class, 'model')->where('collection_name', 'activity__promoted_organisations');
     }
 
-    public function missions()
+    public function getPlacesLeftAttribute()
     {
-        return Mission::ofActivity($this->id);
+        return Mission::available()->ofActivity($this->id)->sum('places_left');
     }
 
     public function getFullUrlAttribute()

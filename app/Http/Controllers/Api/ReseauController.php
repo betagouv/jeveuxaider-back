@@ -19,16 +19,22 @@ class ReseauController extends Controller
 
     public function index(Request $request)
     {
-        return QueryBuilder::for(Reseau::withCount(['structures', 'missionTemplates', 'missions']))
+        $results = QueryBuilder::for(Reseau::class)
             ->allowedFilters([
                 AllowedFilter::custom('search', new FiltersReseauSearch),
                 AllowedFilter::exact('is_published'),
                 AllowedFilter::exact('id'),
                 'name',
             ])
-            ->allowedIncludes(['illustrations', 'overrideImage1'])
+            ->allowedIncludes(['illustrations', 'overrideImage1','missions','structures'])
             ->defaultSort('-created_at')
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
+
+            if($request->has('append')){
+                $results->append($request->input('append'));
+            }
+            
+        return $results;
     }
 
     public function show($slugOrId)

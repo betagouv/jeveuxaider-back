@@ -18,16 +18,24 @@ use Illuminate\Http\Request;
 
 class DomaineController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return QueryBuilder::for(Domaine::class)
-            ->withCount(['missionTemplates'])
+        $results = QueryBuilder::for(Domaine::class)
             ->allowedFilters([
                 AllowedFilter::custom('search', new FiltersDomaineSearch),
             ])
-            ->allowedIncludes(['banner'])
+            ->allowedIncludes([
+                'banner',
+                'missionTemplates'
+            ])
             ->defaultSort('name')
             ->paginate(config('query-builder.results_per_page'));
+
+            if($request->has('append')){
+                $results->append($request->input('append'));
+            }
+
+        return $results;
     }
 
     public function show($slugOrId)

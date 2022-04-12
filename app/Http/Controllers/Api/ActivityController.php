@@ -28,10 +28,13 @@ class ActivityController extends Controller
             ->allowedIncludes([
                 'banner',
                 'domaines',
-                'missions'
             ])
             ->defaultSort('-name')
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
+
+        if($request->has('append')) {
+            $results->append($request->input('append'));
+        }
 
         return $results;
     }
