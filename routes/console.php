@@ -24,15 +24,16 @@ Artisan::command('airtable', function () {
     // $query = Mission::with(['structure', 'domaine', 'template.domaine'])
     // ->whereIn('state', ['En attente de validation', 'En cours de traitement', 'Validée'])
     // ->where("id", 114);
-    $query = Structure::whereIn('state', ['En attente de validation', 'En cours de traitement', 'Validée'])
-    ->where("id", 43);
+    // $query = Structure::whereIn('state', ['En attente de validation', 'En cours de traitement', 'Validée'])
+    // ->where("id", 43);
 
 
-    $query->chunk(50, function ($objects) {
-        foreach ($objects as $object) {
-            // Airtable::syncMission($mission);
-            Airtable::syncStructure($object);
-        }
-    });
+    // $query->chunk(50, function ($objects) {
+    //     foreach ($objects as $object) {
+    //         // Airtable::syncMission($mission);
+    //         Airtable::syncStructure($object);
+    //     }
+    // });
+    // Mission::find(20108)->delete();
 
 })->describe('Display an inspiring quote');

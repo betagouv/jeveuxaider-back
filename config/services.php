@@ -66,5 +66,6 @@ return [
     'airtable' => [
         'key' => env('AIRTABLE_KEY'),
         'base' => env('AIRTABLE_BASE'),
+        'sync' => env('AIRTABLE_SYNC')
     ],
 ];

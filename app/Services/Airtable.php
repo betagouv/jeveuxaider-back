@@ -23,14 +23,11 @@ class Airtable
 
 
             if(!$response->successful()) {
-                ray($response->status());
-                ray($response->body());
                 throw new \Exception("Invalid response from Airtable (".$response->status().") : " . $response->body());
             }
 
             return $response;
         } catch (\Exception $e) {
-            ray('catch', $e->getMessage());
             report($e->getMessage());
             return $e->getMessage();
         }
@@ -46,6 +43,18 @@ class Airtable
     {
         $fields = self::formatStructureAttributes($structure);
         return self::syncObject('structure', $fields); 
+    }
+
+    public static function deleteObject($type, Mission|Structure $object) 
+    {
+        $objectAirtableId = self::getAirtableId($type, $object->id); 
+
+        if($objectAirtableId) {
+            return self::api(
+                'delete',
+                $type == 'mission' ? '/Missions/' . $objectAirtableId : '/Organisations/' . $objectAirtableId,
+            );
+        }
     }
 
     private static function syncObject($type, $fields) 
@@ -75,7 +84,7 @@ class Airtable
     {
         return self::api(
             'post',
-            '/Organisations',
+            $type == 'mission' ? '/Missions' : '/Organisations',
             [
                 'json' => [
                     'fields' => $fields
@@ -113,13 +122,13 @@ class Airtable
             'Date de début' =>  Carbon::create($mission->start_date)->format("m-d-Y"), // mm-dd-YYYY
             'Date de fin' =>  Carbon::create($mission->end_date)->format("m-d-Y"),
             'Organisation Id' => $mission->structure->id,
-            // 'Organisation' => $mission->structure->name,
-            // 'Organisation Statut' => $mission->structure->state,
-            // 'Organisation Statut Juridique' => $mission->structure->statut_juridique,
+            'Organisation' => $mission->structure->name,
+            'Organisation Statut' => $mission->structure->state,
+            'Organisation Statut Juridique' => $mission->structure->statut_juridique,
             'URL' => config('app.front_url') . $mission->full_url,
             'Description' => $mission->objectif,
             'Crée le' => Carbon::create($mission->created_at)->format("m-d-Y"),
-            'Modifié le' => Carbon::create($mission->updated_at)->format("m-d-Y"),
+            'Modifiée le' => Carbon::create($mission->updated_at)->format("m-d-Y"),
         ];
 
         return $attributes;
@@ -134,10 +143,11 @@ class Airtable
             'Département' => $structure->department,
             'Statut Juridique' => $structure->statut_juridique,
             'Bénévoles recherchés' => $structure->places_left,
-            'Taux de réponse' => $structure->reponse_ratio,
+            'Taux de réponse' => $structure->response_ratio,
             'Temps de réponse' => $structure->response_time / (60 * 60 * 24),
             'URL' => config('app.front_url') . $structure->full_url,
             'Crée le' => Carbon::create($structure->created_at)->format("m-d-Y"),
+            'Modifiée le' => Carbon::create($structure->updated_at)->format("m-d-Y"),
         ];
 
         return $attributes;

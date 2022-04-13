@@ -3,6 +3,8 @@
 namespace App\Observers;
 
 use App\Helpers\Utils;
+use App\Jobs\AirtableDeleteObject;
+use App\Jobs\AirtableSyncObject;
 use App\Jobs\SendinblueSyncUser;
 use App\Models\Mission;
 use App\Models\NotificationTemoignage;
@@ -42,7 +44,7 @@ class MissionObserver
             }
         }
 
-        // MAJ SENDINBLUE
+        // Sync SENDINBLUE
         if (config('services.sendinblue.sync')) {
             $mission->structure->responsables->each(function ($profile, $key) {
                 $profile->load('user');
@@ -50,6 +52,11 @@ class MissionObserver
                     SendinblueSyncUser::dispatch($profile->user);
                 }
             });
+        }
+
+        // Sync Airtable
+        if (config('services.airtable.sync')) {
+            AirtableSyncObject::dispatch($mission);
         }
     }
 
@@ -130,6 +137,16 @@ class MissionObserver
                 $conversation->users()->syncWithoutDetaching([$newResponsable->id]);
             }
         }
+
+        // Sync Airtable
+        if (config('services.airtable.sync')) {
+            if(in_array($mission->state, ['En attente de validation', 'En cours de traitement', 'Validée'])) {
+                AirtableSyncObject::dispatch($mission);
+            }
+            else {
+                AirtableDeleteObject::dispatch($mission);
+            }
+        }
     }
 
     public function saving(Mission $mission)
@@ -152,7 +169,7 @@ class MissionObserver
      */
     public function deleting(Mission $mission)
     {
-        // MAJ SENDINBLUE
+        // Sync SENDINBLUE
         if (config('services.sendinblue.sync')) {
             $mission->structure->responsables->each(function ($profile, $key) {
                 $profile->load('user');
@@ -160,6 +177,11 @@ class MissionObserver
                     SendinblueSyncUser::dispatch($profile->user);
                 }
             });
+        }
+
+        // Sync Airtable
+        if (config('services.airtable.sync')) {
+            AirtableDeleteObject::dispatch($mission);
         }
     }
 }
