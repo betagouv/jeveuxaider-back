@@ -36,7 +36,8 @@ class UserController extends Controller
         )
         ->allowedIncludes([
             'conversation.latestMessage',
-            'mission.responsable.avatar'
+            'mission.responsable.avatar',
+            'mission.structure'
         ])
         ->defaultSort('-created_at')
         ->paginate(config('query-builder.results_per_page'));
