@@ -143,7 +143,7 @@ class Airtable
             'Département' => $structure->department,
             'Statut Juridique' => $structure->statut_juridique,
             'Bénévoles recherchés' => $structure->places_left,
-            'Taux de réponse' => $structure->response_ratio,
+            'Taux de réponse' => $structure->response_ratio / 100,
             'Temps de réponse' => $structure->response_time / (60 * 60 * 24),
             'URL' => config('app.front_url') . $structure->full_url,
             'Crée le' => Carbon::create($structure->created_at)->format("m-d-Y"),
