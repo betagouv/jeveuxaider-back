@@ -34,6 +34,8 @@ Route::get('sitemap', 'Api\ConfigController@sitemap');
 Route::get('domaines/{slugOrId}', 'Api\DomaineController@show');
 Route::get('domaines/{slugOrId}/statistics', 'Api\DomaineController@statistics');
 
+Route::get('activities/{slugOrId}', 'Api\ActivityController@show');
+
 // Route::get('statistics/global', 'Api\StatisticsController@global');
 
 Route::post('sendinblue/contact', 'Api\SendInBlueController@store');
@@ -134,6 +136,7 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::get('missions/{mission}/benevoles', 'Api\MissionController@benevoles');
     Route::put('missions/{mission}', 'Api\MissionController@update');
     Route::post('missions/{mission}/duplicate', 'Api\MissionController@duplicate');
+    Route::delete('missions/{mission}', 'Api\MissionController@delete');
 
     // PROFILES
     Route::get('profiles', 'Api\ProfileController@index');
@@ -160,9 +163,6 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::get('statistics/missions/{mission}', 'Api\StatisticsController@missions');
     Route::get('statistics/reseaux/{reseau}', 'Api\StatisticsController@reseaux');
 
-    // REMINDERS
-    // Route::get('reminders', 'Api\ConfigController@reminders');
-
     // DOCUMENTS
     Route::get('documents', 'Api\DocumentController@index');
 
@@ -172,9 +172,11 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::post('mission-templates', 'Api\MissionTemplateController@store');
     Route::put('mission-templates/{missionTemplate}', 'Api\MissionTemplateController@update');
     Route::get('mission-templates/{missionTemplate}/statistics', 'Api\MissionTemplateController@statistics');
+    Route::delete('mission-templates/{missionTemplate}', 'Api\MissionTemplateController@delete');
 
-    // ACTIVITIES
-    Route::get('activities', 'Api\ActivityController@index');
+
+    // ACTIVITY LOGS
+    Route::get('activity-logs', 'Api\ActivityLogController@index');
 
     // TERRITOIRES
     Route::post('territoires', 'Api\TerritoireController@store');
@@ -192,6 +194,9 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     // SNU
     Route::get('user/snu-actions', 'Api\ActionController@snuWaitingActions');
 
+    // ACTIVITIES
+    Route::get('activities', 'Api\ActivityController@index');
+
 });
 
 // ONLY ADMIN
@@ -202,20 +207,18 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
 
     Route::get('notifications/{key}', 'Api\NotificationController@show');
 
-    // // DOMAINES D'ACTIONS
-    Route::get('thematiques', 'Api\ThematiqueController@index');
-    Route::post('thematiques', 'Api\ThematiqueController@store');
-    Route::put('thematiques/{thematique}', 'Api\ThematiqueController@update');
-
+    // DOMAINES D'ACTIONS
     Route::get('domaines', 'Api\DomaineController@index');
     Route::post('domaines', 'Api\DomaineController@store');
     Route::put('domaines/{domaine}', 'Api\DomaineController@update');
+    Route::delete('domaines/{domaine}', 'Api\DomaineController@delete');
 
     // DOCUMENTS
     Route::get('documents/{document}', 'Api\DocumentController@show');
     Route::post('documents', 'Api\DocumentController@store');
     Route::put('documents/{document}', 'Api\DocumentController@update');
     Route::post('documents/{document}/notify', 'Api\DocumentController@notify');
+    Route::delete('documents/{document}', 'Api\DocumentController@delete');
 
     // IMPERSONNATE
     Route::post('users/{user}/impersonate', 'Api\UserController@impersonate');
@@ -224,6 +227,7 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::post('reseaux', 'Api\ReseauController@store');
     Route::put('reseaux/{reseau}', 'Api\ReseauController@update');
     Route::delete('reseaux/{reseau}/responsables/{responsable}', 'Api\ReseauController@deleteResponsable');
+    Route::delete('reseaux/{reseau}', 'Api\ReseauController@delete');
 
     // EXPORTS
     Route::get('export/territoires', 'Api\ExportController@territoires');
@@ -238,4 +242,14 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::put('/vocabularies/{vocabulary:slug}/terms/{term}', 'Api\TermController@update');
     Route::get('/terms/{term}', 'Api\TermController@show');
     Route::delete('/terms/{term}', 'Api\TermController@delete');
+
+    // ACTIVITIES
+    Route::post('activities', 'Api\ActivityController@store');
+    Route::put('activities/{activity}', 'Api\ActivityController@update');
+    Route::get('activities/{activity}/statistics', 'Api\ActivityController@statistics');
+    Route::delete('activities/{activity}', 'Api\ActivityController@delete');
+
+    // TERRITOIRES
+    Route::delete('territoires/{territoire}', 'Api\TerritoireController@delete');
+
 });

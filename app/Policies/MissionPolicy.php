@@ -45,7 +45,7 @@ class MissionPolicy
 
         if (request()->header('Context-Role') == 'responsable') {
             $structureMembersProfileIds = $mission->structure->members->pluck('id')->toArray();
-            if (in_array($user->profile->id, $structureMembersProfileIds) && $mission->state == 'Brouillon') {
+            if (in_array($user->profile->id, $structureMembersProfileIds)) {
                 return true;
             }
         }

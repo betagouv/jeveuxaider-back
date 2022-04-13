@@ -65,7 +65,7 @@ class EngagementController extends Controller
                 AllowedFilter::exact('structure.reseaux.id'),
                 AllowedFilter::exact('structure.reseaux.name'),
                 AllowedFilter::exact('is_snu_mig_compatible'),
-                AllowedFilter::scope('domaine'),
+                AllowedFilter::scope('ofDomaine'),
                 AllowedFilter::scope('ofTerritoire'),
                 AllowedFilter::custom('place', new FiltersMissionPlacesLeft),
                 AllowedFilter::custom('publics_volontaires', new FiltersMissionPublicsVolontaires),

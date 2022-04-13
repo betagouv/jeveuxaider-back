@@ -2,25 +2,25 @@
 
 namespace App\Observers;
 
-use App\Models\Activity;
+use App\Models\ActivityLog;
 use Illuminate\Support\Facades\Auth;
 
-class ActivityObserver
+class ActivityLogObserver
 {
-    public function saving(Activity $activity)
+    public function saving(ActivityLog $activityLog)
     {
         $user = Auth::guard('api')->user();
 
-        if ($activity->subject_type == 'App\Models\Participation') {
-            $activity->subject->load('profile');
-            $subject_type = $activity->subject->profile->full_name;
-        } elseif ($activity->subject_type == 'App\Models\Profile') {
-            $subject_type = $activity->subject->full_name;
+        if ($activityLog->subject_type == 'App\Models\Participation') {
+            $activityLog->subject->load('profile');
+            $subject_type = $activityLog->subject->profile->full_name;
+        } elseif ($activityLog->subject_type == 'App\Models\Profile') {
+            $subject_type = $activityLog->subject->full_name;
         } else {
-            $subject_type = $activity->subject->name ?? '';
+            $subject_type = $activityLog->subject->name ?? '';
         }
 
-        $activity->data = [
+        $activityLog->data = [
             "subject_title" => $subject_type,
             "full_name" => $user && $user->profile ? $user->profile->full_name : '',
             "causer_id" => $user && $user->profile ? $user->profile->id : '',

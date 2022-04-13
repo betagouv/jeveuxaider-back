@@ -272,7 +272,7 @@ class Profile extends Model implements HasMedia
         return $query->where('zip', 'LIKE', $value . '%');
     }
 
-    public function scopeDomaine($query, $domain_id)
+    public function scopeOfDomaine($query, $domain_id)
     {
         return $query
             ->whereHas(

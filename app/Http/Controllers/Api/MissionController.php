@@ -22,6 +22,7 @@ use App\Filters\FiltersProfileTag;
 use App\Filters\FiltersProfileZips;
 use App\Http\Requests\Api\MissionDeleteRequest;
 use App\Models\NotificationTemoignage;
+use App\Models\Participation;
 use App\Models\Profile;
 use App\Models\Structure;
 use App\Models\Tag;
@@ -61,8 +62,9 @@ class MissionController extends Controller
                 AllowedFilter::exact('structure.reseaux.id'),
                 AllowedFilter::exact('structure.reseaux.name'),
                 AllowedFilter::exact('is_snu_mig_compatible'),
-                AllowedFilter::scope('domaine'),
+                AllowedFilter::scope('ofDomaine'),
                 AllowedFilter::scope('ofTerritoire'),
+                AllowedFilter::scope('ofActivity'),
                 AllowedFilter::custom('place', new FiltersMissionPlacesLeft),
                 AllowedFilter::custom('publics_volontaires', new FiltersMissionPublicsVolontaires),
                 AllowedFilter::custom('search', new FiltersMissionSearch),
@@ -137,6 +139,17 @@ class MissionController extends Controller
     //     return (string) $mission->delete();
     // }
 
+    public function delete(MissionDeleteRequest $request, Mission $mission)
+    {
+        $relatedParticipationsCount = Participation::where('mission_id',$mission->id)->count();
+
+        if ($relatedParticipationsCount) {
+            abort('422', "Cette mission est reliée à {$relatedParticipationsCount} participation(s)");
+        }
+
+        return (string) $mission->delete();
+    }
+
     // public function restore($id)
     // {
     //     $mission = Mission::withTrashed()->findOrFail($id);
@@ -186,7 +199,7 @@ class MissionController extends Controller
             ->whereHas('user', function (Builder $query) {
                 $query->whereNull('anonymous_at');
             })
-            ->domaine($domaineId)
+            ->ofDomaine($domaineId)
             ->whereDoesntHave('participations', function (Builder $query) use ($mission) {
                 $query->where('mission_id', $mission->id);
             });

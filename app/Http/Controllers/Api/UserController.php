@@ -49,20 +49,6 @@ class UserController extends Controller
         return $user->getUnreadConversationsCount();
     }
 
-    // public function structure(Request $request)
-    // {
-    //     $profile = Profile::where('user_id', Auth::guard('api')->user()->id)->first();
-
-    //     return $profile->structures->first();
-    // }
-
-    // public function roles(Request $request)
-    // {
-    //     $user = User::where('id', Auth::guard('api')->user()->id)->first();
-
-    //     return $user->roles;
-    // }
-
     public function update(Request $request)
     {
         $user = $request->user();

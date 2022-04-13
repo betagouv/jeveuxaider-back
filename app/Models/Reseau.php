@@ -16,6 +16,7 @@ use App\Models\Media as ModelMedia;
 use App\Traits\HasMissingFields;
 use Spatie\Activitylog\LogOptions;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Builder;
 
 class Reseau extends Model implements HasMedia
 {
@@ -113,7 +114,7 @@ class Reseau extends Model implements HasMedia
         $this->structures()->attach($structure->id);
 
         // UPDATE LOG
-        Activity::where('subject_type', 'App\Models\Structure')
+        ActivityLog::where('subject_type', 'App\Models\Structure')
             ->where('subject_id', $structure->id)
             ->where('description', 'created')
             ->update(
@@ -136,16 +137,6 @@ class Reseau extends Model implements HasMedia
     {
         return $this->morphToMany(Domaine::class, 'domainable')->wherePivot('field', 'reseau_domaines');
     }
-
-    // public function getDomainesAttribute()
-    // {
-    //     return $this->tagsWithType('domaine')->values();
-    // }
-
-    // public function getDomainesWithImageAttribute()
-    // {
-    //     return Tag::whereIn('id', $this->tagsWithType('domaine')->pluck('id'))->get()->toArray();
-    // }
 
     public function getFullAddressAttribute()
     {
@@ -220,5 +211,18 @@ class Reseau extends Model implements HasMedia
         return Attribute::make(
             get: fn ($value) => strip_tags($value),
         );
+    }
+
+    public function scopeOfDomaine($query, $domain_id)
+    {
+        return $query
+            ->whereHas('domaines', function (Builder $query) use ($domain_id) {
+                $query->where('id',$domain_id);
+            });
+    }
+
+    public function getPlacesLeftAttribute()
+    {
+        return Mission::available()->ofReseau($this->id)->sum('places_left');
     }
 }

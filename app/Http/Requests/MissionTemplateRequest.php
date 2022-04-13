@@ -20,6 +20,7 @@ class MissionTemplateRequest extends FormRequest
             'objectif' => 'required',
             'domaine_id' => 'required',
             'reseau_id' => '',
+            'activity_id' => '',
             'published' => 'boolean',
             'priority' => 'boolean',
             'state' => ''

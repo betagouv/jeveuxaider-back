@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Filters\FiltersReseauSearch;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\ReseauUpdateRequest;
-use App\Http\Requests\Api\ReseauUploadRequest;
 use App\Http\Requests\ReseauRequest;
+use App\Models\Invitation;
 use App\Models\Profile;
 use App\Models\Reseau;
 use App\Models\Structure;
@@ -15,24 +15,28 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
-use App\Models\Tag;
-use Illuminate\Support\Str;
 
 class ReseauController extends Controller
 {
 
     public function index(Request $request)
     {
-        return QueryBuilder::for(Reseau::withCount(['structures', 'missionTemplates', 'missions']))
+        $results = QueryBuilder::for(Reseau::class)
             ->allowedFilters([
                 AllowedFilter::custom('search', new FiltersReseauSearch),
                 AllowedFilter::exact('is_published'),
                 AllowedFilter::exact('id'),
                 'name',
             ])
-            ->allowedIncludes(['illustrations', 'overrideImage1'])
+            ->allowedIncludes(['illustrations', 'overrideImage1','missions','structures'])
             ->defaultSort('-created_at')
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
+
+            if($request->has('append')){
+                $results->append($request->input('append'));
+            }
+
+        return $results;
     }
 
     public function show($slugOrId)
@@ -129,13 +133,6 @@ class ReseauController extends Controller
         return true;
     }
 
-    public function delete(Request $request, Reseau $reseau)
-    {
-        $this->authorize('update', $reseau);
-
-        return (string) $reseau->delete();
-    }
-
     public function responsables(Request $request, Reseau $reseau)
     {
         return $reseau->responsables()->orderBy('id')->get();
@@ -159,5 +156,31 @@ class ReseauController extends Controller
             ->where('statut_juridique', 'Association')
             ->orderByRaw('UPPER(structures.city)') // Bypass case insensitive collation (PostgreSQL)
             ->get();
+    }
+
+    public function delete(Request $request, Reseau $reseau)
+    {
+
+        $relatedStructuresCount = Structure::ofReseau($reseau->id)->count();
+        $relatedInvitationsCount = Invitation::ofReseau($reseau->id)->count();
+        $relatedInvitationsAntennesCount = Invitation::ofReseauAndRoleAntenne($reseau->id)->count();
+
+        if ($relatedStructuresCount) {
+            abort('422', "Ce réseau est relié à {$relatedStructuresCount} antenne(s)");
+        }
+
+        if ($relatedInvitationsCount) {
+            abort('422', "Ce réseau est relié à {$relatedInvitationsCount} invitation(s) de responsable");
+        }
+
+        if ($relatedInvitationsAntennesCount) {
+            abort('422', "Ce réseau est relié à {$relatedInvitationsAntennesCount} invitation(s) d'antenne");
+        }
+
+        $reseau->responsables->map(function ($responsable) use ($reseau) {
+            $reseau->deleteResponsable($responsable);
+        });
+
+        return (string) $reseau->delete();
     }
 }
