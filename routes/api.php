@@ -192,6 +192,9 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     // SNU
     Route::get('user/snu-actions', 'Api\ActionController@snuWaitingActions');
 
+    // RESEAUX
+    Route::put('reseaux/{reseau}', 'Api\ReseauController@update');
+    Route::delete('reseaux/{reseau}/responsables/{responsable}', 'Api\ReseauController@deleteResponsable');
 });
 
 // ONLY ADMIN
@@ -222,8 +225,6 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
 
     // RESEAUX
     Route::post('reseaux', 'Api\ReseauController@store');
-    Route::put('reseaux/{reseau}', 'Api\ReseauController@update');
-    Route::delete('reseaux/{reseau}/responsables/{responsable}', 'Api\ReseauController@deleteResponsable');
 
     // EXPORTS
     Route::get('export/territoires', 'Api\ExportController@territoires');

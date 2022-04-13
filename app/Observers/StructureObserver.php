@@ -17,6 +17,8 @@ use App\Notifications\StructureValidated;
 use App\Services\ApiEngagement;
 use Illuminate\Support\Facades\Auth;
 use App\Notifications\StructureBeingProcessed;
+use App\Jobs\AirtableDeleteObject;
+use App\Jobs\AirtableSyncObject;
 
 class StructureObserver
 {
@@ -71,8 +73,14 @@ class StructureObserver
             }
         }
 
+        // Sync Sendinblue
         if (config('services.sendinblue.sync')) {
             SendinblueSyncUser::dispatch($structure->user);
+        }
+
+        // Sync Airtable
+        if (config('services.airtable.sync')) {
+            AirtableSyncObject::dispatch($structure);
         }
     }
 
@@ -191,6 +199,16 @@ class StructureObserver
         if ($structure->canBeSendToApiEngagement()) {
             (new ApiEngagement())->syncAssociation($structure);
         }
+
+        // Sync Airtable
+        if (config('services.airtable.sync')) {
+            if(in_array($structure->state, ['En attente de validation', 'En cours de traitement', 'Validée'])) {
+                AirtableSyncObject::dispatch($structure);
+            }
+            else {
+                AirtableDeleteObject::dispatch($structure);
+            }
+        }
     }
 
     public function saving(Structure $structure)
@@ -207,5 +225,10 @@ class StructureObserver
         $structure->responsables->map(function ($responsable) use ($structure) {
             $structure->deleteMember($responsable);
         });
+
+        // Sync Airtable
+        if (config('services.airtable.sync')) {
+            AirtableDeleteObject::dispatch($structure);
+        }
     }
 }

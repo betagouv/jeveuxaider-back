@@ -51,9 +51,9 @@ class Sendinblue
     public static function sync(User $user, $withSMS = true)
     {
         if ($withSMS) {
-            ray('WITH MOBILE : Sendinblue sync user ' . $user->email . ' '.$user->profile->mobile);
+            // ray('WITH MOBILE : Sendinblue sync user ' . $user->email . ' '.$user->profile->mobile);
         } else {
-            ray('WITHOUT MOBILE : Sendinblue sync user ' . $user->email);
+            // ray('WITHOUT MOBILE : Sendinblue sync user ' . $user->email);
         }
 
         $response = self::updateContact($user, $withSMS);
