@@ -172,6 +172,8 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::post('mission-templates', 'Api\MissionTemplateController@store');
     Route::put('mission-templates/{missionTemplate}', 'Api\MissionTemplateController@update');
     Route::get('mission-templates/{missionTemplate}/statistics', 'Api\MissionTemplateController@statistics');
+    Route::delete('mission-templates/{missionTemplate}', 'Api\MissionTemplateController@delete');
+
 
     // ACTIVITY LOGS
     Route::get('activity-logs', 'Api\ActivityLogController@index');

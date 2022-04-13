@@ -78,6 +78,15 @@ class MissionTemplateController extends Controller
 
     public function delete(Request $request, MissionTemplate $missionTemplate)
     {
+
+        $this->authorize('delete', $missionTemplate);
+
+        $relatedMissionsCount = Mission::ofTemplate($missionTemplate->id)->count();
+
+        if ($relatedMissionsCount) {
+            abort('422', "Ce modèle est relié à {$relatedMissionsCount} mission(s)");
+        }
+
         return (string) $missionTemplate->delete();
     }
 }
