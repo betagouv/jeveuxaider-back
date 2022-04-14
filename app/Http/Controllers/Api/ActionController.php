@@ -43,7 +43,7 @@ class ActionController extends Controller
             case 'responsable':
                 $actions[] = [
                     'type' => 'mission_new',
-                    'value' => Mission::role($request->header('Context-Role'))->count() ? false : true,
+                    'value' => Structure::role($request->header('Context-Role'))->where('state', 'Validée')->count() && !Mission::role($request->header('Context-Role'))->count() ? true : false,
                 ];
                 $actions[] = [
                     'type' => 'messages_unread',
@@ -65,7 +65,7 @@ class ActionController extends Controller
                     $structure = Structure::find($user->contextable_id);
                     if($structure){
                         $actions[] = [
-                            'type' => 'organisation_incomplete',
+                            'type' => $structure->state == 'Brouillon' ? 'organisation_brouillon_incomplete' : 'organisation_incomplete',
                             'value' => $structure->missing_fields,
                         ];
                     }
