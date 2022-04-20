@@ -18,6 +18,9 @@ class FiltersMissionSearch implements Filter
                     $value = implode(',', $value);
                 }
                 $query->where('name', 'ILIKE', '%' . $value . '%')
+                    ->orWhereHas('template', function (Builder $query) use ($value) {
+                        $query->where('title', 'ILIKE', '%' . $value . '%');
+                    })
                     ->orWhereHas('structure', function (Builder $query) use ($value) {
                         $query->where('name', 'ILIKE', '%' . $value . '%');
                     });
