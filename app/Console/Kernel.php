@@ -8,6 +8,7 @@ use App\Console\Commands\SendNotificationTodoToResponsables;
 use App\Console\Commands\SendNotificationsMissionOutdated;
 use App\Console\Commands\SendNotificationsMissionInDraft;
 use App\Console\Commands\SendNotificationsNoNewMission;
+use App\Console\Commands\SendNotificationsStructureInDraft;
 use App\Console\Commands\SyncApiEngagement;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -41,7 +42,7 @@ class Kernel extends ConsoleKernel
         $schedule->command(SendNotificationsMissionOutdated::class)->weekdays()->daily()->at('08:30');
         $schedule->command(SendNotificationsMissionInDraft::class)->weekdays()->daily()->at('08:40');
         $schedule->command(SendNotificationsNoNewMission::class)->weekdays()->daily()->at('08:50');
-        $schedule->command(SendNotificationsStructureInDraft::class)->daily()->at('09:10');
+        $schedule->command(SendNotificationsStructureInDraft::class)->everyMinute();
 
         // Sync ApiEngagement
         $schedule->command(SyncApiEngagement::class)->everySixHours();
