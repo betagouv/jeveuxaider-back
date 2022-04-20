@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Exports\TerritoiresExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\TerritoireUpdateRequest;
-use App\Http\Requests\Api\TerritoireDeleteRequest;
 use App\Http\Requests\TerritoireRequest;
 use App\Models\Mission;
 use App\Models\Profile;
@@ -16,7 +14,6 @@ use App\Models\Territoire;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 use App\Filters\FiltersTerritoireSearch;
-use App\Jobs\NotifyUserOfCompletedExport;
 use App\Models\Participation;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -35,6 +32,10 @@ class TerritoireController extends Controller
                 'banner',
             ])
             ->defaultSort('-created_at')
+            ->allowedSorts([
+                'created_at',
+                'updated_at',
+            ])
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
 
         if($request->has('append')){

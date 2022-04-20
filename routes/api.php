@@ -174,7 +174,6 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::get('mission-templates/{missionTemplate}/statistics', 'Api\MissionTemplateController@statistics');
     Route::delete('mission-templates/{missionTemplate}', 'Api\MissionTemplateController@delete');
 
-
     // ACTIVITY LOGS
     Route::get('activity-logs', 'Api\ActivityLogController@index');
 
@@ -197,6 +196,9 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     // ACTIVITIES
     Route::get('activities', 'Api\ActivityController@index');
 
+    // RESEAUX
+    Route::put('reseaux/{reseau}', 'Api\ReseauController@update');
+    Route::delete('reseaux/{reseau}/responsables/{responsable}', 'Api\ReseauController@deleteResponsable');
 });
 
 // ONLY ADMIN
@@ -228,8 +230,6 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
 
     // RESEAUX
     Route::post('reseaux', 'Api\ReseauController@store');
-    Route::put('reseaux/{reseau}', 'Api\ReseauController@update');
-    Route::delete('reseaux/{reseau}/responsables/{responsable}', 'Api\ReseauController@deleteResponsable');
     Route::delete('reseaux/{reseau}', 'Api\ReseauController@delete');
 
     // EXPORTS
@@ -254,5 +254,4 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
 
     // TERRITOIRES
     Route::delete('territoires/{territoire}', 'Api\TerritoireController@delete');
-
 });

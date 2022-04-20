@@ -163,6 +163,11 @@ class Reseau extends Model implements HasMedia
         return $this->morphOne(ModelMedia::class, 'model')->where('collection_name', 'reseau__override_image_2');
     }
 
+    public function illustrationsAntennes()
+    {
+        return $this->morphMany(ModelMedia::class, 'model')->where('collection_name', 'reseau__illustrations_antennes');
+    }
+
     public function registerMediaConversions(Media $media = null): void
     {
         // Logo
@@ -191,7 +196,7 @@ class Reseau extends Model implements HasMedia
             ->nonQueued()
             ->withResponsiveImages()
             ->format(Manipulations::FORMAT_WEBP)
-            ->performOnCollections('reseau__override_image_1', 'reseau__override_image_2');
+            ->performOnCollections('reseau__override_image_1', 'reseau__override_image_2', 'reseau__illustrations_antennes');
     }
 
     public function getFullUrlAttribute()

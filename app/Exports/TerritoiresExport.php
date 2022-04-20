@@ -27,7 +27,11 @@ class TerritoiresExport implements FromQuery, WithMapping, WithHeadings
                 AllowedFilter::exact('is_published'),
                 AllowedFilter::custom('search', new FiltersTerritoireSearch),
             ])
-            ->defaultSort('-created_at');
+            ->defaultSort('-created_at')
+            ->allowedSorts([
+                'created_at',
+                'updated_at',
+            ]);
     }
 
     public function headings(): array

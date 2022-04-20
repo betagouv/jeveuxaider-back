@@ -17,6 +17,8 @@ use App\Notifications\StructureValidated;
 use App\Services\ApiEngagement;
 use Illuminate\Support\Facades\Auth;
 use App\Notifications\StructureBeingProcessed;
+use App\Jobs\AirtableDeleteObject;
+use App\Jobs\AirtableSyncObject;
 
 class StructureObserver
 {
@@ -36,20 +38,7 @@ class StructureObserver
         // }
 
         if ($structure->user->profile) {
-            $notification = new RegisterUserResponsable($structure);
-            $structure->user->notify($notification);
-        }
-
-        if ($structure->user->profile) {
             $structure->members()->attach($structure->user->profile, ['role' => 'responsable']);
-        }
-
-        if ($structure->state == 'En attente de validation') {
-            if ($structure->department) {
-                Profile::where('referent_department', $structure->department)->get()->map(function ($profile) use ($structure) {
-                    $profile->notify(new StructureSubmitted($structure));
-                });
-            }
         }
 
         // COLLECTIVITE
@@ -71,8 +60,14 @@ class StructureObserver
             }
         }
 
+        // Sync Sendinblue
         if (config('services.sendinblue.sync')) {
             SendinblueSyncUser::dispatch($structure->user);
+        }
+
+        // Sync Airtable
+        if (config('services.airtable.sync')) {
+            AirtableSyncObject::dispatch($structure);
         }
     }
 
@@ -87,6 +82,22 @@ class StructureObserver
 
         if ($oldState != $newState) {
             switch ($newState) {
+                case 'En attente de validation':
+                    if ($structure->user->profile) {
+                        $notification = new RegisterUserResponsable($structure);
+                        $structure->user->notify($notification);
+                    }
+                    if ($structure->department) {
+                        Profile::where('referent_department', $structure->department)->get()->map(function ($profile) use ($structure) {
+                            $profile->notify(new StructureSubmitted($structure));
+                        });
+                    }
+                    break;
+                case 'En cours de traitement':
+                    if ($responsable) {
+                        $responsable->notify(new StructureBeingProcessed($structure));
+                    }
+                    break;
                 case 'Validée':
                     if ($responsable) {
                         $responsable->notify(new StructureValidated($structure));
@@ -153,11 +164,6 @@ class StructureObserver
                         $structure->missions->unsearchable();
                     }
                     break;
-                case 'En cours de traitement':
-                    if ($responsable) {
-                        $responsable->notify(new StructureBeingProcessed($structure));
-                    }
-                    break;
             }
         }
 
@@ -191,11 +197,26 @@ class StructureObserver
         if ($structure->canBeSendToApiEngagement()) {
             (new ApiEngagement())->syncAssociation($structure);
         }
+
+        // Sync Airtable
+        if (config('services.airtable.sync')) {
+            if(in_array($structure->state, ['En attente de validation', 'En cours de traitement', 'Validée'])) {
+                AirtableSyncObject::dispatch($structure);
+            }
+            else {
+                AirtableDeleteObject::dispatch($structure);
+            }
+        }
     }
 
     public function saving(Structure $structure)
     {
-        //
+        // On passe automatiquement la structure en Attente de validation si elle a remplit les champs obligatoires
+        if($structure->state == 'Brouillon') {
+            if(!empty($structure->description) && !empty($structure->address)) {
+                $structure->state = 'En attente de validation';
+            }
+        }
     }
 
     public function deleted(Structure $structure)
@@ -207,5 +228,10 @@ class StructureObserver
         $structure->responsables->map(function ($responsable) use ($structure) {
             $structure->deleteMember($responsable);
         });
+
+        // Sync Airtable
+        if (config('services.airtable.sync')) {
+            AirtableDeleteObject::dispatch($structure);
+        }
     }
 }

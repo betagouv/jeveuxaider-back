@@ -46,6 +46,7 @@ use App\Notifications\ResponsableDailyTodo;
 use App\Notifications\StructureAssociationValidated;
 use App\Notifications\StructureBeingProcessed;
 use App\Notifications\StructureCollectivityValidated;
+use App\Notifications\StructureInDraft;
 use App\Notifications\StructureSignaled;
 use App\Notifications\StructureSubmitted;
 use App\Notifications\StructureValidated;
@@ -67,6 +68,9 @@ class NotificationController extends Controller
             case 'responsable_register':
                 $notification = new RegisterUserResponsable($structure);
                 break;
+            case 'responsable_still_in_draft':
+                    $notification = new StructureInDraft($structure, 'j+1');
+                    break;
             case 'responsable_participation_created':
                 $notification = new ParticipationWaitingValidation($participation);
                 break;

@@ -49,6 +49,8 @@ class ParticipationController extends Controller
             ->allowedIncludes([
                 'conversation.latestMessage',
                 'profile.avatar',
+                'mission.responsable',
+                'mission.structure'
             ])
             ->defaultSort('-created_at')
             ->paginate(config('query-builder.results_per_page'));
