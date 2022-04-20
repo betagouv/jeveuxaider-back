@@ -28,13 +28,20 @@ class ParticipationsExport implements FromQuery, WithMapping, WithHeadings
         return QueryBuilder::for(Participation::role($this->request->header('Context-Role'))->with(['profile', 'mission']))
             ->allowedFilters(
                 AllowedFilter::custom('search', new FiltersParticipationSearch),
-                AllowedFilter::exact('mission_id'),
+                AllowedFilter::exact('mission.id'),
+                AllowedFilter::exact('mission.name'),
                 AllowedFilter::exact('mission.department'),
+                AllowedFilter::exact('mission.structure.name'),
+                AllowedFilter::exact('mission.structure.id'),
+                AllowedFilter::exact('mission.template.id'),
+                AllowedFilter::exact('profile.id'),
                 AllowedFilter::scope('ofReseau'),
+                AllowedFilter::scope('ofTerritoire'),
+                AllowedFilter::scope('ofActivity'),
+                AllowedFilter::scope('ofDomaine'),
                 'state',
                 'mission.zip',
                 'mission.type',
-                'mission.structure.name'
             )
             ->defaultSort('-created_at');
     }

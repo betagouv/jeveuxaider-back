@@ -13,9 +13,8 @@ class DomaineDeleteRequest extends DomaineRequest
      */
     public function authorize()
     {
-        return $this->user()->can('delete', request()->route('domaine'));
+        return $this->user()->isAdmin();
     }
-
 
     /**
      * Get the validation rules that apply to the request.

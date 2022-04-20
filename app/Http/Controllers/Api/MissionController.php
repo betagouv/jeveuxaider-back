@@ -22,6 +22,7 @@ use App\Filters\FiltersProfileTag;
 use App\Filters\FiltersProfileZips;
 use App\Http\Requests\Api\MissionDeleteRequest;
 use App\Models\NotificationTemoignage;
+use App\Models\Participation;
 use App\Models\Profile;
 use App\Models\Structure;
 use App\Models\Tag;
@@ -61,8 +62,9 @@ class MissionController extends Controller
                 AllowedFilter::exact('structure.reseaux.id'),
                 AllowedFilter::exact('structure.reseaux.name'),
                 AllowedFilter::exact('is_snu_mig_compatible'),
-                AllowedFilter::scope('domaine'),
+                AllowedFilter::scope('ofDomaine'),
                 AllowedFilter::scope('ofTerritoire'),
+                AllowedFilter::scope('ofActivity'),
                 AllowedFilter::custom('place', new FiltersMissionPlacesLeft),
                 AllowedFilter::custom('publics_volontaires', new FiltersMissionPublicsVolontaires),
                 AllowedFilter::custom('search', new FiltersMissionSearch),
@@ -132,24 +134,16 @@ class MissionController extends Controller
         return $mission;
     }
 
-    // public function delete(MissionDeleteRequest $request, Mission $mission)
-    // {
-    //     return (string) $mission->delete();
-    // }
+    public function delete(MissionDeleteRequest $request, Mission $mission)
+    {
+        $relatedParticipationsCount = Participation::where('mission_id',$mission->id)->count();
 
-    // public function restore($id)
-    // {
-    //     $mission = Mission::withTrashed()->findOrFail($id);
-    //     $this->authorize('restore', $mission);
-    //     return (string) $mission->restore();
-    // }
+        if ($relatedParticipationsCount) {
+            abort('422', "Cette mission est reliée à {$relatedParticipationsCount} participation(s)");
+        }
 
-    // public function destroy($id)
-    // {
-    //     $mission = Mission::withTrashed()->findOrFail($id);
-    //     $this->authorize('destroy', $mission);
-    //     return (string) $mission->forceDelete();
-    // }
+        return (string) $mission->delete();
+    }
 
     public function duplicate(MissionDuplicateRequest $request, Mission $mission)
     {
@@ -169,11 +163,6 @@ class MissionController extends Controller
         return $new;
     }
 
-    // public function structure(MissionStructureRequest $request, Mission $mission)
-    // {
-    //     return Structure::with('members')->withCount('missions', 'participations', 'waitingParticipations')->where('id', $mission->structure_id)->first();
-    // }
-
     public function benevoles(Request $request, Mission $mission)
     {
         if ($request->header('Context-Role') !== 'admin' && (!$mission->has_places_left || $mission->state != 'Validée' || $mission->structure->state != 'Validée')) {
@@ -186,7 +175,7 @@ class MissionController extends Controller
             ->whereHas('user', function (Builder $query) {
                 $query->whereNull('anonymous_at');
             })
-            ->domaine($domaineId)
+            ->ofDomaine($domaineId)
             ->whereDoesntHave('participations', function (Builder $query) use ($mission) {
                 $query->where('mission_id', $mission->id);
             });
@@ -214,11 +203,6 @@ class MissionController extends Controller
             ->paginate(config('query-builder.results_per_page'));
     }
 
-    // public function responsable(MissionStructureRequest $request, Mission $mission)
-    // {
-    //     return $mission->responsable;
-    // }
-
     public function similar(Request $request, Mission $mission)
     {
         // X-sell sur le domain d'action ET la ville
@@ -235,37 +219,4 @@ class MissionController extends Controller
         return $query->paginate(10)->load('domaine', 'template', 'template.domaine', 'template.media', 'structure');
     }
 
-    // public function testimoniesStats(Request $request, Mission $mission)
-    // {
-    //     return $mission->getTestimoniesStats();
-    // }
-
-    // public function sendTestimonyNotifications(Request $request, Mission $mission)
-    // {
-    //     // Seulement pour les missions terminées.
-    //     if ($mission->state != "Terminée") {
-    //         abort(403, "La mission doit être terminée !");
-    //     }
-
-    //     $participations = $mission->participations()->where('state', 'Validée')->get();
-    //     foreach ($participations as $participation) {
-    //         // Skip if notification already exists.
-    //         if (NotificationTemoignage::where('participation_id', $participation->id)->exists()) {
-    //             continue;
-    //         }
-
-    //         do {
-    //             $token = Str::random(32);
-    //         } while (NotificationTemoignage::where('token', $token)->first());
-
-    //         $notificationTemoignage = NotificationTemoignage::create([
-    //             'token' => $token,
-    //             'participation_id' => $participation->id,
-    //             'reminders_sent' => 1,
-    //         ]);
-    //         $notificationTemoignage->participation->profile->user->notify(new NotificationTemoignageCreate($notificationTemoignage));
-    //     }
-
-    //     return $mission->getTestimoniesStats();
-    // }
 }

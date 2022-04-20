@@ -173,11 +173,11 @@ class Structure extends Model implements HasMedia
             ->whereIn('department', config('taxonomies.regions.departments')[$value]);
     }
 
-    public function scopeDomaine($query, $domain_id)
+    public function scopeOfDomaine($query, $domain_id)
     {
         return $query
             ->whereHas('missions', function (Builder $query) use ($domain_id) {
-                $query->domaine($domain_id);
+                $query->ofDomaine($domain_id);
             });
     }
 
@@ -291,15 +291,6 @@ class Structure extends Model implements HasMedia
     {
         return $this->morphToMany(Domaine::class, 'domainable')->wherePivot('field', 'structure_domaines');
     }
-
-    // public function secondariesDomainesFromMissions()
-    // {
-    //     return $this->hasManyDeep(
-    //         'App\Models\Tag',
-    //         ['App\Models\Mission', 'taggables'],
-    //         [null, ['taggable_type', 'taggable_id']]
-    //     );
-    // }
 
     public function addMember(Profile $profile, $role)
     {
@@ -432,12 +423,12 @@ class Structure extends Model implements HasMedia
 
     public function getPlacesLeftAttribute()
     {
-        return $this->missions()->available()->get()->sum('places_left');
+        return $this->missions()->available()->sum('places_left');
     }
 
     public function getPlacesOfferedAttribute()
     {
-        return $this->missions()->available()->get()->sum('participations_max');
+        return $this->missions()->available()->sum('participations_max');
     }
 
     public function canBeSendToApiEngagement()

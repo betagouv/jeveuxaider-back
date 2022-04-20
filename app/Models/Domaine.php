@@ -26,6 +26,10 @@ class Domaine extends Model implements HasMedia
         'published' => 'boolean',
     ];
 
+    protected $attributes = [
+        'published' => false,
+    ];
+
     protected $appends = ['full_url'];
 
     public function getSlugOptions(): SlugOptions
@@ -147,5 +151,10 @@ class Domaine extends Model implements HasMedia
     public function logosPartenairesActifs()
     {
         return $this->morphMany(ModelMedia::class, 'model')->where('collection_name', 'domaine__logos_partenaires_actifs');
+    }
+
+    public function getPlacesLeftAttribute()
+    {
+        return Mission::available()->ofDomaine($this->id)->sum('places_left');
     }
 }

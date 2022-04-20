@@ -13,10 +13,9 @@ use Illuminate\Support\Facades\Password;
 use App\Notifications\RegisterUserVolontaire;
 use App\Http\Requests\RegisterVolontaireRequest;
 use App\Http\Requests\RegisterResponsableWithStructureRequest;
-use App\Models\Activity;
+use App\Models\ActivityLog;
 use App\Models\SocialAccount;
 use App\Models\Structure;
-use App\Models\Territoire;
 use App\Services\ApiEngagement;
 use Illuminate\Support\Facades\Auth;
 
@@ -101,7 +100,7 @@ class PassportController extends Controller
         // }
 
         // UPDATE LOG
-        Activity::where('subject_type', 'App\Models\Structure')
+        ActivityLog::where('subject_type', 'App\Models\Structure')
             ->where('subject_id', $structure->id)
             ->where('description', 'created')
             ->update(

@@ -59,6 +59,11 @@ class MissionTemplate extends Model implements HasMedia
         return $this->belongsTo('App\Models\Domaine');
     }
 
+    public function activity()
+    {
+        return $this->belongsTo('App\Models\Activity');
+    }
+
     public function missions()
     {
         return $this->hasMany('App\Models\Mission', 'template_id');
@@ -109,5 +114,10 @@ class MissionTemplate extends Model implements HasMedia
         return Attribute::make(
             get: fn ($value) => strip_tags($value, '<p><b><strong><ul><ol><li><i>'),
         );
+    }
+
+    public function getPlacesLeftAttribute()
+    {
+        return Mission::available()->ofTemplate($this->id)->sum('places_left');
     }
 }
