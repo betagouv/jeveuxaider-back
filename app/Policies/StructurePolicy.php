@@ -54,10 +54,6 @@ class StructurePolicy
 
     public function delete(User $user, Structure $structure)
     {
-        if (in_array(request()->header('Context-Role'), ['referent','referent_regional'])) {
-            return true;
-        }
-
         return false;
     }
 

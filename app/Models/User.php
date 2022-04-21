@@ -265,8 +265,8 @@ class User extends Authenticatable
         ];
     }
 
-    public function activities()
+    public function activitiesLogs()
     {
-        return $this->morphMany('App\Models\Activity', 'causer');
+        return $this->morphMany('App\Models\ActivityLog', 'causer');
     }
 }

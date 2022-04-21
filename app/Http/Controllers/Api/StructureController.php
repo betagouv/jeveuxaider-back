@@ -13,6 +13,7 @@ use App\Http\Requests\Api\MissionCreateRequest;
 use Spatie\QueryBuilder\AllowedFilter;
 use Illuminate\Support\Facades\Auth;
 use App\Filters\FiltersStructureSearch;
+use App\Http\Requests\Api\StructureDeleteRequest;
 use App\Http\Requests\StructureRequest;
 use App\Jobs\NotifyUserOfCompletedExport;
 use App\Models\Mission;
@@ -259,5 +260,20 @@ class StructureController extends Controller
             'structure_name' => $structure->name,
             'responsable_fullname' => $structure->responsables->first() ? $structure->responsables->first()->full_name : null
         ];
+    }
+
+    public function delete(StructureDeleteRequest $request, Structure $structure)
+    {
+        $relatedMissionsCount = Mission::where('structure_id', $structure->id)->count();
+
+        if ($relatedMissionsCount) {
+            abort('422', "Cette organisation est reliée à {$relatedMissionsCount} mission(s)");
+        }
+
+        $structure->responsables->map(function ($responsable) use ($structure) {
+            $structure->deleteMember($responsable);
+        });
+
+        return (string) $structure->delete();
     }
 }
