@@ -182,7 +182,7 @@ class StructureController extends Controller
             abort(403, "Vous n'avez pas les droits nécéssaires pour réaliser cette action");
         }
 
-        return Participation::ofStructure($structure->id)->where('state', 'En attente de validation')->count();
+        return Participation::ofStructure($structure->id)->ofResponsable(Auth::guard('api')->user()->profile->id)->where('state', 'En attente de validation')->count();
     }
 
     public function validateWaitingParticipations(Structure $structure)
@@ -191,7 +191,7 @@ class StructureController extends Controller
             abort(403, "Vous n'avez pas les droits nécéssaires pour réaliser cette action");
         }
 
-        Participation::with(['profile', 'mission', 'mission.structure', 'conversation'])->role('responsable')->where('state', 'En attente de validation')->chunk(50, function ($collection) {
+        Participation::with(['profile', 'mission', 'mission.structure', 'conversation'])->role('responsable')->ofResponsable(Auth::guard('api')->user()->profile->id)->where('state', 'En attente de validation')->chunk(50, function ($collection) {
             $collection->map(function ($participation) {
                 $participation->update(['state' => 'Validée']);
             });
@@ -275,5 +275,10 @@ class StructureController extends Controller
         });
 
         return (string) $structure->delete();
+    }
+
+    public function responsables(Request $request, Structure $structure)
+    {
+        return $structure->responsables()->get();
     }
 }

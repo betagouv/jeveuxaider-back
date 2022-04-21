@@ -39,6 +39,7 @@ class ParticipationsExport implements FromQuery, WithMapping, WithHeadings
                 AllowedFilter::scope('ofTerritoire'),
                 AllowedFilter::scope('ofActivity'),
                 AllowedFilter::scope('ofDomaine'),
+                AllowedFilter::scope('ofResponsable'),
                 'state',
                 'mission.zip',
                 'mission.type',

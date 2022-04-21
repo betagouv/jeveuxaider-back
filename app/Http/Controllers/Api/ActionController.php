@@ -51,11 +51,11 @@ class ActionController extends Controller
                 ];
                 $actions[] = [
                     'type' => 'participations_waiting_validation',
-                    'value' => Participation::role($request->header('Context-Role'))->where('state', 'En attente de validation')->count(),
+                    'value' => Participation::role($request->header('Context-Role'))->ofResponsable($user->profile->id)->where('state', 'En attente de validation')->count(),
                 ];
                 $actions[] = [
                     'type' => 'participations_in_progress',
-                    'value' => Participation::role($request->header('Context-Role'))->where('state', 'En cours de traitement')->count(),
+                    'value' => Participation::role($request->header('Context-Role'))->ofResponsable($user->profile->id)->where('state', 'En cours de traitement')->count(),
                 ];
                 $actions[] = [
                     'type' => 'missions_outdated',

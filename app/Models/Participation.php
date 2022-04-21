@@ -120,6 +120,14 @@ class Participation extends Model
             });
     }
 
+    public function scopeOfResponsable($query, $value)
+    {
+        return $query
+            ->whereHas('mission', function (Builder $query) use ($value) {
+                $query->where('responsable_id', $value);
+            });
+    }
+
     public function scopeOfDomaine($query, $domain_id)
     {
         return $query

@@ -8,6 +8,7 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use App\Models\Media as ModelMedia;
+use App\Traits\HasMissingFields;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use Spatie\Image\Manipulations;
@@ -15,7 +16,7 @@ use Spatie\Activitylog\LogOptions;
 
 class Activity extends Model implements HasMedia
 {
-    use InteractsWithMedia, LogsActivity, HasSlug;
+    use InteractsWithMedia, LogsActivity, HasSlug, HasMissingFields;
 
     protected $table = 'activities';
 
@@ -27,6 +28,8 @@ class Activity extends Model implements HasMedia
         'is_published' => 'boolean',
         'seo_engage_paragraphs' => 'json',
     ];
+
+    protected $checkFields = ['banner', 'seo_recruit_title', 'seo_recruit_description', 'seo_engage_title', 'seo_engage_paragraphs'];
 
     protected $appends = ['full_url'];
 
