@@ -16,6 +16,7 @@ use App\Filters\FiltersDisponibility;
 use App\Filters\FiltersMissionSearch;
 use App\Filters\FiltersMissionIsTemplate;
 use App\Filters\FiltersMissionPlacesLeft;
+use App\Filters\FiltersMissionPriorityAvailable;
 use App\Filters\FiltersMissionPublicsVolontaires;
 use App\Filters\FiltersProfileSkill;
 use App\Filters\FiltersProfileTag;
@@ -40,6 +41,7 @@ class MissionController extends Controller
             ->with(['domaine', 'template', 'template.domaine', 'template.photo', 'illustrations', 'structure'])
             ->allowedFilters([
                 AllowedFilter::custom('search', new FiltersMissionSearch),
+                AllowedFilter::custom('available', new FiltersMissionPriorityAvailable),
             ])
             ->defaultSort('-created_at')
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
