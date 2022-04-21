@@ -220,7 +220,7 @@ class Mission extends Model
     public function getPictureAttribute()
     {
 
-        if($this->template_id){
+        if ($this->template_id) {
             return $this->template->photo->urls;
         }
 
@@ -561,7 +561,8 @@ class Mission extends Model
         );
     }
 
-    public function format() {
+    public function format()
+    {
         $domaine = $this->template_id ? $this->template->domaine : $this->domaine;
         return [
             'id' => $this->id,
