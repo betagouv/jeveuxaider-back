@@ -40,6 +40,10 @@ class ActionController extends Controller
                     'value' => Mission::where('state', 'En cours de traitement')->count(),
                 ];
                 $actions[] = [
+                    'type' => 'missions_outdated',
+                    'value' => Mission::where('end_date', '<', Carbon::now())->where('state', 'Validée')->count(),
+                ];
+                $actions[] = [
                     'type' => 'mission_template_waiting_validation',
                     'value' => MissionTemplate::where('state', 'waiting')->count(),
                 ];
