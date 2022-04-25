@@ -28,8 +28,16 @@ class ActionController extends Controller
                     'value' => Structure::where('state', 'En attente de validation')->count()
                 ];
                 $actions[] = [
+                    'type' => 'organisations_in_progress',
+                    'value' => Structure::where('state', 'En cours de traitement')->count()
+                ];
+                $actions[] = [
                     'type' => 'missions_waiting_validation',
                     'value' => Mission::where('state', 'En attente de validation')->count(),
+                ];
+                $actions[] = [
+                    'type' => 'missions_in_progress',
+                    'value' => Mission::where('state', 'En cours de traitement')->count(),
                 ];
                 $actions[] = [
                     'type' => 'mission_template_waiting_validation',
@@ -61,9 +69,9 @@ class ActionController extends Controller
                     'type' => 'missions_outdated',
                     'value' => Mission::role($request->header('Context-Role'))->where('end_date', '<', Carbon::now())->where('state', 'Validée')->count(),
                 ];
-                if($user->contextable_id){
+                if ($user->contextable_id) {
                     $structure = Structure::find($user->contextable_id);
-                    if($structure){
+                    if ($structure) {
                         $actions[] = [
                             'type' => $structure->state == 'Brouillon' ? 'organisation_brouillon_incomplete' : 'organisation_incomplete',
                             'value' => $structure->missing_fields,
@@ -96,8 +104,16 @@ class ActionController extends Controller
                     'value' => Structure::role($request->header('Context-Role'))->where('state', 'En attente de validation')->count()
                 ];
                 $actions[] = [
+                    'type' => 'organisations_in_progress',
+                    'value' => Structure::role($request->header('Context-Role'))->where('state', 'En cours de traitement')->count()
+                ];
+                $actions[] = [
                     'type' => 'missions_waiting_validation',
                     'value' => Mission::role($request->header('Context-Role'))->where('state', 'En attente de validation')->count(),
+                ];
+                $actions[] = [
+                    'type' => 'missions_in_progress',
+                    'value' => Mission::role($request->header('Context-Role'))->where('state', 'En cours de traitement')->count(),
                 ];
                 break;
         }
@@ -114,7 +130,7 @@ class ActionController extends Controller
             'type' => 'messages_unread',
             'value' => $user->getUnreadConversationsCount()
         ];
-        if($user->context_role == 'volontaire'){
+        if ($user->context_role == 'volontaire') {
             $actions[] = [
                 'type' => 'profile_incomplete',
                 'value' => $user->profile->missing_fields,
@@ -135,56 +151,56 @@ class ActionController extends Controller
         $snuService = new Snu();
         $email = $user->email;
 
-        if(!$settings->snu_mig_active) {
+        if (!$settings->snu_mig_active) {
             return;
         }
 
         $items = $snuService->getWaitingActionsFromEmail($email);
 
-        if($items){
-            if(isset($items['waitingValidation'])){
+        if ($items) {
+            if (isset($items['waitingValidation'])) {
                 $actions[] = [
                     'type' => 'snu_application_waiting_validation',
                     'value' => $items['waitingValidation'],
                     'href' => config('app.snu_api_url') . '/jeveuxaider/signin?email=' . $email . '&token=' . config('app.snu_api_token'),
                 ];
             }
-            if(isset($items['applicationWaitingValidation'])){
+            if (isset($items['applicationWaitingValidation'])) {
                 $actions[] = [
                     'type' => 'snu_application_waiting_validation',
                     'value' => $items['applicationWaitingValidation'],
                     'href' => config('app.snu_api_url') . '/jeveuxaider/signin?email=' . $email . '&token=' . config('app.snu_api_token'),
                 ];
             }
-            if(isset($items['contractToBeSigned'])){
+            if (isset($items['contractToBeSigned'])) {
                 $actions[] = [
                     'type' => 'snu_contract_to_be_signed',
                     'value' => $items['contractToBeSigned'],
                     'href' => config('app.snu_api_url') . '/jeveuxaider/signin?email=' . $email . '&token=' . config('app.snu_api_token'),
                 ];
             }
-            if(isset($items['contractToBeFilled'])){
+            if (isset($items['contractToBeFilled'])) {
                 $actions[] = [
                     'type' => 'snu_contract_to_be_filled',
                     'value' => $items['contractToBeFilled'],
                     'href' => config('app.snu_api_url') . '/jeveuxaider/signin?email=' . $email . '&token=' . config('app.snu_api_token'),
                 ];
             }
-            if(isset($items['missionWaitingCorrection'])){
+            if (isset($items['missionWaitingCorrection'])) {
                 $actions[] = [
                     'type' => 'snu_mission_waiting_correction',
                     'value' => $items['missionWaitingCorrection'],
                     'href' => config('app.snu_api_url') . '/jeveuxaider/signin?email=' . $email . '&token=' . config('app.snu_api_token'),
                 ];
             }
-            if(isset($items['missionInProgress'])){
+            if (isset($items['missionInProgress'])) {
                 $actions[] = [
                     'type' => 'snu_mission_in_progress',
                     'value' => $items['missionInProgress'],
                     'href' => config('app.snu_api_url') . '/jeveuxaider/signin?email=' . $email . '&token=' . config('app.snu_api_token'),
                 ];
             }
-            if(isset($items['volunteerToHost'])){
+            if (isset($items['volunteerToHost'])) {
                 $actions[] = [
                     'type' => 'snu_volunteer_to_host',
                     'value' => $items['volunteerToHost'],
@@ -195,5 +211,4 @@ class ActionController extends Controller
 
         return $actions;
     }
-
 }
