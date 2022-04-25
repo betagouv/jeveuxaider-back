@@ -53,7 +53,7 @@ class InvitationController extends Controller
     {
 
         if ($request->input('email') == $request->user()->email) {
-            if(!$request->user()->is_admin){
+            if (!$request->user()->is_admin) {
                 abort(422, "Vous ne pouvez pas vous inviter vous-même");
             }
         }
