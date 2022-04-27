@@ -21,7 +21,7 @@ use Spatie\QueryBuilder\AllowedFilter;
 
 class InvitationController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         return QueryBuilder::for(Invitation::class)
             ->allowedFilters(
@@ -33,7 +33,7 @@ class InvitationController extends Controller
                 // AllowedFilter::custom('search', new FiltersInvitationSearch),
             )
             ->defaultSort('-created_at')
-            ->paginate(20);
+            ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
     }
 
     public function show(Request $request, String $token)
