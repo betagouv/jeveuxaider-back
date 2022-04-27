@@ -22,6 +22,7 @@ class DomaineController extends Controller
     {
         $results = QueryBuilder::for(Domaine::class)
             ->allowedFilters([
+                AllowedFilter::exact('published'),
                 AllowedFilter::custom('search', new FiltersDomaineSearch),
             ])
             ->allowedIncludes([
@@ -31,9 +32,9 @@ class DomaineController extends Controller
             ->defaultSort('name')
             ->paginate(config('query-builder.results_per_page'));
 
-            if($request->has('append')){
-                $results->append($request->input('append'));
-            }
+        if ($request->has('append')) {
+            $results->append($request->input('append'));
+        }
 
         return $results;
     }

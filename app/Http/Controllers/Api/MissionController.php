@@ -50,6 +50,7 @@ class MissionController extends Controller
 
     public function index(Request $request)
     {
+
         $result = QueryBuilder::for(Mission::role($request->header('Context-Role')))
             ->with(['domaine', 'template', 'template.domaine', 'structure'])
             ->allowedFilters([
@@ -68,6 +69,8 @@ class MissionController extends Controller
                 AllowedFilter::scope('ofDomaine'),
                 AllowedFilter::scope('ofTerritoire'),
                 AllowedFilter::scope('ofActivity'),
+                AllowedFilter::scope('hasActivity'),
+                AllowedFilter::scope('hasTemplate'),
                 AllowedFilter::custom('place', new FiltersMissionPlacesLeft),
                 AllowedFilter::custom('date', new FiltersMissionDate),
                 AllowedFilter::custom('publics_volontaires', new FiltersMissionPublicsVolontaires),

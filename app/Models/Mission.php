@@ -371,6 +371,32 @@ class Mission extends Model
             ->where('template_id', $template_id);
     }
 
+    public function scopeHasActivity($query, $value)
+    {
+        if ($value) {
+            return $query
+            ->whereNotNull('activity_id')
+            ->orWhereHas('template', function (Builder $query) {
+                $query->whereNotNull('activity_id');
+            });
+        } else {
+            return $query
+            ->whereNull('activity_id')
+            ->orWhereHas('template', function (Builder $query) {
+                $query->whereNull('activity_id');
+            });
+        }
+    }
+
+    public function scopeHasTemplate($query, $value)
+    {
+        if ($value) {
+            return $query->whereNotNull('template_id');
+        } else {
+            return $query->whereNull('template_id');
+        }
+    }
+
     public function scopeOfActivity($query, $activity_id)
     {
         return $query

@@ -34,9 +34,9 @@ class MissionTemplateController extends Controller
             ->defaultSort('-updated_at')
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
 
-            if($request->has('append')){
-                $results->append($request->input('append'));
-            }
+        if ($request->has('append')) {
+            $results->append($request->input('append'));
+        }
 
         return $results;
     }
