@@ -211,9 +211,22 @@ class StructureObserver
     public function saving(Structure $structure)
     {
         // On passe automatiquement la structure en Attente de validation
-        // si elle a remplit les champs strictements necessaires (décorrélé des missings fields)
+        // si elle a remplit les champs strictements necessaires (décorrélé des missing fields)
         if ($structure->state == 'Brouillon') {
-            if (!empty($structure->description) && !empty($structure->address)) {
+            $mandatoryFields = ['address'];
+            if (!in_array($structure->statut_juridique, ['Collectivité', 'Organisation publique'])) {
+                $mandatoryFields[] = 'description';
+            }
+
+            $changeStatus = true;
+            foreach ($mandatoryFields as $mandatoryField) {
+                if (empty($structure->$mandatoryField)) {
+                    $changeStatus = false;
+                    break;
+                }
+            }
+
+            if ($changeStatus) {
                 $structure->state = 'En attente de validation';
             }
         }
