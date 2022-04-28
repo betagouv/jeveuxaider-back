@@ -38,7 +38,7 @@ class TerritoireController extends Controller
             ])
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
 
-        if($request->has('append')){
+        if ($request->has('append')) {
             $results->append($request->input('append'));
         }
 

@@ -45,7 +45,6 @@ class EngagementController extends Controller
         }
 
         $missionsQueryBuilder = Mission::where('state', 'Validée')
-            ->where('places_left', '>', 0)
             ->whereHas('structure', function (Builder $query) {
                 $query->where('state', 'Validée')
                       ->whereNotIn('id', [25, 7383, 5577]);

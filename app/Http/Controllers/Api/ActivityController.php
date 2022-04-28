@@ -22,6 +22,7 @@ class ActivityController extends Controller
             ->allowedFilters([
                 'state',
                 'type',
+                AllowedFilter::exact('domaines.id'),
                 AllowedFilter::exact('is_published'),
                 AllowedFilter::custom('search', new FiltersActivitySearch),
             ])
@@ -32,7 +33,7 @@ class ActivityController extends Controller
             ->defaultSort('-name')
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
 
-        if($request->has('append')) {
+        if ($request->has('append')) {
             $results->append($request->input('append'));
         }
 
@@ -99,5 +100,4 @@ class ActivityController extends Controller
 
         return (string) $activity->delete();
     }
-
 }
