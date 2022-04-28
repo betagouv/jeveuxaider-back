@@ -55,9 +55,19 @@ class Structure extends Model implements HasMedia
 
     protected $hidden = ['media'];
 
-    protected $checkFields = ['description', 'domaines', 'publics_beneficiaires', 'website'];
-
     protected $appends = ['full_url', 'full_address'];
+
+    public function getCheckFieldsAttribute()
+    {
+        switch ($this->statut_juridique) {
+            case 'Organisation publique':
+                return ['domaines', 'publics_beneficiaires', 'website'];
+            case 'Collectivité':
+                return ['domaines', 'website'];
+            default:
+                return ['description', 'domaines', 'publics_beneficiaires', 'website'];
+        }
+    }
 
     public function getFullUrlAttribute()
     {
