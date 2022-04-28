@@ -60,12 +60,12 @@ class Structure extends Model implements HasMedia
     public function getCheckFieldsAttribute()
     {
         switch ($this->statut_juridique) {
-            case 'Organisation publique':
-                return ['domaines', 'publics_beneficiaires', 'website'];
             case 'Collectivité':
-                return ['domaines', 'website'];
+                return ['name', 'address', 'zip', 'city', 'department', 'domaines'];
+            case 'Organisation publique':
+                return ['name', 'address', 'zip', 'city', 'department', 'domaines', 'publics_beneficiaires'];
             default:
-                return ['description', 'domaines', 'publics_beneficiaires', 'website'];
+                return ['name', 'address', 'zip', 'city', 'department', 'domaines', 'publics_beneficiaires', 'description'];
         }
     }
 
