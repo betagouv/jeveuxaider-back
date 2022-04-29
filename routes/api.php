@@ -36,8 +36,6 @@ Route::get('domaines/{slugOrId}/statistics', 'Api\DomaineController@statistics')
 
 Route::get('activities/{slugOrId}', 'Api\ActivityController@show');
 
-// Route::get('statistics/global', 'Api\StatisticsController@global');
-
 Route::post('sendinblue/contact', 'Api\SendInBlueController@store');
 
 Route::get('invitations/{token}', 'Api\InvitationController@show');
@@ -50,7 +48,6 @@ Route::get('franceconnect/login-callback', 'Auth\FranceConnectController@oauthLo
 
 Route::get('territoires', 'Api\TerritoireController@index');
 Route::get('territoires/{slugOrId}', 'Api\TerritoireController@show');
-// Route::get('territoire/{territoire}/promotedMissions', 'Api\TerritoireController@promotedMissions');
 Route::get('territoires/{territoire}/available-cities', 'Api\TerritoireController@availableCities');
 
 Route::post('reseaux/lead', 'Api\ReseauController@lead');
@@ -163,6 +160,11 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::get('statistics/organisations/{structure}', 'Api\StatisticsController@organisations');
     Route::get('statistics/missions/{mission}', 'Api\StatisticsController@missions');
     Route::get('statistics/reseaux/{reseau}', 'Api\StatisticsController@reseaux');
+
+    // NUMBERS
+    Route::get('numbers/global', 'Api\NumbersController@global');
+    Route::get('numbers/trends/participations-by-activities', 'Api\NumbersController@trendsParticipationsByActivities');
+    Route::get('numbers/trends/participations-by-departments', 'Api\NumbersController@trendsParticipationsByDepartments');
 
     // DOCUMENTS
     Route::get('documents', 'Api\DocumentController@index');
