@@ -26,39 +26,21 @@ class NumbersController extends Controller
     public function __construct(Request $request)
     {
 
-        if ($request->input('period') == 'last-30-days') {
-            $this->startDate = Carbon::now()->subDays(30)->format('Y-m-d H:i:s');
-            $this->endDate =  Carbon::now()->format('Y-m-d H:i:s');
-        }
-        if ($request->input('period') == 'last-7-days') {
-            $this->startDate = Carbon::now()->subDays(7)->format('Y-m-d H:i:s');
-            $this->endDate =  Carbon::now()->format('Y-m-d H:i:s');
-        }
-        if ($request->input('period') == 'current-month') {
-            $this->date = Carbon::now();
-            $this->startDate = $this->date->startOfMonth()->format('Y-m-d H:i:s');
-            $this->endDate = $this->date->endOfMonth()->format('Y-m-d H:i:s');
-        }
-        if ($request->input('period') == 'last-month') {
-            $this->date = Carbon::now()->subMonth(1);
-            $this->startDate = $this->date->startOfMonth()->format('Y-m-d H:i:s');
-            $this->endDate = $this->date->endOfMonth()->format('Y-m-d H:i:s');
-        }
-        if ($request->input('period') == 'current-year') {
-            $this->year = date('Y');
-            $this->date = Carbon::parse($this->year."-01-01");
-            $this->startDate = $this->date->startOfYear()->format('Y-m-d H:i:s');
-            $this->endDate = $this->date->endOfYear()->format('Y-m-d H:i:s');
-        }
-        if ($request->input('period') == 'last-year') {
-            $this->year = date('Y') - 1;
-            $this->date = Carbon::parse($this->year."-01-01");
-            $this->startDate = $this->date->startOfYear()->format('Y-m-d H:i:s');
-            $this->endDate = $this->date->endOfYear()->format('Y-m-d H:i:s');
-        }
+        ray($request->all());
+
         if ($request->input('period') == 'all') {
             $this->startDate = Carbon::create(2000, 01, 01, 0, 0, 0)->format('Y-m-d H:i:s');
             $this->endDate = Carbon::now()->format('Y-m-d H:i:s');
+        }
+        if ($request->input('period') == 'year') {
+            $this->date = Carbon::parse($request->input('year')."-01-01");
+            $this->startDate = $this->date->startOfYear()->format('Y-m-d H:i:s');
+            $this->endDate = $this->date->endOfYear()->format('Y-m-d H:i:s');
+        }
+        if ($request->input('period') == 'month') {
+            $this->date = Carbon::parse($request->input('year')."-".$request->input('month')."-01");
+            $this->startDate = $this->date->startOfMonth()->format('Y-m-d H:i:s');
+            $this->endDate = $this->date->endOfMonth()->format('Y-m-d H:i:s');
         }
     }
 
@@ -66,6 +48,7 @@ class NumbersController extends Controller
     {
 
         $missionsAvailable = Mission::role($request->header('Context-Role'))
+            ->whereBetween('created_at', [$this->startDate, $this->endDate])
             ->available()
             ->get();
 
@@ -73,22 +56,22 @@ class NumbersController extends Controller
         $placesOffered = $missionsAvailable->sum('participations_max');
 
         return [
-            'organisations' => Structure::count(),
+            'organisations' => Structure::whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
             'organisations_actives' => $missionsAvailable->pluck('structure_id')->unique()->count(),
-            'participations' => Participation::count(),
-            'participations_validated' => Participation::where('state', 'Validée')->count(),
+            'participations' => Participation::whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'participations_validated' => Participation::whereBetween('created_at', [$this->startDate, $this->endDate])->where('state', 'Validée')->count(),
             'places_left' => $placesLeft,
             'places_occupation_rate' => $placesOffered ? round((($placesOffered - $placesLeft) / $placesOffered) * 100) : 0,
-            'users' => Profile::count(),
-            'users_benevoles' => Profile::benevole()->count(),
-            'reseaux' => Reseau::count(),
-            'reseaux_actives' => Reseau::where('is_published', true)->count(),
-            'territoires' => Territoire::count(),
-            'territoires_actives' => Territoire::where('is_published', true)->count(),
-            'mission_templates' => MissionTemplate::count(),
-            'mission_templates_actives' => MissionTemplate::where('published', true)->count(),
-            'activities' => Activity::count(),
-            'activities_actives' => Activity::where('is_published', true)->count(),
+            'users' => Profile::whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'users_benevoles' => Profile::whereBetween('created_at', [$this->startDate, $this->endDate])->benevole()->count(),
+            'reseaux' => Reseau::whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'reseaux_actives' => Reseau::whereBetween('created_at', [$this->startDate, $this->endDate])->where('is_published', true)->count(),
+            'territoires' => Territoire::whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'territoires_actives' => Territoire::whereBetween('created_at', [$this->startDate, $this->endDate])->where('is_published', true)->count(),
+            'mission_templates' => MissionTemplate::whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'mission_templates_actives' => MissionTemplate::whereBetween('created_at', [$this->startDate, $this->endDate])->where('published', true)->count(),
+            'activities' => Activity::whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'activities_actives' => Activity::whereBetween('created_at', [$this->startDate, $this->endDate])->where('is_published', true)->count(),
         ];
     }
 
@@ -96,6 +79,7 @@ class NumbersController extends Controller
     {
 
         $missionsAvailable = Mission::role($request->header('Context-Role'))
+            ->whereBetween('created_at', [$this->startDate, $this->endDate])
             ->available()
             ->get();
 
@@ -108,8 +92,6 @@ class NumbersController extends Controller
             'places' => $placesOffered,
             'places_left' => $placesLeft,
             'places_occupation_rate' => $placesOffered ? round((($placesOffered - $placesLeft) / $placesOffered) * 100) : 0,
-            'activities' => Activity::count(),
-            'activities_actives' => Activity::where('is_published', true)->count(),
         ];
     }
 
