@@ -6,10 +6,13 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Activity;
 use App\Models\Mission;
+use App\Models\MissionTemplate;
 use App\Models\Participation;
 use App\Models\Profile;
+use App\Models\Reseau;
 use Carbon\Carbon;
 use App\Models\Structure;
+use App\Models\Territoire;
 use Illuminate\Support\Facades\DB;
 
 class NumbersController extends Controller
@@ -57,45 +60,56 @@ class NumbersController extends Controller
             $this->startDate = Carbon::create(2000, 01, 01, 0, 0, 0)->format('Y-m-d H:i:s');
             $this->endDate = Carbon::now()->format('Y-m-d H:i:s');
         }
-
-        ray($this->startDate);
-        ray($this->endDate);
     }
 
     public function global(Request $request)
     {
 
-        $currentPeriodBetween = [Carbon::now()->subMonth()->startOfMonth(), Carbon::now()->subMonth()->endOfMonth()];
+        $missionsAvailable = Mission::role($request->header('Context-Role'))
+            ->available()
+            ->get();
+
+        $placesLeft = $missionsAvailable->sum('places_left');
+        $placesOffered = $missionsAvailable->sum('participations_max');
 
         return [
-            'participations' => [
-                'total' => Participation::role($request->header('Context-Role'))->count(),
-                'current_period' => Participation::role($request->header('Context-Role'))->whereBetween(
-                    'created_at',
-                    $currentPeriodBetween
-                )->count(),
-            ],
-            'missions' => [
-                'total' => Mission::role($request->header('Context-Role'))->count(),
-                'current_period' => Mission::role($request->header('Context-Role'))->whereBetween(
-                    'created_at',
-                    $currentPeriodBetween
-                )->count(),
-            ],
-            'organisations' => [
-                'total' => Structure::role($request->header('Context-Role'))->count(),
-                'current_period' => Structure::role($request->header('Context-Role'))->whereBetween(
-                    'created_at',
-                    $currentPeriodBetween
-                )->count(),
-            ],
-            'users' => [
-                'total' => Profile::role($request->header('Context-Role'))->count(),
-                'current_period' => Profile::role($request->header('Context-Role'))->whereBetween(
-                    'created_at',
-                    $currentPeriodBetween
-                )->count(),
-            ],
+            'organisations' => Structure::count(),
+            'organisations_actives' => $missionsAvailable->pluck('structure_id')->unique()->count(),
+            'participations' => Participation::count(),
+            'participations_validated' => Participation::where('state', 'Validée')->count(),
+            'places_left' => $placesLeft,
+            'places_occupation_rate' => $placesOffered ? round((($placesOffered - $placesLeft) / $placesOffered) * 100) : 0,
+            'users' => Profile::count(),
+            'users_benevoles' => Profile::benevole()->count(),
+            'reseaux' => Reseau::count(),
+            'reseaux_actives' => Reseau::where('is_published', true)->count(),
+            'territoires' => Territoire::count(),
+            'territoires_actives' => Territoire::where('is_published', true)->count(),
+            'mission_templates' => MissionTemplate::count(),
+            'mission_templates_actives' => MissionTemplate::where('published', true)->count(),
+            'activities' => Activity::count(),
+            'activities_actives' => Activity::where('is_published', true)->count(),
+        ];
+    }
+
+    public function offers(Request $request)
+    {
+
+        $missionsAvailable = Mission::role($request->header('Context-Role'))
+            ->available()
+            ->get();
+
+        $placesLeft = $missionsAvailable->sum('places_left');
+        $placesOffered = $missionsAvailable->sum('participations_max');
+
+        return [
+            'missions' => Mission::count(),
+            'missions_actives' => $missionsAvailable->count(),
+            'places' => $placesOffered,
+            'places_left' => $placesLeft,
+            'places_occupation_rate' => $placesOffered ? round((($placesOffered - $placesLeft) / $placesOffered) * 100) : 0,
+            'activities' => Activity::count(),
+            'activities_actives' => Activity::where('is_published', true)->count(),
         ];
     }
 
@@ -112,6 +126,28 @@ class NumbersController extends Controller
                 AND participations.created_at BETWEEN :start and :end
                 AND activities.name IS NOT NULL
                 GROUP BY activities.name
+                ORDER BY count DESC
+                LIMIT 5
+            ", [
+                "start" => $this->startDate,
+                "end" => $this->endDate,
+            ]);
+
+        return $results;
+    }
+
+    public function trendsParticipationsByMissionTemplates(Request $request)
+    {
+
+            $results = DB::select("
+                SELECT mission_templates.title, COUNT(*) AS count FROM participations
+                LEFT JOIN missions ON missions.id = participations.mission_id
+                LEFT JOIN mission_templates ON mission_templates.id = missions.template_id
+                WHERE participations.deleted_at IS NULL
+                AND missions.deleted_at IS NULL
+                AND mission_templates.title IS NOT NULL
+                AND participations.created_at BETWEEN :start and :end
+                GROUP BY mission_templates.title
                 ORDER BY count DESC
                 LIMIT 5
             ", [
@@ -142,7 +178,69 @@ class NumbersController extends Controller
                 "end" => $this->endDate,
             ]);
 
-        ray($results);
+        return $results;
+    }
+
+    public function trendsParticipationsByMissions(Request $request)
+    {
+
+            $results = DB::select("
+                SELECT missions.id, COUNT(*) AS count FROM participations
+                LEFT JOIN missions ON missions.id = participations.mission_id
+                WHERE participations.deleted_at IS NULL
+                AND missions.deleted_at IS NULL
+                AND participations.created_at BETWEEN :start and :end
+                GROUP BY missions.id
+                ORDER BY count DESC
+                LIMIT 5
+            ", [
+                "start" => $this->startDate,
+                "end" => $this->endDate,
+            ]);
+
+        return $results;
+    }
+
+    public function trendsParticipationsByOrganisations(Request $request)
+    {
+
+            $results = DB::select("
+                SELECT structures.name, COUNT(*) AS count FROM participations
+                LEFT JOIN missions ON missions.id = participations.mission_id
+                LEFT JOIN structures ON structures.id = missions.structure_id
+                WHERE participations.deleted_at IS NULL
+                AND missions.deleted_at IS NULL
+                AND structures.name IS NOT NULL
+                AND participations.created_at BETWEEN :start and :end
+                GROUP BY structures.name
+                ORDER BY count DESC
+                LIMIT 5
+            ", [
+                "start" => $this->startDate,
+                "end" => $this->endDate,
+            ]);
+
+        return $results;
+    }
+
+    public function trendsParticipationsByReseaux(Request $request)
+    {
+
+            $results = DB::select("
+                SELECT structures.name, COUNT(*) AS count FROM participations
+                LEFT JOIN missions ON missions.id = participations.mission_id
+                LEFT JOIN structures ON structures.id = missions.structure_id
+                WHERE participations.deleted_at IS NULL
+                AND missions.deleted_at IS NULL
+                AND structures.name IS NOT NULL
+                AND participations.created_at BETWEEN :start and :end
+                GROUP BY structures.name
+                ORDER BY count DESC
+                LIMIT 5
+            ", [
+                "start" => $this->startDate,
+                "end" => $this->endDate,
+            ]);
 
         return $results;
     }

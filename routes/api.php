@@ -163,8 +163,13 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
 
     // NUMBERS
     Route::get('numbers/global', 'Api\NumbersController@global');
+    Route::get('numbers/offers', 'Api\NumbersController@offers');
     Route::get('numbers/trends/participations-by-activities', 'Api\NumbersController@trendsParticipationsByActivities');
+    Route::get('numbers/trends/participations-by-mission-templates', 'Api\NumbersController@trendsParticipationsByMissionTemplates');
     Route::get('numbers/trends/participations-by-departments', 'Api\NumbersController@trendsParticipationsByDepartments');
+    Route::get('numbers/trends/participations-by-missions', 'Api\NumbersController@trendsParticipationsByMissions');
+    Route::get('numbers/trends/participations-by-organisations', 'Api\NumbersController@trendsParticipationsByOrganisations');
+    Route::get('numbers/trends/participations-by-reseaux', 'Api\NumbersController@trendsParticipationsByReseaux');
 
     // DOCUMENTS
     Route::get('documents', 'Api\DocumentController@index');
