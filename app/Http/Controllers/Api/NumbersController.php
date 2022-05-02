@@ -104,8 +104,66 @@ class NumbersController extends Controller
             'in_progress' => Structure::role($request->header('Context-Role'))->where('state', 'En cours de traitement')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
             'validated' => Structure::role($request->header('Context-Role'))->where('state', 'Validée')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
             'signaled' => Structure::role($request->header('Context-Role'))->where('state', 'Signalée')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-            'unsuscribed' => Structure::role($request->header('Context-Role'))->where('state', 'Désinscrite')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'unsubscribed' => Structure::role($request->header('Context-Role'))->where('state', 'Désinscrite')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
          ];
+    }
+
+    public function organisationsByTypes(Request $request)
+    {
+        return [
+            'associations' => Structure::role($request->header('Context-Role'))->where('statut_juridique', 'Association')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'collectivites' => Structure::role($request->header('Context-Role'))->where('statut_juridique', 'Collectivité')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'organisations_publiques' => Structure::role($request->header('Context-Role'))->where('statut_juridique', 'Organisation publique')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'organisations_privees' => Structure::role($request->header('Context-Role'))->where('statut_juridique', 'Organisation privée')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+        ];
+    }
+
+    public function globalMissions(Request $request)
+    {
+        return [
+            'missions' => Mission::role($request->header('Context-Role'))->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'missions_actives' => Mission::role($request->header('Context-Role'))->available()->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+         ];
+    }
+
+    public function globalParticipations(Request $request)
+    {
+        return [
+            'participations' => Participation::role($request->header('Context-Role'))->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'participations_actives' => Participation::role($request->header('Context-Role'))->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+         ];
+    }
+
+    public function participationsByStates(Request $request)
+    {
+        return [
+            'waiting' => Participation::role($request->header('Context-Role'))->where('state', 'En attente de validation')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'in_progress' => Participation::role($request->header('Context-Role'))->where('state', 'En cours de traitement')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'validated' => Participation::role($request->header('Context-Role'))->where('state', 'Validée')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'refused' => Participation::role($request->header('Context-Role'))->where('state', 'Refusée')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'canceled' => Participation::role($request->header('Context-Role'))->where('state', 'Annulée')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+         ];
+    }
+
+    public function missionsByStates(Request $request)
+    {
+        return [
+            'draft' => Mission::role($request->header('Context-Role'))->where('state', 'Brouillon')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'waiting' => Mission::role($request->header('Context-Role'))->where('state', 'En attente de validation')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'in_progress' => Mission::role($request->header('Context-Role'))->where('state', 'En cours de traitement')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'validated' => Mission::role($request->header('Context-Role'))->where('state', 'Validée')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'finished' => Mission::role($request->header('Context-Role'))->where('state', 'Terminée')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'canceled' => Mission::role($request->header('Context-Role'))->where('state', 'Annulée')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'signaled' => Mission::role($request->header('Context-Role'))->where('state', 'Signalée')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+         ];
+    }
+
+    public function missionsByTypes(Request $request)
+    {
+        return [
+            'presentiels' => Mission::role($request->header('Context-Role'))->where('type', 'Mission à distance')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'distances' => Mission::role($request->header('Context-Role'))->where('type', 'Mission en présentiel')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+        ];
     }
 
     public function offers(Request $request)
@@ -128,7 +186,7 @@ class NumbersController extends Controller
         ];
     }
 
-    public function trendsParticipationsByActivities(Request $request)
+    public function participationsByActivities(Request $request)
     {
 
             $results = DB::select("
@@ -151,7 +209,7 @@ class NumbersController extends Controller
         return $results;
     }
 
-    public function trendsParticipationsByMissionTemplates(Request $request)
+    public function participationsByMissionTemplates(Request $request)
     {
 
             $results = DB::select("
@@ -173,7 +231,7 @@ class NumbersController extends Controller
         return $results;
     }
 
-    public function trendsParticipationsByDepartments(Request $request)
+    public function participationsByDepartments(Request $request)
     {
 
             $results = DB::select("
@@ -196,7 +254,7 @@ class NumbersController extends Controller
         return $results;
     }
 
-    public function trendsParticipationsByMissions(Request $request)
+    public function participationsByMissions(Request $request)
     {
 
             $results = DB::select("
@@ -216,7 +274,7 @@ class NumbersController extends Controller
         return $results;
     }
 
-    public function trendsParticipationsByOrganisations(Request $request)
+    public function participationsByOrganisations(Request $request)
     {
 
             $results = DB::select("
@@ -238,7 +296,7 @@ class NumbersController extends Controller
         return $results;
     }
 
-    public function trendsParticipationsByReseaux(Request $request)
+    public function participationsByReseaux(Request $request)
     {
 
             $results = DB::select("
@@ -260,17 +318,17 @@ class NumbersController extends Controller
         return $results;
     }
 
-    public function trendsMissionsByActivities(Request $request)
+    public function missionsByActivities(Request $request)
     {
 
             $results = DB::select("
-                SELECT activities.name, COUNT(*) AS count FROM missions
+                SELECT activities.name, activities.id, COUNT(*) AS count FROM missions
                 LEFT JOIN mission_templates ON mission_templates.id = missions.template_id
                 LEFT JOIN activities ON activities.id = mission_templates.activity_id OR activities.id = missions.activity_id
                 WHERE missions.deleted_at IS NULL
                 AND missions.created_at BETWEEN :start and :end
                 AND activities.name IS NOT NULL
-                GROUP BY activities.name
+                GROUP BY activities.name, activities.id
                 ORDER BY count DESC
                 LIMIT 5
             ", [
@@ -281,7 +339,7 @@ class NumbersController extends Controller
         return $results;
     }
 
-    public function trendsMissionsByMissionTemplates(Request $request)
+    public function missionsByTemplates(Request $request)
     {
 
             $results = DB::select("
@@ -302,7 +360,7 @@ class NumbersController extends Controller
         return $results;
     }
 
-    public function trendsMissionsByDepartments(Request $request)
+    public function missionsByDepartments(Request $request)
     {
 
             $results = DB::select("
