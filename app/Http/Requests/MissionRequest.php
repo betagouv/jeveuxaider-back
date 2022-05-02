@@ -77,7 +77,6 @@ class MissionRequest extends FormRequest
             'domaine_id' => 'required_without:template_id',
             'domaine_secondary_id' => '',
             'template_id' => '',
-            // 'tags' => '',
             'thumbnail' => '',
             'skills' => '',
             'commitment__duration' => 'required',
@@ -85,6 +84,7 @@ class MissionRequest extends FormRequest
             'is_priority' => '',
             'is_snu_mig_compatible' => '',
             'snu_mig_places' => 'required_if:is_snu_mig_compatible,true',
+            'activity_id' => '',
         ];
     }
 

@@ -163,6 +163,7 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
 
     // NUMBERS
     Route::get('numbers/global', 'Api\NumbersController@global');
+    Route::get('numbers/global/organisations', 'Api\NumbersController@globalOrganisations');
     Route::get('numbers/offers', 'Api\NumbersController@offers');
     Route::get('numbers/trends/participations-by-activities', 'Api\NumbersController@trendsParticipationsByActivities');
     Route::get('numbers/trends/participations-by-mission-templates', 'Api\NumbersController@trendsParticipationsByMissionTemplates');
@@ -170,6 +171,11 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::get('numbers/trends/participations-by-missions', 'Api\NumbersController@trendsParticipationsByMissions');
     Route::get('numbers/trends/participations-by-organisations', 'Api\NumbersController@trendsParticipationsByOrganisations');
     Route::get('numbers/trends/participations-by-reseaux', 'Api\NumbersController@trendsParticipationsByReseaux');
+    Route::get('numbers/trends/missions-by-activities', 'Api\NumbersController@trendsMissionsByActivities');
+    Route::get('numbers/trends/missions-by-mission-templates', 'Api\NumbersController@trendsMissionsByMissionTemplates');
+    Route::get('numbers/trends/missions-by-departments', 'Api\NumbersController@trendsMissionsByDepartments');
+    Route::get('numbers/organisations-by-states', 'Api\NumbersController@organisationsByStates');
+
 
     // DOCUMENTS
     Route::get('documents', 'Api\DocumentController@index');
