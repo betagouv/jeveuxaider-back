@@ -370,14 +370,14 @@ class NumbersController extends Controller
     {
 
         $results = DB::select("
-                SELECT structures.name, COUNT(*) AS count FROM participations
+                SELECT structures.id, structures.name, COUNT(*) AS count FROM participations
                 LEFT JOIN missions ON missions.id = participations.mission_id
                 LEFT JOIN structures ON structures.id = missions.structure_id
                 WHERE participations.deleted_at IS NULL
                 AND missions.deleted_at IS NULL
                 AND structures.name IS NOT NULL
                 AND participations.created_at BETWEEN :start and :end
-                GROUP BY structures.name
+                GROUP BY structures.id, structures.name
                 ORDER BY count DESC
                 LIMIT 5
             ", [
@@ -515,15 +515,19 @@ class NumbersController extends Controller
 
     public function missionsOutdatedByOrganisations(Request $request)
     {
+
         $results = DB::table('missions')
             ->select(['structures.name','structures.id'])
             ->selectRaw('count(*) as count')
             ->leftJoin('structures', 'structures.id', '=', 'missions.structure_id')
-            ->groupBy(['structures.name','structures.id'])
             ->whereNotNull('missions.end_date')
-            ->where('missions.end_date', '>=', date("Y-m-d"))
+            ->whereNull('missions.deleted_at')
+            ->whereNull('structures.deleted_at')
+            ->where('missions.end_date', '<', date("Y-m-d"))
+            ->where('missions.state', 'Validée')
             ->whereBetween('missions.created_at', [$this->startDate, $this->endDate])
             ->orderByDesc('count')
+            ->groupBy(['structures.name','structures.id'])
             ->limit(100)
             ->get();
 
@@ -669,7 +673,8 @@ class NumbersController extends Controller
             ->whereNotNull('missions.department')
             ->whereNotNull('missions.end_date')
             ->where('territoires.type', 'department')
-            ->where('missions.end_date', '>=', date("Y-m-d"))
+            ->where('missions.end_date', '<', date("Y-m-d"))
+            ->where('missions.state', 'Validée')
             ->whereBetween('missions.created_at', [$this->startDate, $this->endDate])
             ->whereNotNull('territoires.department')
             ->groupBy(['territoires.id','territoires.department'])
