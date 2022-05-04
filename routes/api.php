@@ -166,6 +166,7 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::get('statistics/global/organisations', 'Api\NumbersController@globalOrganisations');
     Route::get('statistics/global/missions', 'Api\NumbersController@globalMissions');
     Route::get('statistics/global/participations', 'Api\NumbersController@globalParticipations');
+    Route::get('statistics/global/utilisateurs', 'Api\NumbersController@globalUtilisateurs');
     Route::get('statistics/offers', 'Api\NumbersController@offers');
     Route::get('statistics/participations-by-activities', 'Api\NumbersController@participationsByActivities');
     Route::get('statistics/participations-by-mission-templates', 'Api\NumbersController@participationsByMissionTemplates');
@@ -188,6 +189,8 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::get('statistics/organisations-by-types', 'Api\NumbersController@organisationsByTypes');
     Route::get('statistics/organisations-by-domaines', 'Api\NumbersController@organisationsByDomaines');
     Route::get('statistics/organisations-by-reseaux', 'Api\NumbersController@organisationsByReseaux');
+
+    Route::get('statistics/utilisateurs-by-domaines', 'Api\NumbersController@utilisateursByDomaines');
 
     Route::get('statistics/participations-waiting-by-organisations', 'Api\NumbersController@participationsWaitingByOrganisations');
     Route::get('statistics/participations-in-progress-by-organisations', 'Api\NumbersController@participationsInProgressByOrganisations');

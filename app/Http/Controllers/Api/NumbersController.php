@@ -200,9 +200,17 @@ class NumbersController extends Controller
     public function globalParticipations(Request $request)
     {
         return [
-        'participations' => Participation::role($request->header('Context-Role'))->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-        'participations_actives' => Participation::role($request->header('Context-Role'))->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-         ];
+            'participations' => Participation::role($request->header('Context-Role'))->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'participations_actives' => Participation::role($request->header('Context-Role'))->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+        ];
+    }
+
+    public function globalUtilisateurs(Request $request)
+    {
+        return [
+            'utilisateurs' => Profile::role($request->header('Context-Role'))->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'utilisateurs_with_participations' => Profile::role($request->header('Context-Role'))->whereBetween('created_at', [$this->startDate, $this->endDate])->has('participations')->count(),
+        ];
     }
 
     public function participationsByStates(Request $request)
@@ -400,7 +408,6 @@ class NumbersController extends Controller
                 AND participations.created_at BETWEEN :start and :end
                 GROUP BY domaines.name, domaines.id
                 ORDER BY count DESC
-                LIMIT 10
             ", [
             "start" => $this->startDate,
             "end" => $this->endDate,
@@ -441,7 +448,6 @@ class NumbersController extends Controller
                 AND missions.created_at BETWEEN :start and :end
                 GROUP BY domaines.name, domaines.id
                 ORDER BY count DESC
-                LIMIT 10
             ", [
             "start" => $this->startDate,
             "end" => $this->endDate,
@@ -500,11 +506,27 @@ class NumbersController extends Controller
                 LEFT JOIN domainables ON domainables.domainable_id = structures.id AND domainables.domainable_type = 'App\Models\Structure'
                 LEFT JOIN domaines ON domaines.id = domainables.domaine_id
                 WHERE structures.deleted_at IS NULL
-                AND domaines.name IS NOT NULL
                 AND structures.created_at BETWEEN :start and :end
                 GROUP BY domaines.name, domaines.id
                 ORDER BY count DESC
-                LIMIT 10
+            ", [
+            "start" => $this->startDate,
+            "end" => $this->endDate,
+        ]);
+
+        return $results;
+    }
+
+    public function utilisateursByDomaines(Request $request)
+    {
+
+        $results = DB::select("
+                SELECT domaines.name, domaines.id, COUNT(*) AS count FROM profiles
+                LEFT JOIN domainables ON domainables.domainable_id = profiles.id AND domainables.domainable_type = 'App\Models\Profile'
+                LEFT JOIN domaines ON domaines.id = domainables.domaine_id
+                WHERE profiles.created_at BETWEEN :start and :end
+                GROUP BY domaines.name, domaines.id
+                ORDER BY count DESC
             ", [
             "start" => $this->startDate,
             "end" => $this->endDate,
