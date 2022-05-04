@@ -520,6 +520,8 @@ class NumbersController extends Controller
             ->selectRaw('count(*) as count')
             ->leftJoin('structures', 'structures.id', '=', 'missions.structure_id')
             ->groupBy(['structures.name','structures.id'])
+            ->whereNotNull('missions.end_date')
+            ->where('missions.end_date', '>=', date("Y-m-d"))
             ->whereBetween('missions.created_at', [$this->startDate, $this->endDate])
             ->orderByDesc('count')
             ->limit(100)
@@ -576,40 +578,104 @@ class NumbersController extends Controller
         return $results;
     }
 
-    public function moderationByDepartments(Request $request)
+    public function organisationsWaitingByDepartments(Request $request)
     {
 
-        $organisations = DB::table('structures')
-            ->select(['structures.department'])
-            ->selectRaw('count(*) as organisations_count')
-            ->whereNotNull('structures.deleted_at')
+        $results = DB::table('structures')
+            ->select(['territoires.id','territoires.department'])
+            ->selectRaw('count(*) as count')
+            ->leftJoin('territoires', 'territoires.department', '=', 'structures.department')
+            ->whereNull('structures.deleted_at')
             ->whereNotNull('structures.department')
-            ->whereIn('state', ['En attente de validation', 'En cours de traitement'])
-            ->groupBy('structures.department')
-            ->orderByDesc('organisations_count')
+            ->where('structures.state', 'En attente de validation')
+            ->where('territoires.type', 'department')
+            ->whereBetween('structures.created_at', [$this->startDate, $this->endDate])
+            ->whereNotNull('territoires.department')
+            ->groupBy(['territoires.id','territoires.department'])
+            ->orderByDesc('count')
             ->get();
 
-        if (collect($organisations)->isNotEmpty()) {
-            $missions = DB::table('missions')
-                ->select(['missions.department'])
-                ->selectRaw('count(*) as missions_count')
-                ->whereNotNull('missions.deleted_at')
-                ->whereNotNull('missions.department')
-                ->whereIn('state', ['En attente de validation', 'En cours de traitement'])
-                ->groupBy('missions.department')
-                ->orderByDesc('missions_count')
-                ->get();
-            $missions = collect($missions)->pluck('missions_count', 'department');
-        }
+        return $results;
+    }
 
-        $collection = collect($organisations);
-        $collection->map(function ($item) use ($missions) {
-            if (isset($missions[$item->department])) {
-                $item->missions_count = $missions[$item->department];
-            }
-            return $item;
-        });
+    public function organisationsInProgressByDepartments(Request $request)
+    {
 
-        return $collection;
+        $results = DB::table('structures')
+            ->select(['territoires.id','territoires.department'])
+            ->selectRaw('count(*) as count')
+            ->leftJoin('territoires', 'territoires.department', '=', 'structures.department')
+            ->whereNull('structures.deleted_at')
+            ->whereNotNull('structures.department')
+            ->where('structures.state', 'En cours de traitement')
+            ->where('territoires.type', 'department')
+            ->whereBetween('structures.created_at', [$this->startDate, $this->endDate])
+            ->whereNotNull('territoires.department')
+            ->groupBy(['territoires.id','territoires.department'])
+            ->orderByDesc('count')
+            ->get();
+
+        return $results;
+    }
+
+    public function missionsWaitingByDepartments(Request $request)
+    {
+
+        $results = DB::table('missions')
+            ->select(['territoires.id','territoires.department'])
+            ->selectRaw('count(*) as count')
+            ->leftJoin('territoires', 'territoires.department', '=', 'missions.department')
+            ->whereNull('missions.deleted_at')
+            ->whereNotNull('missions.department')
+            ->where('missions.state', 'En attente de validation')
+            ->where('territoires.type', 'department')
+            ->whereBetween('missions.created_at', [$this->startDate, $this->endDate])
+            ->whereNotNull('territoires.department')
+            ->groupBy(['territoires.id','territoires.department'])
+            ->orderByDesc('count')
+            ->get();
+
+        return $results;
+    }
+
+    public function missionsInProgressByDepartments(Request $request)
+    {
+
+        $results = DB::table('missions')
+            ->select(['territoires.id','territoires.department'])
+            ->selectRaw('count(*) as count')
+            ->leftJoin('territoires', 'territoires.department', '=', 'missions.department')
+            ->whereNull('missions.deleted_at')
+            ->whereNotNull('missions.department')
+            ->where('missions.state', 'En cours de traitement')
+            ->where('territoires.type', 'department')
+            ->whereBetween('missions.created_at', [$this->startDate, $this->endDate])
+            ->whereNotNull('territoires.department')
+            ->groupBy(['territoires.id','territoires.department'])
+            ->orderByDesc('count')
+            ->get();
+
+        return $results;
+    }
+
+    public function missionsOutdatedByDepartments(Request $request)
+    {
+
+        $results = DB::table('missions')
+            ->select(['territoires.id','territoires.department'])
+            ->selectRaw('count(*) as count')
+            ->leftJoin('territoires', 'territoires.department', '=', 'missions.department')
+            ->whereNull('missions.deleted_at')
+            ->whereNotNull('missions.department')
+            ->whereNotNull('missions.end_date')
+            ->where('territoires.type', 'department')
+            ->where('missions.end_date', '>=', date("Y-m-d"))
+            ->whereBetween('missions.created_at', [$this->startDate, $this->endDate])
+            ->whereNotNull('territoires.department')
+            ->groupBy(['territoires.id','territoires.department'])
+            ->orderByDesc('count')
+            ->get();
+
+        return $results;
     }
 }

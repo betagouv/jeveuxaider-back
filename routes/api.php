@@ -193,6 +193,11 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::get('statistics/participations-in-progress-by-organisations', 'Api\NumbersController@participationsInProgressByOrganisations');
     Route::get('statistics/missions-outdated-by-organisations', 'Api\NumbersController@missionsOutdatedByOrganisations');
 
+    Route::get('statistics/organisations-waiting-by-departments', 'Api\NumbersController@organisationsWaitingByDepartments');
+    Route::get('statistics/organisations-in-progress-by-departments', 'Api\NumbersController@organisationsInProgressByDepartments');
+    Route::get('statistics/missions-waiting-by-departments', 'Api\NumbersController@missionsWaitingByDepartments');
+    Route::get('statistics/missions-in-progress-by-departments', 'Api\NumbersController@missionsInProgressByDepartments');
+    Route::get('statistics/missions-outdated-by-departments', 'Api\NumbersController@missionsOutdatedByDepartments');
 
 
 
