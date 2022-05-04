@@ -21,7 +21,7 @@ use Spatie\QueryBuilder\AllowedFilter;
 
 class InvitationController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         return QueryBuilder::for(Invitation::class)
             ->allowedFilters(
@@ -33,7 +33,7 @@ class InvitationController extends Controller
                 // AllowedFilter::custom('search', new FiltersInvitationSearch),
             )
             ->defaultSort('-created_at')
-            ->paginate(20);
+            ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
     }
 
     public function show(Request $request, String $token)
@@ -53,7 +53,7 @@ class InvitationController extends Controller
     {
 
         if ($request->input('email') == $request->user()->email) {
-            if(!$request->user()->is_admin){
+            if (!$request->user()->is_admin) {
                 abort(422, "Vous ne pouvez pas vous inviter vous-même");
             }
         }

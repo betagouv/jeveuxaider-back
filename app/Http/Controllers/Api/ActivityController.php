@@ -22,6 +22,7 @@ class ActivityController extends Controller
             ->allowedFilters([
                 'state',
                 'type',
+                AllowedFilter::exact('domaines.id'),
                 AllowedFilter::exact('is_published'),
                 AllowedFilter::custom('search', new FiltersActivitySearch),
             ])

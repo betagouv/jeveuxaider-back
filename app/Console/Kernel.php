@@ -2,6 +2,8 @@
 
 namespace App\Console;
 
+use App\Console\Commands\ApiEngagementExportMissions;
+use App\Console\Commands\ApiEngagementSyncMissions;
 use App\Console\Commands\SendNotificationTodoToModerateurs;
 use App\Console\Commands\SendNotificationTodoToReferents;
 use App\Console\Commands\SendNotificationTodoToResponsables;
@@ -9,7 +11,6 @@ use App\Console\Commands\SendNotificationsMissionOutdated;
 use App\Console\Commands\SendNotificationsMissionInDraft;
 use App\Console\Commands\SendNotificationsNoNewMission;
 use App\Console\Commands\SendNotificationsStructureInDraft;
-use App\Console\Commands\SyncApiEngagement;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -45,7 +46,8 @@ class Kernel extends ConsoleKernel
         $schedule->command(SendNotificationsStructureInDraft::class)->daily()->at('09:50');
 
         // Sync ApiEngagement
-        $schedule->command(SyncApiEngagement::class)->everySixHours();
+        $schedule->command(ApiEngagementExportMissions::class)->everySixHours();
+        $schedule->command(ApiEngagementSyncMissions::class)->everySixHours();
 
         // Horizon update dashboard metrics
         $schedule->command('horizon:snapshot')->everyFiveMinutes();

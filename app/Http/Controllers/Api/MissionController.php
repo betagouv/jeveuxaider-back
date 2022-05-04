@@ -13,6 +13,7 @@ use Spatie\QueryBuilder\AllowedFilter;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\MissionsExport;
 use App\Filters\FiltersDisponibility;
+use App\Filters\FiltersMissionDate;
 use App\Filters\FiltersMissionSearch;
 use App\Filters\FiltersMissionIsTemplate;
 use App\Filters\FiltersMissionPlacesLeft;
@@ -49,6 +50,7 @@ class MissionController extends Controller
 
     public function index(Request $request)
     {
+
         $result = QueryBuilder::for(Mission::role($request->header('Context-Role')))
             ->with(['domaine', 'template', 'template.domaine', 'structure'])
             ->allowedFilters([
@@ -67,7 +69,10 @@ class MissionController extends Controller
                 AllowedFilter::scope('ofDomaine'),
                 AllowedFilter::scope('ofTerritoire'),
                 AllowedFilter::scope('ofActivity'),
+                AllowedFilter::scope('hasActivity'),
+                AllowedFilter::scope('hasTemplate'),
                 AllowedFilter::custom('place', new FiltersMissionPlacesLeft),
+                AllowedFilter::custom('date', new FiltersMissionDate),
                 AllowedFilter::custom('publics_volontaires', new FiltersMissionPublicsVolontaires),
                 AllowedFilter::custom('search', new FiltersMissionSearch),
                 AllowedFilter::scope('available'),
@@ -138,7 +143,7 @@ class MissionController extends Controller
 
     public function delete(MissionDeleteRequest $request, Mission $mission)
     {
-        $relatedParticipationsCount = Participation::where('mission_id',$mission->id)->count();
+        $relatedParticipationsCount = Participation::where('mission_id', $mission->id)->count();
 
         if ($relatedParticipationsCount) {
             abort('422', "Cette mission est reliée à {$relatedParticipationsCount} participation(s)");
@@ -220,5 +225,4 @@ class MissionController extends Controller
         }
         return $query->paginate(10)->load('domaine', 'template', 'template.domaine', 'template.media', 'structure');
     }
-
 }

@@ -10,9 +10,6 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('api/api-engagement/flux', 'Api\EngagementController@feed');
-
 Route::get('phpmyinfo', function () {
     phpinfo(); 
 })->name('phpmyinfo');

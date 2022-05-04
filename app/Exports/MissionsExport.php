@@ -2,6 +2,7 @@
 
 namespace App\Exports;
 
+use App\Filters\FiltersMissionDate;
 use App\Filters\FiltersMissionIsTemplate;
 use Illuminate\Http\Request;
 use App\Models\Mission;
@@ -47,6 +48,7 @@ class MissionsExport implements FromQuery, WithMapping, WithHeadings
                 AllowedFilter::scope('ofTerritoire'),
                 AllowedFilter::scope('ofActivity'),
                 AllowedFilter::custom('place', new FiltersMissionPlacesLeft),
+                AllowedFilter::custom('date', new FiltersMissionDate),
                 AllowedFilter::custom('publics_volontaires', new FiltersMissionPublicsVolontaires),
                 AllowedFilter::custom('search', new FiltersMissionSearch),
                 AllowedFilter::scope('available'),

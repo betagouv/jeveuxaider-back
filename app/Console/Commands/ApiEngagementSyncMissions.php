@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use App\Services\ApiEngagement;
 use Illuminate\Console\Command;
 
-class SyncApiEngagement extends Command
+class ApiEngagementSyncMissions extends Command
 {
     /**
      * The name and signature of the console command.

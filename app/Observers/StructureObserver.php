@@ -200,10 +200,9 @@ class StructureObserver
 
         // Sync Airtable
         if (config('services.airtable.sync')) {
-            if(in_array($structure->state, ['En attente de validation', 'En cours de traitement', 'Validée'])) {
+            if (in_array($structure->state, ['En attente de validation', 'En cours de traitement', 'Validée'])) {
                 AirtableSyncObject::dispatch($structure);
-            }
-            else {
+            } else {
                 AirtableDeleteObject::dispatch($structure);
             }
         }
@@ -211,9 +210,23 @@ class StructureObserver
 
     public function saving(Structure $structure)
     {
-        // On passe automatiquement la structure en Attente de validation si elle a remplit les champs obligatoires
-        if($structure->state == 'Brouillon') {
-            if(!empty($structure->description) && !empty($structure->address)) {
+        // On passe automatiquement la structure en Attente de validation
+        // si elle a remplit les champs strictements necessaires (décorrélé des missing fields)
+        if ($structure->state == 'Brouillon') {
+            $mandatoryFields = ['address'];
+            if (!in_array($structure->statut_juridique, ['Collectivité', 'Organisation publique'])) {
+                $mandatoryFields[] = 'description';
+            }
+
+            $changeStatus = true;
+            foreach ($mandatoryFields as $mandatoryField) {
+                if (empty($structure->$mandatoryField)) {
+                    $changeStatus = false;
+                    break;
+                }
+            }
+
+            if ($changeStatus) {
                 $structure->state = 'En attente de validation';
             }
         }
