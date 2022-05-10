@@ -17,47 +17,27 @@ use Illuminate\Support\Facades\DB;
 
 class ChartsController extends Controller
 {
-    public $year;
-    public $month;
-    public $date;
+
     public $startDate;
     public $endDate;
 
     public function __construct(Request $request)
     {
-        $this->year = date('Y');
-
-        if ($request->input('period') == 'all') {
-            $this->startDate = Carbon::create(2000, 01, 01, 0, 0, 0)->format('Y-m-d H:i:s');
-            $this->endDate = Carbon::now()->format('Y-m-d H:i:s');
-        }
-        elseif ($request->input('period') == 'year') {
-            $this->year = $request->input('year');
-            $this->date = Carbon::parse($request->input('year')."-01-01");
-            $this->startDate = $this->date->startOfYear()->format('Y-m-d H:i:s');
-            $this->endDate = $this->date->endOfYear()->format('Y-m-d H:i:s');
-        }
-        elseif ($request->input('period') == 'month') {
-            $this->year = $request->input('year');
-            $this->date = Carbon::parse($request->input('year')."-".$request->input('month')."-01");
-            $this->startDate = $this->date->startOfMonth()->format('Y-m-d H:i:s');
-            $this->endDate = $this->date->endOfMonth()->format('Y-m-d H:i:s');
-        }
-        else {
-            $this->startDate = Carbon::create(2000, 01, 01, 0, 0, 0)->format('Y-m-d H:i:s');
-            $this->endDate = Carbon::now()->format('Y-m-d H:i:s');
-        }
+        $this->startYear = 2020;
+        $this->endYear = date('Y');
     }
 
     public function organisationsByDate(Request $request)
     {
         $items = [];
 
-        for ($i = 1; $i < 13; $i++) {
-            $items[] = Structure::role($request->header('Context-Role'))
-                ->whereYear('created_at', '=', $this->year)
-                ->whereMonth('created_at', '=', $i)
-                ->count();
+        for ($year = $this->startYear; $year <= $this->endYear; $year++) {
+            for ($month = 1; $month < 13; $month++) {
+                $items[$year][]  = Structure::role($request->header('Context-Role'))
+                    ->whereYear('created_at', '=', $year)
+                    ->whereMonth('created_at', '=', $month)
+                    ->count();
+            }
         }
 
         return $items;
@@ -67,11 +47,13 @@ class ChartsController extends Controller
     {
         $items = [];
 
-        for ($i = 1; $i < 13; $i++) {
-            $items[] = Mission::role($request->header('Context-Role'))
-                ->whereYear('created_at', '=', $this->year)
-                ->whereMonth('created_at', '=', $i)
-                ->count();
+        for ($year = $this->startYear; $year <= $this->endYear; $year++) {
+            for ($month = 1; $month < 13; $month++) {
+                $items[$year][]  = Mission::role($request->header('Context-Role'))
+                    ->whereYear('created_at', '=', $year)
+                    ->whereMonth('created_at', '=', $month)
+                    ->count();
+            }
         }
 
         return $items;
@@ -81,11 +63,13 @@ class ChartsController extends Controller
     {
         $items = [];
 
-        for ($i = 1; $i < 13; $i++) {
-            $items[] = Participation::role($request->header('Context-Role'))
-                ->whereYear('created_at', '=', $this->year)
-                ->whereMonth('created_at', '=', $i)
-                ->count();
+        for ($year = $this->startYear; $year <= $this->endYear; $year++) {
+            for ($month = 1; $month < 13; $month++) {
+                $items[$year][]  = Participation::role($request->header('Context-Role'))
+                    ->whereYear('created_at', '=', $year)
+                    ->whereMonth('created_at', '=', $month)
+                    ->count();
+            }
         }
 
         return $items;
@@ -95,16 +79,16 @@ class ChartsController extends Controller
     {
         $items = [];
 
-        for ($i = 1; $i < 13; $i++) {
-            $items[] = Profile::role($request->header('Context-Role'))
-                ->whereYear('created_at', '=', $this->year)
-                ->whereMonth('created_at', '=', $i)
-                ->count();
+        for ($year = $this->startYear; $year <= $this->endYear; $year++) {
+            for ($month = 1; $month < 13; $month++) {
+                $items[$year][]  = Profile::role($request->header('Context-Role'))
+                    ->whereYear('created_at', '=', $year)
+                    ->whereMonth('created_at', '=', $month)
+                    ->count();
+            }
         }
 
         return $items;
     }
-
-   
 
 }

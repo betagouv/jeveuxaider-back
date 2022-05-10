@@ -46,31 +46,36 @@ class NumbersController extends Controller
     public function global(Request $request)
     {
 
+        return [
+            'organisations' => Structure::whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'missions' => Mission::whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'participations' => Participation::whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'users' => Profile::whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'reseaux' => Reseau::whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'territoires' => Territoire::whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'modeles' => MissionTemplate::whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'activites' => Activity::whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+        ];
+    }
+
+    public function offers(Request $request)
+    {
+
         $missionsAvailable = Mission::role($request->header('Context-Role'))
-        ->whereBetween('created_at', [$this->startDate, $this->endDate])
-        ->available()
-        ->get();
+            ->whereBetween('created_at', [$this->startDate, $this->endDate])
+            ->available()
+            ->get();
 
         $placesLeft = $missionsAvailable->sum('places_left');
         $placesOffered = $missionsAvailable->sum('participations_max');
 
         return [
-        'organisations' => Structure::whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-        'organisations_actives' => $missionsAvailable->pluck('structure_id')->unique()->count(),
-        'participations' => Participation::whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-        'participations_validated' => Participation::whereBetween('created_at', [$this->startDate, $this->endDate])->where('state', 'Validée')->count(),
-        'places_left' => $placesLeft,
-        'places_occupation_rate' => $placesOffered ? round((($placesOffered - $placesLeft) / $placesOffered) * 100) : 0,
-        'users' => Profile::whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-        'users_benevoles' => Profile::whereBetween('created_at', [$this->startDate, $this->endDate])->benevole()->count(),
-        'reseaux' => Reseau::whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-        'reseaux_actives' => Reseau::whereBetween('created_at', [$this->startDate, $this->endDate])->where('is_published', true)->count(),
-        'territoires' => Territoire::whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-        'territoires_actives' => Territoire::whereBetween('created_at', [$this->startDate, $this->endDate])->where('is_published', true)->count(),
-        'mission_templates' => MissionTemplate::whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-        'mission_templates_actives' => MissionTemplate::whereBetween('created_at', [$this->startDate, $this->endDate])->where('published', true)->count(),
-        'activities' => Activity::whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-        'activities_actives' => Activity::whereBetween('created_at', [$this->startDate, $this->endDate])->where('is_published', true)->count(),
+            'missions_available' => $missionsAvailable->count(),
+            'territoires_available' => Territoire::where('is_published', true)->count(),
+            'activites_available' => Activity::where('is_published', true)->count(),
+            'places' => $placesOffered,
+            'places_left' => $placesLeft,
+            'places_occupation_rate' => $placesOffered ? round((($placesOffered - $placesLeft) / $placesOffered) * 100) : 0,
         ];
     }
 
@@ -266,25 +271,7 @@ class NumbersController extends Controller
         return $results;
     }
 
-    public function offers(Request $request)
-    {
-
-        $missionsAvailable = Mission::role($request->header('Context-Role'))
-        ->whereBetween('created_at', [$this->startDate, $this->endDate])
-        ->available()
-        ->get();
-
-        $placesLeft = $missionsAvailable->sum('places_left');
-        $placesOffered = $missionsAvailable->sum('participations_max');
-
-        return [
-        'missions' => Mission::count(),
-        'missions_actives' => $missionsAvailable->count(),
-        'places' => $placesOffered,
-        'places_left' => $placesLeft,
-        'places_occupation_rate' => $placesOffered ? round((($placesOffered - $placesLeft) / $placesOffered) * 100) : 0,
-        ];
-    }
+   
 
     public function participationsByActivities(Request $request)
     {
