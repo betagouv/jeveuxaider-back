@@ -38,6 +38,12 @@ class NumbersController extends Controller
         }elseif ($request->input('period') == 'last_month') {
             $this->startDate = Carbon::now()->subMonth(1)->startOfMonth()->format('Y-m-d H:i:s');
             $this->endDate = Carbon::now()->subMonth(1)->endOfMonth()->format('Y-m-d H:i:s');
+        } elseif ($request->input('period') == 'current_week') {
+            $this->startDate = Carbon::now()->startOfWeek()->format('Y-m-d H:i:s');
+            $this->endDate = Carbon::now()->endOfWeek()->format('Y-m-d H:i:s');
+        }elseif ($request->input('period') == 'last_week') {
+            $this->startDate = Carbon::now()->subWeek(1)->startOfWeek()->format('Y-m-d H:i:s');
+            $this->endDate = Carbon::now()->subWeek(1)->endOfWeek()->format('Y-m-d H:i:s');
         } else {
             $this->startDate = Carbon::create(2000, 01, 01, 0, 0, 0)->format('Y-m-d H:i:s');
             $this->endDate = Carbon::now()->format('Y-m-d H:i:s');
