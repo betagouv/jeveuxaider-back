@@ -213,9 +213,13 @@ class NumbersController extends Controller
 
     public function globalUtilisateurs(Request $request)
     {
+        $usersWithParticipations = Profile::role($request->header('Context-Role'))->whereBetween('created_at', [$this->startDate, $this->endDate])->has('participations')->count();
+        $participationsCount = Participation::role($request->header('Context-Role'))->whereBetween('created_at', [$this->startDate, $this->endDate])->count();
+
         return [
             'utilisateurs' => Profile::role($request->header('Context-Role'))->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-            'utilisateurs_with_participations' => Profile::role($request->header('Context-Role'))->whereBetween('created_at', [$this->startDate, $this->endDate])->has('participations')->count(),
+            'utilisateurs_with_participations' => $usersWithParticipations,
+            'participations_avg' => $usersWithParticipations ? round($participationsCount / $usersWithParticipations, 1) : 0,
         ];
     }
 
