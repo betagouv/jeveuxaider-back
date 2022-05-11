@@ -231,14 +231,17 @@ class StructureObserver
                 $structure->state = 'En attente de validation';
             }
         }
+
+        // On force les publics pour les collectivités
+        if ($structure->statut_juridique == 'Collectivité') {
+            $structure->publics_beneficiaires = array_keys(config('taxonomies.mission_publics_beneficiaires.terms'));
+        }
     }
 
     public function saved(Structure $structure)
     {
-        // On force les publics et les domaines pour les collectivités
+        // On force les domaines pour les collectivités
         if ($structure->statut_juridique == 'Collectivité') {
-            $structure->publics_beneficiaires = array_keys(config('taxonomies.mission_publics_beneficiaires.terms'));
-
             $domaines = Domaine::all();
             $values = $domaines->pluck($domaines, 'id')->map(function ($item) {
                 return ['field' => 'structure_domaines'];
