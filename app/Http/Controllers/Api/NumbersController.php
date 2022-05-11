@@ -106,13 +106,13 @@ class NumbersController extends Controller
     public function organisationsByStates(Request $request)
     {
         return [
-        'draft' => Structure::role($request->header('Context-Role'))->where('state', 'Brouillon')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-        'waiting' => Structure::role($request->header('Context-Role'))->where('state', 'En attente de validation')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-        'in_progress' => Structure::role($request->header('Context-Role'))->where('state', 'En cours de traitement')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-        'validated' => Structure::role($request->header('Context-Role'))->where('state', 'Validée')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-        'signaled' => Structure::role($request->header('Context-Role'))->where('state', 'Signalée')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-        'unsubscribed' => Structure::role($request->header('Context-Role'))->where('state', 'Désinscrite')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-         ];
+            'draft' => Structure::role($request->header('Context-Role'))->where('state', 'Brouillon')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'waiting' => Structure::role($request->header('Context-Role'))->where('state', 'En attente de validation')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'in_progress' => Structure::role($request->header('Context-Role'))->where('state', 'En cours de traitement')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'validated' => Structure::role($request->header('Context-Role'))->where('state', 'Validée')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'signaled' => Structure::role($request->header('Context-Role'))->where('state', 'Signalée')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'unsubscribed' => Structure::role($request->header('Context-Role'))->where('state', 'Désinscrite')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+        ];
     }
 
     public function organisationsByTypes(Request $request)
@@ -197,12 +197,10 @@ class NumbersController extends Controller
     public function globalMissions(Request $request)
     {
         return [
-        'missions' => Mission::role($request->header('Context-Role'))->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-        'missions_actives' => Mission::role($request->header('Context-Role'))->available()->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-        'missions_libres' => Mission::role($request->header('Context-Role'))->whereNull('template_id')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-        'missions_libres_actives' => Mission::role($request->header('Context-Role'))->whereNull('template_id')->available()->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-        'missions_templates' => Mission::role($request->header('Context-Role'))->whereNotNull('template_id')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-        'missions_templates_actives' => Mission::role($request->header('Context-Role'))->whereNotNull('template_id')->available()->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'missions' => Mission::role($request->header('Context-Role'))->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            // 'missions_actives' => Mission::role($request->header('Context-Role'))->available()->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'missions_participations_max_sum' => Mission::role($request->header('Context-Role'))->available()->whereBetween('created_at', [$this->startDate, $this->endDate])->sum('participations_max'),
+            'missions_snu' => Mission::role($request->header('Context-Role'))->where('is_snu_mig_compatible', true)->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
          ];
     }
 
@@ -225,32 +223,40 @@ class NumbersController extends Controller
     public function participationsByStates(Request $request)
     {
         return [
-        'waiting' => Participation::role($request->header('Context-Role'))->where('state', 'En attente de validation')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-        'in_progress' => Participation::role($request->header('Context-Role'))->where('state', 'En cours de traitement')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-        'validated' => Participation::role($request->header('Context-Role'))->where('state', 'Validée')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-        'refused' => Participation::role($request->header('Context-Role'))->where('state', 'Refusée')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-        'canceled' => Participation::role($request->header('Context-Role'))->where('state', 'Annulée')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-         ];
+            'waiting' => Participation::role($request->header('Context-Role'))->where('state', 'En attente de validation')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'in_progress' => Participation::role($request->header('Context-Role'))->where('state', 'En cours de traitement')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'validated' => Participation::role($request->header('Context-Role'))->where('state', 'Validée')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'refused' => Participation::role($request->header('Context-Role'))->where('state', 'Refusée')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'canceled' => Participation::role($request->header('Context-Role'))->where('state', 'Annulée')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+        ];
     }
 
     public function missionsByStates(Request $request)
     {
         return [
-        'draft' => Mission::role($request->header('Context-Role'))->where('state', 'Brouillon')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-        'waiting' => Mission::role($request->header('Context-Role'))->where('state', 'En attente de validation')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-        'in_progress' => Mission::role($request->header('Context-Role'))->where('state', 'En cours de traitement')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-        'validated' => Mission::role($request->header('Context-Role'))->where('state', 'Validée')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-        'finished' => Mission::role($request->header('Context-Role'))->where('state', 'Terminée')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-        'canceled' => Mission::role($request->header('Context-Role'))->where('state', 'Annulée')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-        'signaled' => Mission::role($request->header('Context-Role'))->where('state', 'Signalée')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-         ];
+            'draft' => Mission::role($request->header('Context-Role'))->where('state', 'Brouillon')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'waiting' => Mission::role($request->header('Context-Role'))->where('state', 'En attente de validation')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'in_progress' => Mission::role($request->header('Context-Role'))->where('state', 'En cours de traitement')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'validated' => Mission::role($request->header('Context-Role'))->where('state', 'Validée')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'finished' => Mission::role($request->header('Context-Role'))->where('state', 'Terminée')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'canceled' => Mission::role($request->header('Context-Role'))->where('state', 'Annulée')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'signaled' => Mission::role($request->header('Context-Role'))->where('state', 'Signalée')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+        ];
     }
 
     public function missionsByTypes(Request $request)
     {
         return [
-        'presentiels' => Mission::role($request->header('Context-Role'))->where('type', 'Mission à distance')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-        'distances' => Mission::role($request->header('Context-Role'))->where('type', 'Mission en présentiel')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'presentiels' => Mission::role($request->header('Context-Role'))->where('type', 'Mission à distance')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'distances' => Mission::role($request->header('Context-Role'))->where('type', 'Mission en présentiel')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+        ];
+    }
+
+    public function missionsByTemplateTypes(Request $request)
+    {
+        return [
+            'with_template' => Mission::role($request->header('Context-Role'))->whereNotNull('template_id')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'without_template' => Mission::role($request->header('Context-Role'))->whereNull('template_id')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
         ];
     }
 
@@ -274,8 +280,6 @@ class NumbersController extends Controller
 
         return $results;
     }
-
-   
 
     public function participationsByActivities(Request $request)
     {

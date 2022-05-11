@@ -31,6 +31,11 @@ class ChartsController extends Controller
     {
         $items = [];
 
+        // SELECT date_trunc('month', "public"."profiles"."created_at") AS "created_at", count(*) AS "count"
+        // FROM "public"."profiles"
+        // GROUP BY date_trunc('month', "public"."profiles"."created_at")
+        // ORDER BY date_trunc('month', "public"."profiles"."created_at") ASC
+
         for ($year = $this->startYear; $year <= $this->endYear; $year++) {
             for ($month = 1; $month < 13; $month++) {
                 $items[$year][]  = Structure::role($request->header('Context-Role'))
