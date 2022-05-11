@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Notifications\StructureBeingProcessed;
 use App\Jobs\AirtableDeleteObject;
 use App\Jobs\AirtableSyncObject;
+use App\Models\Domaine;
 
 class StructureObserver
 {
@@ -229,6 +230,17 @@ class StructureObserver
             if ($changeStatus) {
                 $structure->state = 'En attente de validation';
             }
+        }
+
+        // On force les publics et les domaines pour les collectivités
+        if ($structure->statut_juridique == 'Collectivité') {
+            $structure->publics_beneficiaires = array_keys(config('taxonomies.mission_publics_beneficiaires.terms'));
+
+            $domaines = Domaine::all();
+            $values = $domaines->pluck($domaines, 'id')->map(function ($item) {
+                return ['field' => 'structure_domaines'];
+            });
+            $structure->domaines()->sync($values);
         }
     }
 
