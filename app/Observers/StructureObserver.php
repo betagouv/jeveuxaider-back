@@ -231,7 +231,10 @@ class StructureObserver
                 $structure->state = 'En attente de validation';
             }
         }
+    }
 
+    public function saved(Structure $structure)
+    {
         // On force les publics et les domaines pour les collectivités
         if ($structure->statut_juridique == 'Collectivité') {
             $structure->publics_beneficiaires = array_keys(config('taxonomies.mission_publics_beneficiaires.terms'));
