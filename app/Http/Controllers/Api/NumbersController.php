@@ -44,22 +44,35 @@ class NumbersController extends Controller
         }
     }
 
-    public function global(Request $request)
+    public function overviewQuickGlance(Request $request)
     {
 
         return [
             'organisations' => Structure::whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
             'missions' => Mission::whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
             'participations' => Participation::whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-            'users' => Profile::whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-            'reseaux' => Reseau::whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-            'territoires' => Territoire::whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-            'modeles' => MissionTemplate::whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-            'activites' => Activity::whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'utilisateurs' => Profile::whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
         ];
     }
 
-    public function offers(Request $request)
+    public function overviewOrganisations(Request $request)
+    {
+
+        $missionsAvailable = Mission::role($request->header('Context-Role'))
+            ->whereBetween('created_at', [$this->startDate, $this->endDate])
+            ->available()
+            ->get();
+
+
+        return [
+            'organisations' => Structure::whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'organisations_actives' => $missionsAvailable->pluck('structure_id')->count(),
+            'reseaux' => Reseau::whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'territoires' => Territoire::whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+        ];
+    }
+
+    public function overviewMissions(Request $request)
     {
 
         $missionsAvailable = Mission::role($request->header('Context-Role'))
@@ -77,6 +90,20 @@ class NumbersController extends Controller
             'places' => $placesOffered,
             'places_left' => $placesLeft,
             'places_occupation_rate' => $placesOffered ? round((($placesOffered - $placesLeft) / $placesOffered) * 100) : 0,
+        ];
+    }
+
+    public function overviewBenevoles(Request $request)
+    {
+
+        $usersWithParticipations = Profile::role($request->header('Context-Role'))->whereBetween('created_at', [$this->startDate, $this->endDate])->has('participations')->count();
+        $participationsCount = Participation::role($request->header('Context-Role'))->whereBetween('created_at', [$this->startDate, $this->endDate])->count();
+
+        return [
+            'benevoles' => Profile::role($request->header('Context-Role'))->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'benevoles_actifs' => $usersWithParticipations,
+            'participations_validated' => Participation::role($request->header('Context-Role'))->where('state','Validée')->count(),
+            'participations_avg' => $usersWithParticipations ? round($participationsCount / $usersWithParticipations, 1) : 0,
         ];
     }
 
