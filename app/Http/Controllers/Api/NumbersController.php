@@ -198,7 +198,6 @@ class NumbersController extends Controller
     {
         return [
             'missions' => Mission::role($request->header('Context-Role'))->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-            // 'missions_actives' => Mission::role($request->header('Context-Role'))->available()->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
             'missions_participations_max_sum' => Mission::role($request->header('Context-Role'))->available()->whereBetween('created_at', [$this->startDate, $this->endDate])->sum('participations_max'),
             'missions_snu' => Mission::role($request->header('Context-Role'))->where('is_snu_mig_compatible', true)->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
          ];
@@ -208,7 +207,7 @@ class NumbersController extends Controller
     {
         return [
             'participations' => Participation::role($request->header('Context-Role'))->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-            'participations_actives' => Participation::role($request->header('Context-Role'))->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'participations_validated' => Participation::role($request->header('Context-Role'))->where('state', 'Validée')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
         ];
     }
 
