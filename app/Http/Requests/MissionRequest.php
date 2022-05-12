@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class MissionRequest extends FormRequest
 {
@@ -34,8 +35,28 @@ class MissionRequest extends FormRequest
             'objectif' => 'required_without:template_id',
             'description' => 'required_without:template_id',
             'address' => '',
-            'latitude' => 'requiredIf:type,Mission en présentiel',
-            'longitude' => 'requiredIf:type,Mission en présentiel',
+            'latitude' => [
+                Rule::requiredIf(function () {
+                    // Hack - Nouvelle Calédonie
+                    if ($this->request->get('department') == '988') {
+                        return false;
+                    }
+                    if ($this->request->get('type') == 'Mission en présentiel') {
+                        return true;
+                    }
+                })
+            ],
+            'longitude' => [
+                Rule::requiredIf(function () {
+                    // Hack - Nouvelle Calédonie
+                    if ($this->request->get('department') == '988') {
+                        return false;
+                    }
+                    if ($this->request->get('type') == 'Mission en présentiel') {
+                        return true;
+                    }
+                })
+            ],
             'zip' => 'requiredIf:type,Mission en présentiel',
             'city' => 'requiredIf:type,Mission en présentiel',
             'department' => [
@@ -61,7 +82,7 @@ class MissionRequest extends FormRequest
             'state' => [
                 function ($attribute, $value, $fail) {
                     if ($this->mission && $this->mission->state !== $value) { // State will  change
-                        if($value == 'Validée' && $this->mission->structure->state != 'Validée'){
+                        if ($value == 'Validée' && $this->mission->structure->state != 'Validée') {
                             $fail('Vous devez valider l\'organisation au préalable.');
                         }
                         if (! $this->user()->can('changeState', [$this->mission, $value])) {
