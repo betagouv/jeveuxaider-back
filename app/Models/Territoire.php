@@ -170,7 +170,7 @@ class Territoire extends Model implements HasMedia
                 $this->zips[0],
                 [
                     'restrictSearchableAttributes' => 'postcode',
-                    'type' => 'city',
+                    'type' => 'city,townhall',
                     'hitsPerPage' => 1,
                     'countries' => 'fr,nc',
                     'language' => 'fr'
@@ -181,7 +181,6 @@ class Territoire extends Model implements HasMedia
                 $result = $result['hits'][0];
                 $this->latitude = $result['_geoloc']['lat'];
                 $this->longitude = $result['_geoloc']['lng'];
-                ray($result);
             }
         }
     }

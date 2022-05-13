@@ -37,8 +37,8 @@ class MissionRequest extends FormRequest
             'address' => '',
             'latitude' => [
                 Rule::requiredIf(function () {
-                    // Hack - Nouvelle Calédonie
-                    if ($this->request->get('department') == '988') {
+                    // Hack - Dom Tom (Nouvelle Calédonie et Polynésie française)
+                    if (in_array($this->request->get('department'), ['987', '988'])) {
                         return false;
                     }
                     if ($this->request->get('type') == 'Mission en présentiel') {
@@ -48,8 +48,8 @@ class MissionRequest extends FormRequest
             ],
             'longitude' => [
                 Rule::requiredIf(function () {
-                    // Hack - Nouvelle Calédonie
-                    if ($this->request->get('department') == '988') {
+                    // Hack - Dom Tom (Nouvelle Calédonie et Polynésie française)
+                    if (in_array($this->request->get('department'), ['987', '988'])) {
                         return false;
                     }
                     if ($this->request->get('type') == 'Mission en présentiel') {
