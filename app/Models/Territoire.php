@@ -164,6 +164,7 @@ class Territoire extends Model implements HasMedia
     public function setCoordonates()
     {
         if (!empty($this->zips)) {
+            // @todo passer par data gouv
             $places = PlacesClient::create(env('MIX_ALGOLIA_PLACES_APP_ID'), env('MIX_ALGOLIA_PLACES_API_KEY'));
             $result = $places->search(
                 $this->zips[0],
@@ -171,7 +172,7 @@ class Territoire extends Model implements HasMedia
                     'restrictSearchableAttributes' => 'postcode',
                     'type' => 'city',
                     'hitsPerPage' => 1,
-                    'countries' => 'fr',
+                    'countries' => 'fr,nc',
                     'language' => 'fr'
                 ]
             );
@@ -180,6 +181,7 @@ class Territoire extends Model implements HasMedia
                 $result = $result['hits'][0];
                 $this->latitude = $result['_geoloc']['lat'];
                 $this->longitude = $result['_geoloc']['lng'];
+                ray($result);
             }
         }
     }
