@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Mission;
 use App\Models\Structure;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Http;
 
@@ -45,7 +46,7 @@ class Airtable
         return self::syncObject('structure', $fields); 
     }
 
-    public static function deleteObject($type, Mission|Structure $object) 
+    public static function deleteObject($type, Model $object) 
     {
         $objectAirtableId = self::getAirtableId($type, $object->id); 
 
@@ -127,6 +128,8 @@ class Airtable
             'Organisation Statut Juridique' => $mission->structure->statut_juridique,
             'URL' => config('app.front_url') . $mission->full_url,
             'Description' => $mission->objectif,
+            'Précision' => $mission->description,
+            'Quelques mots' => $mission->information,
             'Crée le' => Carbon::create($mission->created_at)->format("m-d-Y"),
             'Modifiée le' => Carbon::create($mission->updated_at)->format("m-d-Y"),
         ];

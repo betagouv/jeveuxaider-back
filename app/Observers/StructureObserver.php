@@ -201,11 +201,7 @@ class StructureObserver
 
         // Sync Airtable
         if (config('services.airtable.sync')) {
-            if (in_array($structure->state, ['En attente de validation', 'En cours de traitement', 'Validée'])) {
-                AirtableSyncObject::dispatch($structure);
-            } else {
-                AirtableDeleteObject::dispatch($structure);
-            }
+            AirtableSyncObject::dispatch($structure);
         }
     }
 

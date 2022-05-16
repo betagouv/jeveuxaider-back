@@ -140,12 +140,7 @@ class MissionObserver
 
         // Sync Airtable
         if (config('services.airtable.sync')) {
-            if(in_array($mission->state, ['En attente de validation', 'En cours de traitement', 'Validée'])) {
-                AirtableSyncObject::dispatch($mission);
-            }
-            else {
-                AirtableDeleteObject::dispatch($mission);
-            }
+            AirtableSyncObject::dispatch($mission);
         }
     }
 

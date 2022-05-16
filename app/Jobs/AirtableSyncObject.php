@@ -7,6 +7,7 @@ use App\Models\Structure;
 use App\Services\Airtable;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
@@ -22,7 +23,7 @@ class AirtableSyncObject implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(Mission|Structure $object)
+    public function __construct(Model $object)
     {
         $this->object = $object;
         $this->onQueue('airtable');
