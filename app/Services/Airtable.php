@@ -148,6 +148,7 @@ class Airtable
             'Bénévoles recherchés' => $structure->places_left,
             'Taux de réponse' => $structure->response_ratio / 100,
             'Temps de réponse' => $structure->response_time / (60 * 60 * 24),
+            'Missions en ligne' => $structure->missions()->available()->count(),
             'URL' => config('app.front_url') . $structure->full_url,
             'Crée le' => Carbon::create($structure->created_at)->format("m-d-Y"),
             'Modifiée le' => Carbon::create($structure->updated_at)->format("m-d-Y"),
