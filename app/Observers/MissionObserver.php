@@ -57,6 +57,7 @@ class MissionObserver
         // Sync Airtable
         if (config('services.airtable.sync')) {
             AirtableSyncObject::dispatch($mission);
+            AirtableSyncObject::dispatch($mission->structure);
         }
     }
 
@@ -141,6 +142,7 @@ class MissionObserver
         // Sync Airtable
         if (config('services.airtable.sync')) {
             AirtableSyncObject::dispatch($mission);
+            AirtableSyncObject::dispatch($mission->structure);
         }
     }
 
@@ -177,6 +179,7 @@ class MissionObserver
         // Sync Airtable
         if (config('services.airtable.sync')) {
             AirtableDeleteObject::dispatch($mission);
+            AirtableSyncObject::dispatch($mission->structure);
         }
     }
 }
