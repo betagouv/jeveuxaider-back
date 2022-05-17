@@ -308,6 +308,9 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::get('activities/{activity}/statistics', 'Api\ActivityController@statistics');
     Route::delete('activities/{activity}', 'Api\ActivityController@delete');
 
+    // TEMOIGNAGES
+    Route::put('temoignages/{temoignage}', 'Api\TemoignageController@update');
+
     // TERRITOIRES
     Route::delete('territoires/{territoire}', 'Api\TerritoireController@delete');
 });

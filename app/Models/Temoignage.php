@@ -9,10 +9,8 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class Temoignage extends Model
 {
-    protected $fillable = [
-        'participation_id',
-        'grade',
-        'testimony',
+    protected $guarded = [
+        'id'
     ];
 
     public function participation()
