@@ -17,7 +17,7 @@ class TemoignageController extends Controller
     public function index(Request $request)
     {
         return QueryBuilder::for(Temoignage::role($request->header('Context-Role')))
-            ->with('participation.mission', 'participation.mission.structure', 'participation.profile')
+            ->with('participation.mission', 'participation.mission.structure', 'participation.profile', 'participation.profile.avatar')
             ->allowedFilters(
                 AllowedFilter::exact('is_published'),
                 AllowedFilter::exact('participation.mission.id'),
