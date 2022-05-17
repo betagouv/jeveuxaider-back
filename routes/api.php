@@ -59,6 +59,7 @@ Route::get('participations/{participation}/temoignage', 'Api\ParticipationContro
 // Route::get('participation/{participation}/benevole-name', 'Api\ParticipationController@benevoleName');
 // Route::get('participation/{participation}/mission', 'Api\ParticipationController@mission');
 Route::post('temoignages', 'Api\TemoignageController@store');
+Route::get('temoignages/organisations/{structure}', 'Api\TemoignageController@forOrganisation');
 
 Route::get('settings/messages', 'Api\SettingController@messages');
 Route::get('settings/general', 'Api\SettingController@general');

@@ -73,4 +73,5 @@ class Temoignage extends Model
             get: fn ($value) => strip_tags($value),
         );
     }
+
 }

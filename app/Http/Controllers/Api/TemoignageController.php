@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\TemoignageCreateRequest;
 use App\Http\Requests\Api\TemoignageUpdateRequest;
+use App\Models\Structure;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
 
@@ -54,5 +55,15 @@ class TemoignageController extends Controller
         }
 
         return Temoignage::create($request->validated());
+    }
+
+    public function forOrganisation(Request $request, Structure $structure)
+    {
+        return Temoignage::with([
+            'participation.mission',
+            'participation.mission.structure',
+            'participation.profile',
+            'participation.profile.avatar'
+        ])->where('grade', '>=', 4)->where('is_published', true)->ofStructure($structure->id)->get();
     }
 }
