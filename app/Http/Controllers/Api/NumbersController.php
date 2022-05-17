@@ -72,7 +72,7 @@ class NumbersController extends Controller
 
         return [
             'organisations' => Structure::whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-            'organisations_actives' => $missionsAvailable->pluck('structure_id')->count(),
+            'organisations_actives' => $missionsAvailable->pluck('structure_id')->unique()->count(),
             'reseaux' => Reseau::whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
             'territoires' => Territoire::whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
         ];
@@ -125,14 +125,6 @@ class NumbersController extends Controller
             'organisations_count' => Structure::role($request->header('Context-Role'))->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
             'organisations_response_time_avg' => round(Structure::role($request->header('Context-Role'))->whereBetween('created_at', [$this->startDate, $this->endDate])->avg('response_time')),
             'organisations_response_ratio_avg' => round(Structure::role($request->header('Context-Role'))->whereBetween('created_at', [$this->startDate, $this->endDate])->avg('response_ratio')),
-            // 'associations' => Structure::role($request->header('Context-Role'))->where('statut_juridique', 'Association')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-            // 'associations_actives' => $missionsAvailable->where('structure.statut_juridique', 'Association')->pluck('structure_id')->unique()->count(),
-            // 'collectivites' => Structure::role($request->header('Context-Role'))->where('statut_juridique', 'Collectivité')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-            // 'collectivites_actives' => $missionsAvailable->where('structure.statut_juridique', 'Collectivité')->pluck('structure_id')->unique()->count(),
-            // 'organisations_publiques' => Structure::role($request->header('Context-Role'))->where('statut_juridique', 'Organisation publique')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-            // 'organisations_publiques_actives' => $missionsAvailable->where('structure.statut_juridique', 'Organisation publique')->pluck('structure_id')->unique()->count(),
-            // 'organisations_privees' => Structure::role($request->header('Context-Role'))->where('statut_juridique', 'Organisation privée')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-            // 'organisations_privees_actives' => $missionsAvailable->where('structure.statut_juridique', 'Organisation privée')->pluck('structure_id')->unique()->count(),
         ];
     }
 
