@@ -313,7 +313,7 @@ class NumbersController extends Controller
     {
 
         $results = DB::select("
-                SELECT activities.name, COUNT(*) AS count FROM participations
+                SELECT activities.name, activities.id, COUNT(*) AS count FROM participations
                 LEFT JOIN missions ON missions.id = participations.mission_id
                 LEFT JOIN mission_templates ON mission_templates.id = missions.template_id
                 LEFT JOIN activities ON activities.id = mission_templates.activity_id OR activities.id = missions.activity_id
@@ -321,7 +321,7 @@ class NumbersController extends Controller
                 AND missions.deleted_at IS NULL
                 AND participations.created_at BETWEEN :start and :end
                 AND activities.name IS NOT NULL
-                GROUP BY activities.name
+                GROUP BY activities.name,activities.id
                 ORDER BY count DESC
                 LIMIT 5
             ", [
@@ -483,13 +483,13 @@ class NumbersController extends Controller
     {
 
         $results = DB::select("
-                SELECT mission_templates.title, COUNT(*) AS count FROM missions
+                SELECT mission_templates.title, mission_templates.id, COUNT(*) AS count FROM missions
                 LEFT JOIN mission_templates ON mission_templates.id = missions.template_id
                 WHERE missions.deleted_at IS NULL
                 AND missions.deleted_at IS NULL
                 AND mission_templates.title IS NOT NULL
                 AND missions.created_at BETWEEN :start and :end
-                GROUP BY mission_templates.title
+                GROUP BY mission_templates.title, mission_templates.id
                 ORDER BY count DESC
                 LIMIT 5
             ", [
