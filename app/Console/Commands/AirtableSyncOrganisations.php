@@ -39,7 +39,7 @@ class AirtableSyncOrganisations extends Command
      */
     public function handle()
     {
-        $query = Structure::with(['missions'])->whereIn('state', ['En attente de validation', 'En cours de traitement', 'Validée']);
+        $query = Structure::with(['missions']);
 
         if ($this->confirm($query->count() . ' organisations will be added or updated in Airtable')) {
             $start = now();
