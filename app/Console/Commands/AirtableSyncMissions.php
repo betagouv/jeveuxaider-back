@@ -13,14 +13,14 @@ class AirtableSyncMissions extends Command
      *
      * @var string
      */
-    protected $signature = 'airtable:sync-missions';
+    protected $signature = 'airtable:sync-missions {--fromId=1}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Sync missions in Airtable';
+    protected $description = 'Sync missions in Airtable {--fromId= : Take missions > fromId }';
 
     /**
      * Create a new command instance.
@@ -39,7 +39,8 @@ class AirtableSyncMissions extends Command
      */
     public function handle()
     {
-        $query = Mission::with(['structure', 'domaine', 'template.domaine']);
+        $options = $this->options();
+        $query = Mission::with(['structure', 'domaine', 'template.domaine'])->orderBy('id')->where('id', '>=', $options['fromId']);
 
         if ($this->confirm($query->count() . ' missions will be added or updated in Airtable')) {
             $start = now();
@@ -50,6 +51,7 @@ class AirtableSyncMissions extends Command
             $query->chunk(50, function ($missions) use ($start) {
                 foreach ($missions as $mission) {
                     Airtable::syncMission($mission);
+                    $this->comment("Processed mission " . $mission->id);
                 }
                 $time = $start->diffInSeconds(now());
                 $this->comment("Processed in $time seconds");
