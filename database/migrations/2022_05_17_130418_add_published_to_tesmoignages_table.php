@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('temoignages', function (Blueprint $table) {
-            $table->boolean('is_published')->default(true);
+            $table->boolean('is_published')->default(false);
         });
     }
 
