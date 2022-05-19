@@ -7,6 +7,8 @@ use App\Models\Temoignage;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\TemoignageCreateRequest;
+use App\Http\Requests\Api\TemoignageUpdateRequest;
+use App\Models\Structure;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
 
@@ -15,8 +17,9 @@ class TemoignageController extends Controller
     public function index(Request $request)
     {
         return QueryBuilder::for(Temoignage::role($request->header('Context-Role')))
-            ->with('participation.mission', 'participation.mission.structure', 'participation.profile')
+            ->with('participation.mission', 'participation.mission.structure', 'participation.profile', 'participation.profile.avatar')
             ->allowedFilters(
+                AllowedFilter::exact('is_published'),
                 AllowedFilter::exact('participation.mission.id'),
                 AllowedFilter::exact('grade'),
                 AllowedFilter::custom('search', new FiltersTemoignageSearch),
@@ -27,14 +30,33 @@ class TemoignageController extends Controller
 
     public function show(Request $request, Temoignage $temoignage)
     {
-        $temoignage->load('participation.mission','participation.mission.responsable', 'participation.mission.structure', 'participation.profile');
+        $temoignage->load(
+            'participation.mission',
+            'participation.mission.responsable',
+            'participation.mission.structure',
+            'participation.profile'
+        );
+
         return $temoignage;
     }
 
-    // public function fromParticipation(Request $request, Participation $participation)
-    // {
-    //     return Temoignage::where('participation_id', $participation->id)->first();
-    // }
+    public function update(TemoignageUpdateRequest $request, Temoignage $temoignage)
+    {
+        $temoignage->update($request->validated());
+        return $temoignage;
+    }
+
+    public function publish(TemoignageUpdateRequest $request, Temoignage $temoignage)
+    {
+        $temoignage->update(['is_published' => true]);
+        return $temoignage;
+    }
+
+    public function unpublish(TemoignageUpdateRequest $request, Temoignage $temoignage)
+    {
+        $temoignage->update(['is_published' => false]);
+        return $temoignage;
+    }
 
     public function store(TemoignageCreateRequest $request)
     {
@@ -45,5 +67,15 @@ class TemoignageController extends Controller
         }
 
         return Temoignage::create($request->validated());
+    }
+
+    public function forOrganisation(Request $request, Structure $structure)
+    {
+        return Temoignage::with([
+            'participation.mission',
+            'participation.mission.structure',
+            'participation.profile',
+            'participation.profile.avatar'
+        ])->where('grade', '>=', 4)->where('is_published', true)->ofStructure($structure->id)->get();
     }
 }

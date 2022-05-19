@@ -28,10 +28,10 @@ class TemoignagePolicy
         return false;
     }
 
-    // public function update(User $user, Temoignage $temoignage)
-    // {
-    //     return false;
-    // }
+    public function update(User $user, Temoignage $temoignage)
+    {
+        return false;
+    }
 
     // public function delete(User $user, Temoignage $temoignage)
     // {

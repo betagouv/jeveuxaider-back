@@ -59,6 +59,7 @@ Route::get('participations/{participation}/temoignage', 'Api\ParticipationContro
 // Route::get('participation/{participation}/benevole-name', 'Api\ParticipationController@benevoleName');
 // Route::get('participation/{participation}/mission', 'Api\ParticipationController@mission');
 Route::post('temoignages', 'Api\TemoignageController@store');
+Route::get('temoignages/organisations/{structure}', 'Api\TemoignageController@forOrganisation');
 
 Route::get('settings/messages', 'Api\SettingController@messages');
 Route::get('settings/general', 'Api\SettingController@general');
@@ -307,6 +308,11 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::put('activities/{activity}', 'Api\ActivityController@update');
     Route::get('activities/{activity}/statistics', 'Api\ActivityController@statistics');
     Route::delete('activities/{activity}', 'Api\ActivityController@delete');
+
+    // TEMOIGNAGES
+    Route::put('temoignages/{temoignage}', 'Api\TemoignageController@update');
+    Route::put('temoignages/{temoignage}/publish', 'Api\TemoignageController@publish');
+    Route::put('temoignages/{temoignage}/unpublish', 'Api\TemoignageController@unpublish');
 
     // TERRITOIRES
     Route::delete('territoires/{territoire}', 'Api\TerritoireController@delete');
