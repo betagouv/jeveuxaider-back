@@ -151,6 +151,7 @@ class Mission extends Model
             'is_priority' => $this->is_priority,
             'is_snu_mig_compatible' => $this->is_snu_mig_compatible,
             'snu_mig_places' => $this->snu_mig_places,
+            'commitment__total' => $this->commitment__total,
         ];
 
         if ($this->latitude && $this->longitude) {

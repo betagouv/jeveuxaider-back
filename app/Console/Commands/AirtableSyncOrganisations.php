@@ -13,14 +13,14 @@ class AirtableSyncOrganisations extends Command
      *
      * @var string
      */
-    protected $signature = 'airtable:sync-organisations';
+    protected $signature = 'airtable:sync-organisations {--fromId=1}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Sync organisations in Airtable';
+    protected $description = 'Sync organisations in Airtable {--fromId= : Take organisations > fromId }';
 
     /**
      * Create a new command instance.
@@ -39,7 +39,8 @@ class AirtableSyncOrganisations extends Command
      */
     public function handle()
     {
-        $query = Structure::with(['missions'])->whereIn('state', ['En attente de validation', 'En cours de traitement', 'Validée']);
+        $options = $this->options();
+        $query = Structure::with(['missions'])->orderBy('id')->where('id', '>=', $options['fromId']);
 
         if ($this->confirm($query->count() . ' organisations will be added or updated in Airtable')) {
             $start = now();
@@ -50,6 +51,7 @@ class AirtableSyncOrganisations extends Command
             $query->chunk(50, function ($organisations) use ($start) {
                 foreach ($organisations as $organisation) {
                     Airtable::syncStructure($organisation);
+                    $this->comment("Processed organisation " . $organisation->id);
                 }
                 $time = $start->diffInSeconds(now());
                 $this->comment("Processed in $time seconds");
