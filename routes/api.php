@@ -311,6 +311,8 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
 
     // TEMOIGNAGES
     Route::put('temoignages/{temoignage}', 'Api\TemoignageController@update');
+    Route::put('temoignages/{temoignage}/publish', 'Api\TemoignageController@publish');
+    Route::put('temoignages/{temoignage}/unpublish', 'Api\TemoignageController@unpublish');
 
     // TERRITOIRES
     Route::delete('territoires/{territoire}', 'Api\TerritoireController@delete');

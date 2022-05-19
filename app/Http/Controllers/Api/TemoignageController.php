@@ -46,6 +46,18 @@ class TemoignageController extends Controller
         return $temoignage;
     }
 
+    public function publish(TemoignageUpdateRequest $request, Temoignage $temoignage)
+    {
+        $temoignage->update(['is_published' => true]);
+        return $temoignage;
+    }
+
+    public function unpublish(TemoignageUpdateRequest $request, Temoignage $temoignage)
+    {
+        $temoignage->update(['is_published' => false]);
+        return $temoignage;
+    }
+
     public function store(TemoignageCreateRequest $request)
     {
         // Seulement si temoignage non existant.
