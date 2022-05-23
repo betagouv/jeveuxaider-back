@@ -8,12 +8,14 @@ use App\Models\Activity;
 use App\Models\Message;
 use App\Models\Mission;
 use App\Models\MissionTemplate;
+use App\Models\NotificationBenevole;
 use App\Models\Participation;
 use App\Models\Profile;
 use App\Models\Reseau;
 use Carbon\Carbon;
 use App\Models\Structure;
 use App\Models\Territoire;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
@@ -107,8 +109,12 @@ class NumbersController extends Controller
         $participationsCount = Participation::role($request->header('Context-Role'))->whereBetween('created_at', [$this->startDate, $this->endDate])->count();
 
         return [
-            'benevoles' => Profile::role($request->header('Context-Role'))->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'utilisateurs' => Profile::role($request->header('Context-Role'))->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'benevoles' => Profile::role($request->header('Context-Role'))->whereHas('user', function(Builder $query){
+                $query->where('context_role','volontaire');
+            })->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
             'benevoles_actifs' => $usersWithParticipations,
+            'benevoles_visibles' => $usersWithParticipations,
             'participations_validated' => Participation::role($request->header('Context-Role'))->where('state','Validée')->count(),
             'participations_avg' => $usersWithParticipations ? round($participationsCount / $usersWithParticipations, 1) : 0,
         ];
@@ -245,6 +251,12 @@ class NumbersController extends Controller
 
         return [
             'utilisateurs' => Profile::role($request->header('Context-Role'))->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'benevoles' => Profile::role($request->header('Context-Role'))->whereHas('user', function(Builder $query){
+                $query->where('context_role','volontaire');
+            })->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'benevoles_actifs' => $usersWithParticipations,
+            'benevoles_visibles_marketplace' => Profile::role($request->header('Context-Role'))->where('is_visible', true)->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'benevoles_notifications_martketplace' => NotificationBenevole::role($request->header('Context-Role'))->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
             'utilisateurs_with_participations' => $usersWithParticipations,
             'participations_avg' => $usersWithParticipations ? round($participationsCount / $usersWithParticipations, 1) : 0,
         ];
