@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Activity;
+use App\Models\Message;
 use App\Models\Mission;
 use App\Models\MissionTemplate;
 use App\Models\Participation;
@@ -242,27 +243,10 @@ class NumbersController extends Controller
         $usersWithParticipations = Profile::role($request->header('Context-Role'))->whereBetween('created_at', [$this->startDate, $this->endDate])->has('participations')->count();
         $participationsCount = Participation::role($request->header('Context-Role'))->whereBetween('created_at', [$this->startDate, $this->endDate])->count();
 
-        $avgTimeBetweenInscriptionAndParticipation = DB::selectOne("
-            SELECT AVG(date_difference) FROM
-            (
-                SELECT DISTINCT ON (participations.profile_id)
-                participations.profile_id, participations.created_at, profiles.email, profiles.created_at,
-                EXTRACT(EPOCH FROM (participations.created_at - profiles.created_at)) AS date_difference
-                FROM participations
-                LEFT JOIN profiles ON profiles.id = participations.profile_id
-                WHERE profiles.created_at BETWEEN :start and :end
-                ORDER BY participations.profile_id, participations.id ASC
-            ) MyTable
-            ", [
-            "start" => $this->startDate,
-            "end" => $this->endDate,
-        ])->avg;
-
         return [
             'utilisateurs' => Profile::role($request->header('Context-Role'))->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
             'utilisateurs_with_participations' => $usersWithParticipations,
             'participations_avg' => $usersWithParticipations ? round($participationsCount / $usersWithParticipations, 1) : 0,
-            'avg_time_between_inscription_and_participation' => $avgTimeBetweenInscriptionAndParticipation / (60),
         ];
     }
 
@@ -753,5 +737,67 @@ class NumbersController extends Controller
             ->get();
 
         return $results;
+    }
+
+    public function participationsCanceledByBenevoles(Request $request)
+    {
+        return [
+            'no_response' => Message::role($request->header('Context-Role'))->where('contextual_state', 'Annulée par bénévole')->where('contextual_reason', 'no_response')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'requirements_not_fulfilled' => Message::role($request->header('Context-Role'))->where('contextual_state', 'Annulée par bénévole')->where('contextual_reason', 'requirements_not_fulfilled')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'not_available' => Message::role($request->header('Context-Role'))->where('contextual_state', 'Annulée par bénévole')->where('contextual_reason', 'not_available')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'other' => Message::role($request->header('Context-Role'))->where('contextual_state', 'Annulée par bénévole')->where('contextual_reason', 'other')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+        ];
+    }
+
+    public function participationsRefusedByResponsables(Request $request)
+    {
+        return [
+            'no_response' => Message::role($request->header('Context-Role'))->where('contextual_state', 'Refusée')->where('contextual_reason', 'no_response')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'requirements_not_fulfilled' => Message::role($request->header('Context-Role'))->where('contextual_state', 'Refusée')->where('contextual_reason', 'requirements_not_fulfilled')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'mission_terminated' => Message::role($request->header('Context-Role'))->where('contextual_state', 'Refusée')->where('contextual_reason', 'mission_terminated')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'change_mind' => Message::role($request->header('Context-Role'))->where('contextual_state', 'Refusée')->where('contextual_reason', 'change_mind')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'other' => Message::role($request->header('Context-Role'))->where('contextual_state', 'Refusée')->where('contextual_reason', 'other')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+        ];
+    }
+
+    public function participationsDelayAfterRegister(Request $request)
+    {
+        return [
+            'no_response' => Message::role($request->header('Context-Role'))->where('contextual_state', 'Annulée par bénévole')->where('contextual_reason', 'no_response')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'requirements_not_fulfilled' => Message::role($request->header('Context-Role'))->where('contextual_state', 'Annulée par bénévole')->where('contextual_reason', 'requirements_not_fulfilled')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'not_available' => Message::role($request->header('Context-Role'))->where('contextual_state', 'Annulée par bénévole')->where('contextual_reason', 'not_available')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'other' => Message::role($request->header('Context-Role'))->where('contextual_state', 'Annulée par bénévole')->where('contextual_reason', 'other')->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+        ];
+    }
+
+    public function participationsDelaysByRegistrations(Request $request)
+    {
+        $results = DB::select("
+            SELECT
+            COUNT(date_difference),
+            CASE
+                WHEN date_difference <= 60 THEN 'LESS_THAN_1_MIN'
+                WHEN date_difference BETWEEN 61 AND 300 THEN 'LESS_THAN_5_MIN'
+                WHEN date_difference BETWEEN 301 AND 3600 THEN 'LESS_THAN_1_HOUR'
+                WHEN date_difference BETWEEN 3601 AND 84600 THEN 'LESS_THAN_1_DAY'
+                WHEN date_difference BETWEEN 84601 AND 423000 THEN 'LESS_THAN_5_DAYS'
+                WHEN date_difference > 423000 THEN 'OTHER'
+            END delay
+            FROM (
+                SELECT DISTINCT ON (participations.profile_id)
+                participations.profile_id, participations.created_at, profiles.email, profiles.created_at,
+                EXTRACT(EPOCH FROM (participations.created_at - profiles.created_at)) AS date_difference
+                FROM participations
+                LEFT JOIN profiles ON profiles.id = participations.profile_id
+                WHERE profiles.created_at BETWEEN :start and :end
+                ORDER BY participations.profile_id, participations.id ASC
+            ) MyTable
+            GROUP BY delay
+            ", [
+            "start" => $this->startDate,
+            "end" => $this->endDate,
+        ]);
+
+        return collect($results)->pluck('count','delay');
     }
 }

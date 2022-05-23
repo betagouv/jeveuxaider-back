@@ -182,6 +182,9 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::get('statistics/participations-by-states', 'Api\NumbersController@participationsByStates');
     Route::get('statistics/participations-by-domaines', 'Api\NumbersController@participationsByDomaines');
     Route::get('statistics/participations-by-reseaux', 'Api\NumbersController@participationsByReseaux');
+    Route::get('statistics/participations-canceled-by-benevoles', 'Api\NumbersController@participationsCanceledByBenevoles');
+    Route::get('statistics/participations-refused-by-responsables', 'Api\NumbersController@participationsRefusedByResponsables');
+    Route::get('statistics/participations-delays-by-registrations', 'Api\NumbersController@participationsDelaysByRegistrations');
 
     Route::get('statistics/missions-by-states', 'Api\NumbersController@missionsByStates');
     Route::get('statistics/missions-by-types', 'Api\NumbersController@missionsByTypes');
