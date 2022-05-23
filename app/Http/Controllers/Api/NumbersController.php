@@ -225,7 +225,8 @@ class NumbersController extends Controller
             'missions' => Mission::role($request->header('Context-Role'))->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
             'missions_participations_max_sum' => Mission::role($request->header('Context-Role'))->available()->whereBetween('created_at', [$this->startDate, $this->endDate])->sum('participations_max'),
             'missions_snu' => Mission::role($request->header('Context-Role'))->where('is_snu_mig_compatible', true)->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-         ];
+            'missions_snu_participations_max_sum' => Mission::role($request->header('Context-Role'))->available()->where('is_snu_mig_compatible', true)->whereBetween('created_at', [$this->startDate, $this->endDate])->sum('snu_mig_places'),
+        ];
     }
 
     public function globalParticipations(Request $request)
@@ -241,10 +242,27 @@ class NumbersController extends Controller
         $usersWithParticipations = Profile::role($request->header('Context-Role'))->whereBetween('created_at', [$this->startDate, $this->endDate])->has('participations')->count();
         $participationsCount = Participation::role($request->header('Context-Role'))->whereBetween('created_at', [$this->startDate, $this->endDate])->count();
 
+        $avgTimeBetweenInscriptionAndParticipation = DB::selectOne("
+            SELECT AVG(date_difference) FROM
+            (
+                SELECT DISTINCT ON (participations.profile_id)
+                participations.profile_id, participations.created_at, profiles.email, profiles.created_at,
+                EXTRACT(EPOCH FROM (participations.created_at - profiles.created_at)) AS date_difference
+                FROM participations
+                LEFT JOIN profiles ON profiles.id = participations.profile_id
+                WHERE profiles.created_at BETWEEN :start and :end
+                ORDER BY participations.profile_id, participations.id ASC
+            ) MyTable
+            ", [
+            "start" => $this->startDate,
+            "end" => $this->endDate,
+        ])->avg;
+
         return [
             'utilisateurs' => Profile::role($request->header('Context-Role'))->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
             'utilisateurs_with_participations' => $usersWithParticipations,
             'participations_avg' => $usersWithParticipations ? round($participationsCount / $usersWithParticipations, 1) : 0,
+            'avg_time_between_inscription_and_participation' => $avgTimeBetweenInscriptionAndParticipation / (60),
         ];
     }
 
@@ -556,6 +574,14 @@ class NumbersController extends Controller
         ]);
 
         return $results;
+    }
+
+    public function utilisateursWithParticipations(Request $request)
+    {
+        return [
+            'with_participations' => Profile::role($request->header('Context-Role'))->whereBetween('created_at', [$this->startDate, $this->endDate])->has('participations')->count(),
+            'without_participations' => Profile::role($request->header('Context-Role'))->whereBetween('created_at', [$this->startDate, $this->endDate])->doesntHave('participations')->count(),
+        ];
     }
 
     public function missionsOutdatedByOrganisations(Request $request)
