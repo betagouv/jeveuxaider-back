@@ -278,7 +278,7 @@ class ApiEngagement
                 ? $structureApi['coordonnees']['adresse']['code_postal']
                 : null;
 
-            $attributes['department'] = isset($structureApi['coordonnees']['adresse']['departement_numero'])
+            $attributes['department'] = isset($structureApi['coordonnees']['adresse']['departement_numero']) && isset(config('taxonomies.departments.terms')[$structureApi['coordonnees']['adresse']['departement_numero']])
                 ? $structureApi['coordonnees']['adresse']['departement_numero']
                 : null;
 
