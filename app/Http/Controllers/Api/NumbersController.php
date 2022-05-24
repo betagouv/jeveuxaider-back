@@ -182,14 +182,17 @@ class NumbersController extends Controller
     {
 
         $results = DB::select("
-                SELECT reseaux.name, reseaux.id, COUNT(*) AS count FROM missions
+                SELECT reseaux.name, reseaux.id, COUNT(*) AS count,
+                SUM(CASE WHEN missions.state IN ('Validée') THEN missions.places_left ELSE 0 END) AS sum_places_left
+                FROM missions
                 LEFT JOIN structures ON structures.id = missions.structure_id
                 LEFT JOIN reseau_structure ON reseau_structure.structure_id = structures.id
                 LEFT JOIN reseaux ON reseaux.id = reseau_structure.reseau_id
                 WHERE structures.deleted_at IS NULL
+                AND structures.state = 'Validée'
+                AND structures.created_at BETWEEN :start and :end
                 AND missions.deleted_at IS NULL
                 AND reseaux.name IS NOT NULL
-                AND structures.created_at BETWEEN :start and :end
                 GROUP BY reseaux.name, reseaux.id
                 ORDER BY count DESC
                 LIMIT 5
@@ -478,7 +481,8 @@ class NumbersController extends Controller
     {
 
         $results = DB::select("
-                SELECT domaines.name, domaines.id, COUNT(*) AS count FROM missions
+                SELECT domaines.name, domaines.id, COUNT(*) AS count
+                FROM missions
                 LEFT JOIN mission_templates ON mission_templates.id = missions.template_id
                 LEFT JOIN domaines ON domaines.id = mission_templates.domaine_id OR domaines.id = missions.domaine_id OR domaines.id = missions.domaine_secondary_id
                 WHERE missions.deleted_at IS NULL
@@ -811,5 +815,102 @@ class NumbersController extends Controller
         ]);
 
         return collect($results)->pluck('count','delay');
+    }
+
+    public function placesByReseaux(Request $request)
+    {
+        $results = DB::select("
+                SELECT reseaux.name, reseaux.id,
+                SUM(CASE WHEN missions.state IN ('Validée') THEN missions.places_left ELSE 0 END) AS count
+                FROM missions
+                LEFT JOIN structures ON structures.id = missions.structure_id
+                LEFT JOIN reseau_structure ON reseau_structure.structure_id = structures.id
+                LEFT JOIN reseaux ON reseaux.id = reseau_structure.reseau_id
+                WHERE structures.deleted_at IS NULL
+                AND structures.state = 'Validée'
+                AND missions.deleted_at IS NULL
+                AND reseaux.name IS NOT NULL
+                GROUP BY reseaux.name, reseaux.id
+                ORDER BY count DESC
+                LIMIT 5
+            ");
+
+        return $results;
+    }
+
+    public function placesByOrganisations(Request $request)
+    {
+        $results = DB::select("
+                SELECT structures.name, structures.id,
+                SUM(CASE WHEN missions.state IN ('Validée') THEN missions.places_left ELSE 0 END) AS count
+                FROM missions
+                LEFT JOIN structures ON structures.id = missions.structure_id
+                WHERE structures.deleted_at IS NULL
+                AND structures.state = 'Validée'
+                AND missions.deleted_at IS NULL
+                AND structures.name IS NOT NULL
+                GROUP BY structures.name, structures.id
+                ORDER BY count DESC
+                LIMIT 5
+            ");
+
+        return $results;
+    }
+
+    public function placesByMissions(Request $request)
+    {
+        $results = DB::select("
+                SELECT missions.name, missions.id, mission_templates.title,
+                SUM(CASE WHEN missions.state IN ('Validée') THEN missions.places_left ELSE 0 END) AS count
+                FROM missions
+                LEFT JOIN structures ON structures.id = missions.structure_id
+                LEFT JOIN mission_templates ON mission_templates.id = missions.template_id
+                WHERE structures.deleted_at IS NULL
+                AND structures.state = 'Validée'
+                AND missions.deleted_at IS NULL
+                AND structures.name IS NOT NULL
+                GROUP BY missions.name, missions.id, mission_templates.title
+                ORDER BY count DESC
+                LIMIT 5
+            ");
+
+        return $results;
+    }
+
+    public function placesByDomaines(Request $request)
+    {
+
+        $results = DB::select("
+                SELECT domaines.name, domaines.id,
+                SUM(CASE WHEN missions.state IN ('Validée') THEN missions.places_left ELSE 0 END) AS count
+                FROM missions
+                LEFT JOIN mission_templates ON mission_templates.id = missions.template_id
+                LEFT JOIN domaines ON domaines.id = mission_templates.domaine_id OR domaines.id = missions.domaine_id OR domaines.id = missions.domaine_secondary_id
+                WHERE missions.deleted_at IS NULL
+                AND domaines.name IS NOT NULL
+                GROUP BY domaines.name, domaines.id
+                ORDER BY count DESC
+            ");
+
+        return $results;
+    }
+
+    public function placesByActivities(Request $request)
+    {
+
+        $results = DB::select("
+                SELECT activities.name, activities.id,
+                SUM(CASE WHEN missions.state IN ('Validée') THEN missions.places_left ELSE 0 END) AS count
+                FROM missions
+                LEFT JOIN mission_templates ON mission_templates.id = missions.template_id
+                LEFT JOIN activities ON activities.id = mission_templates.activity_id OR activities.id = missions.activity_id
+                WHERE missions.deleted_at IS NULL
+                AND activities.name IS NOT NULL
+                GROUP BY activities.name, activities.id
+                ORDER BY count DESC
+                LIMIT 5
+            ");
+
+        return $results;
     }
 }

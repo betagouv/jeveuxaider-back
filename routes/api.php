@@ -201,6 +201,12 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::get('statistics/organisations-by-domaines', 'Api\NumbersController@organisationsByDomaines');
     Route::get('statistics/organisations-by-reseaux', 'Api\NumbersController@organisationsByReseaux');
 
+    Route::get('statistics/places-by-reseaux', 'Api\NumbersController@placesByReseaux');
+    Route::get('statistics/places-by-organisations', 'Api\NumbersController@placesByOrganisations');
+    Route::get('statistics/places-by-missions', 'Api\NumbersController@placesByMissions');
+    Route::get('statistics/places-by-domaines', 'Api\NumbersController@placesByDomaines');
+    Route::get('statistics/places-by-activities', 'Api\NumbersController@placesByActivities');
+
     Route::get('statistics/utilisateurs-by-domaines', 'Api\NumbersController@utilisateursByDomaines');
     Route::get('statistics/utilisateurs-with-participations', 'Api\NumbersController@utilisateursWithParticipations');
 
