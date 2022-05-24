@@ -175,7 +175,6 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
 
     Route::get('statistics/participations-by-activities', 'Api\NumbersController@participationsByActivities');
     Route::get('statistics/participations-by-mission-templates', 'Api\NumbersController@participationsByMissionTemplates');
-    Route::get('statistics/participations-by-departments', 'Api\NumbersController@participationsByDepartments');
     Route::get('statistics/participations-by-missions', 'Api\NumbersController@participationsByMissions');
     Route::get('statistics/participations-by-organisations', 'Api\NumbersController@participationsByOrganisations');
     Route::get('statistics/participations-by-reseaux', 'Api\NumbersController@participationsByReseaux');
@@ -190,7 +189,6 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::get('statistics/missions-by-types', 'Api\NumbersController@missionsByTypes');
     Route::get('statistics/missions-by-activities', 'Api\NumbersController@missionsByActivities');
     Route::get('statistics/missions-by-templates', 'Api\NumbersController@missionsByTemplates');
-    Route::get('statistics/missions-by-departments', 'Api\NumbersController@missionsByDepartments');
     Route::get('statistics/missions-by-domaines', 'Api\NumbersController@missionsByDomaines');
     Route::get('statistics/missions-by-organisations', 'Api\NumbersController@missionsByOrganisations');
     Route::get('statistics/missions-by-reseaux', 'Api\NumbersController@missionsByReseaux');
