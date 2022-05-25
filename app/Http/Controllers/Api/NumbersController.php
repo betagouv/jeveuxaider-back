@@ -121,7 +121,7 @@ class NumbersController extends Controller
         ];
     }
 
-    public function overviewBenevoles(Request $request)
+    public function overviewUtilisateurs(Request $request)
     {
         return [
             'utilisateurs' => Profile::role($request->header('Context-Role'))->when($this->department, function ($query) {
