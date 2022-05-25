@@ -19,7 +19,10 @@ class ApiEngagement
         do {
             $response = Http::withHeaders([
                 'apikey' => config('app.api_engagement_key'),
-            ])->get("https://api.api-engagement.beta.gouv.fr/v0/mission?limit=$limit&skip=$done&domain=environnement,solidarite-insertion,sante,culture-loisirs,education,sport,emploi,humanitaire,animaux,vivre-ensemble");
+            ])->get("https://api.api-engagement.beta.gouv.fr/v0/mission?limit=$limit&skip=$done&domain=environnement,solidarite-insertion,sante,culture-loisirs,education,sport,emploi,humanitaire,animaux,vivre-ensemble,prevention-protection");
+
+            // mémoire et citoyenneté
+            // autre
 
 
             // Send to Algolia
@@ -172,6 +175,13 @@ class ApiEngagement
                     'id' => 9,
                     'name' => 'Autre',
                     // 'logo' => ''
+                ];
+                break;
+
+            case 'prevention-protection':
+                return [
+                    'id' => 2,
+                    'name' => 'Prévention et protection',
                 ];
                 break;
 
