@@ -166,7 +166,7 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::get('statistics/overview-quick-glance', 'Api\NumbersController@overviewQuickGlance');
     Route::get('statistics/overview-missions', 'Api\NumbersController@overviewMissions');
     Route::get('statistics/overview-organisations', 'Api\NumbersController@overviewOrganisations');
-    Route::get('statistics/overview-benevoles', 'Api\NumbersController@overviewBenevoles');
+    Route::get('statistics/overview-utilisateurs', 'Api\NumbersController@overviewUtilisateurs');
 
     Route::get('statistics/global/organisations', 'Api\NumbersController@globalOrganisations');
     Route::get('statistics/global/missions', 'Api\NumbersController@globalMissions');
