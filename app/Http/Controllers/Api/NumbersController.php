@@ -91,10 +91,10 @@ class NumbersController extends Controller
                 $query->where('department', $this->department);
             })->count(),
             'organisations_actives' => $missionsAvailable->pluck('structure_id')->unique()->count(),
-            'reseaux' => Reseau::when($this->department, function ($query) {
+            'reseaux' => Reseau::where('is_published', true)->when($this->department, function ($query) {
                 $query->where('department', $this->department);
             })->count(),
-            'territoires' => Territoire::when($this->department, function ($query) {
+            'territoires' => Territoire::where('is_published', true)->when($this->department, function ($query) {
                 $query->where('department', $this->department);
             })->count(),
         ];
