@@ -120,8 +120,8 @@ class Airtable
             'Places max' => $mission->participations_max,
             'Présentiel / À distance' => $mission->type,
             'Domaine' => $mission->domaine ? $mission->domaine->name : $mission->template->domaine->name,
-            'Date de début' =>  $mission->start_date ? Carbon::create($mission->start_date)->format("m-d-Y") : '', // mm-dd-YYYY
-            'Date de fin' =>  $mission->end_date ? Carbon::create($mission->end_date)->format("m-d-Y") : '',
+            'Date de début' =>  $mission->start_date ? Carbon::create($mission->start_date)->format("m-d-Y") : null, // mm-dd-YYYY
+            'Date de fin' =>  $mission->end_date ? Carbon::create($mission->end_date)->format("m-d-Y") : null,
             'Organisation Id' => $mission->structure->id,
             'Organisation' => $mission->structure->name,
             'Organisation Statut' => $mission->structure->state,
