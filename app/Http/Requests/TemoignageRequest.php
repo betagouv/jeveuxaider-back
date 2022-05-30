@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Requests\Api;
+namespace App\Http\Requests;
 
-use App\Http\Requests\TemoignageRequest;
 use App\Models\Temoignage;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Gate;
 
-class TemoignageCreateRequest extends TemoignageRequest
+class TemoignageRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

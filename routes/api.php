@@ -59,6 +59,7 @@ Route::get('participations/{participation}/temoignage', 'Api\ParticipationContro
 // Route::get('participation/{participation}/benevole-name', 'Api\ParticipationController@benevoleName');
 // Route::get('participation/{participation}/mission', 'Api\ParticipationController@mission');
 Route::post('temoignages', 'Api\TemoignageController@store');
+Route::get('temoignages/organisations/{structure}', 'Api\TemoignageController@forOrganisation');
 
 Route::get('settings/messages', 'Api\SettingController@messages');
 Route::get('settings/general', 'Api\SettingController@general');
@@ -165,7 +166,7 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::get('statistics/overview-quick-glance', 'Api\NumbersController@overviewQuickGlance');
     Route::get('statistics/overview-missions', 'Api\NumbersController@overviewMissions');
     Route::get('statistics/overview-organisations', 'Api\NumbersController@overviewOrganisations');
-    Route::get('statistics/overview-benevoles', 'Api\NumbersController@overviewBenevoles');
+    Route::get('statistics/overview-utilisateurs', 'Api\NumbersController@overviewUtilisateurs');
 
     Route::get('statistics/global/organisations', 'Api\NumbersController@globalOrganisations');
     Route::get('statistics/global/missions', 'Api\NumbersController@globalMissions');
@@ -174,19 +175,20 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
 
     Route::get('statistics/participations-by-activities', 'Api\NumbersController@participationsByActivities');
     Route::get('statistics/participations-by-mission-templates', 'Api\NumbersController@participationsByMissionTemplates');
-    Route::get('statistics/participations-by-departments', 'Api\NumbersController@participationsByDepartments');
     Route::get('statistics/participations-by-missions', 'Api\NumbersController@participationsByMissions');
     Route::get('statistics/participations-by-organisations', 'Api\NumbersController@participationsByOrganisations');
     Route::get('statistics/participations-by-reseaux', 'Api\NumbersController@participationsByReseaux');
     Route::get('statistics/participations-by-states', 'Api\NumbersController@participationsByStates');
     Route::get('statistics/participations-by-domaines', 'Api\NumbersController@participationsByDomaines');
     Route::get('statistics/participations-by-reseaux', 'Api\NumbersController@participationsByReseaux');
+    Route::get('statistics/participations-canceled-by-benevoles', 'Api\NumbersController@participationsCanceledByBenevoles');
+    Route::get('statistics/participations-refused-by-responsables', 'Api\NumbersController@participationsRefusedByResponsables');
+    Route::get('statistics/participations-delays-by-registrations', 'Api\NumbersController@participationsDelaysByRegistrations');
 
     Route::get('statistics/missions-by-states', 'Api\NumbersController@missionsByStates');
     Route::get('statistics/missions-by-types', 'Api\NumbersController@missionsByTypes');
     Route::get('statistics/missions-by-activities', 'Api\NumbersController@missionsByActivities');
     Route::get('statistics/missions-by-templates', 'Api\NumbersController@missionsByTemplates');
-    Route::get('statistics/missions-by-departments', 'Api\NumbersController@missionsByDepartments');
     Route::get('statistics/missions-by-domaines', 'Api\NumbersController@missionsByDomaines');
     Route::get('statistics/missions-by-organisations', 'Api\NumbersController@missionsByOrganisations');
     Route::get('statistics/missions-by-reseaux', 'Api\NumbersController@missionsByReseaux');
@@ -197,7 +199,14 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::get('statistics/organisations-by-domaines', 'Api\NumbersController@organisationsByDomaines');
     Route::get('statistics/organisations-by-reseaux', 'Api\NumbersController@organisationsByReseaux');
 
+    Route::get('statistics/places-by-reseaux', 'Api\NumbersController@placesByReseaux');
+    Route::get('statistics/places-by-organisations', 'Api\NumbersController@placesByOrganisations');
+    Route::get('statistics/places-by-missions', 'Api\NumbersController@placesByMissions');
+    Route::get('statistics/places-by-domaines', 'Api\NumbersController@placesByDomaines');
+    Route::get('statistics/places-by-activities', 'Api\NumbersController@placesByActivities');
+
     Route::get('statistics/utilisateurs-by-domaines', 'Api\NumbersController@utilisateursByDomaines');
+    Route::get('statistics/utilisateurs-with-participations', 'Api\NumbersController@utilisateursWithParticipations');
 
     Route::get('statistics/participations-waiting-by-organisations', 'Api\NumbersController@participationsWaitingByOrganisations');
     Route::get('statistics/participations-in-progress-by-organisations', 'Api\NumbersController@participationsInProgressByOrganisations');
@@ -307,6 +316,11 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::put('activities/{activity}', 'Api\ActivityController@update');
     Route::get('activities/{activity}/statistics', 'Api\ActivityController@statistics');
     Route::delete('activities/{activity}', 'Api\ActivityController@delete');
+
+    // TEMOIGNAGES
+    Route::put('temoignages/{temoignage}', 'Api\TemoignageController@update');
+    Route::put('temoignages/{temoignage}/publish', 'Api\TemoignageController@publish');
+    Route::put('temoignages/{temoignage}/unpublish', 'Api\TemoignageController@unpublish');
 
     // TERRITOIRES
     Route::delete('territoires/{territoire}', 'Api\TerritoireController@delete');

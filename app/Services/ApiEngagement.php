@@ -19,7 +19,10 @@ class ApiEngagement
         do {
             $response = Http::withHeaders([
                 'apikey' => config('app.api_engagement_key'),
-            ])->get("https://api.api-engagement.beta.gouv.fr/v0/mission?limit=$limit&skip=$done&domain=environnement,solidarite-insertion,sante,culture-loisirs,education,sport,emploi,humanitaire,animaux,vivre-ensemble");
+            ])->get("https://api.api-engagement.beta.gouv.fr/v0/mission?limit=$limit&skip=$done&domain=environnement,solidarite-insertion,sante,culture-loisirs,education,sport,emploi,humanitaire,animaux,vivre-ensemble,prevention-protection");
+
+            // mémoire et citoyenneté
+            // autre
 
 
             // Send to Algolia
@@ -175,6 +178,13 @@ class ApiEngagement
                 ];
                 break;
 
+            case 'prevention-protection':
+                return [
+                    'id' => 2,
+                    'name' => 'Prévention et protection',
+                ];
+                break;
+
             default:
                 return [
                     'id' => 9,
@@ -278,7 +288,7 @@ class ApiEngagement
                 ? $structureApi['coordonnees']['adresse']['code_postal']
                 : null;
 
-            $attributes['department'] = isset($structureApi['coordonnees']['adresse']['departement_numero'])
+            $attributes['department'] = isset($structureApi['coordonnees']['adresse']['departement_numero']) && isset(config('taxonomies.departments.terms')[$structureApi['coordonnees']['adresse']['departement_numero']])
                 ? $structureApi['coordonnees']['adresse']['departement_numero']
                 : null;
 

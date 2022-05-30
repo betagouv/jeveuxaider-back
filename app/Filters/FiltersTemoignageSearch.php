@@ -21,6 +21,9 @@ class FiltersTemoignageSearch implements Filter
                             ->orWhere('mobile', 'ILIKE', '%' . $value . '%')
                             ->orWhere('zip', 'ILIKE', '%' . $value . '%');
                     });
+                    if(is_numeric($value)){
+                        $query->orWhere('mission_id', $value);
+                    };
                 });
         });
     }

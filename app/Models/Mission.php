@@ -92,6 +92,7 @@ class Mission extends Model
         }
 
         $activity = $this->template_id ? $this->template->activity : $this->activity;
+        $publicsBeneficiaires = config('taxonomies.mission_publics_beneficiaires.terms');
 
         $mission = [
             'id' => $this->id,
@@ -152,6 +153,9 @@ class Mission extends Model
             'is_snu_mig_compatible' => $this->is_snu_mig_compatible,
             'snu_mig_places' => $this->snu_mig_places,
             'commitment__total' => $this->commitment__total,
+            'publics_beneficiaires' => array_map(function($public) use ($publicsBeneficiaires) {
+                return $publicsBeneficiaires[$public];
+            }, $this->publics_beneficiaires),
         ];
 
         if ($this->latitude && $this->longitude) {
