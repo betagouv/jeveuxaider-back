@@ -9,7 +9,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use App\Models\Media as ModelMedia;
 use Illuminate\Support\Facades\Auth;
-use Algolia\AlgoliaSearch\PlacesClient;
+// use Algolia\AlgoliaSearch\PlacesClient;
 use App\Traits\HasMissingFields;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
@@ -163,26 +163,26 @@ class Territoire extends Model implements HasMedia
 
     public function setCoordonates()
     {
-        if (!empty($this->zips)) {
-            // @todo passer par data gouv
-            $places = PlacesClient::create(env('MIX_ALGOLIA_PLACES_APP_ID'), env('MIX_ALGOLIA_PLACES_API_KEY'));
-            $result = $places->search(
-                $this->zips[0],
-                [
-                    'restrictSearchableAttributes' => 'postcode',
-                    'type' => 'city,townhall',
-                    'hitsPerPage' => 1,
-                    'countries' => 'fr,nc',
-                    'language' => 'fr'
-                ]
-            );
+        // if (!empty($this->zips)) {
+        //     // @todo passer par data gouv
+        //     $places = PlacesClient::create(env('MIX_ALGOLIA_PLACES_APP_ID'), env('MIX_ALGOLIA_PLACES_API_KEY'));
+        //     $result = $places->search(
+        //         $this->zips[0],
+        //         [
+        //             'restrictSearchableAttributes' => 'postcode',
+        //             'type' => 'city,townhall',
+        //             'hitsPerPage' => 1,
+        //             'countries' => 'fr,nc',
+        //             'language' => 'fr'
+        //         ]
+        //     );
 
-            if (!empty($result['nbHits'])) {
-                $result = $result['hits'][0];
-                $this->latitude = $result['_geoloc']['lat'];
-                $this->longitude = $result['_geoloc']['lng'];
-            }
-        }
+        //     if (!empty($result['nbHits'])) {
+        //         $result = $result['hits'][0];
+        //         $this->latitude = $result['_geoloc']['lat'];
+        //         $this->longitude = $result['_geoloc']['lng'];
+        //     }
+        // }
     }
 
     public function getPermissionsAttribute()
