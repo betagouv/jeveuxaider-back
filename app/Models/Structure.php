@@ -21,10 +21,11 @@ use Spatie\Image\Manipulations;
 use App\Models\Media as ModelMedia;
 use Spatie\Activitylog\LogOptions;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Laravel\Scout\Searchable;
 
 class Structure extends Model implements HasMedia
 {
-    use SoftDeletes, LogsActivity, HasRelationships, HasTags, InteractsWithMedia, HasSlug, HasMissingFields;
+    use SoftDeletes, LogsActivity, HasRelationships, HasTags, InteractsWithMedia, HasSlug, HasMissingFields, Searchable;
 
     const CEU_TYPES = [
         "SDIS (Service départemental d'Incendie et de Secours)",
@@ -56,6 +57,16 @@ class Structure extends Model implements HasMedia
     protected $hidden = ['media'];
 
     protected $appends = ['full_url', 'full_address'];
+
+    public function shouldBeSearchable()
+    {
+        return $this->state == 'Validée' && $this->statut_juridique == 'Association' ? true : false;
+    }
+
+    public function searchableAs()
+    {
+        return config('scout.prefix') . '_covid_organisations';
+    }
 
     public function getCheckFieldsAttribute()
     {
@@ -464,7 +475,7 @@ class Structure extends Model implements HasMedia
     {
         $this->load(['reseaux', 'domaines']);
 
-        return [
+        $organisation =  [
             'id' => $this->id,
             'rna' => $this->rna,
             'api_id' => $this->api_id,
@@ -489,6 +500,7 @@ class Structure extends Model implements HasMedia
                 'latitude' => $this->latitude,
                 'longitude' => $this->longitude,
             ],
+            'department_name' => $this->department ? $this->department . ' - ' . config('taxonomies.departments.terms')[$this->department] : null,
             'website' => $this->website,
             'facebook' => $this->facebook,
             'twitter' => $this->twitter,
@@ -499,8 +511,22 @@ class Structure extends Model implements HasMedia
             'domaines' => $this->domaines ? $this->domaines->map(function ($domaine) {
                 return $domaine['name'];
             })->all() : null,
-            'reseaux' => $this->reseaux ? $this->reseaux->all() : null,
+            'reseaux' => $this->reseaux ? $this->reseaux->map(function ($reseau) {
+                return [
+                    'id' => $reseau->id,
+                    'name' => $reseau->name,
+                ];
+            })->all() : null,
         ];
+
+        if ($this->latitude && $this->longitude) {
+            $organisation['_geoloc'] = [
+                'lat' => $this->latitude,
+                'lng' => $this->longitude
+            ];
+        }
+
+        return $organisation;
     }
 
     public function getPictureAttribute()
