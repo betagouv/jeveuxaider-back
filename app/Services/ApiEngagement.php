@@ -292,11 +292,11 @@ class ApiEngagement
                 ? $structureApi['coordonnees']['adresse']['departement_numero']
                 : null;
 
-            // $coordonates = AlgoliaPlacesGeocoder::getCoordinatesForZip($attributes['zip']);
-            // if ($coordonates) {
-            //     $attributes['latitude'] = $coordonates['latitude'];
-            //     $attributes['longitude'] = $coordonates['longitude'];
-            // }
+            $place = ApiAdresse::search(['q' => $attributes['zip'], 'type' => 'municipality', 'limit' => 1]);
+            if (!empty($place)) {
+                $attributes['latitude'] = $place['geometry']['coordinates'][1];
+                $attributes['longitude'] = $place['geometry']['coordinates'][0];
+            }
         }
         return $attributes;
     }

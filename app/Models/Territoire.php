@@ -8,8 +8,8 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use App\Models\Media as ModelMedia;
+use App\Services\ApiAdresse;
 use Illuminate\Support\Facades\Auth;
-// use Algolia\AlgoliaSearch\PlacesClient;
 use App\Traits\HasMissingFields;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
@@ -163,26 +163,13 @@ class Territoire extends Model implements HasMedia
 
     public function setCoordonates()
     {
-        // if (!empty($this->zips)) {
-        //     // @todo passer par data gouv
-        //     $places = PlacesClient::create(env('MIX_ALGOLIA_PLACES_APP_ID'), env('MIX_ALGOLIA_PLACES_API_KEY'));
-        //     $result = $places->search(
-        //         $this->zips[0],
-        //         [
-        //             'restrictSearchableAttributes' => 'postcode',
-        //             'type' => 'city,townhall',
-        //             'hitsPerPage' => 1,
-        //             'countries' => 'fr,nc',
-        //             'language' => 'fr'
-        //         ]
-        //     );
-
-        //     if (!empty($result['nbHits'])) {
-        //         $result = $result['hits'][0];
-        //         $this->latitude = $result['_geoloc']['lat'];
-        //         $this->longitude = $result['_geoloc']['lng'];
-        //     }
-        // }
+        if (!empty($this->zips)) {
+            $place = ApiAdresse::search(['q' => $this->zips[0], 'type' => 'municipality', 'limit' => 1]);
+            if (!empty($place)) {
+                $this->latitude = $place['geometry']['coordinates'][1];
+                $this->longitude = $place['geometry']['coordinates'][0];
+            }
+        }
     }
 
     public function getPermissionsAttribute()
