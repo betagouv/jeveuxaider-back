@@ -78,7 +78,7 @@ class TerritoireWaitingValidation extends Notification implements ShouldQueue
         return (new SlackMessage)
                     ->from('JeVeuxAider.gouv.fr')
                     ->success()
-                    ->to('#collectivités-déploiement')
+                    ->to('#déploiement-collectivités-acquisition')
                     ->content('Une nouvelle collectivité vient de s\'inscrire! Elle est en attente de validation.')
                     ->attachment(function ($attachment) use ($territoire) {
                         $attachment->title($territoire->name, url(config('app.front_url') . '/admin/territoires/' . $territoire->id));
