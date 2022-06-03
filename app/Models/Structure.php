@@ -288,6 +288,11 @@ class Structure extends Model implements HasMedia
         return $this->hasMany('App\Models\Mission');
     }
 
+    public function missionsAvailable()
+    {
+        return $this->hasMany('App\Models\Mission')->where('state', 'Validée');
+    }
+
     public function participations()
     {
         return $this->hasManyThrough('App\Models\Participation', 'App\Models\Mission');
@@ -474,10 +479,12 @@ class Structure extends Model implements HasMedia
     public function toSearchableArray()
     {
         $this->load(['reseaux', 'domaines']);
+        $this->loadCount(['missionsAvailable']);
 
         $organisation =  [
             'id' => $this->id,
             'rna' => $this->rna,
+            'slug' => $this->slug,
             'api_id' => $this->api_id,
             'name' => $this->name,
             'state' => $this->state,
@@ -490,26 +497,27 @@ class Structure extends Model implements HasMedia
             'structure_publique_type' => $this->structure_publique_type,
             'structure_publique_etat_type' => $this->structure_publique_etat_type,
             'structure_privee_type' => $this->structure_privee_type,
-            'address' => [
-                'full' => $this->full_address,
-                'address' => $this->address,
-                'zip' => $this->zip,
-                'city' => $this->city,
-                'department' => $this->department,
-                'country' => $this->country,
-                'latitude' => $this->latitude,
-                'longitude' => $this->longitude,
-            ],
+            'full_address' => $this->full_address,
+            'address' => $this->address,
+            'zip' => $this->zip,
+            'city' => $this->city,
+            'department' => $this->department,
+            'country' => $this->country,
             'department_name' => $this->department ? $this->department . ' - ' . config('taxonomies.departments.terms')[$this->department] : null,
             'website' => $this->website,
             'facebook' => $this->facebook,
             'twitter' => $this->twitter,
             'instagram' => $this->instagram,
             'donation' => $this->donation,
+            'response_ratio' => $this->response_ratio,
+            'response_time' => $this->response_time,
             'created_at' => $this->created_at,
             'publics_beneficiaires' => $this->publics_beneficiaires,
             'domaines' => $this->domaines ? $this->domaines->map(function ($domaine) {
-                return $domaine['name'];
+                return [
+                    'id' => $domaine->id,
+                    'name' => $domaine->name,
+                ];
             })->all() : null,
             'reseaux' => $this->reseaux ? $this->reseaux->map(function ($reseau) {
                 return [
@@ -517,6 +525,7 @@ class Structure extends Model implements HasMedia
                     'name' => $reseau->name,
                 ];
             })->all() : null,
+            'missions_available_count' => $this->missions_available_count,
         ];
 
         if ($this->latitude && $this->longitude) {
