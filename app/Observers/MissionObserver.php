@@ -72,7 +72,7 @@ class MissionObserver
         $oldState = $mission->getOriginal('state');
         $newState = $mission->state;
 
-        $mission->load('responsable');
+        $mission->load(['structure', 'responsable']);
 
         if ($oldState != $newState) {
             switch ($newState) {
@@ -124,6 +124,8 @@ class MissionObserver
                     }
                     break;
             }
+
+            $mission->structure->searchable();
         }
 
         // Transfert des conversations.

@@ -60,6 +60,7 @@ class Structure extends Model implements HasMedia
 
     public function shouldBeSearchable()
     {
+        ray('shouldBeSearchable');
         return $this->state == 'Validée' && $this->statut_juridique == 'Association' ? true : false;
     }
 
@@ -257,11 +258,6 @@ class Structure extends Model implements HasMedia
     {
         return $this->belongsTo('App\Models\User');
     }
-
-    // public function reseau()
-    // {
-    //     return $this->belongsTo('App\Models\Structure');
-    // }
 
     public function reseaux()
     {
@@ -475,11 +471,25 @@ class Structure extends Model implements HasMedia
         );
     }
 
+    protected function activities(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                $activitiesThroughMissions = Mission::ofStructure($this->id)->where('state','Validée')->whereHas('activity')->get()->map(fn($mission) => $mission->activity_id)->toArray();
+                $activitiesThroughTemplates = Mission::ofStructure($this->id)->where('state','Validée')->whereHas('template.activity')->get()->map(fn($mission) => $mission->template->activity_id)->toArray();
+                $activitiesMergedIds = array_unique (array_merge ($activitiesThroughMissions, $activitiesThroughTemplates));
+                return Activity::whereIn('id', $activitiesMergedIds)->get();
+            },
+        );
+    }
+
     // ALGOLIA
     public function toSearchableArray()
     {
         $this->load(['reseaux', 'domaines']);
         $this->loadCount(['missionsAvailable']);
+
+        $publicsBeneficiaires = config('taxonomies.mission_publics_beneficiaires.terms');
 
         $organisation =  [
             'id' => $this->id,
@@ -512,11 +522,19 @@ class Structure extends Model implements HasMedia
             'response_ratio' => $this->response_ratio,
             'response_time' => $this->response_time,
             'created_at' => $this->created_at,
-            'publics_beneficiaires' => $this->publics_beneficiaires,
+            'publics_beneficiaires' => is_array($this->publics_beneficiaires) ? array_map(function($public) use ($publicsBeneficiaires) {
+                return $publicsBeneficiaires[$public];
+            }, $this->publics_beneficiaires) : null,
             'domaines' => $this->domaines ? $this->domaines->map(function ($domaine) {
                 return [
                     'id' => $domaine->id,
                     'name' => $domaine->name,
+                ];
+            })->all() : null,
+            'activities' => $this->activities ? $this->activities->map(function ($activity) {
+                return [
+                    'id' => $activity->id,
+                    'name' => $activity->name,
                 ];
             })->all() : null,
             'reseaux' => $this->reseaux ? $this->reseaux->map(function ($reseau) {
