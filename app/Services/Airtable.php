@@ -109,6 +109,8 @@ class Airtable
 
     private static function formatMissionAttributes(Mission $mission)
     {
+        $activity = $mission->template_id ? $mission->template->activity : $mission->activity;
+
         $attributes = [
             'Id' => $mission->id,
             'Title' => $mission->name,
@@ -127,8 +129,8 @@ class Airtable
             'Organisation Statut' => $mission->structure->state,
             'Organisation Statut Juridique' => $mission->structure->statut_juridique,
             'Modèle de mission Id' => $mission->template ? $mission->template->id : null,
-            'Activité Id' => $mission->activity ? $mission->activity->id : null,
-            'Activité Titre' => $mission->activity ? $mission->activity->name : null,
+            'Activité Id' => $activity ? $activity->id : null, 
+            'Activité Titre' => $activity ? $activity->name : null,
             'URL' => config('app.front_url') . $mission->full_url,
             'Description' => $mission->objectif,
             'Précision' => $mission->description,
