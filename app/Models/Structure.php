@@ -485,7 +485,7 @@ class Structure extends Model implements HasMedia
     // ALGOLIA
     public function toSearchableArray()
     {
-        $this->load(['reseaux', 'domaines']);
+        $this->load(['reseaux', 'domaines', 'illustrations', 'overrideImage1']);
         $this->loadCount(['missionsAvailable']);
 
         $publicsBeneficiaires = config('taxonomies.mission_publics_beneficiaires.terms');
