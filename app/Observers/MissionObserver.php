@@ -42,6 +42,7 @@ class MissionObserver
             if ($mission->responsable) {
                 $mission->responsable->notify(new MissionValidated($mission));
             }
+            $mission->structure->searchable();
         }
 
         // Sync SENDINBLUE

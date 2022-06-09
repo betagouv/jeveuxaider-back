@@ -60,7 +60,6 @@ class Structure extends Model implements HasMedia
 
     public function shouldBeSearchable()
     {
-        ray('shouldBeSearchable');
         return $this->state == 'Validée' && $this->statut_juridique == 'Association' ? true : false;
     }
 
@@ -495,6 +494,7 @@ class Structure extends Model implements HasMedia
             'id' => $this->id,
             'rna' => $this->rna,
             'slug' => $this->slug,
+            'picture' => $this->picture,
             'api_id' => $this->api_id,
             'name' => $this->name,
             'state' => $this->state,
