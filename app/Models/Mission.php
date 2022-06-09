@@ -122,8 +122,6 @@ class Mission extends Model
             'type' => $this->type,
             'template_subtitle' => $this->template ? $this->template->subtitle : null,
             'template_title' => $this->template ? $this->template->title : null,
-            // 'domaine_name' => $this->domaine_name, // @TODO: à retirer quand facet ok coté Algolia
-            // 'domaine_image' => $this->template ? $this->template->image : $this->domaine->image, // @TODO: à retirer
             'template' => $this->template ? [
                 'id' => $this->template->id,
                 'title' => $this->template->title,
@@ -167,26 +165,6 @@ class Mission extends Model
 
         return $mission;
     }
-
-    // // @TODO: à retirer quand facet algolia ok
-    // public function getDomaineNameAttribute()
-    // {
-    //     if ($this->template_id) {
-    //         return $this->template->domaine ? $this->template->domaine->name : null;
-    //     }
-
-    //     return $this->domaine ? $this->domaine->name : null;
-    // }
-
-    // public function getDomainesAttribute()
-    // {
-    //     $domains =  collect([
-    //         $this->template ? $this->template->domaine : $this->domaine,
-    //         $this->domaine_secondaire
-    //     ])->filter();
-
-    //     return $domains;
-    // }
 
     public function user()
     {
@@ -277,16 +255,6 @@ class Mission extends Model
     {
         $this->attributes['name'] = isset($this->attributes['template_id']) ? null : $value;
     }
-
-    // public function getDescriptionAttribute($value)
-    // {
-    //     return $this->template_id ? $this->template->description : $value;
-    // }
-
-    // public function getObjectifAttribute($value)
-    // {
-    //     return $this->template_id ? $this->template->objectif : $value;
-    // }
 
     public function getScoreAttribute()
     {

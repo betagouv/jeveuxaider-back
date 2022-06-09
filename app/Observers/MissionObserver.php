@@ -42,7 +42,9 @@ class MissionObserver
             if ($mission->responsable) {
                 $mission->responsable->notify(new MissionValidated($mission));
             }
-            $mission->structure->searchable();
+            if($mission->structure->shouldBeSearchable()){
+                $mission->structure->searchable();
+            }
         }
 
         // Sync SENDINBLUE
@@ -126,7 +128,9 @@ class MissionObserver
                     break;
             }
 
-            $mission->structure->searchable();
+            if($mission->structure->shouldBeSearchable()){
+                $mission->structure->searchable();
+            }
         }
 
         // Transfert des conversations.

@@ -15,7 +15,6 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
-use App\Models\Tag;
 use App\Traits\HasMissingFields;
 use Spatie\Image\Manipulations;
 use App\Models\Media as ModelMedia;
@@ -481,6 +480,11 @@ class Structure extends Model implements HasMedia
             },
         );
     }
+
+    // public function makeAllSearchableUsing(Builder $query)
+    // {
+    //     return $query->with(['reseaux', 'domaines', 'illustrations', 'overrideImage1'])->withCount(['missionsAvailable']);
+    // }
 
     // ALGOLIA
     public function toSearchableArray()
