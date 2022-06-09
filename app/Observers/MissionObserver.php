@@ -42,6 +42,7 @@ class MissionObserver
             if ($mission->responsable) {
                 $mission->responsable->notify(new MissionValidated($mission));
             }
+            $mission->structure->searchable();
         }
 
         // Sync SENDINBLUE
@@ -72,7 +73,7 @@ class MissionObserver
         $oldState = $mission->getOriginal('state');
         $newState = $mission->state;
 
-        $mission->load('responsable');
+        $mission->load(['structure', 'responsable']);
 
         if ($oldState != $newState) {
             switch ($newState) {
@@ -124,6 +125,8 @@ class MissionObserver
                     }
                     break;
             }
+
+            $mission->structure->searchable();
         }
 
         // Transfert des conversations.

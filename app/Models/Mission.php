@@ -301,6 +301,12 @@ class Mission extends Model
         return $query->where('places_left', '>', 0);
     }
 
+    public function scopeOfStructure($query, $id)
+    {
+        return $query->where('structure_id', $id);
+    }
+
+
     public function scopeComplete($query)
     {
         return $query->where('places_left', '<=', 0);
