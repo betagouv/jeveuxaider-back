@@ -42,6 +42,7 @@ class StructureController extends Controller
             ])
             ->allowedIncludes([
                 'domaines',
+                'reseaux',
                 'illustrations',
                 'overrideImage1',
                 AllowedInclude::count('missionsCount')
