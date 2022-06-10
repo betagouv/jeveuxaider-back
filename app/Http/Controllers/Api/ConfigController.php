@@ -30,10 +30,6 @@ class ConfigController extends Controller
                 'lastmod' => Carbon::now()->startOfMonth(),
             ],
             [
-                'url' => '/regles-de-securite',
-                'lastmod' => Carbon::now()->startOfMonth(),
-            ],
-            [
                 'url' => '/inscription',
                 'lastmod' => Carbon::now()->startOfMonth(),
             ],
