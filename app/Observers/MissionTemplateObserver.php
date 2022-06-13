@@ -26,7 +26,7 @@ class MissionTemplateObserver
 
         $changes = $missionTemplate->getChanges();
 
-        if (isset($changes['title']) || isset($changes['subtitle']) || $missionTemplate->isDirty('activity_id')) {
+        if (isset($changes['title']) || isset($changes['subtitle']) || $missionTemplate->isDirty('activity_id') || $missionTemplate->isDirty('domaine_id')) {
             Mission::with(['structure'])->where('template_id', $missionTemplate->id)->get()->map(function ($mission) {
                 if ($mission->shouldBeSearchable()) {
                     $mission->searchable();
