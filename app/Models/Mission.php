@@ -667,6 +667,8 @@ class Mission extends Model
                 'first_name' => $this->responsable->first_name,
                 'last_name' => $this->responsable->last_name,
                 'email' => $this->responsable->email,
+                'phone' => $this->responsable->phone,
+                'mobile' => $this->responsable->mobile,
             ] : null,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
