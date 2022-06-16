@@ -96,66 +96,10 @@ class Profile extends Model implements HasMedia
         return $this->user ? true : false;
     }
 
-    // public function getLastOnlineAtAttribute()
-    // {
-    //     return $this->user ? $this->user->last_online_at : null;
-    // }
-
     public function getFullNameAttribute()
     {
         return "{$this->first_name} {$this->last_name}";
     }
-
-    // public function getReferentWaitingActionsAttribute()
-    // {
-    //     $structures = Structure::department($this->referent_department)->whereIn('state', ['En attente de validation'])->count();
-    //     $missions = Mission::department($this->referent_department)->whereIn('state', ['En attente de validation'])->count();
-
-    //     return [
-    //         'total' => $structures + $missions,
-    //         'structures' => $structures,
-    //         'missions' => $missions
-    //     ];
-    // }
-
-    // public function getReferentRegionWaitingActionsAttribute()
-    // {
-    //     $structures = Structure::region($this->referent_region)->whereIn('state', ['En attente de validation'])->count();
-    //     $missions = Mission::region($this->referent_region)->whereIn('state', ['En attente de validation'])->count();
-
-    //     return [
-    //         'total' => $structures + $missions,
-    //         'structures' => $structures,
-    //         'missions' => $missions
-    //     ];
-    // }
-
-    // public function getTeteDeReseauWaitingActionsAttribute()
-    // {
-    //     $antennes = Structure::ofReseau($this->tete_de_reseau_id)->count();
-    //     $missions = Mission::ofReseau($this->tete_de_reseau_id)->whereIn('state', ['En attente de validation'])->count();
-    //     $participations = Participation::ofReseau($this->tete_de_reseau_id)->whereIn('state', ['En attente de validation'])->count();
-
-    //     return [
-    //         'total' => $missions + $participations,
-    //         'antennes' => $antennes,
-    //         'missions' => $missions,
-    //         'participations' => $participations,
-    //     ];
-    // }
-
-    // public function getResponsableWaitingActionsAttribute()
-    // {
-
-    //     $structure = $this->structures->first();
-
-    //     $participations = Participation::structure($structure->id)->where('state', 'En attente de validation')->count();
-
-    //     return [
-    //         'total' => $participations,
-    //         'test' => $this->structures->first(),
-    //     ];
-    // }
 
     public function getShortNameAttribute()
     {
@@ -335,56 +279,6 @@ class Profile extends Model implements HasMedia
         return $this->morphToMany(Term::class, 'termable')->wherePivot('field', 'profile_skills');
     }
 
-    // public function isReferent()
-    // {
-    //     return $this->referent_department ? true : false;
-    // }
-
-    // public function isReferentRegional()
-    // {
-    //     return $this->referent_region ? true : false;
-    // }
-
-    // public function isTeteDeReseau()
-    // {
-    //     return $this->teteDeReseau ? true : false;
-    // }
-
-    // public function isResponsable()
-    // {
-    //     if ($this->belongsToMany('App\Models\Structure', 'members')->first() || $this->belongsToMany('App\Models\Territoire')->first()) {
-    //         return true;
-    //     }
-    //     return false;
-    // }
-
-    // public function isAdmin()
-    // {
-    //     return $this->user ? ($this->user->is_admin ? true : false) : false;
-    // }
-
-    // public function isVolontaire()
-    // {
-    //     return $this->user ? ($this->user->context_role == 'volontaire' ? true : false) : false;
-    // }
-
-    // public function getVolontaireAttribute()
-    // {
-    //     return $this->isVolontaire();
-    // }
-
-    // public function getRolesAttribute()
-    // {
-    //     return [
-    //         'admin' => $this->isAdmin(),
-    //         'referent' => $this->isReferent(),
-    //         'referent_regional' => $this->isReferentRegional(),
-    //         'responsable' => $this->isResponsable(),
-    //         'tete_de_reseau' => $this->isTeteDeReseau(),
-    //         'analyste' => $this->is_analyste
-    //     ];
-    // }
-
     public function setCommitmentTotal()
     {
         $this->commitment__total = Utils::calculateCommitmentTotal(
@@ -414,11 +308,6 @@ class Profile extends Model implements HasMedia
             'thisMonth' => $this_month,
         ];
     }
-
-    // public function getNotificationBenevoleStatsAttribute()
-    // {
-    //     return self::getNotificationBenevoleStats($this->id);
-    // }
 
     protected function description(): Attribute
     {

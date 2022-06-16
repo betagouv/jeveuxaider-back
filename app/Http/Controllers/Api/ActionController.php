@@ -96,6 +96,14 @@ class ActionController extends Controller
                     'type' => 'missions_outdated',
                     'value' => Mission::role($request->header('Context-Role'))->where('end_date', '<', Carbon::now())->where('state', 'Validée')->count(),
                 ];
+                $actions[] = [
+                    'type' => 'mission_template_new',
+                    'value' => MissionTemplate::role($request->header('Context-Role'))->count() == 0 ? true : false,
+                ];
+                $actions[] = [
+                    'type' => 'mission_template_manage',
+                    'value' => MissionTemplate::role($request->header('Context-Role'))->count() > 0 ? true : false,
+                ];
                 break;
             case 'referent':
             case 'referent_regional':

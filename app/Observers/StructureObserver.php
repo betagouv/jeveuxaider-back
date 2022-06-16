@@ -118,7 +118,7 @@ class StructureObserver
                         $responsable->notify(new StructureSignaled($structure));
                     }
                     // Update all missions to 'Signalée' status
-                    $structure->missions()->get()->map(function ($mission) {
+                    Mission::with(['structure', 'participations', 'participations.conversation'])->where('structure_id', $structure->id)->get()->map(function ($mission) {
                         $mission->update(['state' => 'Signalée']);
                     });
                     //  Si territoire relié on dépublie
