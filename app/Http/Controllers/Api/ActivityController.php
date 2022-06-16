@@ -43,8 +43,8 @@ class ActivityController extends Controller
     public function show($slugOrId)
     {
         $activity = (is_numeric($slugOrId))
-            ? Activity::where('id', $slugOrId)->with(['banner', 'promotedOrganisations', 'domaines'])->firstOrFail()
-            : Activity::where('slug', $slugOrId)->with(['banner', 'promotedOrganisations'])->firstOrFail();
+            ? Activity::where('id', $slugOrId)->with(['banner', 'promotedOrganisations', 'domaines', 'metatags'])->firstOrFail()
+            : Activity::where('slug', $slugOrId)->with(['banner', 'promotedOrganisations', 'metatags'])->firstOrFail();
 
         return $activity;
     }
@@ -64,7 +64,7 @@ class ActivityController extends Controller
         $activity = Activity::create($request->validated());
 
         if ($request->has('domaines')) {
-            $domaines =  collect($request->input('domaines'));
+            $domaines = collect($request->input('domaines'));
             $values = $domaines->pluck($domaines, 'id')->map(function ($item) {
                 return ['field' => 'activity_domaines'];
             });

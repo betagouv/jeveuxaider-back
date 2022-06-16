@@ -9,6 +9,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use App\Models\Media as ModelMedia;
 use App\Traits\HasMissingFields;
+use App\Traits\HasMetatags;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use Spatie\Image\Manipulations;
@@ -16,7 +17,7 @@ use Spatie\Activitylog\LogOptions;
 
 class Activity extends Model implements HasMedia
 {
-    use InteractsWithMedia, LogsActivity, HasSlug, HasMissingFields;
+    use InteractsWithMedia, LogsActivity, HasSlug, HasMissingFields, HasMetatags;
 
     protected $table = 'activities';
 
