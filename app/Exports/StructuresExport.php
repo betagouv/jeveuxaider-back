@@ -34,6 +34,8 @@ class StructuresExport implements FromQuery, WithMapping, WithHeadings
                 AllowedFilter::exact('department'),
                 'state',
                 'statut_juridique',
+                AllowedFilter::exact('reseaux.id'),
+                AllowedFilter::exact('reseaux.name'),
                 AllowedFilter::scope('ofReseau'),
             ])
             ->defaultSort('-created_at')

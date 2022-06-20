@@ -623,6 +623,8 @@ class Structure extends Model implements HasMedia
                     'first_name' => $responsable->first_name,
                     'last_name' => $responsable->last_name,
                     'email' => $responsable->email,
+                    'phone' => $responsable->phone,
+                    'mobile' => $responsable->mobile,
                 ];
             })->all() : null,
             'created_at' => $this->created_at,

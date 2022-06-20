@@ -324,4 +324,9 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
 
     // TERRITOIRES
     Route::delete('territoires/{territoire}', 'Api\TerritoireController@delete');
+
+    // Metatags
+    Route::post('{modelType}/{modelId}/metatags', 'Api\MetatagsController@store');
+    Route::put('metatags/{metatag}', 'Api\MetatagsController@update');
+    Route::delete('metatags/{metatag}', 'Api\MetatagsController@delete');
 });
