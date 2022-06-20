@@ -59,7 +59,7 @@ class Structure extends Model implements HasMedia
 
     public function shouldBeSearchable()
     {
-        return $this->state == 'Validée' && $this->statut_juridique == 'Association' ? true : false;
+        return $this->state == 'Validée' ? true : false;
     }
 
     public function searchableAs()
@@ -473,9 +473,9 @@ class Structure extends Model implements HasMedia
     {
         return Attribute::make(
             get: function () {
-                $activitiesThroughMissions = Mission::ofStructure($this->id)->where('state','Validée')->whereHas('activity')->get()->map(fn($mission) => $mission->activity_id)->toArray();
-                $activitiesThroughTemplates = Mission::ofStructure($this->id)->where('state','Validée')->whereHas('template.activity')->get()->map(fn($mission) => $mission->template->activity_id)->toArray();
-                $activitiesMergedIds = array_unique (array_merge ($activitiesThroughMissions, $activitiesThroughTemplates));
+                $activitiesThroughMissions = Mission::ofStructure($this->id)->where('state', 'Validée')->whereHas('activity')->get()->map(fn($mission) => $mission->activity_id)->toArray();
+                $activitiesThroughTemplates = Mission::ofStructure($this->id)->where('state', 'Validée')->whereHas('template.activity')->get()->map(fn($mission) => $mission->template->activity_id)->toArray();
+                $activitiesMergedIds = array_unique(array_merge($activitiesThroughMissions, $activitiesThroughTemplates));
                 return Activity::whereIn('id', $activitiesMergedIds)->get();
             },
         );
@@ -517,7 +517,7 @@ class Structure extends Model implements HasMedia
             'city' => $this->city,
             'department' => $this->department,
             'country' => $this->country,
-            'department_name' => $this->department ? $this->department . ' - ' . config('taxonomies.departments.terms')[$this->department] : null,
+            'department_name' => $this->department && isset(config('taxonomies.departments.terms')[$this->department]) ? $this->department . ' - ' . config('taxonomies.departments.terms')[$this->department] : null,
             'website' => $this->website,
             'facebook' => $this->facebook,
             'twitter' => $this->twitter,
@@ -526,7 +526,7 @@ class Structure extends Model implements HasMedia
             'response_ratio' => $this->response_ratio,
             'response_time' => $this->response_time,
             'created_at' => $this->created_at,
-            'publics_beneficiaires' => is_array($this->publics_beneficiaires) ? array_map(function($public) use ($publicsBeneficiaires) {
+            'publics_beneficiaires' => is_array($this->publics_beneficiaires) ? array_map(function ($public) use ($publicsBeneficiaires) {
                 return $publicsBeneficiaires[$public];
             }, $this->publics_beneficiaires) : null,
             'domaines' => $this->domaines ? $this->domaines->map(function ($domaine) {
