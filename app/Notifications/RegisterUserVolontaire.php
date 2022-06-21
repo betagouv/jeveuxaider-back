@@ -52,9 +52,9 @@ class RegisterUserVolontaire extends Notification implements ShouldQueue
             ->subject('💪 Une dernière étape pour s’engager ' . $notifiable->profile->full_name . ' !')
             ->greeting('Félicitations ' . $notifiable->profile->full_name . ' !')
             ->line('Vous vous êtes inscrit sur JeVeuxAider.gouv.fr, la plateforme publique du bénévolat. Voici une sélection de missions réalisables à cotés de chez vous ou à distance :')
-            ->line(new HtmlString('<ul><li><a href="' . config('app.front_url') . '/missions-benevolat?query=mentorat">Aidez un jeune en difficulté scolaire en devenant mentor 1h par semaine !</a></li>'))
-            ->line(new HtmlString('<li><a href="' . config('app.front_url') . '/missions-benevolat?refinementList[template_subtitle][0]=Je maintiens le lien avec des personnes fragiles isolées&refinementList[template_subtitle][1]=Je participe à la lutte contre l\'isolement des personnes âgées ou en situation de handicap">Luttez contre l’isolement et la solitude des des personnes fragiles !</a></li></ul>'))
-            ->line('Intéressé par d’autre type de missions ? Retrouvez des milliers de missions dans des domaine près de chez vous ou à distance ici !')
+            ->line(new HtmlString('<ul><li><a href="' . config('app.front_url') . '/missions-benevolat?query=mentorat">Aidez un jeune en difficulté scolaire en devenant mentor 1h par semaine !</a></li>'))
+            ->line(new HtmlString('<li><a href="' . config('app.front_url') . '/missions-benevolat?template_subtitle=Je%20maintiens%20le%20lien%20avec%20des%20personnes%20fragiles%20isolées%7CJe%20participe%20à%20la%20lutte%20contre%20l%27isolement%20des%20personnes%20âgées%20ou%20en%20situation%20de%20handicap">Luttez contre l’isolement et la solitude des des personnes fragiles !</a></li></ul>'))
+            ->line('Intéressé par d’autres types de missions ? Retrouvez des milliers de missions près de chez vous ou à distance ici !')
             ->action('Trouver une mission', url(config('app.front_url').'/missions-benevolat'));
     }
 

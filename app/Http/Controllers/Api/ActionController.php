@@ -76,6 +76,13 @@ class ActionController extends Controller
                 if ($user->contextable_id) {
                     $structure = Structure::find($user->contextable_id);
                     if ($structure) {
+                        if ($structure->state == 'Signalée') {
+                            $actions[] = [
+                                'type' => 'organisation_signaled',
+                                'value' => true,
+                                'href' => 'https://reserve-civique.crisp.help/fr/article/mon-organisation-ou-ma-mission-a-ete-signalee-quest-ce-que-cela-signifie-r71xm2/'
+                            ];
+                        }
                         $actions[] = [
                             'type' => $structure->state == 'Brouillon' ? 'organisation_brouillon_incomplete' : 'organisation_incomplete',
                             'value' => $structure->missing_fields,

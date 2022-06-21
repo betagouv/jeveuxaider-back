@@ -32,12 +32,6 @@ class StructureObserver
     public function created(Structure $structure)
     {
 
-        // Si admin -> Commentez pour éviter les plantages tant qu'on n'a pas pris la décision de ce qu'on fait
-        // $user = Auth::guard('api')->user();
-        // if ($user && $user->is_admin) {
-        //     return;
-        // }
-
         if ($structure->user->profile) {
             $structure->members()->attach($structure->user->profile, ['role' => 'responsable']);
         }
@@ -210,7 +204,7 @@ class StructureObserver
         // On passe automatiquement la structure en Attente de validation
         // si elle a remplit les champs strictements necessaires (décorrélé des missing fields)
         if ($structure->state == 'Brouillon') {
-            $mandatoryFields = ['address'];
+            $mandatoryFields = ['zip', 'city'];
             if (!in_array($structure->statut_juridique, ['Collectivité', 'Organisation publique'])) {
                 $mandatoryFields[] = 'description';
             }

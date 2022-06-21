@@ -71,11 +71,11 @@ class Structure extends Model implements HasMedia
     {
         switch ($this->statut_juridique) {
             case 'Collectivité':
-                return ['name', 'address', 'zip', 'city', 'department', 'domaines'];
+                return ['name', 'zip', 'city', 'department', 'domaines'];
             case 'Organisation publique':
-                return ['name', 'address', 'zip', 'city', 'department', 'domaines', 'publics_beneficiaires'];
+                return ['name', 'zip', 'city', 'department', 'domaines', 'publics_beneficiaires'];
             default:
-                return ['name', 'address', 'zip', 'city', 'department', 'domaines', 'publics_beneficiaires', 'description'];
+                return ['name', 'zip', 'city', 'department', 'domaines', 'publics_beneficiaires', 'description'];
         }
     }
 
