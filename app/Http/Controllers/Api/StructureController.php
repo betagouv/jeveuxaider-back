@@ -13,6 +13,7 @@ use App\Http\Requests\Api\MissionCreateRequest;
 use Spatie\QueryBuilder\AllowedFilter;
 use Illuminate\Support\Facades\Auth;
 use App\Filters\FiltersStructureSearch;
+use App\Http\Requests\AddResponsableRequest;
 use App\Http\Requests\Api\StructureDeleteRequest;
 use App\Http\Requests\StructureRequest;
 use App\Jobs\NotifyUserOfCompletedExport;
@@ -57,7 +58,7 @@ class StructureController extends Controller
             ])
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
 
-        if($request->has('append')){
+        if ($request->has('append')) {
             $results->append($request->input('append'));
         }
 
@@ -282,5 +283,19 @@ class StructureController extends Controller
     public function responsables(Request $request, Structure $structure)
     {
         return $structure->responsables()->get();
+    }
+
+    public function addResponsable(AddResponsableRequest $request, Structure $structure)
+    {
+        $profile = Profile::whereEmail($request->input('email'))->first();
+
+        if ($profile && $profile->structures->count() > 0) {
+            abort(422, "Cet email est déjà rattaché à une organisation");
+        }
+
+        $structure->addMember($profile, 'responsable');
+        $profile->user->resetContextRole();
+
+        return $structure->members;
     }
 }

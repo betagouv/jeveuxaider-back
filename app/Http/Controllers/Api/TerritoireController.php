@@ -14,6 +14,7 @@ use App\Models\Territoire;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 use App\Filters\FiltersTerritoireSearch;
+use App\Http\Requests\AddResponsableRequest;
 use App\Models\Participation;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -86,6 +87,20 @@ class TerritoireController extends Controller
         });
 
         return (string) $territoire->delete();
+    }
+
+    public function addResponsable(AddResponsableRequest $request, Territoire $territoire)
+    {
+        $profile = Profile::whereEmail($request->input('email'))->first();
+
+        if ($profile->territoires()->where('id', $territoire->id)->first()) {
+            abort(422, "Cet email est déjà rattaché à ce territoire");
+        }
+
+        $territoire->addResponsable($profile);
+        $profile->user->resetContextRole();
+
+        return $territoire->responsables;
     }
 
     public function deleteResponsable(Request $request, Territoire $territoire, Profile $responsable)

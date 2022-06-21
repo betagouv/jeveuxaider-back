@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Filters\FiltersReseauSearch;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AddResponsableRequest;
 use App\Http\Requests\Api\ReseauUpdateRequest;
 use App\Http\Requests\ReseauRequest;
 use App\Models\Invitation;
@@ -32,9 +33,9 @@ class ReseauController extends Controller
             ->defaultSort('-created_at')
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
 
-            if($request->has('append')){
-                $results->append($request->input('append'));
-            }
+        if ($request->has('append')) {
+            $results->append($request->input('append'));
+        }
 
         return $results;
     }
@@ -141,6 +142,15 @@ class ReseauController extends Controller
     public function invitationsResponsables(Request $request, Reseau $reseau)
     {
         return $reseau->invitationsResponsables()->orderBy('id')->get();
+    }
+
+    public function addResponsable(AddResponsableRequest $request, Reseau $reseau)
+    {
+        $profile = Profile::whereEmail($request->input('email'))->first();
+        $profile->update(['tete_de_reseau_id' => $reseau->id]);
+        $profile->user->resetContextRole();
+
+        return $reseau->responsables;
     }
 
     public function deleteResponsable(Request $request, Reseau $reseau, Profile $responsable)
