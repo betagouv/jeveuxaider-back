@@ -70,7 +70,7 @@ class NotificationController extends Controller
                 break;
             case 'responsable_still_in_draft':
                     $notification = new StructureInDraft($structure, 'j+1');
-                    break;
+                break;
             case 'responsable_participation_created':
                 $notification = new ParticipationWaitingValidation($participation);
                 break;
@@ -168,20 +168,20 @@ class NotificationController extends Controller
                 $missionTemplate = MissionTemplate::whereHas('reseau')->latest()->first();
                 $notification = new MissionTemplateWaiting($missionTemplate);
                 break;
-            case 'moderateur_daily_todo':
-                $byDepartment[75] = [
-                    'department_name' => 'Paris',
-                    'missions' => ['test'],
-                    'structures' => ['test'],
-                    'referents' => [[
-                        'first_name' => 'Prénom',
-                        'last_name' => 'Nom',
-                        'email' => 'test@test.fr',
-                        'mobile' => '06 12 34 56 78',
-                    ]],
-                ];
-                $notification = new ModerateurDailyTodo($byDepartment);
-                break;
+            // case 'moderateur_daily_todo':
+            //     $byDepartment[75] = [
+            //         'department_name' => 'Paris',
+            //         'missions' => ['test'],
+            //         'structures' => ['test'],
+            //         'referents' => [[
+            //             'first_name' => 'Prénom',
+            //             'last_name' => 'Nom',
+            //             'email' => 'test@test.fr',
+            //             'mobile' => '06 12 34 56 78',
+            //         ]],
+            //     ];
+            //     $notification = new ModerateurDailyTodo($byDepartment);
+            //     break;
             case 'responsable_no_new_mission':
                 $notification = new NoNewMission($structure);
                 break;

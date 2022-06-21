@@ -37,7 +37,7 @@ class Kernel extends ConsoleKernel
         //$schedule->command(\Jorijn\LaravelSecurityChecker\Console\SecurityMailCommand::class)->daily()->at('05:05');
         //$schedule->command(\Jorijn\LaravelSecurityChecker\Console\SecuritySlackCommand::class)->daily()->at('05:10');
 
-        $schedule->command(SendNotificationTodoToModerateurs::class)->weekdays()->daily()->at('08:00');
+        // $schedule->command(SendNotificationTodoToModerateurs::class)->weekdays()->daily()->at('08:00');
         $schedule->command(SendNotificationTodoToReferents::class)->weekdays()->daily()->at('08:10');
         $schedule->command(SendNotificationTodoToResponsables::class)->days([1, 3, 5])->at('08:20');
         $schedule->command(SendNotificationsMissionOutdated::class)->weekdays()->daily()->at('08:30');
