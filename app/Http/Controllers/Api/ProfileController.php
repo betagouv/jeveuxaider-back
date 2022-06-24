@@ -11,6 +11,7 @@ use App\Filters\FiltersProfileSearch;
 use App\Filters\FiltersProfileRole;
 use App\Filters\FiltersProfileMinParticipations;
 use App\Http\Requests\ProfileRequest;
+use App\Jobs\SendinblueSyncUser;
 use App\Sorts\ProfileParticipationsValidatedCountSort;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\AllowedSort;
@@ -51,7 +52,7 @@ class ProfileController extends Controller
     public function update(ProfileUpdateRequest $request, Profile $profile = null)
     {
         $profile->update($request->validated());
-        
+
         if ($request->has('domaines')) {
             $domaines = collect($request->input('domaines'));
             $values = $domaines->pluck($domaines, 'id')->map(function ($item) {
@@ -72,6 +73,11 @@ class ProfileController extends Controller
             $activities =  collect($request->input('activities'));
             $values = $activities->pluck($activities, 'id')->toArray();
             $profile->activities()->sync(array_keys($values));
+            if (config('services.sendinblue.sync')) {
+                if ($profile->user) {
+                    SendinblueSyncUser::dispatch($profile->user);
+                }
+            }
         }
 
         return $profile;
