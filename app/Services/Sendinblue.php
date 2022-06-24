@@ -55,7 +55,6 @@ class Sendinblue
         } else {
             // ray('WITHOUT MOBILE : Sendinblue sync user ' . $user->email);
         }
-
         $response = self::updateContact($user, $withSMS);
 
         if (!$response->successful() && $response['code'] == 'document_not_found') {
@@ -80,7 +79,6 @@ class Sendinblue
     public static function formatAttributes(User $user, $withSMS = true)
     {
         $organisation = $user->profile->structureAsResponsable();
-
         $attributes = [
             // TODO : EMAIL attributes if email has changed
             'NOM' => $user->profile->last_name,
@@ -100,6 +98,7 @@ class Sendinblue
             'DISPONIBILITES' => $user->profile->disponibilities,
             'DISPO_TIME_DURATION' => $user->profile->commitment__duration,
             'DISPO_TIME_PERIOD' => $user->profile->commitment__time_period,
+            'ACTIVITES' => $user->profile->activities->pluck('name')->join(', '),
         ];
 
         if ($withSMS) {

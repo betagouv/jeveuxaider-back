@@ -51,7 +51,7 @@ class ProfileController extends Controller
     public function update(ProfileUpdateRequest $request, Profile $profile = null)
     {
         $profile->update($request->validated());
-
+        
         if ($request->has('domaines')) {
             $domaines = collect($request->input('domaines'));
             $values = $domaines->pluck($domaines, 'id')->map(function ($item) {
