@@ -104,7 +104,7 @@ class ProfileController extends Controller
 
     public function show(ProfileRequest $request, Profile $profile)
     {
-        return $profile->load(['user', 'territoires', 'structures', 'reseau', 'skills', 'domaines', 'avatar'])->loadCount(['participations', 'participationsValidated']);
+        return $profile->load(['user', 'territoires', 'structures', 'reseau', 'skills', 'domaines', 'avatar', 'activities'])->loadCount(['participations', 'participationsValidated']);
     }
 
     public function update(ProfileUpdateRequest $request, Profile $profile = null)
@@ -125,6 +125,12 @@ class ProfileController extends Controller
                 return ['field' => 'profile_skills'];
             });
             $profile->skills()->sync($values);
+        }
+
+        if ($request->has('activities')) {
+            $activities =  collect($request->input('activities'));
+            $values = $activities->pluck($activities, 'id')->toArray();
+            $profile->activities()->sync(array_keys($values));
         }
 
         return $profile;

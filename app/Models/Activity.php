@@ -48,6 +48,11 @@ class Activity extends Model implements HasMedia
         return $this->morphMany(ModelMedia::class, 'model')->where('collection_name', 'activity__promoted_organisations');
     }
 
+    public function profiles()
+    {
+        return $this->belongsToMany(Profile::class, 'activity_profile');
+    }
+
     public function getPlacesLeftAttribute()
     {
         return Mission::available()->ofActivity($this->id)->sum('places_left');
