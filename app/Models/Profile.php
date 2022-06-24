@@ -269,6 +269,11 @@ class Profile extends Model implements HasMedia
         return $this->hasMany('App\Models\Participation')->where('state', 'Validée');
     }
 
+    public function activities()
+    {
+        return $this->belongsToMany(Activity::class, 'activity_profile');
+    }
+
     public function domaines()
     {
         return $this->morphToMany(Domaine::class, 'domainable')->wherePivot('field', 'profile_domaines');
