@@ -35,7 +35,7 @@ class StructureInvitationRequest extends FormRequest
                 }
             ],
             'first_name' => 'required|min:3',
-            'last_name' => 'required|min:2',
+            'last_name' => 'required',
             'role' => 'required|in:responsable'
         ];
     }
@@ -52,7 +52,6 @@ class StructureInvitationRequest extends FormRequest
             'first_name.required' => 'Un prénom est requis',
             'first_name.min' => 'Votre prénom doit contenir au moins :min lettres',
             'last_name.required' => 'Un nom est requis',
-            'last_name.min' => 'Votre nom doit contenir au moins :min lettres',
         ];
     }
 }

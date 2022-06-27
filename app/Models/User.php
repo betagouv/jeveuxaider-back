@@ -233,7 +233,7 @@ class User extends Authenticatable
         return $this->conversations()
             ->whereHas('messages', function (Builder $query) {
                 $query ->where('from_id', '!=', $this->id);
-            })            
+            })
             ->where(function ($query) {
                 $query->whereRaw('conversations_users.read_at < conversations.updated_at')
                     ->orWhere('conversations_users.read_at', null);
