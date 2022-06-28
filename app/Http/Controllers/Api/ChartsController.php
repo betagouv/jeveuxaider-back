@@ -35,6 +35,8 @@ class ChartsController extends Controller
                 count(*) AS count
                 FROM structures
                 WHERE structures.department ILIKE :department
+                AND structures.state IN ('Validée')
+                AND structures.deleted_at IS NULL
                 GROUP BY date_trunc('month', structures.created_at), year, month
                 ORDER BY date_trunc('month', structures.created_at) ASC
             ", [
@@ -64,6 +66,7 @@ class ChartsController extends Controller
                 count(*) AS count
                 FROM missions
                 WHERE missions.department ILIKE :department
+                AND missions.state IN ('Validée', 'Terminée')
                 GROUP BY date_trunc('month', missions.created_at), year, month
                 ORDER BY date_trunc('month', missions.created_at) ASC
             ", [
