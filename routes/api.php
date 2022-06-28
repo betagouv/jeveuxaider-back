@@ -224,6 +224,7 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::get('charts/organisations-by-date', 'Api\ChartsController@organisationsByDate');
     Route::get('charts/missions-by-date', 'Api\ChartsController@missionsByDate');
     Route::get('charts/participations-by-date', 'Api\ChartsController@participationsByDate');
+    Route::get('charts/participations-conversion-by-date', 'Api\ChartsController@participationsConversionByDate');
     Route::get('charts/utilisateurs-by-date', 'Api\ChartsController@utilisateursByDate');
 
 
