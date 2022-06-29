@@ -876,7 +876,7 @@ class NumbersController extends Controller
             ->where('structures.state', 'En attente de validation')
             ->where('territoires.type', 'department')
             ->when($this->department, function ($query) {
-                $query->where('department', $this->department);
+                $query->where('structures.department', $this->department);
             })
             // ->whereBetween('structures.created_at', [$this->startDate, $this->endDate])
             ->whereNotNull('territoires.department')
@@ -899,7 +899,7 @@ class NumbersController extends Controller
             ->where('structures.state', 'En cours de traitement')
             ->where('territoires.type', 'department')
             ->when($this->department, function ($query) {
-                $query->where('department', $this->department);
+                $query->where('structures.department', $this->department);
             })
             // ->whereBetween('structures.created_at', [$this->startDate, $this->endDate])
             ->whereNotNull('territoires.department')
@@ -922,7 +922,7 @@ class NumbersController extends Controller
             ->where('missions.state', 'En attente de validation')
             ->where('territoires.type', 'department')
             ->when($this->department, function ($query) {
-                $query->where('department', $this->department);
+                $query->where('missions.department', $this->department);
             })
             // ->whereBetween('missions.created_at', [$this->startDate, $this->endDate])
             ->whereNotNull('territoires.department')
@@ -945,7 +945,7 @@ class NumbersController extends Controller
             ->where('missions.state', 'En cours de traitement')
             ->where('territoires.type', 'department')
             ->when($this->department, function ($query) {
-                $query->where('department', $this->department);
+                $query->where('missions.department', $this->department);
             })
             // ->whereBetween('missions.created_at', [$this->startDate, $this->endDate])
             ->whereNotNull('territoires.department')
@@ -970,7 +970,7 @@ class NumbersController extends Controller
             ->where('missions.end_date', '<', date("Y-m-d"))
             ->where('missions.state', 'Validée')
             ->when($this->department, function ($query) {
-                $query->where('department', $this->department);
+                $query->where('missions.department', $this->department);
             })
             // ->whereBetween('missions.created_at', [$this->startDate, $this->endDate])
             ->whereNotNull('territoires.department')
