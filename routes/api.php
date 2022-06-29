@@ -64,6 +64,11 @@ Route::get('temoignages/organisations/{structure}', 'Api\TemoignageController@fo
 Route::get('settings/messages', 'Api\SettingController@messages');
 Route::get('settings/general', 'Api\SettingController@general');
 
+
+Route::get('statistics/public/overview', 'Api\PublicNumbersController@overview');
+Route::get('statistics/public/participations-by-domaines', 'Api\PublicNumbersController@participationsByDomaines');
+Route::get('statistics/public/participations-by-activities', 'Api\PublicNumbersController@participationsByActivities');
+
 Route::group(['middleware' => ['auth:api']], function () {
 
     Route::get('user', 'Api\UserController@me');
