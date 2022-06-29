@@ -209,6 +209,8 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::get('statistics/utilisateurs-with-participations', 'Api\NumbersController@utilisateursWithParticipations');
 
     Route::get('statistics/participations-waiting-by-organisations', 'Api\NumbersController@participationsWaitingByOrganisations');
+    Route::get('statistics/participations-refused-by-organisations', 'Api\NumbersController@participationsRefusedByOrganisations');
+    Route::get('statistics/participations-canceled-by-organisations', 'Api\NumbersController@participationsCanceledByOrganisations');
     Route::get('statistics/participations-in-progress-by-organisations', 'Api\NumbersController@participationsInProgressByOrganisations');
 
     Route::get('statistics/organisations-waiting-by-departments', 'Api\NumbersController@organisationsWaitingByDepartments');
@@ -224,6 +226,7 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::get('charts/organisations-by-date', 'Api\ChartsController@organisationsByDate');
     Route::get('charts/missions-by-date', 'Api\ChartsController@missionsByDate');
     Route::get('charts/participations-by-date', 'Api\ChartsController@participationsByDate');
+    Route::get('charts/participations-conversion-by-date', 'Api\ChartsController@participationsConversionByDate');
     Route::get('charts/utilisateurs-by-date', 'Api\ChartsController@utilisateursByDate');
 
 
