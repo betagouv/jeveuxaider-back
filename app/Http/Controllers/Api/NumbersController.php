@@ -38,13 +38,13 @@ class NumbersController extends Controller
         } elseif ($request->input('period') == 'current_month') {
             $this->startDate = Carbon::now()->startOfMonth()->format('Y-m-d H:i:s');
             $this->endDate = Carbon::now()->endOfMonth()->format('Y-m-d H:i:s');
-        }elseif ($request->input('period') == 'last_month') {
+        } elseif ($request->input('period') == 'last_month') {
             $this->startDate = Carbon::now()->subMonth(1)->startOfMonth()->format('Y-m-d H:i:s');
             $this->endDate = Carbon::now()->subMonth(1)->endOfMonth()->format('Y-m-d H:i:s');
         } elseif ($request->input('period') == 'current_week') {
             $this->startDate = Carbon::now()->startOfWeek()->format('Y-m-d H:i:s');
             $this->endDate = Carbon::now()->endOfWeek()->format('Y-m-d H:i:s');
-        }elseif ($request->input('period') == 'last_week') {
+        } elseif ($request->input('period') == 'last_week') {
             $this->startDate = Carbon::now()->subWeek(1)->startOfWeek()->format('Y-m-d H:i:s');
             $this->endDate = Carbon::now()->subWeek(1)->endOfWeek()->format('Y-m-d H:i:s');
         } else {
@@ -129,13 +129,13 @@ class NumbersController extends Controller
             })->count(),
             'benevoles' => Profile::role($request->header('Context-Role'))->when($this->department, function ($query) {
                 $query->where('department', $this->department);
-            })->whereHas('user', function(Builder $query){
-                $query->where('context_role','volontaire');
+            })->whereHas('user', function (Builder $query) {
+                $query->where('context_role', 'volontaire');
             })->count(),
             'benevoles_actifs' => Profile::role($request->header('Context-Role'))->has('participations')->when($this->department, function ($query) {
                 $query->where('department', $this->department);
             })->count(),
-            'participations_validated' => Participation::role($request->header('Context-Role'))->where('state','Validée')->when($this->department, function ($query) {
+            'participations_validated' => Participation::role($request->header('Context-Role'))->where('state', 'Validée')->when($this->department, function ($query) {
                 $query->whereHas('profile', function (Builder $query) {
                     $query->department($this->department);
                 });
@@ -344,11 +344,11 @@ class NumbersController extends Controller
     {
         $usersWithParticipations = Profile::role($request->header('Context-Role'))->when($this->department, function ($query) {
                 $query->department($this->department);
-            })
+        })
             ->whereBetween('created_at', [$this->startDate, $this->endDate])->has('participations')->count();
         $participationsCount = Participation::role($request->header('Context-Role'))->when($this->department, function ($query) {
                 $query->department($this->department);
-            })
+        })
             ->whereBetween('created_at', [$this->startDate, $this->endDate])->count();
 
         return [
@@ -356,8 +356,8 @@ class NumbersController extends Controller
                 $query->department($this->department);
             })
             ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-            'benevoles' => Profile::role($request->header('Context-Role'))->whereHas('user', function(Builder $query){
-                $query->where('context_role','volontaire');
+            'benevoles' => Profile::role($request->header('Context-Role'))->whereHas('user', function (Builder $query) {
+                $query->where('context_role', 'volontaire');
             })->when($this->department, function ($query) {
                 $query->department($this->department);
             })
@@ -368,7 +368,7 @@ class NumbersController extends Controller
             })
             ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
             'benevoles_notifications_martketplace' => NotificationBenevole::role($request->header('Context-Role'))->when($this->department, function ($query) {
-                $query->whereHas('profile', function(Builder $query){
+                $query->whereHas('profile', function (Builder $query) {
                     $query->department($this->department);
                 });
             })
@@ -786,6 +786,58 @@ class NumbersController extends Controller
         return $results;
     }
 
+    public function participationsRefusedByOrganisations(Request $request)
+    {
+
+        $results = DB::select("
+            SELECT structures.name, structures.id, COUNT(*) AS count FROM participations
+            LEFT JOIN missions ON missions.id = participations.mission_id
+            LEFT JOIN structures ON structures.id = missions.structure_id
+            WHERE participations.deleted_at IS NULL
+            AND participations.state = 'Refusée'
+            AND missions.deleted_at IS NULL
+            AND missions.department ILIKE :department
+            AND structures.deleted_at IS NULL
+            AND structures.name IS NOT NULL
+            AND participations.created_at BETWEEN :start and :end
+            GROUP BY structures.name, structures.id
+            ORDER BY count DESC
+            LIMIT 100
+        ", [
+            "department" => $this->department ? '%'.$this->department.'%' : '%%',
+            "start" => $this->startDate,
+            "end" => $this->endDate,
+        ]);
+
+        return $results;
+    }
+
+    public function participationsCanceledByOrganisations(Request $request)
+    {
+
+        $results = DB::select("
+            SELECT structures.name, structures.id, COUNT(*) AS count FROM participations
+            LEFT JOIN missions ON missions.id = participations.mission_id
+            LEFT JOIN structures ON structures.id = missions.structure_id
+            WHERE participations.deleted_at IS NULL
+            AND participations.state = 'Annulée'
+            AND missions.deleted_at IS NULL
+            AND missions.department ILIKE :department
+            AND structures.deleted_at IS NULL
+            AND structures.name IS NOT NULL
+            AND participations.created_at BETWEEN :start and :end
+            GROUP BY structures.name, structures.id
+            ORDER BY count DESC
+            LIMIT 100
+        ", [
+            "department" => $this->department ? '%'.$this->department.'%' : '%%',
+            "start" => $this->startDate,
+            "end" => $this->endDate,
+        ]);
+
+        return $results;
+    }
+
     public function participationsInProgressByOrganisations(Request $request)
     {
 
@@ -935,22 +987,22 @@ class NumbersController extends Controller
             'no_response' => Message::role($request->header('Context-Role'))->where('contextual_state', 'Annulée par bénévole')->where('contextual_reason', 'no_response')->when($this->department, function ($query) {
                  $query->whereHas('conversation.conversable', function (Builder $query) {
                     $query->department($this->department);
-                });
+                 });
             })->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
             'requirements_not_fulfilled' => Message::role($request->header('Context-Role'))->where('contextual_state', 'Annulée par bénévole')->where('contextual_reason', 'requirements_not_fulfilled')->when($this->department, function ($query) {
                  $query->whereHas('conversation.conversable', function (Builder $query) {
                     $query->department($this->department);
-                });
+                 });
             })->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
             'not_available' => Message::role($request->header('Context-Role'))->where('contextual_state', 'Annulée par bénévole')->where('contextual_reason', 'not_available')->when($this->department, function ($query) {
                  $query->whereHas('conversation.conversable', function (Builder $query) {
                     $query->department($this->department);
-                });
+                 });
             })->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
             'other' => Message::role($request->header('Context-Role'))->where('contextual_state', 'Annulée par bénévole')->where('contextual_reason', 'other')->when($this->department, function ($query) {
                  $query->whereHas('conversation.conversable', function (Builder $query) {
                     $query->department($this->department);
-                });
+                 });
             })->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
         ];
     }
@@ -1016,7 +1068,7 @@ class NumbersController extends Controller
             "end" => $this->endDate,
         ]);
 
-        return collect($results)->pluck('count','delay');
+        return collect($results)->pluck('count', 'delay');
     }
 
     public function placesByReseaux(Request $request)

@@ -209,6 +209,8 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::get('statistics/utilisateurs-with-participations', 'Api\NumbersController@utilisateursWithParticipations');
 
     Route::get('statistics/participations-waiting-by-organisations', 'Api\NumbersController@participationsWaitingByOrganisations');
+    Route::get('statistics/participations-refused-by-organisations', 'Api\NumbersController@participationsRefusedByOrganisations');
+    Route::get('statistics/participations-canceled-by-organisations', 'Api\NumbersController@participationsCanceledByOrganisations');
     Route::get('statistics/participations-in-progress-by-organisations', 'Api\NumbersController@participationsInProgressByOrganisations');
 
     Route::get('statistics/organisations-waiting-by-departments', 'Api\NumbersController@organisationsWaitingByDepartments');
