@@ -46,7 +46,7 @@ class ProfileController extends Controller
 
     public function show(ProfileRequest $request, Profile $profile)
     {
-        return $profile->load(['user', 'territoires', 'structures', 'reseau', 'skills', 'domaines', 'avatar', 'activities'])->loadCount(['participations', 'participationsValidated']);
+        return $profile->load(['user', 'territoires', 'structures', 'reseau', 'skills', 'domaines', 'avatar', 'activities', 'tags'])->loadCount(['participations', 'participationsValidated']);
     }
 
     public function update(ProfileUpdateRequest $request, Profile $profile = null)
@@ -78,6 +78,14 @@ class ProfileController extends Controller
                     SendinblueSyncUser::dispatch($profile->user);
                 }
             }
+        }
+        
+        if ($request->has('tags')) {
+            $tags =  collect($request->input('tags'));
+            $values = $tags->pluck($tags, 'id')->map(function ($item) {
+                return ['field' => 'tags'];
+            });
+            $profile->tags()->sync($values);
         }
 
         return $profile;

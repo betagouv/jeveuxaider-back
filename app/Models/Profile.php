@@ -284,6 +284,11 @@ class Profile extends Model implements HasMedia
         return $this->morphToMany(Term::class, 'termable')->wherePivot('field', 'profile_skills');
     }
 
+    public function tags()
+    {
+        return $this->morphToMany(Term::class, 'termable')->wherePivot('field', 'tags');
+    }
+
     public function setCommitmentTotal()
     {
         $this->commitment__total = Utils::calculateCommitmentTotal(
