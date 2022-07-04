@@ -25,6 +25,7 @@ class ProfileController extends Controller
                 'user',
                 'participationsValidatedCount',
                 'avatar',
+                'tags'
             ])
             ->allowedFilters(
                 AllowedFilter::custom('search', new FiltersProfileSearch),
