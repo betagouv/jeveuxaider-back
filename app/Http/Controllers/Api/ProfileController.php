@@ -10,6 +10,7 @@ use Spatie\QueryBuilder\QueryBuilder;
 use App\Filters\FiltersProfileSearch;
 use App\Filters\FiltersProfileRole;
 use App\Filters\FiltersProfileMinParticipations;
+use App\Filters\FiltersTags;
 use App\Http\Requests\ProfileRequest;
 use App\Jobs\SendinblueSyncUser;
 use App\Sorts\ProfileParticipationsValidatedCountSort;
@@ -35,7 +36,8 @@ class ProfileController extends Controller
                 AllowedFilter::exact('referent_region'),
                 'zip',
                 AllowedFilter::exact('is_visible'),
-                AllowedFilter::custom('min_participations', new FiltersProfileMinParticipations)
+                AllowedFilter::custom('min_participations', new FiltersProfileMinParticipations),
+                AllowedFilter::custom('tags', new FiltersTags)
             )
             ->defaultSort('-created_at')
             ->allowedSorts([
