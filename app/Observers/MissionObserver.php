@@ -169,6 +169,11 @@ class MissionObserver
         }
         if ($mission->type !== 'Mission en présentiel' || $mission->is_autonomy === FALSE) {
             $mission->autonomy_zips = NULL;
+            $mission->autonomy_precisions = NULL;
+        }
+
+        if ($mission->type === 'Mission à distance') {
+            $mission->department = $mission->structure->department;
         }
     }
 
