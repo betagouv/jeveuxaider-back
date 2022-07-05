@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 use App\Http\Controllers\Controller;
+use App\Models\Termable;
 
 class TermController extends Controller
 {
@@ -46,5 +47,16 @@ class TermController extends Controller
         $term = $term->update($request->validated());
 
         return $term;
+    }
+
+    public function delete(Request $request, Term $term)
+    {
+        $relatedEntities = Termable::where('term_id', $term->id)->count();
+
+        if ($relatedEntities) {
+            abort('422', "Ce tag est relié à {$relatedEntities} entité(s). Il ne peut pas être supprimé.");
+        }
+
+        return (string) $term->delete();
     }
 }
