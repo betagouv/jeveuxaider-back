@@ -35,6 +35,8 @@ class Mission extends Model
         'end_date' => 'datetime:Y-m-d\TH:i',
         'latitude' => 'float',
         'longitude' => 'float',
+        'is_autonomy' => 'boolean',
+        'autonomy_zips' => 'json',
     ];
 
     protected $attributes = [
@@ -152,11 +154,21 @@ class Mission extends Model
             'snu_mig_places' => $this->snu_mig_places,
             'commitment__total' => $this->commitment__total,
             'publics_beneficiaires' => array_map(function($public) use ($publicsBeneficiaires) {
-                return $publicsBeneficiaires[$public];
-            }, $this->publics_beneficiaires),
+                    return $publicsBeneficiaires[$public];
+                }, $this->publics_beneficiaires),
+            'is_autonomy' => $this->is_autonomy,
         ];
 
-        if ($this->latitude && $this->longitude) {
+        if ($this->is_autonomy) {
+            $mission['_geoloc'] = [];
+            foreach ($this->autonomy_zips as $item) {
+                $mission['_geoloc'][] = [
+                    'lat' => $item['latitude'],
+                    'lng' => $item['longitude']
+                ];
+            }
+        }
+        elseif ($this->latitude && $this->longitude) {
             $mission['_geoloc'] = [
                 'lat' => $this->latitude,
                 'lng' => $this->longitude
