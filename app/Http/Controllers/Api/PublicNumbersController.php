@@ -51,6 +51,7 @@ class PublicNumbersController extends Controller
                 WHERE missions.deleted_at IS NULL
                 AND date_part('year', participations.created_at) = :year
                 AND participations.state IN ('Validée')
+                AND domaines.name IS NOT NULL
                 GROUP BY domaines.name, domaines.id
                 ORDER BY count DESC
             ", [
@@ -75,11 +76,48 @@ class PublicNumbersController extends Controller
             AND activities.name IS NOT NULL
             GROUP BY activities.name, activities.id
             ORDER BY count DESC
-            LIMIT 5
         ", [
             "year" => $this->year,
         ]);
 
         return $results;
+    }
+
+    public function overviewUtilisateurs(Request $request)
+    {
+
+        return [
+            'utilisateurs' => User::whereYear('created_at', $this->year)->count(),
+            'benevoles' => User::whereYear('created_at', $this->year)->where('context_role', 'volontaire')->count(),
+        ];
+    }
+
+    public function utilisateursByAge(Request $request)
+    {
+
+
+        $results = DB::select("
+            SELECT COUNT(age),
+            CASE
+                WHEN age <= 18 THEN 'LESS_THAN_18'
+                WHEN age > 18 AND age <= 25 THEN 'BETWEEN_18_AND_25'
+                WHEN age > 25 AND age <= 35 THEN 'BETWEEN_25_AND_35'
+                WHEN age > 35 AND age <= 45 THEN 'BETWEEN_35_AND_45'
+                WHEN age > 45 AND age <= 55 THEN 'BETWEEN_45_AND_55'
+                WHEN age > 55 AND age <= 65 THEN 'BETWEEN_55_AND_65'
+                WHEN age > 65 AND age <= 75 THEN 'BETWEEN_65_AND_75'
+                WHEN age > 75 THEN 'MORE_THAN_75'
+            END age_range
+            FROM (
+                SELECT extract('year' from AGE(profiles.created_at, profiles.birthday)) As age FROM profiles
+                WHERE date_part('year', profiles.created_at) = :year
+                AND profiles.birthday IS NOT NULL
+            ) TableAlias
+            GROUP BY age_range
+        ", [
+            "year" => $this->year,
+        ]);
+
+        return collect($results)->pluck('count', 'age_range');
     }
 }

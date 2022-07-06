@@ -68,6 +68,8 @@ Route::get('settings/general', 'Api\SettingController@general');
 Route::get('statistics/public/overview', 'Api\PublicNumbersController@overview');
 Route::get('statistics/public/participations-by-domaines', 'Api\PublicNumbersController@participationsByDomaines');
 Route::get('statistics/public/participations-by-activities', 'Api\PublicNumbersController@participationsByActivities');
+Route::get('statistics/public/overview-utilisateurs', 'Api\PublicNumbersController@overviewUtilisateurs');
+Route::get('statistics/public/utilisateurs-by-age', 'Api\PublicNumbersController@utilisateursByAge');
 
 Route::group(['middleware' => ['auth:api']], function () {
 
