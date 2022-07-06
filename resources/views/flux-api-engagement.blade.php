@@ -38,6 +38,15 @@
         <organizationFullAddress>
             <![CDATA[{{ $mission->structure->address }}, {{ $mission->structure->zip }} {{ $mission->structure->city }}, {{ $mission->structure->country }}]]>
         </organizationFullAddress>
+        <organizationReseaux>
+            @if ($mission->structure->reseaux)
+                @foreach ($mission->structure->reseaux as $reseau)
+                    <value>
+                        <![CDATA[{{ $reseau->name }}]]>
+                    </value>
+                @endforeach
+            @endif
+        </organizationReseaux>
         <postedAt>
             <![CDATA[{{ $mission->created_at }}]]>
         </postedAt>
@@ -153,6 +162,7 @@
                     <![CDATA[culture-loisirs]]>
                 </domain>
             @break
+
             @default
                 <domain>
                     <![CDATA[autre]]>

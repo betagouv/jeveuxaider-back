@@ -42,7 +42,7 @@ class ApiEngagementExportMissions extends Command
     public function handle()
     {
         $structuresNotInApi = [25, 7383, 5577]; // Bénénovat
-        $missions = Mission::with(['domaine', 'template', 'template.domaine', 'template.photo', 'structure', 'illustrations'])->whereHas('structure', function (Builder $query) use ($structuresNotInApi) {
+        $missions = Mission::with(['domaine', 'template', 'template.domaine', 'template.photo', 'structure', 'structure.reseaux', 'illustrations'])->whereHas('structure', function (Builder $query) use ($structuresNotInApi) {
             $query->where('state', 'Validée')
                   ->whereNotIn('id', $structuresNotInApi);
         })->where('state', 'Validée')->where('places_left', '>', 0)->get();
