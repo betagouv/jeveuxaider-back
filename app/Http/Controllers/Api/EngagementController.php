@@ -39,7 +39,7 @@ class EngagementController extends Controller
             });
 
         $results = QueryBuilder::for($missionsQueryBuilder)
-            ->with(['responsable','domaine', 'template', 'template.domaine', 'template.photo', 'structure', 'illustrations'])
+            ->with(['responsable','domaine', 'template', 'template.domaine', 'template.photo', 'structure', 'structure.reseaux', 'illustrations'])
             ->allowedFilters([
                 'state',
                 'type',
@@ -63,8 +63,8 @@ class EngagementController extends Controller
             ->defaultSort('-id')
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
 
-        $results->getCollection()->transform(function($mission, $key) {
-           return $mission->format();
+        $results->getCollection()->transform(function ($mission, $key) {
+            return $mission->format();
         });
 
         return response()->json($results);
@@ -107,7 +107,7 @@ class EngagementController extends Controller
             ->defaultSort('-id')
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
 
-        $results->getCollection()->transform(function($organisation) {
+        $results->getCollection()->transform(function ($organisation) {
             return $organisation->format();
         });
 
@@ -123,5 +123,4 @@ class EngagementController extends Controller
     {
         return (new ApiEngagement())->delete();
     }
-
 }

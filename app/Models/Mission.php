@@ -151,7 +151,7 @@ class Mission extends Model
             'is_snu_mig_compatible' => $this->is_snu_mig_compatible,
             'snu_mig_places' => $this->snu_mig_places,
             'commitment__total' => $this->commitment__total,
-            'publics_beneficiaires' => array_map(function($public) use ($publicsBeneficiaires) {
+            'publics_beneficiaires' => array_map(function ($public) use ($publicsBeneficiaires) {
                 return $publicsBeneficiaires[$public];
             }, $this->publics_beneficiaires),
         ];
@@ -635,6 +635,7 @@ class Mission extends Model
                 'rna' => $this->structure->rna,
                 'api_id' => $this->structure->api_id,
                 'state' => $this->structure->state,
+                'reseaux' => $this->structure->reseaux->count() ? $this->structure->reseaux->all() : null,
             ] : null,
             'responsable' => $this->responsable ? [
                 'id' => $this->responsable->id,
