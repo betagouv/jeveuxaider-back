@@ -163,6 +163,18 @@ class MissionObserver
         if ($mission->commitment__duration) {
             $mission->setCommitmentTotal();
         }
+
+        if ($mission->type !== 'Mission en présentiel') {
+            $mission->is_autonomy = FALSE;
+        }
+        if ($mission->type !== 'Mission en présentiel' || $mission->is_autonomy === FALSE) {
+            $mission->autonomy_zips = NULL;
+            $mission->autonomy_precisions = NULL;
+        }
+
+        if ($mission->type === 'Mission à distance') {
+            $mission->department = $mission->structure->department;
+        }
     }
 
     /**
