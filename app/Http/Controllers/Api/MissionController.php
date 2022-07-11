@@ -77,6 +77,7 @@ class MissionController extends Controller
                 AllowedFilter::custom('search', new FiltersMissionSearch),
                 AllowedFilter::scope('available'),
                 AllowedFilter::custom('is_template', new FiltersMissionIsTemplate),
+                AllowedFilter::exact('is_autonomy'),
             ])
             ->allowedIncludes([
                 'template.photo',
