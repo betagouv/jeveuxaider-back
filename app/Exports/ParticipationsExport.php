@@ -25,7 +25,9 @@ class ParticipationsExport implements FromQuery, WithMapping, WithHeadings
 
     public function query()
     {
-        return QueryBuilder::for(Participation::role($this->request->header('Context-Role'))->with(['profile', 'mission']))
+        $queryBuilder = Participation::role($this->request->header('Context-Role'))->whereIn('state', ['Validée'])->with(['profile', 'mission']);
+
+        return QueryBuilder::for($queryBuilder)
             ->allowedFilters(
                 AllowedFilter::custom('search', new FiltersParticipationSearch),
                 AllowedFilter::exact('mission.id'),
