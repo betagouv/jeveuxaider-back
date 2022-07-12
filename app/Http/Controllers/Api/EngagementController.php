@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Filters\FiltersMissionDate;
 use App\Filters\FiltersMissionIsTemplate;
 use App\Filters\FiltersMissionPlacesLeft;
 use App\Filters\FiltersMissionPublicsVolontaires;
@@ -39,7 +40,7 @@ class EngagementController extends Controller
             });
 
         $results = QueryBuilder::for($missionsQueryBuilder)
-            ->with(['responsable','domaine', 'template', 'template.domaine', 'template.photo', 'structure', 'structure.reseaux', 'illustrations'])
+            ->with(['responsable','domaine', 'activity', 'template', 'template.activity', 'template.domaine', 'template.photo', 'structure', 'structure.reseaux', 'illustrations'])
             ->allowedFilters([
                 'state',
                 'type',
@@ -49,16 +50,22 @@ class EngagementController extends Controller
                 AllowedFilter::exact('template.id'),
                 AllowedFilter::exact('structure.id'),
                 AllowedFilter::exact('structure.name'),
+                'structure.statut_juridique',
                 AllowedFilter::exact('structure.reseaux.id'),
                 AllowedFilter::exact('structure.reseaux.name'),
                 AllowedFilter::exact('is_snu_mig_compatible'),
                 AllowedFilter::scope('ofDomaine'),
                 AllowedFilter::scope('ofTerritoire'),
+                AllowedFilter::scope('ofActivity'),
+                AllowedFilter::scope('hasActivity'),
+                AllowedFilter::scope('hasTemplate'),
                 AllowedFilter::custom('place', new FiltersMissionPlacesLeft),
+                AllowedFilter::custom('date', new FiltersMissionDate),
                 AllowedFilter::custom('publics_volontaires', new FiltersMissionPublicsVolontaires),
                 AllowedFilter::custom('search', new FiltersMissionSearch),
                 AllowedFilter::scope('available'),
                 AllowedFilter::custom('is_template', new FiltersMissionIsTemplate),
+                AllowedFilter::exact('is_autonomy'),
             ])
             ->defaultSort('-id')
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));

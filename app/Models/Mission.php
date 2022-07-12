@@ -155,7 +155,7 @@ class Mission extends Model
             'commitment__total' => $this->commitment__total,
             'publics_beneficiaires' => array_map(function ($public) use ($publicsBeneficiaires) {
                     return $publicsBeneficiaires[$public];
-                }, $this->publics_beneficiaires),
+            }, $this->publics_beneficiaires),
             'is_autonomy' => $this->is_autonomy,
         ];
 
@@ -167,8 +167,7 @@ class Mission extends Model
                     'lng' => $item['longitude']
                 ];
             }
-        }
-        elseif ($this->latitude && $this->longitude) {
+        } elseif ($this->latitude && $this->longitude) {
             $mission['_geoloc'] = [
                 'lat' => $this->latitude,
                 'lng' => $this->longitude
@@ -607,6 +606,7 @@ class Mission extends Model
     public function format()
     {
         $domaine = $this->template_id ? $this->template->domaine : $this->domaine;
+        $activity = $this->template && $this->template->activity_id ? $this->template->activity : $this->activity;
         return [
             'id' => $this->id,
             'name' => $this->name,
@@ -615,6 +615,10 @@ class Mission extends Model
             'domaine' => $domaine ? [
                 'id' => $domaine->id,
                 'name' => $domaine->name,
+            ] : null,
+            'activity' => $activity ? [
+                'id' => $activity->id,
+                'name' => $activity->name,
             ] : null,
             'start_date' => $this->start_date,
             'end_date' => $this->end_date,

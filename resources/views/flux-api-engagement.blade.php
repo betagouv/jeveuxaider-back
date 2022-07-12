@@ -169,6 +169,13 @@
                 </domain>
         @endswitch
 
+        <activity>
+            @php
+                $activity = $mission->template ? $mission->template->activity : $mission->activity;
+            @endphp
+            <![CDATA[{{ $activity ? $activity->name : null }}]]>
+        </activity>
+
         <publicsBeneficiaires>
             @if ($mission->publics_beneficiaires)
                 @foreach ($mission->publics_beneficiaires as $public_beneficiaire)
