@@ -35,6 +35,8 @@ class Mission extends Model
         'end_date' => 'datetime:Y-m-d\TH:i',
         'latitude' => 'float',
         'longitude' => 'float',
+        'is_autonomy' => 'boolean',
+        'autonomy_zips' => 'json',
     ];
 
     protected $attributes = [
@@ -151,12 +153,21 @@ class Mission extends Model
             'is_snu_mig_compatible' => $this->is_snu_mig_compatible,
             'snu_mig_places' => $this->snu_mig_places,
             'commitment__total' => $this->commitment__total,
-            'publics_beneficiaires' => array_map(function($public) use ($publicsBeneficiaires) {
-                return $publicsBeneficiaires[$public];
+            'publics_beneficiaires' => array_map(function ($public) use ($publicsBeneficiaires) {
+                    return $publicsBeneficiaires[$public];
             }, $this->publics_beneficiaires),
+            'is_autonomy' => $this->is_autonomy,
         ];
 
-        if ($this->latitude && $this->longitude) {
+        if ($this->is_autonomy) {
+            $mission['_geoloc'] = [];
+            foreach ($this->autonomy_zips as $item) {
+                $mission['_geoloc'][] = [
+                    'lat' => $item['latitude'],
+                    'lng' => $item['longitude']
+                ];
+            }
+        } elseif ($this->latitude && $this->longitude) {
             $mission['_geoloc'] = [
                 'lat' => $this->latitude,
                 'lng' => $this->longitude
@@ -595,6 +606,7 @@ class Mission extends Model
     public function format()
     {
         $domaine = $this->template_id ? $this->template->domaine : $this->domaine;
+        $activity = $this->template && $this->template->activity_id ? $this->template->activity : $this->activity;
         return [
             'id' => $this->id,
             'name' => $this->name,
@@ -603,6 +615,10 @@ class Mission extends Model
             'domaine' => $domaine ? [
                 'id' => $domaine->id,
                 'name' => $domaine->name,
+            ] : null,
+            'activity' => $activity ? [
+                'id' => $activity->id,
+                'name' => $activity->name,
             ] : null,
             'start_date' => $this->start_date,
             'end_date' => $this->end_date,
@@ -635,6 +651,7 @@ class Mission extends Model
                 'rna' => $this->structure->rna,
                 'api_id' => $this->structure->api_id,
                 'state' => $this->structure->state,
+                'reseaux' => $this->structure->reseaux->count() ? $this->structure->reseaux->all() : null,
             ] : null,
             'responsable' => $this->responsable ? [
                 'id' => $this->responsable->id,

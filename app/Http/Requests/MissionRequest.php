@@ -37,6 +37,9 @@ class MissionRequest extends FormRequest
             'address' => '',
             'latitude' => [
                 Rule::requiredIf(function () {
+                    if ($this->request->get('is_autonomy') === TRUE) {
+                        return false;
+                    }
                     // Hack - Dom Tom (Nouvelle Calédonie et Polynésie française)
                     if (in_array($this->request->get('department'), ['987', '988'])) {
                         return false;
@@ -48,6 +51,9 @@ class MissionRequest extends FormRequest
             ],
             'longitude' => [
                 Rule::requiredIf(function () {
+                    if ($this->request->get('is_autonomy') === TRUE) {
+                        return false;
+                    }
                     // Hack - Dom Tom (Nouvelle Calédonie et Polynésie française)
                     if (in_array($this->request->get('department'), ['987', '988'])) {
                         return false;
@@ -57,13 +63,25 @@ class MissionRequest extends FormRequest
                     }
                 })
             ],
-            'zip' => 'requiredIf:type,Mission en présentiel',
-            'city' => 'requiredIf:type,Mission en présentiel',
+            'zip' => [
+                Rule::requiredIf(function () {
+                    if ($this->request->get('type') === 'Mission en présentiel' && $this->request->get('is_autonomy') === FALSE) {
+                        return true;
+                    }
+                })
+            ],
+            'city' => [
+                Rule::requiredIf(function () {
+                    if ($this->request->get('type') === 'Mission en présentiel' && $this->request->get('is_autonomy') === FALSE) {
+                        return true;
+                    }
+                })
+            ],
             'department' => [
                 'requiredIf:type,Mission en présentiel',
                 function ($attribute, $department, $fail) {
                     $datas = $this->validator->getData();
-                    if (!empty($datas['zip'])) {
+                    if (empty($datas['is_autonomy']) && !empty($datas['zip'])) {
                         $zip = str_replace(' ', '', $datas['zip']);
 
                         if (substr($zip, 0, strlen($department)) != $department) {
@@ -106,6 +124,27 @@ class MissionRequest extends FormRequest
             'is_snu_mig_compatible' => '',
             'snu_mig_places' => 'required_if:is_snu_mig_compatible,true',
             'activity_id' => '',
+            'is_autonomy' => '',
+            'autonomy_zips' => [
+                'required_if:is_autonomy,true',
+                function ($attribute, $autonomy_zips, $fail) {
+                    $datas = $this->validator->getData();
+                    if (!empty($autonomy_zips) && !empty($datas['department'])) {
+                        $department = $datas['department'];
+                        foreach ($autonomy_zips as $item) {
+                            if (substr($item['zip'], 0, strlen($department)) != $department) {
+                                // Exeptions.
+                                if (in_array($department, ['2A', '2B']) && substr($item['zip'], 0, 2) == '20') {
+                                    continue;
+                                }
+                                $fail("Les codes postaux et le département ne correspondent pas !");
+                                return;
+                            }
+                        }
+                    }
+                }
+            ],
+            'autonomy_precisions' => '',
         ];
     }
 

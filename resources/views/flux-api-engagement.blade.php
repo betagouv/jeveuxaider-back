@@ -38,6 +38,15 @@
         <organizationFullAddress>
             <![CDATA[{{ $mission->structure->address }}, {{ $mission->structure->zip }} {{ $mission->structure->city }}, {{ $mission->structure->country }}]]>
         </organizationFullAddress>
+        <organizationReseaux>
+            @if ($mission->structure->reseaux)
+                @foreach ($mission->structure->reseaux as $reseau)
+                    <value>
+                        <![CDATA[{{ $reseau->name }}]]>
+                    </value>
+                @endforeach
+            @endif
+        </organizationReseaux>
         <postedAt>
             <![CDATA[{{ $mission->created_at }}]]>
         </postedAt>
@@ -153,11 +162,19 @@
                     <![CDATA[culture-loisirs]]>
                 </domain>
             @break
+
             @default
                 <domain>
                     <![CDATA[autre]]>
                 </domain>
         @endswitch
+
+        <activity>
+            @php
+                $activity = $mission->template ? $mission->template->activity : $mission->activity;
+            @endphp
+            <![CDATA[{{ $activity ? $activity->name : null }}]]>
+        </activity>
 
         <publicsBeneficiaires>
             @if ($mission->publics_beneficiaires)
