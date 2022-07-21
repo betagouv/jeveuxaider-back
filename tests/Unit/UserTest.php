@@ -2,17 +2,16 @@
 
 namespace Tests\Unit;
 
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 class UserTest extends TestCase
 {
     use DatabaseTransactions;
 
     /** @test */
-
     public function a_user_has_structures()
     {
         $user = factory(User::class)->create();
@@ -20,7 +19,6 @@ class UserTest extends TestCase
     }
 
     /** @test */
-
     public function a_user_has_missions()
     {
         $user = factory(User::class)->create();

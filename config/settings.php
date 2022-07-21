@@ -1,7 +1,7 @@
 <?php
 
-use App\Settings\MessageSettings;
 use App\Settings\EditoSettings;
+use App\Settings\MessageSettings;
 
 return [
 

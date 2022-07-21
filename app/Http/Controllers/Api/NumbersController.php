@@ -2,29 +2,30 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Activity;
 use App\Models\Message;
 use App\Models\Mission;
-use App\Models\MissionTemplate;
 use App\Models\NotificationBenevole;
 use App\Models\Participation;
 use App\Models\Profile;
 use App\Models\Reseau;
-use Carbon\Carbon;
 use App\Models\Structure;
 use App\Models\Territoire;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Arr;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class NumbersController extends Controller
 {
     public $year;
+
     public $month;
+
     public $startDate;
+
     public $endDate;
+
     public $department;
 
     public function __construct(Request $request)
@@ -59,7 +60,6 @@ class NumbersController extends Controller
 
     public function overviewQuickGlance(Request $request)
     {
-
         return [
             'organisations' => Structure::whereIn('state', ['Validée'])->whereBetween('created_at', [$this->startDate, $this->endDate])->when($this->department, function ($query) {
                 $query->where('department', $this->department);
@@ -78,7 +78,6 @@ class NumbersController extends Controller
 
     public function overviewOrganisations(Request $request)
     {
-
         $missionsAvailable = Mission::role($request->header('Context-Role'))
             ->when($this->department, function ($query) {
                 $query->where('department', $this->department);
@@ -102,7 +101,6 @@ class NumbersController extends Controller
 
     public function overviewMissions(Request $request)
     {
-
         $missionsAvailable = Mission::role($request->header('Context-Role'))
             ->when($this->department, function ($query) {
                 $query->where('department', $this->department);
@@ -145,8 +143,7 @@ class NumbersController extends Controller
 
     public function globalOrganisations(Request $request)
     {
-
-        $organisationsCount =  Structure::role($request->header('Context-Role'))->when($this->department, function ($query) {
+        $organisationsCount = Structure::role($request->header('Context-Role'))->when($this->department, function ($query) {
             $query->where('department', $this->department);
         })->whereBetween('created_at', [$this->startDate, $this->endDate])->count();
 
@@ -211,8 +208,7 @@ class NumbersController extends Controller
 
     public function organisationsByReseaux(Request $request)
     {
-
-        $results = DB::select("
+        $results = DB::select('
                 SELECT reseaux.name, reseaux.id, COUNT(*) AS count FROM structures
                 LEFT JOIN reseau_structure ON reseau_structure.structure_id = structures.id
                 LEFT JOIN reseaux ON reseaux.id = reseau_structure.reseau_id
@@ -223,10 +219,10 @@ class NumbersController extends Controller
                 GROUP BY reseaux.name, reseaux.id
                 ORDER BY count DESC
                 LIMIT 5
-            ", [
-                "department" => $this->department ? '%'.$this->department.'%' : '%%',
-                "start" => $this->startDate,
-                "end" => $this->endDate,
+            ', [
+            'department' => $this->department ? '%'.$this->department.'%' : '%%',
+            'start' => $this->startDate,
+            'end' => $this->endDate,
         ]);
 
         return $results;
@@ -234,7 +230,6 @@ class NumbersController extends Controller
 
     public function missionsByReseaux(Request $request)
     {
-
         $results = DB::select("
                 SELECT reseaux.name, reseaux.id, COUNT(*) AS count,
                 SUM(CASE WHEN missions.state IN ('Validée') THEN missions.places_left ELSE 0 END) AS sum_places_left
@@ -253,9 +248,9 @@ class NumbersController extends Controller
                 ORDER BY count DESC
                 LIMIT 5
             ", [
-                "department" => $this->department ? '%'.$this->department.'%' : '%%',
-                "start" => $this->startDate,
-                "end" => $this->endDate,
+            'department' => $this->department ? '%'.$this->department.'%' : '%%',
+            'start' => $this->startDate,
+            'end' => $this->endDate,
         ]);
 
         return $results;
@@ -263,8 +258,7 @@ class NumbersController extends Controller
 
     public function participationsByReseaux(Request $request)
     {
-
-        $results = DB::select("
+        $results = DB::select('
                 SELECT reseaux.name, reseaux.id, COUNT(*) AS count FROM participations
                 LEFT JOIN missions ON missions.id = participations.mission_id
                 LEFT JOIN structures ON structures.id = missions.structure_id
@@ -278,19 +272,18 @@ class NumbersController extends Controller
                 GROUP BY reseaux.name, reseaux.id
                 ORDER BY count DESC
                 LIMIT 5
-            ", [
-            "department" => $this->department ? '%'.$this->department.'%' : '%%',
-            "start" => $this->startDate,
-            "end" => $this->endDate,
+            ', [
+            'department' => $this->department ? '%'.$this->department.'%' : '%%',
+            'start' => $this->startDate,
+            'end' => $this->endDate,
         ]);
 
         return $results;
     }
 
-
     public function globalMissions(Request $request)
     {
-        $missionsCount =  Mission::role($request->header('Context-Role'))
+        $missionsCount = Mission::role($request->header('Context-Role'))
         ->when($this->department, function ($query) {
             $query->where('department', $this->department);
         })
@@ -323,7 +316,6 @@ class NumbersController extends Controller
 
     public function globalParticipations(Request $request)
     {
-
         $participationsCount = Participation::role($request->header('Context-Role'))->when($this->department, function ($query) {
             $query->department($this->department);
         })
@@ -343,11 +335,11 @@ class NumbersController extends Controller
     public function globalUtilisateurs(Request $request)
     {
         $usersWithParticipations = Profile::role($request->header('Context-Role'))->when($this->department, function ($query) {
-                $query->department($this->department);
+            $query->department($this->department);
         })
             ->whereBetween('created_at', [$this->startDate, $this->endDate])->has('participations')->count();
         $participationsCount = Participation::role($request->header('Context-Role'))->when($this->department, function ($query) {
-                $query->department($this->department);
+            $query->department($this->department);
         })
             ->whereBetween('created_at', [$this->startDate, $this->endDate])->count();
 
@@ -468,7 +460,6 @@ class NumbersController extends Controller
 
     public function missionsByOrganisations(Request $request)
     {
-
         $results = DB::select("
                 SELECT structures.name, structures.id, COUNT(*) AS count FROM missions
                 LEFT JOIN structures ON structures.id = missions.structure_id
@@ -482,9 +473,9 @@ class NumbersController extends Controller
                 ORDER BY count DESC
                 LIMIT 5
             ", [
-            "department" => $this->department ? '%'.$this->department.'%' : '%%',
-            "start" => $this->startDate,
-            "end" => $this->endDate,
+            'department' => $this->department ? '%'.$this->department.'%' : '%%',
+            'start' => $this->startDate,
+            'end' => $this->endDate,
         ]);
 
         return $results;
@@ -492,7 +483,6 @@ class NumbersController extends Controller
 
     public function participationsByActivities(Request $request)
     {
-
         $results = DB::select("
                 SELECT activities.name, activities.id, COUNT(*) AS count FROM participations
                 LEFT JOIN missions ON missions.id = participations.mission_id
@@ -508,9 +498,9 @@ class NumbersController extends Controller
                 ORDER BY count DESC
                 LIMIT 5
             ", [
-            "department" => $this->department ? '%'.$this->department.'%' : '%%',
-            "start" => $this->startDate,
-            "end" => $this->endDate,
+            'department' => $this->department ? '%'.$this->department.'%' : '%%',
+            'start' => $this->startDate,
+            'end' => $this->endDate,
         ]);
 
         return $results;
@@ -518,8 +508,7 @@ class NumbersController extends Controller
 
     public function participationsByMissionTemplates(Request $request)
     {
-
-        $results = DB::select("
+        $results = DB::select('
                 SELECT mission_templates.title, COUNT(*) AS count FROM participations
                 LEFT JOIN missions ON missions.id = participations.mission_id
                 LEFT JOIN mission_templates ON mission_templates.id = missions.template_id
@@ -531,10 +520,10 @@ class NumbersController extends Controller
                 GROUP BY mission_templates.title
                 ORDER BY count DESC
                 LIMIT 5
-            ", [
-            "department" => $this->department ? '%'.$this->department.'%' : '%%',
-            "start" => $this->startDate,
-            "end" => $this->endDate,
+            ', [
+            'department' => $this->department ? '%'.$this->department.'%' : '%%',
+            'start' => $this->startDate,
+            'end' => $this->endDate,
         ]);
 
         return $results;
@@ -542,8 +531,7 @@ class NumbersController extends Controller
 
     public function participationsByMissions(Request $request)
     {
-
-        $results = DB::select("
+        $results = DB::select('
                 SELECT missions.id, COUNT(*) AS count FROM participations
                 LEFT JOIN missions ON missions.id = participations.mission_id
                 WHERE participations.deleted_at IS NULL
@@ -553,10 +541,10 @@ class NumbersController extends Controller
                 GROUP BY missions.id
                 ORDER BY count DESC
                 LIMIT 5
-            ", [
-            "department" => $this->department ? '%'.$this->department.'%' : '%%',
-            "start" => $this->startDate,
-            "end" => $this->endDate,
+            ', [
+            'department' => $this->department ? '%'.$this->department.'%' : '%%',
+            'start' => $this->startDate,
+            'end' => $this->endDate,
         ]);
 
         return $results;
@@ -564,8 +552,7 @@ class NumbersController extends Controller
 
     public function participationsByOrganisations(Request $request)
     {
-
-        $results = DB::select("
+        $results = DB::select('
                 SELECT structures.id, structures.name, COUNT(*) AS count FROM participations
                 LEFT JOIN missions ON missions.id = participations.mission_id
                 LEFT JOIN structures ON structures.id = missions.structure_id
@@ -577,10 +564,10 @@ class NumbersController extends Controller
                 GROUP BY structures.id, structures.name
                 ORDER BY count DESC
                 LIMIT 5
-            ", [
-            "department" => $this->department ? '%'.$this->department.'%' : '%%',
-            "start" => $this->startDate,
-            "end" => $this->endDate,
+            ', [
+            'department' => $this->department ? '%'.$this->department.'%' : '%%',
+            'start' => $this->startDate,
+            'end' => $this->endDate,
         ]);
 
         return $results;
@@ -588,7 +575,6 @@ class NumbersController extends Controller
 
     public function participationsByDomaines(Request $request)
     {
-
         $results = DB::select("
                 SELECT domaines.name, domaines.id, COUNT(*) AS count FROM participations
                 LEFT JOIN missions ON missions.id = participations.mission_id
@@ -601,9 +587,9 @@ class NumbersController extends Controller
                 GROUP BY domaines.name, domaines.id
                 ORDER BY count DESC
             ", [
-            "department" => $this->department ? '%'.$this->department.'%' : '%%',
-            "start" => $this->startDate,
-            "end" => $this->endDate,
+            'department' => $this->department ? '%'.$this->department.'%' : '%%',
+            'start' => $this->startDate,
+            'end' => $this->endDate,
         ]);
 
         return $results;
@@ -611,7 +597,6 @@ class NumbersController extends Controller
 
     public function missionsByActivities(Request $request)
     {
-
         $results = DB::select("
                 SELECT activities.name, activities.id, COUNT(*) AS count FROM missions
                 LEFT JOIN mission_templates ON mission_templates.id = missions.template_id
@@ -625,9 +610,9 @@ class NumbersController extends Controller
                 ORDER BY count DESC
                 LIMIT 5
             ", [
-                "department" => $this->department ? '%'.$this->department.'%' : '%%',
-                "start" => $this->startDate,
-                "end" => $this->endDate,
+            'department' => $this->department ? '%'.$this->department.'%' : '%%',
+            'start' => $this->startDate,
+            'end' => $this->endDate,
         ]);
 
         return $results;
@@ -635,7 +620,6 @@ class NumbersController extends Controller
 
     public function missionsByDomaines(Request $request)
     {
-
         $results = DB::select("
                 SELECT domaines.name, domaines.id, COUNT(*) AS count
                 FROM missions
@@ -648,9 +632,9 @@ class NumbersController extends Controller
                 GROUP BY domaines.name, domaines.id
                 ORDER BY count DESC
             ", [
-            "department" => $this->department ? '%'.$this->department.'%' : '%%',
-            "start" => $this->startDate,
-            "end" => $this->endDate,
+            'department' => $this->department ? '%'.$this->department.'%' : '%%',
+            'start' => $this->startDate,
+            'end' => $this->endDate,
         ]);
 
         return $results;
@@ -658,7 +642,6 @@ class NumbersController extends Controller
 
     public function missionsByTemplates(Request $request)
     {
-
         $results = DB::select("
                 SELECT mission_templates.title, mission_templates.id, COUNT(*) AS count FROM missions
                 LEFT JOIN mission_templates ON mission_templates.id = missions.template_id
@@ -672,9 +655,9 @@ class NumbersController extends Controller
                 ORDER BY count DESC
                 LIMIT 5
             ", [
-            "department" => $this->department ? '%'.$this->department.'%' : '%%',
-            "start" => $this->startDate,
-            "end" => $this->endDate,
+            'department' => $this->department ? '%'.$this->department.'%' : '%%',
+            'start' => $this->startDate,
+            'end' => $this->endDate,
         ]);
 
         return $results;
@@ -682,7 +665,6 @@ class NumbersController extends Controller
 
     public function organisationsByDomaines(Request $request)
     {
-
         $results = DB::select("
                 SELECT domaines.name, domaines.id, COUNT(*) AS count FROM structures
                 LEFT JOIN domainables ON domainables.domainable_id = structures.id AND domainables.domainable_type = 'App\Models\Structure'
@@ -694,9 +676,9 @@ class NumbersController extends Controller
                 GROUP BY domaines.name, domaines.id
                 ORDER BY count DESC
             ", [
-            "department" => $this->department ? '%'.$this->department.'%' : '%%',
-            "start" => $this->startDate,
-            "end" => $this->endDate,
+            'department' => $this->department ? '%'.$this->department.'%' : '%%',
+            'start' => $this->startDate,
+            'end' => $this->endDate,
         ]);
 
         return $results;
@@ -704,7 +686,6 @@ class NumbersController extends Controller
 
     public function utilisateursByDomaines(Request $request)
     {
-
         $results = DB::select("
                 SELECT domaines.name, domaines.id, COUNT(*) AS count FROM profiles
                 LEFT JOIN domainables ON domainables.domainable_id = profiles.id AND domainables.domainable_type = 'App\Models\Profile'
@@ -714,9 +695,9 @@ class NumbersController extends Controller
                 GROUP BY domaines.name, domaines.id
                 ORDER BY count DESC
             ", [
-            "department" => $this->department ? $this->department.'%' : '%%',
-            "start" => $this->startDate,
-            "end" => $this->endDate,
+            'department' => $this->department ? $this->department.'%' : '%%',
+            'start' => $this->startDate,
+            'end' => $this->endDate,
         ]);
 
         return $results;
@@ -738,22 +719,21 @@ class NumbersController extends Controller
 
     public function missionsOutdatedByOrganisations(Request $request)
     {
-
         $results = DB::table('missions')
-            ->select(['structures.name','structures.id'])
+            ->select(['structures.name', 'structures.id'])
             ->selectRaw('count(*) as count')
             ->leftJoin('structures', 'structures.id', '=', 'missions.structure_id')
             ->whereNotNull('missions.end_date')
             ->whereNull('missions.deleted_at')
             ->whereNull('structures.deleted_at')
-            ->where('missions.end_date', '<', date("Y-m-d"))
+            ->where('missions.end_date', '<', date('Y-m-d'))
             ->where('missions.state', 'Validée')
             ->when($this->department, function ($query) {
                 $query->where('missions.department', $this->department);
             })
             // ->whereBetween('missions.created_at', [$this->startDate, $this->endDate])
             ->orderByDesc('count')
-            ->groupBy(['structures.name','structures.id'])
+            ->groupBy(['structures.name', 'structures.id'])
             ->limit(100)
             ->get();
 
@@ -762,7 +742,6 @@ class NumbersController extends Controller
 
     public function participationsWaitingByOrganisations(Request $request)
     {
-
         $results = DB::select("
             SELECT structures.name, structures.id, COUNT(*) AS count FROM participations
             LEFT JOIN missions ON missions.id = participations.mission_id
@@ -778,9 +757,9 @@ class NumbersController extends Controller
             ORDER BY count DESC
             LIMIT 100
         ", [
-            "department" => $this->department ? '%'.$this->department.'%' : '%%',
-            "start" => $this->startDate,
-            "end" => $this->endDate,
+            'department' => $this->department ? '%'.$this->department.'%' : '%%',
+            'start' => $this->startDate,
+            'end' => $this->endDate,
         ]);
 
         return $results;
@@ -788,7 +767,6 @@ class NumbersController extends Controller
 
     public function participationsRefusedByOrganisations(Request $request)
     {
-
         $results = DB::select("
             SELECT structures.name, structures.id, COUNT(*) AS count FROM participations
             LEFT JOIN missions ON missions.id = participations.mission_id
@@ -804,9 +782,9 @@ class NumbersController extends Controller
             ORDER BY count DESC
             LIMIT 100
         ", [
-            "department" => $this->department ? '%'.$this->department.'%' : '%%',
-            "start" => $this->startDate,
-            "end" => $this->endDate,
+            'department' => $this->department ? '%'.$this->department.'%' : '%%',
+            'start' => $this->startDate,
+            'end' => $this->endDate,
         ]);
 
         return $results;
@@ -814,7 +792,6 @@ class NumbersController extends Controller
 
     public function participationsCanceledByOrganisations(Request $request)
     {
-
         $results = DB::select("
             SELECT structures.name, structures.id, COUNT(*) AS count FROM participations
             LEFT JOIN missions ON missions.id = participations.mission_id
@@ -830,9 +807,9 @@ class NumbersController extends Controller
             ORDER BY count DESC
             LIMIT 100
         ", [
-            "department" => $this->department ? '%'.$this->department.'%' : '%%',
-            "start" => $this->startDate,
-            "end" => $this->endDate,
+            'department' => $this->department ? '%'.$this->department.'%' : '%%',
+            'start' => $this->startDate,
+            'end' => $this->endDate,
         ]);
 
         return $results;
@@ -840,7 +817,6 @@ class NumbersController extends Controller
 
     public function participationsInProgressByOrganisations(Request $request)
     {
-
         $results = DB::select("
             SELECT structures.name, structures.id, COUNT(*) AS count FROM participations
             LEFT JOIN missions ON missions.id = participations.mission_id
@@ -856,9 +832,9 @@ class NumbersController extends Controller
             ORDER BY count DESC
             LIMIT 100
         ", [
-            "department" => $this->department ? '%'.$this->department.'%' : '%%',
-            "start" => $this->startDate,
-            "end" => $this->endDate,
+            'department' => $this->department ? '%'.$this->department.'%' : '%%',
+            'start' => $this->startDate,
+            'end' => $this->endDate,
         ]);
 
         return $results;
@@ -866,9 +842,8 @@ class NumbersController extends Controller
 
     public function organisationsWaitingByDepartments(Request $request)
     {
-
         $results = DB::table('structures')
-            ->select(['territoires.id','territoires.department'])
+            ->select(['territoires.id', 'territoires.department'])
             ->selectRaw('count(*) as count')
             ->leftJoin('territoires', 'territoires.department', '=', 'structures.department')
             ->whereNull('structures.deleted_at')
@@ -880,7 +855,7 @@ class NumbersController extends Controller
             })
             // ->whereBetween('structures.created_at', [$this->startDate, $this->endDate])
             ->whereNotNull('territoires.department')
-            ->groupBy(['territoires.id','territoires.department'])
+            ->groupBy(['territoires.id', 'territoires.department'])
             ->orderByDesc('count')
             ->get();
 
@@ -889,9 +864,8 @@ class NumbersController extends Controller
 
     public function organisationsInProgressByDepartments(Request $request)
     {
-
         $results = DB::table('structures')
-            ->select(['territoires.id','territoires.department'])
+            ->select(['territoires.id', 'territoires.department'])
             ->selectRaw('count(*) as count')
             ->leftJoin('territoires', 'territoires.department', '=', 'structures.department')
             ->whereNull('structures.deleted_at')
@@ -903,7 +877,7 @@ class NumbersController extends Controller
             })
             // ->whereBetween('structures.created_at', [$this->startDate, $this->endDate])
             ->whereNotNull('territoires.department')
-            ->groupBy(['territoires.id','territoires.department'])
+            ->groupBy(['territoires.id', 'territoires.department'])
             ->orderByDesc('count')
             ->get();
 
@@ -912,9 +886,8 @@ class NumbersController extends Controller
 
     public function missionsWaitingByDepartments(Request $request)
     {
-
         $results = DB::table('missions')
-            ->select(['territoires.id','territoires.department'])
+            ->select(['territoires.id', 'territoires.department'])
             ->selectRaw('count(*) as count')
             ->leftJoin('territoires', 'territoires.department', '=', 'missions.department')
             ->whereNull('missions.deleted_at')
@@ -926,7 +899,7 @@ class NumbersController extends Controller
             })
             // ->whereBetween('missions.created_at', [$this->startDate, $this->endDate])
             ->whereNotNull('territoires.department')
-            ->groupBy(['territoires.id','territoires.department'])
+            ->groupBy(['territoires.id', 'territoires.department'])
             ->orderByDesc('count')
             ->get();
 
@@ -935,9 +908,8 @@ class NumbersController extends Controller
 
     public function missionsInProgressByDepartments(Request $request)
     {
-
         $results = DB::table('missions')
-            ->select(['territoires.id','territoires.department'])
+            ->select(['territoires.id', 'territoires.department'])
             ->selectRaw('count(*) as count')
             ->leftJoin('territoires', 'territoires.department', '=', 'missions.department')
             ->whereNull('missions.deleted_at')
@@ -949,7 +921,7 @@ class NumbersController extends Controller
             })
             // ->whereBetween('missions.created_at', [$this->startDate, $this->endDate])
             ->whereNotNull('territoires.department')
-            ->groupBy(['territoires.id','territoires.department'])
+            ->groupBy(['territoires.id', 'territoires.department'])
             ->orderByDesc('count')
             ->get();
 
@@ -958,23 +930,22 @@ class NumbersController extends Controller
 
     public function missionsOutdatedByDepartments(Request $request)
     {
-
         $results = DB::table('missions')
-            ->select(['territoires.id','territoires.department'])
+            ->select(['territoires.id', 'territoires.department'])
             ->selectRaw('count(*) as count')
             ->leftJoin('territoires', 'territoires.department', '=', 'missions.department')
             ->whereNull('missions.deleted_at')
             ->whereNotNull('missions.department')
             ->whereNotNull('missions.end_date')
             ->where('territoires.type', 'department')
-            ->where('missions.end_date', '<', date("Y-m-d"))
+            ->where('missions.end_date', '<', date('Y-m-d'))
             ->where('missions.state', 'Validée')
             ->when($this->department, function ($query) {
                 $query->where('missions.department', $this->department);
             })
             // ->whereBetween('missions.created_at', [$this->startDate, $this->endDate])
             ->whereNotNull('territoires.department')
-            ->groupBy(['territoires.id','territoires.department'])
+            ->groupBy(['territoires.id', 'territoires.department'])
             ->orderByDesc('count')
             ->get();
 
@@ -985,24 +956,24 @@ class NumbersController extends Controller
     {
         return [
             'no_response' => Message::role($request->header('Context-Role'))->where('contextual_state', 'Annulée par bénévole')->where('contextual_reason', 'no_response')->when($this->department, function ($query) {
-                 $query->whereHas('conversation.conversable', function (Builder $query) {
+                $query->whereHas('conversation.conversable', function (Builder $query) {
                     $query->department($this->department);
-                 });
+                });
             })->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
             'requirements_not_fulfilled' => Message::role($request->header('Context-Role'))->where('contextual_state', 'Annulée par bénévole')->where('contextual_reason', 'requirements_not_fulfilled')->when($this->department, function ($query) {
-                 $query->whereHas('conversation.conversable', function (Builder $query) {
+                $query->whereHas('conversation.conversable', function (Builder $query) {
                     $query->department($this->department);
-                 });
+                });
             })->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
             'not_available' => Message::role($request->header('Context-Role'))->where('contextual_state', 'Annulée par bénévole')->where('contextual_reason', 'not_available')->when($this->department, function ($query) {
-                 $query->whereHas('conversation.conversable', function (Builder $query) {
+                $query->whereHas('conversation.conversable', function (Builder $query) {
                     $query->department($this->department);
-                 });
+                });
             })->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
             'other' => Message::role($request->header('Context-Role'))->where('contextual_state', 'Annulée par bénévole')->where('contextual_reason', 'other')->when($this->department, function ($query) {
-                 $query->whereHas('conversation.conversable', function (Builder $query) {
+                $query->whereHas('conversation.conversable', function (Builder $query) {
                     $query->department($this->department);
-                 });
+                });
             })->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
         ];
     }
@@ -1063,9 +1034,9 @@ class NumbersController extends Controller
             ) MyTable
             GROUP BY delay
             ", [
-            "department" => $this->department ? $this->department.'%' : '%%',
-            "start" => $this->startDate,
-            "end" => $this->endDate,
+            'department' => $this->department ? $this->department.'%' : '%%',
+            'start' => $this->startDate,
+            'end' => $this->endDate,
         ]);
 
         return collect($results)->pluck('count', 'delay');
@@ -1089,8 +1060,8 @@ class NumbersController extends Controller
                 ORDER BY count DESC
                 LIMIT 5
             ", [
-                "department" => $this->department ? '%'.$this->department.'%' : '%%',
-            ]);
+            'department' => $this->department ? '%'.$this->department.'%' : '%%',
+        ]);
 
         return $results;
     }
@@ -1111,8 +1082,8 @@ class NumbersController extends Controller
                 ORDER BY count DESC
                 LIMIT 5
             ", [
-                "department" => $this->department ? '%'.$this->department.'%' : '%%',
-            ]);
+            'department' => $this->department ? '%'.$this->department.'%' : '%%',
+        ]);
 
         return $results;
     }
@@ -1134,7 +1105,7 @@ class NumbersController extends Controller
                 ORDER BY count DESC
                 LIMIT 5
             ", [
-                "department" => $this->department ? '%'.$this->department.'%' : '%%',
+            'department' => $this->department ? '%'.$this->department.'%' : '%%',
         ]);
 
         return $results;
@@ -1142,7 +1113,6 @@ class NumbersController extends Controller
 
     public function placesByDomaines(Request $request)
     {
-
         $results = DB::select("
                 SELECT domaines.name, domaines.id,
                 SUM(CASE WHEN missions.state IN ('Validée') THEN missions.places_left ELSE 0 END) AS count
@@ -1155,7 +1125,7 @@ class NumbersController extends Controller
                 GROUP BY domaines.name, domaines.id
                 ORDER BY count DESC
             ", [
-                "department" => $this->department ? '%'.$this->department.'%' : '%%',
+            'department' => $this->department ? '%'.$this->department.'%' : '%%',
         ]);
 
         return $results;
@@ -1163,7 +1133,6 @@ class NumbersController extends Controller
 
     public function placesByActivities(Request $request)
     {
-
         $results = DB::select("
                 SELECT activities.name, activities.id,
                 SUM(CASE WHEN missions.state IN ('Validée') THEN missions.places_left ELSE 0 END) AS count
@@ -1177,7 +1146,7 @@ class NumbersController extends Controller
                 ORDER BY count DESC
                 LIMIT 5
             ", [
-                "department" => $this->department ? '%'.$this->department.'%' : '%%',
+            'department' => $this->department ? '%'.$this->department.'%' : '%%',
         ]);
 
         return $results;

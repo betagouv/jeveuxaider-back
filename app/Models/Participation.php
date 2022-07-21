@@ -2,12 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
-use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Support\Str;
 use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Participation extends Model
 {
@@ -78,10 +78,12 @@ class Participation extends Model
                 break;
             case 'responsable':
                 $user = Auth::guard('api')->user();
+
                 return $query->ofStructure($user->contextable_id);
                 break;
             case 'responsable_territoire':
                 $user = Auth::guard('api')->user();
+
                 return $query->ofTerritoire($user->contextable_id);
                 break;
             default:

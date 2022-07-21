@@ -3,10 +3,8 @@
 namespace App\Console\Commands;
 
 use App\Models\Mission;
-use App\Models\Participation;
 use App\Models\Structure;
 use Illuminate\Console\Command;
-use Illuminate\Database\Eloquent\Builder;
 
 class MigrateOrganisationMissions extends Command
 {
@@ -53,24 +51,26 @@ class MigrateOrganisationMissions extends Command
             if (empty($options['destination'])) {
                 $this->error('Mandatory argument: --destination');
             }
+
             return;
         }
 
         $structureOrigin = Structure::find($options['origin']);
         $structureDestination = Structure::find($options['destination']);
-        if (!$structureOrigin || !$structureDestination) {
-            if (!$structureOrigin) {
+        if (! $structureOrigin || ! $structureDestination) {
+            if (! $structureOrigin) {
                 $this->error("This organisation {$options['origin']} doesnt exists!");
             }
-            if (!$structureDestination) {
+            if (! $structureDestination) {
                 $this->error("This organisation {$options['destination']} doesnt exists!");
             }
+
             return;
         }
 
         $missionsQuery = Mission::where('structure_id', $structureOrigin->id)->withTrashed();
         $ids = $this->argument('id');
-        if (!empty($ids)) {
+        if (! empty($ids)) {
             $missionsQuery->whereIn('id', $ids);
         }
 
@@ -101,19 +101,19 @@ class MigrateOrganisationMissions extends Command
         $bar->finish();
         $this->line(PHP_EOL);
         foreach ($addedMembers as $member) {
-            $this->info($member->email  . ' #' . $member->id . ' has been added to ' . $structureDestination->name . ' #' . $structureDestination->id);
+            $this->info($member->email.' #'.$member->id.' has been added to '.$structureDestination->name.' #'.$structureDestination->id);
         }
 
         // Migre les missions vers la nouvelle structure.
         $missionsQuery->update([
             'structure_id' => $structureDestination->id,
         ]);
-        $this->info(PHP_EOL . '<options=bold;fg=blue>' . $count . ' missions(s) has been migrated.</>');
+        $this->info(PHP_EOL.'<options=bold;fg=blue>'.$count.' missions(s) has been migrated.</>');
 
         // Si les responsables migrés n'ont plus aucune mission dans l'ancienne structure,
         // les supprimer des membres.
         if (count($addedMembers) > 0) {
-            $this->info('<options=bold;fg=blue>Begining cleaning of members in structure origin (' . $structureOrigin->name . ')</>' . PHP_EOL);
+            $this->info('<options=bold;fg=blue>Begining cleaning of members in structure origin ('.$structureOrigin->name.')</>'.PHP_EOL);
             $deletedMembers = [];
             $bar = $this->output->createProgressBar(count($addedMembers));
             $bar->start();
@@ -136,7 +136,7 @@ class MigrateOrganisationMissions extends Command
             $bar->finish();
             $this->line(PHP_EOL);
             foreach ($deletedMembers as $member) {
-                $this->info($member->email  . ' #' . $member->id . ' has been deleted from ' . $structureOrigin->name . ' #' . $structureOrigin->id);
+                $this->info($member->email.' #'.$member->id.' has been deleted from '.$structureOrigin->name.' #'.$structureOrigin->id);
             }
         }
     }

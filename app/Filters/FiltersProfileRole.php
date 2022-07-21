@@ -2,8 +2,8 @@
 
 namespace App\Filters;
 
-use Spatie\QueryBuilder\Filters\Filter;
 use Illuminate\Database\Eloquent\Builder;
+use Spatie\QueryBuilder\Filters\Filter;
 
 class FiltersProfileRole implements Filter
 {
@@ -11,7 +11,7 @@ class FiltersProfileRole implements Filter
     {
         switch ($value) {
             case 'admin':
-                return $query->whereHas('user', function (Builder $query) use ($value) {
+                return $query->whereHas('user', function (Builder $query) {
                     $query->where('is_admin', true);
                 });
                 break;

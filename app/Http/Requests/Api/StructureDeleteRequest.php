@@ -18,7 +18,6 @@ class StructureDeleteRequest extends StructureRequest
         return $this->user()->can('delete', $structure);
     }
 
-
     /**
      * Get the validation rules that apply to the request.
      *

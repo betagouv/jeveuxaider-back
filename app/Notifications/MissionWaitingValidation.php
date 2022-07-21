@@ -2,11 +2,11 @@
 
 namespace App\Notifications;
 
-use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
-use Illuminate\Notifications\Messages\MailMessage;
 use App\Models\Mission;
+use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
 class MissionWaitingValidation extends Notification implements ShouldQueue
 {
@@ -57,11 +57,11 @@ class MissionWaitingValidation extends Notification implements ShouldQueue
     {
         return (new MailMessage)
             ->subject('Votre mission a bien été déposée')
-            ->greeting('Bonjour ' . $notifiable->first_name . ',')
-            ->line('Vous avez proposé une mission : ' . $this->mission->name .'.')
+            ->greeting('Bonjour '.$notifiable->first_name.',')
+            ->line('Vous avez proposé une mission : '.$this->mission->name.'.')
             ->line('Cette mission, avant d’être proposée à un ou plusieurs bénévoles, doit être validée par le service en charge des missions proposées sur JeVeuxAider.gouv.fr.')
             ->line('Nous vous informerons sous peu de la validation de la mission que vous avez proposée.')
-            ->action('Accéder à mon compte', url(config('app.front_url') . '/admin/missions/' . $this->mission->id));
+            ->action('Accéder à mon compte', url(config('app.front_url').'/admin/missions/'.$this->mission->id));
     }
 
     /**

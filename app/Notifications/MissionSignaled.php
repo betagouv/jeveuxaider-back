@@ -2,11 +2,11 @@
 
 namespace App\Notifications;
 
-use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
-use Illuminate\Notifications\Messages\MailMessage;
 use App\Models\Mission;
+use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
 class MissionSignaled extends Notification implements ShouldQueue
 {
@@ -57,10 +57,9 @@ class MissionSignaled extends Notification implements ShouldQueue
     {
         return (new MailMessage)
             ->subject('Votre mission a été signalée')
-            ->greeting('Bonjour ' . $notifiable->first_name . ',')
-            ->line('Votre mission « ' . $this->mission->name . ' » ne répond pas aux exigences de la Charte de la Réserve Civique et/ou aux règles fixés par le Décret n° 2017-930 du 9 mai 2017 relatif à la réserve civique.')
-            ->line('Par conséquent, votre mission « ' . $this->mission->name . ' » a été signalée et dépubliée de la plateforme et les éventuels bénévoles qui y étaient inscrits ont été notifiés de son annulation.')
-        ;
+            ->greeting('Bonjour '.$notifiable->first_name.',')
+            ->line('Votre mission « '.$this->mission->name.' » ne répond pas aux exigences de la Charte de la Réserve Civique et/ou aux règles fixés par le Décret n° 2017-930 du 9 mai 2017 relatif à la réserve civique.')
+            ->line('Par conséquent, votre mission « '.$this->mission->name.' » a été signalée et dépubliée de la plateforme et les éventuels bénévoles qui y étaient inscrits ont été notifiés de son annulation.');
     }
 
     /**

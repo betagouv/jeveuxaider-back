@@ -2,8 +2,8 @@
 
 namespace App\Filters;
 
-use Spatie\QueryBuilder\Filters\Filter;
 use Illuminate\Database\Eloquent\Builder;
+use Spatie\QueryBuilder\Filters\Filter;
 
 class FiltersTrashSearch implements Filter
 {
@@ -15,19 +15,19 @@ class FiltersTrashSearch implements Filter
                     $query
                         ->whereHas('mission', function (Builder $query) use ($value) {
                             $query
-                                ->where('name', 'ILIKE', '%' . $value . '%')
+                                ->where('name', 'ILIKE', '%'.$value.'%')
                                 ->orWhereHas('structure', function (Builder $query) use ($value) {
-                                    $query->where('name', 'ILIKE', '%' . $value . '%');
+                                    $query->where('name', 'ILIKE', '%'.$value.'%');
                                 });
                         })
                         ->orWhereHas('profile', function (Builder $query) use ($value) {
                             $query
-                                ->where('first_name', 'ILIKE', '%' . $value . '%')
-                                ->orWhere('last_name', 'ILIKE', '%' . $value . '%')
-                                ->orWhere('email', 'ILIKE', '%' . $value . '%');
+                                ->where('first_name', 'ILIKE', '%'.$value.'%')
+                                ->orWhere('last_name', 'ILIKE', '%'.$value.'%')
+                                ->orWhere('email', 'ILIKE', '%'.$value.'%');
                         });
                 } else {
-                    $query->where('name', 'ILIKE', '%' . $value . '%');
+                    $query->where('name', 'ILIKE', '%'.$value.'%');
                 }
             });
     }

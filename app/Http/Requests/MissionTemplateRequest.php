@@ -23,7 +23,7 @@ class MissionTemplateRequest extends FormRequest
             'activity_id' => '',
             'published' => 'boolean',
             'priority' => 'boolean',
-            'state' => ''
+            'state' => '',
         ];
     }
 }

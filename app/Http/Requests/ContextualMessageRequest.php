@@ -26,7 +26,7 @@ class ContextualMessageRequest extends FormRequest
         return [
             'contextual_state' => 'required',
             'contextual_reason' => '',
-            'content' => ''
+            'content' => '',
         ];
     }
 
@@ -38,7 +38,7 @@ class ContextualMessageRequest extends FormRequest
     public function messages()
     {
         return [
-            'contextual_state.required' => 'Le nouveau statut est requis'
+            'contextual_state.required' => 'Le nouveau statut est requis',
         ];
     }
 }

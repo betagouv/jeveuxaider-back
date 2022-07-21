@@ -2,11 +2,11 @@
 
 namespace App\Notifications;
 
-use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
-use Illuminate\Notifications\Messages\MailMessage;
 use App\Models\Mission;
+use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
 class MissionSubmitted extends Notification implements ShouldQueue
 {
@@ -57,10 +57,10 @@ class MissionSubmitted extends Notification implements ShouldQueue
     {
         return (new MailMessage)
             ->subject('Nouvelle mission d’intérêt général déposée dans votre département')
-            ->greeting('Bonjour ' . $notifiable->first_name . ',')
-            ->line('L\'organisation « ' . $this->mission->structure->name . ' » propose une mission : ' . $this->mission->name)
+            ->greeting('Bonjour '.$notifiable->first_name.',')
+            ->line('L\'organisation « '.$this->mission->structure->name.' » propose une mission : '.$this->mission->name)
             ->line('Vous pouvez, sur votre espace personnel la consulter et valider cette mission.')
-            ->action('Accéder à mon compte', url(config('app.front_url'). '/admin/missions'));
+            ->action('Accéder à mon compte', url(config('app.front_url').'/admin/missions'));
     }
 
     /**

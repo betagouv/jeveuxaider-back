@@ -2,9 +2,9 @@
 
 namespace App\Policies;
 
+use App\Models\Structure;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use App\Models\Structure;
 
 class StructurePolicy
 {

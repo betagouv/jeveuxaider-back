@@ -2,8 +2,6 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Mission;
-use App\Models\MissionTemplate;
 use App\Models\User;
 use Illuminate\Console\Command;
 
@@ -41,7 +39,7 @@ class ResetContextRoleIfNoStructure extends Command
     public function handle()
     {
         $usersQuery = User::where('context_role', 'responsable')->whereDoesntHave('structures');
-        $this->info($usersQuery->count() . ' users context_role will be reset');
+        $this->info($usersQuery->count().' users context_role will be reset');
         if ($this->confirm('Do you wish to continue?')) {
             $usersQuery->update(['context_role' => null]);
         }

@@ -2,11 +2,8 @@
 
 namespace App\Console\Commands\MEP;
 
-use App\Models\Domaine;
-use App\Models\MissionTemplate;
 use App\Models\Tag;
 use App\Models\Term;
-use App\Models\Thematique;
 use App\Models\Vocabulary;
 use Illuminate\Console\Command;
 
@@ -24,7 +21,7 @@ class GenerateVocabularies extends Command
      *
      * @var string
      */
-    protected $description = "Generate vocabularies";
+    protected $description = 'Generate vocabularies';
 
     /**
      * Create a new command instance.
@@ -43,14 +40,14 @@ class GenerateVocabularies extends Command
      */
     public function handle()
     {
-        if (!Vocabulary::where('name', 'Tags')->count()) {
+        if (! Vocabulary::where('name', 'Tags')->count()) {
             Vocabulary::create(['name' => 'Tags']);
             $this->info('Tags has been created !');
         } else {
             $this->warn('Tags already exists. Aborting.');
         }
 
-        if (!Vocabulary::where('name', 'Skills')->count()) {
+        if (! Vocabulary::where('name', 'Skills')->count()) {
             $skills = Vocabulary::create(['name' => 'Skills']);
             $skillsTags = Tag::where('type', 'competence')->orderBy('name->fr')->get();
             foreach ($skillsTags as $weight => $tag) {
@@ -59,11 +56,11 @@ class GenerateVocabularies extends Command
                     'name' => $tag->name,
                     'weight' => $weight,
                     'properties' => [
-                        'group' => $tag->group
-                    ]
+                        'group' => $tag->group,
+                    ],
                 ]);
             }
-            $this->info($skillsTags->count() . ' skills has been created !');
+            $this->info($skillsTags->count().' skills has been created !');
         } else {
             $this->warn('Skills already exists. Aborting.');
         }

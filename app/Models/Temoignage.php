@@ -2,15 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Temoignage extends Model
 {
     protected $guarded = [
-        'id'
+        'id',
     ];
 
     public function participation()
@@ -73,5 +73,4 @@ class Temoignage extends Model
             get: fn ($value) => strip_tags($value),
         );
     }
-
 }

@@ -2,9 +2,9 @@
 
 namespace App\Policies;
 
+use App\Models\MissionTemplate;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use App\Models\MissionTemplate;
 
 class MissionTemplatePolicy
 {
@@ -27,6 +27,7 @@ class MissionTemplatePolicy
         if (in_array(request()->header('Context-Role'), ['tete_de_reseau'])) {
             return true;
         }
+
         return false;
     }
 
@@ -36,6 +37,7 @@ class MissionTemplatePolicy
         if (in_array($missionTemplate->id, $ids)) {
             return true;
         }
+
         return false;
     }
 
@@ -45,6 +47,7 @@ class MissionTemplatePolicy
         if (in_array($missionTemplate->id, $ids)) {
             return true;
         }
+
         return false;
     }
 }

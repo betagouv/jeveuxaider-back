@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('missions', function (Blueprint $table) {
-            $table->boolean('is_autonomy')->default(FALSE);
+            $table->boolean('is_autonomy')->default(false);
             $table->json('autonomy_zips')->nullable();
             $table->text('autonomy_precisions')->nullable();
         });

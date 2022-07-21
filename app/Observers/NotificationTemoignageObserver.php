@@ -18,7 +18,7 @@ class NotificationTemoignageObserver
         $notificationTemoignage->participation->profile->user
             ->notify(new NotificationTemoignageCreate($notificationTemoignage));
     }
- 
+
     /**
      * Handle the NotificationTemoignage "updated" event.
      *

@@ -42,7 +42,7 @@ class AirtableSyncOrganisations extends Command
         $options = $this->options();
         $query = Structure::with(['missions'])->orderBy('id')->where('id', '>=', $options['fromId']);
 
-        if ($this->confirm($query->count() . ' organisations will be added or updated in Airtable')) {
+        if ($this->confirm($query->count().' organisations will be added or updated in Airtable')) {
             $start = now();
             $time = $start->diffInSeconds(now());
 
@@ -51,7 +51,7 @@ class AirtableSyncOrganisations extends Command
             $query->chunk(50, function ($organisations) use ($start) {
                 foreach ($organisations as $organisation) {
                     Airtable::syncStructure($organisation);
-                    $this->comment("Processed organisation " . $organisation->id);
+                    $this->comment('Processed organisation '.$organisation->id);
                 }
                 $time = $start->diffInSeconds(now());
                 $this->comment("Processed in $time seconds");

@@ -2,9 +2,9 @@
 
 namespace App\Sorts;
 
-use Spatie\QueryBuilder\Sorts\Sort;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
+use Spatie\QueryBuilder\Sorts\Sort;
 
 class StructureMissionsCountSort implements Sort
 {
@@ -18,6 +18,5 @@ class StructureMissionsCountSort implements Sort
             ->leftJoin('missions', 'structures.id', '=', 'missions.structure_id')
             ->groupBy('structures.id')
             ->orderBy('missions_count', $direction);
-
     }
 }

@@ -2,31 +2,27 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Exports\StructuresExport;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Models\Structure;
-use App\Http\Requests\Api\StructureCreateRequest;
-use App\Http\Requests\Api\StructureUpdateRequest;
-use Spatie\QueryBuilder\QueryBuilder;
-use App\Http\Requests\Api\MissionCreateRequest;
-use Spatie\QueryBuilder\AllowedFilter;
-use Illuminate\Support\Facades\Auth;
 use App\Filters\FiltersStructureSearch;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\AddResponsableRequest;
+use App\Http\Requests\Api\MissionCreateRequest;
+use App\Http\Requests\Api\StructureCreateRequest;
 use App\Http\Requests\Api\StructureDeleteRequest;
+use App\Http\Requests\Api\StructureUpdateRequest;
 use App\Http\Requests\StructureRequest;
-use App\Jobs\NotifyUserOfCompletedExport;
 use App\Models\Mission;
 use App\Models\Participation;
 use App\Models\Profile;
-use App\Models\Tag;
+use App\Models\Structure;
 use App\Services\ApiEngagement;
 use App\Sorts\StructureMissionsCountSort;
 use App\Sorts\StructurePlacesLeftSort;
-use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\AllowedInclude;
 use Spatie\QueryBuilder\AllowedSort;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class StructureController extends Controller
 {
@@ -47,14 +43,14 @@ class StructureController extends Controller
                 'reseaux',
                 'illustrations',
                 'overrideImage1',
-                AllowedInclude::count('missionsCount')
+                AllowedInclude::count('missionsCount'),
             ])
             ->defaultSort('-created_at')
             ->allowedSorts([
                 'created_at',
                 'updated_at',
                 AllowedSort::custom('missions_count', new StructureMissionsCountSort()),
-                AllowedSort::custom('places_left', new StructurePlacesLeftSort())
+                AllowedSort::custom('places_left', new StructurePlacesLeftSort()),
             ])
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
 
@@ -67,7 +63,6 @@ class StructureController extends Controller
 
     public function availableMissions(Request $request, Structure $structure)
     {
-
         $query = QueryBuilder::for(Mission::with(['domaine', 'template', 'template.domaine', 'template.photo', 'illustrations', 'structure']))
             ->available()
             ->where('structure_id', $structure->id);
@@ -125,7 +120,7 @@ class StructureController extends Controller
         );
 
         if ($request->has('domaines')) {
-            $domaines =  collect($request->input('domaines'));
+            $domaines = collect($request->input('domaines'));
             $values = $domaines->pluck($domaines, 'id')->map(function ($item) {
                 return ['field' => 'structure_domaines'];
             });
@@ -138,7 +133,7 @@ class StructureController extends Controller
     public function update(StructureUpdateRequest $request, Structure $structure)
     {
         if ($request->has('domaines')) {
-            $domaines =  collect($request->input('domaines'));
+            $domaines = collect($request->input('domaines'));
             $values = $domaines->pluck($domaines, 'id')->map(function ($item) {
                 return ['field' => 'structure_domaines'];
             });
@@ -148,13 +143,13 @@ class StructureController extends Controller
         if ($request->has('reseaux')) {
             if ($request->input('reseaux')) {
                 //  $structure->reseaux()->syncWithoutDetaching([$request->input('tete_de_reseau_id')]);
-                $reseaux =  collect($request->input('reseaux'));
+                $reseaux = collect($request->input('reseaux'));
                 $structure->reseaux()->sync($reseaux->pluck('id'));
             }
         }
 
         if ($request->has('illustrations')) {
-            $illustrations =  collect($request->input('illustrations'));
+            $illustrations = collect($request->input('illustrations'));
             $values = $illustrations->pluck($illustrations, 'id')->map(function ($item) {
                 return ['field' => 'organisation_illustrations'];
             });
@@ -173,7 +168,7 @@ class StructureController extends Controller
         }
 
         $structure->update([
-            'state' => 'Désinscrite'
+            'state' => 'Désinscrite',
         ]);
 
         return $structure;
@@ -206,6 +201,7 @@ class StructureController extends Controller
     public function deleteMember(StructureRequest $request, Structure $structure, Profile $member)
     {
         $structure->deleteMember($member);
+
         return $structure->members;
     }
 
@@ -220,7 +216,7 @@ class StructureController extends Controller
         $mission = $structure->addMission($attributes);
 
         if ($request->has('skills')) {
-            $skills =  collect($request->input('skills'));
+            $skills = collect($request->input('skills'));
             $values = $skills->pluck($skills, 'id')->map(function ($item) {
                 return ['field' => 'mission_skills'];
             });
@@ -228,7 +224,7 @@ class StructureController extends Controller
         }
 
         if ($request->has('illustrations')) {
-            $illustrations =  collect($request->input('illustrations'));
+            $illustrations = collect($request->input('illustrations'));
             $values = $illustrations->pluck($illustrations, 'id')->map(function ($item) {
                 return ['field' => 'mission_illustrations'];
             });
@@ -261,7 +257,7 @@ class StructureController extends Controller
         return [
             'structure_id' => $structure->id,
             'structure_name' => $structure->name,
-            'responsable_fullname' => $structure->responsables->first() ? $structure->responsables->first()->full_name : null
+            'responsable_fullname' => $structure->responsables->first() ? $structure->responsables->first()->full_name : null,
         ];
     }
 
@@ -290,7 +286,7 @@ class StructureController extends Controller
         $profile = Profile::whereEmail($request->input('email'))->first();
 
         if ($profile && $profile->structures->count() > 0) {
-            abort(422, "Cet email est déjà rattaché à une organisation");
+            abort(422, 'Cet email est déjà rattaché à une organisation');
         }
 
         $structure->addMember($profile, 'responsable');

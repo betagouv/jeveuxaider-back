@@ -29,6 +29,7 @@ class MigrateS3 extends Command
     protected $description = 'Migrate all files from S3 to other S3';
 
     protected $log = [];
+
     protected $count = ['copied' => 0, 'skipped' => 0, 'deleted' => 0, 'file_not_exist'];
 
     /**
@@ -88,8 +89,8 @@ class MigrateS3 extends Command
                         Storage::disk($destination)->put($file, $content, $visibility);
                         $this->countOutputLog('copied', $file);
                     } else {
-                        ray("file not exist", $file);
-                        ray("content", $content);
+                        ray('file not exist', $file);
+                        ray('content', $content);
                         $this->countOutputLog('file_not_exist', $file);
                     }
                 } else { // Skip file

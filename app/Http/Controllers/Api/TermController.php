@@ -4,18 +4,17 @@ namespace App\Http\Controllers\Api;
 
 use App\Filters\FiltersNameSearch;
 use App\Filters\FiltersTermHasRelated;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\TermRequest;
 use App\Models\Term;
+use App\Models\Termable;
 use App\Models\Vocabulary;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
-use App\Http\Controllers\Controller;
-use App\Models\Termable;
 
 class TermController extends Controller
 {
-
     public function index(Request $request, Vocabulary $vocabulary)
     {
         return QueryBuilder::for(Term::where('vocabulary_id', $vocabulary->id)->withCount(['related']))

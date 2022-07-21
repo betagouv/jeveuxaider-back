@@ -2,9 +2,7 @@
 
 namespace App\Services;
 
-use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Http\Client\ConnectionException;
-use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Http;
 
 class Snu
@@ -12,9 +10,9 @@ class Snu
     public function getWaitingActionsFromEmail($email)
     {
         try {
-            $response = Http::get(config('app.snu_api_url') . '/jeveuxaider/actions', [
+            $response = Http::get(config('app.snu_api_url').'/jeveuxaider/actions', [
                 'email' => $email,
-                'token' => config('app.snu_api_token')
+                'token' => config('app.snu_api_token'),
             ]);
 
             return isset($response['data']) ? $response['data']['actions'] : null;

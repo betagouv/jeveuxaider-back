@@ -3,27 +3,35 @@
 namespace App\Console\Commands;
 
 use App\Models\Conversation;
-use App\Models\Message;
 use App\Models\Mission;
 use App\Models\Participation;
 use App\Models\Structure;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Log;
-use Carbon\Carbon;
 
 class CleanLobbyDesConsciences extends Command
 {
     protected $signature = 'clean-lobby-des-consciences';
-    protected $description = "Clean Lobby des Consciences";
+
+    protected $description = 'Clean Lobby des Consciences';
+
     protected $organisationIds;
+
     protected $missionIds;
+
     protected $outdatedMissionIds;
+
     protected $participationIds;
+
     protected $cancelledParticipationIds;
+
     protected $newResponsable;
+
     protected $newOrganisationId;
+
     protected $conversationIds;
 
     public function __construct()
@@ -89,7 +97,7 @@ class CleanLobbyDesConsciences extends Command
     private function assignMissionsToNewOrganization()
     {
         $query = Mission::whereIn('id', $this->missionIds)
-            ->where(function($query) {
+            ->where(function ($query) {
                 $query->where('structure_id', '<>', $this->newOrganisationId)->orWhere('responsable_id', '<>', $this->newResponsable->profile->id);
             });
         $this->line("Rapatriement des missions vers l'organisation {$this->newOrganisationId} et assignation du nouveau responsable (Profile ID: {$this->newResponsable->profile->id})");
@@ -97,7 +105,7 @@ class CleanLobbyDesConsciences extends Command
         if ($this->confirm('Continuer ?')) {
             $query->update([
                 'structure_id' => $this->newOrganisationId,
-                'responsable_id' => $this->newResponsable->profile->id
+                'responsable_id' => $this->newResponsable->profile->id,
             ]);
         }
     }
@@ -115,9 +123,9 @@ class CleanLobbyDesConsciences extends Command
                 // On force en lu pour le responsable
                 $conversation->users()->sync([
                     $this->newResponsable->id => [
-                        'read_at' => Carbon::now()
+                        'read_at' => Carbon::now(),
                     ],
-                    $conversation->conversable->profile->user->id
+                    $conversation->conversable->profile->user->id,
                 ]);
                 $progressBar->advance();
             }
@@ -139,19 +147,19 @@ class CleanLobbyDesConsciences extends Command
     private function deleteOrganizationMembers()
     {
         $query = Structure::whereIn('id', $this->organisationIds);
-        $this->line("Suppression des membres des organisations.");
+        $this->line('Suppression des membres des organisations.');
         $this->info("{$query->count()} organisations sont concernées.");
         if ($this->confirm('Continuer ?')) {
             $progressBar = $this->output->createProgressBar($query->count());
             $progressBar->start();
             foreach ($query->cursor() as $organisation) {
                 $users = [];
-                $organisation->members->each(function($member) use (&$users) {
+                $organisation->members->each(function ($member) use (&$users) {
                     $member->load('user');
                     $users[] = $member->user;
                 });
                 $organisation->members()->detach();
-                foreach($users as $user) {
+                foreach ($users as $user) {
                     $user->resetContextRole();
                 }
                 $progressBar->advance();
@@ -163,13 +171,13 @@ class CleanLobbyDesConsciences extends Command
 
     private function syncMissionsAlgolia()
     {
-        $this->line("Synchronisation des missions (scout:reimport et apiengagement:sync)");
+        $this->line('Synchronisation des missions (scout:reimport et apiengagement:sync)');
         if ($this->confirm('Continuer ?')) {
-            $this->info("Synchronisation des missions (scout:reimport) ...");
+            $this->info('Synchronisation des missions (scout:reimport) ...');
             Artisan::call('scout:reimport', [
-                'searchable' => "App\Models\Mission"
+                'searchable' => "App\Models\Mission",
             ]);
-            $this->info("Synchronisation Api Engagement (apiengagement:sync) ...");
+            $this->info('Synchronisation Api Engagement (apiengagement:sync) ...');
             Artisan::call('apiengagement:sync');
         }
     }

@@ -32,11 +32,11 @@ class StructureInvitationRequest extends FormRequest
                     if ($profile && $profile->structures->count() > 0) {
                         $fail('Cet email appartient déjà à une organisation.');
                     }
-                }
+                },
             ],
             'first_name' => 'required|min:3',
             'last_name' => 'required',
-            'role' => 'required|in:responsable'
+            'role' => 'required|in:responsable',
         ];
     }
 

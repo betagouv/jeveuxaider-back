@@ -19,7 +19,7 @@ class MedialibraryUpgrade extends Command
      *
      * @var string
      */
-    protected $description = "Media refactoring";
+    protected $description = 'Media refactoring';
 
     /**
      * Create a new command instance.
@@ -39,7 +39,7 @@ class MedialibraryUpgrade extends Command
     public function handle()
     {
         $query = ModelsMedia::query();
-        $this->info($query->count() . ' medias will be updated');
+        $this->info($query->count().' medias will be updated');
 
         if ($this->confirm('Do you wish to continue?')) {
             $bar = $this->output->createProgressBar($query->count());
@@ -56,8 +56,8 @@ class MedialibraryUpgrade extends Command
 
     private function handleGeneratedConversions($media)
     {
-        if (isset($media->custom_properties["generated_conversions"])) {
-            $media->generated_conversions = $media->custom_properties["generated_conversions"];
+        if (isset($media->custom_properties['generated_conversions'])) {
+            $media->generated_conversions = $media->custom_properties['generated_conversions'];
             $media->forgetCustomProperty('generated_conversions');
             $media->saveQuietly();
         }

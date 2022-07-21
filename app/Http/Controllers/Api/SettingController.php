@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
-use App\Settings\MessageSettings;
 use App\Settings\GeneralSettings;
+use App\Settings\MessageSettings;
 use Illuminate\Http\Request;
 
 class SettingController
 {
-
     public function messages(MessageSettings $settings)
     {
         return $settings->toArray();
@@ -38,7 +36,6 @@ class SettingController
 
     public function updateGeneral(Request $request, GeneralSettings $settings)
     {
-
         $settings->blog_active = $request->input('blog_active');
         $settings->snu_mig_active = $request->input('snu_mig_active');
         $settings->maintenance_mode_active = $request->input('maintenance_mode_active');

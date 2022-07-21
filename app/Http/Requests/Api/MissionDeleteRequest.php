@@ -13,7 +13,6 @@ class MissionDeleteRequest extends MissionRequest
         return $this->user()->can('delete', $mission);
     }
 
-
     /**
      * Get the validation rules that apply to the request.
      *

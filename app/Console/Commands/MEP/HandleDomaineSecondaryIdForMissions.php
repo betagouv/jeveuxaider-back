@@ -3,8 +3,8 @@
 namespace App\Console\Commands\MEP;
 
 use App\Models\Domaine;
-use App\Models\Taggable;
 use App\Models\Mission;
+use App\Models\Taggable;
 use Illuminate\Console\Command;
 
 class HandleDomaineSecondaryIdForMissions extends Command
@@ -21,7 +21,7 @@ class HandleDomaineSecondaryIdForMissions extends Command
      *
      * @var string
      */
-    protected $description = "Handle domaine_secondary_id For Missions";
+    protected $description = 'Handle domaine_secondary_id For Missions';
 
     /**
      * Create a new command instance.
@@ -60,7 +60,7 @@ class HandleDomaineSecondaryIdForMissions extends Command
         foreach ($query->cursor() as $taggable) {
             $domaine = Domaine::where('name', 'ILIKE', $taggable->tag->name)->first();
             $mission = Mission::find($taggable->taggable_id);
-            if ($mission && !$mission->domaine_secondary_id) {
+            if ($mission && ! $mission->domaine_secondary_id) {
                 $mission->domaine_secondary_id = $domaine->id;
                 $mission->saveQuietly();
             }

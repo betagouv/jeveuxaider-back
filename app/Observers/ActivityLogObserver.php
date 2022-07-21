@@ -21,10 +21,10 @@ class ActivityLogObserver
         }
 
         $activityLog->data = [
-            "subject_title" => $subject_type,
-            "full_name" => $user && $user->profile ? $user->profile->full_name : '',
-            "causer_id" => $user && $user->profile ? $user->profile->id : '',
-            "context_role" => $user->context_role ?? 'volontaire'
+            'subject_title' => $subject_type,
+            'full_name' => $user && $user->profile ? $user->profile->full_name : '',
+            'causer_id' => $user && $user->profile ? $user->profile->id : '',
+            'context_role' => $user->context_role ?? 'volontaire',
         ];
     }
 }

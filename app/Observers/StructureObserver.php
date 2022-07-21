@@ -2,7 +2,10 @@
 
 namespace App\Observers;
 
+use App\Jobs\AirtableDeleteObject;
+use App\Jobs\AirtableSyncObject;
 use App\Jobs\SendinblueSyncUser;
+use App\Models\Domaine;
 use App\Models\Mission;
 use App\Models\Profile;
 use App\Models\Structure;
@@ -10,16 +13,12 @@ use App\Models\Territoire;
 use App\Models\User;
 use App\Notifications\RegisterUserResponsable;
 use App\Notifications\StructureAssociationValidated;
+use App\Notifications\StructureBeingProcessed;
 use App\Notifications\StructureCollectivityValidated;
 use App\Notifications\StructureSignaled;
 use App\Notifications\StructureSubmitted;
 use App\Notifications\StructureValidated;
 use App\Services\ApiEngagement;
-use Illuminate\Support\Facades\Auth;
-use App\Notifications\StructureBeingProcessed;
-use App\Jobs\AirtableDeleteObject;
-use App\Jobs\AirtableSyncObject;
-use App\Models\Domaine;
 
 class StructureObserver
 {
@@ -31,18 +30,17 @@ class StructureObserver
      */
     public function created(Structure $structure)
     {
-
         if ($structure->user->profile) {
             $structure->members()->attach($structure->user->profile, ['role' => 'responsable']);
         }
 
         // COLLECTIVITE
         if ($structure->statut_juridique === 'Collectivité') {
-            $name = preg_replace("/(^Mairie (des|du|de|d')*)/mi", "", $structure->name);
+            $name = preg_replace("/(^Mairie (des|du|de|d')*)/mi", '', $structure->name);
             $territoire = Territoire::create([
                 'structure_id' => $structure->id,
                 'name' => $name,
-                'suffix_title' => 'à ' . $name,
+                'suffix_title' => 'à '.$name,
                 'zips' => $structure->zip ? [$structure->zip] : [],
                 'department' => $structure->department,
                 'is_published' => false,
@@ -103,7 +101,7 @@ class StructureObserver
                         }
                     }
                     // Update all missions linked to template to 'Validée' status
-                    $structure->missions()->whereNotNull('template_id')->where("state", "En attente de validation")->get()->map(function ($mission) {
+                    $structure->missions()->whereNotNull('template_id')->where('state', 'En attente de validation')->get()->map(function ($mission) {
                         $mission->update(['state' => 'Validée']);
                     });
                     break;
@@ -138,7 +136,7 @@ class StructureObserver
                     }
 
                     if ($structure->missions) {
-                        foreach ($structure->missions->where("state", "En attente de validation") as $mission) {
+                        foreach ($structure->missions->where('state', 'En attente de validation') as $mission) {
                             $mission->update(['state' => 'Annulée']);
                         }
 
@@ -205,7 +203,7 @@ class StructureObserver
         // si elle a remplit les champs strictements necessaires (décorrélé des missing fields)
         if ($structure->state == 'Brouillon') {
             $mandatoryFields = ['zip', 'city'];
-            if (!in_array($structure->statut_juridique, ['Collectivité', 'Organisation publique'])) {
+            if (! in_array($structure->statut_juridique, ['Collectivité', 'Organisation publique'])) {
                 $mandatoryFields[] = 'description';
             }
 

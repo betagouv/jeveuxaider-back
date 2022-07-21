@@ -2,21 +2,21 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Filters\FiltersConversationExclude;
+use App\Filters\FiltersConversationSearch;
+use App\Filters\FiltersConversationStatus;
 use App\Http\Controllers\Controller;
-use App\Models\Message;
+use App\Http\Requests\ConversationRequest;
 use App\Models\Conversation;
+use App\Models\Message;
 use App\Models\Participation;
-use App\Models\User;
 use App\Models\Profile;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Http\Request;
-use Spatie\QueryBuilder\QueryBuilder;
 use Illuminate\Support\Facades\Auth;
 use Spatie\QueryBuilder\AllowedFilter;
-use App\Filters\FiltersConversationSearch;
-use App\Http\Requests\ConversationRequest;
-use App\Filters\FiltersConversationExclude;
-use App\Filters\FiltersConversationStatus;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class ConversationsController extends Controller
 {
@@ -62,7 +62,7 @@ class ConversationsController extends Controller
                             'mission.structure:id,name',
                             // 'mission.domaine',
                             'mission.responsable',
-                            'profile'
+                            'profile',
                         ],
                     ]
                 );
@@ -72,7 +72,6 @@ class ConversationsController extends Controller
 
     public function messages(ConversationRequest $request, Conversation $conversation)
     {
-
         return QueryBuilder::for(Message::where('conversation_id', $conversation->id)->with(['from', 'from.profile.avatar']))
             ->defaultSort('-id')
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
@@ -80,13 +79,13 @@ class ConversationsController extends Controller
 
     public function benevole(ConversationRequest $request, Conversation $conversation)
     {
-        return Profile::with(['structures:id,name','domaines'])->find($conversation->conversable->profile_id);
+        return Profile::with(['structures:id,name', 'domaines'])->find($conversation->conversable->profile_id);
     }
 
     public function setStatus(ConversationRequest $request, Conversation $conversation)
     {
         $currentUser = User::find(Auth::guard('api')->user()->id);
         $currentUser->setConversationStatus($conversation, request('status'));
-        return;
+
     }
 }

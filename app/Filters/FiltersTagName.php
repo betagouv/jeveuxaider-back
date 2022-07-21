@@ -2,8 +2,8 @@
 
 namespace App\Filters;
 
-use Spatie\QueryBuilder\Filters\Filter;
 use Illuminate\Database\Eloquent\Builder;
+use Spatie\QueryBuilder\Filters\Filter;
 
 class FiltersTagName implements Filter
 {
@@ -13,10 +13,9 @@ class FiltersTagName implements Filter
             $value = implode(',', $value);
         }
 
-        return $query->where(function ($query) use ($value, $property) {
-            $query->where('name->fr', 'LIKE', '%' . $value . '%')
-                ->orWhere('group', 'LIKE', '%' . $value . '%')
-            ;
+        return $query->where(function ($query) use ($value) {
+            $query->where('name->fr', 'LIKE', '%'.$value.'%')
+                ->orWhere('group', 'LIKE', '%'.$value.'%');
         });
     }
 }

@@ -42,7 +42,7 @@ class AirtableSyncMissions extends Command
         $options = $this->options();
         $query = Mission::whereHas('structure')->with(['structure', 'domaine', 'template.domaine', 'template.activity', 'activity'])->orderBy('id')->where('id', '>=', $options['fromId']);
 
-        if ($this->confirm($query->count() . ' missions will be added or updated in Airtable')) {
+        if ($this->confirm($query->count().' missions will be added or updated in Airtable')) {
             $start = now();
             $time = $start->diffInSeconds(now());
 
@@ -51,7 +51,7 @@ class AirtableSyncMissions extends Command
             $query->chunk(50, function ($missions) use ($start) {
                 foreach ($missions as $mission) {
                     Airtable::syncMission($mission);
-                    $this->comment("Processed mission " . $mission->id);
+                    $this->comment('Processed mission '.$mission->id);
                 }
                 $time = $start->diffInSeconds(now());
                 $this->comment("Processed in $time seconds");

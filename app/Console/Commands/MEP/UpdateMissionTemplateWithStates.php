@@ -19,7 +19,7 @@ class UpdateMissionTemplateWithStates extends Command
      *
      * @var string
      */
-    protected $description = "Update mission template with states";
+    protected $description = 'Update mission template with states';
 
     /**
      * Create a new command instance.
@@ -39,13 +39,13 @@ class UpdateMissionTemplateWithStates extends Command
     public function handle()
     {
         $query = MissionTemplate::where('published', true)->where('state', 'draft');
-        $this->info($query->count() . ' published templates will be updated to validated');
+        $this->info($query->count().' published templates will be updated to validated');
         if ($this->confirm('Do you wish to continue?')) {
             $query->update(['state' => 'validated']);
         }
 
         $query = MissionTemplate::where('published', false);
-        $this->info($query->count() . ' unpublished templates will be updated to waiting');
+        $this->info($query->count().' unpublished templates will be updated to waiting');
         if ($this->confirm('Do you wish to continue?')) {
             $query->update(['state' => 'waiting']);
         }

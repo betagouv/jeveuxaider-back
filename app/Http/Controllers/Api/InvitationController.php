@@ -15,9 +15,9 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Spatie\QueryBuilder\QueryBuilder;
 use Illuminate\Support\Str;
 use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class InvitationController extends Controller
 {
@@ -36,25 +36,24 @@ class InvitationController extends Controller
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
     }
 
-    public function show(Request $request, String $token)
+    public function show(Request $request, string $token)
     {
         $invitation = Invitation::whereToken($token)->first();
 
-        if (!$invitation) {
+        if (! $invitation) {
             abort(404, "L'invitation n'est plus disponible");
         }
-        $invitation->load("invitable");
-        $invitation->append("is_registered");
+        $invitation->load('invitable');
+        $invitation->append('is_registered');
 
         return $invitation;
     }
 
     public function store(InvitationRequest $request)
     {
-
         if ($request->input('email') == $request->user()->email) {
-            if (!$request->user()->is_admin) {
-                abort(422, "Vous ne pouvez pas vous inviter vous-même");
+            if (! $request->user()->is_admin) {
+                abort(422, 'Vous ne pouvez pas vous inviter vous-même');
             }
         }
 
@@ -62,7 +61,7 @@ class InvitationController extends Controller
         if (in_array($request->input('role'), ['responsable_organisation'])) {
             $profile = Profile::where('email', 'ILIKE', $request->input('email'))->first();
             if ($profile && $profile->structures->count() > 0) {
-                abort(422, "Cet email est déjà rattaché à une organisation");
+                abort(422, 'Cet email est déjà rattaché à une organisation');
             }
         }
 
@@ -71,7 +70,7 @@ class InvitationController extends Controller
             $properties = $request->input('properties');
             $structure = Structure::where('name', 'ILIKE', $properties['antenne_name'])->first();
             if ($structure) {
-                abort(422, "Cette structure est déjà inscrite sur la plateforme");
+                abort(422, 'Cette structure est déjà inscrite sur la plateforme');
             }
         }
 
@@ -87,17 +86,17 @@ class InvitationController extends Controller
         return $invitation;
     }
 
-    public function resend(String $token)
+    public function resend(string $token)
     {
         $invitation = Invitation::whereToken($token)->first();
 
-        if (!$invitation) {
+        if (! $invitation) {
             abort(422, "L'invitation n'est plus disponible");
         }
 
         $diffTimestamp = Carbon::now()->timestamp - $invitation->last_sent_at->timestamp;
         if ($diffTimestamp < 3600) {
-            abort(422, "Vous devez attendre " . floor(60 - ($diffTimestamp / 60)) . " minutes pour renvoyer l'email d'invitation");
+            abort(422, 'Vous devez attendre '.floor(60 - ($diffTimestamp / 60))." minutes pour renvoyer l'email d'invitation");
         }
 
         $invitation->update(['last_sent_at' => Carbon::now()]);
@@ -106,11 +105,11 @@ class InvitationController extends Controller
         return $invitation;
     }
 
-    public function accept(String $token)
+    public function accept(string $token)
     {
         $invitation = Invitation::whereToken($token)->first();
 
-        if (!$invitation) {
+        if (! $invitation) {
             abort(422, "L'invitation n'est plus disponible");
         }
 
@@ -123,31 +122,31 @@ class InvitationController extends Controller
         return $invitation;
     }
 
-    public function delete(String $token)
+    public function delete(string $token)
     {
         $invitation = Invitation::whereToken($token)->first();
 
-        if (!$invitation) {
+        if (! $invitation) {
             abort(422, "L'invitation n'est plus disponible");
         }
 
         return (string) $invitation->delete();
     }
 
-    public function register(RegisterInvitationRequest $request, String $token)
+    public function register(RegisterInvitationRequest $request, string $token)
     {
         $invitation = Invitation::whereToken($token)->first();
 
-        if (!$invitation) {
+        if (! $invitation) {
             abort(422, "L'invitation n'est plus disponible");
         }
 
         $user = User::create(
             [
-                'name' => request("email"),
-                'email' => request("email"),
-                'password' => Hash::make(request("password")),
-                'utm_source' => 'invitation'
+                'name' => request('email'),
+                'email' => request('email'),
+                'password' => Hash::make(request('password')),
+                'utm_source' => 'invitation',
             ]
         );
 

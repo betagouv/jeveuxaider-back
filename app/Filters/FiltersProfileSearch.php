@@ -2,8 +2,8 @@
 
 namespace App\Filters;
 
-use Spatie\QueryBuilder\Filters\Filter;
 use Illuminate\Database\Eloquent\Builder;
+use Spatie\QueryBuilder\Filters\Filter;
 
 class FiltersProfileSearch implements Filter
 {
@@ -14,9 +14,9 @@ class FiltersProfileSearch implements Filter
                 $query
                     ->where('id', $value);
             } else {
-                $terms = explode(" ", $value);
+                $terms = explode(' ', $value);
                 foreach ($terms as $term) {
-                    $query->whereRaw("CONCAT(first_name, ' ', last_name, ' ', email) ILIKE ?", ['%' . $term . '%']);
+                    $query->whereRaw("CONCAT(first_name, ' ', last_name, ' ', email) ILIKE ?", ['%'.$term.'%']);
                 }
             }
         });

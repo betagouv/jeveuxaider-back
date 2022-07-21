@@ -4,7 +4,6 @@ namespace App\Console\Commands\OLD;
 
 use App\Models\Mission;
 use App\Models\Participation;
-use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -44,18 +43,18 @@ class HandleUnsubscribedOrganizations extends Command
         // Toutes les missions validées rattachées à une organisation désinscrite,
         // et dont la date de fin est passée.
         $outdatedMissions = Mission::where('state', 'Validée')
-            ->organizationState("Désinscrite")
+            ->organizationState('Désinscrite')
             ->outdated();
 
         // Toutes les missions validées rattachées à une organisation désinscrite,
         // et dont la date de fin n'est pas passée.
         $activeMissions = Mission::where('state', 'Validée')
-            ->organizationState("Désinscrite")
+            ->organizationState('Désinscrite')
             ->notOutdated();
 
         // Toutes les participations en attente de validation des missions rattachées à
         // une organisation désinscrite.
-        $participations = Participation::where('state', "En attente de validation")
+        $participations = Participation::where('state', 'En attente de validation')
             ->whereHas('mission', function (Builder $query) {
                 $query->where('state', 'Validée')
                 ->whereHas('structure', function (Builder $query) {

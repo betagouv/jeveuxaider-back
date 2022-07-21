@@ -4,7 +4,6 @@ namespace App\Console\Commands\MEP;
 
 use App\Models\Media;
 use Illuminate\Console\Command;
-use Illuminate\Support\Str;
 
 class DeleteMediasThematique extends Command
 {
@@ -20,7 +19,7 @@ class DeleteMediasThematique extends Command
      *
      * @var string
      */
-    protected $description = "Delete medias thematique.";
+    protected $description = 'Delete medias thematique.';
 
     /**
      * Create a new command instance.
@@ -40,7 +39,7 @@ class DeleteMediasThematique extends Command
     public function handle()
     {
         $query = Media::where('model_type', "App\Models\Thematique");
-        $this->info($query->count() . ' medias will be deleted');
+        $this->info($query->count().' medias will be deleted');
 
         if ($this->confirm('Do you wish to continue?')) {
             $query->delete();

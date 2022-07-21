@@ -3,7 +3,6 @@
 namespace App\Console\Commands\MEP;
 
 use App\Models\Domaine;
-use App\Models\Taggable;
 use App\Models\Mission;
 use Illuminate\Console\Command;
 
@@ -21,7 +20,7 @@ class HandleDomaineIdForMissions extends Command
      *
      * @var string
      */
-    protected $description = "Handle domaine_id For Missions";
+    protected $description = 'Handle domaine_id For Missions';
 
     /**
      * Create a new command instance.

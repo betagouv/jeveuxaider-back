@@ -3,7 +3,6 @@
 namespace App\Http\Requests\Api;
 
 use App\Http\Requests\TerritoireRequest;
-use Illuminate\Validation\Rule;
 
 class TerritoireUpdateRequest extends TerritoireRequest
 {

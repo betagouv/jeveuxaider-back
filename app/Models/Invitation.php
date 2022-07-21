@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\Builder;
 
 class Invitation extends Model
 {
@@ -14,7 +13,7 @@ class Invitation extends Model
 
     protected $casts = [
         'properties' => 'json',
-        'last_sent_at' => 'datetime'
+        'last_sent_at' => 'datetime',
     ];
 
     // protected $with = ['invitable'];
@@ -28,7 +27,7 @@ class Invitation extends Model
 
     public function setPropertiesAttribute($array)
     {
-        $this->attributes['properties'] = !empty($array) ? json_encode($array) : null;
+        $this->attributes['properties'] = ! empty($array) ? json_encode($array) : null;
     }
 
     public function user()

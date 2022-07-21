@@ -3,14 +3,15 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
 class ReferentDailyTodo extends Notification
 {
     use Queueable;
 
     public $missions;
+
     public $structures;
 
     /**
@@ -45,24 +46,24 @@ class ReferentDailyTodo extends Notification
     {
         $mailMessage = (new MailMessage)
             ->subject('Actions à faire - ça bouge dans votre département !')
-            ->greeting('Bonjour ' . $notifiable->first_name . ',')
+            ->greeting('Bonjour '.$notifiable->first_name.',')
             ->line('Il y a du nouveau dans votre département !')
             ->line('Votre action est requise pour permettre la publication de nouveaux contenus :');
         if (count($this->structures) > 0) {
             if (count($this->structures) == 1) {
-                $mailMessage->line('- ' . count($this->structures) . ' nouvelle organisation en attente de validation');
+                $mailMessage->line('- '.count($this->structures).' nouvelle organisation en attente de validation');
             } else {
-                $mailMessage->line('- ' . count($this->structures) . ' nouvelles organisations en attente de validation');
+                $mailMessage->line('- '.count($this->structures).' nouvelles organisations en attente de validation');
             }
         }
         if (count($this->missions) > 0) {
             if (count($this->missions) == 1) {
-                $mailMessage->line('- ' . count($this->missions) . ' nouvelle mission en attente de validation');
+                $mailMessage->line('- '.count($this->missions).' nouvelle mission en attente de validation');
             } else {
-                $mailMessage->line('- ' . count($this->missions) . ' nouvelles missions en attente de validation');
+                $mailMessage->line('- '.count($this->missions).' nouvelles missions en attente de validation');
             }
         }
-        $mailMessage->action('Gérer les contenus', url(config('app.front_url') . '/dashboard'));
+        $mailMessage->action('Gérer les contenus', url(config('app.front_url').'/dashboard'));
 
         $mailMessage->line('Merci beaucoup par avance pour votre action.');
 

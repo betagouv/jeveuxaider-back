@@ -11,7 +11,7 @@
 |
 */
 Route::get('phpmyinfo', function () {
-    phpinfo(); 
+    phpinfo();
 })->name('phpmyinfo');
 
 Route::group(['middleware' => ['has.api.key']], function () {

@@ -3,41 +3,39 @@
 namespace App\Http\Controllers\Api;
 
 use App\Filters\FiltersMissionSearch;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\ScriptMigrateOrganisationMissionsRequest;
 use App\Models\Activity;
 use App\Models\Mission;
 use App\Models\Structure;
 use App\Models\User;
-use Spatie\QueryBuilder\QueryBuilder;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Spatie\QueryBuilder\AllowedFilter;
-use Spatie\QueryBuilder\QueryBuilderRequest;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class ScriptController extends Controller
 {
     public function migrateOrganisationMissions(ScriptMigrateOrganisationMissionsRequest $request)
     {
-
         $structureOrigin = Structure::withCount(['missions'])->find($request->input('origin')['id']);
         $structureDestination = Structure::find($request->input('destination')['id']);
         $missionsToMigrate = $request->input('missions');
 
-        if (!$structureOrigin) {
+        if (! $structureOrigin) {
             abort(422, "L'organisation d'origine n'existe plus");
         }
 
-        if (!$structureOrigin->missions_count) {
+        if (! $structureOrigin->missions_count) {
             abort(422, "L'organisation d'origine n'a pas de mission");
         }
 
-        if (!$structureDestination) {
+        if (! $structureDestination) {
             abort(422, "L'organisation de destination n'existe plus");
         }
 
         if ($structureDestination->id == $structureOrigin->id) {
-            abort(422, "Merci de sélectionner différentes organisations ! :)");
+            abort(422, 'Merci de sélectionner différentes organisations ! :)');
         }
 
         if ($missionsToMigrate) {
@@ -45,26 +43,26 @@ class ScriptController extends Controller
                 'id' => collect($missionsToMigrate)->pluck('id')->toArray(),
                 '--origin' => $structureOrigin->id,
                 '--destination' => $structureDestination->id,
-                '--no-interaction' => true
+                '--no-interaction' => true,
             ]);
         } else {
             Artisan::call('migrate-organisation-missions', [
                 '--origin' => $structureOrigin->id,
                 '--destination' => $structureDestination->id,
-                '--no-interaction' => true
+                '--no-interaction' => true,
             ]);
         }
     }
 
     public function resetUserContextRole(Request $request)
     {
-        if (!$request->has('profile')) {
-            abort(422, "Un utilisateur est requis");
+        if (! $request->has('profile')) {
+            abort(422, 'Un utilisateur est requis');
         }
 
         $user = User::find($request->input('profile')['user_id']);
 
-        if (!$user) {
+        if (! $user) {
             abort(422, "L'utilisateur n'existe plus");
         }
 

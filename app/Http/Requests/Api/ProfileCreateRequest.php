@@ -16,7 +16,6 @@ class ProfileCreateRequest extends ProfileRequest
         return true;
     }
 
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -35,7 +34,7 @@ class ProfileCreateRequest extends ProfileRequest
             'referent_department' => '',
             'referent_region' => '',
             'tete_de_reseau_id' => '',
-            'is_analyste' => 'boolean'
+            'is_analyste' => 'boolean',
         ];
     }
 }

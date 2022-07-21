@@ -29,7 +29,7 @@ class SchedulerDaemon extends Command
     public function handle()
     {
         while (true) {
-            $this->line('<info>[' . Carbon::now()->format('Y-m-d H:i:s') . ']</info> Calling scheduler');
+            $this->line('<info>['.Carbon::now()->format('Y-m-d H:i:s').']</info> Calling scheduler');
 
             $this->call('schedule:run');
 

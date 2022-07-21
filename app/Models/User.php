@@ -2,13 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Laravel\Passport\HasApiTokens;
 use App\Notifications\ResetPassword;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
@@ -19,7 +18,7 @@ class User extends Authenticatable
     ];
 
     protected $hidden = [
-        'password', 'remember_token', 'is_admin', 'email_verified_at'
+        'password', 'remember_token', 'is_admin', 'email_verified_at',
     ];
 
     protected $casts = [
@@ -45,21 +44,21 @@ class User extends Authenticatable
         if ($this->is_admin) {
             $roles[] = [
                 'key' => 'admin',
-                'label' => 'Modérateur'
+                'label' => 'Modérateur',
             ];
         }
 
         if ($this->profile->is_analyste) {
             $roles[] = [
                 'key' => 'analyste',
-                'label' => 'Analyste'
+                'label' => 'Analyste',
             ];
         }
 
         if ($this->profile->referent_department) {
             $roles[] = [
                 'key' => 'referent',
-                'label' => $this->profile->referent_department
+                'label' => $this->profile->referent_department,
             ];
         }
 
@@ -69,14 +68,14 @@ class User extends Authenticatable
                 'key' => 'tete_de_reseau',
                 'contextable_type' => 'reseau',
                 'contextable_id' => $reseau->id,
-                'label' => $reseau->name
+                'label' => $reseau->name,
             ];
         }
 
         if ($this->profile->referent_region) {
             $roles[] = [
                 'key' => 'referent_regional',
-                'label' => $this->profile->referent_region
+                'label' => $this->profile->referent_region,
             ];
         }
 
@@ -87,7 +86,7 @@ class User extends Authenticatable
                     'key' => 'responsable',
                     'contextable_type' => 'structure',
                     'contextable_id' => $structure->id,
-                    'label' => $structure->name
+                    'label' => $structure->name,
                 ];
             }
         }
@@ -99,7 +98,7 @@ class User extends Authenticatable
                     'key' => 'responsable_territoire',
                     'contextable_type' => 'territoire',
                     'contextable_id' => $territoire->id,
-                    'label' => $territoire->name
+                    'label' => $territoire->name,
                 ];
             }
         }
@@ -161,14 +160,14 @@ class User extends Authenticatable
     public function markConversationAsRead($conversation)
     {
         $this->conversations()->updateExistingPivot($conversation->id, [
-            'read_at' => Carbon::now()
+            'read_at' => Carbon::now(),
         ]);
     }
 
     public function setConversationStatus($conversation, $status)
     {
         $this->conversations()->updateExistingPivot($conversation->id, [
-            'status' => $status
+            'status' => $status,
         ]);
     }
 
@@ -177,14 +176,13 @@ class User extends Authenticatable
         return $this->messages()->create([
             'content' => $content,
             'conversation_id' => $conversation_id,
-            'type' => 'chat'
+            'type' => 'chat',
         ]);
     }
 
     public function anonymize()
     {
-
-        $email = $this->id . '@anonymized.fr';
+        $email = $this->id.'@anonymized.fr';
         $this->anonymous_at = Carbon::now();
         $this->name = $email;
         $this->email = $email;
@@ -202,7 +200,7 @@ class User extends Authenticatable
 
     public function resetContextRole()
     {
-        if (!empty($this->roles)) {
+        if (! empty($this->roles)) {
             $role = $this->roles[0];
             $this->context_role = $role['key'];
             $this->contextable_type = isset($role['contextable_type']) ? $role['contextable_type'] : null;
@@ -232,7 +230,7 @@ class User extends Authenticatable
     {
         return $this->conversations()
             ->whereHas('messages', function (Builder $query) {
-                $query ->where('from_id', '!=', $this->id);
+                $query->where('from_id', '!=', $this->id);
             })
             ->where(function ($query) {
                 $query->whereRaw('conversations_users.read_at < conversations.updated_at')
@@ -255,13 +253,13 @@ class User extends Authenticatable
     //     return $result;
     // }
 
-    public function getStatisticsAttribute(){
-
+    public function getStatisticsAttribute()
+    {
         return [
-            'new_participations_today' => Participation::where('profile_id',$this->profile->id)
+            'new_participations_today' => Participation::where('profile_id', $this->profile->id)
                     ->whereIn('state', ['En attente de validation'])
                     ->whereDate('created_at', '>=', (Carbon::createMidnightDate()))
-                    ->count()
+                    ->count(),
         ];
     }
 

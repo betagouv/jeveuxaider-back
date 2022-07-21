@@ -2,17 +2,18 @@
 
 namespace App\Notifications;
 
-use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
-use Illuminate\Notifications\Messages\MailMessage;
 use App\Models\User;
+use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
 class ExportReady extends Notification implements ShouldQueue
 {
     use Queueable;
 
     public $user;
+
     public $filePath;
 
     /**
@@ -54,7 +55,7 @@ class ExportReady extends Notification implements ShouldQueue
     {
         return (new MailMessage)
             ->subject('Votre export est prêt')
-            ->greeting('Bonjour ' . $notifiable->profile->first_name . ',')
+            ->greeting('Bonjour '.$notifiable->profile->first_name.',')
             ->line('Votre fichier d\'export est prêt à être téléchargé.')
             // ->line('Le lien expirera dans 12 heures.') TODO : when new S3
             ->action('Télécharger le fichier', $this->filePath);

@@ -2,27 +2,24 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Filters\FiltersTerritoireSearch;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AddResponsableRequest;
 use App\Http\Requests\Api\TerritoireUpdateRequest;
 use App\Http\Requests\TerritoireRequest;
 use App\Models\Mission;
-use App\Models\Profile;
-use Illuminate\Http\Request;
-use Spatie\QueryBuilder\QueryBuilder;
-use Spatie\QueryBuilder\AllowedFilter;
-use App\Models\Territoire;
-use Carbon\Carbon;
-use Illuminate\Support\Str;
-use App\Filters\FiltersTerritoireSearch;
-use App\Http\Requests\AddResponsableRequest;
 use App\Models\Participation;
-use Illuminate\Database\Eloquent\Builder;
+use App\Models\Profile;
+use App\Models\Territoire;
+use Illuminate\Http\Request;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class TerritoireController extends Controller
 {
     public function index(Request $request)
     {
-        $results =  QueryBuilder::for(Territoire::class)
+        $results = QueryBuilder::for(Territoire::class)
             ->allowedFilters([
                 'state',
                 'type',
@@ -49,7 +46,7 @@ class TerritoireController extends Controller
     public function show($slugOrId)
     {
         $territoire = (is_numeric($slugOrId))
-            ? Territoire::where('id', $slugOrId)->with(['responsables.tags', 'banner', 'logo', 'promotedOrganisations'])->firstOrFail()->append(['missing_fields','completion_rate'])
+            ? Territoire::where('id', $slugOrId)->with(['responsables.tags', 'banner', 'logo', 'promotedOrganisations'])->firstOrFail()->append(['missing_fields', 'completion_rate'])
             : Territoire::where('slug', $slugOrId)->with(['banner', 'logo', 'promotedOrganisations'])->firstOrFail();
 
         return $territoire;
@@ -94,7 +91,7 @@ class TerritoireController extends Controller
         $profile = Profile::whereEmail($request->input('email'))->first();
 
         if ($profile->territoires()->where('id', $territoire->id)->first()) {
-            abort(422, "Cet email est déjà rattaché à ce territoire");
+            abort(422, 'Cet email est déjà rattaché à ce territoire');
         }
 
         $territoire->addResponsable($profile);
@@ -106,6 +103,7 @@ class TerritoireController extends Controller
     public function deleteResponsable(Request $request, Territoire $territoire, Profile $responsable)
     {
         $territoire->deleteResponsable($responsable);
+
         return $territoire->responsables;
     }
 
@@ -118,7 +116,7 @@ class TerritoireController extends Controller
             $mission = $missions->first();
             $cities[] = [
                 'name' => $mission->city,
-                'coordonates' => $mission->latitude . ',' . $mission->longitude,
+                'coordonates' => $mission->latitude.','.$mission->longitude,
                 'zipcode' => $mission->zip,
             ];
         }
@@ -139,7 +137,7 @@ class TerritoireController extends Controller
         return [
             'territoire_id' => $territoire->id,
             'territoire_name' => $territoire->name,
-            'responsable_fullname' => $territoire->responsables->first() ? $territoire->responsables->first()->full_name : null
+            'responsable_fullname' => $territoire->responsables->first() ? $territoire->responsables->first()->full_name : null,
         ];
     }
 }

@@ -4,19 +4,17 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Activity;
-use App\Models\Domaine;
-use App\Models\Territoire;
-use App\Models\Structure;
 use App\Models\Mission;
 use App\Models\Reseau;
+use App\Models\Structure;
+use App\Models\Territoire;
 use Carbon\Carbon;
 
 class ConfigController extends Controller
 {
-
     public function sitemap()
     {
-        if(request()->get('type')) {
+        if (request()->get('type')) {
             switch (request()->get('type')) {
                 case 'city':
                     return Territoire::where('type', 'city')
@@ -36,6 +34,7 @@ class ConfigController extends Controller
                         ->get()
                         ->map(function ($territoire) {
                             $date = new Carbon($territoire->updated_at);
+
                             return [
                                 'url' => $territoire->full_url,
                                 'lastmod' => $date->lt(Carbon::now()->startOfMonth()) ? Carbon::now()->startOfMonth() : $territoire->updated_at,
@@ -48,6 +47,7 @@ class ConfigController extends Controller
                         ->get()
                         ->map(function ($organisation) {
                             $date = new Carbon($organisation->updated_at);
+
                             return [
                                 'url' => $organisation->full_url,
                                 'lastmod' => $date->lt(Carbon::now()->startOfMonth()) ? Carbon::now()->startOfMonth() : $organisation->updated_at,
@@ -58,6 +58,7 @@ class ConfigController extends Controller
                         ->get()
                         ->map(function ($mission) {
                             $date = new Carbon($mission->updated_at);
+
                             return [
                                 'url' => $mission->full_url,
                                 'lastmod' => $date->lt(Carbon::now()->startOfMonth()) ? Carbon::now()->startOfMonth() : $mission->updated_at,

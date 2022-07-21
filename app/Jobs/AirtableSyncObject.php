@@ -2,8 +2,6 @@
 
 namespace App\Jobs;
 
-use App\Models\Mission;
-use App\Models\Structure;
 use App\Services\Airtable;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -37,10 +35,9 @@ class AirtableSyncObject implements ShouldQueue
     public function handle()
     {
         $class_name = class_basename($this->object);
-        if($class_name == 'Mission') {
+        if ($class_name == 'Mission') {
             Airtable::syncMission($this->object);
-        }
-        else if($class_name == 'Structure') {
+        } elseif ($class_name == 'Structure') {
             Airtable::syncStructure($this->object);
         }
     }

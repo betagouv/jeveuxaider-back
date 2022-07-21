@@ -2,21 +2,21 @@
 
 namespace App\Models;
 
-use Staudenmeir\EloquentHasManyDeep\HasRelationships;
-use Illuminate\Database\Eloquent\Model;
-use Spatie\Activitylog\Traits\LogsActivity;
-use Spatie\Tags\HasTags;
-use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Spatie\MediaLibrary\InteractsWithMedia;
-use Spatie\Sluggable\HasSlug;
-use Spatie\Sluggable\SlugOptions;
-use Spatie\Image\Manipulations;
 use App\Models\Media as ModelMedia;
 use App\Traits\HasMissingFields;
-use Spatie\Activitylog\LogOptions;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Image\Manipulations;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\Sluggable\HasSlug;
+use Spatie\Sluggable\SlugOptions;
+use Spatie\Tags\HasTags;
+use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 
 class Reseau extends Model implements HasMedia
 {
@@ -122,11 +122,11 @@ class Reseau extends Model implements HasMedia
                     'causer_id' => $user->id,
                     'causer_type' => 'App\Models\User',
                     'data' => [
-                        "subject_title" => $structure->name,
-                        "full_name" => $user->profile->full_name,
-                        "causer_id" => $user->profile->id,
-                        "context_role" => 'responsable'
-                    ]
+                        'subject_title' => $structure->name,
+                        'full_name' => $user->profile->full_name,
+                        'causer_id' => $user->profile->id,
+                        'context_role' => 'responsable',
+                    ],
                 ]
             );
 
@@ -222,7 +222,7 @@ class Reseau extends Model implements HasMedia
     {
         return $query
             ->whereHas('domaines', function (Builder $query) use ($domain_id) {
-                $query->where('id',$domain_id);
+                $query->where('id', $domain_id);
             });
     }
 

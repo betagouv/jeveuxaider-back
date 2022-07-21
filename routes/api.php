@@ -1,6 +1,5 @@
 <?php
 
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -65,7 +64,6 @@ Route::get('settings/messages', 'Api\SettingController@messages');
 Route::get('settings/general', 'Api\SettingController@general');
 
 Route::group(['middleware' => ['auth:api']], function () {
-
     Route::get('user', 'Api\UserController@me');
     Route::get('user/unread-messages', 'Api\UserController@unreadMessages');
     Route::get('user/participations', 'Api\UserController@participations');
@@ -220,15 +218,12 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::get('statistics/missions-outdated-by-departments', 'Api\NumbersController@missionsOutdatedByDepartments');
     Route::get('statistics/missions-outdated-by-organisations', 'Api\NumbersController@missionsOutdatedByOrganisations');
 
-
-
     // CHARTS
     Route::get('charts/organisations-by-date', 'Api\ChartsController@organisationsByDate');
     Route::get('charts/missions-by-date', 'Api\ChartsController@missionsByDate');
     Route::get('charts/participations-by-date', 'Api\ChartsController@participationsByDate');
     Route::get('charts/participations-conversion-by-date', 'Api\ChartsController@participationsConversionByDate');
     Route::get('charts/utilisateurs-by-date', 'Api\ChartsController@utilisateursByDate');
-
 
     // DOCUMENTS
     Route::get('documents', 'Api\DocumentController@index');
@@ -270,7 +265,6 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
 
 // ONLY ADMIN
 Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
-
     Route::post('settings/messages', 'Api\SettingController@updateMessages');
     Route::post('settings/general', 'Api\SettingController@updateGeneral');
 

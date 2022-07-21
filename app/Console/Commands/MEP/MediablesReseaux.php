@@ -4,7 +4,6 @@ namespace App\Console\Commands\MEP;
 
 use App\Models\Media;
 use App\Models\Reseau;
-use App\Models\Structure;
 use Illuminate\Console\Command;
 
 class MediablesReseaux extends Command
@@ -21,7 +20,7 @@ class MediablesReseaux extends Command
      *
      * @var string
      */
-    protected $description = "Rattachement des reseaux à des medias (remplace anciens champs image_1 & image_2)";
+    protected $description = 'Rattachement des reseaux à des medias (remplace anciens champs image_1 & image_2)';
 
     /**
      * Create a new command instance.
@@ -44,7 +43,7 @@ class MediablesReseaux extends Command
             $query->whereNotNull('image_1')
                 ->orWhereNotNull('image_2');
         });
-        $this->info("Ce script va rattacher les " . $query->count() . " reseaux à des medias");
+        $this->info('Ce script va rattacher les '.$query->count().' reseaux à des medias');
 
         if ($this->confirm('Continuer ?')) {
             $bar = $this->output->createProgressBar($query->count());
@@ -64,7 +63,7 @@ class MediablesReseaux extends Command
         // Hack, certaines illustrations 1 & 2 sont identiques (~ 40)
         if ($reseau->image_1 === $reseau->image_2) {
             for ($i = 1; $i <= 5; $i++) {
-                if (!strpos($reseau->image_1, "_" . $i)) {
+                if (! strpos($reseau->image_1, '_'.$i)) {
                     $reseau->image_2 = substr_replace($reseau->image_1, $i, -1);
                     break;
                 }
@@ -74,8 +73,7 @@ class MediablesReseaux extends Command
         $medias = Media::where('collection_name', 'domaine__illustrations_organisation')
             ->where(function ($query) use ($reseau) {
                 $query->orWhereJsonContains('custom_properties->old_thumbnail', $reseau->image_1)
-                    ->orWhereJsonContains('custom_properties->old_thumbnail', $reseau->image_2)
-                ;
+                    ->orWhereJsonContains('custom_properties->old_thumbnail', $reseau->image_2);
             })
             ->get();
 

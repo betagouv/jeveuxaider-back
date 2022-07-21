@@ -2,11 +2,11 @@
 
 namespace App\Notifications;
 
-use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
-use Illuminate\Notifications\Messages\MailMessage;
 use App\Models\Participation;
+use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
 class ParticipationDeclined extends Notification implements ShouldQueue
 {
@@ -18,6 +18,7 @@ class ParticipationDeclined extends Notification implements ShouldQueue
      * @var Participation
      */
     public $participation;
+
     public $reason;
 
     /**
@@ -59,16 +60,16 @@ class ParticipationDeclined extends Notification implements ShouldQueue
     {
         $message = (new MailMessage)
             ->subject('Votre participation a été déclinée')
-            ->greeting('Bonjour ' . $notifiable->first_name . ',')
-            ->line('Nous avons bien reçu votre candidature pour une mission au sein de l\'organisation ' . $this->participation->mission->structure->name. '.')
+            ->greeting('Bonjour '.$notifiable->first_name.',')
+            ->line('Nous avons bien reçu votre candidature pour une mission au sein de l\'organisation '.$this->participation->mission->structure->name.'.')
             ->line("Malheureusement, l'organisation ne pourra pas vous accueillir en mission de bénévolat.");
 
         if ($this->reason && $this->reason != 'other') {
-            $message->line('La raison est la suivante: '. config('taxonomies.participation_declined_reasons.terms')[$this->reason]);
+            $message->line('La raison est la suivante: '.config('taxonomies.participation_declined_reasons.terms')[$this->reason]);
         }
 
-        $url = $this->participation->conversation ? '/messages/' . $this->participation->conversation->id : '/messages';
-        $message->action('Accéder à ma messagerie', url(config('app.front_url') . $url));
+        $url = $this->participation->conversation ? '/messages/'.$this->participation->conversation->id : '/messages';
+        $message->action('Accéder à ma messagerie', url(config('app.front_url').$url));
 
         $message->line('Encore merci pour votre engagement.');
 

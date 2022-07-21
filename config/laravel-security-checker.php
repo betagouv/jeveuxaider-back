@@ -11,7 +11,7 @@ return [
     */
 
     'recipients' => [
-        env('LCS_MAIL_TO', null)
+        env('LCS_MAIL_TO', null),
     ],
 
     /*

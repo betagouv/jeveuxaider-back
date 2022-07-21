@@ -2,14 +2,14 @@
 
 namespace App\Exports;
 
-use Spatie\QueryBuilder\QueryBuilder;
-use Spatie\QueryBuilder\AllowedFilter;
-use Maatwebsite\Excel\Concerns\WithMapping;
-use Maatwebsite\Excel\Concerns\WithHeadings;
-use Maatwebsite\Excel\Concerns\Exportable;
 use App\Filters\FiltersReseauSearch;
 use App\Models\Reseau;
+use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromQuery;
+use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\WithMapping;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class ReseauxExport implements FromQuery, WithMapping, WithHeadings
 {
@@ -20,7 +20,7 @@ class ReseauxExport implements FromQuery, WithMapping, WithHeadings
      */
     public function query()
     {
-        return QueryBuilder::for(Reseau::withCount(['structures','missions','missionTemplates']))
+        return QueryBuilder::for(Reseau::withCount(['structures', 'missions', 'missionTemplates']))
             ->allowedFilters([
                 AllowedFilter::custom('search', new FiltersReseauSearch),
                 AllowedFilter::exact('is_published'),
@@ -55,7 +55,6 @@ class ReseauxExport implements FromQuery, WithMapping, WithHeadings
 
     public function map($reseau): array
     {
-
         return [
             $reseau->id,
             $reseau->name,

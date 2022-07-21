@@ -8,7 +8,7 @@ class CreateMessageSettings extends SettingsMigration
     {
         $this->migrator->add('message.title', 'Le petit mot de Giulietta');
         $this->migrator->add('message.admin', "Bienvenue dans votre espace d'administration en tant qu'admin !");
-        $this->migrator->add('message.benevole', "Bienvenue dans votre espace bénévole !");
+        $this->migrator->add('message.benevole', 'Bienvenue dans votre espace bénévole !');
         $this->migrator->add('message.responsable_organisation', "Bienvenue dans votre espace d'administration en tant que responsable d'organisation !");
         $this->migrator->add('message.responsable_territoire', "Bienvenue dans votre espace d'administration en tant que responsable de collectivité !");
         $this->migrator->add('message.referent_departemental', "Bienvenue dans votre espace d'administration en tant que référent départemental !");

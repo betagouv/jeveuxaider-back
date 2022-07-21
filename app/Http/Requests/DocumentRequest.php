@@ -19,7 +19,7 @@ class DocumentRequest extends FormRequest
             'description' => '',
             'roles' => '',
             'type' => '',
-            'is_published' => 'boolean'
+            'is_published' => 'boolean',
         ];
     }
 }

@@ -14,12 +14,12 @@ class LastOnlineAt
             return $next($request);
         }
 
-        if(!$request->headers->has('Impersonating')){
+        if (! $request->headers->has('Impersonating')) {
             $last_online = new Carbon(auth()->user()->last_online_at);
-            if (!auth()->user()->last_online_at || ($last_online->diffInMinutes(now()) > 5)) {
-                DB::table("users")
-                ->where("id", auth()->user()->id)
-                ->update(["last_online_at" => now()]);
+            if (! auth()->user()->last_online_at || ($last_online->diffInMinutes(now()) > 5)) {
+                DB::table('users')
+                ->where('id', auth()->user()->id)
+                ->update(['last_online_at' => now()]);
             }
         }
 

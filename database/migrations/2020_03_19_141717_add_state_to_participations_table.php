@@ -26,7 +26,7 @@ class AddStateToParticipationsTable extends Migration
     public function down()
     {
         Schema::table('participations', function (Blueprint $table) {
-            $table->dropColumn("state");
+            $table->dropColumn('state');
         });
     }
 }

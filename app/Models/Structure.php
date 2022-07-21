@@ -2,25 +2,25 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Helpers\Utils;
+use App\Models\Media as ModelMedia;
+use App\Traits\HasMissingFields;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
+use Laravel\Scout\Searchable;
+use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
-use Spatie\Tags\HasTags;
-use Staudenmeir\EloquentHasManyDeep\HasRelationships;
+use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
-use App\Traits\HasMissingFields;
-use Spatie\Image\Manipulations;
-use App\Models\Media as ModelMedia;
-use Spatie\Activitylog\LogOptions;
-use Illuminate\Database\Eloquent\Casts\Attribute;
-use Laravel\Scout\Searchable;
+use Spatie\Tags\HasTags;
+use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 
 class Structure extends Model implements HasMedia
 {
@@ -30,7 +30,7 @@ class Structure extends Model implements HasMedia
         "SDIS (Service départemental d'Incendie et de Secours)",
         'Gendarmerie',
         'Police',
-        'Armées'
+        'Armées',
     ];
 
     protected $table = 'structures';
@@ -50,7 +50,7 @@ class Structure extends Model implements HasMedia
         'longitude' => 'float',
         'publics_beneficiaires' => 'array',
         'send_volunteer_coordonates' => 'boolean',
-        'missing_fields' => 'array'
+        'missing_fields' => 'array',
     ];
 
     protected $hidden = ['media'];
@@ -64,7 +64,7 @@ class Structure extends Model implements HasMedia
 
     public function searchableAs()
     {
-        return config('scout.prefix') . '_covid_organisations';
+        return config('scout.prefix').'_covid_organisations';
     }
 
     public function getCheckFieldsAttribute()
@@ -94,7 +94,7 @@ class Structure extends Model implements HasMedia
 
     public function scopeRole($query, $contextRole)
     {
-        $user =  Auth::guard('api')->user();
+        $user = Auth::guard('api')->user();
 
         switch ($contextRole) {
             case 'admin':
@@ -176,6 +176,7 @@ class Structure extends Model implements HasMedia
             return $query
                 ->whereIn('structure_publique_etat_type', self::CEU_TYPES);
         }
+
         return $query
             ->whereNull('structure_publique_etat_type')
             ->orWhereNotIn('structure_publique_etat_type', self::CEU_TYPES);
@@ -240,7 +241,7 @@ class Structure extends Model implements HasMedia
 
     public function getCeuAttribute()
     {
-        if (!isset($this->attributes['structure_publique_etat_type'])) {
+        if (! isset($this->attributes['structure_publique_etat_type'])) {
             return false;
         }
 
@@ -342,6 +343,7 @@ class Structure extends Model implements HasMedia
     public function addMission($values)
     {
         $mission = $this->missions()->create($values);
+
         return $mission;
     }
 
@@ -360,6 +362,7 @@ class Structure extends Model implements HasMedia
         if ($avgResponseTime) {
             $this->response_time = intval($avgResponseTime);
         }
+
         return $this;
     }
 
@@ -473,9 +476,10 @@ class Structure extends Model implements HasMedia
     {
         return Attribute::make(
             get: function () {
-                $activitiesThroughMissions = Mission::ofStructure($this->id)->where('state', 'Validée')->whereHas('activity')->get()->map(fn($mission) => $mission->activity_id)->toArray();
-                $activitiesThroughTemplates = Mission::ofStructure($this->id)->where('state', 'Validée')->whereHas('template.activity')->get()->map(fn($mission) => $mission->template->activity_id)->toArray();
+                $activitiesThroughMissions = Mission::ofStructure($this->id)->where('state', 'Validée')->whereHas('activity')->get()->map(fn ($mission) => $mission->activity_id)->toArray();
+                $activitiesThroughTemplates = Mission::ofStructure($this->id)->where('state', 'Validée')->whereHas('template.activity')->get()->map(fn ($mission) => $mission->template->activity_id)->toArray();
                 $activitiesMergedIds = array_unique(array_merge($activitiesThroughMissions, $activitiesThroughTemplates));
+
                 return Activity::whereIn('id', $activitiesMergedIds)->get();
             },
         );
@@ -494,7 +498,7 @@ class Structure extends Model implements HasMedia
 
         $publicsBeneficiaires = config('taxonomies.mission_publics_beneficiaires.terms');
 
-        $organisation =  [
+        $organisation = [
             'id' => $this->id,
             'rna' => $this->rna,
             'slug' => $this->slug,
@@ -517,7 +521,7 @@ class Structure extends Model implements HasMedia
             'city' => $this->city,
             'department' => $this->department,
             'country' => $this->country,
-            'department_name' => $this->department && isset(config('taxonomies.departments.terms')[$this->department]) ? $this->department . ' - ' . config('taxonomies.departments.terms')[$this->department] : null,
+            'department_name' => $this->department && isset(config('taxonomies.departments.terms')[$this->department]) ? $this->department.' - '.config('taxonomies.departments.terms')[$this->department] : null,
             'website' => $this->website,
             'facebook' => $this->facebook,
             'twitter' => $this->twitter,
@@ -553,7 +557,7 @@ class Structure extends Model implements HasMedia
         if ($this->latitude && $this->longitude) {
             $organisation['_geoloc'] = [
                 'lat' => $this->latitude,
-                'lng' => $this->longitude
+                'lng' => $this->longitude,
             ];
         }
 
@@ -562,7 +566,6 @@ class Structure extends Model implements HasMedia
 
     public function getPictureAttribute()
     {
-
         if ($this->overrideImage1) {
             return $this->overrideImage1->urls;
         }

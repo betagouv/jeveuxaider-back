@@ -2,33 +2,35 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Profile;
 use App\Models\Structure;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class TopitoController extends Controller
 {
-
     public $year;
+
     public $month;
+
     public $date;
+
     public $startDate;
+
     public $endDate;
 
     public function __construct(Request $request)
     {
-
         if ($request->input('daterange') == 'last-30-days') {
             $this->startDate = Carbon::now()->subDays(30)->format('Y-m-d H:i:s');
-            $this->endDate =  Carbon::now()->format('Y-m-d H:i:s');
+            $this->endDate = Carbon::now()->format('Y-m-d H:i:s');
         }
         if ($request->input('daterange') == 'last-7-days') {
             $this->startDate = Carbon::now()->subDays(7)->format('Y-m-d H:i:s');
-            $this->endDate =  Carbon::now()->format('Y-m-d H:i:s');
+            $this->endDate = Carbon::now()->format('Y-m-d H:i:s');
         }
         if ($request->input('daterange') == 'current-month') {
             $this->date = Carbon::now();
@@ -42,13 +44,13 @@ class TopitoController extends Controller
         }
         if ($request->input('daterange') == 'current-year') {
             $this->year = date('Y');
-            $this->date = Carbon::parse($this->year."-01-01");
+            $this->date = Carbon::parse($this->year.'-01-01');
             $this->startDate = $this->date->startOfYear()->format('Y-m-d H:i:s');
             $this->endDate = $this->date->endOfYear()->format('Y-m-d H:i:s');
         }
         if ($request->input('daterange') == 'last-year') {
             $this->year = date('Y') - 1;
-            $this->date = Carbon::parse($this->year."-01-01");
+            $this->date = Carbon::parse($this->year.'-01-01');
             $this->startDate = $this->date->startOfYear()->format('Y-m-d H:i:s');
             $this->endDate = $this->date->endOfYear()->format('Y-m-d H:i:s');
         }
@@ -60,20 +62,19 @@ class TopitoController extends Controller
 
     public function marketplace(Request $request)
     {
-
         $department = $request->input('department');
 
         // ALL
-        if(!$department){
-            $results = DB::select("
+        if (! $department) {
+            $results = DB::select('
                 SELECT notifications_benevoles.profile_id, COUNT(*) AS count FROM notifications_benevoles
                 WHERE notifications_benevoles.created_at BETWEEN :start and :end
                 GROUP BY notifications_benevoles.profile_id
                 ORDER BY count
                 DESC LIMIT 5
-            ", [
-                "start" => $this->startDate,
-                "end" => $this->endDate,
+            ', [
+                'start' => $this->startDate,
+                'end' => $this->endDate,
             ]);
         } else {
             $results = DB::select("
@@ -85,8 +86,8 @@ class TopitoController extends Controller
                 ORDER BY count
                 DESC LIMIT 5
             ", [
-                "start" => $this->startDate,
-                "end" => $this->endDate,
+                'start' => $this->startDate,
+                'end' => $this->endDate,
             ]);
         }
 
@@ -96,33 +97,33 @@ class TopitoController extends Controller
             $item->count = collect($results)->filter(function ($values) use ($item) {
                 return $values->profile_id == $item->id;
             })->first()->count;
+
             return $item;
         });
 
         $sortedItems = $items->sortByDesc('count');
 
         return [
-            'items' => $sortedItems->values()->all()
+            'items' => $sortedItems->values()->all(),
         ];
     }
 
     public function participations(Request $request)
     {
-
         $state = $request->input('state');
 
         // ALL
-        if(!$state){
-            $results = DB::select("
+        if (! $state) {
+            $results = DB::select('
                 SELECT participations.profile_id, COUNT(*) AS count FROM participations
                 WHERE participations.deleted_at IS NULL
                 AND participations.created_at BETWEEN :start and :end
                 GROUP BY participations.profile_id
                 ORDER BY count
                 DESC LIMIT 5
-            ", [
-                "start" => $this->startDate,
-                "end" => $this->endDate,
+            ', [
+                'start' => $this->startDate,
+                'end' => $this->endDate,
             ]);
         } else {
             $results = DB::select("
@@ -134,8 +135,8 @@ class TopitoController extends Controller
                 ORDER BY count
                 DESC LIMIT 5
             ", [
-                "start" => $this->startDate,
-                "end" => $this->endDate,
+                'start' => $this->startDate,
+                'end' => $this->endDate,
             ]);
         }
 
@@ -145,22 +146,22 @@ class TopitoController extends Controller
             $item->count = collect($results)->filter(function ($values) use ($item) {
                 return $values->profile_id == $item->id;
             })->first()->count;
+
             return $item;
         });
 
         $sortedItems = $items->sortByDesc('count');
 
         return [
-            'items' => $sortedItems->values()->all()
+            'items' => $sortedItems->values()->all(),
         ];
     }
 
     public function utilisateursLesPlusActifs(Request $request)
     {
-
         $role = $request->input('role');
 
-        if(!$role){
+        if (! $role) {
             $results = DB::select("
                 SELECT activity_log.causer_id, COUNT(*) AS count FROM activity_log
                 WHERE activity_log.causer_type = 'App\Models\User'
@@ -169,10 +170,10 @@ class TopitoController extends Controller
                 ORDER BY count
                 DESC LIMIT 5
             ", [
-                "start" => $this->startDate,
-                "end" => $this->endDate,
+                'start' => $this->startDate,
+                'end' => $this->endDate,
             ]);
-        } else if($role == 'referent_department'){
+        } elseif ($role == 'referent_department') {
             $results = DB::select("
                 SELECT activity_log.causer_id, COUNT(*) AS count FROM activity_log
                 LEFT JOIN profiles ON profiles.user_id = activity_log.causer_id
@@ -183,10 +184,10 @@ class TopitoController extends Controller
                 ORDER BY count
                 DESC LIMIT 5
             ", [
-                "start" => $this->startDate,
-                "end" => $this->endDate,
+                'start' => $this->startDate,
+                'end' => $this->endDate,
             ]);
-        } else if($role == 'referent_region'){
+        } elseif ($role == 'referent_region') {
             $results = DB::select("
                 SELECT activity_log.causer_id, COUNT(*) AS count FROM activity_log
                 LEFT JOIN profiles ON profiles.user_id = activity_log.causer_id
@@ -197,10 +198,10 @@ class TopitoController extends Controller
                 ORDER BY count
                 DESC LIMIT 5
             ", [
-                "start" => $this->startDate,
-                "end" => $this->endDate,
+                'start' => $this->startDate,
+                'end' => $this->endDate,
             ]);
-        }else if($role == 'admin'){
+        } elseif ($role == 'admin') {
             $results = DB::select("
                 SELECT activity_log.causer_id, COUNT(*) AS count FROM activity_log
                 LEFT JOIN users ON users.id = activity_log.causer_id
@@ -211,12 +212,10 @@ class TopitoController extends Controller
                 ORDER BY count
                 DESC LIMIT 5
             ", [
-                "start" => $this->startDate,
-                "end" => $this->endDate,
+                'start' => $this->startDate,
+                'end' => $this->endDate,
             ]);
         }
-
-       
 
         $ids = collect($results)->pluck('causer_id');
 
@@ -225,35 +224,34 @@ class TopitoController extends Controller
             $item->count = collect($results)->filter(function ($values) use ($item) {
                 return $values->causer_id == $item->id;
             })->first()->count;
+
             return $item;
         });
 
         $sortedItems = $items->sortByDesc('count');
 
         return [
-            'items' => $sortedItems->values()->all()
+            'items' => $sortedItems->values()->all(),
         ];
     }
 
     public function organisationsMissions(Request $request)
     {
-
         $type = $request->input('type');
 
         // ALL
-        if(!$type){
-            $results = DB::select("
+        if (! $type) {
+            $results = DB::select('
                 SELECT missions.structure_id, COUNT(*) AS count FROM missions
                 WHERE missions.deleted_at IS NULL
                 AND missions.created_at BETWEEN :start and :end
                 GROUP BY missions.structure_id
                 ORDER BY count
                 DESC LIMIT 5
-            ", [
-                "start" => $this->startDate,
-                "end" => $this->endDate,
+            ', [
+                'start' => $this->startDate,
+                'end' => $this->endDate,
             ]);
-
         } else {
             $results = DB::select("
                 SELECT missions.structure_id, COUNT(*) AS count FROM missions
@@ -265,8 +263,8 @@ class TopitoController extends Controller
                 ORDER BY count
                 DESC LIMIT 5
             ", [
-                "start" => $this->startDate,
-                "end" => $this->endDate,
+                'start' => $this->startDate,
+                'end' => $this->endDate,
             ]);
         }
 
@@ -276,24 +274,24 @@ class TopitoController extends Controller
             $item->count = collect($results)->filter(function ($values) use ($item) {
                 return $values->structure_id == $item->id;
             })->first()->count;
+
             return $item;
         });
 
         $sortedItems = $items->sortByDesc('count');
 
         return [
-            'items' => $sortedItems->values()->all()
+            'items' => $sortedItems->values()->all(),
         ];
     }
 
     public function organisationsParticipations(Request $request)
     {
-
         $type = $request->input('type');
 
-         // ALL
-         if(!$type){
-            $results = DB::select("
+        // ALL
+        if (! $type) {
+            $results = DB::select('
                 SELECT COUNT(*) AS count, missions.structure_id FROM participations
                 LEFT JOIN missions ON participations.mission_id = missions.id
                 LEFT JOIN structures ON missions.structure_id = structures.id
@@ -303,11 +301,10 @@ class TopitoController extends Controller
                 GROUP BY missions.structure_id
                 ORDER BY count
                 DESC LIMIT 5
-            ", [
-                "start" => $this->startDate,
-                "end" => $this->endDate,
+            ', [
+                'start' => $this->startDate,
+                'end' => $this->endDate,
             ]);
-
         } else {
             $results = DB::select("
                 SELECT COUNT(*) AS count, missions.structure_id FROM participations
@@ -321,8 +318,8 @@ class TopitoController extends Controller
                 ORDER BY count
                 DESC LIMIT 5
             ", [
-                "start" => $this->startDate,
-                "end" => $this->endDate,
+                'start' => $this->startDate,
+                'end' => $this->endDate,
             ]);
         }
 
@@ -332,13 +329,14 @@ class TopitoController extends Controller
             $item->count = collect($results)->filter(function ($values) use ($item) {
                 return $values->structure_id == $item->id;
             })->first()->count;
+
             return $item;
         });
 
         $sortedItems = $items->sortByDesc('count');
 
         return [
-            'items' => $sortedItems->values()->all()
+            'items' => $sortedItems->values()->all(),
         ];
     }
 }

@@ -40,7 +40,7 @@ class FillRnaNonApplicableForStructures extends Command
     {
         $globalQuery = Structure::where('statut_juridique', '!=', 'Association');
 
-        $this->info($globalQuery->count() . ' structure will be updated with RNA Non Applicable');
+        $this->info($globalQuery->count().' structure will be updated with RNA Non Applicable');
 
         if ($this->confirm('Do you wish to continue?')) {
             $globalQuery->update(['rna' => 'N/A']);

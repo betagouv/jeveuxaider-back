@@ -40,7 +40,7 @@ class InvitationRequest extends FormRequest
             'role' => 'required',
             'invitable_id' => 'required_if:role,responsable_organisation,responsable_territoire,responsable_reseau,responsable_antenne',
             'invitable_type' => '',
-            'properties' => 'required_if:role,referent_regional,referent_departemental,responsable_antenne'
+            'properties' => 'required_if:role,referent_regional,referent_departemental,responsable_antenne',
         ];
 
         return $rules;
@@ -60,7 +60,7 @@ class InvitationRequest extends FormRequest
             'email.email' => 'Cet email est mal formaté',
             'role' => 'Un rôle est requis',
             'invitable_id.required_if' => 'Merci de saisir une entité à laquelle rattacher cet email',
-            'properties.required_if' => 'Merci de saisir une entité à laquelle rattacher cet email'
+            'properties.required_if' => 'Merci de saisir une entité à laquelle rattacher cet email',
         ];
     }
 }

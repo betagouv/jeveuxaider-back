@@ -24,10 +24,10 @@ class RegisterResponsableRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => ['required','email', 'unique:users'],
+            'email' => ['required', 'email', 'unique:users'],
             'password' => 'required|min:8',
             'first_name' => 'required|min:3',
-            'last_name' => 'required'
+            'last_name' => 'required',
         ];
     }
 
@@ -46,7 +46,7 @@ class RegisterResponsableRequest extends FormRequest
             'email.unique' => 'Cet email est déjà pris. Merci de vous connecter avec vos identifiants.',
             'email.email' => 'Cet email est mal formaté',
             'password.required' => 'Un mot de passe est requis',
-            'password.min' => 'Votre mot de passe doit contenir au moins :min caractères'
+            'password.min' => 'Votre mot de passe doit contenir au moins :min caractères',
         ];
     }
 }

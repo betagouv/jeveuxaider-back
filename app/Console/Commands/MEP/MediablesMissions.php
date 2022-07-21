@@ -20,7 +20,7 @@ class MediablesMissions extends Command
      *
      * @var string
      */
-    protected $description = "Rattachement des missions à des medias (remplace ancien champ thumbnail)";
+    protected $description = 'Rattachement des missions à des medias (remplace ancien champ thumbnail)';
 
     /**
      * Create a new command instance.
@@ -40,7 +40,7 @@ class MediablesMissions extends Command
     public function handle()
     {
         $query = Mission::withTrashed()->whereNotNull('thumbnail')->whereNull('template_id');
-        $this->info("Ce script va rattacher les " . $query->count() . " missions à des medias");
+        $this->info('Ce script va rattacher les '.$query->count().' missions à des medias');
 
         if ($this->confirm('Continuer ?')) {
             $bar = $this->output->createProgressBar($query->count());

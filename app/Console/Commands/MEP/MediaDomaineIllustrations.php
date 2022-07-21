@@ -20,7 +20,7 @@ class MediaDomaineIllustrations extends Command
      *
      * @var string
      */
-    protected $description = "Media domaine - Ajoute les illustrations";
+    protected $description = 'Media domaine - Ajoute les illustrations';
 
     /**
      * Create a new command instance.
@@ -40,7 +40,7 @@ class MediaDomaineIllustrations extends Command
     public function handle()
     {
         $query = Domaine::query();
-        $this->info("Ajout des illustrations secondaires aux modèles de type Domaine");
+        $this->info('Ajout des illustrations secondaires aux modèles de type Domaine');
 
         if ($this->confirm('Continuer ?')) {
             $bar = $this->output->createProgressBar($query->count());
@@ -98,8 +98,8 @@ class MediaDomaineIllustrations extends Command
 
         for ($i = 1; $i <= $count; $i++) {
             $data[] = [
-                'filename' => $domaine->slug . '-' . $i,
-                'url' => base_path() . '/' . $folder . $domaine->slug . '-' . $i . '.jpg',
+                'filename' => $domaine->slug.'-'.$i,
+                'url' => base_path().'/'.$folder.$domaine->slug.'-'.$i.'.jpg',
             ];
         }
 

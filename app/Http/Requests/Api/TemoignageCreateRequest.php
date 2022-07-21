@@ -3,9 +3,6 @@
 namespace App\Http\Requests\Api;
 
 use App\Http\Requests\TemoignageRequest;
-use App\Models\Temoignage;
-use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Gate;
 
 class TemoignageCreateRequest extends TemoignageRequest
 {
@@ -30,7 +27,7 @@ class TemoignageCreateRequest extends TemoignageRequest
             'participation_id' => 'required',
             'grade' => 'required',
             'testimony' => '',
-            'is_published' => 'boolean'
+            'is_published' => 'boolean',
         ];
     }
 

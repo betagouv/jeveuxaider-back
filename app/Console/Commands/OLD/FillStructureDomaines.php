@@ -2,9 +2,7 @@
 
 namespace App\Console\Commands\OLD;
 
-use App\Models\Conversation;
 use App\Models\Mission;
-use App\Models\Participation;
 use App\Models\Structure;
 use App\Models\Tag;
 use Illuminate\Console\Command;
@@ -44,7 +42,7 @@ class FillStructureDomaines extends Command
     {
         $globalQuery = Structure::whereDoesntHave('tags')->whereHas('missions');
 
-        $this->info($globalQuery->count() . ' structures will be updated with domaines from their missions');
+        $this->info($globalQuery->count().' structures will be updated with domaines from their missions');
 
         if ($this->confirm('Do you wish to continue?')) {
             $structures = $globalQuery->get();
@@ -55,7 +53,7 @@ class FillStructureDomaines extends Command
 
                 foreach ($missions as $mission) {
                     $mainDomain = $mission->domaines->first();
-                    if ($mainDomain && !in_array($mainDomain->id, $domaineIds)) {
+                    if ($mainDomain && ! in_array($mainDomain->id, $domaineIds)) {
                         $domaineIds[] = $mainDomain->id;
                     }
                 }

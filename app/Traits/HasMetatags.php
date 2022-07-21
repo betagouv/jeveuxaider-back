@@ -14,7 +14,7 @@ trait HasMetatags
     public function delete()
     {
         $res = parent::delete();
-        if($res == true && $this->metatags) {
+        if ($res == true && $this->metatags) {
             $this->metatags->delete();
         }
     }

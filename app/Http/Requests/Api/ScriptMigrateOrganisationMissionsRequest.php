@@ -16,7 +16,6 @@ class ScriptMigrateOrganisationMissionsRequest extends FormRequest
         return $this->user()->is_admin;
     }
 
-
     /**
      * Get the validation rules that apply to the request.
      *

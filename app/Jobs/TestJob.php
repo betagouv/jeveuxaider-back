@@ -13,6 +13,7 @@ class TestJob implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     private $text;
+
     /**
      * Create a new job instance.
      *

@@ -2,11 +2,11 @@
 
 namespace App\Notifications;
 
-use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
-use Illuminate\Notifications\Messages\MailMessage;
 use App\Models\Participation;
+use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
 class ParticipationValidated extends Notification implements ShouldQueue
 {
@@ -57,12 +57,12 @@ class ParticipationValidated extends Notification implements ShouldQueue
     {
         $message = (new MailMessage)
             ->subject('Bravo ! Votre demande de participation vient d\'être acceptée')
-            ->greeting('Bonjour ' . $notifiable->first_name . ',')
-            ->line('Nous avons le plaisir de vous annoncer que votre participation à la mission « ' . $this->participation->mission->name .' » a été acceptée !')
+            ->greeting('Bonjour '.$notifiable->first_name.',')
+            ->line('Nous avons le plaisir de vous annoncer que votre participation à la mission « '.$this->participation->mission->name.' » a été acceptée !')
             ->line('Vous pouvez poursuivre les échanges avec le responsable depuis votre messagerie.');
 
-        $url = $this->participation->conversation ? '/messages/' . $this->participation->conversation->id : '/messages';
-        $message->action('Accéder à ma messagerie', url(config('app.front_url') . $url));
+        $url = $this->participation->conversation ? '/messages/'.$this->participation->conversation->id : '/messages';
+        $message->action('Accéder à ma messagerie', url(config('app.front_url').$url));
 
         return $message;
     }

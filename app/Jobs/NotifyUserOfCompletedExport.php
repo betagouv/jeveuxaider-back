@@ -14,6 +14,7 @@ class NotifyUserOfCompletedExport implements ShouldQueue
     use Queueable, SerializesModels;
 
     public $user;
+
     public $filePath;
 
     public function __construct(User $user, $filePath)

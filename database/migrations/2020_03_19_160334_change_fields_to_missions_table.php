@@ -14,7 +14,7 @@ class ChangeFieldsToMissionsTable extends Migration
     public function up()
     {
         Schema::table('missions', function (Blueprint $table) {
-            $table->dropColumn("domaine");
+            $table->dropColumn('domaine');
         });
     }
 

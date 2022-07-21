@@ -36,10 +36,9 @@ class AirtableDeleteObject implements ShouldQueue
     public function handle()
     {
         $class_name = class_basename($this->object);
-        if($class_name == 'Mission') {
+        if ($class_name == 'Mission') {
             Airtable::deleteObject('mission', $this->object);
-        }
-        else if($class_name == 'Structure') {
+        } elseif ($class_name == 'Structure') {
             Airtable::deleteObject('structure', $this->object);
         }
     }

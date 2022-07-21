@@ -5,8 +5,8 @@ namespace App\Console\Commands\MEP;
 use App\Models\Domaine;
 use App\Models\Media;
 use Illuminate\Console\Command;
-use Spatie\MediaLibrary\MediaCollections\Models\Media as ModelsMedia;
 use Illuminate\Support\Str;
+use Spatie\MediaLibrary\MediaCollections\Models\Media as ModelsMedia;
 
 class MediaRefactoring extends Command
 {
@@ -22,7 +22,7 @@ class MediaRefactoring extends Command
      *
      * @var string
      */
-    protected $description = "Media refactoring";
+    protected $description = 'Media refactoring';
 
     /**
      * Create a new command instance.
@@ -42,7 +42,7 @@ class MediaRefactoring extends Command
     public function handle()
     {
         $query = ModelsMedia::query();
-        $this->info($query->count() . ' medias will be updated');
+        $this->info($query->count().' medias will be updated');
 
         if ($this->confirm('Do you wish to continue?')) {
             $bar = $this->output->createProgressBar($query->count());
@@ -64,7 +64,7 @@ class MediaRefactoring extends Command
     private function handleAttributePropertyConversion($media)
     {
         if ($media->hasCustomProperty('field')) {
-            $media->collection_name = Str::snake(class_basename($media->model)) . '__' . $media->getCustomProperty('field');
+            $media->collection_name = Str::snake(class_basename($media->model)).'__'.$media->getCustomProperty('field');
             $media->forgetCustomProperty('field');
         }
 
@@ -114,7 +114,7 @@ class MediaRefactoring extends Command
                 $mediaDomaine->collection_name = 'domaine__banner';
                 $mediaDomaine->saveQuietly();
             } catch (\Throwable $th) {
-                $this->warn('Media # ' . $media->id . ' : File not found (' . $media->getFullUrl() . '). Skipped.');
+                $this->warn('Media # '.$media->id.' : File not found ('.$media->getFullUrl().'). Skipped.');
             }
         }
     }

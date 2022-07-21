@@ -27,7 +27,6 @@ Artisan::command('airtable', function () {
     // $query = Structure::whereIn('state', ['En attente de validation', 'En cours de traitement', 'Validée'])
     // ->where("id", 43);
 
-
     // $query->chunk(50, function ($objects) {
     //     foreach ($objects as $object) {
     //         // Airtable::syncMission($mission);
@@ -35,5 +34,4 @@ Artisan::command('airtable', function () {
     //     }
     // });
     // Mission::find(20108)->delete();
-
 })->describe('Display an inspiring quote');

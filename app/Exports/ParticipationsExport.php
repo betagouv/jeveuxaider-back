@@ -2,15 +2,15 @@
 
 namespace App\Exports;
 
-use Illuminate\Http\Request;
-use App\Models\Participation;
-use Spatie\QueryBuilder\QueryBuilder;
-use Spatie\QueryBuilder\AllowedFilter;
 use App\Filters\FiltersParticipationSearch;
+use App\Models\Participation;
+use Illuminate\Http\Request;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromQuery;
-use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\WithMapping;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class ParticipationsExport implements FromQuery, WithMapping, WithHeadings
 {
@@ -66,7 +66,7 @@ class ParticipationsExport implements FromQuery, WithMapping, WithHeadings
             'benevole_code_postal',
             'benevole_date_anniversaire',
             'date_creation',
-            'date_modification'
+            'date_modification',
         ];
     }
 
@@ -83,14 +83,14 @@ class ParticipationsExport implements FromQuery, WithMapping, WithHeadings
             $participation->mission ? $participation->mission->start_date : '',
             $participation->mission ? $participation->mission->end_date : '',
             $participation->profile_id,
-            $participation->profile && !$hidden ? $participation->profile->first_name : '',
-            $participation->profile && !$hidden ? $participation->profile->last_name : '',
-            $participation->profile && !$hidden ? $participation->profile->mobile : '',
-            $participation->profile && !$hidden ? $participation->profile->email : '',
-            $participation->profile && !$hidden ? $participation->profile->zip : '',
-            $participation->profile && !$hidden ? $participation->profile->birthday : '',
+            $participation->profile && ! $hidden ? $participation->profile->first_name : '',
+            $participation->profile && ! $hidden ? $participation->profile->last_name : '',
+            $participation->profile && ! $hidden ? $participation->profile->mobile : '',
+            $participation->profile && ! $hidden ? $participation->profile->email : '',
+            $participation->profile && ! $hidden ? $participation->profile->zip : '',
+            $participation->profile && ! $hidden ? $participation->profile->birthday : '',
             $participation->created_at,
-            $participation->updated_at
+            $participation->updated_at,
         ];
     }
 }

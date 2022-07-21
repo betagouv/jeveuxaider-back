@@ -6,8 +6,8 @@ use App\Models\Mission;
 use App\Models\Profile;
 use App\Models\Structure;
 use App\Notifications\ReferentDailyTodo;
-use Illuminate\Console\Command;
 use Carbon\Carbon;
+use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Notification;
 
 class SendNotificationTodoToReferents extends Command
@@ -51,7 +51,7 @@ class SendNotificationTodoToReferents extends Command
           ->get()
           ->groupBy('department')->toArray();
 
-        $this->info(implode(', ', array_keys($structuresByDepartment)) . ' départements avec des structures en attente');
+        $this->info(implode(', ', array_keys($structuresByDepartment)).' départements avec des structures en attente');
 
         $missionsByDepartment = Mission::where('state', 'En attente de validation')
           ->where('created_at', '>', Carbon::now()->subDays($nb_jours_notif)->startOfDay())
@@ -59,7 +59,7 @@ class SendNotificationTodoToReferents extends Command
           ->get()
           ->groupBy('department')->toArray();
 
-        $this->info(implode(', ', array_keys($missionsByDepartment)) . ' départements avec des missions en attente');
+        $this->info(implode(', ', array_keys($missionsByDepartment)).' départements avec des missions en attente');
 
         $structuresAndMissionsByDepartment = $this->mergeArrays($missionsByDepartment, $structuresByDepartment);
 
@@ -71,7 +71,7 @@ class SendNotificationTodoToReferents extends Command
                 return array_key_exists('structure_id', $structureOrMission);
             });
 
-            $this->info($department . ' has ' . count($structures) . ' organisations, and ' . count($missions) . ' missions');
+            $this->info($department.' has '.count($structures).' organisations, and '.count($missions).' missions');
             $referents = Profile::where('referent_department', $department)->get();
             $this->info($referents->pluck('email'));
             Notification::send($referents, new ReferentDailyTodo($structures, $missions));

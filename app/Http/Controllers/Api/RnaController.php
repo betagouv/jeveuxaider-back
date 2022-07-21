@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
+use App\Filters\FiltersStructureSearch;
+use App\Filters\FiltersStructureWithApiId;
+use App\Filters\FiltersStructureWithRna;
 use App\Http\Controllers\Controller;
 use App\Models\Structure;
-use Spatie\QueryBuilder\QueryBuilder;
+use Illuminate\Http\Request;
 use Spatie\QueryBuilder\AllowedFilter;
-use App\Filters\FiltersStructureSearch;
-use App\Filters\FiltersStructureWithRna;
-use App\Filters\FiltersStructureWithApiId;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class RnaController extends Controller
 {
@@ -32,8 +32,9 @@ class RnaController extends Controller
     {
         $structure->update([
             'rna' => $request->input('rna'),
-            'api_id' => $request->input('api_id')
+            'api_id' => $request->input('api_id'),
         ]);
+
         return $structure;
     }
 }

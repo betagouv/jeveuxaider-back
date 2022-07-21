@@ -6,8 +6,8 @@ use App\Models\Mission;
 use App\Models\Profile;
 use App\Models\Structure;
 use App\Notifications\ModerateurDailyTodo;
-use Illuminate\Console\Command;
 use Carbon\Carbon;
+use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Notification;
 
 class SendNotificationTodoToModerateurs extends Command

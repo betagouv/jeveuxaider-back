@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\MediaCollections\Models\Media as SpatieMedia;
 
 class Media extends SpatieMedia
@@ -21,7 +20,7 @@ class Media extends SpatieMedia
 
     public function getManipulationAttribute()
     {
-        return !empty($this->manipulations[array_key_first($this->manipulations)]) ?
+        return ! empty($this->manipulations[array_key_first($this->manipulations)]) ?
         $this->manipulations[array_key_first($this->manipulations)] : null;
     }
 
@@ -29,6 +28,7 @@ class Media extends SpatieMedia
     {
         $this->load('model');
         $this->model->registerMediaConversions();
+
         return array_filter(array_map(function ($conversion) {
             return $conversion->shouldBePerformedOn($this->collection_name) ? $conversion->getName() : null;
         }, $this->model->mediaConversions));

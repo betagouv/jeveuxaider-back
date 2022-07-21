@@ -20,7 +20,7 @@ class MediaDomaineIlustrationsOrganisations extends Command
      *
      * @var string
      */
-    protected $description = "Media domaine - Ajoute les illustrations pour les organisations rattachées";
+    protected $description = 'Media domaine - Ajoute les illustrations pour les organisations rattachées';
 
     /**
      * Create a new command instance.
@@ -40,7 +40,7 @@ class MediaDomaineIlustrationsOrganisations extends Command
     public function handle()
     {
         $query = Domaine::query();
-        $this->info("Ajout des illustrations pour les organisations rattachées aux modèles de type Domaine");
+        $this->info('Ajout des illustrations pour les organisations rattachées aux modèles de type Domaine');
 
         if ($this->confirm('Continuer ?')) {
             $bar = $this->output->createProgressBar($query->count());
@@ -126,9 +126,9 @@ class MediaDomaineIlustrationsOrganisations extends Command
 
         for ($i = 1; $i <= $count; $i++) {
             $data[] = [
-                'filename' => $domaine->slug . '-' . $i . '.webp',
-                'url' => base_path() . '/' . $folder . $id . '_' . $i . '@2x.jpg',
-                'old_thumbnail' => $id . '_' . $i
+                'filename' => $domaine->slug.'-'.$i.'.webp',
+                'url' => base_path().'/'.$folder.$id.'_'.$i.'@2x.jpg',
+                'old_thumbnail' => $id.'_'.$i,
             ];
         }
 

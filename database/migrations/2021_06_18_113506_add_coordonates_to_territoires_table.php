@@ -27,8 +27,8 @@ class AddCoordonatesToTerritoiresTable extends Migration
     public function down()
     {
         Schema::table('territoires', function (Blueprint $table) {
-            $table->dropColumn("latitude");
-            $table->dropColumn("longitude");
+            $table->dropColumn('latitude');
+            $table->dropColumn('longitude');
         });
     }
 }

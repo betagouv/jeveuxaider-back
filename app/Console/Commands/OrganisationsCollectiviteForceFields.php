@@ -23,6 +23,7 @@ class OrganisationsCollectiviteForceFields extends Command
     protected $description = "Force les domaines d'actions et les publics bénéficiaires pour les organisations de type Collectivité";
 
     protected $domaines;
+
     protected $publics;
 
     /**
@@ -45,7 +46,7 @@ class OrganisationsCollectiviteForceFields extends Command
     public function handle()
     {
         $query = Structure::withTrashed()->where('statut_juridique', 'Collectivité');
-        $this->info("Ce script va forcer les champs domaines et publics bénéficiaires pour les " . $query->count() . " organisations de type Collectivité");
+        $this->info('Ce script va forcer les champs domaines et publics bénéficiaires pour les '.$query->count().' organisations de type Collectivité');
 
         if ($this->confirm('Continuer ?')) {
             $bar = $this->output->createProgressBar($query->count());

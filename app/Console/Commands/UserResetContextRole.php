@@ -2,12 +2,8 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Mission;
-use App\Models\Participation;
-use App\Models\Structure;
 use App\Models\User;
 use Illuminate\Console\Command;
-use Illuminate\Database\Eloquent\Builder;
 
 class UserResetContextRole extends Command
 {
@@ -46,30 +42,31 @@ class UserResetContextRole extends Command
         $options = $this->options();
         if (empty($options['user'])) {
             $this->error('Mandatory argument: --user');
+
             return;
         }
 
         $user = User::with(['profile'])->find($options['user'])->append(['roles']);
 
-        if (!$user) {
+        if (! $user) {
             $this->error("This user {$options['user']} doesnt exists!");
+
             return;
         }
 
         $this->info("User {$user->profile->full_name} {$user->mail}");
-        $this->info("Current context_role " . $user->context_role);
-        $this->info("Current contextable_type " . $user->contextable_type);
-        $this->info("Current contextable_id " . $user->contextable_id);
+        $this->info('Current context_role '.$user->context_role);
+        $this->info('Current contextable_type '.$user->contextable_type);
+        $this->info('Current contextable_id '.$user->contextable_id);
 
-        if(count($user->roles)){
-            $this->info("New context_role " . serialize($user->roles[0]));
+        if (count($user->roles)) {
+            $this->info('New context_role '.serialize($user->roles[0]));
         } else {
-            $this->info("New context_role volontaire");
+            $this->info('New context_role volontaire');
         }
 
         if ($this->confirm('Continuer ?')) {
             $user->resetContextRole();
         }
-
     }
 }

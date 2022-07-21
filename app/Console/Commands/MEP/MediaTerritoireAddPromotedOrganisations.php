@@ -7,7 +7,6 @@ use App\Models\Structure;
 use App\Models\Territoire;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\File;
 
 class MediaTerritoireAddPromotedOrganisations extends Command
 {
@@ -23,7 +22,7 @@ class MediaTerritoireAddPromotedOrganisations extends Command
      *
      * @var string
      */
-    protected $description = "Add Promoted Organisations for Territoire";
+    protected $description = 'Add Promoted Organisations for Territoire';
 
     /**
      * Create a new command instance.
@@ -59,7 +58,7 @@ class MediaTerritoireAddPromotedOrganisations extends Command
         foreach ($query->cursor() as $relation) {
             $territoire = Territoire::find($relation->territoire_id);
             $structure = Structure::find($relation->relation_id);
-            $logo = Media::where('collection_name', "structure__logo")
+            $logo = Media::where('collection_name', 'structure__logo')
                 ->where('model_id', $relation->relation_id)->first();
             if ($logo) {
                 try {
@@ -67,7 +66,7 @@ class MediaTerritoireAddPromotedOrganisations extends Command
                     $mediaTerritoire->name = $structure->name;
                     $mediaTerritoire->saveQuietly();
                 } catch (\Throwable $th) {
-                    $this->warn('Media # ' . $logo->id . ' : File not found (' . $logo->getFullUrl() . '). Skipped.');
+                    $this->warn('Media # '.$logo->id.' : File not found ('.$logo->getFullUrl().'). Skipped.');
                 }
             }
 

@@ -17,14 +17,13 @@ return [
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
 
     'invalid_credentials' => [ // key from error type
-        'error'   => 'invalid_credentials',
-        'message' => 'Les identifiants sont incorrects.'
+        'error' => 'invalid_credentials',
+        'message' => 'Les identifiants sont incorrects.',
     ],
 
-    "invalid_grant" => [ // key from error type
-        'error'   => 'invalid_grant',
-        'message' => 'Les identifiants sont incorrects.'
-    ]
-
+    'invalid_grant' => [ // key from error type
+        'error' => 'invalid_grant',
+        'message' => 'Les identifiants sont incorrects.',
+    ],
 
 ];

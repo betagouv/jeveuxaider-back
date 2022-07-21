@@ -7,23 +7,22 @@ use App\Filters\FiltersMissionIsTemplate;
 use App\Filters\FiltersMissionPlacesLeft;
 use App\Filters\FiltersMissionPublicsVolontaires;
 use App\Filters\FiltersMissionSearch;
-use Illuminate\Http\Request;
+use App\Filters\FiltersStructureSearch;
 use App\Http\Controllers\Controller;
 use App\Models\Mission;
 use App\Models\Structure;
-use Illuminate\Database\Eloquent\Builder;
 use App\Services\ApiEngagement;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Validator;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
-use App\Filters\FiltersStructureSearch;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Http\Response;
 
 class EngagementController extends Controller
 {
     public function missions(Request $request)
     {
-
         $validator = Validator::make($_GET, [
             'apikey' => 'required',
             'pagination' => 'numeric|max:100',
@@ -40,7 +39,7 @@ class EngagementController extends Controller
             });
 
         $results = QueryBuilder::for($missionsQueryBuilder)
-            ->with(['responsable','domaine', 'activity', 'template', 'template.activity', 'template.domaine', 'template.photo', 'structure', 'structure.reseaux', 'illustrations'])
+            ->with(['responsable', 'domaine', 'activity', 'template', 'template.activity', 'template.domaine', 'template.photo', 'structure', 'structure.reseaux', 'illustrations'])
             ->allowedFilters([
                 'state',
                 'type',
@@ -79,7 +78,6 @@ class EngagementController extends Controller
 
     public function organisation(Request $request, Structure $organisation)
     {
-
         $validator = Validator::make($_GET, [
             'apikey' => 'required',
         ]);
@@ -93,7 +91,6 @@ class EngagementController extends Controller
 
     public function organisations(Request $request)
     {
-
         $validator = Validator::make($_GET, [
             'apikey' => 'required',
             'pagination' => 'numeric|max:100',
@@ -104,7 +101,7 @@ class EngagementController extends Controller
         }
 
         $results = QueryBuilder::for(Structure::where('state', 'Validée'))
-            ->with(['members', 'reseaux:id,name','domaines:id,name','overrideImage1', 'illustrations'])
+            ->with(['members', 'reseaux:id,name', 'domaines:id,name', 'overrideImage1', 'illustrations'])
             ->allowedFilters([
                 AllowedFilter::exact('department'),
                 'state',

@@ -2,18 +2,18 @@
 
 namespace App\Exports;
 
-use App\Models\Structure;
-use Spatie\QueryBuilder\QueryBuilder;
-use Spatie\QueryBuilder\AllowedFilter;
-use Maatwebsite\Excel\Concerns\WithMapping;
-use Maatwebsite\Excel\Concerns\WithHeadings;
 use App\Filters\FiltersStructureSearch;
+use App\Models\Structure;
 use App\Sorts\StructureMissionsCountSort;
 use App\Sorts\StructurePlacesLeftSort;
+use Illuminate\Http\Request;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromQuery;
-use Illuminate\Http\Request;
+use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\WithMapping;
+use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\AllowedSort;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class StructuresExport implements FromQuery, WithMapping, WithHeadings
 {
@@ -43,7 +43,7 @@ class StructuresExport implements FromQuery, WithMapping, WithHeadings
                 'created_at',
                 'updated_at',
                 AllowedSort::custom('missions_count', new StructureMissionsCountSort()),
-                AllowedSort::custom('places_left', new StructurePlacesLeftSort())
+                AllowedSort::custom('places_left', new StructurePlacesLeftSort()),
             ]);
     }
 

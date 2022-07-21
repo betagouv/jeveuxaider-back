@@ -4,9 +4,9 @@ namespace App\Notifications;
 
 use App\Models\Invitation;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
 class InvitationSent extends Notification implements ShouldQueue
 {
@@ -87,12 +87,12 @@ class InvitationSent extends Notification implements ShouldQueue
     private function inviteResponsableOrganization()
     {
         $message = (new MailMessage)
-            ->subject($this->invitation->user->profile->first_name . " de " . $this->invitation->invitable->name . " vous invite à créer un compte sur JeVeuxAider.gouv.fr")
-            ->greeting("Bonjour,")
-            ->line($this->invitation->user->profile->full_name . " vous invite à rejoindre la plateforme JeVeuxAider.gouv.fr afin de gérer l'organisation " . $this->invitation->invitable->name)
-            ->action("Voir l'invitation", url(config('app.front_url') . '/invitations/' . $this->invitation->token))
-            ->line("Une fois l’invitation acceptée, vous pourrez facilement publier des missions en vue de recruter des bénévoles.")
-            ->line("En cas de besoin, vous pouvez répondre à ce mail pour échanger directement avec le support Utilisateurs !");
+            ->subject($this->invitation->user->profile->first_name.' de '.$this->invitation->invitable->name.' vous invite à créer un compte sur JeVeuxAider.gouv.fr')
+            ->greeting('Bonjour,')
+            ->line($this->invitation->user->profile->full_name." vous invite à rejoindre la plateforme JeVeuxAider.gouv.fr afin de gérer l'organisation ".$this->invitation->invitable->name)
+            ->action("Voir l'invitation", url(config('app.front_url').'/invitations/'.$this->invitation->token))
+            ->line('Une fois l’invitation acceptée, vous pourrez facilement publier des missions en vue de recruter des bénévoles.')
+            ->line('En cas de besoin, vous pouvez répondre à ce mail pour échanger directement avec le support Utilisateurs !');
 
         return $message;
     }
@@ -100,12 +100,12 @@ class InvitationSent extends Notification implements ShouldQueue
     private function inviteResponsableTerritoire()
     {
         $message = (new MailMessage)
-            ->subject($this->invitation->user->profile->first_name . " de " . $this->invitation->invitable->name . " vous invite à créer un compte sur JeVeuxAider.gouv.fr")
-            ->greeting("Bonjour,")
-            ->line($this->invitation->user->profile->full_name . " vous invite à rejoindre la plateforme JeVeuxAider.gouv.fr afin de gérer le territoire " . $this->invitation->invitable->name)
-            ->action("Voir l'invitation", url(config('app.front_url') . '/invitations/' . $this->invitation->token))
-            ->line("Une fois l’invitation acceptée, vous pourrez facilement publier des missions en vue de recruter des bénévoles.")
-            ->line("En cas de besoin, vous pouvez répondre à ce mail pour échanger directement avec le support Utilisateurs !");
+            ->subject($this->invitation->user->profile->first_name.' de '.$this->invitation->invitable->name.' vous invite à créer un compte sur JeVeuxAider.gouv.fr')
+            ->greeting('Bonjour,')
+            ->line($this->invitation->user->profile->full_name.' vous invite à rejoindre la plateforme JeVeuxAider.gouv.fr afin de gérer le territoire '.$this->invitation->invitable->name)
+            ->action("Voir l'invitation", url(config('app.front_url').'/invitations/'.$this->invitation->token))
+            ->line('Une fois l’invitation acceptée, vous pourrez facilement publier des missions en vue de recruter des bénévoles.')
+            ->line('En cas de besoin, vous pouvez répondre à ce mail pour échanger directement avec le support Utilisateurs !');
 
         return $message;
     }
@@ -113,12 +113,12 @@ class InvitationSent extends Notification implements ShouldQueue
     private function inviteResponsableAntenne()
     {
         $message = (new MailMessage)
-            ->subject($this->invitation->user->profile->first_name . " de " . $this->invitation->invitable->name . " vous invite à créer un compte sur JeVeuxAider.gouv.fr")
-            ->greeting("Bonjour,")
-            ->line($this->invitation->user->profile->full_name . " vous invite à créer un compte pour l'organisation " . $this->invitation->properties['antenne_name'] . " sur JeVeuxAider.gouv.fr.")
-            ->action("Voir l'invitation", url(config('app.front_url') . '/invitations/' . $this->invitation->token))
-            ->line("Une fois l’invitation acceptée, vous serez rattaché au réseau " . $this->invitation->invitable['name'] . " et pourrez facilement publier des missions en vue de recruter des bénévoles.")
-            ->line("En cas de besoin, vous pouvez répondre à ce e-mail pour échanger directement avec le support Utilisateurs !");
+            ->subject($this->invitation->user->profile->first_name.' de '.$this->invitation->invitable->name.' vous invite à créer un compte sur JeVeuxAider.gouv.fr')
+            ->greeting('Bonjour,')
+            ->line($this->invitation->user->profile->full_name." vous invite à créer un compte pour l'organisation ".$this->invitation->properties['antenne_name'].' sur JeVeuxAider.gouv.fr.')
+            ->action("Voir l'invitation", url(config('app.front_url').'/invitations/'.$this->invitation->token))
+            ->line('Une fois l’invitation acceptée, vous serez rattaché au réseau '.$this->invitation->invitable['name'].' et pourrez facilement publier des missions en vue de recruter des bénévoles.')
+            ->line('En cas de besoin, vous pouvez répondre à ce e-mail pour échanger directement avec le support Utilisateurs !');
 
         return $message;
     }
@@ -126,12 +126,12 @@ class InvitationSent extends Notification implements ShouldQueue
     private function inviteResponsableReseau()
     {
         $message = (new MailMessage)
-            ->subject($this->invitation->user->profile->first_name . " de " . $this->invitation->invitable->name . " vous invite à créer un compte sur JeVeuxAider.gouv.fr")
-            ->greeting("Bonjour,")
-            ->line($this->invitation->user->profile->full_name . " vous invite à superviser le réseau " . $this->invitation->invitable->name . " sur JeVeuxAider.gouv.fr")
-            ->action("Voir l'invitation", url(config('app.front_url') . '/invitations/' . $this->invitation->token))
+            ->subject($this->invitation->user->profile->first_name.' de '.$this->invitation->invitable->name.' vous invite à créer un compte sur JeVeuxAider.gouv.fr')
+            ->greeting('Bonjour,')
+            ->line($this->invitation->user->profile->full_name.' vous invite à superviser le réseau '.$this->invitation->invitable->name.' sur JeVeuxAider.gouv.fr')
+            ->action("Voir l'invitation", url(config('app.front_url').'/invitations/'.$this->invitation->token))
             ->line("Une fois l'invitation acceptée, vous pourrez facilement piloter l'activité de votre réseau associatif sur la plateforme JeVeuxAider.gouv.fr.")
-            ->line("En cas de besoin, vous pouvez répondre à ce mail pour échanger directement avec le support Utilisateurs !");
+            ->line('En cas de besoin, vous pouvez répondre à ce mail pour échanger directement avec le support Utilisateurs !');
 
         return $message;
     }
@@ -142,12 +142,12 @@ class InvitationSent extends Notification implements ShouldQueue
         $departmentName = config('taxonomies.departments.terms')[$departmentNumber];
 
         $message = (new MailMessage)
-            ->subject($this->invitation->user->profile->first_name . " vous invite à créer un compte sur JeVeuxAider.gouv.fr")
-            ->greeting("Bonjour,")
-            ->line($this->invitation->user->profile->full_name . " vous invite à devenir référent du département " . $departmentName . " (" . $departmentNumber . ") sur la plateforme JeVeuxAider.gouv.fr")
-            ->action("Voir l'invitation", url(config('app.front_url') . '/invitations/' . $this->invitation->token))
+            ->subject($this->invitation->user->profile->first_name.' vous invite à créer un compte sur JeVeuxAider.gouv.fr')
+            ->greeting('Bonjour,')
+            ->line($this->invitation->user->profile->full_name.' vous invite à devenir référent du département '.$departmentName.' ('.$departmentNumber.') sur la plateforme JeVeuxAider.gouv.fr')
+            ->action("Voir l'invitation", url(config('app.front_url').'/invitations/'.$this->invitation->token))
             ->line("Une fois l’invitation acceptée, vous pourrez facilement suivre l'activité de la Réserve Civique sur votre département.")
-            ->line("En cas de besoin, vous pouvez répondre à ce mail pour échanger directement avec le support Utilisateurs !");
+            ->line('En cas de besoin, vous pouvez répondre à ce mail pour échanger directement avec le support Utilisateurs !');
 
         return $message;
     }
@@ -155,12 +155,12 @@ class InvitationSent extends Notification implements ShouldQueue
     private function inviteReferentRegional()
     {
         $message = (new MailMessage)
-            ->subject($this->invitation->user->profile->first_name . " vous invite à créer un compte sur JeVeuxAider.gouv.fr")
-            ->greeting("Bonjour,")
-            ->line($this->invitation->user->profile->full_name . " vous invite à devenir référent de la région " . $this->invitation->properties['referent_regional'] . " sur la plateforme JeVeuxAider.gouv.fr")
-            ->action("Voir l'invitation", url(config('app.front_url') . '/invitations/' . $this->invitation->token))
+            ->subject($this->invitation->user->profile->first_name.' vous invite à créer un compte sur JeVeuxAider.gouv.fr')
+            ->greeting('Bonjour,')
+            ->line($this->invitation->user->profile->full_name.' vous invite à devenir référent de la région '.$this->invitation->properties['referent_regional'].' sur la plateforme JeVeuxAider.gouv.fr')
+            ->action("Voir l'invitation", url(config('app.front_url').'/invitations/'.$this->invitation->token))
             ->line("Une fois l’invitation acceptée, vous pourrez facilement suivre l'activité de la Réserve Civique sur votre région.")
-            ->line("En cas de besoin, vous pouvez répondre à ce mail pour échanger directement avec le support Utilisateurs !");
+            ->line('En cas de besoin, vous pouvez répondre à ce mail pour échanger directement avec le support Utilisateurs !');
 
         return $message;
     }
@@ -168,11 +168,11 @@ class InvitationSent extends Notification implements ShouldQueue
     private function inviteDatasAnalyst()
     {
         $message = (new MailMessage)
-            ->subject("Invitation en attente")
-            ->greeting("Bonjour,")
-            ->line($this->invitation->user->profile->full_name . " vous invite à accéder au tableau de bord de la plateforme JeVeuxAider.gouv.fr")
-            ->action("Voir l'invitation", url(config('app.front_url') . '/invitations/' . $this->invitation->token))
-            ->line("En cas de besoin, vous pouvez répondre à ce mail pour échanger directement avec le support Utilisateurs !");
+            ->subject('Invitation en attente')
+            ->greeting('Bonjour,')
+            ->line($this->invitation->user->profile->full_name.' vous invite à accéder au tableau de bord de la plateforme JeVeuxAider.gouv.fr')
+            ->action("Voir l'invitation", url(config('app.front_url').'/invitations/'.$this->invitation->token))
+            ->line('En cas de besoin, vous pouvez répondre à ce mail pour échanger directement avec le support Utilisateurs !');
 
         return $message;
     }
@@ -180,12 +180,12 @@ class InvitationSent extends Notification implements ShouldQueue
     private function inviteBenevole()
     {
         $message = (new MailMessage)
-            ->subject($this->invitation->user->profile->first_name . " vous invite à créer un compte sur JeVeuxAider.gouv.fr")
-            ->greeting("Bonjour,")
-            ->line($this->invitation->user->profile->full_name . " vous invite à accéder à la plateforme JeVeuxAider.gouv.fr")
-            ->action("Voir l'invitation", url(config('app.front_url') . '/invitations/' . $this->invitation->token))
+            ->subject($this->invitation->user->profile->first_name.' vous invite à créer un compte sur JeVeuxAider.gouv.fr')
+            ->greeting('Bonjour,')
+            ->line($this->invitation->user->profile->full_name.' vous invite à accéder à la plateforme JeVeuxAider.gouv.fr')
+            ->action("Voir l'invitation", url(config('app.front_url').'/invitations/'.$this->invitation->token))
             ->line("Une fois l'invitation acceptée, vous pourrez vous engager sur des missions de bénévolat partout en France.")
-            ->line("En cas de besoin, vous pouvez répondre à ce mail pour échanger directement avec le support Utilisateurs !");
+            ->line('En cas de besoin, vous pouvez répondre à ce mail pour échanger directement avec le support Utilisateurs !');
 
         return $message;
     }
@@ -193,10 +193,10 @@ class InvitationSent extends Notification implements ShouldQueue
     private function inviteDefault()
     {
         $message = (new MailMessage)
-            ->subject($this->invitation->user->profile->first_name . " vous invite à créer un compte sur JeVeuxAider.gouv.fr")
+            ->subject($this->invitation->user->profile->first_name.' vous invite à créer un compte sur JeVeuxAider.gouv.fr')
             ->greeting('Bonjour,')
-            ->line($this->invitation->user->profile->full_name . ' vous invite à accéder à la plateforme JeVeuxAider.gouv.fr.')
-            ->action("Voir l'invitation", url(config('app.front_url') . '/invitations/' . $this->invitation->token));
+            ->line($this->invitation->user->profile->full_name.' vous invite à accéder à la plateforme JeVeuxAider.gouv.fr.')
+            ->action("Voir l'invitation", url(config('app.front_url').'/invitations/'.$this->invitation->token));
 
         return $message;
     }

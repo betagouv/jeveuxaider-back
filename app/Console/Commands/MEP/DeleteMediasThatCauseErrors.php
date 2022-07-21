@@ -20,7 +20,7 @@ class DeleteMediasThatCauseErrors extends Command
      *
      * @var string
      */
-    protected $description = "Delete medias that cause errors.";
+    protected $description = 'Delete medias that cause errors.';
 
     /**
      * Create a new command instance.
@@ -47,23 +47,21 @@ class DeleteMediasThatCauseErrors extends Command
             6424,
             7593,
             11111,
-            9231
+            9231,
         ];
 
         $optionIds = $this->option('ids');
-        if (!empty($optionIds)) {
+        if (! empty($optionIds)) {
             if (! is_array($optionIds)) {
                 $ids = explode(',', $optionIds);
-            }
-            elseif (count($optionIds) === 1 && Str::contains($optionIds[0], ',')) {
+            } elseif (count($optionIds) === 1 && Str::contains($optionIds[0], ',')) {
                 $ids = explode(',', $optionIds[0]);
-            }
-            else {
+            } else {
                 $ids = $optionIds;
             }
         }
 
-        $this->info(count($ids) . ' medias will be deleted');
+        $this->info(count($ids).' medias will be deleted');
 
         if ($this->confirm('Do you wish to continue?')) {
             Media::whereIn('id', $ids)->delete();

@@ -77,13 +77,13 @@ class CorrectTemplatesAssignation extends Command
             11064,
             11317,
             11345,
-            11361
-          ];
+            11361,
+        ];
         $query = Mission::whereIn('id', $ids)
             ->whereNull('template_id')
             ->whereNull('name');
 
-        $this->info($query->count() . ' missions will be updated to template_id 195');
+        $this->info($query->count().' missions will be updated to template_id 195');
         if ($this->confirm('Do you wish to continue?')) {
             $query->update(['template_id' => 195]);
         }
@@ -205,13 +205,13 @@ class CorrectTemplatesAssignation extends Command
             11175,
             11324,
             11326,
-            11348
+            11348,
         ];
         $query = Mission::whereIn('id', $ids)
             ->whereNull('template_id')
             ->whereNull('name');
 
-        $this->info($query->count() . ' missions will be updated to template_id 196');
+        $this->info($query->count().' missions will be updated to template_id 196');
         if ($this->confirm('Do you wish to continue?')) {
             $query->update(['template_id' => 196]);
         }

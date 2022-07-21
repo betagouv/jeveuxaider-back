@@ -2,20 +2,17 @@
 
 namespace App\Observers;
 
-use App\Helpers\Utils;
 use App\Jobs\AirtableDeleteObject;
 use App\Jobs\AirtableSyncObject;
 use App\Jobs\SendinblueSyncUser;
 use App\Models\Mission;
-use App\Models\NotificationTemoignage;
 use App\Models\Participation;
 use App\Models\Profile;
-use App\Notifications\MissionValidated;
-use App\Notifications\MissionWaitingValidation;
+use App\Notifications\MissionBeingProcessed;
 use App\Notifications\MissionSignaled;
 use App\Notifications\MissionSubmitted;
-use Illuminate\Support\Str;
-use App\Notifications\MissionBeingProcessed;
+use App\Notifications\MissionValidated;
+use App\Notifications\MissionWaitingValidation;
 
 class MissionObserver
 {
@@ -42,7 +39,7 @@ class MissionObserver
             if ($mission->responsable) {
                 $mission->responsable->notify(new MissionValidated($mission));
             }
-            if($mission->structure->shouldBeSearchable()){
+            if ($mission->structure->shouldBeSearchable()) {
                 $mission->structure->searchable();
             }
         }
@@ -98,7 +95,7 @@ class MissionObserver
                     if ($mission->responsable) {
                         $mission->responsable->notify(new MissionSignaled($mission));
                         // Notif ON
-                        foreach ($mission->participations->whereIn("state", ["En attente de validation", "En cours de traitement"]) as $participation) {
+                        foreach ($mission->participations->whereIn('state', ['En attente de validation', 'En cours de traitement']) as $participation) {
                             $participation->update(['state' => 'Annulée']);
                         }
                         // Notif OFF
@@ -107,7 +104,7 @@ class MissionObserver
                     break;
                 case 'Annulée':
                     if ($mission->responsable) {
-                        foreach (Participation::where('mission_id', $mission->id)->whereIn("state", ["En attente de validation", "En cours de traitement"]) as $participation) {
+                        foreach (Participation::where('mission_id', $mission->id)->whereIn('state', ['En attente de validation', 'En cours de traitement']) as $participation) {
                             $participation->update(['state' => 'Annulée']);
                         }
                     }
@@ -115,7 +112,7 @@ class MissionObserver
                 case 'Terminée':
                     if ($mission->responsable) {
                         // Notif OFF
-                        $mission->participations()->whereIn("state", ["En attente de validation", "En cours de traitement"])->update(['state' => 'Annulée']);
+                        $mission->participations()->whereIn('state', ['En attente de validation', 'En cours de traitement'])->update(['state' => 'Annulée']);
 
                         // Notifications temoignage.
                         $mission->sendNotificationsTemoignages();
@@ -128,7 +125,7 @@ class MissionObserver
                     break;
             }
 
-            if($mission->structure->shouldBeSearchable()){
+            if ($mission->structure->shouldBeSearchable()) {
                 $mission->structure->searchable();
             }
         }
@@ -165,11 +162,11 @@ class MissionObserver
         }
 
         if ($mission->type !== 'Mission en présentiel') {
-            $mission->is_autonomy = FALSE;
+            $mission->is_autonomy = false;
         }
-        if ($mission->type !== 'Mission en présentiel' || $mission->is_autonomy === FALSE) {
-            $mission->autonomy_zips = NULL;
-            $mission->autonomy_precisions = NULL;
+        if ($mission->type !== 'Mission en présentiel' || $mission->is_autonomy === false) {
+            $mission->autonomy_zips = null;
+            $mission->autonomy_precisions = null;
         }
 
         if ($mission->type === 'Mission à distance') {

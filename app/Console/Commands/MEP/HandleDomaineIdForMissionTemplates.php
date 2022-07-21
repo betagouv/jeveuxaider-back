@@ -20,7 +20,7 @@ class HandleDomaineIdForMissionTemplates extends Command
      *
      * @var string
      */
-    protected $description = "Handle Domaine Id For MissionTemplates";
+    protected $description = 'Handle Domaine Id For MissionTemplates';
 
     /**
      * Create a new command instance.

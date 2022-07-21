@@ -2,20 +2,20 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Models\Profile;
-use App\Http\Requests\Api\ProfileUpdateRequest;
-use Spatie\QueryBuilder\QueryBuilder;
-use App\Filters\FiltersProfileSearch;
-use App\Filters\FiltersProfileRole;
 use App\Filters\FiltersProfileMinParticipations;
+use App\Filters\FiltersProfileRole;
+use App\Filters\FiltersProfileSearch;
 use App\Filters\FiltersTags;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\ProfileUpdateRequest;
 use App\Http\Requests\ProfileRequest;
 use App\Jobs\SendinblueSyncUser;
+use App\Models\Profile;
 use App\Sorts\ProfileParticipationsValidatedCountSort;
+use Illuminate\Http\Request;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\AllowedSort;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class ProfileController extends Controller
 {
@@ -26,7 +26,7 @@ class ProfileController extends Controller
                 'user',
                 'participationsValidatedCount',
                 'avatar',
-                'tags'
+                'tags',
             ])
             ->allowedFilters(
                 AllowedFilter::custom('search', new FiltersProfileSearch),
@@ -65,7 +65,7 @@ class ProfileController extends Controller
         }
 
         if ($request->has('skills')) {
-            $skills =  collect($request->input('skills'));
+            $skills = collect($request->input('skills'));
             $values = $skills->pluck($skills, 'id')->map(function ($item) {
                 return ['field' => 'profile_skills'];
             });
@@ -73,7 +73,7 @@ class ProfileController extends Controller
         }
 
         if ($request->has('activities')) {
-            $activities =  collect($request->input('activities'));
+            $activities = collect($request->input('activities'));
             $values = $activities->pluck($activities, 'id')->toArray();
             $profile->activities()->sync(array_keys($values));
             if (config('services.sendinblue.sync')) {
@@ -82,9 +82,9 @@ class ProfileController extends Controller
                 }
             }
         }
-        
+
         if ($request->has('tags')) {
-            $tags =  collect($request->input('tags'));
+            $tags = collect($request->input('tags'));
             $values = $tags->pluck($tags, 'id')->map(function ($item) {
                 return ['field' => 'tags'];
             });
@@ -98,7 +98,7 @@ class ProfileController extends Controller
     {
         $profile = Profile::where('email', 'ILIKE', request('email'))->first();
 
-        if (!$profile) {
+        if (! $profile) {
             return null;
         }
 

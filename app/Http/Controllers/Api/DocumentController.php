@@ -2,17 +2,16 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Filters\FiltersTitleBodySearch;
 use App\Http\Controllers\Controller;
-use App\Models\Document;
 use App\Http\Requests\Api\DocumentCreateRequest;
 use App\Http\Requests\Api\DocumentUpdateRequest;
-use App\Http\Requests\Api\DocumentDeleteRequest;
-use Spatie\QueryBuilder\QueryBuilder;
-use Spatie\QueryBuilder\AllowedFilter;
-use App\Filters\FiltersTitleBodySearch;
+use App\Models\Document;
 use App\Models\Profile;
 use App\Notifications\DocumentSubmitted;
 use Illuminate\Http\Request;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class DocumentController extends Controller
 {
@@ -56,7 +55,7 @@ class DocumentController extends Controller
     {
         $referents = Profile::whereNotNull('referent_department')->get();
 
-        if (!empty($referents)) {
+        if (! empty($referents)) {
             foreach ($referents as $referent) {
                 $referent->notify(new DocumentSubmitted($document));
             }

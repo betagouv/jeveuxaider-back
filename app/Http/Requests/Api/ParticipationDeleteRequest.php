@@ -18,7 +18,6 @@ class ParticipationDeleteRequest extends ParticipationRequest
         return $this->user()->can('delete', $participation);
     }
 
-
     /**
      * Get the validation rules that apply to the request.
      *

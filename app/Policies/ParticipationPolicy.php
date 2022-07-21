@@ -2,9 +2,9 @@
 
 namespace App\Policies;
 
+use App\Models\Participation;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use App\Models\Participation;
 
 class ParticipationPolicy
 {
@@ -52,7 +52,7 @@ class ParticipationPolicy
             return true;
         }
 
-        if (in_array(request()->header('Context-Role'), ['referent','referent_regional'])) {
+        if (in_array(request()->header('Context-Role'), ['referent', 'referent_regional'])) {
             return false;
         }
 
