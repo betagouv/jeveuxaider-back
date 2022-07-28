@@ -261,6 +261,9 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     // RESEAUX
     Route::put('reseaux/{reseau}', 'Api\ReseauController@update');
     Route::delete('reseaux/{reseau}/responsables/{responsable}', 'Api\ReseauController@deleteResponsable');
+
+    // BULK OPERATIONS
+    Route::get('bulk-operation/participations/validate', 'Api\BulkOperationController@participationsValidate');
 });
 
 // ONLY ADMIN

@@ -106,11 +106,6 @@ class ParticipationController extends Controller
             $participation->mission->update();
         }
 
-        if ($participation->conversation) {
-            // Trigger updated_at refresh.
-            $participation->conversation->touch();
-        }
-
         return $participation->load(['conversation', 'conversation.latestMessage']);
     }
 

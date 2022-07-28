@@ -54,6 +54,9 @@ class Kernel extends ConsoleKernel
 
         // Purge revoked and expired tokens and auth codes
         $schedule->command('passport:purge')->hourly();
+
+        // Clear completed batches
+        $schedule->command('queue:prune-batches')->daily();
     }
 
     /**

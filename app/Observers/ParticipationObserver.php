@@ -96,6 +96,8 @@ class ParticipationObserver
                     ]);
                 }
                 $participation->conversation->setResponseTime()->save();
+                // Trigger updated_at refresh.
+                $participation->conversation->touch();
             }
         }
     }
