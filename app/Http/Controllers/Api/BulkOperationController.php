@@ -14,10 +14,12 @@ class BulkOperationController extends Controller
 {
     public function participationsValidate(Request $request)
     {
-        ray($request->all());
-        $batch = Bus::batch([
-            new ValidateParticipation(275173, Auth::guard('api')->user()->id),
-        ])->then(function (Batch $batch) {
+        $currentUserId = Auth::guard('api')->user()->id;
+
+        $batch = Bus::batch(array_map(function ($id) use ($currentUserId) {
+            return new ValidateParticipation($id, $currentUserId);
+        }, $request->input('ids'))
+        )->then(function (Batch $batch) {
             // All jobs completed successfully...
         })->catch(function (Batch $batch, Throwable $e) {
             // First batch job failure detected...
