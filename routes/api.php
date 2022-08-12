@@ -264,6 +264,7 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
 
     // BULK OPERATIONS
     Route::post('bulk-operation/participations/validate', 'Api\BulkOperationController@participationsValidate');
+    Route::post('bulk-operation/participations/decline', 'Api\BulkOperationController@participationsDecline');
 
     // BATCH
     Route::get('/batch/{batchId}', 'Api\BatchController@show');

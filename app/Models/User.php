@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
+use App\Notifications\ParticipationDeclined;
 
 class User extends Authenticatable
 {
@@ -182,7 +183,7 @@ class User extends Authenticatable
 
     public function anonymize()
     {
-        $email = $this->id.'@anonymized.fr';
+        $email = $this->id . '@anonymized.fr';
         $this->anonymous_at = Carbon::now();
         $this->name = $email;
         $this->email = $email;
@@ -200,7 +201,7 @@ class User extends Authenticatable
 
     public function resetContextRole()
     {
-        if (! empty($this->roles)) {
+        if (!empty($this->roles)) {
             $role = $this->roles[0];
             $this->context_role = $role['key'];
             $this->contextable_type = isset($role['contextable_type']) ? $role['contextable_type'] : null;
@@ -257,14 +258,52 @@ class User extends Authenticatable
     {
         return [
             'new_participations_today' => Participation::where('profile_id', $this->profile->id)
-                    ->whereIn('state', ['En attente de validation'])
-                    ->whereDate('created_at', '>=', (Carbon::createMidnightDate()))
-                    ->count(),
+                ->whereIn('state', ['En attente de validation'])
+                ->whereDate('created_at', '>=', (Carbon::createMidnightDate()))
+                ->count(),
         ];
     }
 
     public function activitiesLogs()
     {
         return $this->morphMany('App\Models\ActivityLog', 'causer');
+    }
+
+    public function declineParticipation(Participation $participation, $reason, $message = NULL)
+    {
+        if ($participation->conversation) {
+            $participation->conversation->messages()->create([
+                'from_id' => $this->id,
+                'type' => 'contextual',
+                'content' => 'La participation a été déclinée',
+                'contextual_state' => 'Refusée',
+                'contextual_reason' => $reason,
+            ]);
+
+            if ($message) {
+                $this->sendMessage($participation->conversation->id, $message);
+            }
+
+            $this->markConversationAsRead($participation->conversation);
+
+            // Trigger updated_at refresh.
+            $participation->conversation->touch();
+
+            if ($reason == 'mission_terminated') {
+                $participation->mission->state = 'Terminée';
+                $participation->mission->save();
+            }
+
+            $participation->profile->notify(new ParticipationDeclined($participation, $reason));
+        }
+
+        $participation->update(['state' => 'Refusée']);
+
+        // Places left & Algolia
+        if ($participation->mission) {
+            $participation->mission->update();
+        }
+
+        return $participation->load(['conversation', 'conversation.latestMessage']);
     }
 }
