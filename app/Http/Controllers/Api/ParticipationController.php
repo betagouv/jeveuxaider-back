@@ -27,6 +27,7 @@ class ParticipationController extends Controller
 {
     public function index(Request $request)
     {
+        // Synchroniser avec BulkOperationController@getIdsFromQuery
         return QueryBuilder::for(Participation::role($request->header('Context-Role'))->with('profile', 'mission'))
             ->allowedFilters(
                 AllowedFilter::custom('search', new FiltersParticipationSearch),
