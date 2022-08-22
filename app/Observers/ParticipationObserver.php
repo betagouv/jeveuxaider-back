@@ -12,6 +12,8 @@ use App\Notifications\ParticipationCanceled;
 use App\Notifications\ParticipationValidated;
 use App\Notifications\ParticipationWaitingValidation;
 use Illuminate\Support\Facades\Auth;
+use App\Notifications\ParticipationValidatedCejAdviser;
+use Illuminate\Support\Facades\Notification;
 
 class ParticipationObserver
 {
@@ -53,19 +55,24 @@ class ParticipationObserver
         if ($oldState != $newState) {
             switch ($newState) {
                 case 'En attente de validation':
-                    if ($participation->mission->responsable && ! $currentUser->isAdmin()) {
+                    if ($participation->mission->responsable && !$currentUser->isAdmin()) {
                         $participation->mission->responsable->notify(new ParticipationWaitingValidation($participation));
                     }
                     break;
                 case 'En cours de traitement':
-                    if ($participation->profile && ! $currentUser->isAdmin()) {
+                    if ($participation->profile && !$currentUser->isAdmin()) {
                         $participation->profile->notify(new ParticipationBeingProcessed($participation));
                     }
                     break;
                 case 'Validée':
                     if ($participation->profile) {
-                        if (! $currentUser->isAdmin()) {
+                        if (!$currentUser->isAdmin()) {
+                            ray($participation->profile);
+
                             $participation->profile->notify(new ParticipationValidated($participation));
+                            if (!empty($participation->profile->cej_email_adviser)) {
+                                Notification::route('mail', $participation->profile->cej_email_adviser)->notify(new ParticipationValidatedCejAdviser($participation));
+                            }
                         }
 
                         // MAJ SENDINBLUE
@@ -75,7 +82,7 @@ class ParticipationObserver
                     }
                     break;
                 case 'Annulée':
-                    if ($participation->profile && ! $currentUser->isAdmin()) {
+                    if ($participation->profile && !$currentUser->isAdmin()) {
                         $participation->profile->notify(new ParticipationCanceled($participation));
                     }
                     break;
@@ -90,7 +97,7 @@ class ParticipationObserver
             if ($participation->conversation) {
                 if ($newState != 'Refusée') {
                     $participation->conversation->messages()->create([
-                        'content' => 'La participation a été '.mb_strtolower($newState),
+                        'content' => 'La participation a été ' . mb_strtolower($newState),
                         'type' => 'contextual',
                         'contextual_state' => $newState,
                     ]);

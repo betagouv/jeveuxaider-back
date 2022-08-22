@@ -5,6 +5,8 @@ namespace App\Observers;
 use App\Helpers\Utils;
 use App\Jobs\SendinblueSyncUser;
 use App\Models\Profile;
+use App\Notifications\RegisterUserVolontaireCejAdviser;
+use Illuminate\Support\Facades\Notification;
 
 class ProfileObserver
 {
@@ -46,6 +48,10 @@ class ProfileObserver
             if ($profile->user) {
                 SendinblueSyncUser::dispatch($profile->user);
             }
+        }
+
+        if (!empty($profile->cej_email_adviser) && $profile->getOriginal('cej_email_adviser') != $profile->cej_email_adviser) {
+            Notification::route('mail', $profile->cej_email_adviser)->notify(new RegisterUserVolontaireCejAdviser($profile));
         }
     }
 

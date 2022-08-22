@@ -51,6 +51,9 @@ class ProfileUpdateRequest extends ProfileRequest
             'type' => '',
             'commitment__duration' => '',
             'commitment__time_period' => '',
+            'service_civique_completion_date' => '',
+            'cej' => '',
+            'cej_email_adviser' => '',
         ];
 
         if (request()->user()->isAdmin()) {
