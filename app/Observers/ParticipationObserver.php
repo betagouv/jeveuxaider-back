@@ -23,6 +23,9 @@ class ParticipationObserver
             if ($participation->mission->responsable) {
                 $participation->mission->responsable->notify(new ParticipationWaitingValidation($participation));
             }
+            if (!empty($participation->profile->cej_email_adviser)) {
+                Notification::route('mail', $participation->profile->cej_email_adviser)->notify(new ParticipationValidatedCejAdviser($participation));
+            }
         }
 
         // RESPONSE RATIO
@@ -67,12 +70,7 @@ class ParticipationObserver
                 case 'Validée':
                     if ($participation->profile) {
                         if (!$currentUser->isAdmin()) {
-                            ray($participation->profile);
-
                             $participation->profile->notify(new ParticipationValidated($participation));
-                            if (!empty($participation->profile->cej_email_adviser)) {
-                                Notification::route('mail', $participation->profile->cej_email_adviser)->notify(new ParticipationValidatedCejAdviser($participation));
-                            }
                         }
 
                         // MAJ SENDINBLUE
