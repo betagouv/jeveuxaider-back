@@ -292,6 +292,11 @@ class Profile extends Model implements HasMedia
         return $this->morphToMany(Term::class, 'termable')->wherePivot('field', 'tags');
     }
 
+    public function notificationsBenevoles()
+    {
+        return $this->hasMany('App\Models\NotificationBenevole');
+    }
+
     public function setCommitmentTotal()
     {
         $this->commitment__total = Utils::calculateCommitmentTotal(
