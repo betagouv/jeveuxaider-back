@@ -13,6 +13,7 @@ use App\Models\NotificationTemoignage;
 use App\Models\Participation;
 use App\Models\Structure;
 use App\Models\User;
+use App\Notifications\BenevoleCejNoParticipation;
 use App\Notifications\DocumentSubmitted;
 use App\Notifications\ExportReady;
 use App\Notifications\InvitationSent;
@@ -35,10 +36,13 @@ use App\Notifications\ParticipationBenevoleCanceled;
 use App\Notifications\ParticipationCanceled;
 use App\Notifications\ParticipationDeclined;
 use App\Notifications\ParticipationValidated;
+use App\Notifications\ParticipationValidatedCejAdviser;
 use App\Notifications\ParticipationWaitingValidation;
 use App\Notifications\ReferentDailyTodo;
 use App\Notifications\RegisterUserResponsable;
 use App\Notifications\RegisterUserVolontaire;
+use App\Notifications\RegisterUserVolontaireCej;
+use App\Notifications\RegisterUserVolontaireCejAdviser;
 use App\Notifications\ReseauNewLead;
 use App\Notifications\ResetPassword;
 use App\Notifications\ResponsableDailyTodo;
@@ -69,7 +73,7 @@ class NotificationController extends Controller
                 $notification = new RegisterUserResponsable($structure);
                 break;
             case 'responsable_still_in_draft':
-                    $notification = new StructureInDraft($structure, 'j+1');
+                $notification = new StructureInDraft($structure, 'j+1');
                 break;
             case 'responsable_participation_created':
                 $notification = new ParticipationWaitingValidation($participation);
@@ -168,20 +172,20 @@ class NotificationController extends Controller
                 $missionTemplate = MissionTemplate::whereHas('reseau')->latest()->first();
                 $notification = new MissionTemplateWaiting($missionTemplate);
                 break;
-            // case 'moderateur_daily_todo':
-            //     $byDepartment[75] = [
-            //         'department_name' => 'Paris',
-            //         'missions' => ['test'],
-            //         'structures' => ['test'],
-            //         'referents' => [[
-            //             'first_name' => 'Prénom',
-            //             'last_name' => 'Nom',
-            //             'email' => 'test@test.fr',
-            //             'mobile' => '06 12 34 56 78',
-            //         ]],
-            //     ];
-            //     $notification = new ModerateurDailyTodo($byDepartment);
-            //     break;
+                // case 'moderateur_daily_todo':
+                //     $byDepartment[75] = [
+                //         'department_name' => 'Paris',
+                //         'missions' => ['test'],
+                //         'structures' => ['test'],
+                //         'referents' => [[
+                //             'first_name' => 'Prénom',
+                //             'last_name' => 'Nom',
+                //             'email' => 'test@test.fr',
+                //             'mobile' => '06 12 34 56 78',
+                //         ]],
+                //     ];
+                //     $notification = new ModerateurDailyTodo($byDepartment);
+                //     break;
             case 'responsable_no_new_mission':
                 $notification = new NoNewMission($structure);
                 break;
@@ -200,6 +204,18 @@ class NotificationController extends Controller
                 break;
             case 'user_anonymize':
                 $notification = new UserAnonymize();
+                break;
+            case 'benevole_cej_no_participation':
+                $notification = new BenevoleCejNoParticipation($user->profile);
+                break;
+            case 'participation_validated_cej_adviser':
+                $notification = new ParticipationValidatedCejAdviser($participation);
+                break;
+            case 'register_user_volontaire_cej':
+                $notification = new RegisterUserVolontaireCej($user);
+                break;
+            case 'register_user_volontaire_cej_adviser':
+                $notification = new RegisterUserVolontaireCejAdviser($user->profile);
                 break;
         }
 
