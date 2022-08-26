@@ -11,15 +11,16 @@ use App\Models\SocialAccount;
 use App\Models\Structure;
 use App\Models\User;
 use App\Notifications\RegisterUserVolontaire;
+use App\Notifications\RegisterUserVolontaireCej;
+use App\Notifications\RegisterUserVolontaireCejAdviser;
 use App\Services\ApiEngagement;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Validator;
-use App\Notifications\RegisterUserVolontaireCejAdviser;
-use Illuminate\Support\Facades\Notification;
 
 class PassportController extends Controller
 {
@@ -51,7 +52,10 @@ class PassportController extends Controller
         $user->notify($notification);
 
         // Can be set from soft gate register
-        if (!empty($user->profile->cej_email_adviser)) {
+        if ($user->profile->cej) {
+            $user->notify(new RegisterUserVolontaireCej($user));
+        }
+        if (! empty($user->profile->cej_email_adviser)) {
             Notification::route('mail', $user->profile->cej_email_adviser)
                 ->notify(new RegisterUserVolontaireCejAdviser($user->profile));
         }
@@ -132,8 +136,8 @@ class PassportController extends Controller
         $user = Auth::guard('api')->user();
         $socialAccount = SocialAccount::where(['user_id' => $user->id, 'provider' => 'franceconnect'])->first();
         if ($socialAccount) {
-            $franceConnectLogoutUrl = config('services.franceconnect.url') . '/api/v1/logout?'
-                . http_build_query(
+            $franceConnectLogoutUrl = config('services.franceconnect.url').'/api/v1/logout?'
+                .http_build_query(
                     [
                         'id_token_hint' => $socialAccount->data['id_token'],
                         'state' => 'franceconnect',
