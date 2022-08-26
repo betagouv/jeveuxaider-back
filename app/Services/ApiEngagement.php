@@ -225,7 +225,7 @@ class ApiEngagement
             'objectID' => 'ApiEngagement/'.$mission['_id'],
             'publisher_name' => $mission['publisherName'],
             'publisher_logo' => $mission['publisherLogo'],
-            'publisher_url' => $mission['publisherUrl'],
+            'publisher_url' => $mission['publisherUrl'] ?? null,
             'application_url' => $mission['applicationUrl'],
             'id' => $mission['_id'],
             'name' => $mission['title'],
