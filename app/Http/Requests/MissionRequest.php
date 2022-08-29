@@ -148,7 +148,7 @@ class MissionRequest extends FormRequest
             'autonomy_precisions' => '',
             'dates' => '',
             'date_type' => '',
-            'commitment__parameters' => '',
+            'recurrent_description' => '',
         ];
     }
 
