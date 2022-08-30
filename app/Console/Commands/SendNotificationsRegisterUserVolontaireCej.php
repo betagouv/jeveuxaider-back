@@ -33,8 +33,8 @@ class SendNotificationsRegisterUserVolontaireCej extends Command
     {
         $query = Profile::where('cej', true)
             ->whereBetween('cej_updated_at', [
-                Carbon::now()->startOfDay(),
-                Carbon::now()->endOfDay(),
+                Carbon::now()->subDays(3)->startOfDay(),
+                Carbon::now()->subDays(3)->endOfDay(),
             ]);
 
         foreach ($query->get() as $profile) {
