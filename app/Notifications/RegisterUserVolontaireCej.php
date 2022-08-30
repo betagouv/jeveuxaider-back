@@ -49,15 +49,15 @@ class RegisterUserVolontaireCej extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject($notifiable->profile->first_name.', avec le Contrat d’Engagement Jeune, réalisez des missions de bénévolat !')
-            ->greeting('Bonjour '.$notifiable->profile->first_name.',')
+            ->subject($notifiable->first_name.', avec le Contrat d’Engagement Jeune, réalisez des missions de bénévolat !')
+            ->greeting('Bonjour '.$notifiable->first_name.',')
             ->line('Savez-vous que les missions de bénévolat peuvent être effectuées dans le cadre du Contrat d’Engagement Jeune ?')
             ->line('Pour vous accompagner dans vos premiers pas en tant que bénévole, nous avons sélectionné des missions qui pourront vous plaire :')
-            ->line(new HtmlString('<ul><li><a href="'.config('app.front_url').'/activites/accompagnement-aux-activites-sportives">🏀 Accompagnement aux activités sportives</a></li>'))
-            ->line(new HtmlString('<li><a href="'.config('app.front_url').'/activites/collecte-de-produits">🥫 Collecte de produits</a></li>'))
-            ->line(new HtmlString('<li><a href="'.config('app.front_url').'/activites/evenementiel">📆 Evénementiel</a></li>'))
-            ->line(new HtmlString('<li><a href="'.config('app.front_url').'/activites/ramassage-de-dechets">♻️ Ramassage de déchets</a></li>'))
-            ->line(new HtmlString('<li><a href="'.config('app.front_url').'/activites/secourisme-et-securite-civile">👨‍🚒 Secourisme</a></li></ul>'))
+            ->line(new HtmlString('<ul class="list-none"><li>🏀 <a href="'.config('app.front_url').'/activites/accompagnement-aux-activites-sportives">Accompagnement aux activités sportives</a></li>'))
+            ->line(new HtmlString('<li>🥫 <a href="'.config('app.front_url').'/activites/collecte-de-produits">Collecte de produits</a></li>'))
+            ->line(new HtmlString('<li>📆 <a href="'.config('app.front_url').'/activites/evenementiel">Evénementiel</a></li>'))
+            ->line(new HtmlString('<li>♻️ <a href="'.config('app.front_url').'/activites/ramassage-de-dechets">Ramassage de déchets</a></li>'))
+            ->line(new HtmlString('<li>👨‍🚒 <a href="'.config('app.front_url').'/activites/secourisme-et-securite-civile">Secourisme</a></li></ul>'))
             ->line('Intéressé par d’autres types de missions ? Retrouvez des milliers de missions près de chez vous ou bien à distance 👇')
             ->action('Je trouve une mission', url(config('app.front_url').'/missions-benevolat'));
     }

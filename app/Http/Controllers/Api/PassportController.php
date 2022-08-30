@@ -11,7 +11,6 @@ use App\Models\SocialAccount;
 use App\Models\Structure;
 use App\Models\User;
 use App\Notifications\RegisterUserVolontaire;
-use App\Notifications\RegisterUserVolontaireCej;
 use App\Notifications\RegisterUserVolontaireCejAdviser;
 use App\Services\ApiEngagement;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
@@ -52,10 +51,7 @@ class PassportController extends Controller
         $user->notify($notification);
 
         // Can be set from soft gate register
-        if ($user->profile->cej) {
-            $user->notify(new RegisterUserVolontaireCej($user));
-        }
-        if (! empty($user->profile->cej_email_adviser)) {
+        if ($user->profile->cej && ! empty($user->profile->cej_email_adviser)) {
             Notification::route('mail', $user->profile->cej_email_adviser)
                 ->notify(new RegisterUserVolontaireCejAdviser($user->profile));
         }

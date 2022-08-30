@@ -58,7 +58,11 @@ class RegisterUserVolontaireCejAdviser extends Notification implements ShouldQue
             ->line(new HtmlString('<a href="'.url(config('app.front_url')).'">JeVeuxAider.gouv.fr</a> est la <a href="'.url(config('app.front_url')).'">plateforme publique du bénévolat</a>, proposée par la Réserve civique. Elle met en relation celles et ceux qui veulent agir pour l’intérêt général avec les associations, établissements publics et communes qui ont besoin de bénévoles.'))
             ->line('Afin que vous puissiez l’accompagner dans son parcours en tant que bénévole, vous serez notifié par mail à son inscription sur une mission de bénévolat.')
             // @todo: livret conseiller & vidéo présentation JVA
-            ->line('Pour toute question, vous pouvez contacter notre équipe par retour de mail.');
+            // ->line('En cas de besoin, vous pouvez consulter les ressources mises à votre disposition :')
+            // ->line(new HtmlString('<ul><li><a href="">👉 Le Guide</a></li>'))
+            // ->line(new HtmlString('<ul><li><a href="">👉 La Fiche A4</a></li>'))
+            // ->line(new HtmlString('<ul><li><a href="">👉 La vidéo de présentation de JeVeuxAider.gouv.fr</a></li></ul>'))
+            ->line('Pour toute question, vous pouvez également contacter notre équipe par retour de mail.');
     }
 
     /**
