@@ -14,6 +14,8 @@ use App\Models\Participation;
 use App\Models\Structure;
 use App\Models\User;
 use App\Notifications\BenevoleCejNoParticipation;
+use App\Notifications\BenevoleCejOneYearAfter;
+use App\Notifications\BenevoleCejSixMonthsAfter;
 use App\Notifications\DocumentSubmitted;
 use App\Notifications\ExportReady;
 use App\Notifications\InvitationSent;
@@ -216,6 +218,12 @@ class NotificationController extends Controller
                 break;
             case 'register_user_volontaire_cej_adviser':
                 $notification = new RegisterUserVolontaireCejAdviser($user->profile);
+                break;
+            case 'benevole_cej_one_year_after':
+                $notification = new BenevoleCejOneYearAfter($user->profile);
+                break;
+            case 'benevole_cej_six_months_after':
+                $notification = new BenevoleCejSixMonthsAfter($user->profile);
                 break;
         }
 
