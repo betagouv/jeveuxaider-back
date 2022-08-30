@@ -40,7 +40,7 @@ class Profile extends Model implements HasMedia
 
     protected $appends = ['short_name', 'full_name'];
 
-    protected $checkFields = ['mobile', 'zip', 'type', 'disponibilities', 'commitment__time_period', 'commitment__duration', 'description', 'birthday', 'skills', 'domaines'];
+    protected $checkFields = ['mobile', 'zip', 'type', 'disponibilities', 'commitment__time_period', 'commitment__duration', 'description', 'birthday', 'skills'];
 
     public function getActivitylogOptions(): LogOptions
     {
