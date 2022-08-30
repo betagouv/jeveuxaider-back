@@ -52,9 +52,10 @@ class RegisterUserVolontaireCejAdviser extends Notification implements ShouldQue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject($this->profile->full_name . ' s’est inscrit sur JeVeuxAider.gouv.fr')
+            ->subject($this->profile->full_name.' s’est inscrit sur JeVeuxAider.gouv.fr')
             ->greeting('Bonjour,')
-            ->line(new HtmlString($this->profile->full_name . ', que vous accompagnez dans le cadre du Contrat d’Engagement Jeune, a rejoint la plateforme <a href="https://www.jeveuxaider.gouv.fr/">JeVeuxAider.gouv.fr</a> en vue de réaliser une mission de bénévolat.'))
+            ->line(new HtmlString($this->profile->full_name.', que vous accompagnez dans le cadre du Contrat d’Engagement Jeune, a rejoint la plateforme <a href="'.url(config('app.front_url')).'">JeVeuxAider.gouv.fr</a>.'))
+            ->line(new HtmlString('<a href="'.url(config('app.front_url')).'">JeVeuxAider.gouv.fr</a> est la <a href="'.url(config('app.front_url')).'">plateforme publique du bénévolat</a>, proposée par la Réserve civique. Elle met en relation celles et ceux qui veulent agir pour l’intérêt général avec les associations, établissements publics et communes qui ont besoin de bénévoles.'))
             ->line('Afin que vous puissiez l’accompagner dans son parcours en tant que bénévole, vous serez notifié par mail à son inscription sur une mission de bénévolat.')
             // @todo: livret conseiller & vidéo présentation JVA
             ->line('Pour toute question, vous pouvez contacter notre équipe par retour de mail.');

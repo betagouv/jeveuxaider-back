@@ -57,9 +57,9 @@ class ParticipationValidatedCejAdviser extends Notification implements ShouldQue
     public function toMail($notifiable)
     {
         $message = (new MailMessage)
-            ->subject($this->participation->profile->full_name . ' s’est inscrit sur une mission de bénévolat')
+            ->subject($this->participation->profile->full_name.' s’est inscrit sur une mission de bénévolat')
             ->greeting('Bonjour,')
-            ->line(new HtmlString($this->participation->profile->full_name . ', qque vous accompagnez dans le cadre du Contrat d’Engagement Jeune, s’est inscrit sur la mission <a href="' . url(config('app.front_url') . $this->participation->mission->full_url) . '">' . $this->participation->mission->name . '</a>.'))
+            ->line(new HtmlString($this->participation->profile->full_name.', que vous accompagnez dans le cadre du Contrat d’Engagement Jeune, s’est inscrit sur la mission <a href="'.url(config('app.front_url').$this->participation->mission->full_url).'">'.$this->participation->mission->name.'</a>.'))
             ->line('Pour toute question, vous pouvez contacter notre équipe par retour de mail.');
 
         return $message;

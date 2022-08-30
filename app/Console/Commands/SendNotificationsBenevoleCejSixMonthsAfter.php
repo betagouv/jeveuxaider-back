@@ -32,11 +32,10 @@ class SendNotificationsBenevoleCejSixMonthsAfter extends Command
     public function handle()
     {
         $query = Profile::where('cej', true)
-            ->whereBetween('created_at', [
+            ->whereBetween('cej_updated_at', [
                 Carbon::now()->subMonths(6)->startOfDay(),
                 Carbon::now()->subMonths(6)->endOfDay(),
-            ])
-            ->whereDoesntHave('participations');
+            ]);
 
         foreach ($query->get() as $profile) {
             Notification::send($profile, new BenevoleCejSixMonthsAfter($profile));

@@ -7,6 +7,7 @@ use App\Jobs\SendinblueSyncUser;
 use App\Models\Profile;
 use App\Notifications\RegisterUserVolontaireCej;
 use App\Notifications\RegisterUserVolontaireCejAdviser;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Notification;
 
 class ProfileObserver
@@ -74,6 +75,10 @@ class ProfileObserver
 
         if ($profile->commitment__duration) {
             $profile->setCommitmentTotal();
+        }
+
+        if ($profile->cej !== $profile->getOriginal('cej')) {
+            $profile->cej_updated_at = Carbon::now();
         }
     }
 

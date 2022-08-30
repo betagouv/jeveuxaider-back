@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::table('profiles', function (Blueprint $table) {
             $table->boolean('cej')->default(false);
+            $table->timestamp('cej_updated_at')->nullable();
             $table->string('cej_email_adviser')->nullable();
             $table->date('service_civique_completion_date')->nullable();
         });
@@ -29,6 +30,7 @@ return new class extends Migration
     {
         Schema::table('profiles', function (Blueprint $table) {
             $table->dropColumn('cej');
+            $table->dropColumn('cej_updated_at');
             $table->dropColumn('cej_email_adviser');
             $table->dropColumn('service_civique_completion_date');
         });
