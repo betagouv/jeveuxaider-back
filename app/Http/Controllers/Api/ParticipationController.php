@@ -27,7 +27,6 @@ class ParticipationController extends Controller
 {
     public function index(Request $request)
     {
-        // Synchroniser avec BulkOperationController@getIdsFromQuery
         return QueryBuilder::for(Participation::role($request->header('Context-Role'))->with('profile', 'mission'))
             ->allowedFilters(
                 AllowedFilter::custom('search', new FiltersParticipationSearch),
@@ -112,6 +111,7 @@ class ParticipationController extends Controller
     public function decline(ParticipationDeclineRequest $request, Participation $participation)
     {
         $currentUser = User::find(Auth::guard('api')->user()->id);
+
         return $currentUser->declineParticipation($participation, $request->input('reason'), $request->input('content'));
     }
 
@@ -125,7 +125,7 @@ class ParticipationController extends Controller
             $participation->conversation->messages()->create([
                 'from_id' => $currentUser->id,
                 'type' => 'contextual',
-                'content' => 'La participation a été annulée par ' . $currentUser->profile->full_name,
+                'content' => 'La participation a été annulée par '.$currentUser->profile->full_name,
                 'contextual_state' => 'Annulée par bénévole',
                 'contextual_reason' => $request->input('reason'),
             ]);
