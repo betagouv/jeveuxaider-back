@@ -45,6 +45,7 @@ class ParticipationController extends Controller
                 'state',
                 'mission.zip',
                 'mission.type',
+                AllowedFilter::exact('id'),
             )
             ->allowedIncludes([
                 'conversation.latestMessage',
