@@ -37,6 +37,7 @@ class Mission extends Model
         'longitude' => 'float',
         'is_autonomy' => 'boolean',
         'autonomy_zips' => 'json',
+        'dates' => 'json',
     ];
 
     protected $attributes = [
