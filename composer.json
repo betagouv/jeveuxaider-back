@@ -26,6 +26,7 @@
     "lcobucci/jwt": "^4.1",
     "league/flysystem-aws-s3-v3": "^3.0",
     "maatwebsite/excel": "^3.1",
+    "mockery/mockery": "^1.5",
     "predis/predis": "^1.1",
     "propaganistas/laravel-phone": "^4.2",
     "s-ichikawa/laravel-sendgrid-driver": "^2.0",
@@ -40,8 +41,7 @@
     "spatie/laravel-sitemap": "^6.1",
     "spatie/laravel-sluggable": "^3.3",
     "spatie/laravel-tags": "^4.3",
-    "staudenmeir/eloquent-has-many-deep": "1.15",
-    "mockery/mockery": "^1.0"
+    "staudenmeir/eloquent-has-many-deep": "1.15"
   },
   "require-dev": {
     "barryvdh/laravel-debugbar": "^3.2",
