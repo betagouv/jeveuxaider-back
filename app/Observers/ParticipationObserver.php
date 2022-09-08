@@ -53,18 +53,18 @@ class ParticipationObserver
         if ($oldState != $newState) {
             switch ($newState) {
                 case 'En attente de validation':
-                    if ($participation->mission->responsable && ! $currentUser->isAdmin()) {
+                    if ($participation->mission->responsable && !$currentUser->isAdmin()) {
                         $participation->mission->responsable->notify(new ParticipationWaitingValidation($participation));
                     }
                     break;
                 case 'En cours de traitement':
-                    if ($participation->profile && ! $currentUser->isAdmin()) {
+                    if ($participation->profile && !$currentUser->isAdmin()) {
                         $participation->profile->notify(new ParticipationBeingProcessed($participation));
                     }
                     break;
                 case 'Validée':
                     if ($participation->profile) {
-                        if (! $currentUser->isAdmin()) {
+                        if (!$currentUser->isAdmin()) {
                             $participation->profile->notify(new ParticipationValidated($participation));
                         }
 
@@ -75,7 +75,7 @@ class ParticipationObserver
                     }
                     break;
                 case 'Annulée':
-                    if ($participation->profile && ! $currentUser->isAdmin()) {
+                    if ($participation->profile && !$currentUser->isAdmin()) {
                         $participation->profile->notify(new ParticipationCanceled($participation));
                     }
                     break;
@@ -90,12 +90,14 @@ class ParticipationObserver
             if ($participation->conversation) {
                 if ($newState != 'Refusée') {
                     $participation->conversation->messages()->create([
-                        'content' => 'La participation a été '.mb_strtolower($newState),
+                        'content' => 'La participation a été ' . mb_strtolower($newState),
                         'type' => 'contextual',
                         'contextual_state' => $newState,
                     ]);
                 }
                 $participation->conversation->setResponseTime()->save();
+                // Trigger updated_at refresh.
+                $participation->conversation->touch();
             }
         }
     }

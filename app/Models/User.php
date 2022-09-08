@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Notifications\ParticipationDeclined;
 use App\Notifications\ResetPassword;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -257,14 +258,47 @@ class User extends Authenticatable
     {
         return [
             'new_participations_today' => Participation::where('profile_id', $this->profile->id)
-                    ->whereIn('state', ['En attente de validation'])
-                    ->whereDate('created_at', '>=', (Carbon::createMidnightDate()))
-                    ->count(),
+                ->whereIn('state', ['En attente de validation'])
+                ->whereDate('created_at', '>=', (Carbon::createMidnightDate()))
+                ->count(),
         ];
     }
 
     public function activitiesLogs()
     {
         return $this->morphMany('App\Models\ActivityLog', 'causer');
+    }
+
+    public function declineParticipation(Participation $participation, $reason, $message = null)
+    {
+        if ($participation->conversation) {
+            $participation->conversation->messages()->create([
+                'from_id' => $this->id,
+                'type' => 'contextual',
+                'content' => 'La participation a été déclinée',
+                'contextual_state' => 'Refusée',
+                'contextual_reason' => $reason,
+            ]);
+
+            if ($message) {
+                $this->sendMessage($participation->conversation->id, $message);
+            }
+
+            $this->markConversationAsRead($participation->conversation);
+
+            // Trigger updated_at refresh.
+            $participation->conversation->touch();
+
+            $participation->profile->notify(new ParticipationDeclined($participation, $reason));
+        }
+
+        $participation->update(['state' => 'Refusée']);
+
+        // Places left & Algolia
+        if ($participation->mission) {
+            $participation->mission->update();
+        }
+
+        return $participation->load(['conversation', 'conversation.latestMessage']);
     }
 }
