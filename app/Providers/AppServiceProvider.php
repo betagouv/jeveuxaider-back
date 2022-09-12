@@ -37,6 +37,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
+use Symfony\Component\Mailer\Bridge\Sendinblue\Transport\SendinblueTransportFactory;
+use Symfony\Component\Mailer\Transport\Dsn;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -88,6 +90,16 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Model::preventLazyLoading(true);
+
+        Mail::extend('sendinblue', function () {
+            return (new SendinblueTransportFactory)->create(
+                new Dsn(
+                    'sendinblue+api',
+                    'default',
+                    config('services.sendinblue.key')
+                )
+            );
+        });
 
         if (config('mail.reroute')) {
             if (Auth::guard('api')->user()) {
