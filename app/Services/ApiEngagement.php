@@ -427,8 +427,8 @@ class ApiEngagement
             throw $th;
         }
 
-        // ray("https://api.api-engagement.beta.gouv.fr/v0/view/stats?" . http_build_query($params));
-        // ray($response);
+        ray("https://api.api-engagement.beta.gouv.fr/v0/view/stats?" . http_build_query($params));
+        ray($response);
 
         return isset($response['data']) ? $response['data'] : null;
     }

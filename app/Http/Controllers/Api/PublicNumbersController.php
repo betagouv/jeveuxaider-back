@@ -23,10 +23,12 @@ use Illuminate\Support\Facades\DB;
 class PublicNumbersController extends Controller
 {
     public $year;
+    public $department;
 
     public function __construct(Request $request)
     {
         $this->year = $request->input('year');
+        $this->department = $request->input('department');
     }
 
     public function overview(Request $request)
@@ -118,6 +120,108 @@ class PublicNumbersController extends Controller
             "year" => $this->year,
         ]);
 
+
         return collect($results)->pluck('count', 'age_range');
+    }
+
+    public function structuresByMonth(Request $request)
+    {
+        $results = DB::select("
+            SELECT date_trunc('month', structures.created_at) AS created_at,
+                date_part('year', structures.created_at) as year,
+                date_part('month', structures.created_at) as month,
+                count(*) AS structures_total,
+                sum(case when structures.state  = 'Brouillon' then 1 else 0 end) as structures_draft,
+                sum(case when structures.state  = 'En attente de validation' then 1 else 0 end) as structures_waiting_validation,
+                sum(case when structures.state  = 'En cours de traitement' then 1 else 0 end) as structures_being_processed,
+                sum(case when structures.state  = 'Validée' then 1 else 0 end) as structures_validated,
+                sum(case when structures.state  = 'Signalée' then 1 else 0 end) as structures_signaled,
+                sum(case when structures.state  = 'Désinscrite' then 1 else 0 end) as structures_unsubscribed
+            FROM structures
+            WHERE structures.deleted_at IS NULL
+            AND structures.department ILIKE :department
+            GROUP BY date_trunc('month', structures.created_at), year, month
+            ORDER BY date_trunc('month', structures.created_at) DESC
+            ", [
+            "department" => $this->department ? '%' . $this->department . '%' : '%%',
+        ]);
+
+        foreach ($results as $index => $item){
+           if(isset($results[$index+1])){
+            $results[$index]->structures_validated_variation = (($item->structures_validated - $results[$index+1]->structures_validated) / $results[$index+1]->structures_validated) * 100;
+           }
+       }
+
+        return $results;
+    }
+
+    public function missionsByMonth(Request $request)
+    {
+        $results = DB::select("
+            SELECT date_trunc('month', missions.created_at) AS created_at,
+                date_part('year', missions.created_at) as year,
+                date_part('month', missions.created_at) as month,
+                count(*) AS missions_total,
+                sum(case when missions.state  = 'Brouillon' then 1 else 0 end) as missions_draft,
+                sum(case when missions.state  = 'En attente de validation' then 1 else 0 end) as missions_waiting_validation,
+                sum(case when missions.state  = 'En cours de traitement' then 1 else 0 end) as missions_being_processed,
+                sum(case when missions.state  = 'Validée' then 1 else 0 end) as missions_validated,
+                sum(case when missions.state  = 'Signalée' then 1 else 0 end) as missions_signaled,
+                sum(case when missions.state  = 'Terminée' then 1 else 0 end) as missions_finished,
+                sum(case when missions.state  = 'Annulée' then 1 else 0 end) as missions_canceled,
+                sum(case when missions.state IN ('Validée','Terminée') then 1 else 0 end) as missions_posted
+            FROM missions
+            WHERE missions.deleted_at IS NULL
+            AND missions.department ILIKE :department
+            GROUP BY date_trunc('month', missions.created_at), year, month
+            ORDER BY date_trunc('month', missions.created_at) DESC
+            ", [
+            "department" => $this->department ? '%' . $this->department . '%' : '%%',
+        ]);
+
+        foreach ($results as $index => $item){
+            if(isset($results[$index+1])){
+             $results[$index]->missions_posted_variation = (($item->missions_posted - $results[$index+1]->missions_posted) / $results[$index+1]->missions_validated) * 100;
+            }
+        }
+
+         return $results;
+    }
+
+    public function participationsByMonth(Request $request)
+    {
+        $results = DB::select("
+            SELECT date_trunc('month', participations.created_at) AS created_at,
+                date_part('year', participations.created_at) as year,
+                date_part('month', participations.created_at) as month,
+                count(*) AS participations_total,
+                sum(case when participations.state  = 'En attente de validation' then 1 else 0 end) as participations_waiting_validation,
+                sum(case when participations.state  = 'En cours de traitement' then 1 else 0 end) as participations_being_processed,
+                sum(case when participations.state  = 'Validée' then 1 else 0 end) as participations_validated,
+                sum(case when participations.state  = 'Refusée' then 1 else 0 end) as participations_refused,
+                sum(case when participations.state  = 'Annulée' then 1 else 0 end) as participations_canceled
+            FROM participations
+            LEFT JOIN missions ON participations.mission_id = missions.id
+            WHERE participations.deleted_at IS NULL
+            AND missions.department ILIKE :department
+            GROUP BY date_trunc('month', participations.created_at), year, month
+            ORDER BY date_trunc('month', participations.created_at) DESC
+            ", [
+            "department" => $this->department ? '%' . $this->department . '%' : '%%',
+        ]);
+
+        foreach ($results as $index => $item){
+            if(isset($results[$index+1])){
+                if($results[$index+1]->participations_total){
+                    $results[$index]->participations_total_variation = (($item->participations_total - $results[$index+1]->participations_total) / $results[$index+1]->participations_total) * 100;
+                }
+                if($results[$index+1]->participations_validated){
+                    $results[$index]->participations_validated_variation = (($item->participations_validated - $results[$index+1]->participations_validated) / $results[$index+1]->participations_validated) * 100;
+                }
+                $results[$index]->participations_conversion = ($item->participations_validated / $item->participations_total) *100;
+            }
+        }
+
+         return $results;
     }
 }

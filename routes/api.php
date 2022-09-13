@@ -71,6 +71,11 @@ Route::get('statistics/public/participations-by-activities', 'Api\PublicNumbersC
 Route::get('statistics/public/overview-utilisateurs', 'Api\PublicNumbersController@overviewUtilisateurs');
 Route::get('statistics/public/utilisateurs-by-age', 'Api\PublicNumbersController@utilisateursByAge');
 
+Route::get('statistics/public/structures-by-month', 'Api\PublicNumbersController@structuresByMonth');
+Route::get('statistics/public/missions-by-month', 'Api\PublicNumbersController@missionsByMonth');
+Route::get('statistics/public/participations-by-month', 'Api\PublicNumbersController@participationsByMonth');
+
+
 Route::group(['middleware' => ['auth:api']], function () {
 
     Route::get('user', 'Api\UserController@me');
