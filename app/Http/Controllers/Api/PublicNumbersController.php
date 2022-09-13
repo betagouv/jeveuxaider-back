@@ -146,11 +146,11 @@ class PublicNumbersController extends Controller
             "department" => $this->department ? '%' . $this->department . '%' : '%%',
         ]);
 
-        foreach ($results as $index => $item){
-           if(isset($results[$index+1])){
-            $results[$index]->structures_validated_variation = (($item->structures_validated - $results[$index+1]->structures_validated) / $results[$index+1]->structures_validated) * 100;
-           }
-       }
+        foreach ($results as $index => $item) {
+            if (isset($results[$index + 1])) {
+                $results[$index]->structures_validated_variation = (($item->structures_validated - $results[$index + 1]->structures_validated) / $results[$index + 1]->structures_validated) * 100;
+            }
+        }
 
         return $results;
     }
@@ -179,13 +179,13 @@ class PublicNumbersController extends Controller
             "department" => $this->department ? '%' . $this->department . '%' : '%%',
         ]);
 
-        foreach ($results as $index => $item){
-            if(isset($results[$index+1])){
-             $results[$index]->missions_posted_variation = (($item->missions_posted - $results[$index+1]->missions_posted) / $results[$index+1]->missions_validated) * 100;
+        foreach ($results as $index => $item) {
+            if (isset($results[$index + 1])) {
+                $results[$index]->missions_posted_variation = (($item->missions_posted - $results[$index + 1]->missions_posted) / $results[$index + 1]->missions_validated) * 100;
             }
         }
 
-         return $results;
+        return $results;
     }
 
     public function participationsByMonth(Request $request)
@@ -210,18 +210,44 @@ class PublicNumbersController extends Controller
             "department" => $this->department ? '%' . $this->department . '%' : '%%',
         ]);
 
-        foreach ($results as $index => $item){
-            if(isset($results[$index+1])){
-                if($results[$index+1]->participations_total){
-                    $results[$index]->participations_total_variation = (($item->participations_total - $results[$index+1]->participations_total) / $results[$index+1]->participations_total) * 100;
+        foreach ($results as $index => $item) {
+            if (isset($results[$index + 1])) {
+                if ($results[$index + 1]->participations_total) {
+                    $results[$index]->participations_total_variation = (($item->participations_total - $results[$index + 1]->participations_total) / $results[$index + 1]->participations_total) * 100;
                 }
-                if($results[$index+1]->participations_validated){
-                    $results[$index]->participations_validated_variation = (($item->participations_validated - $results[$index+1]->participations_validated) / $results[$index+1]->participations_validated) * 100;
+                if ($results[$index + 1]->participations_validated) {
+                    $results[$index]->participations_validated_variation = (($item->participations_validated - $results[$index + 1]->participations_validated) / $results[$index + 1]->participations_validated) * 100;
                 }
-                $results[$index]->participations_conversion = ($item->participations_validated / $item->participations_total) *100;
+                $results[$index]->participations_conversion = ($item->participations_validated / $item->participations_total) * 100;
             }
         }
 
-         return $results;
+        return $results;
+    }
+
+    public function usersByMonth(Request $request)
+    {
+        $results = DB::select("
+            SELECT date_trunc('month', profiles.created_at) AS created_at,
+                date_part('year', profiles.created_at) as year,
+                date_part('month', profiles.created_at) as month,
+                count(*) AS profiles_total
+            FROM profiles
+            LEFT JOIN users ON profiles.user_id = users.id
+            WHERE users.context_role = 'volontaire'
+            AND profiles.department ILIKE :department
+            GROUP BY date_trunc('month', profiles.created_at), year, month
+            ORDER BY date_trunc('month', profiles.created_at) DESC
+            ", [
+            "department" => $this->department ? '%' . $this->department . '%' : '%%',
+        ]);
+
+        foreach ($results as $index => $item) {
+            if (isset($results[$index + 1])) {
+                $results[$index]->profiles_total_variation = (($item->profiles_total - $results[$index + 1]->profiles_total) / $results[$index + 1]->profiles_total) * 100;
+            }
+        }
+
+        return $results;
     }
 }

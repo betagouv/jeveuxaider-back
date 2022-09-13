@@ -74,6 +74,7 @@ Route::get('statistics/public/utilisateurs-by-age', 'Api\PublicNumbersController
 Route::get('statistics/public/structures-by-month', 'Api\PublicNumbersController@structuresByMonth');
 Route::get('statistics/public/missions-by-month', 'Api\PublicNumbersController@missionsByMonth');
 Route::get('statistics/public/participations-by-month', 'Api\PublicNumbersController@participationsByMonth');
+Route::get('statistics/public/users-by-month', 'Api\PublicNumbersController@usersByMonth');
 
 
 Route::group(['middleware' => ['auth:api']], function () {
