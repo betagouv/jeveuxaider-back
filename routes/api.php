@@ -239,7 +239,10 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::get('statistics/missions-outdated-by-departments', 'Api\NumbersController@missionsOutdatedByDepartments');
     Route::get('statistics/missions-outdated-by-organisations', 'Api\NumbersController@missionsOutdatedByOrganisations');
 
-    Route::get('statistics/api-engagement/missions', 'Api\ApiEngagementController@statisticsMissions');
+    Route::get('statistics/api-engagement/outgoing-trafic', 'Api\ApiEngagementController@outgoingTrafic');
+    Route::get('statistics/api-engagement/incoming-trafic', 'Api\ApiEngagementController@incomingTrafic');
+    Route::get('statistics/api-engagement/outgoing-applies', 'Api\ApiEngagementController@outgoingApplies');
+    Route::get('statistics/api-engagement/incoming-applies', 'Api\ApiEngagementController@incomingApplies');
 
     // CHARTS
     Route::get('charts/organisations-by-date', 'Api\ChartsController@organisationsByDate');

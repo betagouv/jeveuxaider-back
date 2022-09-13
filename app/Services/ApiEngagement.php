@@ -420,16 +420,14 @@ class ApiEngagement
     {
 
         try {
-            $response = Http::withHeaders([
+            $response = Http::accept('application/json')
+            ->withHeaders([
             'apikey' => config('app.api_engagement_key'),
-            ])->get("https://api.api-engagement.beta.gouv.fr/v0/view/stats?" . http_build_query($params));
+            ])->get("https://api.api-engagement.beta.gouv.fr/v0/view/stats?" . $params);
         } catch (\Throwable $th) {
             throw $th;
         }
-
-        ray("https://api.api-engagement.beta.gouv.fr/v0/view/stats?" . http_build_query($params));
-        ray($response);
-
-        return isset($response['data']) ? $response['data'] : null;
+        
+        return $response->json();
     }
 }

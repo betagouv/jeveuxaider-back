@@ -211,7 +211,7 @@ class PublicNumbersController extends Controller
 
         foreach ($results as $index => $item) {
             if (isset($results[$index + 12])) {
-                $results[$index]->missions_posted_variation = (($item->missions_posted - $results[$index + 12]->missions_posted) / $results[$index + 12]->missions_validated) * 100;
+                $results[$index]->missions_posted_variation = (($item->missions_posted - $results[$index + 12]->missions_posted) / $results[$index + 12]->missions_posted) * 100;
             }
         }
 
