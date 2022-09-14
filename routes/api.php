@@ -64,25 +64,6 @@ Route::get('temoignages/organisations/{structure}', 'Api\TemoignageController@fo
 Route::get('settings/messages', 'Api\SettingController@messages');
 Route::get('settings/general', 'Api\SettingController@general');
 
-
-Route::get('statistics/public/overview', 'Api\PublicNumbersController@overview');
-Route::get('statistics/public/participations-by-domaines', 'Api\PublicNumbersController@participationsByDomaines');
-Route::get('statistics/public/participations-by-activities', 'Api\PublicNumbersController@participationsByActivities');
-Route::get('statistics/public/overview-utilisateurs', 'Api\PublicNumbersController@overviewUtilisateurs');
-Route::get('statistics/public/utilisateurs-by-age', 'Api\PublicNumbersController@utilisateursByAge');
-
-Route::get('statistics/public/structures-by-month', 'Api\PublicNumbersController@structuresByMonth');
-Route::get('statistics/public/missions-by-month', 'Api\PublicNumbersController@missionsByMonth');
-Route::get('statistics/public/participations-by-month', 'Api\PublicNumbersController@participationsByMonth');
-Route::get('statistics/public/users-by-month', 'Api\PublicNumbersController@usersByMonth');
-
-Route::get('statistics/public/structures-by-year', 'Api\PublicNumbersController@structuresByYear');
-Route::get('statistics/public/missions-by-year', 'Api\PublicNumbersController@missionsByYear');
-Route::get('statistics/public/participations-by-year', 'Api\PublicNumbersController@participationsByYear');
-Route::get('statistics/public/users-by-year', 'Api\PublicNumbersController@usersByYear');
-
-
-
 Route::group(['middleware' => ['auth:api']], function () {
 
     Route::get('user', 'Api\UserController@me');
@@ -239,10 +220,7 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::get('statistics/missions-outdated-by-departments', 'Api\NumbersController@missionsOutdatedByDepartments');
     Route::get('statistics/missions-outdated-by-organisations', 'Api\NumbersController@missionsOutdatedByOrganisations');
 
-    Route::get('statistics/api-engagement/outgoing-trafic', 'Api\ApiEngagementController@outgoingTrafic');
-    Route::get('statistics/api-engagement/incoming-trafic', 'Api\ApiEngagementController@incomingTrafic');
-    Route::get('statistics/api-engagement/outgoing-applies', 'Api\ApiEngagementController@outgoingApplies');
-    Route::get('statistics/api-engagement/incoming-applies', 'Api\ApiEngagementController@incomingApplies');
+    
 
     // CHARTS
     Route::get('charts/organisations-by-date', 'Api\ChartsController@organisationsByDate');
@@ -359,4 +337,20 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::post('territoires/{territoire}/responsables', 'Api\TerritoireController@addResponsable');
     Route::post('structures/{structure}/responsables', 'Api\StructureController@addResponsable');
     Route::post('reseaux/{reseau}/responsables', 'Api\ReseauController@addResponsable');
+
+    // STATS
+    Route::get('statistics/structures-by-month', 'Api\NumbersController@structuresByMonth');
+    Route::get('statistics/missions-by-month', 'Api\NumbersController@missionsByMonth');
+    Route::get('statistics/participations-by-month', 'Api\NumbersController@participationsByMonth');
+    Route::get('statistics/users-by-month', 'Api\NumbersController@usersByMonth');
+
+    Route::get('statistics/structures-by-year', 'Api\NumbersController@structuresByYear');
+    Route::get('statistics/missions-by-year', 'Api\NumbersController@missionsByYear');
+    Route::get('statistics/participations-by-year', 'Api\NumbersController@participationsByYear');
+    Route::get('statistics/users-by-year', 'Api\NumbersController@usersByYear');
+
+    Route::get('statistics/api-engagement/outgoing-trafic', 'Api\ApiEngagementController@outgoingTrafic');
+    Route::get('statistics/api-engagement/incoming-trafic', 'Api\ApiEngagementController@incomingTrafic');
+    Route::get('statistics/api-engagement/outgoing-applies', 'Api\ApiEngagementController@outgoingApplies');
+    Route::get('statistics/api-engagement/incoming-applies', 'Api\ApiEngagementController@incomingApplies');
 });
