@@ -4,13 +4,12 @@ namespace App\Console\Commands;
 
 use App\Models\Mission;
 use App\Models\Structure;
-use App\Notifications\MissionInDraft;
 use App\Notifications\NoNewMission;
-use Illuminate\Console\Command;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Notification;
+use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Query\Builder as QueryBuilder;
+use Illuminate\Support\Facades\Notification;
 
 class SendNotificationsNoNewMission extends Command
 {
@@ -40,7 +39,7 @@ class SendNotificationsNoNewMission extends Command
                 return $query
                     ->whereBetween('created_at', [
                         Carbon::now()->subMonths(3)->startOfDay(),
-                        Carbon::now()->subMonths(3)->endOfDay()
+                        Carbon::now()->subMonths(3)->endOfDay(),
                     ])
                     // The last mission. Cannot use latest() here as it is not a simple orderBy.
                     ->whereIn('id', function (QueryBuilder $query) {

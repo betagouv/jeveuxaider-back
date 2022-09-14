@@ -2,8 +2,8 @@
 
 namespace App\Exceptions;
 
-use Throwable;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Throwable;
 
 class Handler extends ExceptionHandler
 {
@@ -35,7 +35,7 @@ class Handler extends ExceptionHandler
     public function report(Throwable $exception)
     {
         if ($exception instanceof \League\OAuth2\Server\Exception\OAuthServerException) {
-            $transPayload = trans('auth.' . $exception->getErrorType());
+            $transPayload = trans('auth.'.$exception->getErrorType());
             if (is_array($transPayload)) { // can be remove if you translate all error types!
                 $exception->setPayload($transPayload);
             }
@@ -56,9 +56,11 @@ class Handler extends ExceptionHandler
         if ($exception instanceof \Laravel\Passport\Exceptions\OAuthServerException) {
             if ($exception->getCode() === 10) {
                 $transPayload = trans('auth.invalid_credentials');
+
                 return response()->json($transPayload, 401);
             } elseif ($exception->getCode() === 6) {
                 $transPayload = trans('auth.invalid_grant');
+
                 return response()->json($transPayload, 401);
             }
         }

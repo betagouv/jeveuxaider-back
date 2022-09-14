@@ -21,7 +21,7 @@ class GenerateTermablesSkills extends Command
      *
      * @var string
      */
-    protected $description = "Generate termables skills";
+    protected $description = 'Generate termables skills';
 
     /**
      * Create a new command instance.
@@ -44,7 +44,7 @@ class GenerateTermablesSkills extends Command
             $query->where('type', 'competence');
         })->orderBy('tag_id');
 
-        $this->info($query->count() . ' skills will be linked');
+        $this->info($query->count().' skills will be linked');
 
         if ($this->confirm('Do you wish to continue?')) {
             $bar = $this->output->createProgressBar($query->count());
@@ -59,9 +59,9 @@ class GenerateTermablesSkills extends Command
                         'termable_type' => $taggable->taggable_type,
                         'field' => $taggable->taggable_type == "App\Models\Profile" ? 'profile_skills' : 'mission_skills',
                     ]);
-                    // $this->info($taggable->tag_id . '-' . $taggable->tag->name . ' term created.');
+                // $this->info($taggable->tag_id . '-' . $taggable->tag->name . ' term created.');
                 } else {
-                    $this->warn($taggable->tag_id . ' - ' . $taggable->tag->name . ' not found. Skipped.');
+                    $this->warn($taggable->tag_id.' - '.$taggable->tag->name.' not found. Skipped.');
                 }
                 $bar->advance();
             }

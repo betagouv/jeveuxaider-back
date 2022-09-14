@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
-use App\Services\Sendinblue;
 use App\Models\User;
+use App\Services\Sendinblue;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -45,12 +45,12 @@ class SendinblueSyncReferents extends Command
                 $q->whereNotNull('referent_region')->orWhereNotNull('referent_department');
             });
         });
-        if ($this->confirm($query->count() . ' users will be added or updated in Sendinblue')) {
+        if ($this->confirm($query->count().' users will be added or updated in Sendinblue')) {
             $query->chunk(50, function ($users) {
                 foreach ($users as $user) {
                     $response = Sendinblue::sync($user, false);
-                    if (!$response->successful()) {
-                        $this->info("Sendinblue sync failed for user $user->email with code : " . $response['code']);
+                    if (! $response->successful()) {
+                        $this->info("Sendinblue sync failed for user $user->email with code : ".$response['code']);
                     }
                 }
             });

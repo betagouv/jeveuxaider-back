@@ -2,11 +2,11 @@
 
 namespace App\Notifications;
 
-use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
-use Illuminate\Notifications\Messages\MailMessage;
 use App\Models\Structure;
+use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
 class StructureBeingProcessed extends Notification implements ShouldQueue
 {
@@ -55,12 +55,12 @@ class StructureBeingProcessed extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $message =  (new MailMessage)
+        $message = (new MailMessage)
             ->subject('L’inscription de votre organisation est en cours de traitement')
-            ->greeting('Bonjour ' . $notifiable->first_name . ',');
-        $message->line("L’inscription de votre organisation « " . $this->structure->name . " » est actuellement en cours de traitement.");
-        $message->line("En vue d’instruire votre demande d’inscription sur JeVeuxAider.gouv.fr, le référent départemental vous contactera très prochainement pour obtenir des informations complémentaires quant à votre structure.");
-        $message->line("Pour toute question, vous pouvez contacter le Support Utilisateurs en répondant à ce mail.");
+            ->greeting('Bonjour '.$notifiable->first_name.',');
+        $message->line('L’inscription de votre organisation « '.$this->structure->name.' » est actuellement en cours de traitement.');
+        $message->line('En vue d’instruire votre demande d’inscription sur JeVeuxAider.gouv.fr, le référent départemental vous contactera très prochainement pour obtenir des informations complémentaires quant à votre structure.');
+        $message->line('Pour toute question, vous pouvez contacter le Support Utilisateurs en répondant à ce mail.');
 
         return $message;
     }

@@ -2,9 +2,9 @@
 
 namespace App\Policies;
 
+use App\Models\Conversation;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use App\Models\Conversation;
 
 class ConversationPolicy
 {
@@ -25,6 +25,7 @@ class ConversationPolicy
         if (in_array($user->id, $ids)) {
             return true;
         }
+
         return false;
     }
 

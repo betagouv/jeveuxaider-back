@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Structure;
 use App\Models\Mission;
 use App\Models\MissionTemplate;
 use App\Models\Participation;
+use App\Models\Structure;
 use App\Models\Territoire;
 use App\Services\Snu;
 use App\Settings\GeneralSettings;
@@ -15,21 +15,20 @@ use Illuminate\Http\Request;
 
 class ActionController extends Controller
 {
-
     public function index(Request $request)
     {
-        $actions =  [];
+        $actions = [];
         $user = $request->user();
 
         switch ($request->header('Context-Role')) {
             case 'admin':
                 $actions[] = [
                     'type' => 'organisations_waiting_validation',
-                    'value' => Structure::where('state', 'En attente de validation')->count()
+                    'value' => Structure::where('state', 'En attente de validation')->count(),
                 ];
                 $actions[] = [
                     'type' => 'organisations_in_progress',
-                    'value' => Structure::where('state', 'En cours de traitement')->count()
+                    'value' => Structure::where('state', 'En cours de traitement')->count(),
                 ];
                 $actions[] = [
                     'type' => 'missions_waiting_validation',
@@ -55,11 +54,11 @@ class ActionController extends Controller
             case 'responsable':
                 $actions[] = [
                     'type' => 'mission_new',
-                    'value' => Structure::role($request->header('Context-Role'))->where('state', 'Validée')->count() && !Mission::role($request->header('Context-Role'))->count() ? true : false,
+                    'value' => Structure::role($request->header('Context-Role'))->where('state', 'Validée')->count() && ! Mission::role($request->header('Context-Role'))->count() ? true : false,
                 ];
                 $actions[] = [
                     'type' => 'messages_unread',
-                    'value' => $user->getUnreadConversationsCount()
+                    'value' => $user->getUnreadConversationsCount(),
                 ];
                 $actions[] = [
                     'type' => 'participations_waiting_validation',
@@ -80,7 +79,7 @@ class ActionController extends Controller
                             $actions[] = [
                                 'type' => 'organisation_signaled',
                                 'value' => true,
-                                'href' => 'https://reserve-civique.crisp.help/fr/article/mon-organisation-ou-ma-mission-a-ete-signalee-quest-ce-que-cela-signifie-r71xm2/'
+                                'href' => 'https://reserve-civique.crisp.help/fr/article/mon-organisation-ou-ma-mission-a-ete-signalee-quest-ce-que-cela-signifie-r71xm2/',
                             ];
                         }
                         $actions[] = [
@@ -116,15 +115,15 @@ class ActionController extends Controller
             case 'referent_regional':
                 $actions[] = [
                     'type' => 'messages_unread',
-                    'value' => $user->getUnreadConversationsCount()
+                    'value' => $user->getUnreadConversationsCount(),
                 ];
                 $actions[] = [
                     'type' => 'organisations_waiting_validation',
-                    'value' => Structure::role($request->header('Context-Role'))->where('state', 'En attente de validation')->count()
+                    'value' => Structure::role($request->header('Context-Role'))->where('state', 'En attente de validation')->count(),
                 ];
                 $actions[] = [
                     'type' => 'organisations_in_progress',
-                    'value' => Structure::role($request->header('Context-Role'))->where('state', 'En cours de traitement')->count()
+                    'value' => Structure::role($request->header('Context-Role'))->where('state', 'En cours de traitement')->count(),
                 ];
                 $actions[] = [
                     'type' => 'missions_waiting_validation',
@@ -142,12 +141,12 @@ class ActionController extends Controller
 
     public function benevole(Request $request)
     {
-        $actions =  [];
+        $actions = [];
         $user = $request->user();
 
         $actions[] = [
             'type' => 'messages_unread',
-            'value' => $user->getUnreadConversationsCount()
+            'value' => $user->getUnreadConversationsCount(),
         ];
         if ($user->context_role == 'volontaire') {
             $actions[] = [
@@ -157,7 +156,7 @@ class ActionController extends Controller
         }
         $actions[] = [
             'type' => 'search_missions',
-            'value' => true
+            'value' => true,
         ];
 
         return $actions;
@@ -165,12 +164,12 @@ class ActionController extends Controller
 
     public function snuWaitingActions(Request $request, GeneralSettings $settings)
     {
-        $actions =  [];
+        $actions = [];
         $user = $request->user();
         $snuService = new Snu();
         $email = $user->email;
 
-        if (!$settings->snu_mig_active) {
+        if (! $settings->snu_mig_active) {
             return;
         }
 
@@ -181,49 +180,49 @@ class ActionController extends Controller
                 $actions[] = [
                     'type' => 'snu_application_waiting_validation',
                     'value' => $items['waitingValidation'],
-                    'href' => config('app.snu_api_url') . '/jeveuxaider/signin?email=' . $email . '&token=' . config('app.snu_api_token'),
+                    'href' => config('app.snu_api_url').'/jeveuxaider/signin?email='.$email.'&token='.config('app.snu_api_token'),
                 ];
             }
             if (isset($items['applicationWaitingValidation'])) {
                 $actions[] = [
                     'type' => 'snu_application_waiting_validation',
                     'value' => $items['applicationWaitingValidation'],
-                    'href' => config('app.snu_api_url') . '/jeveuxaider/signin?email=' . $email . '&token=' . config('app.snu_api_token'),
+                    'href' => config('app.snu_api_url').'/jeveuxaider/signin?email='.$email.'&token='.config('app.snu_api_token'),
                 ];
             }
             if (isset($items['contractToBeSigned'])) {
                 $actions[] = [
                     'type' => 'snu_contract_to_be_signed',
                     'value' => $items['contractToBeSigned'],
-                    'href' => config('app.snu_api_url') . '/jeveuxaider/signin?email=' . $email . '&token=' . config('app.snu_api_token'),
+                    'href' => config('app.snu_api_url').'/jeveuxaider/signin?email='.$email.'&token='.config('app.snu_api_token'),
                 ];
             }
             if (isset($items['contractToBeFilled'])) {
                 $actions[] = [
                     'type' => 'snu_contract_to_be_filled',
                     'value' => $items['contractToBeFilled'],
-                    'href' => config('app.snu_api_url') . '/jeveuxaider/signin?email=' . $email . '&token=' . config('app.snu_api_token'),
+                    'href' => config('app.snu_api_url').'/jeveuxaider/signin?email='.$email.'&token='.config('app.snu_api_token'),
                 ];
             }
             if (isset($items['missionWaitingCorrection'])) {
                 $actions[] = [
                     'type' => 'snu_mission_waiting_correction',
                     'value' => $items['missionWaitingCorrection'],
-                    'href' => config('app.snu_api_url') . '/jeveuxaider/signin?email=' . $email . '&token=' . config('app.snu_api_token'),
+                    'href' => config('app.snu_api_url').'/jeveuxaider/signin?email='.$email.'&token='.config('app.snu_api_token'),
                 ];
             }
             if (isset($items['missionInProgress'])) {
                 $actions[] = [
                     'type' => 'snu_mission_in_progress',
                     'value' => $items['missionInProgress'],
-                    'href' => config('app.snu_api_url') . '/jeveuxaider/signin?email=' . $email . '&token=' . config('app.snu_api_token'),
+                    'href' => config('app.snu_api_url').'/jeveuxaider/signin?email='.$email.'&token='.config('app.snu_api_token'),
                 ];
             }
             if (isset($items['volunteerToHost'])) {
                 $actions[] = [
                     'type' => 'snu_volunteer_to_host',
                     'value' => $items['volunteerToHost'],
-                    'href' => config('app.snu_api_url') . '/jeveuxaider/signin?email=' . $email . '&token=' . config('app.snu_api_token'),
+                    'href' => config('app.snu_api_url').'/jeveuxaider/signin?email='.$email.'&token='.config('app.snu_api_token'),
                 ];
             }
         }

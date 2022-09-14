@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ReseauRequest extends FormRequest
@@ -29,7 +28,7 @@ class ReseauRequest extends FormRequest
             'department' => [
                 function ($attribute, $department, $fail) {
                     $datas = $this->validator->getData();
-                    if (!empty($datas['zip'])) {
+                    if (! empty($datas['zip'])) {
                         $zip = str_replace(' ', '', $datas['zip']);
 
                         if (substr($zip, 0, strlen($department)) != $department) {
@@ -41,7 +40,7 @@ class ReseauRequest extends FormRequest
                             $fail("L'adresse et le département ne correspondent pas !");
                         }
                     }
-                }
+                },
             ],
             'country' => '',
             'website' => 'max:255',

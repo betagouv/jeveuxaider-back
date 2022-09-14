@@ -2,9 +2,7 @@
 
 namespace App\Console\Commands\OLD;
 
-use App\Models\Conversation;
 use App\Models\MissionTemplate;
-use App\Models\Participation;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
@@ -43,21 +41,21 @@ class FillMissionTemplatePhoto extends Command
     public function handle()
     {
         $query = MissionTemplate::count();
-        $this->info($query  . ' mission templates will be updated');
+        $this->info($query.' mission templates will be updated');
 
         if ($this->confirm('Do you wish to continue?')) {
             MissionTemplate::get()->each(function ($missionTemplate, $key) {
-                $pathImage = public_path('/images/templates/' . $missionTemplate->id . '@2x.jpg');
-                if(File::exists($pathImage)){
+                $pathImage = public_path('/images/templates/'.$missionTemplate->id.'@2x.jpg');
+                if (File::exists($pathImage)) {
                     $name = Str::random(15);
                     $missionTemplate
                         ->addMedia($pathImage)
                         ->usingName($name)
-                        ->usingFileName($name . '.jpg')
+                        ->usingFileName($name.'.jpg')
                         ->withCustomProperties(['field' => 'photo'])
                         ->toMediaCollection('templates');
                 } else {
-                    $this->info('no image file in static folder for missionTemplate id ' . $missionTemplate->id);
+                    $this->info('no image file in static folder for missionTemplate id '.$missionTemplate->id);
                 }
             });
         }

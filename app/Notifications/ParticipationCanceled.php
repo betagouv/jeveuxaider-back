@@ -2,11 +2,11 @@
 
 namespace App\Notifications;
 
-use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
-use Illuminate\Notifications\Messages\MailMessage;
 use App\Models\Participation;
+use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
 class ParticipationCanceled extends Notification implements ShouldQueue
 {
@@ -57,11 +57,10 @@ class ParticipationCanceled extends Notification implements ShouldQueue
     {
         return (new MailMessage)
             ->subject('Votre participation a été annulée')
-            ->greeting('Bonjour ' . $notifiable->first_name . ',')
-            ->line('Nous sommes au regret de vous informer que votre participation à la mission « ' . $this->participation->mission->name . ' » est annulée.')
+            ->greeting('Bonjour '.$notifiable->first_name.',')
+            ->line('Nous sommes au regret de vous informer que votre participation à la mission « '.$this->participation->mission->name.' » est annulée.')
             ->line('Nous vous invitons à proposer votre aide sur une autre mission disponible sur JeVeuxAider.gouv.fr')
-            ->action('Toutes nos missions', url(config('app.front_url') . '/missions-benevolat'))
-        ;
+            ->action('Toutes nos missions', url(config('app.front_url').'/missions-benevolat'));
     }
 
     /**

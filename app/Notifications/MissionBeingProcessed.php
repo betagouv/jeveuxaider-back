@@ -2,11 +2,11 @@
 
 namespace App\Notifications;
 
-use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
-use Illuminate\Notifications\Messages\MailMessage;
 use App\Models\Mission;
+use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
 class MissionBeingProcessed extends Notification implements ShouldQueue
 {
@@ -55,12 +55,12 @@ class MissionBeingProcessed extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $message =  (new MailMessage)
+        $message = (new MailMessage)
             ->subject('Votre mission est en cours de traitement')
-            ->greeting('Bonjour ' . $notifiable->first_name . ',');
-        $message->line("Votre mission « " . $this->mission->name . " » est actuellement en cours de traitement.");
-        $message->line("En vue d’instruire votre proposition de mission, le référent départemental vous contactera très prochainement pour obtenir des informations complémentaires sur le format de mission envisagé.");
-        $message->line("Pour toute question, vous pouvez contacter le Support Utilisateurs en répondant à ce mail.");
+            ->greeting('Bonjour '.$notifiable->first_name.',');
+        $message->line('Votre mission « '.$this->mission->name.' » est actuellement en cours de traitement.');
+        $message->line('En vue d’instruire votre proposition de mission, le référent départemental vous contactera très prochainement pour obtenir des informations complémentaires sur le format de mission envisagé.');
+        $message->line('Pour toute question, vous pouvez contacter le Support Utilisateurs en répondant à ce mail.');
 
         return $message;
     }

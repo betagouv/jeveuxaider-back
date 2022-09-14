@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\NotificationBenevoleRequest;
 use App\Models\NotificationBenevole;
 use App\Models\Profile;
 use App\Notifications\NotificationToBenevole;
-use Spatie\QueryBuilder\QueryBuilder;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class NotificationBenevoleController extends Controller
 {
@@ -22,25 +22,24 @@ class NotificationBenevoleController extends Controller
                 AllowedFilter::exact('mission.id')
             )
             ->defaultSort('-created_at')
-            ->paginate(1000)
-        ;
+            ->paginate(1000);
     }
 
     public function store(NotificationBenevoleRequest $request)
     {
-        $profile_id = request("profile_id");
+        $profile_id = request('profile_id');
 
         $notificationBenevoleCount = NotificationBenevole::where(
             'profile_id',
             $profile_id
-        )->where('mission_id', request("mission_id"))->count();
+        )->where('mission_id', request('mission_id'))->count();
         if ($notificationBenevoleCount > 0) {
-            abort(422, "Vous avez déjà envoyé un e-mail à ce bénévole");
+            abort(422, 'Vous avez déjà envoyé un e-mail à ce bénévole');
         }
 
         $notificationBenevoleStats = Profile::getNotificationBenevoleStats($profile_id);
         if ($notificationBenevoleStats['thisMonth'] >= 2) {
-            abort(422, "Le bénévole à déjà été sollicité 2 fois ce mois-ci");
+            abort(422, 'Le bénévole à déjà été sollicité 2 fois ce mois-ci');
         }
 
         $notificationBenevole = NotificationBenevole::create(

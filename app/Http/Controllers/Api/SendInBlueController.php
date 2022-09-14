@@ -28,6 +28,7 @@ class SendInBlueController extends Controller
         try {
             if (config('services.sendinblue.sync')) {
                 $result = $apiInstance->createContact($createContact);
+
                 return $result;
             }
         } catch (\Exception $e) {

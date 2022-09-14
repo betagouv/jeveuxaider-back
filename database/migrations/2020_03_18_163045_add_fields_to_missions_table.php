@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class AddFieldsToMissionsTable extends Migration
 {
@@ -28,9 +28,9 @@ class AddFieldsToMissionsTable extends Migration
     public function down()
     {
         Schema::table('missions', function (Blueprint $table) {
-            $table->dropColumn("periodicite");
-            $table->dropColumn("publics_beneficiaires");
-            $table->dropColumn("publics_volontaires");
+            $table->dropColumn('periodicite');
+            $table->dropColumn('publics_beneficiaires');
+            $table->dropColumn('publics_volontaires');
         });
     }
 }

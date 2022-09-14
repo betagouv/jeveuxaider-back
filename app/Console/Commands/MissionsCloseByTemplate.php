@@ -48,7 +48,7 @@ class MissionsCloseByTemplate extends Command
             $this->info("{$template->title} : {$templateCount}");
         }
 
-        if ($this->confirm($queryMissions->count() . ' missions vont être mises à jour.')) {
+        if ($this->confirm($queryMissions->count().' missions vont être mises à jour.')) {
             $missions = (clone $queryMissions)->get();
 
             // Without triggering observers, no notification sent.

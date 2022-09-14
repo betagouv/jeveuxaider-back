@@ -2,12 +2,8 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Mission;
-use App\Models\Participation;
-use App\Models\Structure;
 use App\Models\User;
 use Illuminate\Console\Command;
-use Illuminate\Database\Eloquent\Builder;
 
 class UserRoleAdmin extends Command
 {
@@ -47,45 +43,47 @@ class UserRoleAdmin extends Command
         $options = $this->options();
         if (empty($options['action'])) {
             $this->error('Mandatory argument: --action');
+
             return;
         }
 
-        if (!in_array($options['action'], ['add','remove'])) {
+        if (! in_array($options['action'], ['add', 'remove'])) {
             $this->error('action argument: add or remove');
+
             return;
         }
 
         $options = $this->options();
         if (empty($options['user'])) {
             $this->error('Mandatory argument: --user');
+
             return;
         }
 
         $user = User::with(['profile'])->find($options['user'])->append(['roles']);
 
-        if (!$user) {
+        if (! $user) {
             $this->error("This user {$options['user']} doesnt exists!");
+
             return;
         }
 
-
         $this->info("User {$user->profile->full_name} {$user->mail}");
-        $this->info("Current context_role " . $user->context_role);
-        $this->info("Current contextable_type " . $user->contextable_type);
-        $this->info("Current contextable_id " . $user->contextable_id);
+        $this->info('Current context_role '.$user->context_role);
+        $this->info('Current contextable_type '.$user->contextable_type);
+        $this->info('Current contextable_id '.$user->contextable_id);
 
         if ($this->confirm('Continuer ?')) {
-            if($options['action'] == 'add') {
+            if ($options['action'] == 'add') {
                 $user->is_admin = true;
                 $user->resetContextRole();
                 $this->info("User {$user->profile->full_name} {$user->mail} is now admin");
             }
-            if($options['action'] == 'remove') {
+            if ($options['action'] == 'remove') {
                 $user->is_admin = false;
                 $user->resetContextRole();
                 $this->info("User {$user->profile->full_name} {$user->mail} is no more admin");
             }
         }
-
     }
 }

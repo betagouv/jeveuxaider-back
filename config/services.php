@@ -56,7 +56,7 @@ return [
 
     'sendinblue' => [
         'key' => env('SENDINBLUE_KEY'),
-        'sync' => env('SENDINBLUE_SYNC')
+        'sync' => env('SENDINBLUE_SYNC'),
     ],
 
     'slack' => [
@@ -66,6 +66,6 @@ return [
     'airtable' => [
         'key' => env('AIRTABLE_KEY'),
         'base' => env('AIRTABLE_BASE'),
-        'sync' => env('AIRTABLE_SYNC')
+        'sync' => env('AIRTABLE_SYNC'),
     ],
 ];

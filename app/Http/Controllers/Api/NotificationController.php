@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Document;
 use App\Models\Invitation;
@@ -51,6 +50,7 @@ use App\Notifications\StructureSignaled;
 use App\Notifications\StructureSubmitted;
 use App\Notifications\StructureValidated;
 use App\Notifications\UserAnonymize;
+use Illuminate\Http\Request;
 
 class NotificationController extends Controller
 {
@@ -69,7 +69,7 @@ class NotificationController extends Controller
                 $notification = new RegisterUserResponsable($structure);
                 break;
             case 'responsable_still_in_draft':
-                    $notification = new StructureInDraft($structure, 'j+1');
+                $notification = new StructureInDraft($structure, 'j+1');
                 break;
             case 'responsable_participation_created':
                 $notification = new ParticipationWaitingValidation($participation);
@@ -88,10 +88,10 @@ class NotificationController extends Controller
                 $notification = new ParticipationCanceled($participation);
                 break;
             case 'responsable_participation_canceled':
-                $notification = new ParticipationBenevoleCanceled($participation, "not_available");
+                $notification = new ParticipationBenevoleCanceled($participation, 'not_available');
                 break;
             case 'benevole_participation_refused':
-                $notification = new ParticipationDeclined($participation, "requirements_not_fulfilled");
+                $notification = new ParticipationDeclined($participation, 'requirements_not_fulfilled');
                 break;
             case 'responsable_mission_created':
                 $notification = new MissionWaitingValidation($mission);
@@ -145,7 +145,7 @@ class NotificationController extends Controller
                     'last_name' => 'Nom',
                     'email' => 'email@test.fr',
                     'phone' => '06 12 23 45 67 89',
-                    'description' => 'Description de ma demande'
+                    'description' => 'Description de ma demande',
                 ];
                 $notification = new ReseauNewLead($form);
                 break;
@@ -168,20 +168,20 @@ class NotificationController extends Controller
                 $missionTemplate = MissionTemplate::whereHas('reseau')->latest()->first();
                 $notification = new MissionTemplateWaiting($missionTemplate);
                 break;
-            // case 'moderateur_daily_todo':
-            //     $byDepartment[75] = [
-            //         'department_name' => 'Paris',
-            //         'missions' => ['test'],
-            //         'structures' => ['test'],
-            //         'referents' => [[
-            //             'first_name' => 'Prénom',
-            //             'last_name' => 'Nom',
-            //             'email' => 'test@test.fr',
-            //             'mobile' => '06 12 34 56 78',
-            //         ]],
-            //     ];
-            //     $notification = new ModerateurDailyTodo($byDepartment);
-            //     break;
+                // case 'moderateur_daily_todo':
+                //     $byDepartment[75] = [
+                //         'department_name' => 'Paris',
+                //         'missions' => ['test'],
+                //         'structures' => ['test'],
+                //         'referents' => [[
+                //             'first_name' => 'Prénom',
+                //             'last_name' => 'Nom',
+                //             'email' => 'test@test.fr',
+                //             'mobile' => '06 12 34 56 78',
+                //         ]],
+                //     ];
+                //     $notification = new ModerateurDailyTodo($byDepartment);
+                //     break;
             case 'responsable_no_new_mission':
                 $notification = new NoNewMission($structure);
                 break;
@@ -190,13 +190,13 @@ class NotificationController extends Controller
                 $notification = new NotificationToBenevole($notificationBenevole);
                 break;
             case 'referent_waiting_actions':
-                $notification = new ReferentDailyTodo([1,2], [1,2]);
+                $notification = new ReferentDailyTodo([1, 2], [1, 2]);
                 break;
             case 'reset_password':
                 $notification = new ResetPassword('token');
                 break;
             case 'responsable_waiting_actions':
-                $notification = new ResponsableDailyTodo([1,2,3]);
+                $notification = new ResponsableDailyTodo([1, 2, 3]);
                 break;
             case 'user_anonymize':
                 $notification = new UserAnonymize();

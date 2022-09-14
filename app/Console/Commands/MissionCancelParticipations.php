@@ -42,8 +42,9 @@ class MissionCancelParticipations extends Command
         $id = $this->argument('mission');
         $mission = Mission::find($id);
 
-        if (!$mission) {
+        if (! $mission) {
             $this->error('This mission doesnt exists!');
+
             return;
         }
 
@@ -51,10 +52,10 @@ class MissionCancelParticipations extends Command
             ->where('mission_id', $id);
 
         $count = $participations->count();
-        if ($this->confirm($count .' participation(s) will be cancelled for '.$mission->name. '(Organization: '. $mission->structure->name.')')) {
+        if ($this->confirm($count.' participation(s) will be cancelled for '.$mission->name.'(Organization: '.$mission->structure->name.')')) {
             $participations->update(['state' => 'Annulée']);
             $mission->save();
-            $this->info($count . ' participation(s) has been canceled. No notification has been sent.');
+            $this->info($count.' participation(s) has been canceled. No notification has been sent.');
         }
     }
 }

@@ -14,7 +14,7 @@ class AddResponsableRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => 'required|email|exists:profiles,email'
+            'email' => 'required|email|exists:profiles,email',
         ];
     }
 
@@ -23,7 +23,7 @@ class AddResponsableRequest extends FormRequest
         return [
             'email.required' => 'Un email est requis',
             'email.email' => 'Le format de l\'email est invalide',
-            'email.exists' => 'Cet email n\'existe pas'
+            'email.exists' => 'Cet email n\'existe pas',
         ];
     }
 }

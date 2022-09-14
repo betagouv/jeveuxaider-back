@@ -12,7 +12,6 @@ class DomaineUpdateRequest extends DomaineRequest
         return $this->user()->isAdmin();
     }
 
-
     public function rules()
     {
         $domaine = request()->route('domaine');

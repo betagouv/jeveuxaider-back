@@ -3,7 +3,6 @@
 namespace App\Console\Commands;
 
 use App\Models\Mission;
-use App\Models\Participation;
 use Illuminate\Console\Command;
 
 class MissionAttachResponsableToConversations extends Command
@@ -20,7 +19,7 @@ class MissionAttachResponsableToConversations extends Command
      *
      * @var string
      */
-    protected $description = "Enforces that the responsable of the mission is part of the participations conversations";
+    protected $description = 'Enforces that the responsable of the mission is part of the participations conversations';
 
     /**
      * Create a new command instance.
@@ -42,7 +41,7 @@ class MissionAttachResponsableToConversations extends Command
         $missionIds = $this->argument('missionIds');
         $queryMissions = Mission::whereIn('id', $missionIds);
 
-        if ($this->confirm("Enforcer l'accès aux conversations des responsables de ces " . $queryMissions->count() . " missions ?")) {
+        if ($this->confirm("Enforcer l'accès aux conversations des responsables de ces ".$queryMissions->count().' missions ?')) {
             $missions = $queryMissions->get();
             foreach ($missions as $mission) {
                 $participations = $mission->participations;

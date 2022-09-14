@@ -4,10 +4,10 @@ namespace App\Console\Commands;
 
 use App\Models\Participation;
 use App\Models\Profile;
-use Illuminate\Console\Command;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Notification;
 use App\Notifications\ResponsableDailyTodo;
+use Carbon\Carbon;
+use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Notification;
 
 class SendNotificationTodoToResponsables extends Command
 {
@@ -50,7 +50,7 @@ class SendNotificationTodoToResponsables extends Command
           ->groupBy('mission.responsable.id');
 
         foreach ($participationsByResponsable as $responsableId => $participations) {
-            if (!$responsableId) {
+            if (! $responsableId) {
                 return; // Hack car des missions n'ont pas de responsables
             }
             Notification::send(Profile::find($responsableId), new ResponsableDailyTodo($participations));

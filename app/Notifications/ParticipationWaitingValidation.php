@@ -2,12 +2,12 @@
 
 namespace App\Notifications;
 
-use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
-use Illuminate\Notifications\Messages\MailMessage;
 use App\Models\Participation;
-use Illuminate\Support\HtmlString;
+use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
+use Illuminate\Support\HtmlString;
 
 class ParticipationWaitingValidation extends Notification implements ShouldQueue
 {
@@ -19,6 +19,7 @@ class ParticipationWaitingValidation extends Notification implements ShouldQueue
      * @var Participation
      */
     public $participation;
+
     /**
      * The order instance.
      *
@@ -65,28 +66,29 @@ class ParticipationWaitingValidation extends Notification implements ShouldQueue
     {
         $message = (new MailMessage)
             ->subject('Vous avez une nouvelle demande de participation')
-            ->greeting('Bonjour ' . $notifiable->first_name . ',')
-            ->line('Bonne nouvelle ! ' . $this->participation->profile->full_name . ' souhaite participer à la mission « ' . $this->participation->mission->name . ' »');
+            ->tag('app-organisation-participation-en-attente-de-validation')
+            ->greeting('Bonjour '.$notifiable->first_name.',')
+            ->line('Bonne nouvelle ! '.$this->participation->profile->full_name.' souhaite participer à la mission « '.$this->participation->mission->name.' »');
 
         if ($this->structure->send_volunteer_coordonates) {
             $message->line('Voici ses coordonnées :')
                 ->line(
                     new HtmlString(
-                        $this->participation->profile->full_name . '<br>' .
-                        $this->participation->profile->mobile . '<br>' .
-                        $this->participation->profile->email
+                        $this->participation->profile->full_name.'<br>'.
+                            $this->participation->profile->mobile.'<br>'.
+                            $this->participation->profile->email
                     )
                 );
         }
 
         if ($this->participation->mission->full_address && $this->participation->mission->type == 'Mission en présentiel') {
-            $message->line("Adresse de la mission : " . $this->participation->mission->full_address);
+            $message->line('Adresse de la mission : '.$this->participation->mission->full_address);
         }
 
         $message->line('Vous pouvez échanger avec cette personne directement sur la messagerie de JeVeuxAider.gouv.fr et valider sa participation depuis votre espace de gestion.');
 
-        $url = $this->participation->conversation ? '/messages/' . $this->participation->conversation->id : '/messages';
-        $message->action('Accéder à ma messagerie', url(config('app.front_url') . $url));
+        $url = $this->participation->conversation ? '/messages/'.$this->participation->conversation->id : '/messages';
+        $message->action('Accéder à ma messagerie', url(config('app.front_url').$url));
 
         return $message;
     }

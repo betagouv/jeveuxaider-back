@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
+use App\Models\Media;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use App\Models\Media;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Artisan;
-use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class MediaController extends Controller
 {
@@ -24,7 +23,7 @@ class MediaController extends Controller
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
     }
 
-    public function store(Request $request, String $modelType, Int $modelId, String $collection)
+    public function store(Request $request, string $modelType, int $modelId, string $collection)
     {
         $model = $this->getModel($modelType, $modelId);
         $manipulations = json_decode($request->post('manipulations'), true) ?? [];
@@ -33,7 +32,7 @@ class MediaController extends Controller
         $media = $model
             ->addMedia($file)
             ->withManipulations($this->formatManipulations($manipulations, $model, $collection))
-            ->usingFileName(Str::random(30) . '.' . $file->guessExtension())
+            ->usingFileName(Str::random(30).'.'.$file->guessExtension())
             ->toMediaCollection($collection);
 
         return $media;
@@ -44,11 +43,10 @@ class MediaController extends Controller
         $model = ($media->model_type)::find($media->model_id);
         $model->registerMediaConversions();
         $manipulations = $request->input('manipulations');
-        if (!empty($manipulations)) {
+        if (! empty($manipulations)) {
             $media->manipulations = $this->formatManipulations($manipulations, $model, $media->collection_name);
             $media->save();
         }
-
 
         return $media;
     }
@@ -58,11 +56,12 @@ class MediaController extends Controller
         return $media->delete();
     }
 
-    private function getModel(String $modelType, Int $modelId)
+    private function getModel(string $modelType, int $modelId)
     {
-        $modelClass = '\\App\\Models\\' . Str::studly($modelType);
+        $modelClass = '\\App\\Models\\'.Str::studly($modelType);
         $model = $modelClass::find($modelId);
         $model->registerMediaConversions();
+
         return $model;
     }
 
@@ -73,6 +72,7 @@ class MediaController extends Controller
         foreach ($conversions as $conversion) {
             $formattedManipulations[$conversion] = $manipulations;
         }
+
         return $formattedManipulations;
     }
 

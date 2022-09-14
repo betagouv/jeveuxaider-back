@@ -32,7 +32,7 @@ class TerritoireRequest extends FormRequest
             'seo_recruit_description' => '',
             'seo_engage_title' => '',
             'seo_engage_paragraphs' => '',
-            'promoted_organisations' => ''
+            'promoted_organisations' => '',
         ];
     }
 

@@ -2,9 +2,9 @@
 
 namespace App\Notifications;
 
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Auth\Notifications\ResetPassword as ResetPasswordNotification;
 use Illuminate\Bus\Queueable;
+use Illuminate\Notifications\Messages\MailMessage;
 
 class ResetPassword extends ResetPasswordNotification
 {
@@ -25,7 +25,7 @@ class ResetPassword extends ResetPasswordNotification
      */
     public function toMail($notifiable)
     {
-        $link =  config('app.front_url') . '/password-reset/' . $this->token . '?email=' . $notifiable->getEmailForPasswordReset();
+        $link = config('app.front_url').'/password-reset/'.$this->token.'?email='.$notifiable->getEmailForPasswordReset();
 
         return (new MailMessage)
             ->subject('Réinitialiser mon mot de passe')

@@ -2,11 +2,11 @@
 
 namespace App\Notifications;
 
-use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
-use Illuminate\Notifications\Messages\MailMessage;
 use App\Models\NotificationTemoignage;
+use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
 class NotificationTemoignageCreate extends Notification implements ShouldQueue
 {
@@ -25,7 +25,9 @@ class NotificationTemoignageCreate extends Notification implements ShouldQueue
      * @var Participation
      */
     public $participation;
+
     public $mission;
+
     public $structure;
 
     /**
@@ -69,11 +71,11 @@ class NotificationTemoignageCreate extends Notification implements ShouldQueue
     {
         return (new MailMessage)
             ->subject("Comment s'est déroulée votre mission ?")
-            ->greeting('Bonjour ' . $notifiable->first_name . ',')
-            ->line("La mission « " . $this->mission->name . " » est désormais finie ! " . $this->structure->name . " et toute l'équipe de JVA tenons à vous remercier pour votre engagement.")
-            ->line("Prenez désormais le temps de nous raconter votre expérience 😉")
-            ->action('Raconter mon expérience', url(config('app.front_url') . '/temoignages/' . $this->notificationTemoignage->token))
-            ->line("À bientôt sur JeVeuxAider.gouv.fr !");
+            ->greeting('Bonjour '.$notifiable->first_name.',')
+            ->line('La mission « '.$this->mission->name.' » est désormais finie ! '.$this->structure->name." et toute l'équipe de JVA tenons à vous remercier pour votre engagement.")
+            ->line('Prenez désormais le temps de nous raconter votre expérience 😉')
+            ->action('Raconter mon expérience', url(config('app.front_url').'/temoignages/'.$this->notificationTemoignage->token))
+            ->line('À bientôt sur JeVeuxAider.gouv.fr !');
     }
 
     /**

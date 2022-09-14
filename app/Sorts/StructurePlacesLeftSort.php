@@ -2,9 +2,9 @@
 
 namespace App\Sorts;
 
-use Spatie\QueryBuilder\Sorts\Sort;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
+use Spatie\QueryBuilder\Sorts\Sort;
 
 class StructurePlacesLeftSort implements Sort
 {
@@ -22,6 +22,5 @@ class StructurePlacesLeftSort implements Sort
             ->where('missions.state', 'Validée')
             ->groupBy('structures.id')
             ->orderBy('places_left', $direction);
-
     }
 }

@@ -17,7 +17,7 @@ class TerritoireObserver
 
     public function created(Territoire $territoire)
     {
-        if($territoire->state == 'waiting') {
+        if ($territoire->state == 'waiting') {
             Notification::route('slack', config('services.slack.hook_url'))
             ->notify(new TerritoireWaitingValidation($territoire));
         }
@@ -26,8 +26,8 @@ class TerritoireObserver
     public function updating(Territoire $territoire)
     {
         if (in_array($territoire->type, ['city'])) {
-            $oldZip = !empty($territoire->getOriginal('zips')) ? $territoire->getOriginal('zips')[0] : null;
-            $newZip = !empty($territoire->zips) ? $territoire->zips[0] : null;
+            $oldZip = ! empty($territoire->getOriginal('zips')) ? $territoire->getOriginal('zips')[0] : null;
+            $newZip = ! empty($territoire->zips) ? $territoire->zips[0] : null;
             if ($oldZip != $newZip) {
                 $territoire->setCoordonates();
             }

@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
+use App\Models\Media as ModelMedia;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
-use App\Models\Media as ModelMedia;
 
 class Document extends Model implements HasMedia
 {
@@ -18,7 +18,7 @@ class Document extends Model implements HasMedia
     ];
 
     protected $casts = [
-        'roles' => 'array'
+        'roles' => 'array',
     ];
 
     public function scopeRole($query, $contextRole)

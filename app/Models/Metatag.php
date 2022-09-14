@@ -9,7 +9,7 @@ class Metatag extends Model
     protected $fillable = [
         'properties',
         'metatagable_type',
-        'metatagable_id'
+        'metatagable_id',
     ];
 
     protected $casts = [

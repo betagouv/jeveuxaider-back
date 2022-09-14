@@ -60,7 +60,7 @@ class RegisterVolontaireRequest extends FormRequest
             'postal_code' => 'Le code postal n\'est pas valide',
             'zip.required' => 'Le code postal est requis',
             'mobile.required' => 'Le numéro de téléphone est requis',
-            'mobile' => 'Le numéro de téléphone n\'est pas valide'
+            'mobile' => 'Le numéro de téléphone n\'est pas valide',
         ];
     }
 }

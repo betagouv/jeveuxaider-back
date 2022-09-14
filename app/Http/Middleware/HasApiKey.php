@@ -3,9 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Response;
 
 class HasApiKey
 {
@@ -18,9 +16,9 @@ class HasApiKey
      */
     public function handle($request, Closure $next)
     {
-        if(!$key = $request->get('apikey') or $key !== config('app.api_key')){
-            return new JsonResponse("Wrong apikey argument", 401);
-          }
+        if (! $key = $request->get('apikey') or $key !== config('app.api_key')) {
+            return new JsonResponse('Wrong apikey argument', 401);
+        }
 
         return $next($request);
     }

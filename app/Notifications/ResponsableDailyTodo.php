@@ -4,8 +4,8 @@ namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
 class ResponsableDailyTodo extends Notification implements ShouldQueue
 {
@@ -26,7 +26,7 @@ class ResponsableDailyTodo extends Notification implements ShouldQueue
     public function viaQueues()
     {
         return [
-        'mail' => 'emails',
+            'mail' => 'emails',
         ];
     }
 
@@ -51,13 +51,14 @@ class ResponsableDailyTodo extends Notification implements ShouldQueue
     {
         $mailMessage = (new MailMessage)
             ->subject('Des bénévoles attendent votre réponse !')
-            ->greeting('Bonjour ' . $notifiable->first_name . ',')
+            ->greeting('Bonjour '.$notifiable->first_name.',')
+            ->tag('app-organisation-rappel-participations-en-attente-de-validation')
             ->line('Des bénévoles souhaitent vous aider !')
             ->line('Votre action est requise pour valider leur participation :');
         if (count($this->participations) == 1) {
-            $mailMessage->action(count($this->participations) . ' participation en attente', url(config('app.front_url') . '/dashboard'));
+            $mailMessage->action(count($this->participations).' participation en attente', url(config('app.front_url').'/dashboard'));
         } else {
-            $mailMessage->action(count($this->participations) . ' participations en attente', url(config('app.front_url') . '/dashboard'));
+            $mailMessage->action(count($this->participations).' participations en attente', url(config('app.front_url').'/dashboard'));
         }
         $mailMessage->line('Afin d’assurer vos recrutements de bénévoles, veuillez leur répondre au plus vite.')
             ->line('Vous pouvez aussi les contacter directement ou échanger avec eux sur la messagerie de JeVeuxAider.gouv.fr.')

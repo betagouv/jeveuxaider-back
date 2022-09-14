@@ -2,22 +2,22 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Notifications\Notifiable;
 use App\Helpers\Utils;
+use App\Models\Media as ModelMedia;
 use App\Traits\HasMissingFields;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\Tags\HasTags;
-use Spatie\Activitylog\Traits\LogsActivity;
-use Spatie\Image\Manipulations;
-use App\Models\Media as ModelMedia;
-use Spatie\Activitylog\LogOptions;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class Profile extends Model implements HasMedia
 {
@@ -35,12 +35,12 @@ class Profile extends Model implements HasMedia
         'is_visible' => 'boolean',
         'disponibilities' => 'array',
         'can_export_profiles' => 'boolean',
-        'missing_fields' => 'array'
+        'missing_fields' => 'array',
     ];
 
     protected $appends = ['short_name', 'full_name'];
 
-    protected $checkFields = ['mobile', 'zip', 'type', 'disponibilities', 'commitment__time_period', 'commitment__duration', 'description', 'birthday', 'skills', 'domaines'];
+    protected $checkFields = ['mobile', 'zip', 'type', 'disponibilities', 'commitment__time_period', 'commitment__duration', 'description', 'birthday', 'skills'];
 
     public function getActivitylogOptions(): LogOptions
     {
@@ -132,8 +132,9 @@ class Profile extends Model implements HasMedia
                 break;
             case 'referent':
                 $departement = Auth::guard('api')->user()->profile->referent_department;
+
                 return $query
-                    ->where('zip', 'LIKE', $departement . '%')
+                    ->where('zip', 'LIKE', $departement.'%')
                     ->orWhereHas(
                         'missions',
                         function (Builder $query) use ($departement) {
@@ -154,6 +155,7 @@ class Profile extends Model implements HasMedia
                 break;
             case 'referent_regional':
                 $departements = config('taxonomies.regions.departments')[Auth::guard('api')->user()->profile->referent_region];
+
                 return $query
                     ->whereHas(
                         'missions',
@@ -175,13 +177,14 @@ class Profile extends Model implements HasMedia
                     ->orWhere(
                         function (Builder $query) use ($departements) {
                             foreach ($departements as $departement) {
-                                $query->orWhere('zip', 'LIKE', $departement . '%');
+                                $query->orWhere('zip', 'LIKE', $departement.'%');
                             }
                         }
                     );
                 break;
             case 'responsable':
-                $structures_id =  Auth::guard('api')->user()->profile->structures->pluck('id')->toArray();
+                $structures_id = Auth::guard('api')->user()->profile->structures->pluck('id')->toArray();
+
                 return $query->whereHas(
                     'participations',
                     function (Builder $query) use ($structures_id) {
@@ -213,7 +216,7 @@ class Profile extends Model implements HasMedia
                 ->orWhere('zip', 'LIKE', '206%');
         }
 
-        return $query->where('zip', 'LIKE', $value . '%');
+        return $query->where('zip', 'LIKE', $value.'%');
     }
 
     public function scopeOfDomaine($query, $domain_id)
@@ -269,6 +272,11 @@ class Profile extends Model implements HasMedia
         return $this->hasMany('App\Models\Participation')->where('state', 'Validée');
     }
 
+    public function activities()
+    {
+        return $this->belongsToMany(Activity::class, 'activity_profile');
+    }
+
     public function domaines()
     {
         return $this->morphToMany(Domaine::class, 'domainable')->wherePivot('field', 'profile_domaines');
@@ -277,6 +285,16 @@ class Profile extends Model implements HasMedia
     public function skills()
     {
         return $this->morphToMany(Term::class, 'termable')->wherePivot('field', 'profile_skills');
+    }
+
+    public function tags()
+    {
+        return $this->morphToMany(Term::class, 'termable')->wherePivot('field', 'tags');
+    }
+
+    public function notificationsBenevoles()
+    {
+        return $this->hasMany('App\Models\NotificationBenevole');
     }
 
     public function setCommitmentTotal()
@@ -290,9 +308,9 @@ class Profile extends Model implements HasMedia
     public function scopeMinimumCommitment($query, $duration, $time_period = null)
     {
         $total = Utils::calculateCommitmentTotal($duration, $time_period);
+
         return $query->where('commitment__total', '>=', $total);
     }
-
 
     public static function getNotificationBenevoleStats($pid)
     {
@@ -300,7 +318,7 @@ class Profile extends Model implements HasMedia
         $this_month = NotificationBenevole::where('profile_id', $pid)
             ->whereBetween('created_at', [
                 Carbon::now()->startOfMonth(),
-                Carbon::now()->endOfMonth()
+                Carbon::now()->endOfMonth(),
             ])->count();
 
         return [

@@ -24,7 +24,7 @@ class RegisterResponsableWithStructureRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => ['required','email', 'unique:users'],
+            'email' => ['required', 'email', 'unique:users'],
             'password' => 'required|min:8',
             'first_name' => 'required|min:3',
             'last_name' => 'required',
@@ -34,7 +34,7 @@ class RegisterResponsableWithStructureRequest extends FormRequest
             'structure_name' => 'required|min:3',
             'utm_source' => '',
             'structure_api' => '',
-            'statut_juridique' => ''
+            'statut_juridique' => '',
         ];
     }
 
@@ -63,7 +63,7 @@ class RegisterResponsableWithStructureRequest extends FormRequest
             'postal_code' => 'Le code postal n\'est pas valide',
             'zip.required' => 'Le code postal est requis',
             'mobile.required' => 'Le numéro de téléphone est requis',
-            'mobile' => 'Le numéro de téléphone n\'est pas valide'
+            'mobile' => 'Le numéro de téléphone n\'est pas valide',
         ];
     }
 }

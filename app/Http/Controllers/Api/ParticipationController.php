@@ -3,26 +3,26 @@
 namespace App\Http\Controllers\Api;
 
 use App\Exports\ParticipationsExport;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Models\Participation;
-use Spatie\QueryBuilder\QueryBuilder;
-use Maatwebsite\Excel\Facades\Excel;
 use App\Filters\FiltersParticipationSearch;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\ParticipationCancelRequest;
 use App\Http\Requests\Api\ParticipationCreateRequest;
-use App\Http\Requests\Api\ParticipationUpdateRequest;
-use App\Http\Requests\Api\ParticipationDeleteRequest;
 use App\Http\Requests\Api\ParticipationDeclineRequest;
+use App\Http\Requests\Api\ParticipationDeleteRequest;
 use App\Http\Requests\Api\ParticipationManageRequest;
+use App\Http\Requests\Api\ParticipationUpdateRequest;
 use App\Models\Conversation;
 use App\Models\Mission;
+use App\Models\Participation;
 use App\Models\Temoignage;
 use App\Models\User;
 use App\Notifications\ParticipationBenevoleCanceled;
 use App\Notifications\ParticipationDeclined;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class ParticipationController extends Controller
 {
@@ -51,7 +51,7 @@ class ParticipationController extends Controller
                 'conversation.latestMessage',
                 'profile.avatar',
                 'mission.responsable',
-                'mission.structure'
+                'mission.structure',
             ])
             ->defaultSort('-created_at')
             ->paginate(config('query-builder.results_per_page'));
@@ -73,14 +73,14 @@ class ParticipationController extends Controller
     public function store(ParticipationCreateRequest $request)
     {
         $currentUser = User::find(Auth::guard('api')->user()->id);
-        $participationCount = Participation::where('state', '!=', 'Annulée')->where('profile_id', request("profile_id"))
-            ->where('mission_id', request("mission_id"))->count();
+        $participationCount = Participation::where('state', '!=', 'Annulée')->where('profile_id', request('profile_id'))
+            ->where('mission_id', request('mission_id'))->count();
 
         if ($participationCount > 0) {
-            abort(422, "Désolé, vous avez déjà participé à cette mission !");
+            abort(422, 'Désolé, vous avez déjà participé à cette mission !');
         }
 
-        $mission = Mission::find(request("mission_id"));
+        $mission = Mission::find(request('mission_id'));
 
         if ($mission && $mission->has_places_left) {
             $participation = Participation::create($request->validated());
@@ -124,7 +124,7 @@ class ParticipationController extends Controller
                 'type' => 'contextual',
                 'content' => 'La participation a été déclinée',
                 'contextual_state' => 'Refusée',
-                'contextual_reason' => $request->input('reason')
+                'contextual_reason' => $request->input('reason'),
             ]);
 
             if ($request->input('content')) {
@@ -164,9 +164,9 @@ class ParticipationController extends Controller
             $participation->conversation->messages()->create([
                 'from_id' => $currentUser->id,
                 'type' => 'contextual',
-                'content' => 'La participation a été annulée par ' . $currentUser->profile->full_name,
+                'content' => 'La participation a été annulée par '.$currentUser->profile->full_name,
                 'contextual_state' => 'Annulée par bénévole',
-                'contextual_reason' => $request->input('reason')
+                'contextual_reason' => $request->input('reason'),
             ]);
 
             if ($request->input('content')) {
@@ -220,6 +220,7 @@ class ParticipationController extends Controller
     {
         if ($participation->conversation) {
             $conversation = Conversation::with('latestMessage')->find($participation->conversation->id);
+
             return $conversation;
         }
 

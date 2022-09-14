@@ -21,7 +21,7 @@ class HandleDomainesForProfiles extends Command
      *
      * @var string
      */
-    protected $description = "Handle domaines for profiles";
+    protected $description = 'Handle domaines for profiles';
 
     /**
      * Create a new command instance.
@@ -65,7 +65,7 @@ class HandleDomainesForProfiles extends Command
                     'field' => 'profile_domaines',
                 ]);
             } else {
-                $this->warn($taggable->tag_id . ' - ' . $taggable->tag->name . ' not found. Skipped.');
+                $this->warn($taggable->tag_id.' - '.$taggable->tag->name.' not found. Skipped.');
             }
             $bar->advance();
         }

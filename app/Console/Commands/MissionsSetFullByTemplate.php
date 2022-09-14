@@ -6,7 +6,6 @@ use App\Models\Mission;
 use App\Models\MissionTemplate;
 use App\Models\Participation;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\DB;
 
 class MissionsSetFullByTemplate extends Command
 {
@@ -50,7 +49,7 @@ class MissionsSetFullByTemplate extends Command
             $this->info("{$template->title} : {$templateCount}");
         }
 
-        if ($this->confirm($queryMissions->count() . ' missions vont être mises à jour.')) {
+        if ($this->confirm($queryMissions->count().' missions vont être mises à jour.')) {
             $missions = $queryMissions->get();
             foreach ($missions as $mission) {
                 $nbParticipations = $mission->participations->whereIn('state', Participation::ACTIVE_STATUS)->count();

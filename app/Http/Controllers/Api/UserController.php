@@ -3,24 +3,23 @@
 namespace App\Http\Controllers\Api;
 
 use App\Filters\FiltersParticipationSearch;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Participation;
-use App\Models\Profile;
-use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Notifications\UserAnonymize;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Passport\Token;
-use Spatie\QueryBuilder\QueryBuilder;
-use Illuminate\Support\Facades\Auth;
 use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class UserController extends Controller
 {
     public function me(Request $request)
     {
-        $user = User::with('profile', 'profile.avatar', 'profile.skills', 'profile.domaines', 'profile.reseau')->find(Auth::guard('api')->user()->id);
+        $user = User::with('profile', 'profile.avatar', 'profile.skills', 'profile.domaines', 'profile.reseau', 'profile.activities')->find(Auth::guard('api')->user()->id);
         $user->append(['roles', 'statistics']);
 
         return $user;
@@ -29,6 +28,7 @@ class UserController extends Controller
     public function participations(Request $request)
     {
         $user = User::with(['profile'])->find(Auth::guard('api')->user()->id);
+
         return QueryBuilder::for(Participation::where('profile_id', $user->profile->id)->with('profile', 'mission'))
         ->allowedFilters(
             AllowedFilter::custom('search', new FiltersParticipationSearch),
@@ -37,7 +37,7 @@ class UserController extends Controller
         ->allowedIncludes([
             'conversation.latestMessage',
             'mission.responsable.avatar',
-            'mission.structure'
+            'mission.structure',
         ])
         ->defaultSort('-created_at')
         ->paginate(config('query-builder.results_per_page'));
@@ -60,7 +60,7 @@ class UserController extends Controller
         ];
 
         $validator = Validator::make($request->all(), [
-            'email' => ['required', 'email', 'unique:users,email,' . $user->id]
+            'email' => ['required', 'email', 'unique:users,email,'.$user->id],
         ], $messages);
 
         if ($validator->fails()) {
@@ -80,7 +80,7 @@ class UserController extends Controller
         $user = $request->user();
         $inputs = $request->all();
 
-        if (!(Hash::check($request->get('current_password'), $user->password))) {
+        if (! (Hash::check($request->get('current_password'), $user->password))) {
             abort(422, "L'ancien mot de passe est incorrect");
         }
 
@@ -104,12 +104,14 @@ class UserController extends Controller
             ],
         ], $messages);
 
-        if (!$validator->fails()) {
+        if (! $validator->fails()) {
             $user->password = Hash::make($inputs['password']);
             $user->save();
+
             return response()->json($user, 200);
         }
-        return response()->json(['errors'=> $validator->errors()], 422);
+
+        return response()->json(['errors' => $validator->errors()], 422);
     }
 
     public function impersonate(User $user)

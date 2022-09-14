@@ -2,12 +2,12 @@
 
 namespace App\Notifications;
 
-use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
-use Illuminate\Notifications\Messages\MailMessage;
 use App\Models\Territoire;
-use Illuminate\Notifications\Messages\SlackMessage;
+use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Messages\SlackMessage;
+use Illuminate\Notifications\Notification;
 
 class TerritoireWaitingValidation extends Notification implements ShouldQueue
 {
@@ -57,12 +57,11 @@ class TerritoireWaitingValidation extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject('La collectivité "'. $this->territoire->name .'" vient de s\'inscrire. Elle est en attente de validation.')
+            ->subject('La collectivité "'.$this->territoire->name.'" vient de s\'inscrire. Elle est en attente de validation.')
             ->greeting('Bonjour,')
-            ->line('La collectivité "'. $this->territoire->name .'" a rejoint JeVeuxAider.gouv.fr !')
+            ->line('La collectivité "'.$this->territoire->name.'" a rejoint JeVeuxAider.gouv.fr !')
             ->line('Elle est en attente de validation par un modérateur.')
-            ->action('Voir la collectivité', url(config('app.front_url') . '/admin/territoires/' . $this->territoire->id))
-        ;
+            ->action('Voir la collectivité', url(config('app.front_url').'/admin/territoires/'.$this->territoire->id));
     }
 
     /**
@@ -81,7 +80,7 @@ class TerritoireWaitingValidation extends Notification implements ShouldQueue
                     ->to('#déploiement-collectivités-acquisition')
                     ->content('Une nouvelle collectivité vient de s\'inscrire! Elle est en attente de validation.')
                     ->attachment(function ($attachment) use ($territoire) {
-                        $attachment->title($territoire->name, url(config('app.front_url') . '/admin/territoires/' . $territoire->id));
+                        $attachment->title($territoire->name, url(config('app.front_url').'/admin/territoires/'.$territoire->id));
                     });
     }
 

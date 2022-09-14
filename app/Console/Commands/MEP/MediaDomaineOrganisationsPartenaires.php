@@ -20,7 +20,7 @@ class MediaDomaineOrganisationsPartenaires extends Command
      *
      * @var string
      */
-    protected $description = "Media domaine - Ajoute les logos des organisations partenaires";
+    protected $description = 'Media domaine - Ajoute les logos des organisations partenaires';
 
     /**
      * Create a new command instance.
@@ -40,7 +40,7 @@ class MediaDomaineOrganisationsPartenaires extends Command
     public function handle()
     {
         $query = Domaine::query();
-        $this->info("Ajout des logos des organisations partenaires aux modèles de type Domaine");
+        $this->info('Ajout des logos des organisations partenaires aux modèles de type Domaine');
 
         if ($this->confirm('Continuer ?')) {
             $bar = $this->output->createProgressBar($query->count());
@@ -97,8 +97,8 @@ class MediaDomaineOrganisationsPartenaires extends Command
 
         for ($i = 1; $i <= $count; $i++) {
             $data[] = [
-                'filename' => $domaine->slug . '-' . $i,
-                'url' => base_path() . '/' . $folder . $domaine->slug . '-partenaire-' . $i . '.jpg',
+                'filename' => $domaine->slug.'-'.$i,
+                'url' => base_path().'/'.$folder.$domaine->slug.'-partenaire-'.$i.'.jpg',
             ];
         }
 

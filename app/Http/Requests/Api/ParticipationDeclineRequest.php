@@ -25,7 +25,7 @@ class ParticipationDeclineRequest extends ParticipationRequest
     {
         return [
             'reason' => 'required',
-            'content' => ''
+            'content' => '',
         ];
     }
 
@@ -37,7 +37,7 @@ class ParticipationDeclineRequest extends ParticipationRequest
     public function messages()
     {
         return [
-            'reason.required' => 'Merci de sélectionner une raison'
+            'reason.required' => 'Merci de sélectionner une raison',
         ];
     }
 }

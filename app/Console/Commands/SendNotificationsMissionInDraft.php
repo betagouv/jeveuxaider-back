@@ -4,8 +4,8 @@ namespace App\Console\Commands;
 
 use App\Models\Mission;
 use App\Notifications\MissionInDraft;
-use Illuminate\Console\Command;
 use Carbon\Carbon;
+use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Notification;
 
 class SendNotificationsMissionInDraft extends Command
@@ -34,7 +34,7 @@ class SendNotificationsMissionInDraft extends Command
         $query = Mission::with(['responsable'])->where('state', 'Brouillon')
         ->whereBetween('created_at', [
             Carbon::now()->subDays(7)->startOfDay(),
-            Carbon::now()->subDays(7)->endOfDay()
+            Carbon::now()->subDays(7)->endOfDay(),
         ]);
 
         foreach ($query->get() as $mission) {

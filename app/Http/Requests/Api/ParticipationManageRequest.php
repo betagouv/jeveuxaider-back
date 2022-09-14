@@ -13,10 +13,8 @@ class ParticipationManageRequest extends ParticipationRequest
      */
     public function authorize()
     {
-
         return $this->user()->can('view', request()->route('participation'));
     }
-
 
     /**
      * Get the validation rules that apply to the request.

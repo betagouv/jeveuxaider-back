@@ -24,14 +24,12 @@ class ApiEngagement
             // mémoire et citoyenneté
             // autre
 
-
             // Send to Algolia
             $missions = array_map(
-                fn ($mission) =>
-                $this->formatMission($mission),
+                fn ($mission) => $this->formatMission($mission),
                 $response['data']
             );
-            $client->initIndex(config('scout.prefix') . '_covid_missions')->saveObjects($missions);
+            $client->initIndex(config('scout.prefix').'_covid_missions')->saveObjects($missions);
 
             $total = $response['total'];
             $done += $limit;
@@ -44,7 +42,7 @@ class ApiEngagement
     {
         $response = Http::withHeaders([
             'apikey' => config('app.api_engagement_key'),
-        ])->get("https://api.api-engagement.beta.gouv.fr/v0/mission/" . $id);
+        ])->get('https://api.api-engagement.beta.gouv.fr/v0/mission/'.$id);
 
         return isset($response['data']) ? $this->formatMission($response['data']) : null;
     }
@@ -53,7 +51,7 @@ class ApiEngagement
     {
         $response = Http::withHeaders([
             'apikey' => config('app.api_engagement_key'),
-        ])->get("https://api.api-engagement.beta.gouv.fr/v0/mymission/" . $id);
+        ])->get('https://api.api-engagement.beta.gouv.fr/v0/mymission/'.$id);
 
         return isset($response['data']) ? $response['data'] : null;
     }
@@ -66,7 +64,7 @@ class ApiEngagement
         );
 
         $res = $client
-            ->initIndex(config('scout.prefix') . '_covid_missions')
+            ->initIndex(config('scout.prefix').'_covid_missions')
             ->deleteBy([
                 'facetFilters' => 'provider:api_engagement',
             ]);
@@ -85,15 +83,16 @@ class ApiEngagement
         if (strpos($mission['title'], "J'aménage un espace naturel") !== false) {
             return "J'aménage un espace naturel";
         }
-        if (strpos($mission['title'], "Je ramasse des déchets") !== false) {
-            return "Je ramasse des déchets";
+        if (strpos($mission['title'], 'Je ramasse des déchets') !== false) {
+            return 'Je ramasse des déchets';
         }
-        if (strpos($mission['title'], "Je protège la faune et la flore") !== false) {
-            return "Je protège la faune et la flore";
+        if (strpos($mission['title'], 'Je protège la faune et la flore') !== false) {
+            return 'Je protège la faune et la flore';
         }
-        if (strpos($mission['title'], "Je découvre la biodiversité") !== false) {
-            return "Je découvre la biodiversité";
+        if (strpos($mission['title'], 'Je découvre la biodiversité') !== false) {
+            return 'Je découvre la biodiversité';
         }
+
         return null;
     }
 
@@ -197,7 +196,7 @@ class ApiEngagement
 
     private function formatRemote($mission)
     {
-        if (!isset($mission['remote'])) {
+        if (! isset($mission['remote'])) {
             return null;
         }
 
@@ -223,17 +222,17 @@ class ApiEngagement
 
         return [
             'provider' => 'api_engagement',
-            'objectID' => 'ApiEngagement/' . $mission['_id'],
+            'objectID' => 'ApiEngagement/'.$mission['_id'],
             'publisher_name' => $mission['publisherName'],
             'publisher_logo' => $mission['publisherLogo'],
-            'publisher_url' => $mission['publisherUrl'],
+            'publisher_url' => $mission['publisherUrl'] ?? null,
             'application_url' => $mission['applicationUrl'],
             'id' => $mission['_id'],
             'name' => $mission['title'],
             'city' => $mission['city'] ?? null,
             'department' => $mission['departmentCode'] ?? null,
-            'department_name' => isset($mission['departmentName']) && !empty($mission['departmentName']) ?
-                $mission['departmentCode'] . ' - ' . $mission['departmentName'] : null,
+            'department_name' => isset($mission['departmentName']) && ! empty($mission['departmentName']) ?
+                $mission['departmentCode'].' - '.$mission['departmentName'] : null,
             'zip' => $mission['postalCode'] ?? null,
             'places_left' => $mission['places'] ?? null,
             'participations_max' => $mission['places'] ?? null,
@@ -247,18 +246,18 @@ class ApiEngagement
             'template_title' => $this->formatTemplateTitle($mission), // @TODO : à retirer quand facet Algolia OK
             'template' => [
                 'title' => $this->formatTemplateTitle($mission),
-                'photo' => null
+                'photo' => null,
             ],
             'domaine_name' => $this->formatDomain($mission)['name'], // @TODO: A retirer
             'domaine_id' => $domaine['id'],
             'domaine' => [
                 'id' => $domaine['id'],
-                'name' => $domaine['name']
+                'name' => $domaine['name'],
             ],
             'domaines' => [$this->formatDomain($mission)['name']],
             '_geoloc' => [
                 'lat' => isset($mission['location']) && isset($mission['location']['lat']) ? $mission['location']['lat'] : 0,
-                'lng' => isset($mission['location']) && isset($mission['location']['lon']) ? $mission['location']['lon'] : 0
+                'lng' => isset($mission['location']) && isset($mission['location']['lon']) ? $mission['location']['lon'] : 0,
             ],
             'post_date' => strtotime($mission['postedAt']),
             'description' => $mission['description'],
@@ -293,11 +292,12 @@ class ApiEngagement
                 : null;
 
             $place = ApiAdresse::search(['q' => $attributes['zip'], 'type' => 'municipality', 'limit' => 1]);
-            if (!empty($place)) {
+            if (! empty($place)) {
                 $attributes['latitude'] = $place['geometry']['coordinates'][1];
                 $attributes['longitude'] = $place['geometry']['coordinates'][0];
             }
         }
+
         return $attributes;
     }
 
@@ -323,6 +323,7 @@ class ApiEngagement
                     break;
             }
         }
+
         return $domaine;
     }
 
@@ -333,10 +334,10 @@ class ApiEngagement
                 if ($structure->statut_juridique) {
                     $attributes['statut_juridique'] = $structure->statut_juridique;
                 }
-                if (!empty($structure->domaines)) {
+                if (! empty($structure->domaines)) {
                     $attributes['domaines'] = $structure->domaines->pluck('name')->toArray();
                 }
-                if (!empty($structure->publics_beneficiaires)) {
+                if (! empty($structure->publics_beneficiaires)) {
                     $termsPublicsBeneficiaires = config('taxonomies.mission_publics_beneficiaires.terms');
                     $attributes['publics_beneficiaires'] = collect($structure->publics_beneficiaires)->map(function ($item) use ($termsPublicsBeneficiaires) {
                         return $termsPublicsBeneficiaires[$item];
@@ -397,7 +398,7 @@ class ApiEngagement
 
                 return Http::withHeaders([
                     'apikey' => config('app.api_engagement_key'),
-                ])->put("https://api.api-engagement.beta.gouv.fr/v1/association/" . $structure->rna . "/etablissement/" . $structure->api_id, $attributes);
+                ])->put('https://api.api-engagement.beta.gouv.fr/v1/association/'.$structure->rna.'/etablissement/'.$structure->api_id, $attributes);
             } catch (\Throwable $th) {
                 throw $th;
             }
@@ -406,11 +407,10 @@ class ApiEngagement
 
     public static function findAssociation(array $attributes)
     {
-
         try {
             return Http::withHeaders([
                 'apikey' => config('app.api_engagement_key'),
-            ])->post("https://api.api-engagement.beta.gouv.fr/v1/association/search", $attributes);
+            ])->post('https://api.api-engagement.beta.gouv.fr/v1/association/search', $attributes);
         } catch (\Throwable $th) {
             throw $th;
         }

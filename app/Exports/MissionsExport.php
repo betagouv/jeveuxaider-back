@@ -4,17 +4,17 @@ namespace App\Exports;
 
 use App\Filters\FiltersMissionDate;
 use App\Filters\FiltersMissionIsTemplate;
-use Illuminate\Http\Request;
-use App\Models\Mission;
-use Spatie\QueryBuilder\QueryBuilder;
-use Spatie\QueryBuilder\AllowedFilter;
-use Maatwebsite\Excel\Concerns\WithMapping;
-use Maatwebsite\Excel\Concerns\WithHeadings;
-use App\Filters\FiltersMissionSearch;
 use App\Filters\FiltersMissionPlacesLeft;
 use App\Filters\FiltersMissionPublicsVolontaires;
+use App\Filters\FiltersMissionSearch;
+use App\Models\Mission;
+use Illuminate\Http\Request;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromQuery;
+use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\WithMapping;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class MissionsExport implements FromQuery, WithMapping, WithHeadings
 {
@@ -58,7 +58,7 @@ class MissionsExport implements FromQuery, WithMapping, WithHeadings
             ->allowedSorts([
                 'created_at',
                 'updated_at',
-                'places_left'
+                'places_left',
             ]);
     }
 

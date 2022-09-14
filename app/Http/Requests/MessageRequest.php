@@ -36,7 +36,7 @@ class MessageRequest extends FormRequest
     public function messages()
     {
         return [
-            'content.required' => 'Le contenu du message est requis'
+            'content.required' => 'Le contenu du message est requis',
         ];
     }
 }

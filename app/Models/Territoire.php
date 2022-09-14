@@ -2,19 +2,19 @@
 
 namespace App\Models;
 
+use App\Models\Media as ModelMedia;
+use App\Services\ApiAdresse;
+use App\Traits\HasMissingFields;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
+use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use App\Models\Media as ModelMedia;
-use App\Services\ApiAdresse;
-use Illuminate\Support\Facades\Auth;
-use App\Traits\HasMissingFields;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
-use Spatie\Image\Manipulations;
-use Spatie\Activitylog\LogOptions;
 
 class Territoire extends Model implements HasMedia
 {
@@ -23,7 +23,7 @@ class Territoire extends Model implements HasMedia
     protected $table = 'territoires';
 
     protected $guarded = [
-        'id'
+        'id',
     ];
 
     protected $casts = [
@@ -31,14 +31,14 @@ class Territoire extends Model implements HasMedia
         'tags' => 'array',
         'is_published' => 'boolean',
         'seo_engage_paragraphs' => 'json',
-        'missing_fields' => 'array'
+        'missing_fields' => 'array',
     ];
 
     protected $attributes = [
-        'state' => 'validated'
+        'state' => 'validated',
     ];
 
-    protected $checkFields = ['banner', 'suffix_title', 'department', 'zips' ,'seo_recruit_title', 'seo_recruit_description', 'seo_engage_title', 'seo_engage_paragraphs'];
+    protected $checkFields = ['banner', 'suffix_title', 'department', 'zips', 'seo_recruit_title', 'seo_recruit_description', 'seo_engage_title', 'seo_engage_paragraphs'];
 
     protected $appends = ['full_url'];
 
@@ -163,9 +163,9 @@ class Territoire extends Model implements HasMedia
 
     public function setCoordonates()
     {
-        if (!empty($this->zips)) {
+        if (! empty($this->zips)) {
             $place = ApiAdresse::search(['q' => $this->zips[0], 'type' => 'municipality', 'limit' => 1]);
-            if (!empty($place)) {
+            if (! empty($place)) {
                 $this->latitude = $place['geometry']['coordinates'][1];
                 $this->longitude = $place['geometry']['coordinates'][0];
             }
@@ -174,8 +174,8 @@ class Territoire extends Model implements HasMedia
 
     public function getPermissionsAttribute()
     {
-        return[
-            'canViewStats' => Auth::guard('api')->user() ? Auth::guard('api')->user()->can('viewStats', $this) : false
+        return [
+            'canViewStats' => Auth::guard('api')->user() ? Auth::guard('api')->user()->can('viewStats', $this) : false,
         ];
     }
 
@@ -183,24 +183,24 @@ class Territoire extends Model implements HasMedia
     {
         $territoire = $this;
         $missions = Mission::search('', function ($algolia, $query, $options) use ($territoire, $limit) {
-            $config =  [
-                'filters' => 'provider:reserve_civique',
+            $config = [
+                'filters' => 'provider:reserve_civique AND is_autonomy=0',
                 'aroundPrecision' => 2000,
                 'hitsPerPage' => $limit,
             ];
 
             if ($territoire->type == 'department') {
-                $departmentName = config('taxonomies.departments')["terms"][$territoire->department];
+                $departmentName = config('taxonomies.departments')['terms'][$territoire->department];
                 $config = array_merge($config, [
                     'facetFilters' => [
-                        'department_name:' . $territoire->department . ' - ' . $departmentName,
+                        'department_name:'.$territoire->department.' - '.$departmentName,
                     ],
                     'aroundLatLngViaIP' => true,
                 ]);
             } else {
                 if ($territoire->latitude && $territoire->longitude) {
                     $config = array_merge($config, [
-                        'aroundLatLng' => $territoire->latitude . ',' . $territoire->longitude,
+                        'aroundLatLng' => $territoire->latitude.','.$territoire->longitude,
                         'aroundRadius' => 35000,
                         'facetFilters' => ['type:Mission en présentiel'],
                     ]);
@@ -212,10 +212,12 @@ class Territoire extends Model implements HasMedia
             }
 
             $options = array_merge($options, $config);
+
             return $algolia->search($query, $options);
         });
 
         $missions = $missions->get()->load(['structure'])->append('score');
+
         return $missions;
     }
 }

@@ -40,7 +40,7 @@ class FlushTrashParticipations extends Command
     {
         $globalQuery = Participation::whereNotNull('deleted_at');
 
-        $this->info($globalQuery->count() . ' participations are in trash');
+        $this->info($globalQuery->count().' participations are in trash');
 
         if ($this->confirm('Do you wish to continue?')) {
             $participations = $globalQuery->get();

@@ -14,7 +14,7 @@ class AddFieldsToReseauxTable extends Migration
     public function up()
     {
         Schema::table('reseaux', function (Blueprint $table) {
-            $table->json('publics_beneficiaires')->default("[]");
+            $table->json('publics_beneficiaires')->default('[]');
             $table->text('description')->nullable();
             $table->string('phone')->nullable();
             $table->string('email')->nullable();
@@ -46,10 +46,10 @@ class AddFieldsToReseauxTable extends Migration
     public function down()
     {
         Schema::table('reseaux', function (Blueprint $table) {
-            $table->dropColumn("publics_beneficiaires");
-            $table->dropColumn("description");
-            $table->dropColumn("phone");
-            $table->dropColumn("email");
+            $table->dropColumn('publics_beneficiaires');
+            $table->dropColumn('description');
+            $table->dropColumn('phone');
+            $table->dropColumn('email');
             $table->dropColumn('address');
             $table->dropColumn('zip');
             $table->dropColumn('city');

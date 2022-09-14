@@ -16,7 +16,6 @@ class MissionTemplateDeleteRequest extends MissionTemplateRequest
         return $this->user()->can('delete', request()->route('missionTemplate'));
     }
 
-
     /**
      * Get the validation rules that apply to the request.
      *

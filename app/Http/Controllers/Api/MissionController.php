@@ -2,37 +2,29 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Models\Mission;
-use App\Http\Requests\Api\MissionUpdateRequest;
-use App\Http\Requests\Api\MissionStructureRequest;
-use App\Http\Requests\Api\MissionDuplicateRequest;
-use Spatie\QueryBuilder\QueryBuilder;
-use Spatie\QueryBuilder\AllowedFilter;
-use Maatwebsite\Excel\Facades\Excel;
-use App\Exports\MissionsExport;
 use App\Filters\FiltersDisponibility;
 use App\Filters\FiltersMissionDate;
-use App\Filters\FiltersMissionSearch;
 use App\Filters\FiltersMissionIsTemplate;
 use App\Filters\FiltersMissionPlacesLeft;
 use App\Filters\FiltersMissionPriorityAvailable;
 use App\Filters\FiltersMissionPublicsVolontaires;
+use App\Filters\FiltersMissionSearch;
 use App\Filters\FiltersProfileSkill;
 use App\Filters\FiltersProfileTag;
 use App\Filters\FiltersProfileZips;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\MissionDeleteRequest;
-use App\Models\NotificationTemoignage;
+use App\Http\Requests\Api\MissionDuplicateRequest;
+use App\Http\Requests\Api\MissionUpdateRequest;
+use App\Models\Mission;
 use App\Models\Participation;
 use App\Models\Profile;
-use App\Models\Structure;
-use App\Models\Tag;
 use App\Services\ApiEngagement;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Str;
-use App\Notifications\NotificationTemoignageCreate;
+use Illuminate\Http\Request;
+use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\AllowedInclude;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class MissionController extends Controller
 {
@@ -50,7 +42,6 @@ class MissionController extends Controller
 
     public function index(Request $request)
     {
-
         $result = QueryBuilder::for(Mission::role($request->header('Context-Role')))
             ->with(['domaine', 'template', 'template.domaine', 'structure'])
             ->allowedFilters([
@@ -77,29 +68,30 @@ class MissionController extends Controller
                 AllowedFilter::custom('search', new FiltersMissionSearch),
                 AllowedFilter::scope('available'),
                 AllowedFilter::custom('is_template', new FiltersMissionIsTemplate),
+                AllowedFilter::exact('is_autonomy'),
             ])
             ->allowedIncludes([
                 'template.photo',
                 'illustrations',
-                AllowedInclude::count('participationsCount')
+                AllowedInclude::count('participationsCount'),
             ])
             ->defaultSort('-created_at')
             ->allowedSorts([
                 'created_at',
                 'updated_at',
-                'places_left'
+                'places_left',
             ])
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
 
-            $result->append('has_places_left');
-            return $result;
+        $result->append('has_places_left');
+
+        return $result;
     }
 
     public function show(Request $request, $id)
     {
-
         if (is_numeric($id)) {
-            $mission = Mission::with(['structure.members:id,first_name,last_name,mobile,email', 'template.domaine', 'domaine', 'domaineSecondary', 'responsable', 'skills', 'template.photo', 'illustrations', 'structure.illustrations', 'structure.overrideImage1', 'structure.logo'])->withCount('temoignages')->where('id', $id)->first();
+            $mission = Mission::with(['structure.members:id,first_name,last_name,mobile,email', 'template.domaine', 'domaine', 'domaineSecondary', 'responsable.tags', 'skills', 'template.photo', 'illustrations', 'structure.illustrations', 'structure.overrideImage1', 'structure.logo'])->withCount('temoignages')->where('id', $id)->first();
             if ($mission) {
                 $mission->append(['full_address', 'has_places_left']);
             }
@@ -112,7 +104,7 @@ class MissionController extends Controller
             }
         }
 
-        if (!$mission) {
+        if (! $mission) {
             abort(404, 'Cette mission n\'existe pas');
         }
 
@@ -122,7 +114,7 @@ class MissionController extends Controller
     public function update(MissionUpdateRequest $request, Mission $mission)
     {
         if ($request->has('skills')) {
-            $skills =  collect($request->input('skills'));
+            $skills = collect($request->input('skills'));
             $values = $skills->pluck($skills, 'id')->map(function ($item) {
                 return ['field' => 'mission_skills'];
             });
@@ -130,7 +122,7 @@ class MissionController extends Controller
         }
 
         if ($request->has('illustrations')) {
-            $illustrations =  collect($request->input('illustrations'));
+            $illustrations = collect($request->input('illustrations'));
             $values = $illustrations->pluck($illustrations, 'id')->map(function ($item) {
                 return ['field' => 'mission_illustrations'];
             });
@@ -138,6 +130,7 @@ class MissionController extends Controller
         }
 
         $mission->update($request->validated());
+
         return $mission;
     }
 
@@ -154,7 +147,7 @@ class MissionController extends Controller
 
     public function duplicate(MissionDuplicateRequest $request, Mission $mission)
     {
-        if ($mission->template_id && (!$mission->template->published || $mission->template->state !== 'validated')) {
+        if ($mission->template_id && (! $mission->template->published || $mission->template->state !== 'validated')) {
             abort('422', "Le modèle de cette mission n'est plus disponible.");
         }
 
@@ -172,7 +165,7 @@ class MissionController extends Controller
 
     public function benevoles(Request $request, Mission $mission)
     {
-        if ($request->header('Context-Role') !== 'admin' && (!$mission->has_places_left || $mission->state != 'Validée' || $mission->structure->state != 'Validée')) {
+        if ($request->header('Context-Role') !== 'admin' && (! $mission->has_places_left || $mission->state != 'Validée' || $mission->structure->state != 'Validée')) {
             abort(401, "Vous n'êtes pas autorisé à accéder à ce contenu");
         }
 
@@ -191,12 +184,12 @@ class MissionController extends Controller
             $profilesQueryBuilder->department($mission->department);
         }
 
-
         return QueryBuilder::for($profilesQueryBuilder)
             ->allowedIncludes([
                 'user',
                 'participationsValidatedCount',
                 'avatar',
+                'notificationsBenevoles'
             ])
             ->allowedFilters(
                 'zip',
@@ -216,13 +209,14 @@ class MissionController extends Controller
         $query = Mission::search('')
             ->where('id', '!=', $mission->id)
             ->with([
-                'facetFilters' => 'domaine_name:' . $mission->domaine_name,
+                'facetFilters' => 'domaine_name:'.$mission->domaine_name,
                 // Sans prendre en compte l'API, sinon erreur ScoutExtended ObjectID seems invalid
                 'filters' => 'provider:reserve_civique',
             ]);
         if ($mission->latitude && $mission->longitude) {
             $query->aroundLatLng($mission->latitude, $mission->longitude);
         }
+
         return $query->paginate(10)->load('domaine', 'template', 'template.domaine', 'template.media', 'structure');
     }
 }

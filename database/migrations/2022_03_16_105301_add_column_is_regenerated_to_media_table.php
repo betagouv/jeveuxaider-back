@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('media', function (Blueprint $table) {
-            $table->boolean('is_regenerated')->default(FALSE);
+            $table->boolean('is_regenerated')->default(false);
         });
     }
 

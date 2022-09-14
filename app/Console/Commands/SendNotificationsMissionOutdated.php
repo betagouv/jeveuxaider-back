@@ -4,8 +4,8 @@ namespace App\Console\Commands;
 
 use App\Models\Mission;
 use App\Notifications\MissionOutdated;
-use Illuminate\Console\Command;
 use Carbon\Carbon;
+use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Notification;
 
 class SendNotificationsMissionOutdated extends Command
@@ -34,7 +34,7 @@ class SendNotificationsMissionOutdated extends Command
         $query = Mission::with(['responsable'])->where('state', 'Validée')
         ->whereBetween('end_date', [
             Carbon::now()->subDays(15)->startOfDay(),
-            Carbon::now()->subDays(15)->endOfDay()
+            Carbon::now()->subDays(15)->endOfDay(),
         ]);
 
         foreach ($query->get() as $mission) {

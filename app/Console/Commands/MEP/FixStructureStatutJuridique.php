@@ -19,7 +19,7 @@ class FixStructureStatutJuridique extends Command
      *
      * @var string
      */
-    protected $description = "Fix structure statut juridique";
+    protected $description = 'Fix structure statut juridique';
 
     /**
      * Create a new command instance.
@@ -38,20 +38,19 @@ class FixStructureStatutJuridique extends Command
      */
     public function handle()
     {
-
         $structuresPubliques = Structure::withTrashed()->where('statut_juridique', 'Structure publique');
-        $this->info($structuresPubliques->count() . ' structures with Structure publique will be updated to Organisation publique');
+        $this->info($structuresPubliques->count().' structures with Structure publique will be updated to Organisation publique');
         if ($this->confirm('Do you wish to continue?')) {
             $structuresPubliques->update([
-                'statut_juridique' => 'Organisation publique'
+                'statut_juridique' => 'Organisation publique',
             ]);
         }
 
-        $structuresPrivees = Structure::withTrashed()->where('statut_juridique','Structure privée');
-        $this->info($structuresPrivees->count() . ' structures with Structure privée will be updated to Organisation privée');
+        $structuresPrivees = Structure::withTrashed()->where('statut_juridique', 'Structure privée');
+        $this->info($structuresPrivees->count().' structures with Structure privée will be updated to Organisation privée');
         if ($this->confirm('Do you wish to continue?')) {
             $structuresPrivees->update([
-                'statut_juridique' => 'Organisation privée'
+                'statut_juridique' => 'Organisation privée',
             ]);
         }
     }

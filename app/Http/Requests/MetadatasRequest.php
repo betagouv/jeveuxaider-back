@@ -24,8 +24,7 @@ class MetadatasRequest extends FormRequest
     public function rules()
     {
         return [
-            'properties' => ''
+            'properties' => '',
         ];
     }
-
 }

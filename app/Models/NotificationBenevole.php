@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
 class NotificationBenevole extends Model
@@ -39,9 +39,10 @@ class NotificationBenevole extends Model
                 break;
             case 'responsable':
                 $user = Auth::guard('api')->user();
+
                 return $query
                     ->whereHas('mission', function (Builder $query) use ($user) {
-                        if ($user->context_role == 'responsable' && $user->contextable_type == 'structure' && !empty($user->contextable_id)) {
+                        if ($user->context_role == 'responsable' && $user->contextable_type == 'structure' && ! empty($user->contextable_id)) {
                             $query->where('structure_id', $user->contextable_id);
                         } else {
                             $query->where('structure_id', $user->profile->structures->pluck('id')->first());

@@ -16,8 +16,8 @@ class IsAdmin
      */
     public function handle($request, Closure $next)
     {
-        if (!$request->user()->is_admin) {
-            return new Response(["message"=>"Vous n'avez pas les droits administrateurs nécéssaires"], 401);
+        if (! $request->user()->is_admin) {
+            return new Response(['message' => "Vous n'avez pas les droits administrateurs nécéssaires"], 401);
         }
 
         return $next($request);

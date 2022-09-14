@@ -2,11 +2,11 @@
 
 namespace App\Notifications;
 
-use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
-use Illuminate\Notifications\Messages\MailMessage;
 use App\Models\Mission;
+use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
 class MissionOutdated extends Notification implements ShouldQueue
 {
@@ -56,13 +56,13 @@ class MissionOutdated extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject("Votre mission « " . $this->mission->name . " » a-t-elle pris fin ?")
-            ->greeting('Bonjour ' . $notifiable->first_name . ' 👋,')
+            ->subject('Votre mission « '.$this->mission->name.' » a-t-elle pris fin ?')
+            ->greeting('Bonjour '.$notifiable->first_name.' 👋,')
             ->line("L'une de vos missions est arrivée à échéance : la date de fin que vous avez renseignée est dépassée. Deux solutions s'offrent à vous :")
-            ->line("- Si votre mission se poursuit, il suffit de mettre à jour la date de fin")
-            ->line("- Si votre mission a pris fin, il faut la passer au statut « Terminé ».")
-            ->action('Je mets à jour ma mission', url(config('app.front_url'). '/admin/missions/' . $this->mission->id))
-            ->line("En cas de besoin, vous pouvez répondre à ce mail pour échanger directement avec le support utilisateurs !");
+            ->line('- Si votre mission se poursuit, il suffit de mettre à jour la date de fin')
+            ->line('- Si votre mission a pris fin, il faut la passer au statut « Terminé ».')
+            ->action('Je mets à jour ma mission', url(config('app.front_url').'/admin/missions/'.$this->mission->id))
+            ->line('En cas de besoin, vous pouvez répondre à ce mail pour échanger directement avec le support utilisateurs !');
     }
 
     /**

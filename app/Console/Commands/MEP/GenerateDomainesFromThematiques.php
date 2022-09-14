@@ -3,7 +3,6 @@
 namespace App\Console\Commands\MEP;
 
 use App\Models\Domaine;
-use App\Models\MissionTemplate;
 use App\Models\Thematique;
 use Illuminate\Console\Command;
 
@@ -21,7 +20,7 @@ class GenerateDomainesFromThematiques extends Command
      *
      * @var string
      */
-    protected $description = "Generate domaines from thematiques";
+    protected $description = 'Generate domaines from thematiques';
 
     /**
      * Create a new command instance.
@@ -41,7 +40,7 @@ class GenerateDomainesFromThematiques extends Command
     public function handle()
     {
         $thematiques = Thematique::with('domaine')->get();
-        $this->info($thematiques->count() . ' domaines will be generated');
+        $this->info($thematiques->count().' domaines will be generated');
         if ($this->confirm('Do you wish to continue?')) {
             $thematiques->map(function ($thematique) {
                 Domaine::create([

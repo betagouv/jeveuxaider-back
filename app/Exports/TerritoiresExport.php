@@ -2,14 +2,14 @@
 
 namespace App\Exports;
 
-use App\Models\Territoire;
-use Spatie\QueryBuilder\QueryBuilder;
-use Spatie\QueryBuilder\AllowedFilter;
-use Maatwebsite\Excel\Concerns\WithMapping;
-use Maatwebsite\Excel\Concerns\WithHeadings;
-use Maatwebsite\Excel\Concerns\Exportable;
 use App\Filters\FiltersTerritoireSearch;
+use App\Models\Territoire;
+use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromQuery;
+use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\WithMapping;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class TerritoiresExport implements FromQuery, WithMapping, WithHeadings
 {
@@ -47,13 +47,12 @@ class TerritoiresExport implements FromQuery, WithMapping, WithHeadings
             'state',
             'is_published',
             'full_url',
-            'structure_id'
+            'structure_id',
         ];
     }
 
     public function map($territoire): array
     {
-
         return [
             $territoire->id,
             $territoire->name,

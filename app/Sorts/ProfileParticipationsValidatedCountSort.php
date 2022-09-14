@@ -2,9 +2,9 @@
 
 namespace App\Sorts;
 
-use Spatie\QueryBuilder\Sorts\Sort;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
+use Spatie\QueryBuilder\Sorts\Sort;
 
 class ProfileParticipationsValidatedCountSort implements Sort
 {
@@ -19,6 +19,5 @@ class ProfileParticipationsValidatedCountSort implements Sort
             ->where('participations.state', 'Validée')
             ->groupBy('profiles.id')
             ->orderBy('participations_count', $direction);
-
     }
 }

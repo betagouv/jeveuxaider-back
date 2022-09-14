@@ -2,14 +2,14 @@
 
 namespace App\Models;
 
+use App\Models\Media as ModelMedia;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
+use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use App\Models\Media as ModelMedia;
-use Spatie\Image\Manipulations;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class MissionTemplate extends Model implements HasMedia
 {
@@ -23,7 +23,7 @@ class MissionTemplate extends Model implements HasMedia
 
     protected $attributes = [
         'priority' => false,
-        'published' => false
+        'published' => false,
     ];
 
     protected $casts = [

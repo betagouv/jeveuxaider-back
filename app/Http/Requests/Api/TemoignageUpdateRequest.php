@@ -3,9 +3,6 @@
 namespace App\Http\Requests\Api;
 
 use App\Http\Requests\TemoignageRequest;
-use App\Models\Temoignage;
-use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Gate;
 
 class TemoignageUpdateRequest extends TemoignageRequest
 {
@@ -18,5 +15,4 @@ class TemoignageUpdateRequest extends TemoignageRequest
     {
         return $this->user()->can('update', request()->route('temoignage'));
     }
-
 }

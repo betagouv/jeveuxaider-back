@@ -8,14 +8,15 @@ class Utils
 {
     public static function ucfirst($string = null)
     {
-        return mb_strtoupper(mb_substr($string, 0, 1)) . mb_substr($string, 1);
+        return mb_strtoupper(mb_substr($string, 0, 1)).mb_substr($string, 1);
     }
 
     public static function slug($value)
     {
         // Remove useless words
-        $exclude_words = [' à ',' des ',' de ',' du ',' les ',' le ',' la ',' par ',' ou '];
+        $exclude_words = [' à ', ' des ', ' de ', ' du ', ' les ', ' le ', ' la ', ' par ', ' ou '];
         $value = str_replace($exclude_words, ' ', $value);
+
         return Str::slug($value);
     }
 
@@ -28,6 +29,7 @@ class Utils
                 $department = substr($zip, 0, 3);
                 break;
         }
+
         return $department;
     }
 
@@ -47,11 +49,17 @@ class Utils
             case 'day':
                 $hours = 7;
                 break;
+            case '2_days':
+                $hours = 14;
+                break;
             case '3_days':
                 $hours = 21;
                 break;
+            case '4_days':
+                $hours = 28;
+                break;
             case '5_days':
-                $hours = 48;
+                $hours = 35;
                 break;
             default:
                 break;
@@ -59,6 +67,9 @@ class Utils
 
         $multiplier = 1;
         switch ($time_period) {
+            case 'day':
+                $multiplier = 365;
+                break;
             case 'week':
                 $multiplier = 52;
                 break;
@@ -68,6 +79,7 @@ class Utils
             default:
                 break;
         }
+
         return $hours * $multiplier;
     }
 }

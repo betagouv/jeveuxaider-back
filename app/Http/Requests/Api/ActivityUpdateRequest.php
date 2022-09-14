@@ -12,7 +12,6 @@ class ActivityUpdateRequest extends ActivityRequest
         return $this->user()->isAdmin();
     }
 
-
     public function rules()
     {
         $activity = request()->route('activity');
@@ -32,7 +31,7 @@ class ActivityUpdateRequest extends ActivityRequest
             'seo_engage_paragraphs' => '',
             'promoted_organisations' => '',
             'domaines' => 'required',
-            'promoted_organisations' => ''
+            'promoted_organisations' => '',
         ];
     }
 }

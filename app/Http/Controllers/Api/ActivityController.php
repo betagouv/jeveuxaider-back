@@ -2,23 +2,22 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\ActivityUpdateRequest;
-use App\Models\Mission;
-use Illuminate\Http\Request;
-use Spatie\QueryBuilder\QueryBuilder;
-use Spatie\QueryBuilder\AllowedFilter;
 use App\Filters\FiltersActivitySearch;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\ActivityRequest;
+use App\Http\Requests\Api\ActivityUpdateRequest;
 use App\Models\Activity;
+use App\Models\Mission;
 use App\Models\Participation;
-use Spatie\QueryBuilder\AllowedInclude;
+use Illuminate\Http\Request;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class ActivityController extends Controller
 {
     public function index(Request $request)
     {
-        $results =  QueryBuilder::for(Activity::class)
+        $results = QueryBuilder::for(Activity::class)
             ->allowedFilters([
                 'state',
                 'type',
@@ -79,7 +78,7 @@ class ActivityController extends Controller
         $activity->update($request->validated());
 
         if ($request->has('domaines')) {
-            $domaines =  collect($request->input('domaines'));
+            $domaines = collect($request->input('domaines'));
             $values = $domaines->pluck($domaines, 'id')->map(function ($item) {
                 return ['field' => 'activity_domaines'];
             });
@@ -91,7 +90,6 @@ class ActivityController extends Controller
 
     public function delete(Request $request, Activity $activity)
     {
-
         $relatedMissionsCount = Mission::ofActivity($activity->id)->count();
 
         if ($relatedMissionsCount) {

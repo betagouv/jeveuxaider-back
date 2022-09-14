@@ -14,12 +14,11 @@ use App\Models\Structure;
 use App\Notifications\ReseauNewLead;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
-use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class ReseauController extends Controller
 {
-
     public function index(Request $request)
     {
         $results = QueryBuilder::for(Reseau::class)
@@ -29,7 +28,7 @@ class ReseauController extends Controller
                 AllowedFilter::exact('id'),
                 'name',
             ])
-            ->allowedIncludes(['illustrations', 'overrideImage1','missions','structures'])
+            ->allowedIncludes(['illustrations', 'overrideImage1', 'missions', 'structures'])
             ->defaultSort('-created_at')
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
 
@@ -42,10 +41,9 @@ class ReseauController extends Controller
 
     public function show($slugOrId)
     {
-
         if (is_numeric($slugOrId)) {
             return Reseau::where('id', $slugOrId)
-            ->with(['responsables', 'domaines', 'logo', 'illustrations', 'overrideImage1', 'overrideImage2', 'illustrationsAntennes'])
+            ->with(['responsables.tags', 'domaines', 'logo', 'illustrations', 'overrideImage1', 'overrideImage2', 'illustrationsAntennes'])
             ->withCount('structures', 'missions', 'missionTemplates', 'invitationsAntennes', 'responsables')
             ->firstOrFail()->append(['missing_fields', 'completion_rate']);
         }
@@ -63,7 +61,7 @@ class ReseauController extends Controller
                         }])
                         ->orderBy('missions_count', 'DESC')
                         ->limit(5);
-                }
+                },
             ])
             ->firstOrFail()
             ->append(['participations_max']);
@@ -76,7 +74,7 @@ class ReseauController extends Controller
         );
 
         if ($request->has('domaines')) {
-            $domaines =  collect($request->input('domaines'));
+            $domaines = collect($request->input('domaines'));
             $values = $domaines->pluck($domaines, 'id')->map(function ($item) {
                 return ['field' => 'reseau_domaines'];
             });
@@ -84,7 +82,7 @@ class ReseauController extends Controller
         }
 
         if ($request->has('illustrations')) {
-            $illustrations =  collect(array_filter($request->input('illustrations')));
+            $illustrations = collect(array_filter($request->input('illustrations')));
             $values = $illustrations->pluck($illustrations, 'id')->map(function ($item) {
                 return ['field' => 'reseau_illustrations'];
             });
@@ -97,7 +95,7 @@ class ReseauController extends Controller
     public function update(ReseauUpdateRequest $request, Reseau $reseau)
     {
         if ($request->has('domaines')) {
-            $domaines =  collect($request->input('domaines'));
+            $domaines = collect($request->input('domaines'));
             $values = $domaines->pluck($domaines, 'id')->map(function ($item) {
                 return ['field' => 'reseau_domaines'];
             });
@@ -105,7 +103,7 @@ class ReseauController extends Controller
         }
 
         if ($request->has('illustrations')) {
-            $illustrations =  collect($request->input('illustrations'));
+            $illustrations = collect($request->input('illustrations'));
             $values = $illustrations->pluck($illustrations, 'id')->map(function ($item) {
                 return ['field' => 'reseau_illustrations'];
             });
@@ -157,6 +155,7 @@ class ReseauController extends Controller
     {
         $this->authorize('update', $reseau);
         $reseau->deleteResponsable($responsable);
+
         return $reseau->responsables;
     }
 
@@ -171,7 +170,6 @@ class ReseauController extends Controller
 
     public function delete(Request $request, Reseau $reseau)
     {
-
         $relatedStructuresCount = Structure::ofReseau($reseau->id)->count();
         $relatedInvitationsCount = Invitation::ofReseau($reseau->id)->count();
         $relatedInvitationsAntennesCount = Invitation::ofReseauAndRoleAntenne($reseau->id)->count();

@@ -28,7 +28,7 @@ class ActivityRequest extends FormRequest
             'seo_engage_paragraphs' => '',
             'promoted_organisations' => '',
             'domaines' => 'required',
-            'promoted_organisations' => ''
+            'promoted_organisations' => '',
         ];
     }
 

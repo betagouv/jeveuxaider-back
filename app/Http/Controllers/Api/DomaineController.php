@@ -4,17 +4,17 @@ namespace App\Http\Controllers\Api;
 
 use App\Filters\FiltersDomaineSearch;
 use App\Http\Controllers\Controller;
-use App\Models\Domaine;
 use App\Http\Requests\Api\DomaineCreateRequest;
 use App\Http\Requests\Api\DomaineUpdateRequest;
+use App\Models\Domaine;
 use App\Models\Mission;
-use Spatie\QueryBuilder\QueryBuilder;
 use App\Models\Participation;
 use App\Models\Profile;
 use App\Models\Reseau;
 use App\Models\Structure;
-use Spatie\QueryBuilder\AllowedFilter;
 use Illuminate\Http\Request;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class DomaineController extends Controller
 {
@@ -27,7 +27,7 @@ class DomaineController extends Controller
             ])
             ->allowedIncludes([
                 'banner',
-                'missionTemplates'
+                'missionTemplates',
             ])
             ->defaultSort('name')
             ->paginate(config('query-builder.results_per_page'));
@@ -81,7 +81,6 @@ class DomaineController extends Controller
 
     public function delete(Request $request, Domaine $domaine)
     {
-
         $relatedMissionsCount = Mission::ofDomaine($domaine->id)->count();
         $relatedStructuresCount = Structure::ofDomaine($domaine->id)->count();
         $relatedReseauxCount = Reseau::ofDomaine($domaine->id)->count();

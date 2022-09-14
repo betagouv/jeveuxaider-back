@@ -2,13 +2,13 @@
 
 namespace App\Filters;
 
-use Spatie\QueryBuilder\Filters\Filter;
-use Illuminate\Database\Eloquent\Builder;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
+use Spatie\QueryBuilder\Filters\Filter;
 
 class FiltersMissionDate implements Filter
 {
-    public function __invoke(Builder $query, $value, string $property) : Builder
+    public function __invoke(Builder $query, $value, string $property): Builder
     {
         if ($value == 'incoming') {
             return $query->where('start_date', '>', Carbon::now());

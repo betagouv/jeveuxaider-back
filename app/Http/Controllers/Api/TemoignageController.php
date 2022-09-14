@@ -3,14 +3,14 @@
 namespace App\Http\Controllers\Api;
 
 use App\Filters\FiltersTemoignageSearch;
-use App\Models\Temoignage;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\TemoignageCreateRequest;
 use App\Http\Requests\Api\TemoignageUpdateRequest;
 use App\Models\Structure;
-use Spatie\QueryBuilder\QueryBuilder;
+use App\Models\Temoignage;
+use Illuminate\Http\Request;
 use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class TemoignageController extends Controller
 {
@@ -43,27 +43,30 @@ class TemoignageController extends Controller
     public function update(TemoignageUpdateRequest $request, Temoignage $temoignage)
     {
         $temoignage->update($request->validated());
+
         return $temoignage;
     }
 
     public function publish(TemoignageUpdateRequest $request, Temoignage $temoignage)
     {
         $temoignage->update(['is_published' => true]);
+
         return $temoignage;
     }
 
     public function unpublish(TemoignageUpdateRequest $request, Temoignage $temoignage)
     {
         $temoignage->update(['is_published' => false]);
+
         return $temoignage;
     }
 
     public function store(TemoignageCreateRequest $request)
     {
         // Seulement si temoignage non existant.
-        $temoignagesCount = Temoignage::where('participation_id', request("participation_id"))->count();
+        $temoignagesCount = Temoignage::where('participation_id', request('participation_id'))->count();
         if ($temoignagesCount > 0) {
-            abort(422, "Un témoignage existe déjà pour cette participation !");
+            abort(422, 'Un témoignage existe déjà pour cette participation !');
         }
 
         return Temoignage::create($request->validated());
@@ -75,7 +78,7 @@ class TemoignageController extends Controller
             'participation.mission',
             'participation.mission.structure',
             'participation.profile',
-            'participation.profile.avatar'
+            'participation.profile.avatar',
         ])->where('grade', '>=', 4)->where('is_published', true)->ofStructure($structure->id)->get();
     }
 }

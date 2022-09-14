@@ -2,9 +2,9 @@
 
 namespace App\Policies;
 
+use App\Models\Territoire;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use App\Models\Territoire;
 
 class TerritoirePolicy
 {
@@ -29,7 +29,6 @@ class TerritoirePolicy
 
     public function update(User $user, Territoire $territoire)
     {
-
         $ids = $user->profile->territoires()->pluck('id')->toArray();
         if (in_array($territoire->id, $ids)) {
             return true;
@@ -45,11 +44,11 @@ class TerritoirePolicy
 
     public function viewStats(User $user, Territoire $territoire)
     {
-        if($territoire->state !== 'validated') {
+        if ($territoire->state !== 'validated') {
             return false;
         }
 
-        if($user->profile->territoires()->where('territoire_id', $territoire->id)->count() > 1) {
+        if ($user->profile->territoires()->where('territoire_id', $territoire->id)->count() > 1) {
             return true;
         }
 

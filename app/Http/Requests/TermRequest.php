@@ -28,7 +28,7 @@ class TermRequest extends FormRequest
             'description' => '',
             'weight' => '',
             'parent_id' => '',
-            'is_published' => 'boolean'
+            'is_published' => 'boolean',
         ];
 
         return $rules;

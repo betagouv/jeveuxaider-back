@@ -2,19 +2,19 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Helpers\Utils;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Scout\Searchable;
-use Spatie\Tags\HasTags;
+use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
-use Carbon\Carbon;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
-use App\Helpers\Utils;
-use Spatie\Activitylog\LogOptions;
-use Illuminate\Database\Eloquent\Casts\Attribute;
+use Spatie\Tags\HasTags;
 
 class Mission extends Model
 {
@@ -35,11 +35,13 @@ class Mission extends Model
         'end_date' => 'datetime:Y-m-d\TH:i',
         'latitude' => 'float',
         'longitude' => 'float',
+        'is_autonomy' => 'boolean',
+        'autonomy_zips' => 'json',
     ];
 
     protected $attributes = [
         'state' => 'En attente de validation',
-        'country' => 'France'
+        'country' => 'France',
     ];
 
     protected $appends = ['full_url', 'full_address'];
@@ -56,7 +58,7 @@ class Mission extends Model
 
     public function shouldBeSearchable()
     {
-        if (!$this->structure) {
+        if (! $this->structure) {
             return false;
         }
         // Attention  bien mettre à jour la query côté API Engagement aussi ( Api\EngagementController@feed )
@@ -65,7 +67,7 @@ class Mission extends Model
 
     public function searchableAs()
     {
-        return config('scout.prefix') . '_covid_missions';
+        return config('scout.prefix').'_covid_missions';
     }
 
     public function getFullUrlAttribute()
@@ -80,7 +82,7 @@ class Mission extends Model
 
     public function toSearchableArray()
     {
-        $this->load(['structure', 'structure.reseaux:id,name','activity', 'template.activity', 'template.domaine', 'template.photo', 'illustrations', 'domaine', 'domaineSecondary']);
+        $this->load(['structure', 'structure.reseaux:id,name', 'activity', 'template.activity', 'template.domaine', 'template.photo', 'illustrations', 'domaine', 'domaineSecondary']);
 
         $domaines = [];
         $domaine = $this->template_id ? $this->template->domaine : $this->domaine;
@@ -101,7 +103,7 @@ class Mission extends Model
             'city' => $this->city,
             'state' => $this->state,
             'department' => $this->department,
-            'department_name' => $this->department . ' - ' . config('taxonomies.departments.terms')[$this->department],
+            'department_name' => $this->department.' - '.config('taxonomies.departments.terms')[$this->department],
             'zip' => $this->zip,
             'periodicite' => $this->periodicite,
             'has_places_left' => $this->has_places_left,
@@ -151,15 +153,24 @@ class Mission extends Model
             'is_snu_mig_compatible' => $this->is_snu_mig_compatible,
             'snu_mig_places' => $this->snu_mig_places,
             'commitment__total' => $this->commitment__total,
-            'publics_beneficiaires' => array_map(function($public) use ($publicsBeneficiaires) {
+            'publics_beneficiaires' => array_map(function ($public) use ($publicsBeneficiaires) {
                 return $publicsBeneficiaires[$public];
             }, $this->publics_beneficiaires),
+            'is_autonomy' => $this->is_autonomy,
         ];
 
-        if ($this->latitude && $this->longitude) {
+        if ($this->is_autonomy) {
+            $mission['_geoloc'] = [];
+            foreach ($this->autonomy_zips as $item) {
+                $mission['_geoloc'][] = [
+                    'lat' => $item['latitude'],
+                    'lng' => $item['longitude'],
+                ];
+            }
+        } elseif ($this->latitude && $this->longitude) {
             $mission['_geoloc'] = [
                 'lat' => $this->latitude,
-                'lng' => $this->longitude
+                'lng' => $this->longitude,
             ];
         }
 
@@ -213,7 +224,6 @@ class Mission extends Model
 
     public function getPictureAttribute()
     {
-
         if ($this->template_id) {
             return $this->template->photo->urls;
         }
@@ -260,9 +270,9 @@ class Mission extends Model
     {
         // Score = ( Taux de reponse score + Response time score ) / 2
         $structure_response_ratio = $this->structure->response_ratio ?? 50;
+
         return round(($this->structure->response_time_score + $structure_response_ratio) / 2);
     }
-
 
     public function scopeHasPlacesLeft($query)
     {
@@ -273,7 +283,6 @@ class Mission extends Model
     {
         return $query->where('structure_id', $id);
     }
-
 
     public function scopeComplete($query)
     {
@@ -415,10 +424,12 @@ class Mission extends Model
             case 'responsable':
                 // Missions des structures dont je suis responsable
                 $user = Auth::guard('api')->user();
+
                 return $query->where('structure_id', $user->contextable_id);
                 break;
             case 'responsable_territoire':
                 $user = Auth::guard('api')->user();
+
                 return $query->ofTerritoire($user->contextable_id);
                 break;
             case 'referent':
@@ -458,9 +469,9 @@ class Mission extends Model
     {
         $latName = 'latitude';
         $lonName = 'longitude';
-        $query->select($this->getTable() . '.*');
-        $sql = "((ACOS(SIN(? * PI() / 180) * SIN(" . $latName . " * PI() / 180) + COS(? * PI() / 180) * COS(" .
-            $latName . " * PI() / 180) * COS((? - " . $lonName . ") * PI() / 180)) * 180 / PI()) * 60 * ?) as distance";
+        $query->select($this->getTable().'.*');
+        $sql = '((ACOS(SIN(? * PI() / 180) * SIN('.$latName.' * PI() / 180) + COS(? * PI() / 180) * COS('.
+            $latName.' * PI() / 180) * COS((? - '.$lonName.') * PI() / 180)) * 180 / PI()) * 60 * ?) as distance';
 
         $query->selectRaw($sql, [$latitude, $latitude, $longitude, 1.1515 * 1.609344]);
 
@@ -476,7 +487,7 @@ class Mission extends Model
         // Si la personne qui clone fait parti des responsables de l'organisation,
         // la mettre en tant que responsable de la mission
         $currentUserProfile = Auth::guard('api')->user()->profile;
-        if ($this->structure->members->contains("id", $currentUserProfile->id)) {
+        if ($this->structure->members->contains('id', $currentUserProfile->id)) {
             $mission->responsable_id = $currentUserProfile->id;
         }
 
@@ -497,7 +508,8 @@ class Mission extends Model
         return SlugOptions::create()
             ->generateSlugsFrom(function ($mission) {
                 $mission->load('structure');
-                return !empty($mission->city)
+
+                return ! empty($mission->city)
                     ? "benevolat-{$mission->structure->name}-{$mission->city}"
                     : "benevolat-{$mission->structure->name}";
             })
@@ -520,6 +532,7 @@ class Mission extends Model
     public function scopeMinimumCommitment($query, $duration, $time_period = null)
     {
         $total = Utils::calculateCommitmentTotal($duration, $time_period);
+
         return $query->where('commitment__total', '>=', $total);
     }
 
@@ -554,7 +567,7 @@ class Mission extends Model
             'notifications' => [
                 'count' => $notificationsTemoignage->count(),
                 'total' => $this->participations_validated_count,
-            ]
+            ],
         ];
     }
 
@@ -595,6 +608,8 @@ class Mission extends Model
     public function format()
     {
         $domaine = $this->template_id ? $this->template->domaine : $this->domaine;
+        $activity = $this->template && $this->template->activity_id ? $this->template->activity : $this->activity;
+
         return [
             'id' => $this->id,
             'name' => $this->name,
@@ -603,6 +618,10 @@ class Mission extends Model
             'domaine' => $domaine ? [
                 'id' => $domaine->id,
                 'name' => $domaine->name,
+            ] : null,
+            'activity' => $activity ? [
+                'id' => $activity->id,
+                'name' => $activity->name,
             ] : null,
             'start_date' => $this->start_date,
             'end_date' => $this->end_date,
@@ -635,6 +654,7 @@ class Mission extends Model
                 'rna' => $this->structure->rna,
                 'api_id' => $this->structure->api_id,
                 'state' => $this->structure->state,
+                'reseaux' => $this->structure->reseaux->count() ? $this->structure->reseaux->all() : null,
             ] : null,
             'responsable' => $this->responsable ? [
                 'id' => $this->responsable->id,

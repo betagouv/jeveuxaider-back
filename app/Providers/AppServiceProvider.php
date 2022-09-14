@@ -2,41 +2,43 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Validator;
-use App\Observers\StructureObserver;
-use App\Models\Structure;
-use App\Observers\MissionObserver;
-use App\Observers\MissionTemplateObserver;
-use App\Models\Mission;
-use App\Models\Participation;
-use App\Models\Profile;
-use App\Observers\ParticipationObserver;
-use App\Observers\ProfileObserver;
-use App\Observers\UserObserver;
+use Algolia\AlgoliaSearch\Config\SearchConfig;
+use Algolia\AlgoliaSearch\SearchClient;
 use App\Models\ActivityLog;
 use App\Models\Conversation;
 use App\Models\Invitation;
 use App\Models\Message;
+use App\Models\Mission;
 use App\Models\MissionTemplate;
+use App\Models\NotificationTemoignage;
+use App\Models\Participation;
+use App\Models\Profile;
+use App\Models\Reseau;
+use App\Models\Structure;
+use App\Models\Temoignage;
+use App\Models\Territoire;
 use App\Models\User;
 use App\Observers\ActivityLogObserver;
 use App\Observers\ConversationObserver;
 use App\Observers\InvitationObserver;
 use App\Observers\MessageObserver;
-use Algolia\AlgoliaSearch\Config\SearchConfig;
-use Algolia\AlgoliaSearch\SearchClient;
-use App\Models\NotificationTemoignage;
-use App\Models\Reseau;
-use App\Models\Temoignage;
-use App\Models\Territoire;
+use App\Observers\MissionObserver;
+use App\Observers\MissionTemplateObserver;
 use App\Observers\NotificationTemoignageObserver;
+use App\Observers\ParticipationObserver;
+use App\Observers\ProfileObserver;
 use App\Observers\ReseauObserver;
+use App\Observers\StructureObserver;
 use App\Observers\TemoignageObserver;
 use App\Observers\TerritoireObserver;
+use App\Observers\UserObserver;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\ServiceProvider;
+use Symfony\Component\Mailer\Bridge\Sendinblue\Transport\SendinblueTransportFactory;
+use Symfony\Component\Mailer\Transport\Dsn;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -83,18 +85,27 @@ class AppServiceProvider extends ServiceProvider
         Temoignage::observe(TemoignageObserver::class);
         Reseau::observe(ReseauObserver::class);
 
-
         Validator::extend('phone', function ($attribute, $value, $parameters) {
             return preg_match('/^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$/', $value);
         });
 
         Model::preventLazyLoading(true);
 
-        if (config("mail.reroute")) {
-            if(Auth::guard('api')->user()) {
+        Mail::extend('sendinblue', function () {
+            return (new SendinblueTransportFactory)->create(
+                new Dsn(
+                    'sendinblue+api',
+                    'default',
+                    config('services.sendinblue.key')
+                )
+            );
+        });
+
+        if (config('mail.reroute')) {
+            if (Auth::guard('api')->user()) {
                 Mail::alwaysTo(Auth::guard('api')->user()->email);
             } else {
-                Mail::alwaysTo("pinto.jeremy@gmail.com");
+                Mail::alwaysTo('pinto.jeremy@gmail.com');
             }
         }
     }

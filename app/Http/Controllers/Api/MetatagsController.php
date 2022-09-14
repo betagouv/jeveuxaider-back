@@ -13,20 +13,22 @@ class MetatagsController extends Controller
     public function update(MetadatasRequest $request, Metatag $metatag)
     {
         $metatag->update($request->validated());
+
         return $metatag;
     }
 
-    public function store(Request $request, String $modelType, Int $modelId)
+    public function store(Request $request, string $modelType, int $modelId)
     {
         $metadatas = Metatag::create([
-            'metatagable_type' => 'App\\Models\\' . Str::studly($modelType),
+            'metatagable_type' => 'App\\Models\\'.Str::studly($modelType),
             'metatagable_id' => $modelId,
             'properties' => $request->post('properties'),
         ]);
+
         return $metadatas;
     }
 
-    public function delete (MetadatasRequest $request, Metatag $metatag)
+    public function delete(MetadatasRequest $request, Metatag $metatag)
     {
         return $metatag->delete();
     }

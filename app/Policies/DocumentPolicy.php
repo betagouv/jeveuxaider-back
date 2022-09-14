@@ -2,9 +2,9 @@
 
 namespace App\Policies;
 
+use App\Models\Document;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use App\Models\Document;
 
 class DocumentPolicy
 {

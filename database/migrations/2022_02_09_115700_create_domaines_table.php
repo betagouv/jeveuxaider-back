@@ -16,7 +16,7 @@ class CreateDomainesTable extends Migration
         Schema::create('domaines', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('title')->default("Rejoignez JeVeuxAider dans votre domaine daction");
+            $table->string('title')->default('Rejoignez JeVeuxAider dans votre domaine daction');
             $table->string('slug');
             $table->text('description')->nullable();
             $table->boolean('published')->default(true);

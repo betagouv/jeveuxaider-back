@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Participation;
-use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ChartsController extends Controller
 {
-
     public $startDate;
+
     public $endDate;
+
     public $department;
 
     public function __construct(Request $request)
@@ -29,13 +29,13 @@ class ChartsController extends Controller
         } elseif ($request->input('period') == 'current_month') {
             $this->startDate = Carbon::now()->startOfMonth()->format('Y-m-d H:i:s');
             $this->endDate = Carbon::now()->endOfMonth()->format('Y-m-d H:i:s');
-        }elseif ($request->input('period') == 'last_month') {
+        } elseif ($request->input('period') == 'last_month') {
             $this->startDate = Carbon::now()->subMonth(1)->startOfMonth()->format('Y-m-d H:i:s');
             $this->endDate = Carbon::now()->subMonth(1)->endOfMonth()->format('Y-m-d H:i:s');
         } elseif ($request->input('period') == 'current_week') {
             $this->startDate = Carbon::now()->startOfWeek()->format('Y-m-d H:i:s');
             $this->endDate = Carbon::now()->endOfWeek()->format('Y-m-d H:i:s');
-        }elseif ($request->input('period') == 'last_week') {
+        } elseif ($request->input('period') == 'last_week') {
             $this->startDate = Carbon::now()->subWeek(1)->startOfWeek()->format('Y-m-d H:i:s');
             $this->endDate = Carbon::now()->subWeek(1)->endOfWeek()->format('Y-m-d H:i:s');
         } else {
@@ -64,7 +64,7 @@ class ChartsController extends Controller
                 GROUP BY date_trunc('month', structures.created_at), year, month
                 ORDER BY date_trunc('month', structures.created_at) ASC
             ", [
-            "department" => $this->department ? '%'.$this->department.'%' : '%%',
+            'department' => $this->department ? '%'.$this->department.'%' : '%%',
         ]);
 
         $collection = collect($results);
@@ -94,7 +94,7 @@ class ChartsController extends Controller
                 GROUP BY date_trunc('month', missions.created_at), year, month
                 ORDER BY date_trunc('month', missions.created_at) ASC
             ", [
-            "department" => $this->department ? '%'.$this->department.'%' : '%%',
+            'department' => $this->department ? '%'.$this->department.'%' : '%%',
         ]);
 
         $collection = collect($results);
@@ -124,7 +124,7 @@ class ChartsController extends Controller
                 GROUP BY date_trunc('month', participations.created_at), year, month
                 ORDER BY date_trunc('month', participations.created_at) ASC
             ", [
-            "department" => $this->department ? '%'.$this->department.'%' : '%%',
+            'department' => $this->department ? '%'.$this->department.'%' : '%%',
         ]);
 
         $collection = collect($results);
@@ -157,9 +157,9 @@ class ChartsController extends Controller
                 GROUP BY date_trunc('month', participations.created_at), YEAR, MONTH
                 ORDER BY date_trunc('month', participations.created_at) ASC
             ", [
-                "start" => $this->startDate,
-                "end" => $this->endDate,
-                "department" => $this->department ? '%'.$this->department.'%' : '%%',
+            'start' => $this->startDate,
+            'end' => $this->endDate,
+            'department' => $this->department ? '%'.$this->department.'%' : '%%',
         ]);
 
         $collection = collect($results);
@@ -187,7 +187,7 @@ class ChartsController extends Controller
                 GROUP BY date_trunc('month', profiles.created_at), year, month
                 ORDER BY date_trunc('month', profiles.created_at) ASC
             ", [
-            "department" => $this->department ? $this->department.'%' : '%%',
+            'department' => $this->department ? $this->department.'%' : '%%',
         ]);
 
         $collection = collect($results);
@@ -201,5 +201,4 @@ class ChartsController extends Controller
 
         return $items;
     }
-
 }

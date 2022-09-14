@@ -3,17 +3,17 @@
 namespace App\Exports;
 
 use App\Filters\FiltersProfileMinParticipations;
-use App\Models\Profile;
-use Spatie\QueryBuilder\QueryBuilder;
-use Spatie\QueryBuilder\AllowedFilter;
-use App\Filters\FiltersProfileSearch;
 use App\Filters\FiltersProfileRole;
+use App\Filters\FiltersProfileSearch;
+use App\Models\Profile;
 use App\Sorts\ProfileParticipationsValidatedCountSort;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromQuery;
-use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\WithMapping;
+use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\AllowedSort;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class ProfilesExport implements FromQuery, WithMapping, WithHeadings
 {

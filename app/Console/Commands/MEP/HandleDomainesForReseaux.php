@@ -21,7 +21,7 @@ class HandleDomainesForReseaux extends Command
      *
      * @var string
      */
-    protected $description = "Handle domaines for reseaux";
+    protected $description = 'Handle domaines for reseaux';
 
     /**
      * Create a new command instance.
@@ -65,7 +65,7 @@ class HandleDomainesForReseaux extends Command
                     'field' => 'reseau_domaines',
                 ]);
             } else {
-                $this->warn($taggable->tag_id . ' - ' . $taggable->tag->name . ' not found. Skipped.');
+                $this->warn($taggable->tag_id.' - '.$taggable->tag->name.' not found. Skipped.');
             }
             $bar->advance();
         }

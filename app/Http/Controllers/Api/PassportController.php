@@ -2,22 +2,22 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\User;
-use App\Models\Profile;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
-use Illuminate\Support\Facades\Password;
-use App\Notifications\RegisterUserVolontaire;
-use App\Http\Requests\RegisterVolontaireRequest;
 use App\Http\Requests\RegisterResponsableWithStructureRequest;
+use App\Http\Requests\RegisterVolontaireRequest;
 use App\Models\ActivityLog;
+use App\Models\Profile;
 use App\Models\SocialAccount;
 use App\Models\Structure;
+use App\Models\User;
+use App\Notifications\RegisterUserVolontaire;
 use App\Services\ApiEngagement;
+use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Validator;
 
 class PassportController extends Controller
 {
@@ -25,12 +25,12 @@ class PassportController extends Controller
 
     public function registerVolontaire(RegisterVolontaireRequest $request)
     {
-        $utmSource = request("utm_source");
+        $utmSource = request('utm_source');
         $user = User::create(
             [
-                'name' => request("email"),
-                'email' => request("email"),
-                'password' => Hash::make(request("password")),
+                'name' => request('email'),
+                'email' => request('email'),
+                'password' => Hash::make(request('password')),
                 'context_role' => 'volontaire',
                 'utm_source' => is_array($utmSource) ? current($utmSource) : $utmSource,
             ]
@@ -55,11 +55,11 @@ class PassportController extends Controller
     {
         $user = User::create(
             [
-                'name' => request("email"),
-                'email' => request("email"),
-                'password' => Hash::make(request("password")),
+                'name' => request('email'),
+                'email' => request('email'),
+                'password' => Hash::make(request('password')),
                 'context_role' => 'responsable',
-                'utm_source' => request("utm_source")
+                'utm_source' => request('utm_source'),
             ]
         );
         $attributes = $request->validated();
@@ -73,7 +73,7 @@ class PassportController extends Controller
         $structureAttributes = [
             'user_id' => $user->id,
             'name' => request('structure_name'),
-            'statut_juridique' => request('structure_statut_juridique')
+            'statut_juridique' => request('structure_statut_juridique'),
         ];
 
         // MAPPING API ENGAGEMENT
@@ -108,11 +108,11 @@ class PassportController extends Controller
                     'causer_id' => $user->id,
                     'causer_type' => 'App\Models\User',
                     'data' => [
-                        "subject_title" => $structure->name,
-                        "full_name" => $profile->full_name,
-                        "causer_id" => $profile->id,
-                        "context_role" => 'responsable'
-                    ]
+                        'subject_title' => $structure->name,
+                        'full_name' => $profile->full_name,
+                        'causer_id' => $profile->id,
+                        'context_role' => 'responsable',
+                    ],
                 ]
             );
 
@@ -124,12 +124,12 @@ class PassportController extends Controller
         $user = Auth::guard('api')->user();
         $socialAccount = SocialAccount::where(['user_id' => $user->id, 'provider' => 'franceconnect'])->first();
         if ($socialAccount) {
-            $franceConnectLogoutUrl = config('services.franceconnect.url') . "/api/v1/logout?"
-                . http_build_query(
+            $franceConnectLogoutUrl = config('services.franceconnect.url').'/api/v1/logout?'
+                .http_build_query(
                     [
                         'id_token_hint' => $socialAccount->data['id_token'],
                         'state' => 'franceconnect',
-                        'post_logout_redirect_uri' => config('app.front_url')
+                        'post_logout_redirect_uri' => config('app.front_url'),
                     ]
                 );
         }
@@ -137,7 +137,7 @@ class PassportController extends Controller
         $request->user()->token()->revoke();
 
         return [
-            'franceConnectLogoutUrl' => isset($franceConnectLogoutUrl) ? $franceConnectLogoutUrl : null
+            'franceConnectLogoutUrl' => isset($franceConnectLogoutUrl) ? $franceConnectLogoutUrl : null,
         ];
     }
 
@@ -145,7 +145,7 @@ class PassportController extends Controller
     {
         $messages = [
             'email.required' => 'Un email est requis',
-            'email.email' => 'Le format de l\'email est invalide'
+            'email.email' => 'Le format de l\'email est invalide',
         ];
 
         $validator = Validator::make(

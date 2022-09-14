@@ -2,7 +2,6 @@
 
 namespace App\Console\Commands;
 
-use Error;
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
@@ -46,18 +45,18 @@ class CustomMediaRegenerate extends Command
         }
 
         if ($this->option('reset-is-regenerated')) {
-            Media::query()->update(['is_regenerated' => FALSE]);
+            Media::query()->update(['is_regenerated' => false]);
         }
 
         // $mediaFiles = $this->getMediaToBeRegenerated();
-        $query = Media::where('is_regenerated', FALSE);
+        $query = Media::where('is_regenerated', false);
 
         $modelType = $this->argument('modelType') ?? '';
         if ($modelType !== '') {
             $query->where('model_type', $modelType);
         }
         $ids = $this->option('ids');
-        if (!empty($ids)) {
+        if (! empty($ids)) {
             if (! is_array($ids)) {
                 $ids = explode(',', $ids);
             }
@@ -81,7 +80,7 @@ class CustomMediaRegenerate extends Command
                     $this->option('only-missing'),
                     $this->option('with-responsive-images')
                 );
-                $media->is_regenerated = TRUE;
+                $media->is_regenerated = true;
                 $media->saveQuietly();
             } catch (Exception $exception) {
                 $this->warn("ERROR Media id {$media->id}");
@@ -110,7 +109,7 @@ class CustomMediaRegenerate extends Command
         // Get this arg first as it can also be passed to the greater-than-id branch
         $modelType = $this->argument('modelType') ?? '';
 
-        $startingFromId = (int)$this->option('starting-from-id');
+        $startingFromId = (int) $this->option('starting-from-id');
         if ($startingFromId !== 0) {
             $excludeStartingId = $this->option('exclude-starting-id') ?? false;
 

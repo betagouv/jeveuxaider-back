@@ -6,7 +6,6 @@ use App\Models\Domainable;
 use App\Models\Domaine;
 use App\Models\Taggable;
 use Illuminate\Console\Command;
-use App\Models\Term;
 
 class HandleDomainesForStructures extends Command
 {
@@ -22,7 +21,7 @@ class HandleDomainesForStructures extends Command
      *
      * @var string
      */
-    protected $description = "Handle domaines for structures";
+    protected $description = 'Handle domaines for structures';
 
     /**
      * Create a new command instance.
@@ -66,7 +65,7 @@ class HandleDomainesForStructures extends Command
                     'field' => 'structure_domaines',
                 ]);
             } else {
-                $this->warn($taggable->tag_id . ' - ' . $taggable->tag->name . ' not found. Skipped.');
+                $this->warn($taggable->tag_id.' - '.$taggable->tag->name.' not found. Skipped.');
             }
             $bar->advance();
         }

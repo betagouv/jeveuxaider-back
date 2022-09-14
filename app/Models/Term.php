@@ -55,7 +55,7 @@ class Term extends Model
 
     public function searchableAs()
     {
-        return config('scout.prefix') . '_covid_terms';
+        return config('scout.prefix').'_covid_terms';
     }
 
     public function toSearchableArray()

@@ -20,65 +20,67 @@ class Airtable
             )
             ->withToken(config('services.airtable.key'))
             ->withOptions($options)
-            ->$method("https://api.airtable.com/v0/" . config('services.airtable.base') . $path);
+            ->$method('https://api.airtable.com/v0/'.config('services.airtable.base').$path);
 
-
-            if(!$response->successful()) {
-                throw new \Exception("Invalid response from Airtable (".$response->status().") : " . $response->body());
+            if (! $response->successful()) {
+                throw new \Exception('Invalid response from Airtable ('.$response->status().') : '.$response->body());
             }
 
             return $response;
         } catch (\Exception $e) {
             report($e->getMessage());
+
             return $e->getMessage();
         }
     }
 
-    public static function syncMission(Mission $mission) 
+    public static function syncMission(Mission $mission)
     {
         $fields = self::formatMissionAttributes($mission);
-        return self::syncObject('mission', $fields); 
+
+        return self::syncObject('mission', $fields);
     }
 
-    public static function syncStructure(Structure $structure) 
+    public static function syncStructure(Structure $structure)
     {
         $fields = self::formatStructureAttributes($structure);
-        return self::syncObject('structure', $fields); 
+
+        return self::syncObject('structure', $fields);
     }
 
-    public static function deleteObject($type, Model $object) 
+    public static function deleteObject($type, Model $object)
     {
-        $objectAirtableId = self::getAirtableId($type, $object->id); 
+        $objectAirtableId = self::getAirtableId($type, $object->id);
 
-        if($objectAirtableId) {
+        if ($objectAirtableId) {
             return self::api(
                 'delete',
-                $type == 'mission' ? '/Missions/' . $objectAirtableId : '/Organisations/' . $objectAirtableId,
+                $type == 'mission' ? '/Missions/'.$objectAirtableId : '/Organisations/'.$objectAirtableId,
             );
         }
     }
 
-    private static function syncObject($type, $fields) 
+    private static function syncObject($type, $fields)
     {
-        $objectAirtableId = self::getAirtableId($type, $fields['Id']); 
+        $objectAirtableId = self::getAirtableId($type, $fields['Id']);
 
-        if(!$objectAirtableId) {
+        if (! $objectAirtableId) {
             return self::createObject($type, $fields);
-
         } else {
             return self::updateObject($type, $objectAirtableId, $fields);
         }
     }
 
-    private static function getAirtableId($type, Int $id)
+    private static function getAirtableId($type, int $id)
     {
         $path = $type == 'mission' ? '/Missions' : '/Organisations';
         $recordsAirtable = Http::withToken(config('services.airtable.key'))
-            ->get('https://api.airtable.com/v0/' . config('services.airtable.base') . $path, 
+            ->get('https://api.airtable.com/v0/'.config('services.airtable.base').$path,
             [
-                'filterByFormula' => '{Id} = ' . $id,
+                'filterByFormula' => '{Id} = '.$id,
             ]);
-        return count($recordsAirtable['records']) > 0 ? $recordsAirtable['records'][0]["id"] : false;
+
+        return count($recordsAirtable['records']) > 0 ? $recordsAirtable['records'][0]['id'] : false;
     }
 
     private static function createObject($type, $fields)
@@ -88,21 +90,21 @@ class Airtable
             $type == 'mission' ? '/Missions' : '/Organisations',
             [
                 'json' => [
-                    'fields' => $fields
-                ]
+                    'fields' => $fields,
+                ],
             ]
         );
     }
 
-    private static function updateObject($type, String $objectAirtableId, $fields)
+    private static function updateObject($type, string $objectAirtableId, $fields)
     {
         return self::api(
             'patch',
-            $type == 'mission' ? '/Missions/' . $objectAirtableId : '/Organisations/' . $objectAirtableId,
+            $type == 'mission' ? '/Missions/'.$objectAirtableId : '/Organisations/'.$objectAirtableId,
             [
                 'json' => [
-                    'fields' => $fields
-                ]
+                    'fields' => $fields,
+                ],
             ]
         );
     }
@@ -122,21 +124,21 @@ class Airtable
             'Places max' => $mission->participations_max,
             'Présentiel / À distance' => $mission->type,
             'Domaine' => $mission->domaine ? $mission->domaine->name : $mission->template->domaine->name,
-            'Date de début' =>  $mission->start_date ? Carbon::create($mission->start_date)->format("m-d-Y") : null, // mm-dd-YYYY
-            'Date de fin' =>  $mission->end_date ? Carbon::create($mission->end_date)->format("m-d-Y") : null,
+            'Date de début' => $mission->start_date ? Carbon::create($mission->start_date)->format('m-d-Y') : null, // mm-dd-YYYY
+            'Date de fin' => $mission->end_date ? Carbon::create($mission->end_date)->format('m-d-Y') : null,
             'Organisation Id' => $mission->structure->id,
             'Organisation' => $mission->structure->name,
             'Organisation Statut' => $mission->structure->state,
             'Organisation Statut Juridique' => $mission->structure->statut_juridique,
             'Modèle de mission Id' => $mission->template ? $mission->template->id : null,
-            'Activité Id' => $activity ? $activity->id : null, 
+            'Activité Id' => $activity ? $activity->id : null,
             'Activité Titre' => $activity ? $activity->name : null,
-            'URL' => config('app.front_url') . $mission->full_url,
+            'URL' => config('app.front_url').$mission->full_url,
             'Description' => $mission->objectif,
             'Précision' => $mission->description,
             'Quelques mots' => $mission->information,
-            'Crée le' => Carbon::create($mission->created_at)->format("m-d-Y"),
-            'Modifiée le' => Carbon::create($mission->updated_at)->format("m-d-Y"),
+            'Crée le' => Carbon::create($mission->created_at)->format('m-d-Y'),
+            'Modifiée le' => Carbon::create($mission->updated_at)->format('m-d-Y'),
         ];
 
         return $attributes;
@@ -154,9 +156,9 @@ class Airtable
             'Taux de réponse' => $structure->response_ratio / 100,
             'Temps de réponse' => $structure->response_time / (60 * 60 * 24),
             'Missions en ligne' => $structure->missions()->available()->count(),
-            'URL' => config('app.front_url') . $structure->full_url,
-            'Crée le' => Carbon::create($structure->created_at)->format("m-d-Y"),
-            'Modifiée le' => Carbon::create($structure->updated_at)->format("m-d-Y"),
+            'URL' => config('app.front_url').$structure->full_url,
+            'Crée le' => Carbon::create($structure->created_at)->format('m-d-Y'),
+            'Modifiée le' => Carbon::create($structure->updated_at)->format('m-d-Y'),
         ];
 
         return $attributes;

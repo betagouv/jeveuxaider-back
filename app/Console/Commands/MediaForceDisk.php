@@ -2,7 +2,6 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Media;
 use Illuminate\Console\Command;
 use Spatie\MediaLibrary\MediaCollections\Models\Media as ModelsMedia;
 
@@ -20,7 +19,7 @@ class MediaForceDisk extends Command
      *
      * @var string
      */
-    protected $description = "Media Force disk";
+    protected $description = 'Media Force disk';
 
     /**
      * Create a new command instance.
@@ -40,7 +39,7 @@ class MediaForceDisk extends Command
     public function handle()
     {
         $query = ModelsMedia::query();
-        $this->info($query->count() . ' medias will be updated');
+        $this->info($query->count().' medias will be updated');
 
         if ($this->confirm('Do you wish to continue?')) {
             $disk = $this->argument('disk');
@@ -61,6 +60,7 @@ class MediaForceDisk extends Command
     {
         $media->disk = $disk;
         $media->conversions_disk = $disk;
+
         return $media;
     }
 }

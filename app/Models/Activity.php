@@ -2,18 +2,18 @@
 
 namespace App\Models;
 
+use App\Models\Media as ModelMedia;
+use App\Traits\HasMetatags;
+use App\Traits\HasMissingFields;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use App\Models\Media as ModelMedia;
-use App\Traits\HasMissingFields;
-use App\Traits\HasMetatags;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
-use Spatie\Image\Manipulations;
-use Spatie\Activitylog\LogOptions;
 
 class Activity extends Model implements HasMedia
 {
@@ -22,7 +22,7 @@ class Activity extends Model implements HasMedia
     protected $table = 'activities';
 
     protected $guarded = [
-        'id'
+        'id',
     ];
 
     protected $casts = [
@@ -47,6 +47,11 @@ class Activity extends Model implements HasMedia
     public function promotedOrganisations()
     {
         return $this->morphMany(ModelMedia::class, 'model')->where('collection_name', 'activity__promoted_organisations');
+    }
+
+    public function profiles()
+    {
+        return $this->belongsToMany(Profile::class, 'activity_profile');
     }
 
     public function getPlacesLeftAttribute()

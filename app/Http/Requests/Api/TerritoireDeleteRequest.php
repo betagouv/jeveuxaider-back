@@ -16,7 +16,6 @@ class TerritoireDeleteRequest extends TerritoireRequest
         return $this->user()->can('delete', request()->route('territoire'));
     }
 
-
     /**
      * Get the validation rules that apply to the request.
      *

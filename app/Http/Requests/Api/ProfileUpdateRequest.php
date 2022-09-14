@@ -19,7 +19,6 @@ class ProfileUpdateRequest extends ProfileRequest
         return $this->user()->can('update', $profile);
     }
 
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -48,6 +47,7 @@ class ProfileUpdateRequest extends ProfileRequest
             'description' => '',
             'domaines' => '',
             'skills' => '',
+            'tags' => '',
             'type' => '',
             'commitment__duration' => '',
             'commitment__time_period' => '',
@@ -89,7 +89,7 @@ class ProfileUpdateRequest extends ProfileRequest
             'mobile.regex' => 'Le numéro de téléphone n\'est pas valide',
             'phone' => 'Le numéro de téléphone n\'est pas valide',
             'phone.min' => 'Le numéro de téléphone n\'est pas valide',
-            'phone.regex' => 'Le numéro de téléphone n\'est pas valide'
+            'phone.regex' => 'Le numéro de téléphone n\'est pas valide',
         ];
     }
 }

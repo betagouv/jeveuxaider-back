@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Mission;
 use App\Models\Participation;
 use App\Models\Profile;
 use App\Models\Reseau;
 use App\Models\Structure;
+use Illuminate\Http\Request;
 
 class StatisticsController extends Controller
 {
@@ -49,7 +49,7 @@ class StatisticsController extends Controller
                     'participations' => Participation::role($request->header('Context-Role'))->count(),
                     'participations_validated' => Participation::role($request->header('Context-Role'))->where('state', 'Validée')->count(),
                     'places_left' => $placesLeft,
-                    'places_left_waiting' => Mission::role($request->header('Context-Role'))->whereIn('state', ['En attente de validation','En cours de traitement'])->sum('places_left'),
+                    'places_left_waiting' => Mission::role($request->header('Context-Role'))->whereIn('state', ['En attente de validation', 'En cours de traitement'])->sum('places_left'),
                     'places_occupation_rate' => $placesOffered ? round((($placesOffered - $placesLeft) / $placesOffered) * 100) : 0,
                 ];
                 break;
@@ -60,7 +60,7 @@ class StatisticsController extends Controller
                     'participations' => Participation::role($request->header('Context-Role'))->count(),
                     'participations_validated' => Participation::role($request->header('Context-Role'))->where('state', 'Validée')->count(),
                     'places_left' => $placesLeft,
-                    'places_left_waiting' =>  Mission::role($request->header('Context-Role'))->whereIn('state', ['En attente de validation','En cours de traitement'])->sum('places_left'),
+                    'places_left_waiting' => Mission::role($request->header('Context-Role'))->whereIn('state', ['En attente de validation', 'En cours de traitement'])->sum('places_left'),
                     'places_occupation_rate' => $placesOffered ? round((($placesOffered - $placesLeft) / $placesOffered) * 100) : 0,
                 ];
                 break;
@@ -83,11 +83,11 @@ class StatisticsController extends Controller
         return [
             'missions_total' => $structure->missions()->count(),
             'missions_available' => $structure->missions()->available()->count(),
-            'missions_state' =>  $missionsStateCount,
+            'missions_state' => $missionsStateCount,
             'participations_total' => $structure->participations()->count(),
-            'participations_state' =>  $participationsStateCount,
+            'participations_state' => $participationsStateCount,
             'places_left' => $places_left,
-            'places_left_waiting' => $structure->missions()->whereIn('state', ['En attente de validation','En cours de traitement'])->sum('places_left'),
+            'places_left_waiting' => $structure->missions()->whereIn('state', ['En attente de validation', 'En cours de traitement'])->sum('places_left'),
             'places_occupation_rate' => $places_left ? round((($places_offered - $places_left) / $places_offered) * 100) : 0,
             'response_ratio' => $structure->response_ratio,
             'response_time' => $structure->response_time,
@@ -101,10 +101,9 @@ class StatisticsController extends Controller
             return $mission->participations()->where('participations.state', $state)->count();
         }, config('taxonomies.participation_workflow_states.terms'));
 
-
         return [
             'participations_total' => $mission->participations()->count(),
-            'participations_state' =>  $participationsStateCount,
+            'participations_state' => $participationsStateCount,
         ];
     }
 
@@ -130,11 +129,11 @@ class StatisticsController extends Controller
             'organisations_actives' => Mission::ofReseau($reseau->id)->pluck('structure_id')->unique()->count(),
             'missions' => $reseau->missions()->count(),
             'missions_actives' => $reseau->missions()->available()->count(),
-            'missions_state' =>  $missionsStateCount,
+            'missions_state' => $missionsStateCount,
             'participations' => $reseau->participations()->count(),
-            'participations_state' =>  $participationsStateCount,
+            'participations_state' => $participationsStateCount,
             'places_left' => $placesLeft,
-            'places_left_waiting' => Mission::ofReseau($reseau->id)->whereIn('state', ['En attente de validation','En cours de traitement'])->sum('places_left'),
+            'places_left_waiting' => Mission::ofReseau($reseau->id)->whereIn('state', ['En attente de validation', 'En cours de traitement'])->sum('places_left'),
             'places_occupation_rate' => $placesOffered ? round((($placesOffered - $placesLeft) / $placesOffered) * 100) : 0,
         ];
     }

@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
+use App\Filters\FiltersNotificationTemoignageSearch;
 use App\Http\Controllers\Controller;
 use App\Models\NotificationTemoignage;
 use App\Models\Participation;
 use App\Models\Temoignage;
 use App\Notifications\NotificationTemoignageCreate;
-use Spatie\QueryBuilder\QueryBuilder;
-use Spatie\QueryBuilder\AllowedFilter;
 use Illuminate\Database\Eloquent\Builder;
-use App\Filters\FiltersNotificationTemoignageSearch;
+use Illuminate\Http\Request;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class NotificationTemoignageController extends Controller
 {
@@ -27,9 +27,9 @@ class NotificationTemoignageController extends Controller
     //         ->paginate(config('query-builder.results_per_page'));
     // }
 
-    public function show(Request $request, String $token)
+    public function show(Request $request, string $token)
     {
-        return NotificationTemoignage::with(['participation.profile','participation.mission','participation.mission.structure'])->whereToken($token)->firstOrFail();
+        return NotificationTemoignage::with(['participation.profile', 'participation.mission', 'participation.mission.structure'])->whereToken($token)->firstOrFail();
     }
 
     // public function fromParticipation(Request $request, Participation $participation)

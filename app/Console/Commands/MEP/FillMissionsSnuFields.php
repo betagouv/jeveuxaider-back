@@ -38,19 +38,18 @@ class FillMissionsSnuFields extends Command
      */
     public function handle()
     {
-        $missionsSnu = Mission::whereJsonContains('publics_volontaires', "Jeunes volontaires du Service National Universel");
-        $this->info($missionsSnu->count() . ' missions will be updated');
+        $missionsSnu = Mission::whereJsonContains('publics_volontaires', 'Jeunes volontaires du Service National Universel');
+        $this->info($missionsSnu->count().' missions will be updated');
         if ($this->confirm('Do you wish to continue?')) {
-
             $bar = $this->output->createProgressBar($missionsSnu->count());
             $bar->start();
 
             foreach ($missionsSnu->cursor() as $mission) {
-                $mission->publics_volontaires = collect($mission->publics_volontaires)->filter(function($item){
-                    return $item != "Jeunes volontaires du Service National Universel";
+                $mission->publics_volontaires = collect($mission->publics_volontaires)->filter(function ($item) {
+                    return $item != 'Jeunes volontaires du Service National Universel';
                 })->values();
 
-                if($mission->type == 'Mission en présentiel'){
+                if ($mission->type == 'Mission en présentiel') {
                     $mission->is_snu_mig_compatible = true;
                     $mission->snu_mig_places = $mission->places_left;
                 }
@@ -60,8 +59,6 @@ class FillMissionsSnuFields extends Command
             }
 
             $bar->finish();
-
         }
-
     }
 }
