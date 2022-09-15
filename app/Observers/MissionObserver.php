@@ -162,6 +162,7 @@ class MissionObserver
             $mission->recurrent_description = null;
         }
         if ($mission->date_type == 'recurring') {
+            $mission->dates = null;
             $mission->end_date = null;
         }
         if ($mission->commitment__duration) {
