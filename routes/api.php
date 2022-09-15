@@ -331,4 +331,20 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::post('territoires/{territoire}/responsables', 'Api\TerritoireController@addResponsable');
     Route::post('structures/{structure}/responsables', 'Api\StructureController@addResponsable');
     Route::post('reseaux/{reseau}/responsables', 'Api\ReseauController@addResponsable');
+
+    // STATS
+    Route::get('statistics/structures-by-month', 'Api\NumbersController@structuresByMonth');
+    Route::get('statistics/missions-by-month', 'Api\NumbersController@missionsByMonth');
+    Route::get('statistics/participations-by-month', 'Api\NumbersController@participationsByMonth');
+    Route::get('statistics/users-by-month', 'Api\NumbersController@usersByMonth');
+
+    Route::get('statistics/structures-by-year', 'Api\NumbersController@structuresByYear');
+    Route::get('statistics/missions-by-year', 'Api\NumbersController@missionsByYear');
+    Route::get('statistics/participations-by-year', 'Api\NumbersController@participationsByYear');
+    Route::get('statistics/users-by-year', 'Api\NumbersController@usersByYear');
+
+    Route::get('statistics/api-engagement/outgoing-trafic', 'Api\ApiEngagementController@outgoingTrafic');
+    Route::get('statistics/api-engagement/incoming-trafic', 'Api\ApiEngagementController@incomingTrafic');
+    Route::get('statistics/api-engagement/outgoing-applies', 'Api\ApiEngagementController@outgoingApplies');
+    Route::get('statistics/api-engagement/incoming-applies', 'Api\ApiEngagementController@incomingApplies');
 });
