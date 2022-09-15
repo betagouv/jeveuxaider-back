@@ -65,6 +65,8 @@ class ParticipationsExport implements FromQuery, WithMapping, WithHeadings
             'benevole_email',
             'benevole_code_postal',
             'benevole_date_anniversaire',
+            'date_bénévole',
+            'créneaux_bénévole',
             'date_creation',
             'date_modification',
         ];
@@ -89,6 +91,8 @@ class ParticipationsExport implements FromQuery, WithMapping, WithHeadings
             $participation->profile && ! $hidden ? $participation->profile->email : '',
             $participation->profile && ! $hidden ? $participation->profile->zip : '',
             $participation->profile && ! $hidden ? $participation->profile->birthday : '',
+            $participation->date,
+            $participation->slots,
             $participation->created_at,
             $participation->updated_at,
         ];
