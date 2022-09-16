@@ -10,18 +10,6 @@ use Carbon\Carbon;
 
 class ApiEngagementController extends Controller
 {
-    public $year;
-    public $month;
-    public $startDate;
-    public $endDate;
-    public $department;
-
-    public function __construct(Request $request)
-    {
-        $this->startDate =  Carbon::createFromFormat('Y-m-d',  $request->input('startDate'))->hour(0)->minute(0)->second(0);
-        $this->endDate =  Carbon::createFromFormat('Y-m-d',  $request->input('endDate'))->hour(23)->minute(59)->second(59);
-        $this->department = $request->input('department');
-    }
 
     public function myMission(Request $request, Int $id)
     {
@@ -38,14 +26,14 @@ class ApiEngagementController extends Controller
 
         $service = new ApiEngagement();
 
-        $from = $this->startDate;
-        $to = $this->endDate;
+        $from = Carbon::createFromFormat('Y-m-d',  $request->input('startDate'))->hour(0)->minute(0)->second(0);
+        $to = Carbon::createFromFormat('Y-m-d',  $request->input('endDate'))->hour(23)->minute(59)->second(59);
 
         $results = $service->getStatistics("facets=fromPublisherName,source,toPublisherName&createdAt=gt:$from&createdAt=lt:$to&fromPublisherId=5f5931496c7ea514150a818f&type=click");
 
         return [
             'total' => $results['total'],
-            'partners' => collect($results['facets']['toPublisherName'])->map(function($item) {
+            'partners' => collect($results['facets']['toPublisherName'])->map(function ($item) {
                 return [
                     'name' => $item['key'],
                     'outgoing_trafic' => $item['doc_count'],
@@ -59,14 +47,14 @@ class ApiEngagementController extends Controller
 
         $service = new ApiEngagement();
 
-        $from = $this->startDate;
-        $to = $this->endDate;
+        $from = Carbon::createFromFormat('Y-m-d',  $request->input('startDate'))->hour(0)->minute(0)->second(0);
+        $to = Carbon::createFromFormat('Y-m-d',  $request->input('endDate'))->hour(23)->minute(59)->second(59);
 
         $results = $service->getStatistics("facets=fromPublisherName,source,toPublisherName&createdAt=gt:$from&createdAt=lt:$to&toPublisherId=5f5931496c7ea514150a818f&type=click");
 
         return  [
             'total' => $results['total'],
-            'partners' => collect($results['facets']['fromPublisherName'])->map(function($item) {
+            'partners' => collect($results['facets']['fromPublisherName'])->map(function ($item) {
                 return [
                     'name' => $item['key'],
                     'incoming_trafic' => $item['doc_count'],
@@ -80,14 +68,14 @@ class ApiEngagementController extends Controller
 
         $service = new ApiEngagement();
 
-        $from = $this->startDate;
-        $to = $this->endDate;
+        $from = Carbon::createFromFormat('Y-m-d',  $request->input('startDate'))->hour(0)->minute(0)->second(0);
+        $to = Carbon::createFromFormat('Y-m-d',  $request->input('endDate'))->hour(23)->minute(59)->second(59);
 
         $results = $service->getStatistics("facets=fromPublisherName,source,toPublisherName&createdAt=gt:$from&createdAt=lt:$to&fromPublisherId=5f5931496c7ea514150a818f&type=apply");
 
         return [
             'total' => $results['total'],
-            'partners' => collect($results['facets']['toPublisherName'])->map(function($item) {
+            'partners' => collect($results['facets']['toPublisherName'])->map(function ($item) {
                 return [
                     'name' => $item['key'],
                     'outgoing_applies' => $item['doc_count'],
@@ -101,14 +89,14 @@ class ApiEngagementController extends Controller
 
         $service = new ApiEngagement();
 
-        $from = $this->startDate;
-        $to = $this->endDate;
+        $from = Carbon::createFromFormat('Y-m-d',  $request->input('startDate'))->hour(0)->minute(0)->second(0);
+        $to = Carbon::createFromFormat('Y-m-d',  $request->input('endDate'))->hour(23)->minute(59)->second(59);
 
         $results =  $service->getStatistics("facets=fromPublisherName,source,toPublisherName&createdAt=gt:$from&createdAt=lt:$to&toPublisherId=5f5931496c7ea514150a818f&type=apply");
 
         return [
             'total' => $results['total'],
-            'partners' => collect($results['facets']['fromPublisherName'])->map(function($item) {
+            'partners' => collect($results['facets']['fromPublisherName'])->map(function ($item) {
                 return [
                     'name' => $item['key'],
                     'incoming_applies' => $item['doc_count'],
