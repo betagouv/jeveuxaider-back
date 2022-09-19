@@ -163,13 +163,16 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     // NUMBERS
     Route::get('statistics/overview-quick-glance', 'Api\NumbersController@overviewQuickGlance');
     Route::get('statistics/overview-missions', 'Api\NumbersController@overviewMissions');
+    Route::get('statistics/overview-places', 'Api\NumbersController@overviewPlaces');
     Route::get('statistics/overview-organisations', 'Api\NumbersController@overviewOrganisations');
     Route::get('statistics/overview-utilisateurs', 'Api\NumbersController@overviewUtilisateurs');
+    Route::get('statistics/overview-participations', 'Api\NumbersController@overviewParticipations');
 
     Route::get('statistics/global/organisations', 'Api\NumbersController@globalOrganisations');
     Route::get('statistics/global/missions', 'Api\NumbersController@globalMissions');
     Route::get('statistics/global/participations', 'Api\NumbersController@globalParticipations');
     Route::get('statistics/global/utilisateurs', 'Api\NumbersController@globalUtilisateurs');
+    Route::get('statistics/global/places', 'Api\NumbersController@globalPlaces');
 
     Route::get('statistics/participations-by-activities', 'Api\NumbersController@participationsByActivities');
     Route::get('statistics/participations-by-mission-templates', 'Api\NumbersController@participationsByMissionTemplates');

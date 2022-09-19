@@ -72,6 +72,48 @@ class NumbersController extends Controller
 
     public function overviewMissions(Request $request)
     {
+        // $missionsAvailable = Mission::role($request->header('Context-Role'))
+        //     ->when($this->department, function ($query) {
+        //         $query->where('department', $this->department);
+        //     })
+        //     ->available()
+        //     ->get();
+
+        // $placesLeft = $missionsAvailable->sum('places_left');
+        // $placesOffered = $missionsAvailable->sum('participations_max');
+
+        // return [
+        //     'missions_available' => $missionsAvailable->count(),
+        //     'places' => $placesOffered,
+        //     'places_left' => $placesLeft,
+        //     'places_occupation_rate' => $placesOffered ? round((($placesOffered - $placesLeft) / $placesOffered) * 100) : 0,
+        // ];
+
+        $missionsCount = Mission::role($request->header('Context-Role'))
+        ->when($this->department, function ($query) {
+            $query->where('department', $this->department);
+        })
+        ->available()
+        ->count();
+
+        $missionsValidatedOverCount = Mission::role($request->header('Context-Role'))->whereIn('state', ['Validée', 'Terminée'])
+        ->when($this->department, function ($query) {
+            $query->where('department', $this->department);
+        })
+        ->count();
+
+        return [
+            'missions_available' => $missionsCount,
+            'missions_validated_and_over' => $missionsValidatedOverCount,
+            'missions_snu' => Mission::role($request->header('Context-Role'))->where('is_snu_mig_compatible', true)->whereIn('state', ['Validée', 'Terminée'])->when($this->department, function ($query) {
+                $query->where('department', $this->department);
+            })
+            ->count(),
+        ];
+    }
+
+    public function overviewPlaces(Request $request)
+    {
         $missionsAvailable = Mission::role($request->header('Context-Role'))
             ->when($this->department, function ($query) {
                 $query->where('department', $this->department);
@@ -83,10 +125,32 @@ class NumbersController extends Controller
         $placesOffered = $missionsAvailable->sum('participations_max');
 
         return [
-            'missions_available' => $missionsAvailable->count(),
             'places' => $placesOffered,
             'places_left' => $placesLeft,
             'places_occupation_rate' => $placesOffered ? round((($placesOffered - $placesLeft) / $placesOffered) * 100) : 0,
+        ];
+    }
+
+    public function overviewParticipations(Request $request)
+    {
+        $participationsCount = Participation::role($request->header('Context-Role'))->when($this->department, function ($query) {
+            $query->department($this->department);
+        })
+        ->count();
+
+        $participationsValidatedCount = Participation::role($request->header('Context-Role'))->where('state', 'Validée')->when($this->department, function ($query) {
+            $query->department($this->department);
+        })->count();
+
+        $participationsInProgressCount = Participation::role($request->header('Context-Role'))->whereIn('state', ['En attente de validation', 'En cours de traitement'])->when($this->department, function ($query) {
+            $query->department($this->department);
+        })->count();
+
+        return [
+            'participations' => $participationsCount,
+            'participations_validated' => $participationsValidatedCount,
+            'participations_in_progress' => $participationsInProgressCount,
+            'participations_conversion_rate' => $participationsCount ? round(($participationsValidatedCount / $participationsCount) * 100) : 0,
         ];
     }
 
@@ -104,11 +168,9 @@ class NumbersController extends Controller
             'benevoles_actifs' => Profile::role($request->header('Context-Role'))->has('participations')->when($this->department, function ($query) {
                 $query->where('department', $this->department);
             })->count(),
-            'participations_validated' => Participation::role($request->header('Context-Role'))->where('state', 'Validée')->when($this->department, function ($query) {
-                $query->whereHas('profile', function (Builder $query) {
-                    $query->department($this->department);
-                });
-            })->count(),
+            'benevoles_visibles_marketplace' => Profile::role($request->header('Context-Role'))->where('is_visible', true)->when($this->department, function ($query) {
+                $query->department($this->department);
+            })->count()
         ];
     }
 
@@ -269,7 +331,7 @@ class NumbersController extends Controller
         return [
             'missions' => $missionsCount,
             'missions_validated_and_over' => $missionsValidatedOverCount,
-            'missions_conversion_rate' => $missionsCount ? round(($missionsValidatedOverCount / $missionsCount) * 100) : 0,
+            // 'missions_conversion_rate' => $missionsCount ? round(($missionsValidatedOverCount / $missionsCount) * 100) : 0,
             'missions_participations_max_sum' => Mission::role($request->header('Context-Role'))->whereIn('state', ['Validée', 'Terminée'])->when($this->department, function ($query) {
                 $query->where('department', $this->department);
             })
@@ -296,10 +358,35 @@ class NumbersController extends Controller
             $query->department($this->department);
         })->whereBetween('created_at', [$this->startDate, $this->endDate])->count();
 
+        $participationsInProgressCount = Participation::role($request->header('Context-Role'))->whereIn('state', ['En attente de validation', 'En cours de traitement'])->when($this->department, function ($query) {
+            $query->department($this->department);
+        })->whereBetween('created_at', [$this->startDate, $this->endDate])->count();
+
         return [
             'participations' => $participationsCount,
             'participations_validated' => $participationsValidatedCount,
+            'participations_in_progress' => $participationsInProgressCount,
             'participations_conversion_rate' => $participationsCount ? round(($participationsValidatedCount / $participationsCount) * 100) : 0,
+        ];
+    }
+
+    public function globalPlaces(Request $request)
+    {
+        $missionsAvailable = Mission::role($request->header('Context-Role'))
+            ->when($this->department, function ($query) {
+                $query->where('department', $this->department);
+            })
+            ->available()
+            ->get();
+
+        $placesLeft = $missionsAvailable->sum('places_left');
+        $placesOffered = $missionsAvailable->sum('participations_max');
+
+        return [
+            'missions_available' => $missionsAvailable->count(),
+            'places' => $placesOffered,
+            'places_left' => $placesLeft,
+            'places_occupation_rate' => $placesOffered ? round((($placesOffered - $placesLeft) / $placesOffered) * 100) : 0,
         ];
     }
 
