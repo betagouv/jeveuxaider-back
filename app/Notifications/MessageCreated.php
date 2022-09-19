@@ -56,9 +56,11 @@ class MessageCreated extends Notification implements ShouldQueue
         }
         $message = (new MailMessage);
         if ($fromOrga) {
-            $message->subject('Nouveau message de la part de '.$this->message->from->profile->first_name.' ('.$fromOrga->name.')');
+            $message->subject('Nouveau message de la part de '.$this->message->from->profile->first_name.' ('.$fromOrga->name.')')
+                ->tag('app-benevole-nouveau-message');
         } else {
-            $message->subject('Nouveau message de la part de '.$this->message->from->profile->first_name);
+            $message->subject('Nouveau message de la part de '.$this->message->from->profile->first_name)
+                ->tag('app-organisation-nouveau-message');
         }
         $message->greeting('Bonjour '.$notifiable->profile->first_name.',')
             ->line($this->message->from->profile->full_name.' a répondu à votre message concernant la mission "'.$this->message->conversation->conversable->mission->name.'"')

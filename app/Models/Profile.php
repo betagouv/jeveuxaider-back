@@ -40,7 +40,7 @@ class Profile extends Model implements HasMedia
 
     protected $appends = ['short_name', 'full_name'];
 
-    protected $checkFields = ['mobile', 'zip', 'type', 'disponibilities', 'commitment__time_period', 'commitment__duration', 'description', 'birthday', 'skills', 'domaines'];
+    protected $checkFields = ['mobile', 'zip', 'type', 'disponibilities', 'commitment__time_period', 'commitment__duration', 'description', 'birthday', 'skills'];
 
     public function getActivitylogOptions(): LogOptions
     {
@@ -290,6 +290,11 @@ class Profile extends Model implements HasMedia
     public function tags()
     {
         return $this->morphToMany(Term::class, 'termable')->wherePivot('field', 'tags');
+    }
+
+    public function notificationsBenevoles()
+    {
+        return $this->hasMany('App\Models\NotificationBenevole');
     }
 
     public function setCommitmentTotal()

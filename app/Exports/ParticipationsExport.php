@@ -25,7 +25,9 @@ class ParticipationsExport implements FromQuery, WithMapping, WithHeadings
 
     public function query()
     {
-        $queryBuilder = Participation::role($this->request->header('Context-Role'))->whereIn('state', ['Validée'])->with(['profile', 'mission']);
+        $queryBuilder = Participation::role($this->request->header('Context-Role'))
+            ->whereIn('state', ['Validée', 'En attente de validation', 'En cours de traitement'])
+            ->with(['profile', 'mission']);
 
         return QueryBuilder::for($queryBuilder)
             ->allowedFilters(
@@ -83,12 +85,12 @@ class ParticipationsExport implements FromQuery, WithMapping, WithHeadings
             $participation->mission ? $participation->mission->start_date : '',
             $participation->mission ? $participation->mission->end_date : '',
             $participation->profile_id,
-            $participation->profile && ! $hidden ? $participation->profile->first_name : '',
-            $participation->profile && ! $hidden ? $participation->profile->last_name : '',
-            $participation->profile && ! $hidden ? $participation->profile->mobile : '',
-            $participation->profile && ! $hidden ? $participation->profile->email : '',
-            $participation->profile && ! $hidden ? $participation->profile->zip : '',
-            $participation->profile && ! $hidden ? $participation->profile->birthday : '',
+            $participation->profile && !$hidden ? $participation->profile->first_name : '',
+            $participation->profile && !$hidden ? $participation->profile->last_name : '',
+            $participation->profile && !$hidden ? $participation->profile->mobile : '',
+            $participation->profile && !$hidden ? $participation->profile->email : '',
+            $participation->profile && !$hidden ? $participation->profile->zip : '',
+            $participation->profile && !$hidden ? $participation->profile->birthday : '',
             $participation->created_at,
             $participation->updated_at,
         ];

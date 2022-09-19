@@ -189,6 +189,7 @@ class MissionController extends Controller
                 'user',
                 'participationsValidatedCount',
                 'avatar',
+                'notificationsBenevoles'
             ])
             ->allowedFilters(
                 'zip',

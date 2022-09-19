@@ -163,13 +163,16 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     // NUMBERS
     Route::get('statistics/overview-quick-glance', 'Api\NumbersController@overviewQuickGlance');
     Route::get('statistics/overview-missions', 'Api\NumbersController@overviewMissions');
+    Route::get('statistics/overview-places', 'Api\NumbersController@overviewPlaces');
     Route::get('statistics/overview-organisations', 'Api\NumbersController@overviewOrganisations');
     Route::get('statistics/overview-utilisateurs', 'Api\NumbersController@overviewUtilisateurs');
+    Route::get('statistics/overview-participations', 'Api\NumbersController@overviewParticipations');
 
     Route::get('statistics/global/organisations', 'Api\NumbersController@globalOrganisations');
     Route::get('statistics/global/missions', 'Api\NumbersController@globalMissions');
     Route::get('statistics/global/participations', 'Api\NumbersController@globalParticipations');
     Route::get('statistics/global/utilisateurs', 'Api\NumbersController@globalUtilisateurs');
+    Route::get('statistics/global/places', 'Api\NumbersController@globalPlaces');
 
     Route::get('statistics/participations-by-activities', 'Api\NumbersController@participationsByActivities');
     Route::get('statistics/participations-by-mission-templates', 'Api\NumbersController@participationsByMissionTemplates');
@@ -331,4 +334,20 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::post('territoires/{territoire}/responsables', 'Api\TerritoireController@addResponsable');
     Route::post('structures/{structure}/responsables', 'Api\StructureController@addResponsable');
     Route::post('reseaux/{reseau}/responsables', 'Api\ReseauController@addResponsable');
+
+    // STATS
+    Route::get('statistics/structures-by-month', 'Api\NumbersController@structuresByMonth');
+    Route::get('statistics/missions-by-month', 'Api\NumbersController@missionsByMonth');
+    Route::get('statistics/participations-by-month', 'Api\NumbersController@participationsByMonth');
+    Route::get('statistics/users-by-month', 'Api\NumbersController@usersByMonth');
+
+    Route::get('statistics/structures-by-year', 'Api\NumbersController@structuresByYear');
+    Route::get('statistics/missions-by-year', 'Api\NumbersController@missionsByYear');
+    Route::get('statistics/participations-by-year', 'Api\NumbersController@participationsByYear');
+    Route::get('statistics/users-by-year', 'Api\NumbersController@usersByYear');
+
+    Route::get('statistics/api-engagement/outgoing-trafic', 'Api\ApiEngagementController@outgoingTrafic');
+    Route::get('statistics/api-engagement/incoming-trafic', 'Api\ApiEngagementController@incomingTrafic');
+    Route::get('statistics/api-engagement/outgoing-applies', 'Api\ApiEngagementController@outgoingApplies');
+    Route::get('statistics/api-engagement/incoming-applies', 'Api\ApiEngagementController@incomingApplies');
 });

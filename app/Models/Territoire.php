@@ -174,7 +174,7 @@ class Territoire extends Model implements HasMedia
 
     public function getPermissionsAttribute()
     {
-        return[
+        return [
             'canViewStats' => Auth::guard('api')->user() ? Auth::guard('api')->user()->can('viewStats', $this) : false,
         ];
     }
@@ -184,7 +184,7 @@ class Territoire extends Model implements HasMedia
         $territoire = $this;
         $missions = Mission::search('', function ($algolia, $query, $options) use ($territoire, $limit) {
             $config = [
-                'filters' => 'provider:reserve_civique',
+                'filters' => 'provider:reserve_civique AND is_autonomy=0',
                 'aroundPrecision' => 2000,
                 'hitsPerPage' => $limit,
             ];

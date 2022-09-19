@@ -225,7 +225,7 @@ class ApiEngagement
             'objectID' => 'ApiEngagement/'.$mission['_id'],
             'publisher_name' => $mission['publisherName'],
             'publisher_logo' => $mission['publisherLogo'],
-            'publisher_url' => $mission['publisherUrl'],
+            'publisher_url' => $mission['publisherUrl'] ?? null,
             'application_url' => $mission['applicationUrl'],
             'id' => $mission['_id'],
             'name' => $mission['title'],
@@ -414,5 +414,20 @@ class ApiEngagement
         } catch (\Throwable $th) {
             throw $th;
         }
+    }
+
+    public function getStatistics($params)
+    {
+
+        try {
+            $response = Http::accept('application/json')
+            ->withHeaders([
+            'apikey' => config('app.api_engagement_key'),
+            ])->get("https://api.api-engagement.beta.gouv.fr/v0/view/stats?" . $params);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+        
+        return $response->json();
     }
 }
