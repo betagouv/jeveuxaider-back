@@ -11,6 +11,7 @@ use App\Models\Profile;
 use App\Models\Reseau;
 use App\Models\Structure;
 use App\Models\Territoire;
+use App\Services\ApiEngagement;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -72,23 +73,6 @@ class NumbersController extends Controller
 
     public function overviewMissions(Request $request)
     {
-        // $missionsAvailable = Mission::role($request->header('Context-Role'))
-        //     ->when($this->department, function ($query) {
-        //         $query->where('department', $this->department);
-        //     })
-        //     ->available()
-        //     ->get();
-
-        // $placesLeft = $missionsAvailable->sum('places_left');
-        // $placesOffered = $missionsAvailable->sum('participations_max');
-
-        // return [
-        //     'missions_available' => $missionsAvailable->count(),
-        //     'places' => $placesOffered,
-        //     'places_left' => $placesLeft,
-        //     'places_occupation_rate' => $placesOffered ? round((($placesOffered - $placesLeft) / $placesOffered) * 100) : 0,
-        // ];
-
         $missionsCount = Mission::role($request->header('Context-Role'))
         ->when($this->department, function ($query) {
             $query->where('department', $this->department);
@@ -174,6 +158,23 @@ class NumbersController extends Controller
         ];
     }
 
+    public function overviewAPIEngagement(Request $request)
+    {
+        $service = new ApiEngagement();
+
+        $outgoingTrafic = $service->getStatistics("fromPublisherId=5f5931496c7ea514150a818f&type=click");
+        $incomingTrafic = $service->getStatistics("toPublisherId=5f5931496c7ea514150a818f&type=click");
+        $outgoingApplies = $service->getStatistics("fromPublisherId=5f5931496c7ea514150a818f&type=apply");
+        $incomingApplies = $service->getStatistics("toPublisherId=5f5931496c7ea514150a818f&type=apply");
+
+        return [
+            'outgoingTrafic' => $outgoingTrafic['total'],
+            'incomingTrafic' => $incomingTrafic['total'],
+            'outgoingApplies' => $outgoingApplies['total'],
+            'incomingApplies' => $incomingApplies['total'],
+        ];
+    }
+    
     public function globalOrganisations(Request $request)
     {
         $organisationsCount = Structure::role($request->header('Context-Role'))->when($this->department, function ($query) {
