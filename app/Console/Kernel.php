@@ -4,9 +4,13 @@ namespace App\Console;
 
 use App\Console\Commands\ApiEngagementExportMissions;
 use App\Console\Commands\ApiEngagementSyncMissions;
+use App\Console\Commands\SendNotificationsBenevoleCejNoParticipation;
+use App\Console\Commands\SendNotificationsBenevoleCejOneYearAfter;
+use App\Console\Commands\SendNotificationsBenevoleCejSixMonthsAfter;
 use App\Console\Commands\SendNotificationsMissionInDraft;
 use App\Console\Commands\SendNotificationsMissionOutdated;
 use App\Console\Commands\SendNotificationsNoNewMission;
+use App\Console\Commands\SendNotificationsRegisterUserVolontaireCej;
 use App\Console\Commands\SendNotificationsStructureInDraft;
 use App\Console\Commands\SendNotificationTodoToModerateurs;
 use App\Console\Commands\SendNotificationTodoToReferents;
@@ -44,6 +48,10 @@ class Kernel extends ConsoleKernel
         $schedule->command(SendNotificationsMissionInDraft::class)->weekdays()->daily()->at('08:40');
         $schedule->command(SendNotificationsNoNewMission::class)->weekdays()->daily()->at('08:50');
         $schedule->command(SendNotificationsStructureInDraft::class)->daily()->at('09:50');
+        $schedule->command(SendNotificationsRegisterUserVolontaireCej::class)->daily()->at('10:00');
+        $schedule->command(SendNotificationsBenevoleCejNoParticipation::class)->daily()->at('10:10');
+        $schedule->command(SendNotificationsBenevoleCejSixMonthsAfter::class)->daily()->at('10:20');
+        $schedule->command(SendNotificationsBenevoleCejOneYearAfter::class)->daily()->at('10:30');
 
         // Sync ApiEngagement
         $schedule->command(ApiEngagementExportMissions::class)->everySixHours();
