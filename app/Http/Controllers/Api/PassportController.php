@@ -11,11 +11,13 @@ use App\Models\SocialAccount;
 use App\Models\Structure;
 use App\Models\User;
 use App\Notifications\RegisterUserVolontaire;
+use App\Notifications\RegisterUserVolontaireCejAdviser;
 use App\Services\ApiEngagement;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Validator;
 
@@ -47,6 +49,12 @@ class PassportController extends Controller
 
         $notification = new RegisterUserVolontaire($user);
         $user->notify($notification);
+
+        // Can be set from soft gate register
+        if ($user->profile->cej && ! empty($user->profile->cej_email_adviser)) {
+            Notification::route('mail', $user->profile->cej_email_adviser)
+                ->notify(new RegisterUserVolontaireCejAdviser($user->profile));
+        }
 
         return $user;
     }

@@ -13,6 +13,9 @@ use App\Models\NotificationTemoignage;
 use App\Models\Participation;
 use App\Models\Structure;
 use App\Models\User;
+use App\Notifications\BenevoleCejNoParticipation;
+use App\Notifications\BenevoleCejOneYearAfter;
+use App\Notifications\BenevoleCejSixMonthsAfter;
 use App\Notifications\DocumentSubmitted;
 use App\Notifications\ExportReady;
 use App\Notifications\InvitationSent;
@@ -35,10 +38,13 @@ use App\Notifications\ParticipationBenevoleCanceled;
 use App\Notifications\ParticipationCanceled;
 use App\Notifications\ParticipationDeclined;
 use App\Notifications\ParticipationValidated;
+use App\Notifications\ParticipationValidatedCejAdviser;
 use App\Notifications\ParticipationWaitingValidation;
 use App\Notifications\ReferentDailyTodo;
 use App\Notifications\RegisterUserResponsable;
 use App\Notifications\RegisterUserVolontaire;
+use App\Notifications\RegisterUserVolontaireCej;
+use App\Notifications\RegisterUserVolontaireCejAdviser;
 use App\Notifications\ReseauNewLead;
 use App\Notifications\ResetPassword;
 use App\Notifications\ResponsableDailyTodo;
@@ -200,6 +206,24 @@ class NotificationController extends Controller
                 break;
             case 'user_anonymize':
                 $notification = new UserAnonymize();
+                break;
+            case 'benevole_cej_no_participation':
+                $notification = new BenevoleCejNoParticipation($user->profile);
+                break;
+            case 'participation_validated_cej_adviser':
+                $notification = new ParticipationValidatedCejAdviser($participation);
+                break;
+            case 'register_user_volontaire_cej':
+                $notification = new RegisterUserVolontaireCej($user);
+                break;
+            case 'register_user_volontaire_cej_adviser':
+                $notification = new RegisterUserVolontaireCejAdviser($user->profile);
+                break;
+            case 'benevole_cej_one_year_after':
+                $notification = new BenevoleCejOneYearAfter($user->profile);
+                break;
+            case 'benevole_cej_six_months_after':
+                $notification = new BenevoleCejSixMonthsAfter($user->profile);
                 break;
         }
 
