@@ -30,6 +30,7 @@ class MissionTemplateController extends Controller
             )
             ->allowedIncludes(['photo', 'domaine', 'reseau', 'missions'])
             ->defaultSort('-updated_at')
+            ->allowedSorts('reseau_id')
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
 
         if ($request->has('append')) {
@@ -58,12 +59,16 @@ class MissionTemplateController extends Controller
         return [
             'missions_count' => Mission::where('template_id', $missionTemplate->id)->count(),
             'missions_available_count' => Mission::available()->where('template_id', $missionTemplate->id)->count(),
-            'participations_count' => Participation::whereHas('mission', function (Builder $query) use ($missionTemplate) {
-                $query->where('template_id', $missionTemplate->id);
-            })->count(),
-            'participations_validated_count' => Participation::where('state', 'Validée')->whereHas('mission', function (Builder $query) use ($missionTemplate) {
-                $query->where('template_id', $missionTemplate->id);
-            })->count(),
+            'participations_count' => Participation::whereHas(
+                'mission', function (Builder $query) use ($missionTemplate) {
+                    $query->where('template_id', $missionTemplate->id);
+                }
+            )->count(),
+            'participations_validated_count' => Participation::where('state', 'Validée')->whereHas(
+                'mission', function (Builder $query) use ($missionTemplate) {
+                    $query->where('template_id', $missionTemplate->id);
+                }
+            )->count(),
         ];
     }
 
