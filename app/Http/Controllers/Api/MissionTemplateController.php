@@ -26,6 +26,8 @@ class MissionTemplateController extends Controller
                 AllowedFilter::exact('domaine.id'),
                 AllowedFilter::exact('published'),
                 AllowedFilter::scope('of_reseau'),
+                AllowedFilter::scope('with_reseau'),
+                AllowedFilter::exact('reseau.name'),
                 AllowedFilter::callback('with_reseaux', new FiltersTemplatesWithReseau)
             )
             ->allowedIncludes(['photo', 'domaine', 'reseau', 'missions'])
