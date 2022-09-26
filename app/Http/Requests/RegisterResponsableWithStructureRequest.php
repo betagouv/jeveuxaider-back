@@ -33,6 +33,8 @@ class RegisterResponsableWithStructureRequest extends FormRequest
             'zip' => 'required|postal_code:FR',
             'structure_name' => 'required|min:3',
             'utm_source' => '',
+            'utm_campaign' => '',
+            'utm_medium' => '',
             'structure_api' => '',
             'statut_juridique' => '',
         ];

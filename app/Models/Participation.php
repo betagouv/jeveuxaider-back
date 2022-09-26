@@ -19,10 +19,8 @@ class Participation extends Model
         'state' => 'En attente de validation',
     ];
 
-    protected $fillable = [
-        'mission_id',
-        'profile_id',
-        'state',
+    protected $guarded = [
+        'id',
     ];
 
     const ACTIVE_STATUS = [

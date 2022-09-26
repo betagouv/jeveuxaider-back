@@ -27,14 +27,15 @@ class PassportController extends Controller
 
     public function registerVolontaire(RegisterVolontaireRequest $request)
     {
-        $utmSource = request('utm_source');
         $user = User::create(
             [
                 'name' => request('email'),
                 'email' => request('email'),
                 'password' => Hash::make(request('password')),
                 'context_role' => 'volontaire',
-                'utm_source' => is_array($utmSource) ? current($utmSource) : $utmSource,
+                'utm_source' => request('utm_source'),
+                'utm_campaign' => request('utm_campaign'),
+                'utm_medium' => request('utm_medium'),
             ]
         );
 
@@ -68,6 +69,8 @@ class PassportController extends Controller
                 'password' => Hash::make(request('password')),
                 'context_role' => 'responsable',
                 'utm_source' => request('utm_source'),
+                'utm_campaign' => request('utm_campaign'),
+                'utm_medium' => request('utm_medium'),
             ]
         );
         $attributes = $request->validated();
