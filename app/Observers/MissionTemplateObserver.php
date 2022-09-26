@@ -10,17 +10,26 @@ use Illuminate\Support\Facades\Notification;
 
 class MissionTemplateObserver
 {
+
+    private $mailsToNotify = [
+        'maiwelle.mezi@sciencespo.fr',
+        'achkar.joe@hotmail.fr',
+        'coralie.chauvin@gmx.fr',
+        'nassim.merzouk@beta.gouv.fr',
+        'nivinekatanji@gmail.com'
+    ];
+
     public function created(MissionTemplate $missionTemplate)
     {
         if ($missionTemplate->reseau_id && $missionTemplate->state == 'waiting') {
-            Notification::route('mail', ['giulietta.bressy@gmail.com', 'nassim.merzouk@beta.gouv.fr'])->notify(new MissionTemplateWaiting($missionTemplate));
+            Notification::route('mail', $this->mailsToNotify)->notify(new MissionTemplateWaiting($missionTemplate));
         }
     }
 
     public function updated(MissionTemplate $missionTemplate)
     {
         if ($missionTemplate->reseau_id && $missionTemplate->isDirty('state') && $missionTemplate->state == 'waiting') {
-            Notification::route('mail', ['giulietta.bressy@gmail.com', 'nassim.merzouk@beta.gouv.fr'])->notify(new MissionTemplateWaiting($missionTemplate));
+            Notification::route('mail', $this->mailsToNotify)->notify(new MissionTemplateWaiting($missionTemplate));
         }
 
         $changes = $missionTemplate->getChanges();
@@ -35,7 +44,7 @@ class MissionTemplateObserver
 
         if ($missionTemplate->reseau_id && $missionTemplate->published && ! $missionTemplate->isDirty('state')) {
             if (isset($changes) && count($changes) > 1) { // ignore updated_at
-                Notification::route('mail', ['giulietta.bressy@gmail.com', 'nassim.merzouk@beta.gouv.fr'])->notify(new MissionTemplateUpdated($missionTemplate, $missionTemplate->getOriginal(), $changes));
+                Notification::route('mail', $this->mailsToNotify)->notify(new MissionTemplateUpdated($missionTemplate, $missionTemplate->getOriginal(), $changes));
             }
         }
     }
