@@ -14,6 +14,7 @@ use App\Models\Mission;
 use App\Models\Participation;
 use App\Models\Profile;
 use App\Models\Structure;
+use App\Models\User;
 use App\Services\ApiEngagement;
 use App\Sorts\StructureMissionsCountSort;
 use App\Sorts\StructurePlacesLeftSort;
@@ -154,6 +155,12 @@ class StructureController extends Controller
                 return ['field' => 'organisation_illustrations'];
             });
             $structure->illustrations()->sync($values);
+        }
+
+        if ($request->has('responsable_fonction')) {
+            $structure->members()->updateExistingPivot($structure->user->profile, [
+                'fonction' => $request->input('responsable_fonction'),
+            ]);
         }
 
         $structure->update($request->validated());
