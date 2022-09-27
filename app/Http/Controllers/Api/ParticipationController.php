@@ -17,7 +17,6 @@ use App\Models\Participation;
 use App\Models\Temoignage;
 use App\Models\User;
 use App\Notifications\ParticipationBenevoleCanceled;
-use App\Notifications\ParticipationDeclined;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
@@ -46,6 +45,7 @@ class ParticipationController extends Controller
                 'state',
                 'mission.zip',
                 'mission.type',
+                AllowedFilter::exact('id'),
             )
             ->allowedIncludes([
                 'conversation.latestMessage',
@@ -106,52 +106,14 @@ class ParticipationController extends Controller
             $participation->mission->update();
         }
 
-        if ($participation->conversation) {
-            // Trigger updated_at refresh.
-            $participation->conversation->touch();
-        }
-
         return $participation->load(['conversation', 'conversation.latestMessage']);
     }
 
     public function decline(ParticipationDeclineRequest $request, Participation $participation)
     {
-        if ($participation->conversation) {
-            $currentUser = User::find(Auth::guard('api')->user()->id);
+        $currentUser = User::find(Auth::guard('api')->user()->id);
 
-            $participation->conversation->messages()->create([
-                'from_id' => $currentUser->id,
-                'type' => 'contextual',
-                'content' => 'La participation a été déclinée',
-                'contextual_state' => 'Refusée',
-                'contextual_reason' => $request->input('reason'),
-            ]);
-
-            if ($request->input('content')) {
-                $currentUser->sendMessage($participation->conversation->id, $request->input('content'));
-            }
-
-            $currentUser->markConversationAsRead($participation->conversation);
-
-            // Trigger updated_at refresh.
-            $participation->conversation->touch();
-
-            if ($request->input('reason') == 'mission_terminated') {
-                $participation->mission->state = 'Terminée';
-                $participation->mission->save();
-            }
-
-            $participation->profile->notify(new ParticipationDeclined($participation, $request->input('reason')));
-        }
-
-        $participation->update(['state' => 'Refusée']);
-
-        // Places left & Algolia
-        if ($participation->mission) {
-            $participation->mission->update();
-        }
-
-        return $participation->load(['conversation', 'conversation.latestMessage']);
+        return $currentUser->declineParticipation($participation, $request->input('reason'), $request->input('content'));
     }
 
     public function cancel(ParticipationCancelRequest $request, Participation $participation)
