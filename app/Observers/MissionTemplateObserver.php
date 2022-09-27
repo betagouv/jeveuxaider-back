@@ -12,11 +12,11 @@ class MissionTemplateObserver
 {
 
     private $mailsToNotify = [
-        'maiwelle.mezi@sciencespo.fr',
-        'achkar.joe@hotmail.fr',
-        'coralie.chauvin@gmx.fr',
+        'maiwelle.mezi@beta.gouv.fr',
+        'joe.achkar@beta.gouv.fr',
+        'coralie.chauvin@beta.gouv.fr',
         'nassim.merzouk@beta.gouv.fr',
-        'nivinekatanji@gmail.com'
+        'nivine.katanji@beta.gouv.fr'
     ];
 
     public function created(MissionTemplate $missionTemplate)
