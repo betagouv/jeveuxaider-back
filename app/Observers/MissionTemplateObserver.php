@@ -15,7 +15,6 @@ class MissionTemplateObserver
         'maiwelle.mezi@beta.gouv.fr',
         'joe.achkar@beta.gouv.fr',
         'coralie.chauvin@beta.gouv.fr',
-        'nassim.merzouk@beta.gouv.fr',
         'nivine.katanji@beta.gouv.fr'
     ];
 

@@ -29,6 +29,7 @@ class StructureRequest extends FormRequest
             'logo' => '',
             'siret' => '',
             'statut_juridique' => 'sometimes|required',
+            'is_alsace_moselle' => 'boolean',
             'association_types' => '',
             'structure_publique_type' => '',
             'structure_publique_etat_type' => '',
