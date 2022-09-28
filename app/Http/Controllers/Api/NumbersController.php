@@ -1481,7 +1481,9 @@ class NumbersController extends Controller
 
         foreach ($results as $index => $item) {
             if (isset($results[$index + 12])) {
-                $results[$index]->structures_validated_variation = (($item->structures_validated - $results[$index + 12]->structures_validated) / $results[$index + 12]->structures_validated) * 100;
+                if($results[$index + 12]->structures_validated){
+                    $results[$index]->structures_validated_variation = (($item->structures_validated - $results[$index + 12]->structures_validated) / $results[$index + 12]->structures_validated) * 100;
+                }
             }
         }
 
@@ -1513,7 +1515,9 @@ class NumbersController extends Controller
 
         foreach ($results as $index => $item) {
             if (isset($results[$index + 1])) {
-                $results[$index]->structures_validated_variation = (($item->structures_validated - $results[$index + 1]->structures_validated) / $results[$index + 1]->structures_validated) * 100;
+                if($results[$index + 1]->structures_validated){
+                    $results[$index]->structures_validated_variation = (($item->structures_validated - $results[$index + 1]->structures_validated) / $results[$index + 1]->structures_validated) * 100;
+                }
             }
         }
 
@@ -1548,7 +1552,9 @@ class NumbersController extends Controller
 
         foreach ($results as $index => $item) {
             if (isset($results[$index + 12])) {
-                $results[$index]->missions_posted_variation = (($item->missions_posted - $results[$index + 12]->missions_posted) / $results[$index + 12]->missions_posted) * 100;
+                if($results[$index + 12]->missions_posted){
+                    $results[$index]->missions_posted_variation = (($item->missions_posted - $results[$index + 12]->missions_posted) / $results[$index + 12]->missions_posted) * 100;
+                }
             }
         }
 
@@ -1582,7 +1588,9 @@ class NumbersController extends Controller
 
         foreach ($results as $index => $item) {
             if (isset($results[$index + 1])) {
-                $results[$index]->missions_posted_variation = (($item->missions_posted - $results[$index + 1]->missions_posted) / $results[$index + 1]->missions_posted) * 100;
+                if($results[$index + 1]->missions_posted){
+                    $results[$index]->missions_posted_variation = (($item->missions_posted - $results[$index + 1]->missions_posted) / $results[$index + 1]->missions_posted) * 100;
+                }
             }
         }
 
@@ -1673,6 +1681,11 @@ class NumbersController extends Controller
 
     public function usersByMonth(Request $request)
     {
+        // Users department is 20 for Corse
+        if (  $this->department && in_array($this->department, ['2A', '2B'])) {
+            $this->department = '20';
+        }
+
         $results = DB::select(
             "
             SELECT date_trunc('month', profiles.created_at) AS created_at,
@@ -1690,7 +1703,9 @@ class NumbersController extends Controller
 
         foreach ($results as $index => $item) {
             if (isset($results[$index + 12])) {
-                $results[$index]->profiles_total_variation = (($item->profiles_total - $results[$index + 12]->profiles_total) / $results[$index + 12]->profiles_total) * 100;
+                if($results[$index + 12]->profiles_total){
+                    $results[$index]->profiles_total_variation = (($item->profiles_total - $results[$index + 12]->profiles_total) / $results[$index + 12]->profiles_total) * 100;
+                }
             }
         }
 
@@ -1699,6 +1714,11 @@ class NumbersController extends Controller
 
     public function usersByYear(Request $request)
     {
+       // Users department is 20 for Corse
+       if (  $this->department && in_array($this->department, ['2A', '2B'])) {
+            $this->department = '20';
+        }
+
         $results = DB::select(
             "
             SELECT date_trunc('year', profiles.created_at) AS created_at,
@@ -1715,7 +1735,9 @@ class NumbersController extends Controller
 
         foreach ($results as $index => $item) {
             if (isset($results[$index + 1])) {
-                $results[$index]->profiles_total_variation = (($item->profiles_total - $results[$index + 1]->profiles_total) / $results[$index + 1]->profiles_total) * 100;
+                if($results[$index + 1]->profiles_total){
+                    $results[$index]->profiles_total_variation = (($item->profiles_total - $results[$index + 1]->profiles_total) / $results[$index + 1]->profiles_total) * 100;
+                }
             }
         }
 
