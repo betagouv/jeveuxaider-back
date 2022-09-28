@@ -156,8 +156,10 @@ class Mission extends Model
             'publics_beneficiaires' => array_map(
                 function ($public) use ($publicsBeneficiaires) {
                     return $publicsBeneficiaires[$public];
-                }, $this->publics_beneficiaires
+                },
+                $this->publics_beneficiaires
             ),
+            'publics_volontaires' => $this->publics_volontaires,
             'is_autonomy' => $this->is_autonomy,
             'autonomy_zips' => $this->is_autonomy && count($this->autonomy_zips) > 0 ? $this->autonomy_zips : null,
         ];
@@ -319,7 +321,8 @@ class Mission extends Model
     public function scopeOrganizationState($query, $state)
     {
         return $query->whereHas(
-            'structure', function (Builder $query) use ($state) {
+            'structure',
+            function (Builder $query) use ($state) {
                 $query->where('state', $state);
             }
         );
@@ -335,7 +338,8 @@ class Mission extends Model
     public function scopeAvailable($query)
     {
         return $query->where('missions.state', 'Validée')->whereHas(
-            'structure', function (Builder $query) {
+            'structure',
+            function (Builder $query) {
                 $query->where('structures.state', 'Validée');
             }
         );
@@ -358,7 +362,8 @@ class Mission extends Model
             ->where('domaine_id', $domain_id)
             ->orWhere('domaine_secondary_id', $domain_id)
             ->orWhereHas(
-                'template', function (Builder $query) use ($domain_id) {
+                'template',
+                function (Builder $query) use ($domain_id) {
                     $query->where('domaine_id', $domain_id);
                 }
             );
@@ -376,7 +381,8 @@ class Mission extends Model
             return $query
                 ->whereNotNull('activity_id')
                 ->orWhereHas(
-                    'template', function (Builder $query) {
+                    'template',
+                    function (Builder $query) {
                         $query->whereNotNull('activity_id');
                     }
                 );
@@ -384,7 +390,8 @@ class Mission extends Model
             return $query
                 ->whereNull('activity_id')
                 ->orWhereHas(
-                    'template', function (Builder $query) {
+                    'template',
+                    function (Builder $query) {
                         $query->whereNull('activity_id');
                     }
                 );
@@ -405,7 +412,8 @@ class Mission extends Model
         return $query
             ->where('activity_id', $activity_id)
             ->orWhereHas(
-                'template', function (Builder $query) use ($activity_id) {
+                'template',
+                function (Builder $query) use ($activity_id) {
                     $query->where('activity_id', $activity_id);
                 }
             );
@@ -434,51 +442,52 @@ class Mission extends Model
     public function scopeRole($query, $contextRole)
     {
         switch ($contextRole) {
-        case 'admin':
-        case 'analyste':
-            return $query;
+            case 'admin':
+            case 'analyste':
+                return $query;
                 break;
-        case 'responsable':
-            // Missions des structures dont je suis responsable
-            $user = Auth::guard('api')->user();
+            case 'responsable':
+                // Missions des structures dont je suis responsable
+                $user = Auth::guard('api')->user();
 
-            return $query->where('structure_id', $user->contextable_id);
+                return $query->where('structure_id', $user->contextable_id);
                 break;
-        case 'responsable_territoire':
-            $user = Auth::guard('api')->user();
+            case 'responsable_territoire':
+                $user = Auth::guard('api')->user();
 
-            return $query->ofTerritoire($user->contextable_id);
+                return $query->ofTerritoire($user->contextable_id);
                 break;
-        case 'referent':
-            // Missions qui sont dans mon département
-            return $query
-                ->whereNotNull('department')
-                ->where('department', Auth::guard('api')->user()->profile->referent_department);
+            case 'referent':
+                // Missions qui sont dans mon département
+                return $query
+                    ->whereNotNull('department')
+                    ->where('department', Auth::guard('api')->user()->profile->referent_department);
                 break;
-        case 'referent_regional':
-            // Missions qui sont dans ma région
-            return $query
-                ->whereNotNull('department')
-                ->whereIn(
-                    'department',
-                    config('taxonomies.regions.departments')[Auth::guard('api')->user()->profile->referent_region]
-                );
+            case 'referent_regional':
+                // Missions qui sont dans ma région
+                return $query
+                    ->whereNotNull('department')
+                    ->whereIn(
+                        'department',
+                        config('taxonomies.regions.departments')[Auth::guard('api')->user()->profile->referent_region]
+                    );
                 break;
-        case 'tete_de_reseau':
-            // Missions qui sont dans une structure rattachée à mon réseau
-            return $query
-                ->ofReseau(Auth::guard('api')->user()->profile->tete_de_reseau_id);
+            case 'tete_de_reseau':
+                // Missions qui sont dans une structure rattachée à mon réseau
+                return $query
+                    ->ofReseau(Auth::guard('api')->user()->profile->tete_de_reseau_id);
                 break;
-        default:
-            // Securite
-            return $query->whereNull('id');
+            default:
+                // Securite
+                return $query->whereNull('id');
         }
     }
 
     public function scopeOfReseau($query, $reseau_id)
     {
         return $query->whereHas(
-            'structure', function (Builder $query) use ($reseau_id) {
+            'structure',
+            function (Builder $query) use ($reseau_id) {
                 $query->ofReseau($reseau_id);
             }
         );
@@ -532,8 +541,8 @@ class Mission extends Model
                     $mission->load('structure');
 
                     return ! empty($mission->city)
-                    ? "benevolat-{$mission->structure->name}-{$mission->city}"
-                    : "benevolat-{$mission->structure->name}";
+                        ? "benevolat-{$mission->structure->name}-{$mission->city}"
+                        : "benevolat-{$mission->structure->name}";
                 }
             )
             ->saveSlugsTo('slug');
