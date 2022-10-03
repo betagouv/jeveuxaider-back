@@ -28,7 +28,14 @@ class ProfilesExport implements FromQuery, WithMapping, WithHeadings
 
     public function query()
     {
-        return QueryBuilder::for(Profile::role($this->request->header('Context-Role')))
+
+        if($this->isResponsableExport()){
+            $queryBuilder = Profile::role($this->request->header('Context-Role'))->with(['structures']);
+        } else {
+            $queryBuilder = Profile::role($this->request->header('Context-Role'));
+        }
+
+        return QueryBuilder::for($queryBuilder)
             ->allowedFilters(
                 AllowedFilter::custom('search', new FiltersProfileSearch),
                 AllowedFilter::custom('role', new FiltersProfileRole),
@@ -48,6 +55,19 @@ class ProfilesExport implements FromQuery, WithMapping, WithHeadings
 
     public function headings(): array
     {
+
+        if($this->isResponsableExport()){
+            return [
+                'id',
+                'prenom',
+                'nom',
+                'email',
+                'code_postal',
+                'structure_id',
+                'structure_nom',
+            ];
+        }
+
         return [
             'id',
             'prenom',
@@ -58,11 +78,29 @@ class ProfilesExport implements FromQuery, WithMapping, WithHeadings
 
     public function map($profile): array
     {
+        if($this->isResponsableExport()){
+            $structure = $profile->structures->first();
+            return [
+                $profile->id,
+                $profile->first_name,
+                $profile->last_name,
+                $profile->email,
+                $profile->zip,
+                $structure ? $structure->id : null,
+                $structure ? $structure->name : null,
+            ];
+        }
+
         return [
             $profile->id,
             $profile->first_name,
             $profile->email,
             $profile->zip,
         ];
+    }
+
+    private function isResponsableExport(): bool
+    {
+        return $this->request->has('filter.role') && $this->request->input('filter.role') == 'responsable';
     }
 }
