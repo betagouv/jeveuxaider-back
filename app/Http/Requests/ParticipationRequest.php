@@ -27,7 +27,7 @@ class ParticipationRequest extends FormRequest
             'mission_id' => 'required',
             'profile_id' => 'required',
             'state' => '',
-            'date' => 'date',
+            'date' => 'nullable|date',
             'slots' => '',
         ];
     }
