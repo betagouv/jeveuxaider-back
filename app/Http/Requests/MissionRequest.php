@@ -118,7 +118,7 @@ class MissionRequest extends FormRequest
             'template_id' => '',
             'thumbnail' => '',
             'skills' => '',
-            'commitment__duration' => 'required',
+            'commitment__duration' => '',
             'commitment__time_period' => '',
             'is_priority' => '',
             'is_snu_mig_compatible' => '',
@@ -146,6 +146,9 @@ class MissionRequest extends FormRequest
                 },
             ],
             'autonomy_precisions' => '',
+            'dates' => '',
+            'date_type' => '',
+            'recurrent_description' => '',
         ];
     }
 

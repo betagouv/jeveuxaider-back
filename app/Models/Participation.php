@@ -23,6 +23,10 @@ class Participation extends Model
         'id',
     ];
 
+    protected $casts = [
+        'slots' => 'array',
+    ];
+
     const ACTIVE_STATUS = [
         'En attente de validation',
         'En cours de traitement',

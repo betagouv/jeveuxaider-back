@@ -37,6 +37,7 @@ class Mission extends Model
         'longitude' => 'float',
         'is_autonomy' => 'boolean',
         'autonomy_zips' => 'json',
+        'dates' => 'json',
     ];
 
     protected $attributes = [
@@ -553,14 +554,6 @@ class Mission extends Model
         return $this->morphToMany(Term::class, 'termable')->wherePivot('field', 'mission_skills');
     }
 
-    public function setCommitmentTotal()
-    {
-        $this->commitment__total = Utils::calculateCommitmentTotal(
-            $this->commitment__duration,
-            $this->commitment__time_period
-        );
-    }
-
     public function scopeMinimumCommitment($query, $duration, $time_period = null)
     {
         $total = Utils::calculateCommitmentTotal($duration, $time_period);
@@ -636,6 +629,14 @@ class Mission extends Model
             get: fn ($value) => $this->template_id ?
                 strip_tags($this->template->description, '<p><b><strong><ul><ol><li><i>') :
                 strip_tags($value, '<p><b><strong><ul><ol><li><i>'),
+        );
+    }
+
+    public function setCommitmentTotal()
+    {
+        $this->commitment__total = Utils::calculateCommitmentTotal(
+            $this->commitment__duration,
+            $this->commitment__time_period
         );
     }
 
