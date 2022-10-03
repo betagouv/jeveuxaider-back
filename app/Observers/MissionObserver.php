@@ -157,6 +157,14 @@ class MissionObserver
         $places_left = $mission->participations_max - $participations_validated;
         $mission->places_left = $places_left < 0 ? 0 : $places_left;
 
+        if ($mission->date_type == 'ponctual') {
+            $mission->commitment__time_period = null;
+            $mission->recurrent_description = null;
+        }
+        if ($mission->date_type == 'recurring') {
+            $mission->dates = null;
+            $mission->end_date = null;
+        }
         if ($mission->commitment__duration) {
             $mission->setCommitmentTotal();
         }
