@@ -15,6 +15,7 @@ use App\Services\ApiEngagement;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class NumbersController extends Controller
@@ -31,7 +32,11 @@ class NumbersController extends Controller
         if($request->input('endDate')){
             $this->endDate = Carbon::createFromFormat('Y-m-d', $request->input('endDate'))->hour(23)->minute(59)->second(59);
         }
-        if($request->input('department')){
+
+        if($request->header('Context-Role') == 'referent'){
+            $this->department = Auth::guard('api')->user()->profile->referent_department;
+        }
+        else if($request->input('department')){
             $this->department = $request->input('department');
         }
     }
@@ -532,7 +537,7 @@ class NumbersController extends Controller
                 }
             )
             ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-            'benevoles_notifications_martketplace' => NotificationBenevole::role($request->header('Context-Role'))->when(
+            'benevoles_notifications_martketplace' => NotificationBenevole::when(
                 $this->department, function ($query) {
                     $query->whereHas(
                         'profile', function (Builder $query) {

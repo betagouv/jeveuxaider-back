@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class ChartsController extends Controller
@@ -24,7 +25,10 @@ class ChartsController extends Controller
         if($request->input('endDate')){
             $this->endDate =  Carbon::createFromFormat('Y-m-d',  $request->input('endDate'))->hour(23)->minute(59)->second(59);
         }
-        if($request->input('department')){
+        if($request->header('Context-Role') == 'referent'){
+            $this->department = Auth::guard('api')->user()->profile->referent_department;
+        }
+        else if($request->input('department')){
             $this->department = $request->input('department');
         }
     }
