@@ -23,7 +23,7 @@ class ConversationsController extends Controller
     public function index(Request $request)
     {
         return QueryBuilder::for(
-            Conversation::role($request->header('Context-Role'))->with(
+            Conversation::role($request->header('Context-Role'))->whereHas('conversable')->with(
                 ['latestMessage', 'users', 'users.profile.avatar', 'conversable' => function (MorphTo $morphTo) {
                     $morphTo->morphWith(
                         [
@@ -70,6 +70,19 @@ class ConversationsController extends Controller
         )->where('id', $conversation->id)->first();
     }
 
+    public function store(Request $request)
+    {
+        $currentUser = User::find(Auth::guard('api')->user()->id);
+        $toUser = User::find(request('toUser'));
+        $className = 'App\Models\\'.request('conversableType');
+        $conversable = $className::find(request('conversableId'));
+
+        $conversation = $currentUser->startConversation($toUser, $conversable);
+        $currentUser->sendMessage($conversation->id, request('message'));
+
+        return $conversation;
+    }
+
     public function messages(ConversationRequest $request, Conversation $conversation)
     {
         return QueryBuilder::for(Message::where('conversation_id', $conversation->id)->with(['from', 'from.profile.avatar']))
@@ -86,6 +99,5 @@ class ConversationsController extends Controller
     {
         $currentUser = User::find(Auth::guard('api')->user()->id);
         $currentUser->setConversationStatus($conversation, request('status'));
-
     }
 }
