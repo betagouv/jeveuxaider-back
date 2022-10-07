@@ -45,15 +45,15 @@ class MissionController extends Controller
         $result = QueryBuilder::for(Mission::role($request->header('Context-Role')))
             ->with(['domaine', 'template', 'template.domaine', 'structure'])
             ->allowedFilters([
-                'state',
-                'type',
+                AllowedFilter::exact('state'),
+                AllowedFilter::exact('type'),
                 AllowedFilter::exact('id'),
                 AllowedFilter::exact('department'),
                 AllowedFilter::exact('responsable.id'),
                 AllowedFilter::exact('template.id'),
                 AllowedFilter::exact('structure.id'),
                 AllowedFilter::exact('structure.name'),
-                'structure.statut_juridique',
+                AllowedFilter::exact('structure.statut_juridique'),
                 AllowedFilter::exact('structure.reseaux.id'),
                 AllowedFilter::exact('structure.reseaux.name'),
                 AllowedFilter::exact('is_snu_mig_compatible'),

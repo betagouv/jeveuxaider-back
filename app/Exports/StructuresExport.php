@@ -32,8 +32,8 @@ class StructuresExport implements FromQuery, WithMapping, WithHeadings
             ->allowedFilters([
                 AllowedFilter::custom('search', new FiltersStructureSearch),
                 AllowedFilter::exact('department'),
-                'state',
-                'statut_juridique',
+                AllowedFilter::exact('state'),
+                AllowedFilter::exact('statut_juridique'),
                 AllowedFilter::exact('reseaux.id'),
                 AllowedFilter::exact('reseaux.name'),
                 AllowedFilter::scope('ofReseau'),

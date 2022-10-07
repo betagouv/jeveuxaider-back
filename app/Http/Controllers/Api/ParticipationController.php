@@ -42,9 +42,9 @@ class ParticipationController extends Controller
                 AllowedFilter::scope('ofActivity'),
                 AllowedFilter::scope('ofDomaine'),
                 AllowedFilter::scope('ofResponsable'),
-                'state',
-                'mission.zip',
-                'mission.type',
+                AllowedFilter::exact('state'),
+                AllowedFilter::exact('mission.zip'),
+                AllowedFilter::exact('mission.type'),
                 AllowedFilter::exact('id'),
             )
             ->allowedIncludes([

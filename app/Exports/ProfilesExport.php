@@ -39,10 +39,10 @@ class ProfilesExport implements FromQuery, WithMapping, WithHeadings
             ->allowedFilters(
                 AllowedFilter::custom('search', new FiltersProfileSearch),
                 AllowedFilter::custom('role', new FiltersProfileRole),
-                'department',
+                AllowedFilter::exact('department'),
                 AllowedFilter::exact('referent_department'),
                 AllowedFilter::exact('referent_region'),
-                'zip',
+                AllowedFilter::exact('zip'),
                 AllowedFilter::exact('is_visible'),
                 AllowedFilter::custom('min_participations', new FiltersProfileMinParticipations)
             )

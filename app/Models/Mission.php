@@ -367,7 +367,8 @@ class Mission extends Model
                 function (Builder $query) use ($domain_id) {
                     $query->where('domaine_id', $domain_id);
                 }
-            );
+            )
+        ;
     }
 
     public function scopeOfTemplate($query, $template_id)
