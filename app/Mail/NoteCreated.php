@@ -35,7 +35,8 @@ class NoteCreated extends Mailable
             ->subject('Nouvelle note postée par ' . $this->note->user->profile->full_name)
             ->markdown('emails.notes.created')
             ->with([
-                'url' => url(config('app.front_url') . $this->generateFrontUrl())
+                'url' => url(config('app.front_url') . $this->generateFrontUrl()),
+                'notable' =>  $this->note->notable
             ]);
     }
 

@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Mail\NoteCreated;
 use App\Models\Document;
 use App\Models\Invitation;
 use App\Models\Message;
 use App\Models\Mission;
 use App\Models\MissionTemplate;
+use App\Models\Note;
 use App\Models\NotificationBenevole;
 use App\Models\NotificationTemoignage;
 use App\Models\Participation;
@@ -225,8 +227,20 @@ class NotificationController extends Controller
             case 'benevole_cej_six_months_after':
                 $notification = new BenevoleCejSixMonthsAfter($user->profile);
                 break;
+            case 'notes_created':
+                $note = Note::latest()->first();
+                $mail = new NoteCreated($note);
+                break;
         }
 
-        return isset($notification) ? $notification->toMail($user)->render() : abort(401, 'Notification introuvable');
+        if(isset($mail)){
+            return $mail->render();
+        }
+
+        if(isset($notification)){
+            return $notification->toMail($user)->render();
+        }
+
+        return abort(401, 'Notification introuvable');
     }
 }

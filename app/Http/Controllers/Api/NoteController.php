@@ -93,10 +93,14 @@ class NoteController extends Controller
             'content' => $attributes['content']
         ]);
 
-        if(!$user->is_admin){
-            foreach (['coralie.chauvin@beta.gouv.fr', 'caroline.farhi@beta.gouv.fr'] as $recipient) {
-                Mail::to($recipient)->send(new NoteCreated($note));
-            }
+        // if(!$user->is_admin){
+        //     foreach (['coralie.chauvin@beta.gouv.fr', 'caroline.farhi@beta.gouv.fr'] as $recipient) {
+        //         Mail::to($recipient)->send(new NoteCreated($note));
+        //     }
+        // }
+
+        foreach (['coralie.chauvin@beta.gouv.fr', 'caroline.farhi@beta.gouv.fr'] as $recipient) {
+            Mail::to($recipient)->send(new NoteCreated($note));
         }
 
         activity('note')
