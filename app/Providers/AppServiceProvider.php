@@ -39,6 +39,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
 use Symfony\Component\Mailer\Bridge\Sendinblue\Transport\SendinblueTransportFactory;
 use Symfony\Component\Mailer\Transport\Dsn;
+use Carbon\Carbon;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -108,5 +109,6 @@ class AppServiceProvider extends ServiceProvider
                 Mail::alwaysTo('pinto.jeremy@gmail.com');
             }
         }
+
     }
 }

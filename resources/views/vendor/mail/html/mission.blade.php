@@ -34,7 +34,6 @@
 </table>
 
 <!-- DATES -->
-@if($mission->is_autonomy)
 <table>
 <tr>
 <td style="padding-right: 10px; width: 50px; font-size: 28px; line-height: 36px;" valign="top">🗓️</td>
@@ -42,25 +41,28 @@
 <div class="text-label">
 @if($mission->start_date && $mission->end_date)
 @if($mission->start_date == $mission->end_date)
-    {{ $mission->start_date }}
+{{ Utils::formatDate($mission->start_date) }}
 @else
-Entre le {{ $mission->start_date }} et le {{ $mission->end_date }}
+Entre le {{ Utils::formatDate($mission->start_date) }} et le {{ Utils::formatDate($mission->end_date) }}
 @endif
 @else
-{{ $mission->start_date }}
+@if($mission->date_type == 'recurring')
+Mission récurrente à partir du {{ Utils::formatDate($mission->start_date) }}
+@else
+{{ Utils::formatDate($mission->start_date) }}
+@endif
 @endif
 </div>
 <div class="text-value">
 @if($mission->commitment__time_period)
-{{ $mission->commitment__duration }} par {{ $mission->commitment__time_period }}
+{{ Utils::labelFromValue($mission->commitment__duration,'duration') }} par {{ Utils::labelFromValue($mission->commitment__time_period,'time_period') }}
 @else
-{{ $mission->commitment__duration }}
+{{ Utils::labelFromValue($mission->commitment__duration,'duration') }}
 @endif
 </div>
 </td>
 </tr>
 </table>
-@endisset
 
 <!-- DATES -->
 @if(count($mission->publics_beneficiaires) > 0)
@@ -68,7 +70,7 @@ Entre le {{ $mission->start_date }} et le {{ $mission->end_date }}
 <div class="tags">
 @foreach ($mission->publics_beneficiaires as $item)
 @component('mail::tag', ['variant' => 'default'])
-{{ $item }}
+{{ Utils::labelFromValue($item , 'mission_publics_beneficiaires')}}
 @endcomponent
 @endforeach
 </div>
