@@ -11,11 +11,13 @@ use App\Models\SocialAccount;
 use App\Models\Structure;
 use App\Models\User;
 use App\Notifications\RegisterUserVolontaire;
+use App\Notifications\RegisterUserVolontaireCejAdviser;
 use App\Services\ApiEngagement;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Validator;
 
@@ -25,14 +27,15 @@ class PassportController extends Controller
 
     public function registerVolontaire(RegisterVolontaireRequest $request)
     {
-        $utmSource = request('utm_source');
         $user = User::create(
             [
                 'name' => request('email'),
                 'email' => request('email'),
                 'password' => Hash::make(request('password')),
                 'context_role' => 'volontaire',
-                'utm_source' => is_array($utmSource) ? current($utmSource) : $utmSource,
+                'utm_source' => request('utm_source'),
+                'utm_campaign' => request('utm_campaign'),
+                'utm_medium' => request('utm_medium'),
             ]
         );
 
@@ -48,6 +51,12 @@ class PassportController extends Controller
         $notification = new RegisterUserVolontaire($user);
         $user->notify($notification);
 
+        // Can be set from soft gate register
+        if ($user->profile->cej && ! empty($user->profile->cej_email_adviser)) {
+            Notification::route('mail', $user->profile->cej_email_adviser)
+                ->notify(new RegisterUserVolontaireCejAdviser($user->profile));
+        }
+
         return $user;
     }
 
@@ -60,6 +69,8 @@ class PassportController extends Controller
                 'password' => Hash::make(request('password')),
                 'context_role' => 'responsable',
                 'utm_source' => request('utm_source'),
+                'utm_campaign' => request('utm_campaign'),
+                'utm_medium' => request('utm_medium'),
             ]
         );
         $attributes = $request->validated();

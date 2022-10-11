@@ -29,7 +29,7 @@ class MissionsExport implements FromQuery, WithMapping, WithHeadings
 
     public function query()
     {
-        return QueryBuilder::for(Mission::role($this->request->header('Context-Role')))
+        return QueryBuilder::for(Mission::role($this->request->header('Context-Role'))->with(['structure']))
             ->allowedFilters([
                 'state',
                 'type',
@@ -67,6 +67,9 @@ class MissionsExport implements FromQuery, WithMapping, WithHeadings
         return [
             'id',
             'structure_id',
+            'structure_nom',
+            'structure_phone',
+            'structure_email',
             'nom',
             'statut',
             // 'description',
@@ -96,6 +99,9 @@ class MissionsExport implements FromQuery, WithMapping, WithHeadings
         return [
             $mission->id,
             $mission->structure_id,
+            $mission->structure ? $mission->structure->name : null,
+            $mission->structure ? $mission->structure->phone : null,
+            $mission->structure ? $mission->structure->email : null,
             $mission->name,
             $mission->state,
             // $mission->description,

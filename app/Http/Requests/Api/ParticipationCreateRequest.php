@@ -15,4 +15,21 @@ class ParticipationCreateRequest extends ParticipationRequest
     {
         return true;
     }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        return [
+            'mission_id' => 'required',
+            'profile_id' => 'required',
+            'state' => '',
+            'utm_source' => '',
+            'utm_campaign' => '',
+            'utm_medium' => '',
+        ];
+    }
 }

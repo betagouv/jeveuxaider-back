@@ -154,10 +154,15 @@ class Mission extends Model
             'is_snu_mig_compatible' => $this->is_snu_mig_compatible,
             'snu_mig_places' => $this->snu_mig_places,
             'commitment__total' => $this->commitment__total,
-            'publics_beneficiaires' => array_map(function ($public) use ($publicsBeneficiaires) {
-                return $publicsBeneficiaires[$public];
-            }, $this->publics_beneficiaires),
+            'publics_beneficiaires' => array_map(
+                function ($public) use ($publicsBeneficiaires) {
+                    return $publicsBeneficiaires[$public];
+                },
+                $this->publics_beneficiaires
+            ),
+            'publics_volontaires' => $this->publics_volontaires,
             'is_autonomy' => $this->is_autonomy,
+            'autonomy_zips' => $this->is_autonomy && count($this->autonomy_zips) > 0 ? $this->autonomy_zips : null,
         ];
 
         if ($this->is_autonomy) {
@@ -305,18 +310,23 @@ class Mission extends Model
     public function scopeNotOutdated($query)
     {
         return $query
-            ->where(function ($query) {
-                $query
-                    ->where('end_date', '>=', Carbon::now())
-                    ->orWhereNull('end_date');
-            });
+            ->where(
+                function ($query) {
+                    $query
+                        ->where('end_date', '>=', Carbon::now())
+                        ->orWhereNull('end_date');
+                }
+            );
     }
 
     public function scopeOrganizationState($query, $state)
     {
-        return $query->whereHas('structure', function (Builder $query) use ($state) {
-            $query->where('state', $state);
-        });
+        return $query->whereHas(
+            'structure',
+            function (Builder $query) use ($state) {
+                $query->where('state', $state);
+            }
+        );
     }
 
     public function scopeCurrent($query)
@@ -328,9 +338,12 @@ class Mission extends Model
 
     public function scopeAvailable($query)
     {
-        return $query->where('missions.state', 'Validée')->whereHas('structure', function (Builder $query) {
-            $query->where('structures.state', 'Validée');
-        });
+        return $query->where('missions.state', 'Validée')->whereHas(
+            'structure',
+            function (Builder $query) {
+                $query->where('structures.state', 'Validée');
+            }
+        );
     }
 
     public function scopeDepartment($query, $value)
@@ -349,9 +362,12 @@ class Mission extends Model
         return $query
             ->where('domaine_id', $domain_id)
             ->orWhere('domaine_secondary_id', $domain_id)
-            ->orWhereHas('template', function (Builder $query) use ($domain_id) {
-                $query->where('domaine_id', $domain_id);
-            });
+            ->orWhereHas(
+                'template',
+                function (Builder $query) use ($domain_id) {
+                    $query->where('domaine_id', $domain_id);
+                }
+            );
     }
 
     public function scopeOfTemplate($query, $template_id)
@@ -364,16 +380,22 @@ class Mission extends Model
     {
         if ($value) {
             return $query
-            ->whereNotNull('activity_id')
-            ->orWhereHas('template', function (Builder $query) {
-                $query->whereNotNull('activity_id');
-            });
+                ->whereNotNull('activity_id')
+                ->orWhereHas(
+                    'template',
+                    function (Builder $query) {
+                        $query->whereNotNull('activity_id');
+                    }
+                );
         } else {
             return $query
-            ->whereNull('activity_id')
-            ->orWhereHas('template', function (Builder $query) {
-                $query->whereNull('activity_id');
-            });
+                ->whereNull('activity_id')
+                ->orWhereHas(
+                    'template',
+                    function (Builder $query) {
+                        $query->whereNull('activity_id');
+                    }
+                );
         }
     }
 
@@ -390,9 +412,12 @@ class Mission extends Model
     {
         return $query
             ->where('activity_id', $activity_id)
-            ->orWhereHas('template', function (Builder $query) use ($activity_id) {
-                $query->where('activity_id', $activity_id);
-            });
+            ->orWhereHas(
+                'template',
+                function (Builder $query) use ($activity_id) {
+                    $query->where('activity_id', $activity_id);
+                }
+            );
     }
 
     public function scopeOfTerritoire($query, $territoire_id)
@@ -461,9 +486,12 @@ class Mission extends Model
 
     public function scopeOfReseau($query, $reseau_id)
     {
-        return $query->whereHas('structure', function (Builder $query) use ($reseau_id) {
-            $query->ofReseau($reseau_id);
-        });
+        return $query->whereHas(
+            'structure',
+            function (Builder $query) use ($reseau_id) {
+                $query->ofReseau($reseau_id);
+            }
+        );
     }
 
     public function scopeDistance($query, $latitude, $longitude)
@@ -495,9 +523,11 @@ class Mission extends Model
         $mission->save();
 
         if ($this->illustrations) {
-            $values = $this->illustrations->pluck($this->illustrations, 'id')->map(function ($item) {
-                return ['field' => 'mission_illustrations'];
-            });
+            $values = $this->illustrations->pluck($this->illustrations, 'id')->map(
+                function ($item) {
+                    return ['field' => 'mission_illustrations'];
+                }
+            );
             $mission->illustrations()->sync($values);
         }
 
@@ -507,13 +537,15 @@ class Mission extends Model
     public function getSlugOptions(): SlugOptions
     {
         return SlugOptions::create()
-            ->generateSlugsFrom(function ($mission) {
-                $mission->load('structure');
+            ->generateSlugsFrom(
+                function ($mission) {
+                    $mission->load('structure');
 
-                return ! empty($mission->city)
-                    ? "benevolat-{$mission->structure->name}-{$mission->city}"
-                    : "benevolat-{$mission->structure->name}";
-            })
+                    return ! empty($mission->city)
+                        ? "benevolat-{$mission->structure->name}-{$mission->city}"
+                        : "benevolat-{$mission->structure->name}";
+                }
+            )
             ->saveSlugsTo('slug');
     }
 
@@ -568,7 +600,9 @@ class Mission extends Model
     {
         $participations = $this->participations()->state('Validée')->get();
         foreach ($participations as $participation) {
-            /** @var \App\Models\Participation $participation */
+            /**
+             * @var \App\Models\Participation $participation
+             */
             $participation->sendNotificationTemoignage();
         }
     }
@@ -639,6 +673,8 @@ class Mission extends Model
             'is_snu_mig_compatible' => $this->is_snu_mig_compatible,
             'snu_mig_places' => $this->snu_mig_places,
             'picture' => $this->picture,
+            'is_autonomy' => $this->is_autonomy,
+            'autonomy_zips' => $this->is_autonomy && count($this->autonomy_zips) > 0 ? $this->autonomy_zips : null,
             'address' => [
                 'full' => $this->full_address,
                 'address' => $this->address,

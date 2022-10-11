@@ -26,10 +26,13 @@ class MissionTemplateController extends Controller
                 AllowedFilter::exact('domaine.id'),
                 AllowedFilter::exact('published'),
                 AllowedFilter::scope('of_reseau'),
+                AllowedFilter::scope('with_reseau'),
+                AllowedFilter::exact('reseau.name'),
                 AllowedFilter::callback('with_reseaux', new FiltersTemplatesWithReseau)
             )
             ->allowedIncludes(['photo', 'domaine', 'reseau', 'missions'])
             ->defaultSort('-updated_at')
+            ->allowedSorts('reseau_id')
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
 
         if ($request->has('append')) {
@@ -58,12 +61,16 @@ class MissionTemplateController extends Controller
         return [
             'missions_count' => Mission::where('template_id', $missionTemplate->id)->count(),
             'missions_available_count' => Mission::available()->where('template_id', $missionTemplate->id)->count(),
-            'participations_count' => Participation::whereHas('mission', function (Builder $query) use ($missionTemplate) {
-                $query->where('template_id', $missionTemplate->id);
-            })->count(),
-            'participations_validated_count' => Participation::where('state', 'Validée')->whereHas('mission', function (Builder $query) use ($missionTemplate) {
-                $query->where('template_id', $missionTemplate->id);
-            })->count(),
+            'participations_count' => Participation::whereHas(
+                'mission', function (Builder $query) use ($missionTemplate) {
+                    $query->where('template_id', $missionTemplate->id);
+                }
+            )->count(),
+            'participations_validated_count' => Participation::where('state', 'Validée')->whereHas(
+                'mission', function (Builder $query) use ($missionTemplate) {
+                    $query->where('template_id', $missionTemplate->id);
+                }
+            )->count(),
         ];
     }
 

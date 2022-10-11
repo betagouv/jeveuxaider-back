@@ -7,8 +7,9 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\HtmlString;
 
-class ParticipationValidated extends Notification implements ShouldQueue
+class ParticipationValidatedCejAdviser extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -56,14 +57,14 @@ class ParticipationValidated extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         $message = (new MailMessage)
-            ->subject('Bravo ! Votre demande de participation vient d\'être acceptée')
-            ->greeting('Bonjour '.$notifiable->first_name.',')
-            ->line('Nous avons le plaisir de vous annoncer que votre participation à la mission « '.$this->participation->mission->name.' » a été acceptée !')
-            ->line('Vous pouvez poursuivre les échanges avec le responsable depuis votre messagerie.')
-            ->tag('app-benevole-participation-validee');
-
-        $url = $this->participation->conversation ? '/messages/'.$this->participation->conversation->id : '/messages';
-        $message->action('Accéder à ma messagerie', url(config('app.front_url').$url));
+            ->subject($this->participation->profile->full_name.' s’est inscrit sur une mission de bénévolat')
+            ->greeting('Bonjour,')
+            ->line(new HtmlString($this->participation->profile->full_name.', que vous accompagnez dans le cadre du Contrat d’Engagement Jeune, s’est inscrit sur la mission <a href="'.url(config('app.front_url').$this->participation->mission->full_url).'">'.$this->participation->mission->name.'</a>.'))
+            ->line('En cas de besoin, vous pouvez consulter les ressources mises à votre disposition :')
+            ->line(new HtmlString('<ul><li><a href="https://www.jeveuxaider.gouv.fr/engagement/wp-content/uploads/GUIDE-CEJ-Mise-a-jour-Septembre-2022.pdf">👉 Le Guide</a></li>'))
+            ->line(new HtmlString('<ul><li><a href="https://www.jeveuxaider.gouv.fr/engagement/wp-content/uploads/Presentation-CEJ-A4-Synthetique-Mise-a-jour-Septembre-2022.pdf">👉 La Fiche récapitulative</a></li>'))
+            ->line(new HtmlString('<ul><li><a href="https://vimeo.com/750348414">👉 La vidéo de présentation de JeVeuxAider.gouv.fr</a></li></ul>'))
+            ->line('Pour toute question, vous pouvez également contacter notre équipe par retour de mail.');
 
         return $message;
     }

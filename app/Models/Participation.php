@@ -19,16 +19,12 @@ class Participation extends Model
         'state' => 'En attente de validation',
     ];
 
-    protected $casts = [
-        'slots' => 'array',
+    protected $guarded = [
+        'id',
     ];
 
-    protected $fillable = [
-        'mission_id',
-        'profile_id',
-        'state',
-        'date',
-        'slots',
+    protected $casts = [
+        'slots' => 'array',
     ];
 
     const ACTIVE_STATUS = [

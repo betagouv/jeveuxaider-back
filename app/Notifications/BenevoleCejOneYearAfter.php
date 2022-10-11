@@ -2,31 +2,24 @@
 
 namespace App\Notifications;
 
-use App\Models\Participation;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\HtmlString;
 
-class ParticipationValidated extends Notification implements ShouldQueue
+class BenevoleCejOneYearAfter extends Notification implements ShouldQueue
 {
     use Queueable;
-
-    /**
-     * The order instance.
-     *
-     * @var Participation
-     */
-    public $participation;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(Participation $participation)
+    public function __construct()
     {
-        $this->participation = $participation;
+        //
     }
 
     /**
@@ -55,17 +48,13 @@ class ParticipationValidated extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $message = (new MailMessage)
-            ->subject('Bravo ! Votre demande de participation vient d\'être acceptée')
+        return (new MailMessage)
+            ->subject($notifiable->first_name.', êtes-vous toujours en Contrat d’Engagement Jeune ?')
             ->greeting('Bonjour '.$notifiable->first_name.',')
-            ->line('Nous avons le plaisir de vous annoncer que votre participation à la mission « '.$this->participation->mission->name.' » a été acceptée !')
-            ->line('Vous pouvez poursuivre les échanges avec le responsable depuis votre messagerie.')
-            ->tag('app-benevole-participation-validee');
-
-        $url = $this->participation->conversation ? '/messages/'.$this->participation->conversation->id : '/messages';
-        $message->action('Accéder à ma messagerie', url(config('app.front_url').$url));
-
-        return $message;
+            ->line(new HtmlString('Lors de votre inscription sur <a href="'.url(config('app.front_url')).'">JeVeuxAider.gouv.fr</a>, vous nous avez indiqué être accompagné dans le cadre du Contrat d’Engagement Jeune.'))
+            ->line('Si vous n’êtes plus accompagné dans le cadre de ce dispositif, nous vous invitons à mettre à jour votre profil. Promis, cela ne prend que 2 minutes !')
+            ->action('Je mets à jour mon profil', url(config('app.front_url').'/profile/edit'))
+            ->line('Si besoin, vous pouvez contacter le Support Utilisateurs par simple retour de mail.');
     }
 
     /**

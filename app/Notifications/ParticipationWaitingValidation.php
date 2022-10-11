@@ -66,6 +66,7 @@ class ParticipationWaitingValidation extends Notification implements ShouldQueue
     {
         $message = (new MailMessage)
             ->subject('Vous avez une nouvelle demande de participation')
+            ->tag('app-organisation-participation-en-attente-de-validation')
             ->greeting('Bonjour '.$notifiable->first_name.',')
             ->line('Bonne nouvelle ! '.$this->participation->profile->full_name.' souhaite participer à la mission « '.$this->participation->mission->name.' »');
 
@@ -74,8 +75,8 @@ class ParticipationWaitingValidation extends Notification implements ShouldQueue
                 ->line(
                     new HtmlString(
                         $this->participation->profile->full_name.'<br>'.
-                        $this->participation->profile->mobile.'<br>'.
-                        $this->participation->profile->email
+                            $this->participation->profile->mobile.'<br>'.
+                            $this->participation->profile->email
                     )
                 );
         }

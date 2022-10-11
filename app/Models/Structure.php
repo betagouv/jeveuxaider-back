@@ -50,6 +50,7 @@ class Structure extends Model implements HasMedia
         'longitude' => 'float',
         'publics_beneficiaires' => 'array',
         'send_volunteer_coordonates' => 'boolean',
+        'is_alsace_moselle' => 'boolean',
         'missing_fields' => 'array',
     ];
 
@@ -265,7 +266,7 @@ class Structure extends Model implements HasMedia
 
     public function members()
     {
-        return $this->belongsToMany('App\Models\Profile', 'members')->withPivot('role');
+        return $this->belongsToMany('App\Models\Profile', 'members')->withPivot('role', 'fonction');
     }
 
     public function invitations()
@@ -511,6 +512,7 @@ class Structure extends Model implements HasMedia
             'url' => $this->full_url,
             'description' => $this->description,
             'statut_juridique' => $this->statut_juridique,
+            'is_alsace_moselle' => $this->is_alsace_moselle,
             'association_types' => $this->association_types,
             'structure_publique_type' => $this->structure_publique_type,
             'structure_publique_etat_type' => $this->structure_publique_etat_type,
@@ -588,6 +590,7 @@ class Structure extends Model implements HasMedia
             'url' => $this->full_url,
             'description' => $this->description,
             'statut_juridique' => $this->statut_juridique,
+            'is_alsace_moselle' => $this->is_alsace_moselle,
             'association_types' => $this->association_types,
             'structure_publique_type' => $this->structure_publique_type,
             'structure_publique_etat_type' => $this->structure_publique_etat_type,

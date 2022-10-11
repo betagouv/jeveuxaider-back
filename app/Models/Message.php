@@ -40,7 +40,7 @@ class Message extends Model
                 break;
             case 'referent':
             return $query
-                    ->whereHas('conversation.participation.mission', function (Builder $query) {
+                    ->whereHas('conversation.conversable.mission', function (Builder $query) {
                         $query->where('department', Auth::guard('api')->user()->profile->referent_department);
                     });
                 break;

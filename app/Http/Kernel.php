@@ -66,6 +66,7 @@ class Kernel extends HttpKernel
         'has.context.role.header' => \App\Http\Middleware\HasContextRoleHeader::class,
         'has.api.key' => \App\Http\Middleware\HasApiKey::class,
         'is.admin' => \App\Http\Middleware\IsAdmin::class,
+        'is.admin.or.referent' => \App\Http\Middleware\IsAdminOrReferent::class,
     ];
 
     /**
