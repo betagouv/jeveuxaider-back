@@ -43,6 +43,9 @@ class ConversationsController extends Controller
                     AllowedFilter::custom('search', new FiltersConversationSearch),
                     AllowedFilter::custom('exclude', new FiltersConversationExclude),
                     AllowedFilter::custom('status', new FiltersConversationStatus),
+                    AllowedFilter::exact('conversable_type'),
+                    AllowedFilter::exact('conversable_id'),
+                    AllowedFilter::scope('with_users'),
                 ]
             )
             ->defaultSort('-updated_at')
@@ -74,7 +77,7 @@ class ConversationsController extends Controller
     {
         $currentUser = User::find(Auth::guard('api')->user()->id);
         $toUser = User::find(request('toUser'));
-        $className = 'App\Models\\'.request('conversableType');
+        $className = request('conversableType');
         $conversable = $className::find(request('conversableId'));
 
         $conversation = $currentUser->startConversation($toUser, $conversable);
