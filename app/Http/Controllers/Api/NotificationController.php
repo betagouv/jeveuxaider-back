@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Mail\NoteCreated;
 use App\Models\Document;
 use App\Models\Invitation;
 use App\Models\Message;
@@ -33,6 +32,7 @@ use App\Notifications\MissionValidated;
 use App\Notifications\MissionWaitingValidation;
 use App\Notifications\ModerateurDailyTodo;
 use App\Notifications\NoNewMission;
+use App\Notifications\NoteCreated;
 use App\Notifications\NotificationTemoignageCreate;
 use App\Notifications\NotificationToBenevole;
 use App\Notifications\ParticipationBeingProcessed;
@@ -229,7 +229,7 @@ class NotificationController extends Controller
                 break;
             case 'notes_created':
                 $note = Note::latest()->first();
-                $mail = new NoteCreated($note);
+                $notification = new NoteCreated($note);
                 break;
         }
 

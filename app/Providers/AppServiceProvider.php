@@ -10,6 +10,7 @@ use App\Models\Invitation;
 use App\Models\Message;
 use App\Models\Mission;
 use App\Models\MissionTemplate;
+use App\Models\Note;
 use App\Models\NotificationTemoignage;
 use App\Models\Participation;
 use App\Models\Profile;
@@ -24,6 +25,7 @@ use App\Observers\InvitationObserver;
 use App\Observers\MessageObserver;
 use App\Observers\MissionObserver;
 use App\Observers\MissionTemplateObserver;
+use App\Observers\NoteObserver;
 use App\Observers\NotificationTemoignageObserver;
 use App\Observers\ParticipationObserver;
 use App\Observers\ProfileObserver;
@@ -85,6 +87,7 @@ class AppServiceProvider extends ServiceProvider
         NotificationTemoignage::observe(NotificationTemoignageObserver::class);
         Temoignage::observe(TemoignageObserver::class);
         Reseau::observe(ReseauObserver::class);
+        Note::observe(NoteObserver::class);
 
         Validator::extend('phone', function ($attribute, $value, $parameters) {
             return preg_match('/^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$/', $value);

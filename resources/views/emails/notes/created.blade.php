@@ -1,22 +1,18 @@
 @component('mail::message')
-Bonjour,
+Bonjour {{ $notifiable->first_name}},
 
 {{ $note->user->profile->full_name}} a posté une nouvelle note sur « {{ $note->notable->name }} »
 
-@component('mail::quote')
+@component('mail::components.quote')
 {{ $note->content }}
 @endcomponent
 
 @if ($note->notable_type == 'App\Models\Structure')
-@component('mail::organisation', ['organisation' => $notable])
-Test slot
-@endcomponent
+@component('mail::components.table-organisation', ['organisation' => $notable, 'showInfos' => true])@endcomponent
 @endif
 
 @if ($note->notable_type == 'App\Models\Mission')
-@component('mail::mission', ['mission' => $notable])
-Test slot
-@endcomponent
+@component('mail::components.table-mission', ['mission' => $notable, 'showInfos' => true])@endcomponent
 @endif
 
 

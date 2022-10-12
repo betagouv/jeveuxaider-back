@@ -9,8 +9,6 @@ use App\Models\Structure;
 use App\Models\Mission;
 use Spatie\QueryBuilder\QueryBuilder;
 use App\Http\Controllers\Controller;
-use App\Mail\NoteCreated;
-use Illuminate\Support\Facades\Mail;
 
 class NoteController extends Controller
 {
@@ -92,16 +90,6 @@ class NoteController extends Controller
             'user_id' => $user->id,
             'content' => $attributes['content']
         ]);
-
-        // if(!$user->is_admin){
-        //     foreach (['coralie.chauvin@beta.gouv.fr', 'caroline.farhi@beta.gouv.fr'] as $recipient) {
-        //         Mail::to($recipient)->send(new NoteCreated($note));
-        //     }
-        // }
-
-        foreach (['coralie.chauvin@beta.gouv.fr', 'caroline.farhi@beta.gouv.fr'] as $recipient) {
-            Mail::to($recipient)->send(new NoteCreated($note));
-        }
 
         activity('note')
             ->event('created')
