@@ -5,6 +5,7 @@ namespace App\Notifications;
 use App\Models\Note;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Messages\SlackMessage;
 use Illuminate\Notifications\Notification;
 
 class NoteCreated extends Notification
@@ -34,7 +35,7 @@ class NoteCreated extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return isset($notifiable->id) ? ['mail'] : ['slack'];
     }
 
     /**
@@ -53,6 +54,25 @@ class NoteCreated extends Notification
                 'notable' =>  $this->note->notable,
                 'notifiable' => $notifiable
             ]);
+    }
+
+    public function toSlack($notifiable)
+    {
+        $note = $this->note;
+        $notable = $this->note->notable;
+        $from = config('app.env') != 'production' ? '['.config('app.env').'] JeVeuxAider.gouv.fr' : 'JeVeuxAider.gouv.fr';
+        $url = url(config('app.front_url') . $this->generateFrontUrl());
+
+        return (new SlackMessage)
+            ->from($from)
+            ->success()
+            ->to('#produit-logs')
+            ->content('*'.$note->user->profile->full_name . '* a ajoutée une note à *<'.$url.'|'.$notable->name.'>*')
+            ->attachment(function ($attachment) use ($note) {
+                $attachment
+                    ->color('#BBBBBB')
+                    ->content($note->content);
+            });
     }
 
     /**

@@ -7,6 +7,7 @@ use App\Models\Profile;
 use App\Models\User;
 use App\Notifications\NoteCreated;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Notification;
 
 class NoteObserver
 {
@@ -34,15 +35,8 @@ class NoteObserver
                 }
             }
         } else {
-            // Notify admins
-            $admins = User::where('is_admin', true)
-                ->whereIn('email', ['coralie.chauvin@beta.gouv.fr', 'caroline.farhi@beta.gouv.fr'])
-                ->get();
-            if($admins){
-                $admins->map(function($admin) use ($note) {
-                    $admin->profile->notify(new NoteCreated($note));
-                });
-            }
+            Notification::route('slack', config('services.slack.hook_url'))
+                ->notify(new NoteCreated($note), 'slack');
         }
     }
 
