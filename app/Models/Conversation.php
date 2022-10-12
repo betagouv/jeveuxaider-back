@@ -48,6 +48,17 @@ class Conversation extends Model
         }
     }
 
+    public function scopeWithUsers($query, $users)
+    {
+        $users = explode(',', $users);
+
+        return $query->whereHas('users', function (Builder $query) use ($users) {
+            foreach ($users as $userId) {
+                $query->where('users.id', $userId);
+            }
+        });
+    }
+
     public function setResponseTime()
     {
         if ($this->response_time) {

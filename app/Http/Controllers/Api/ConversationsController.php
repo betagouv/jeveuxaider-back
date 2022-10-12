@@ -22,9 +22,9 @@ class ConversationsController extends Controller
 {
     public function index(Request $request)
     {
-        return QueryBuilder::for(
+        $result = QueryBuilder::for(
             Conversation::role($request->header('Context-Role'))->whereHas('conversable')->with(
-                ['latestMessage', 'users', 'users.profile.avatar', 'conversable' => function (MorphTo $morphTo) {
+                ['latestMessage', 'users', 'users.profile.avatar', 'users.profile.structures', 'users.profile.territoires', 'conversable' => function (MorphTo $morphTo) {
                     $morphTo->morphWith(
                         [
                             Participation::class => [
@@ -43,10 +43,24 @@ class ConversationsController extends Controller
                     AllowedFilter::custom('search', new FiltersConversationSearch),
                     AllowedFilter::custom('exclude', new FiltersConversationExclude),
                     AllowedFilter::custom('status', new FiltersConversationStatus),
+                    AllowedFilter::exact('conversable_type'),
+                    AllowedFilter::exact('conversable_id'),
+                    AllowedFilter::scope('with_users'),
                 ]
             )
             ->defaultSort('-updated_at')
             ->paginate(config('query-builder.results_per_page'));
+
+        // On ajoute le rôle, à supprimer quand le rôle sera en bdd
+        $result->through(function ($conversation) {
+            foreach ($conversation->users as $user) {
+                $user->append('roles');
+            }
+
+            return $conversation;
+        });
+
+        return $result;
     }
 
     public function show(ConversationRequest $request, Conversation $conversation)
@@ -54,8 +68,8 @@ class ConversationsController extends Controller
         $currentUser = User::find(Auth::guard('api')->user()->id);
         $currentUser->markConversationAsRead($conversation);
 
-        return Conversation::with(
-            ['users', 'users.profile.avatar', 'latestMessage', 'conversable' => function (MorphTo $morphTo) {
+        $conversation = Conversation::with(
+            ['users', 'users.profile.avatar', 'latestMessage', 'users.profile.structures', 'users.profile.territoires', 'conversable' => function (MorphTo $morphTo) {
                 $morphTo->morphWith(
                     [
                         Participation::class => [
@@ -68,13 +82,19 @@ class ConversationsController extends Controller
                 );
             }]
         )->where('id', $conversation->id)->first();
+
+        foreach ($conversation->users as $user) {
+            $user->append('roles');
+        }
+
+        return $conversation;
     }
 
     public function store(Request $request)
     {
         $currentUser = User::find(Auth::guard('api')->user()->id);
         $toUser = User::find(request('toUser'));
-        $className = 'App\Models\\'.request('conversableType');
+        $className = request('conversableType');
         $conversable = $className::find(request('conversableId'));
 
         $conversation = $currentUser->startConversation($toUser, $conversable);
