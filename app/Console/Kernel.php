@@ -37,10 +37,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // Check Security updates
-        //$schedule->command(\Jorijn\LaravelSecurityChecker\Console\SecurityMailCommand::class)->daily()->at('05:05');
-        //$schedule->command(\Jorijn\LaravelSecurityChecker\Console\SecuritySlackCommand::class)->daily()->at('05:10');
-
+        // Notifications
         // $schedule->command(SendNotificationTodoToModerateurs::class)->weekdays()->daily()->at('08:00');
         $schedule->command(SendNotificationTodoToReferents::class)->weekdays()->daily()->at('08:10');
         $schedule->command(SendNotificationTodoToResponsables::class)->days([1, 3, 5])->at('08:20');
@@ -52,6 +49,9 @@ class Kernel extends ConsoleKernel
         $schedule->command(SendNotificationsBenevoleCejNoParticipation::class)->daily()->at('10:10');
         $schedule->command(SendNotificationsBenevoleCejSixMonthsAfter::class)->daily()->at('10:20');
         $schedule->command(SendNotificationsBenevoleCejOneYearAfter::class)->daily()->at('10:30');
+
+        // Algolia
+        $schedule->command(AlgoliaMissionUpdateFieldOutdated::class)->daily()->at('2:00');
 
         // Sync ApiEngagement
         $schedule->command(ApiEngagementExportMissions::class)->everySixHours();
