@@ -163,7 +163,7 @@ class Mission extends Model
             'publics_volontaires' => $this->publics_volontaires,
             'is_autonomy' => $this->is_autonomy,
             'autonomy_zips' => $this->is_autonomy && count($this->autonomy_zips) > 0 ? $this->autonomy_zips : null,
-            'is_outdated' => $this->end_date < Carbon::now() ? true : false,
+            'is_outdated' => $this->end_date && $this->end_date < Carbon::today() ? true : false,
         ];
 
         if ($this->is_autonomy) {
