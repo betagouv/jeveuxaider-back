@@ -163,6 +163,7 @@ class Mission extends Model
             'publics_volontaires' => $this->publics_volontaires,
             'is_autonomy' => $this->is_autonomy,
             'autonomy_zips' => $this->is_autonomy && count($this->autonomy_zips) > 0 ? $this->autonomy_zips : null,
+            'is_outdated' => $this->end_date < Carbon::now() ? true : false,
         ];
 
         if ($this->is_autonomy) {
@@ -367,8 +368,7 @@ class Mission extends Model
                 function (Builder $query) use ($domain_id) {
                     $query->where('domaine_id', $domain_id);
                 }
-            )
-        ;
+            );
     }
 
     public function scopeOfTemplate($query, $template_id)
