@@ -86,7 +86,7 @@ class StructuresExport implements FromQuery, WithMapping, WithHeadings
             $structure->rna,
             $structure->state,
             $structure->statut_juridique,
-            $structure->association_types,
+            $structure->association_types ? implode(', ', $structure->association_types) : null,
             $structure->structure_publique_type,
             $structure->structure_publique_etat_type,
             $structure->structure_privee_type,
