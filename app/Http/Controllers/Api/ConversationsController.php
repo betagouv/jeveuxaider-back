@@ -22,8 +22,14 @@ class ConversationsController extends Controller
 {
     public function index(Request $request)
     {
+        if ($request->header('Context-Role') == 'admin' && $request->input('allMessages') == true) {
+            $query = Conversation::query();
+        } else {
+            $query = Conversation::role($request->header('Context-Role'));
+        }
+
         $result = QueryBuilder::for(
-            Conversation::role($request->header('Context-Role'))->whereHas('conversable')->with(
+            $query->whereHas('conversable')->with(
                 ['latestMessage', 'users', 'users.profile.avatar', 'users.profile.structures', 'users.profile.territoires', 'conversable' => function (MorphTo $morphTo) {
                     $morphTo->morphWith(
                         [

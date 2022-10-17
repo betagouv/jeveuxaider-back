@@ -36,16 +36,9 @@ class Conversation extends Model
 
     public function scopeRole($query, $contextRole = null)
     {
-        switch ($contextRole) {
-            case 'admin':
-                return $query;
-                break;
-            default:
-                return $query->whereHas('users', function (Builder $subquery) {
-                    $subquery->where('users.id', Auth::guard('api')->user()->id);
-                });
-                break;
-        }
+        return $query->whereHas('users', function (Builder $subquery) {
+            $subquery->where('users.id', Auth::guard('api')->user()->id);
+        });
     }
 
     public function scopeWithUsers($query, $users)
