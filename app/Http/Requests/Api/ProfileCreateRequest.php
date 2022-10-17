@@ -25,7 +25,7 @@ class ProfileCreateRequest extends ProfileRequest
     {
         return [
             'email' => 'required|email|unique:profiles',
-            'first_name' => 'required|min:3',
+            'first_name' => 'required',
             'last_name' => 'required|min:2',
             'role' => 'required|in:referent,analyste,referent_regional',
             'mobile' => '',
