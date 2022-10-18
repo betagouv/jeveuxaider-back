@@ -53,7 +53,7 @@ class MissionTemplateController extends Controller
 
     public function show(MissionTemplate $missionTemplate)
     {
-        return $missionTemplate->load(['reseau', 'photo', 'domaine']);
+        return $missionTemplate->load(['reseau', 'photo', 'domaine', 'domaineSecondary']);
     }
 
     public function statistics(MissionTemplate $missionTemplate)
