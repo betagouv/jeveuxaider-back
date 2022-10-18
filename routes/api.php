@@ -293,6 +293,12 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
 // STATISTICS
 Route::group(['middleware' => ['auth:api', 'is.admin.or.referent']], function () {
 
+    // NOTES
+    Route::get('/{notable_type}/{notable_id}/notes', 'Api\NoteController@index')->where('notable_id', '[0-9]+');
+    Route::get('/notes/{note}', 'Api\NoteController@index');
+    Route::post('/{notable_type}/{notable_id}/notes', 'Api\NoteController@store')->where('notable_id', '[0-9]+');
+    Route::put('/notes/{note}', 'Api\NoteController@update');
+    Route::delete('/notes/{note}', 'Api\NoteController@delete');
 
     // NUMBERS
     Route::get('statistics/overview-quick-glance', 'Api\NumbersController@overviewQuickGlance');

@@ -8,6 +8,7 @@ use App\Models\Invitation;
 use App\Models\Message;
 use App\Models\Mission;
 use App\Models\MissionTemplate;
+use App\Models\Note;
 use App\Models\NotificationBenevole;
 use App\Models\NotificationTemoignage;
 use App\Models\Participation;
@@ -31,6 +32,7 @@ use App\Notifications\MissionValidated;
 use App\Notifications\MissionWaitingValidation;
 use App\Notifications\ModerateurDailyTodo;
 use App\Notifications\NoNewMission;
+use App\Notifications\NoteCreated;
 use App\Notifications\NotificationTemoignageCreate;
 use App\Notifications\NotificationToBenevole;
 use App\Notifications\ParticipationBeingProcessed;
@@ -225,8 +227,20 @@ class NotificationController extends Controller
             case 'benevole_cej_six_months_after':
                 $notification = new BenevoleCejSixMonthsAfter($user->profile);
                 break;
+            case 'notes_created':
+                $note = Note::latest()->first();
+                $notification = new NoteCreated($note);
+                break;
         }
 
-        return isset($notification) ? $notification->toMail($user)->render() : abort(401, 'Notification introuvable');
+        if(isset($mail)){
+            return $mail->render();
+        }
+
+        if(isset($notification)){
+            return $notification->toMail($user)->render();
+        }
+
+        return abort(401, 'Notification introuvable');
     }
 }

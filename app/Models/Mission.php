@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Helpers\Utils;
+use App\Traits\Notable;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -18,7 +19,7 @@ use Spatie\Tags\HasTags;
 
 class Mission extends Model
 {
-    use SoftDeletes, Searchable, HasTags, LogsActivity, HasSlug;
+    use SoftDeletes, Searchable, HasTags, LogsActivity, HasSlug, Notable;
 
     protected $table = 'missions';
 
