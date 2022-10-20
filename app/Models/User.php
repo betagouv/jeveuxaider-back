@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Notifications\ParticipationDeclined;
 use App\Notifications\ResetPassword;
+use App\Traits\HasRoles;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -12,7 +13,7 @@ use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, Notifiable;
+    use HasApiTokens, Notifiable, HasRoles;
 
     protected $fillable = [
         'name', 'email', 'password', 'context_role', 'contextable_type', 'contextable_id', 'utm_source', 'utm_campaign', 'utm_medium',
@@ -42,41 +43,10 @@ class User extends Authenticatable
     {
         $roles = [];
 
-        if ($this->is_admin) {
+        if ($this->hasRole('admin')) {
             $roles[] = [
                 'key' => 'admin',
                 'label' => 'Modérateur',
-            ];
-        }
-
-        if ($this->profile->is_analyste) {
-            $roles[] = [
-                'key' => 'analyste',
-                'label' => 'Analyste',
-            ];
-        }
-
-        if ($this->profile->referent_department) {
-            $roles[] = [
-                'key' => 'referent',
-                'label' => $this->profile->referent_department,
-            ];
-        }
-
-        if ($this->profile->tete_de_reseau_id) {
-            $reseau = Reseau::find($this->profile->tete_de_reseau_id);
-            $roles[] = [
-                'key' => 'tete_de_reseau',
-                'contextable_type' => 'reseau',
-                'contextable_id' => $reseau->id,
-                'label' => $reseau->name,
-            ];
-        }
-
-        if ($this->profile->referent_region) {
-            $roles[] = [
-                'key' => 'referent_regional',
-                'label' => $this->profile->referent_region,
             ];
         }
 
@@ -90,6 +60,37 @@ class User extends Authenticatable
                     'label' => $structure->name,
                 ];
             }
+        }
+
+        if ($this->profile->referent_department) {
+            $roles[] = [
+                'key' => 'referent',
+                'label' => $this->profile->referent_department,
+            ];
+        }
+
+        if ($this->profile->is_analyste) {
+            $roles[] = [
+                'key' => 'analyste',
+                'label' => 'Analyste',
+            ];
+        }
+
+        if ($this->profile->referent_region) {
+            $roles[] = [
+                'key' => 'referent_regional',
+                'label' => $this->profile->referent_region,
+            ];
+        }
+
+        if ($this->profile->tete_de_reseau_id) {
+            $reseau = Reseau::find($this->profile->tete_de_reseau_id);
+            $roles[] = [
+                'key' => 'tete_de_reseau',
+                'contextable_type' => 'reseau',
+                'contextable_id' => $reseau->id,
+                'label' => $reseau->name,
+            ];
         }
 
         $territoires = $this->profile->territoires;
