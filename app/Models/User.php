@@ -135,7 +135,7 @@ class User extends Authenticatable
 
     public function structures()
     {
-        return $this->hasMany('App\Models\Structure');
+        return $this->morphedByMany(Structure::class, 'rolable', 'user_has_roles');
     }
 
     public function messages()

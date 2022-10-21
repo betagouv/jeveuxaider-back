@@ -11,7 +11,7 @@ trait HasRoles
         return $this->belongsToMany(Role::class, 'user_has_roles')->withPivot('rolable_type', 'rolable_id', 'rolable_label');
     }
 
-    public function assignRole($roleName, $rolable = null)
+    public function assignRole($roleName, $rolable = null, $fonction = null)
     {
         if($this->hasRole($roleName, $rolable)) {
             return false;
@@ -22,7 +22,8 @@ trait HasRoles
         $this->newRoles()->attach($role, [
             'rolable_type' => $rolable ? $rolable::class : NULL,
             'rolable_id' => $rolable ? $rolable->id : NULL,
-            'rolable_label' => $this->getRolableLabel($roleName, $rolable)
+            'rolable_label' => $this->getRolableLabel($roleName, $rolable),
+            'fonction' => $fonction
         ]);
 
         return $this;

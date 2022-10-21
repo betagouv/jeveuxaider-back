@@ -91,7 +91,7 @@ class MissionController extends Controller
     public function show(Request $request, $id)
     {
         if (is_numeric($id)) {
-            $mission = Mission::with(['structure.members:id,first_name,last_name,mobile,email', 'template.domaine', 'domaine', 'domaineSecondary', 'responsable.tags', 'skills', 'template.photo', 'illustrations', 'structure.illustrations', 'structure.overrideImage1', 'structure.logo'])->withCount('temoignages')->where('id', $id)->first();
+            $mission = Mission::with(['structure.members', 'template.domaine', 'template.domaineSecondary', 'domaine', 'domaineSecondary', 'responsable.tags', 'skills', 'template.photo', 'illustrations', 'structure.illustrations', 'structure.overrideImage1', 'structure.logo', 'activity:id,name'])->withCount('temoignages')->where('id', $id)->first();
             if ($mission) {
                 $mission->append(['full_address', 'has_places_left']);
             }
@@ -104,7 +104,7 @@ class MissionController extends Controller
             }
         }
 
-        if (! $mission) {
+        if (!$mission) {
             abort(404, 'Cette mission n\'existe pas');
         }
 
@@ -147,7 +147,7 @@ class MissionController extends Controller
 
     public function duplicate(MissionDuplicateRequest $request, Mission $mission)
     {
-        if ($mission->template_id && (! $mission->template->published || $mission->template->state !== 'validated')) {
+        if ($mission->template_id && (!$mission->template->published || $mission->template->state !== 'validated')) {
             abort('422', "Le modèle de cette mission n'est plus disponible.");
         }
 
@@ -165,7 +165,7 @@ class MissionController extends Controller
 
     public function benevoles(Request $request, Mission $mission)
     {
-        if ($request->header('Context-Role') !== 'admin' && (! $mission->has_places_left || $mission->state != 'Validée' || $mission->structure->state != 'Validée')) {
+        if ($request->header('Context-Role') !== 'admin' && (!$mission->has_places_left || $mission->state != 'Validée' || $mission->structure->state != 'Validée')) {
             abort(401, "Vous n'êtes pas autorisé à accéder à ce contenu");
         }
 
@@ -209,7 +209,7 @@ class MissionController extends Controller
         $query = Mission::search('')
             ->where('id', '!=', $mission->id)
             ->with([
-                'facetFilters' => 'domaine_name:'.$mission->domaine_name,
+                'facetFilters' => 'domaine_name:' . $mission->domaine_name,
                 // Sans prendre en compte l'API, sinon erreur ScoutExtended ObjectID seems invalid
                 'filters' => 'provider:reserve_civique',
             ]);

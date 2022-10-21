@@ -25,7 +25,8 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id')->index();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->nullableMorphs('rolable');
-            $table->string('rolable_label');
+            $table->string('rolable_label')->nullable();
+            $table->string('fonction')->nullable();
             $table->unique(['role_id', 'user_id', 'rolable_type', 'rolable_id']);
         });
     }

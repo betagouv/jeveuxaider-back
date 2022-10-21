@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Helpers\Utils;
 use App\Models\Media as ModelMedia;
 use App\Traits\HasMissingFields;
+use App\Traits\Notable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
@@ -24,7 +25,7 @@ use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 
 class Structure extends Model implements HasMedia
 {
-    use SoftDeletes, LogsActivity, HasRelationships, HasTags, InteractsWithMedia, HasSlug, HasMissingFields, Searchable;
+    use SoftDeletes, LogsActivity, HasRelationships, HasTags, InteractsWithMedia, HasSlug, HasMissingFields, Searchable, Notable;
 
     const CEU_TYPES = [
         "SDIS (Service départemental d'Incendie et de Secours)",
@@ -103,8 +104,8 @@ class Structure extends Model implements HasMedia
                 return $query;
                 break;
             case 'responsable':
-                return $query->whereHas('responsables', function (Builder $query) use ($user) {
-                    $query->where('profile_id', $user->profile->id);
+                return $query->whereHas('members', function (Builder $query) use ($user) {
+                    $query->where('user_id', $user->id);
                 });
                 break;
             case 'referent':
@@ -266,7 +267,7 @@ class Structure extends Model implements HasMedia
 
     public function members()
     {
-        return $this->morphToMany(User::class, 'rolable','user_has_roles');
+        return $this->morphToMany(User::class, 'rolable','user_has_roles')->withPivot('fonction');
     }
 
     public function invitations()
@@ -314,9 +315,9 @@ class Structure extends Model implements HasMedia
         return $this->morphToMany(Domaine::class, 'domainable')->wherePivot('field', 'structure_domaines');
     }
 
-    public function addMember(Profile $profile, $role)
+    public function addMember(User $user, $fonction = null)
     {
-        return $this->members()->attach($profile, ['role' => $role]);
+        return $user->assignRole('responsable', $this, $fonction);
     }
 
     public function deleteMember(Profile $profile)

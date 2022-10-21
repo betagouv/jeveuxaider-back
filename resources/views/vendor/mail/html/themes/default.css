@@ -301,3 +301,113 @@ img {
     font-size: 15px;
     text-align: center;
 }
+
+
+/* Quotes */
+
+.quote {
+    margin: 0 0 21px;
+}
+
+.quote-content {
+    background-color: #F8FAFC;
+    border-radius: 4px;
+    padding: 16px;
+}
+
+.quote-item {
+    padding: 0;
+    font-style: italic;
+    color: #11142D;
+}
+
+.quote-item p {
+    color: #11142D;
+}
+
+.quote-item p:last-of-type {
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+/* Custom table */
+
+.table-model {
+    border: 1px solid #E5E5E5;
+    -premailer-cellpadding: 0;
+    -premailer-cellspacing: 0;
+    -premailer-width: 100%;
+}
+
+.table-model td {
+    padding: 8px 0;
+    margin: 0;
+}
+
+.table-model .divider {
+    font-weight: 700;
+    font-size: 11px;
+    line-height: 24px;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+    position: relative;
+    height: 24px;
+}
+
+.table-model .divider .label {
+    padding-right: 15px;
+    position: absolute;
+    z-index: 10;
+    background: white;
+    color: #696974;
+}
+
+.table-model .divider hr {
+    position: relative;
+    top: 11px;
+    z-index: 1;
+}
+
+.table-model .title-blue {
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 24px;
+    color: #000091;
+}
+
+.table-model .text-label {
+    font-weight: 700;
+    font-size: 15px;
+    line-height: 20px;
+    color: #111111;
+}
+
+.table-model .text-value {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 20px;
+    color: #696974;
+}
+
+.tag {
+    display: inline-block;
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 24px;
+    text-transform: uppercase;
+    padding: 1px 9px;
+    margin: 0 6px 6px 0;
+    background: #EEEEEE;
+    border-radius: 4px;
+    color: #696974;
+}
+
+.tag.pink {
+    background: #F4E7F3;
+    color: #855080;
+}
+
+.tag.blue {
+    background: #E8EDFF;
+    color: #0063CB;
+}

@@ -59,8 +59,8 @@ class InvitationController extends Controller
 
         // RESPONSABLE ORGANISATION
         if (in_array($request->input('role'), ['responsable_organisation'])) {
-            $profile = Profile::where('email', 'ILIKE', $request->input('email'))->first();
-            if ($profile && $profile->structures->count() > 0) {
+            $user = User::where('email', 'ILIKE', $request->input('email'))->first();
+            if ($user && $user->structures->count() > 0) {
                 abort(422, 'Cet email est déjà rattaché à une organisation');
             }
         }

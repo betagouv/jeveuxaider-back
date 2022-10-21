@@ -43,11 +43,16 @@ class CreateRoles extends Command
     public function handle()
     {
         if(Role::where('name', 'admin')->count() == 0) {
-            if ($this->confirm('Roles admin, referents and responsables will be created')) {
-                Role::create(['name' => 'admin']);
-                Role::create(['name' => 'referent']);
-                Role::create(['name' => 'responsable']);
+            if (!$this->confirm('Roles will be created (admin, referent, responsable)')) {
+                return;
             }
+            Role::create(['name' => 'admin']);
+            Role::create(['name' => 'referent']);
+            Role::create(['name' => 'responsable']);
+        }
+
+        if (!$this->confirm('Do you want to migrate all user roles ?')) {
+            return;
         }
 
         $usersAdmin = User::with('newRoles')->where('is_admin', true)->get();
@@ -56,13 +61,12 @@ class CreateRoles extends Command
         });
         $this->info('Role admin assigned to ' . $usersAdmin->count() . ' users');
 
-        $profilesResponsable = Profile::with('user.newRoles', 'structures')->whereHas('structures')->get();
+        $profilesResponsable = Profile::with('user.newRoles', 'oldStructures')->whereHas('oldStructures')->get();
         $profilesResponsable->each(function ($profile) {
-            foreach ($profile->structures as $structure) {
-                $profile->user->assignRole('responsable', $structure);
+            foreach ($profile->oldStructures as $structure) {
+                $profile->user->assignRole('responsable', $structure, $structure->pivot->fonction);
             }
         });
         $this->info('Role responsable assigned to ' . $profilesResponsable->count() . ' users');
-
     }
 }

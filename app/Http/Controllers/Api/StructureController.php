@@ -84,7 +84,7 @@ class StructureController extends Controller
             abort(403);
         }
 
-        return $structure->load(['territoire', 'members.tags', 'domaines', 'reseaux', 'logo', 'illustrations', 'overrideImage1', 'overrideImage2'])->append(['missing_fields', 'completion_rate']);
+        return $structure->load(['territoire', 'members.profile.tags', 'domaines', 'reseaux', 'logo', 'illustrations', 'overrideImage1', 'overrideImage2'])->append(['missing_fields', 'completion_rate']);
     }
 
     public function associationSlugOrId(Request $request, $slugOrId)
@@ -104,8 +104,9 @@ class StructureController extends Controller
 
     public function store(StructureCreateRequest $request)
     {
+        $user = Auth::guard('api')->user();
         $structureAttributes = [
-            'user_id' => Auth::guard('api')->user()->id,
+            'user_id' => $user->id,
         ];
 
         // MAPPING API ENGAGEMENT
@@ -158,7 +159,7 @@ class StructureController extends Controller
         }
 
         if ($request->has('responsable_fonction')) {
-            $structure->members()->updateExistingPivot($structure->user->profile, [
+            $structure->members()->updateExistingPivot($structure->user, [
                 'fonction' => $request->input('responsable_fonction'),
             ]);
         }

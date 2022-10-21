@@ -81,7 +81,7 @@ class ProfilesExport implements FromQuery, WithMapping, WithHeadings
     public function map($profile): array
     {
         if($this->isResponsableExport()){
-            $structure = $profile->structures->first();
+            $structure = $profile->user->structures->first();
             return [
                 $profile->id,
                 $profile->first_name,

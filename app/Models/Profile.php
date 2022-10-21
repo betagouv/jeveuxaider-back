@@ -244,8 +244,9 @@ class Profile extends Model implements HasMedia
     {
         return $this->hasMany('App\Models\Mission', 'responsable_id');
     }
-
-    public function structures()
+    
+    // Todo : supprimer cette fonction après migration des rôles
+    public function oldStructures()
     {
         return $this
             ->belongsToMany('App\Models\Structure', 'members')

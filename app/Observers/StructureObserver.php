@@ -19,6 +19,7 @@ use App\Notifications\StructureSignaled;
 use App\Notifications\StructureSubmitted;
 use App\Notifications\StructureValidated;
 use App\Services\ApiEngagement;
+use Illuminate\Support\Facades\Auth;
 
 class StructureObserver
 {
@@ -30,9 +31,7 @@ class StructureObserver
      */
     public function created(Structure $structure)
     {
-        if ($structure->user->profile) {
-            $structure->members()->attach($structure->user->profile, ['role' => 'responsable']);
-        }
+        $structure->addMember($structure->user);
 
         // COLLECTIVITE
         if ($structure->statut_juridique === 'Collectivité') {
