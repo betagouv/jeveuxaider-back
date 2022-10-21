@@ -54,6 +54,7 @@ class Mission extends Model
     {
         return LogOptions::defaults()
             ->logOnly(['*'])
+            ->logExcept(['places_left'])
             ->logOnlyDirty()
             ->dontSubmitEmptyLogs();
     }
