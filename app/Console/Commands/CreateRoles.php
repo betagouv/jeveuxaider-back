@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Profile;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Console\Command;
@@ -49,11 +50,19 @@ class CreateRoles extends Command
             }
         }
 
-        $usersAdmin = User::where('is_admin', true)->get();
-        $usersAdmin->each(function ($user, $key) {
+        $usersAdmin = User::with('newRoles')->where('is_admin', true)->get();
+        $usersAdmin->each(function ($user) {
             $user->assignRole('admin');
         });
-
         $this->info('Role admin assigned to ' . $usersAdmin->count() . ' users');
+
+        $profilesResponsable = Profile::with('user.newRoles', 'structures')->whereHas('structures')->get();
+        $profilesResponsable->each(function ($profile) {
+            foreach ($profile->structures as $structure) {
+                $profile->user->assignRole('responsable', $structure);
+            }
+        });
+        $this->info('Role responsable assigned to ' . $profilesResponsable->count() . ' users');
+
     }
 }

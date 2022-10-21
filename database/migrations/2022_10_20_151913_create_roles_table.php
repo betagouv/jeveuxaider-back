@@ -24,7 +24,9 @@ return new class extends Migration
             $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
             $table->unsignedBigInteger('user_id')->index();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            // $table->string('context_type');
+            $table->nullableMorphs('rolable');
+            $table->string('rolable_label');
+            $table->unique(['role_id', 'user_id', 'rolable_type', 'rolable_id']);
         });
     }
 
@@ -35,7 +37,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('roles');
         Schema::dropIfExists('user_has_roles');
+        Schema::dropIfExists('roles');
     }
 };

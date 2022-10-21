@@ -266,7 +266,7 @@ class Structure extends Model implements HasMedia
 
     public function members()
     {
-        return $this->belongsToMany('App\Models\Profile', 'members')->withPivot('role', 'fonction');
+        return $this->morphToMany(User::class, 'rolable','user_has_roles');
     }
 
     public function invitations()

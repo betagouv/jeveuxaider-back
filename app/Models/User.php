@@ -50,14 +50,14 @@ class User extends Authenticatable
             ];
         }
 
-        $structures = $this->profile->structures;
-        if ($structures) {
-            foreach ($structures as $structure) {
+        if($this->hasRole('responsable')) {
+            $rolesResponsable = $this->newRoles()->wherePivot('rolable_type', Structure::class)->get();
+            foreach ($rolesResponsable as $role) {
                 $roles[] = [
                     'key' => 'responsable',
                     'contextable_type' => 'structure',
-                    'contextable_id' => $structure->id,
-                    'label' => $structure->name,
+                    'contextable_id' => $role->pivot->rolable_id,
+                    'label' => $role->pivot->rolable_label
                 ];
             }
         }
