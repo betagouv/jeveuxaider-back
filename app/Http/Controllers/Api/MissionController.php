@@ -217,6 +217,6 @@ class MissionController extends Controller
             $query->aroundLatLng($mission->latitude, $mission->longitude);
         }
 
-        return $query->paginate(10)->load('domaine', 'template', 'template.domaine', 'template.media', 'structure');
+        return $query->paginate(10)->load('domaine', 'template', 'template.domaine', 'template.media', 'structure', 'illustrations');
     }
 }
