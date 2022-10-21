@@ -15,6 +15,7 @@ use App\Models\Participation;
 use App\Models\Profile;
 use App\Models\Structure;
 use App\Models\User;
+use App\Notifications\StructureAskUnregister;
 use App\Services\ApiEngagement;
 use App\Sorts\StructureMissionsCountSort;
 use App\Sorts\StructurePlacesLeftSort;
@@ -24,6 +25,7 @@ use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\AllowedInclude;
 use Spatie\QueryBuilder\AllowedSort;
 use Spatie\QueryBuilder\QueryBuilder;
+use Illuminate\Support\Facades\Notification;
 
 class StructureController extends Controller
 {
@@ -168,6 +170,21 @@ class StructureController extends Controller
         return $structure;
     }
 
+    public function askUnregister(Structure $structure)
+    {
+        if (Auth::guard('api')->user()->cannot('unregister', $structure)) {
+            abort(403, "Vous n'avez pas les droits nécéssaires pour réaliser cette action");
+        }
+
+        $user = User::find(Auth::guard('api')->user()->id);
+
+        Notification::route('mail', ['coralie.chauvin@beta.gouv.fr', 'caroline.farhi@beta.gouv.fr'])
+            ->route('slack', config('services.slack.hook_url'))
+            ->notify(new StructureAskUnregister($user, $structure));
+
+        return $structure;
+    }
+
     public function unregister(Structure $structure)
     {
         if (Auth::guard('api')->user()->cannot('unregister', $structure)) {
@@ -179,6 +196,19 @@ class StructureController extends Controller
         ]);
 
         return $structure;
+    }
+
+
+    public function overview(Structure $structure)
+    {
+        if (Auth::guard('api')->user()->cannot('update', $structure)) {
+            abort(403, "Vous n'avez pas les droits nécéssaires pour réaliser cette action");
+        }
+
+        return [
+            'responsables' => $structure->members,
+            'participations_count' => Participation::ofStructure($structure->id)->count()
+        ];
     }
 
     public function waitingParticipations(Structure $structure)

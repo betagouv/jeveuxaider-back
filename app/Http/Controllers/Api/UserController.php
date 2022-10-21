@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Filters\FiltersParticipationSearch;
 use App\Http\Controllers\Controller;
+use App\Models\Mission;
 use App\Models\Participation;
 use App\Models\User;
 use App\Notifications\UserAnonymize;
@@ -23,6 +24,19 @@ class UserController extends Controller
         $user->append(['roles', 'statistics']);
 
         return $user;
+    }
+
+    public function overview(Request $request)
+    {
+        $user = User::find(Auth::guard('api')->user()->id);
+        $structure = $user->profile->structures->first();
+
+        return [
+            'structure' => $structure,
+            'structure_responsables' => $structure ? $structure->members : null,
+            'structure_missions_where_i_m_responsable_count' => Mission::where('responsable_id', $user->profile->id)->count(),
+            'structure_participations_i_m_responsable_count' => $structure ? Participation::ofStructure($structure->id)->where('mission.responsable_id', $user->profile->id)->count() : null
+        ];
     }
 
     public function participations(Request $request)

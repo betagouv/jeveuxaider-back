@@ -14,6 +14,7 @@ use App\Http\Requests\Api\ParticipationUpdateRequest;
 use App\Models\Conversation;
 use App\Models\Mission;
 use App\Models\Participation;
+use App\Models\Profile;
 use App\Models\Temoignage;
 use App\Models\User;
 use App\Notifications\ParticipationBenevoleCanceled;
@@ -73,6 +74,13 @@ class ParticipationController extends Controller
     public function store(ParticipationCreateRequest $request)
     {
         $currentUser = User::find(Auth::guard('api')->user()->id);
+        $mission = Mission::find(request('mission_id'));
+        $profile = Profile::find(request('profile_id'));
+
+        if ($mission->responsable_id == $profile->id) {
+            abort(422, 'Désolé, vous ne pouvez pas participer à votre propre mission !');
+        }
+
         $participationCount = Participation::where('state', '!=', 'Annulée')->where('profile_id', request('profile_id'))
             ->where('mission_id', request('mission_id'))->count();
 
