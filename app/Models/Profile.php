@@ -183,7 +183,7 @@ class Profile extends Model implements HasMedia
                     );
                 break;
             case 'responsable':
-                $structures_id = Auth::guard('api')->user()->profile->structures->pluck('id')->toArray();
+                $structures_id = Auth::guard('api')->user()->structures->pluck('id')->toArray();
 
                 return $query->whereHas(
                     'participations',
@@ -249,7 +249,7 @@ class Profile extends Model implements HasMedia
     public function oldStructures()
     {
         return $this
-            ->belongsToMany('App\Models\Structure', 'members')
+            ->belongsToMany('App\Models\Structure', 'old_members')
             ->withPivot('role');
     }
 

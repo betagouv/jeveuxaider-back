@@ -46,7 +46,7 @@ class StructureObserver
                 'type' => 'city',
                 'state' => 'waiting',
             ]);
-            $responsable = $structure->responsables->first();
+            $responsable = $structure->members->first();
             if ($responsable) {
                 $territoire->addResponsable($responsable);
             }
@@ -70,7 +70,7 @@ class StructureObserver
         $newState = $structure->state;
 
         // RESPONSABLE
-        $responsable = $structure->responsables->first();
+        $responsable = $structure->members->first()->profile;
 
         if ($oldState != $newState) {
             switch ($newState) {
@@ -176,11 +176,8 @@ class StructureObserver
         // MAJ SENDINBLUE
         if (config('services.sendinblue.sync')) {
             if ($structure->isDirty('name')) {
-                $structure->responsables->each(function ($profile, $key) {
-                    $profile->load('user');
-                    if ($profile->user) { // Parfois il n'y a pas de user car ce sont des profiles invités
-                        SendinblueSyncUser::dispatch($profile->user);
-                    }
+                $structure->members->each(function ($user, $key) {
+                    SendinblueSyncUser::dispatch($user);
                 });
             }
         }
@@ -243,8 +240,8 @@ class StructureObserver
         $structure->invitations()->delete();
 
         // Detaching members from organisation
-        $structure->responsables->map(function ($responsable) use ($structure) {
-            $structure->deleteMember($responsable);
+        $structure->members->map(function ($user) use ($structure) {
+            $structure->deleteMember($user);
         });
 
         // Sync Airtable

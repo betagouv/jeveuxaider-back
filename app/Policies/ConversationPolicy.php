@@ -20,7 +20,7 @@ class ConversationPolicy
     public function view(User $user, Conversation $conversation)
     {
         // @todo: faire en sorte que les membres de la structure puissent voir les messages ?
-        // ray($conversation->conversable->mission->structure->members->pluck('id')->toArray());
+        // ray($conversation->conversable->mission->structure->members->pluck('user_id')->toArray());
         $ids = $conversation->users->pluck('id')->all();
         if (in_array($user->id, $ids)) {
             return true;

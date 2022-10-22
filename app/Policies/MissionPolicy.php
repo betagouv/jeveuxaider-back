@@ -44,8 +44,8 @@ class MissionPolicy
         }
 
         if (request()->header('Context-Role') == 'responsable') {
-            $structureMembersProfileIds = $mission->structure->members->pluck('id')->toArray();
-            if (in_array($user->profile->id, $structureMembersProfileIds)) {
+            $structureMembersIds = $mission->structure->members->pluck('user_id')->toArray();
+            if (in_array($user->id, $structureMembersIds)) {
                 return true;
             }
         }

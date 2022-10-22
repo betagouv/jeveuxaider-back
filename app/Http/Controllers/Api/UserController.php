@@ -135,8 +135,8 @@ class UserController extends Controller
         $user->notify($notification);
 
         // Si je suis le dernier responsable d'une organisation on la désinscrit
-        if ($user->profile->structures) {
-            foreach ($user->profile->structures as $structure) {
+        if ($user->structures) {
+            foreach ($user->structures as $structure) {
                 if ($structure->members->count() == 1) {
                     $structure->state = 'Désinscrite';
                     $structure->save();

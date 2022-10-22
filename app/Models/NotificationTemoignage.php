@@ -64,7 +64,7 @@ class NotificationTemoignage extends Model
                             if ($user->context_role == 'responsable' && $user->contextable_type == 'structure' && ! empty($user->contextable_id)) {
                                 $query->where('structure_id', $user->contextable_id);
                             } else {
-                                $query->where('structure_id', $user->profile->structures->pluck('id')->first());
+                                $query->where('structure_id', $user->structures->pluck('id')->first());
                             }
                         });
                     });

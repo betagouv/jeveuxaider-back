@@ -275,9 +275,9 @@ class Structure extends Model implements HasMedia
         return $this->morphMany('App\Models\Invitation', 'invitable');
     }
 
-    public function responsables()
+    public function OldResponsables()
     {
-        return $this->belongsToMany('App\Models\Profile', 'members')->wherePivot('role', 'responsable');
+        return $this->belongsToMany('App\Models\Profile', 'old_members')->wherePivot('role', 'responsable');
     }
 
     public function missions()

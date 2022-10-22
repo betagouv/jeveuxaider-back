@@ -265,7 +265,7 @@ class StructureController extends Controller
         return [
             'structure_id' => $structure->id,
             'structure_name' => $structure->name,
-            'responsable_fullname' => $structure->responsables->first() ? $structure->responsables->first()->full_name : null,
+            'responsable_fullname' => $structure->members->first() ? $structure->members->first()->profile->full_name : null,
         ];
     }
 
@@ -277,8 +277,8 @@ class StructureController extends Controller
             abort('422', "Cette organisation est reliée à {$relatedMissionsCount} mission(s)");
         }
 
-        $structure->responsables->map(function ($responsable) use ($structure) {
-            $structure->deleteMember($responsable);
+        $structure->members->map(function ($user) use ($structure) {
+            $structure->deleteMember($user);
         });
 
         return (string) $structure->delete();
@@ -286,19 +286,19 @@ class StructureController extends Controller
 
     public function responsables(Request $request, Structure $structure)
     {
-        return $structure->responsables()->get();
+        return $structure->members()->get();
     }
 
     public function addResponsable(AddResponsableRequest $request, Structure $structure)
     {
-        $profile = Profile::whereEmail($request->input('email'))->first();
+        $user = User::whereEmail($request->input('email'))->first();
 
-        if ($profile && $profile->structures->count() > 0) {
+        if ($user && $user->structures->count() > 0) {
             abort(422, 'Cet email est déjà rattaché à une organisation');
         }
 
-        $structure->addMember($profile, 'responsable');
-        $profile->user->resetContextRole();
+        $structure->addMember($user);
+        $user->resetContextRole();
 
         return $structure->members;
     }

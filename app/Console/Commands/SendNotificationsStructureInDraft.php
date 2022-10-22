@@ -31,25 +31,25 @@ class SendNotificationsStructureInDraft extends Command
      */
     public function handle()
     {
-        $query = Structure::with(['responsables'])->where('state', 'Brouillon')
+        $query = Structure::with(['members'])->where('state', 'Brouillon')
             ->whereDate('created_at', Carbon::now()->add(-1, 'day'));
 
         foreach ($query->get() as $structure) {
-            Notification::send($structure->responsables, new StructureInDraft($structure, 'j+1'));
+            Notification::send($structure->members, new StructureInDraft($structure, 'j+1'));
         }
 
-        $query = Structure::with(['responsables'])->where('state', 'Brouillon')
+        $query = Structure::with(['members'])->where('state', 'Brouillon')
             ->whereDate('created_at', Carbon::now()->add(-7, 'day'));
 
         foreach ($query->get() as $structure) {
-            Notification::send($structure->responsables, new StructureInDraft($structure, 'j+7'));
+            Notification::send($structure->members, new StructureInDraft($structure, 'j+7'));
         }
 
-        $query = Structure::with(['responsables'])->where('state', 'Brouillon')
-            ->whereDate('created_at', Carbon::now()->add(-15, 'day'));
+        $query = Structure::with(['members'])->where('state', 'Brouillon')
+            ->whereDate('created_at', Carbon::now()->add(-150, 'day'));
 
         foreach ($query->get() as $structure) {
-            Notification::send($structure->responsables, new StructureInDraft($structure, 'j+15'));
+            Notification::send($structure->members, new StructureInDraft($structure, 'j+15'));
         }
     }
 }
