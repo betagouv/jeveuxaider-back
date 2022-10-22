@@ -320,16 +320,14 @@ class Structure extends Model implements HasMedia
         return $user->assignRole('responsable', $this, $fonction);
     }
 
-    public function deleteMember(Profile $profile)
+    public function deleteMember(User $user)
     {
-        $this->members()->detach($profile);
-
-        $user = User::find($profile->user_id);
+        $this->members()->detach($user);
 
         $user->resetContextRole();
         $user->save();
 
-        $this->resetResponsable($profile);
+        $this->resetResponsable($user->profile);
 
         return $this->load('members');
     }
@@ -624,14 +622,14 @@ class Structure extends Model implements HasMedia
                     'name' => $reseau->name,
                 ];
             })->all() : null,
-            'responsables' => $this->members ? $this->members->map(function ($responsable) {
+            'responsables' => $this->members ? $this->members->map(function ($user) {
                 return [
-                    'id' => $responsable->id,
-                    'first_name' => $responsable->first_name,
-                    'last_name' => $responsable->last_name,
-                    'email' => $responsable->email,
-                    'phone' => $responsable->phone,
-                    'mobile' => $responsable->mobile,
+                    'id' => $user->profile->id,
+                    'first_name' => $user->profile->first_name,
+                    'last_name' => $user->profile->last_name,
+                    'email' => $user->profile->email,
+                    'phone' => $user->profile->phone,
+                    'mobile' => $user->profile->mobile,
                 ];
             })->all() : null,
             'created_at' => $this->created_at,

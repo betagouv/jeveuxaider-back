@@ -13,6 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
+        Schema::table('users', function (Blueprint $table) {
+            $table->renameColumn('is_admin', 'old_is_admin');
+        });
+
         Schema::create('roles', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
@@ -38,6 +42,9 @@ return new class extends Migration
      */
     public function down()
     {
+        Schema::table('users', function (Blueprint $table) {
+            $table->renameColumn('old_is_admin', 'is_admin');
+        });
         Schema::dropIfExists('user_has_roles');
         Schema::dropIfExists('roles');
     }

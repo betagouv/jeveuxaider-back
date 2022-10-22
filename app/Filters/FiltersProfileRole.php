@@ -12,7 +12,7 @@ class FiltersProfileRole implements Filter
         switch ($value) {
             case 'admin':
                 return $query->whereHas('user', function (Builder $query) {
-                    $query->where('is_admin', true);
+                    $query->role('admin');
                 });
                 break;
             case 'analyste':

@@ -55,7 +55,7 @@ class CreateRoles extends Command
             return;
         }
 
-        $usersAdmin = User::with('newRoles')->where('is_admin', true)->get();
+        $usersAdmin = User::with('newRoles')->where('old_is_admin', true)->get();
         $usersAdmin->each(function ($user) {
             $user->assignRole('admin');
         });

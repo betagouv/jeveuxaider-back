@@ -75,12 +75,12 @@ class UserRoleAdmin extends Command
 
         if ($this->confirm('Continuer ?')) {
             if ($options['action'] == 'add') {
-                $user->is_admin = true;
+                $user->assignRole('admin');
                 $user->resetContextRole();
                 $this->info("User {$user->profile->full_name} {$user->mail} is now admin");
             }
             if ($options['action'] == 'remove') {
-                $user->is_admin = false;
+                $user->removeRole('admin');
                 $user->resetContextRole();
                 $this->info("User {$user->profile->full_name} {$user->mail} is no more admin");
             }

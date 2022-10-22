@@ -3,6 +3,8 @@
 namespace App\Traits;
 
 use App\Models\Role;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Arr;
 
 trait HasRoles
 {
@@ -29,6 +31,13 @@ trait HasRoles
         return $this;
     }
 
+    public function removeRole($roleName)
+    {
+        $role = Role::firstWhere('name', $roleName);
+
+        $this->newRoles()->detach($role);
+    }
+
     public function hasRole($roles, $rolable = null)
     {
         if (is_string($roles)) {
@@ -49,6 +58,21 @@ trait HasRoles
 
             return false;
         }
+    }
+
+    public function scopeRole(Builder $query, $roles): Builder
+    {
+        $roles = array_map(function ($role) {
+            if ($role instanceof Role) {
+                return $role;
+            }
+
+            return Role::where('name', $role)->get()->first();
+        }, Arr::wrap($roles));
+
+        return $query->whereHas('newRoles', function (Builder $subQuery) use ($roles) {
+            $subQuery->whereIn('name', array_column($roles, 'name'));
+        });
     }
 
     protected function getRolableLabel($roleName,  $rolable) {

@@ -20,7 +20,7 @@ class NoteObserver
     public function created(Note $note)
     {
 
-        if($note->user->is_admin){
+        if($note->user->isAdmin()){
             // Notify referent with tag Référent départemental - Contact principal
             if($note->notable->department) {
                 $referents = Profile::where('referent_department', $note->notable->department)

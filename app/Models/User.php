@@ -20,7 +20,7 @@ class User extends Authenticatable
     ];
 
     protected $hidden = [
-        'password', 'remember_token', 'is_admin', 'email_verified_at',
+        'password', 'remember_token', 'email_verified_at',
     ];
 
     protected $casts = [
@@ -120,7 +120,7 @@ class User extends Authenticatable
 
     public function isAdmin()
     {
-        return $this->is_admin;
+        return $this->hasRole('admin');
     }
 
     public function sendPasswordResetNotification($token)

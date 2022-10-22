@@ -206,9 +206,9 @@ class StructureController extends Controller
         return true;
     }
 
-    public function deleteMember(StructureRequest $request, Structure $structure, Profile $member)
+    public function deleteMember(StructureRequest $request, Structure $structure, User $user)
     {
-        $structure->deleteMember($member);
+        $structure->deleteMember($user);
 
         return $structure->members;
     }
