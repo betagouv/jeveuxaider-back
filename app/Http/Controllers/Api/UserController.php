@@ -26,7 +26,7 @@ class UserController extends Controller
         return $user;
     }
 
-    public function overview(Request $request)
+    public function status(Request $request)
     {
         $user = User::find(Auth::guard('api')->user()->id);
         $structure = $user->profile->structures->first();

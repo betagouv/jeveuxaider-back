@@ -178,6 +178,7 @@ class MissionObserver
         }
 
         if ($mission->type === 'Mission à distance') {
+            $mission->load('structure');
             $mission->department = $mission->structure->department;
         }
     }

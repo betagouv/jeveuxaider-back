@@ -16,6 +16,7 @@ use App\Models\Profile;
 use App\Models\Structure;
 use App\Models\User;
 use App\Notifications\StructureAskUnregister;
+use App\Notifications\StructureSwitchResponsable;
 use App\Services\ApiEngagement;
 use App\Sorts\StructureMissionsCountSort;
 use App\Sorts\StructurePlacesLeftSort;
@@ -199,7 +200,7 @@ class StructureController extends Controller
     }
 
 
-    public function overview(Structure $structure)
+    public function status(Structure $structure)
     {
         if (Auth::guard('api')->user()->cannot('update', $structure)) {
             abort(403, "Vous n'avez pas les droits nécéssaires pour réaliser cette action");
@@ -237,6 +238,17 @@ class StructureController extends Controller
 
     public function deleteMember(StructureRequest $request, Structure $structure, Profile $member)
     {
+        // Switch responsable
+        if($request->has('new_responsable_id') && $request->input('new_responsable_id')) {
+            $newResponsable = Profile::find($request->input('new_responsable_id'));
+            if($newResponsable){
+                Mission::where('responsable_id', $member->id)
+                    ->where('structure_id', $structure->id)
+                    ->update(['responsable_id' => $newResponsable->id]);
+                $newResponsable->notify(new StructureSwitchResponsable($structure, $member));
+            }
+        }
+
         $structure->deleteMember($member);
 
         return $structure->members;
@@ -315,7 +327,7 @@ class StructureController extends Controller
 
     public function responsables(Request $request, Structure $structure)
     {
-        return $structure->responsables()->get();
+        return $structure->responsables()->withCount(['missions'])->get();
     }
 
     public function addResponsable(AddResponsableRequest $request, Structure $structure)
