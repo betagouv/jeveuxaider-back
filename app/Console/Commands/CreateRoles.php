@@ -2,7 +2,9 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Department;
 use App\Models\Profile;
+use App\Models\Region;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Console\Command;
@@ -42,6 +44,29 @@ class CreateRoles extends Command
      */
     public function handle()
     {
+        // Fill regions and departments
+        collect(config('taxonomies.regions.terms'))->each(function($region_name) {
+            Region::create(['name' => $region_name]);
+        });
+        collect(config('taxonomies.departments.terms'))->each(function($department_name, $department_number) {
+            $region = Region::where('name', config('taxonomies.department_region.terms')[$department_number])->get()->first();
+            Department::create([
+                'number' => $department_number,
+                'name' => $department_name,
+                'region_id' => $region ? $region->id : null
+            ]);
+        });
+
+
+        if(Role::where('name', 'admin')->count() == 0) {
+            if (!$this->confirm('Roles will be created (admin, referent, responsable)')) {
+                return;
+            }
+            Role::create(['name' => 'admin']);
+            Role::create(['name' => 'responsable']);
+            Role::create(['name' => 'referent']);
+        }
+
         if(Role::where('name', 'admin')->count() == 0) {
             if (!$this->confirm('Roles will be created (admin, referent, responsable)')) {
                 return;
@@ -68,5 +93,11 @@ class CreateRoles extends Command
             }
         });
         $this->info('Role responsable assigned to ' . $profilesResponsable->count() . ' users');
+
+        $profilesReferent = Profile::with('user.newRoles')->whereNotNull('old_referent_department')->get();
+        $profilesReferent->each(function ($profile) {
+            $profile->user->assignRole('referent', Department::whereNumber($profile->old_referent_department)->get()->first());
+        });
+        $this->info('Role referent assigned to ' . $profilesReferent->count() . ' users');
     }
 }

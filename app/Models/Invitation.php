@@ -107,7 +107,8 @@ class Invitation extends Model
             }
             // REFERENT DEPARTEMENTAL
             if ($this->role == 'referent_departemental') {
-                $user->profile->update(['referent_department' => $this->properties['referent_departemental']]);
+                $department = Department::whereNumber($this->properties['referent_departemental'])->get()->first();
+                $user->assignRole('referent', $department);
             }
             // REFERENT REGIONAL
             if ($this->role == 'referent_regional') {

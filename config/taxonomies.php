@@ -554,8 +554,8 @@ return [
             '973' => 'Guyane',
             '974' => 'La Réunion',
             '976' => 'Mayotte',
-            '987' => 'Polynésie française',
-            '988' => 'Nouvelle-Calédonie',
+            '987' => null,
+            '988' => null,
         ],
     ],
 

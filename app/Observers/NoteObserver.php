@@ -4,7 +4,6 @@ namespace App\Observers;
 
 use App\Models\Note;
 use App\Models\Profile;
-use App\Models\User;
 use App\Notifications\NoteCreated;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Notification;
@@ -19,17 +18,16 @@ class NoteObserver
      */
     public function created(Note $note)
     {
-
-        if($note->user->isAdmin()){
+        if ($note->user->isAdmin()) {
             // Notify referent with tag Référent départemental - Contact principal
-            if($note->notable->department) {
-                $referents = Profile::where('referent_department', $note->notable->department)
-                    ->whereHas('tags', function (Builder $query) {
-                        $query->where('name', 'Référent départemental - Contact principal');
-                    })
-                    ->get();
-                if($referents){
-                    $referents->map(function($referent) use ($note) {
+            if ($note->notable->department) {
+                $referents = Profile::whereHas('user.departmentsAsReferent', function (Builder $query) use ($note) {
+                    $query->where('number', $note->notable->department);
+                })->whereHas('tags', function (Builder $query) {
+                    $query->where('name', 'Référent départemental - Contact principal');
+                })->get();
+                if ($referents) {
+                    $referents->map(function ($referent) use ($note) {
                         $referent->notify(new NoteCreated($note));
                     });
                 }

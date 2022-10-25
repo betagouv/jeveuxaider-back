@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\Filters\FiltersProfileMinParticipations;
-use App\Filters\FiltersProfileRole;
 use App\Filters\FiltersProfileSearch;
 use App\Filters\FiltersTags;
 use App\Http\Controllers\Controller;
@@ -30,9 +29,8 @@ class ProfileController extends Controller
             ])
             ->allowedFilters(
                 AllowedFilter::custom('search', new FiltersProfileSearch),
-                AllowedFilter::custom('role', new FiltersProfileRole),
+                AllowedFilter::scope('user.role'),
                 AllowedFilter::exact('department'),
-                AllowedFilter::exact('referent_department'),
                 AllowedFilter::exact('referent_region'),
                 AllowedFilter::exact('zip'),
                 AllowedFilter::exact('is_visible'),

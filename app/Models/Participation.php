@@ -66,7 +66,7 @@ class Participation extends Model
             case 'referent':
                 return $query
                     ->whereHas('mission', function (Builder $query) {
-                        $query->where('department', Auth::guard('api')->user()->profile->referent_department);
+                        $query->where('department', Auth::guard('api')->user()->departmentsAsReferent->first()->number);
                     });
                 break;
             case 'referent_regional':

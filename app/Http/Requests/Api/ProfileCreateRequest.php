@@ -31,7 +31,6 @@ class ProfileCreateRequest extends ProfileRequest
             'mobile' => '',
             'phone' => '',
             'avatar' => '',
-            'referent_department' => '',
             'referent_region' => '',
             'tete_de_reseau_id' => '',
             'is_analyste' => 'boolean',

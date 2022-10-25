@@ -29,7 +29,7 @@ class Temoignage extends Model
                 return $query
                     ->whereHas('participation', function (Builder $query) {
                         $query->whereHas('mission', function (Builder $query) {
-                            $query->where('department', Auth::guard('api')->user()->profile->referent_department);
+                            $query->where('department', Auth::guard('api')->user()->departmentsAsReferent->first()->number);
                         });
                     });
                 break;

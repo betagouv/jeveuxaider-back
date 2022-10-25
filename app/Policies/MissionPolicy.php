@@ -28,9 +28,7 @@ class MissionPolicy
             return false;
         }
 
-        $ids = Mission::role(request()->header('Context-Role'))->get()->pluck('id')->all();
-
-        if (in_array($mission->id, $ids)) {
+        if(Mission::role(request()->header('Context-Role'))->where('id', $mission->id)->count() > 0) {
             return true;
         }
 
@@ -86,9 +84,7 @@ class MissionPolicy
 
     public function duplicate(User $user, Mission $mission)
     {
-        $ids = Mission::role('responsable')->get()->pluck('id')->all();
-
-        if (in_array($mission->id, $ids) && request()->header('Context-Role') === 'responsable') {
+        if(Mission::role('responsable')->where('id', $mission->id)->count() > 0 && request()->header('Context-Role') === 'responsable') {
             return true;
         }
 

@@ -43,6 +43,8 @@ class User extends Authenticatable
     {
         $roles = [];
 
+        // Todo return map roles plutôt que suite de if
+
         if ($this->hasRole('admin')) {
             $roles[] = [
                 'key' => 'admin',
@@ -51,21 +53,21 @@ class User extends Authenticatable
         }
 
         if($this->hasRole('responsable')) {
-            $rolesResponsable = $this->newRoles()->wherePivot('rolable_type', Structure::class)->get();
-            foreach ($rolesResponsable as $role) {
+            // $rolesResponsable = $this->newRoles()->wherePivot('rolable_type', Structure::class)->get();
+            foreach ($this->structures as $structure) {
                 $roles[] = [
                     'key' => 'responsable',
                     'contextable_type' => 'structure',
-                    'contextable_id' => $role->pivot->rolable_id,
-                    'label' => $role->pivot->rolable_label
+                    'contextable_id' => $structure->id,
+                    'label' => $structure->name
                 ];
             }
         }
 
-        if ($this->profile->referent_department) {
+        if ($this->hasRole('referent')) {
             $roles[] = [
                 'key' => 'referent',
-                'label' => $this->profile->referent_department,
+                'label' => $this->departmentsAsReferent()->get()->first()->name,
             ];
         }
 
@@ -135,7 +137,12 @@ class User extends Authenticatable
 
     public function structures()
     {
-        return $this->morphedByMany(Structure::class, 'rolable', 'user_has_roles');
+        return $this->morphedByMany(Structure::class, 'rolable', 'rolables');
+    }
+
+    public function departmentsAsReferent()
+    {
+        return $this->morphedByMany(Department::class, 'rolable', 'rolables');
     }
 
     public function messages()

@@ -19,7 +19,7 @@ use App\Notifications\StructureSignaled;
 use App\Notifications\StructureSubmitted;
 use App\Notifications\StructureValidated;
 use App\Services\ApiEngagement;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Builder;
 
 class StructureObserver
 {
@@ -80,7 +80,9 @@ class StructureObserver
                         $structure->user->notify($notification);
                     }
                     if ($structure->department) {
-                        Profile::where('referent_department', $structure->department)->get()->map(function ($profile) use ($structure) {
+                        Profile::whereHas('user.departmentsAsReferent', function (Builder $query) use ($structure) {
+                            $query->where('number', $structure->department);
+                        })->get()->map(function ($profile) use ($structure) {
                             $profile->notify(new StructureSubmitted($structure));
                         });
                     }
@@ -166,7 +168,9 @@ class StructureObserver
         if ($oldDepartment != $newDepartment) {
             if ($structure->state == 'En attente de validation') {
                 if ($structure->department) {
-                    Profile::where('referent_department', $structure->department)->get()->map(function ($profile) use ($structure) {
+                    Profile::whereHas('user.departmentsAsReferent', function (Builder $query) use ($structure) {
+                        $query->where('number', $structure->department);
+                    })->get()->map(function ($profile) use ($structure) {
                         $profile->notify(new StructureSubmitted($structure));
                     });
                 }

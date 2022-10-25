@@ -10,12 +10,12 @@ trait HasRoles
 {
     public function newRoles()
     {
-        return $this->belongsToMany(Role::class, 'user_has_roles')->withPivot('rolable_type', 'rolable_id', 'rolable_label');
+        return $this->belongsToMany(Role::class, 'rolables')->withPivot('rolable_type', 'rolable_id');
     }
 
     public function assignRole($roleName, $rolable = null, $fonction = null)
     {
-        if($this->hasRole($roleName, $rolable)) {
+        if($this->hasRole($roleName)) {
             return false;
         }
         
@@ -24,7 +24,6 @@ trait HasRoles
         $this->newRoles()->attach($role, [
             'rolable_type' => $rolable ? $rolable::class : NULL,
             'rolable_id' => $rolable ? $rolable->id : NULL,
-            'rolable_label' => $this->getRolableLabel($roleName, $rolable),
             'fonction' => $fonction
         ]);
 
@@ -38,7 +37,7 @@ trait HasRoles
         $this->newRoles()->detach($role);
     }
 
-    public function hasRole($roles, $rolable = null)
+    public function hasRole($roles)
     {
         if (is_string($roles)) {
             return $this->newRoles->contains('name', $roles);
@@ -74,16 +73,4 @@ trait HasRoles
             $subQuery->whereIn('name', array_column($roles, 'name'));
         });
     }
-
-    protected function getRolableLabel($roleName,  $rolable) {
-        switch ($roleName) {
-            case 'admin':
-                return 'Modérateur';
-            case 'responsable':
-                return  $rolable->name;
-            default:
-                return NULL;
-        }
-    }
-
 }

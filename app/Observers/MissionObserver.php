@@ -13,6 +13,7 @@ use App\Notifications\MissionSignaled;
 use App\Notifications\MissionSubmitted;
 use App\Notifications\MissionValidated;
 use App\Notifications\MissionWaitingValidation;
+use Illuminate\Database\Eloquent\Builder;
 
 class MissionObserver
 {
@@ -29,7 +30,9 @@ class MissionObserver
                 $mission->responsable->notify(new MissionWaitingValidation($mission));
             }
             if ($mission->department) {
-                Profile::where('referent_department', $mission->department)->get()->map(function ($profile) use ($mission) {
+                Profile::whereHas('user.departmentsAsReferent', function (Builder $query) use ($mission) {
+                    $query->where('number', $mission->department);
+                })->get()->map(function ($profile) use ($mission) {
                     $profile->notify(new MissionSubmitted($mission));
                 });
             }
@@ -83,7 +86,9 @@ class MissionObserver
                         $mission->responsable->notify(new MissionWaitingValidation($mission));
                     }
                     if ($mission->department) {
-                        Profile::where('referent_department', $mission->department)->get()->map(function ($profile) use ($mission) {
+                        Profile::whereHas('user.departmentsAsReferent', function (Builder $query) use ($mission) {
+                            $query->where('number', $mission->department);
+                        })->get()->map(function ($profile) use ($mission) {
                             $profile->notify(new MissionSubmitted($mission));
                         });
                     }

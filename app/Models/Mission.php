@@ -468,7 +468,7 @@ class Mission extends Model
                 // Missions qui sont dans mon département
                 return $query
                     ->whereNotNull('department')
-                    ->where('department', Auth::guard('api')->user()->profile->referent_department);
+                    ->where('department', Auth::guard('api')->user()->departmentsAsReferent->first()->number);
                 break;
             case 'referent_regional':
                 // Missions qui sont dans ma région

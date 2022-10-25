@@ -8,6 +8,7 @@ use App\Models\Structure;
 use App\Notifications\ReferentDailyTodo;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Notification;
 
 class SendNotificationTodoToReferents extends Command
@@ -72,7 +73,9 @@ class SendNotificationTodoToReferents extends Command
             });
 
             $this->info($department.' has '.count($structures).' organisations, and '.count($missions).' missions');
-            $referents = Profile::where('referent_department', $department)->get();
+            $referents = Profile::whereHas('user.departmentsAsReferent', function (Builder $query) use ($department) {
+                $query->where('number', $department);
+            })->get();
             $this->info($referents->pluck('email'));
             Notification::send($referents, new ReferentDailyTodo($structures, $missions));
         }

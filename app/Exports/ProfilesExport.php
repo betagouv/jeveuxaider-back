@@ -3,7 +3,6 @@
 namespace App\Exports;
 
 use App\Filters\FiltersProfileMinParticipations;
-use App\Filters\FiltersProfileRole;
 use App\Filters\FiltersProfileSearch;
 use App\Models\Profile;
 use App\Sorts\ProfileParticipationsValidatedCountSort;
@@ -28,8 +27,7 @@ class ProfilesExport implements FromQuery, WithMapping, WithHeadings
 
     public function query()
     {
-
-        if($this->isResponsableExport()){
+        if ($this->isResponsableExport()) {
             $queryBuilder = Profile::role($this->request->header('Context-Role'))->with(['structures']);
         } else {
             $queryBuilder = Profile::role($this->request->header('Context-Role'));
@@ -38,9 +36,8 @@ class ProfilesExport implements FromQuery, WithMapping, WithHeadings
         return QueryBuilder::for($queryBuilder)
             ->allowedFilters(
                 AllowedFilter::custom('search', new FiltersProfileSearch),
-                AllowedFilter::custom('role', new FiltersProfileRole),
                 AllowedFilter::exact('department'),
-                AllowedFilter::exact('referent_department'),
+                AllowedFilter::scope('user.role'),
                 AllowedFilter::exact('referent_region'),
                 AllowedFilter::exact('zip'),
                 AllowedFilter::exact('is_visible'),
@@ -55,8 +52,7 @@ class ProfilesExport implements FromQuery, WithMapping, WithHeadings
 
     public function headings(): array
     {
-
-        if($this->isResponsableExport()){
+        if ($this->isResponsableExport()) {
             return [
                 'id',
                 'prenom',
@@ -80,8 +76,9 @@ class ProfilesExport implements FromQuery, WithMapping, WithHeadings
 
     public function map($profile): array
     {
-        if($this->isResponsableExport()){
+        if ($this->isResponsableExport()) {
             $structure = $profile->user->structures->first();
+
             return [
                 $profile->id,
                 $profile->first_name,

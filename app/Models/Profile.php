@@ -131,7 +131,7 @@ class Profile extends Model implements HasMedia
                 return $query;
                 break;
             case 'referent':
-                $departement = Auth::guard('api')->user()->profile->referent_department;
+                $departement = Auth::guard('api')->user()->departmentsAsReferent->first()->number;
 
                 return $query
                     ->where('zip', 'LIKE', $departement.'%')
@@ -144,10 +144,9 @@ class Profile extends Model implements HasMedia
                         }
                     )
                     ->orWhereHas(
-                        'structures',
+                        'user.structures',
                         function (Builder $query) use ($departement) {
                             $query
-                                ->where('role', 'responsable')
                                 ->whereNotNull('department')
                                 ->where('department', $departement);
                         }
