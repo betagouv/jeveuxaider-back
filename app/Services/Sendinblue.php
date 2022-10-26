@@ -2,7 +2,10 @@
 
 namespace App\Services;
 
+use App\Jobs\UserSetHardBouncedAt;
+use App\Jobs\UsersSetHardBouncedAt;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Http;
 
 class Sendinblue
@@ -15,8 +18,8 @@ class Sendinblue
                 'Content-Type' => 'application/json',
             ]
         )
-        ->withOptions($options)
-        ->$method("https://api.sendinblue.com/v3${path}");
+            ->withOptions($options)
+            ->$method("https://api.sendinblue.com/v3${path}");
 
         return $response;
     }
@@ -57,11 +60,11 @@ class Sendinblue
         }
         $response = self::updateContact($user, $withSMS);
 
-        if (! $response->successful() && $response['code'] == 'document_not_found') {
+        if (!$response->successful() && $response['code'] == 'document_not_found') {
             $response = self::createContact($user, $withSMS);
         }
 
-        if (! $response->successful()) {
+        if (!$response->successful()) {
             if ($response['code'] == 'duplicate_parameter') {
                 switch ($response['message']) {
                     case 'Unable to update contact, SMS is already associate with another Contact':
@@ -108,5 +111,39 @@ class Sendinblue
         }
 
         return $attributes;
+    }
+
+    public static function onHardBounce($payload)
+    {
+        UserSetHardBouncedAt::dispatch($payload['email'], Carbon::now());
+    }
+
+    public static function syncHardBouncedUsers()
+    {
+        $response = self::api('get', "/smtp/blockedContacts");
+        if ($response->getStatusCode() === 200) {
+            $response = $response->json();
+            $offset = 0;
+            $limit = 100;
+
+            do {
+                UsersSetHardBouncedAt::dispatch($offset, $limit);
+                $offset += $limit;
+            } while ($offset < $response['count']);
+        }
+    }
+
+    public static function setHardBouncedAtUsers($offset, $limit)
+    {
+        $response = self::api('get', "/smtp/blockedContacts?limit={$limit}&offset={$offset}");
+        if ($response->getStatusCode() === 200) {
+            $response = $response->json();
+            foreach ($response['contacts'] as $contact) {
+                if (!isset($contact['reason']['code']) || $contact['reason']['code'] !== 'hardBounce') {
+                    continue;
+                }
+                UserSetHardBouncedAt::dispatch($contact['email'], $contact['blockedAt']);
+            }
+        }
     }
 }
