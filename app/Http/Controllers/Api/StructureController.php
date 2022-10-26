@@ -171,7 +171,7 @@ class StructureController extends Controller
         return $structure;
     }
 
-    public function askUnregister(Structure $structure)
+    public function askToUnregister(Structure $structure)
     {
         if (Auth::guard('api')->user()->cannot('unregister', $structure)) {
             abort(403, "Vous n'avez pas les droits nécéssaires pour réaliser cette action");
@@ -238,6 +238,8 @@ class StructureController extends Controller
 
     public function deleteMember(StructureRequest $request, Structure $structure, Profile $member)
     {
+        $user = User::find(Auth::guard('api')->user()->id);
+
         // Switch responsable
         if($request->has('new_responsable_id') && $request->input('new_responsable_id')) {
             $newResponsable = Profile::find($request->input('new_responsable_id'));
@@ -245,7 +247,9 @@ class StructureController extends Controller
                 Mission::where('responsable_id', $member->id)
                     ->where('structure_id', $structure->id)
                     ->update(['responsable_id' => $newResponsable->id]);
-                $newResponsable->notify(new StructureSwitchResponsable($structure, $member));
+                    if($user->profile->id != $newResponsable->id){
+                        $newResponsable->notify(new StructureSwitchResponsable($structure, $member));
+                    }
             }
         }
 

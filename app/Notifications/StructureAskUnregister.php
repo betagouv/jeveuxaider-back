@@ -63,7 +63,16 @@ class StructureAskUnregister extends Notification
             ->from($from)
             ->success()
             ->to('#produit-logs')
-            ->content('*'.$this->user->profile->full_name . '* souhaite désinscrire l\'organisation *<'.$url.'|'.$structure->name.'>*');
+            ->content('*'.$this->user->profile->full_name . '* souhaite désinscrire l\'organisation *<'.$url.'|'.$structure->name.'>*')
+            ->attachment(function ($attachment) use ($structure, $url) {
+                $attachment
+                    ->color('#BBBBBB')
+                    ->fields([
+                        'Nombre de participations' => $structure->missions()->count(),
+                        'Nombre de missions' => $structure->missions()->count(),
+                        'Statut' => $structure->state
+                    ]);
+            });
     }
 
     /**

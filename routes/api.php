@@ -84,7 +84,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::put('structures/{structure}', 'Api\StructureController@update');
     Route::get('structures/{structure}/status', 'Api\StructureController@status');
     Route::post('structures/{structure}/unregister', 'Api\StructureController@unregister');
-    Route::post('structures/{structure}/ask-unregister', 'Api\StructureController@askUnregister');
+    Route::post('structures/{structure}/ask-to-unregister', 'Api\StructureController@askToUnregister');
     Route::get('structures/{structure}/responsables', 'Api\StructureController@responsables');
 
     Route::post('structures/{structure}/waiting-participations', 'Api\StructureController@waitingParticipations');

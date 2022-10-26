@@ -35,7 +35,7 @@ class UserController extends Controller
             'structure' => $structure,
             'structure_responsables' => $structure ? $structure->members : null,
             'structure_missions_where_i_m_responsable_count' => Mission::where('responsable_id', $user->profile->id)->count(),
-            'structure_participations_i_m_responsable_count' => $structure ? Participation::ofStructure($structure->id)->where('mission.responsable_id', $user->profile->id)->count() : null
+            'structure_participations_count' => Participation::ofResponsable($user->profile->id)->count(),
         ];
     }
 
@@ -147,17 +147,6 @@ class UserController extends Controller
         $user = $request->user();
         $notification = new UserAnonymize($user);
         $user->notify($notification);
-
-        // Si je suis le dernier responsable d'une organisation on la désinscrit
-        if ($user->profile->structures) {
-            foreach ($user->profile->structures as $structure) {
-                if ($structure->members->count() == 1) {
-                    $structure->state = 'Désinscrite';
-                    $structure->save();
-                }
-            }
-        }
-
         $user->anonymize();
 
         return $user;
