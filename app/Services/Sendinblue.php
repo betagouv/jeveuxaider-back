@@ -93,7 +93,7 @@ class Sendinblue
             'ORGA_CODE_POSTAL' => $organisation ? $organisation->zip : null,
             'ORGA_NB_MISSION' => $organisation ? $organisation->missions->count() : null,
             'REFERENT_DEPARTEMENT' => $user->departmentsAsReferent->first() ? $user->departmentsAsReferent->first()->number : null,
-            'REFERENT_REGION' => $user->profile->referent_region ? $user->profile->referent_region : null,
+            'REFERENT_REGION' => $user->regionsAsReferent->first() ? $user->regionsAsReferent->first()->name : null,
             'IS_VISIBLE' => $user->profile->is_visible,
             'DISPONIBILITES' => $user->profile->disponibilities,
             'DISPO_TIME_DURATION' => $user->profile->commitment__duration,

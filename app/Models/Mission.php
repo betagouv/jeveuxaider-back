@@ -476,7 +476,7 @@ class Mission extends Model
                     ->whereNotNull('department')
                     ->whereIn(
                         'department',
-                        config('taxonomies.regions.departments')[Auth::guard('api')->user()->profile->referent_region]
+                        config('taxonomies.regions.departments')[Auth::guard('api')->user()->regionsAsReferent->first()->name]
                     );
                 break;
             case 'tete_de_reseau':

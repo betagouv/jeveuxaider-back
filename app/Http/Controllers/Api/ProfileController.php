@@ -31,7 +31,6 @@ class ProfileController extends Controller
                 AllowedFilter::custom('search', new FiltersProfileSearch),
                 AllowedFilter::scope('user.role'),
                 AllowedFilter::exact('department'),
-                AllowedFilter::exact('referent_region'),
                 AllowedFilter::exact('zip'),
                 AllowedFilter::exact('is_visible'),
                 AllowedFilter::custom('min_participations', new FiltersProfileMinParticipations),
@@ -47,7 +46,7 @@ class ProfileController extends Controller
 
     public function show(ProfileRequest $request, Profile $profile)
     {
-        return $profile->load(['user', 'territoires', 'user.structures', 'reseau', 'skills', 'domaines', 'avatar', 'activities', 'tags'])->loadCount(['participations', 'participationsValidated']);
+        return $profile->load(['user', 'territoires', 'user.structures', 'user.regionsAsReferent', 'user.departmentsAsReferent', 'reseau', 'skills', 'domaines', 'avatar', 'activities', 'tags'])->loadCount(['participations', 'participationsValidated']);
     }
 
     public function update(ProfileUpdateRequest $request, Profile $profile = null)

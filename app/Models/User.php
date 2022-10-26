@@ -52,14 +52,13 @@ class User extends Authenticatable
             ];
         }
 
-        if($this->hasRole('responsable')) {
-            // $rolesResponsable = $this->newRoles()->wherePivot('rolable_type', Structure::class)->get();
+        if ($this->hasRole('responsable')) {
             foreach ($this->structures as $structure) {
                 $roles[] = [
                     'key' => 'responsable',
                     'contextable_type' => 'structure',
                     'contextable_id' => $structure->id,
-                    'label' => $structure->name
+                    'label' => $structure->name,
                 ];
             }
         }
@@ -71,17 +70,17 @@ class User extends Authenticatable
             ];
         }
 
+        if ($this->hasRole('referent_regional')) {
+            $roles[] = [
+                'key' => 'referent_regional',
+                'label' => $this->regionsAsReferent()->get()->first()->name,
+            ];
+        }
+
         if ($this->profile->is_analyste) {
             $roles[] = [
                 'key' => 'analyste',
                 'label' => 'Analyste',
-            ];
-        }
-
-        if ($this->profile->referent_region) {
-            $roles[] = [
-                'key' => 'referent_regional',
-                'label' => $this->profile->referent_region,
             ];
         }
 
@@ -143,6 +142,11 @@ class User extends Authenticatable
     public function departmentsAsReferent()
     {
         return $this->morphedByMany(Department::class, 'rolable', 'rolables');
+    }
+
+    public function regionsAsReferent()
+    {
+        return $this->morphedByMany(Region::class, 'rolable', 'rolables');
     }
 
     public function messages()

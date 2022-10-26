@@ -45,38 +45,29 @@ class CreateRoles extends Command
     public function handle()
     {
         // Fill regions and departments
-        collect(config('taxonomies.regions.terms'))->each(function($region_name) {
+        collect(config('taxonomies.regions.terms'))->each(function ($region_name) {
             Region::create(['name' => $region_name]);
         });
-        collect(config('taxonomies.departments.terms'))->each(function($department_name, $department_number) {
+        collect(config('taxonomies.departments.terms'))->each(function ($department_name, $department_number) {
             $region = Region::where('name', config('taxonomies.department_region.terms')[$department_number])->get()->first();
             Department::create([
                 'number' => $department_number,
                 'name' => $department_name,
-                'region_id' => $region ? $region->id : null
+                'region_id' => $region ? $region->id : null,
             ]);
         });
 
-
-        if(Role::where('name', 'admin')->count() == 0) {
-            if (!$this->confirm('Roles will be created (admin, referent, responsable)')) {
+        if (Role::where('name', 'admin')->count() == 0) {
+            if (! $this->confirm('Roles will be created (admin, referent, responsable, referent_regional)')) {
                 return;
             }
             Role::create(['name' => 'admin']);
             Role::create(['name' => 'responsable']);
             Role::create(['name' => 'referent']);
+            Role::create(['name' => 'referent_regional']);
         }
 
-        if(Role::where('name', 'admin')->count() == 0) {
-            if (!$this->confirm('Roles will be created (admin, referent, responsable)')) {
-                return;
-            }
-            Role::create(['name' => 'admin']);
-            Role::create(['name' => 'referent']);
-            Role::create(['name' => 'responsable']);
-        }
-
-        if (!$this->confirm('Do you want to migrate all user roles ?')) {
+        if (! $this->confirm('Do you want to migrate all user roles ?')) {
             return;
         }
 
@@ -84,7 +75,7 @@ class CreateRoles extends Command
         $usersAdmin->each(function ($user) {
             $user->assignRole('admin');
         });
-        $this->info('Role admin assigned to ' . $usersAdmin->count() . ' users');
+        $this->info('Role admin assigned to '.$usersAdmin->count().' users');
 
         $profilesResponsable = Profile::with('user.newRoles', 'oldStructures')->whereHas('oldStructures')->get();
         $profilesResponsable->each(function ($profile) {
@@ -92,12 +83,18 @@ class CreateRoles extends Command
                 $profile->user->assignRole('responsable', $structure, $structure->pivot->fonction);
             }
         });
-        $this->info('Role responsable assigned to ' . $profilesResponsable->count() . ' users');
+        $this->info('Role responsable assigned to '.$profilesResponsable->count().' users');
 
         $profilesReferent = Profile::with('user.newRoles')->whereNotNull('old_referent_department')->get();
         $profilesReferent->each(function ($profile) {
             $profile->user->assignRole('referent', Department::whereNumber($profile->old_referent_department)->get()->first());
         });
-        $this->info('Role referent assigned to ' . $profilesReferent->count() . ' users');
+        $this->info('Role referent assigned to '.$profilesReferent->count().' users');
+
+        $profilesReferentRegional = Profile::with('user.newRoles')->whereNotNull('old_referent_region')->get();
+        $profilesReferentRegional->each(function ($profile) {
+            $profile->user->assignRole('referent_regional', Region::whereName($profile->old_referent_region)->get()->first());
+        });
+        $this->info('Role referent régionnal assigned to '.$profilesReferentRegional->count().' users');
     }
 }

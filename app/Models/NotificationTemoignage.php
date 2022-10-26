@@ -45,7 +45,7 @@ class NotificationTemoignage extends Model
                 return $query
                     ->whereHas('participation', function (Builder $query) {
                         $query->whereHas('mission', function (Builder $query) {
-                            $query->whereIn('department', config('taxonomies.regions.departments')[Auth::guard('api')->user()->profile->referent_region]);
+                            $query->whereIn('department', config('taxonomies.regions.departments')[Auth::guard('api')->user()->regionsAsReferent->first()->name]);
                         });
                     });
                 break;

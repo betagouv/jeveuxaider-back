@@ -116,7 +116,7 @@ class Structure extends Model implements HasMedia
             case 'referent_regional':
                 return $query
                     ->whereNotNull('department')
-                    ->whereIn('department', config('taxonomies.regions.departments')[$user->profile->referent_region]);
+                    ->whereIn('department', config('taxonomies.regions.departments')[$user->regionsAsReferent->first()->name]);
                 break;
             case 'tete_de_reseau':
                 return $query->ofReseau($user->profile->tete_de_reseau_id);
@@ -267,7 +267,7 @@ class Structure extends Model implements HasMedia
 
     public function members()
     {
-        return $this->morphToMany(User::class, 'rolable','rolables')->withPivot('fonction');
+        return $this->morphToMany(User::class, 'rolable', 'rolables')->withPivot('fonction');
     }
 
     public function invitations()

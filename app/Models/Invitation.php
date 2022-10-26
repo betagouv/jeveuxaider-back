@@ -112,7 +112,8 @@ class Invitation extends Model
             }
             // REFERENT REGIONAL
             if ($this->role == 'referent_regional') {
-                $user->profile->update(['referent_region' => $this->properties['referent_regional']]);
+                $region = Region::whereNumber($this->properties['referent_regional'])->get()->first();
+                $user->assignRole('referent_regional', $region);
             }
             // DATAS ANALYST
             if ($this->role == 'datas_analyst') {

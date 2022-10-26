@@ -153,7 +153,7 @@ class Profile extends Model implements HasMedia
                     );
                 break;
             case 'referent_regional':
-                $departements = config('taxonomies.regions.departments')[Auth::guard('api')->user()->profile->referent_region];
+                $departements = config('taxonomies.regions.departments')[Auth::guard('api')->user()->regionsAsReferent->first()->name];
 
                 return $query
                     ->whereHas(
@@ -243,7 +243,7 @@ class Profile extends Model implements HasMedia
     {
         return $this->hasMany('App\Models\Mission', 'responsable_id');
     }
-    
+
     // Todo : supprimer cette fonction après migration des rôles
     public function oldStructures()
     {
