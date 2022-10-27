@@ -12,14 +12,14 @@ class ActivityLogController extends Controller
 {
     public function index(Request $request)
     {
-        return QueryBuilder::for(ActivityLog::class)
-        ->allowedFilters([
-            'subject_type',
-            'causer_type',
-            AllowedFilter::exact('subject_id'),
-            AllowedFilter::exact('causer_id'),
-        ])
-        ->defaultSort('-id')
-        ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
+        return QueryBuilder::for(ActivityLog::where('log_name', 'default'))
+            ->allowedFilters([
+                'subject_type',
+                'causer_type',
+                AllowedFilter::exact('subject_id'),
+                AllowedFilter::exact('causer_id'),
+            ])
+            ->defaultSort('-id')
+            ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
     }
 }

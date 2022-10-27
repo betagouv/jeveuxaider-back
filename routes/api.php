@@ -160,6 +160,8 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::get('statistics/missions/{mission}', 'Api\StatisticsController@missions');
     Route::get('statistics/reseaux/{reseau}', 'Api\StatisticsController@reseaux');
 
+    
+
     // DOCUMENTS
     Route::get('documents', 'Api\DocumentController@index');
 
@@ -287,8 +289,16 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::get('statistics/api-engagement/incoming-applies', 'Api\ApiEngagementController@incomingApplies');
 });
 
+
 // STATISTICS
 Route::group(['middleware' => ['auth:api', 'is.admin.or.referent']], function () {
+
+    // NOTES
+    Route::get('/{notable_type}/{notable_id}/notes', 'Api\NoteController@index')->where('notable_id', '[0-9]+');
+    Route::get('/notes/{note}', 'Api\NoteController@index');
+    Route::post('/{notable_type}/{notable_id}/notes', 'Api\NoteController@store')->where('notable_id', '[0-9]+');
+    Route::put('/notes/{note}', 'Api\NoteController@update');
+    Route::delete('/notes/{note}', 'Api\NoteController@delete');
 
     // NUMBERS
     Route::get('statistics/overview-quick-glance', 'Api\NumbersController@overviewQuickGlance');
@@ -364,6 +374,4 @@ Route::group(['middleware' => ['auth:api', 'is.admin.or.referent']], function ()
     Route::get('statistics/participations-by-year', 'Api\NumbersController@participationsByYear');
     Route::get('statistics/users-by-year', 'Api\NumbersController@usersByYear');
 
-    // CONVERSATIONS
-    Route::post('conversations', 'Api\ConversationsController@store');
 });

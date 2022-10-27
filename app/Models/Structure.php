@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Helpers\Utils;
 use App\Models\Media as ModelMedia;
 use App\Traits\HasMissingFields;
+use App\Traits\Notable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
@@ -24,7 +25,7 @@ use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 
 class Structure extends Model implements HasMedia
 {
-    use SoftDeletes, LogsActivity, HasRelationships, HasTags, InteractsWithMedia, HasSlug, HasMissingFields, Searchable;
+    use SoftDeletes, LogsActivity, HasRelationships, HasTags, InteractsWithMedia, HasSlug, HasMissingFields, Searchable, Notable;
 
     const CEU_TYPES = [
         "SDIS (Service départemental d'Incendie et de Secours)",

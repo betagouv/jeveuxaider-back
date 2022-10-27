@@ -40,7 +40,7 @@ class StructureObserver
             $territoire = Territoire::create([
                 'structure_id' => $structure->id,
                 'name' => $name,
-                'suffix_title' => 'à '.$name,
+                'suffix_title' => 'à ' . $name,
                 'zips' => $structure->zip ? [$structure->zip] : [],
                 'department' => $structure->department,
                 'is_published' => false,
@@ -203,7 +203,7 @@ class StructureObserver
         // si elle a remplit les champs strictements necessaires (décorrélé des missing fields)
         if ($structure->state == 'Brouillon') {
             $mandatoryFields = ['zip', 'city'];
-            if (! in_array($structure->statut_juridique, ['Collectivité', 'Organisation publique'])) {
+            if (!in_array($structure->statut_juridique, ['Collectivité', 'Organisation publique'])) {
                 $mandatoryFields[] = 'description';
             }
 
@@ -223,6 +223,11 @@ class StructureObserver
         // On force les publics pour les collectivités
         if ($structure->statut_juridique == 'Collectivité') {
             $structure->publics_beneficiaires = array_keys(config('taxonomies.mission_publics_beneficiaires.terms'));
+        }
+
+        // Si le département change, changer département de toutes les missions à distance
+        if ($structure->department != $structure->getOriginal('department')) {
+            $structure->missions()->where('type', 'Mission à distance')->update(['department' => $structure->department]);
         }
     }
 

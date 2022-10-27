@@ -31,15 +31,15 @@ class MissionsExport implements FromQuery, WithMapping, WithHeadings
     {
         return QueryBuilder::for(Mission::role($this->request->header('Context-Role'))->with(['structure']))
             ->allowedFilters([
-                'state',
-                'type',
+                AllowedFilter::exact('state'),
+                AllowedFilter::exact('type'),
                 AllowedFilter::exact('id'),
                 AllowedFilter::exact('department'),
                 AllowedFilter::exact('responsable.id'),
                 AllowedFilter::exact('template_id'),
                 AllowedFilter::exact('structure.id'),
                 AllowedFilter::exact('structure.name'),
-                'structure.statut_juridique',
+                AllowedFilter::exact('structure.statut_juridique'),
                 AllowedFilter::exact('structure.reseaux.id'),
                 AllowedFilter::exact('structure.reseaux.name'),
                 AllowedFilter::exact('is_snu_mig_compatible'),

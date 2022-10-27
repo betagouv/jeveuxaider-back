@@ -804,7 +804,7 @@ class NumbersController extends Controller
                 SELECT domaines.name, domaines.id, COUNT(*) AS count FROM participations
                 LEFT JOIN missions ON missions.id = participations.mission_id
                 LEFT JOIN mission_templates ON mission_templates.id = missions.template_id
-                LEFT JOIN domaines ON domaines.id = mission_templates.domaine_id OR domaines.id = missions.domaine_id OR domaines.id = missions.domaine_secondary_id
+                LEFT JOIN domaines ON domaines.id = mission_templates.domaine_id OR domaines.id = missions.domaine_id OR domaines.id = missions.domaine_secondary_id OR domaines.id = mission_templates.domaine_secondary_id
                 WHERE missions.deleted_at IS NULL
                 AND participations.created_at BETWEEN :start and :end
                 AND participations.state IN ('Validée')
@@ -853,7 +853,7 @@ class NumbersController extends Controller
                 SELECT domaines.name, domaines.id, COUNT(*) AS count
                 FROM missions
                 LEFT JOIN mission_templates ON mission_templates.id = missions.template_id
-                LEFT JOIN domaines ON domaines.id = mission_templates.domaine_id OR domaines.id = missions.domaine_id OR domaines.id = missions.domaine_secondary_id
+                LEFT JOIN domaines ON domaines.id = mission_templates.domaine_id OR domaines.id = missions.domaine_id OR domaines.id = missions.domaine_secondary_id OR domaines.id = mission_templates.domaine_secondary_id
                 WHERE missions.deleted_at IS NULL
                 AND missions.state IN ('Validée', 'Terminée')
                 AND COALESCE(missions.department,'') ILIKE :department

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Helpers\Utils;
+use App\Traits\Notable;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -18,7 +19,7 @@ use Spatie\Tags\HasTags;
 
 class Mission extends Model
 {
-    use SoftDeletes, Searchable, HasTags, LogsActivity, HasSlug;
+    use SoftDeletes, Searchable, HasTags, LogsActivity, HasSlug, Notable;
 
     protected $table = 'missions';
 
@@ -53,6 +54,7 @@ class Mission extends Model
     {
         return LogOptions::defaults()
             ->logOnly(['*'])
+            ->logExcept(['places_left'])
             ->logOnlyDirty()
             ->dontSubmitEmptyLogs();
     }
@@ -87,11 +89,13 @@ class Mission extends Model
 
         $domaines = [];
         $domaine = $this->template_id ? $this->template->domaine : $this->domaine;
+        $domaineSecondary = $this->template_id ? $this->template->domaineSecondary : $this->domaineSecondary;
+
         if ($domaine) {
             $domaines[] = $domaine->name;
         }
-        if ($this->domaine_secondary_id) {
-            $domaines[] = $this->domaineSecondary->name;
+        if ($domaineSecondary) {
+            $domaines[] = $domaineSecondary->name;
         }
 
         $activity = $this->template_id ? $this->template->activity : $this->activity;
@@ -163,6 +167,7 @@ class Mission extends Model
             'publics_volontaires' => $this->publics_volontaires,
             'is_autonomy' => $this->is_autonomy,
             'autonomy_zips' => $this->is_autonomy && count($this->autonomy_zips) > 0 ? $this->autonomy_zips : null,
+            'is_outdated' => $this->end_date && $this->end_date < Carbon::today() ? true : false,
         ];
 
         if ($this->is_autonomy) {
@@ -365,7 +370,9 @@ class Mission extends Model
             ->orWhereHas(
                 'template',
                 function (Builder $query) use ($domain_id) {
-                    $query->where('domaine_id', $domain_id);
+                    $query
+                    ->where('domaine_id', $domain_id)
+                    ->orWhere('domaine_secondary_id', $domain_id);
                 }
             );
     }

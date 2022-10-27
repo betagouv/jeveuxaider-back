@@ -35,7 +35,7 @@ class ProfileUpdateRequest extends ProfileRequest
                 'required',
                 Rule::unique('profiles')->ignore($profile->id),
             ],
-            'first_name' => 'sometimes|required|min:3',
+            'first_name' => 'sometimes|required',
             'last_name' => 'sometimes|required',
             'mobile' => 'nullable|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
             'zip' => 'nullable|postal_code:FR',

@@ -30,6 +30,8 @@ class ParticipationCreateRequest extends ParticipationRequest
             'utm_source' => '',
             'utm_campaign' => '',
             'utm_medium' => '',
+            'slots' => '',
+            'date' => '',
         ];
     }
 }

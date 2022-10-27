@@ -23,6 +23,7 @@ class AuthServiceProvider extends ServiceProvider
         'App\Models\Conversation' => 'App\Policies\ConversationPolicy',
         'App\Models\Temoignage' => 'App\Policies\TemoignagePolicy',
         'App\Models\Reseau' => 'App\Policies\ReseauPolicy',
+        'App\Models\Note' => 'App\Policies\NotePolicy',
     ];
 
     /**

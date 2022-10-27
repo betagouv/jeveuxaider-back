@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 class Utils
 {
@@ -81,5 +82,16 @@ class Utils
         }
 
         return $hours * $multiplier;
+    }
+
+    public static function formatDate($date, $format = 'd F Y', $fromFormat = 'Y-m-d H:i:s')
+    {
+        return Carbon::createFromFormat($fromFormat, $date)->translatedFormat($format);
+    }
+
+    public static function labelFromValue($value, $taxonomy)
+    {
+        $terms = config("taxonomies.$taxonomy.terms");
+        return $terms && isset($terms[$value]) ? $terms[$value] : $value;
     }
 }

@@ -25,8 +25,13 @@ class ParticipationsExport implements FromQuery, WithMapping, WithHeadings
 
     public function query()
     {
-        $queryBuilder = Participation::role($this->request->header('Context-Role'))
-            ->whereIn('state', ['Validée', 'En attente de validation', 'En cours de traitement'])
+
+        $contextRole = $this->request->header('Context-Role');
+
+        $queryBuilder = Participation::role($contextRole)
+            ->when($contextRole != 'admin', function($q){
+                $q->whereIn('state', ['Validée', 'En attente de validation', 'En cours de traitement']);
+            })
             ->with(['profile', 'mission']);
 
         return QueryBuilder::for($queryBuilder)
@@ -44,9 +49,10 @@ class ParticipationsExport implements FromQuery, WithMapping, WithHeadings
                 AllowedFilter::scope('ofActivity'),
                 AllowedFilter::scope('ofDomaine'),
                 AllowedFilter::scope('ofResponsable'),
-                'state',
-                'mission.zip',
-                'mission.type',
+                AllowedFilter::exact('state'),
+                AllowedFilter::exact('mission.zip'),
+                AllowedFilter::exact('mission.type'),
+                AllowedFilter::exact('id')
             )
             ->defaultSort('-created_at');
     }
