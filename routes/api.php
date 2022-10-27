@@ -65,7 +65,6 @@ Route::get('settings/general', 'Api\SettingController@general');
 
 Route::post('webhook/sendinblue', 'Api\WebhookController@sendinblue');
 
-
 Route::group(['middleware' => ['auth:api']], function () {
     Route::get('user', 'Api\UserController@me');
     Route::get('user/unread-messages', 'Api\UserController@unreadMessages');
@@ -162,8 +161,6 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::get('statistics/organisations/{structure}', 'Api\StatisticsController@organisations');
     Route::get('statistics/missions/{mission}', 'Api\StatisticsController@missions');
     Route::get('statistics/reseaux/{reseau}', 'Api\StatisticsController@reseaux');
-
-
 
     // DOCUMENTS
     Route::get('documents', 'Api\DocumentController@index');
@@ -292,7 +289,6 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::get('statistics/api-engagement/incoming-applies', 'Api\ApiEngagementController@incomingApplies');
 });
 
-
 // STATISTICS
 Route::group(['middleware' => ['auth:api', 'is.admin.or.referent']], function () {
 
@@ -376,4 +372,7 @@ Route::group(['middleware' => ['auth:api', 'is.admin.or.referent']], function ()
     Route::get('statistics/missions-by-year', 'Api\NumbersController@missionsByYear');
     Route::get('statistics/participations-by-year', 'Api\NumbersController@participationsByYear');
     Route::get('statistics/users-by-year', 'Api\NumbersController@usersByYear');
+
+    // CONVERSATIONS
+    Route::post('conversations', 'Api\ConversationsController@store');
 });
