@@ -26,6 +26,7 @@ class UserSetHardBouncedAt implements ShouldQueue
     {
         $this->email = $email;
         $this->timestamp = $timestamp;
+        $this->onQueue('webhooks');
     }
 
     /**
