@@ -153,10 +153,15 @@ class StructureObserver
                             ->get()->map(function ($mission) {
                                 $mission->update(['state' => 'Annulée']);
                             });
-
-                        $structure->missions->unsearchable();
                     }
                     break;
+            }
+
+            // ALGOLIA - Missions reliées
+            if($newState == 'Validée'){
+                $structure->missions->where('state', 'Validée')->searchable();
+            } else {
+                $structure->missions->unsearchable();
             }
         }
 
