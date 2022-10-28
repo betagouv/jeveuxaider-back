@@ -50,6 +50,7 @@ use App\Notifications\RegisterUserVolontaireCejAdviser;
 use App\Notifications\ReseauNewLead;
 use App\Notifications\ResetPassword;
 use App\Notifications\ResponsableDailyTodo;
+use App\Notifications\StructureAskUnregister;
 use App\Notifications\StructureAssociationValidated;
 use App\Notifications\StructureBeingProcessed;
 use App\Notifications\StructureCollectivityValidated;
@@ -233,8 +234,10 @@ class NotificationController extends Controller
                 $notification = new NoteCreated($note);
                 break;
             case 'structure_switch_responsable':
-                $note = Note::latest()->first();
                 $notification = new StructureSwitchResponsable($structure, $user->profile);
+                break;
+            case 'structure_unregister_contact_admin':
+                $notification = new StructureAskUnregister($user, $structure);
                 break;
         }
 
