@@ -246,10 +246,12 @@ class StructureController extends Controller
             if($newResponsable){
                 Mission::where('responsable_id', $member->id)
                     ->where('structure_id', $structure->id)
-                    ->update(['responsable_id' => $newResponsable->id]);
-                    if($user->profile->id != $newResponsable->id){
-                        $newResponsable->notify(new StructureSwitchResponsable($structure, $member));
-                    }
+                    ->get()->map(function ($mission) use ($newResponsable) {
+                        $mission->update(['responsable_id' => $newResponsable->id]);
+                    });
+                if($user->profile->id != $newResponsable->id){
+                    $newResponsable->notify(new StructureSwitchResponsable($structure, $member));
+                }
             }
         }
 
