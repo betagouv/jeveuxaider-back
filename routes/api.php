@@ -398,13 +398,14 @@ Route::group(['prefix' => '/statistics/public'], function () {
     Route::get('/participations-by-activities', 'Api\StatisticsPublicController@participationsByActivities');
     Route::get('/participations-by-domaines', 'Api\StatisticsPublicController@participationsByDomaines');
     Route::get('/participations-by-organisations', 'Api\StatisticsPublicController@participationsByOrganisations');
+    Route::get('/participations-canceled-by-benevoles', 'Api\StatisticsPublicController@participationsCanceledByBenevoles');
+    Route::get('/participations-delays-by-registrations', 'Api\StatisticsPublicController@participationsDelaysByRegistrations');
+
+    Route::get('/global/utilisateurs', 'Api\StatisticsPublicController@globalUtilisateurs');
+    Route::get('/utilisateurs-by-date', 'Api\StatisticsPublicController@utilisateursByDate');
+    Route::get('/utilisateurs-by-domaines', 'Api\StatisticsPublicController@utilisateursByDomaines');
 
 
-    // Route::get('/participations-by-mission-templates', 'Api\StatisticsPublicController@participationsByMissionTemplates');
-    // Route::get('/participations-by-missions', 'Api\StatisticsPublicController@participationsByMissions');
-    // Route::get('/participations-by-organisations', 'Api\StatisticsPublicController@participationsByOrganisations');
-    // Route::get('/participations-by-reseaux', 'Api\StatisticsPublicController@participationsByReseaux');
-    // Route::get('/participations-by-domaines', 'Api\StatisticsPublicController@participationsByDomaines');
 
 });
 

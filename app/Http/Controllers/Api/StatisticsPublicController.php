@@ -494,59 +494,72 @@ class StatisticsPublicController extends Controller
     //     ];
     // }
 
-    // public function globalUtilisateurs(Request $request)
-    // {
-    //     $usersWithParticipations = Profile::role($request->header('Context-Role'))->when(
-    //         $this->department, function ($query) {
-    //             $query->department($this->department);
-    //         }
-    //     )
-    //         ->whereBetween('created_at', [$this->startDate, $this->endDate])->has('participations')->count();
-    //     $participationsCount = Participation::role($request->header('Context-Role'))->when(
-    //         $this->department, function ($query) {
-    //             $query->department($this->department);
-    //         }
-    //     )
-    //         ->whereBetween('created_at', [$this->startDate, $this->endDate])->count();
+    public function globalUtilisateurs(Request $request)
+    {
+        return [
+            'utilisateurs' => Profile::when(
+                $this->department, function ($query) {
+                    $query->department($this->department);
+                }
+            )
+            ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'benevoles' => Profile::whereHas(
+                'user', function (Builder $query) {
+                    $query->where('context_role', 'volontaire');
+                }
+            )->when(
+                $this->department, function ($query) {
+                    $query->department($this->department);
+                }
+            )
+            ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'benevoles_visibles_marketplace' => Profile::where('is_visible', true)->when(
+                $this->department, function ($query) {
+                    $query->department($this->department);
+                }
+            )
+            ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'benevoles_notifications_martketplace' => NotificationBenevole::when(
+                $this->department, function ($query) {
+                    $query->whereHas(
+                        'profile', function (Builder $query) {
+                            $query->department($this->department);
+                        }
+                    );
+                }
+            )
+            ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+        ];
+    }
 
-    //     return [
-    //         'utilisateurs' => Profile::role($request->header('Context-Role'))->when(
-    //             $this->department, function ($query) {
-    //                 $query->department($this->department);
-    //             }
-    //         )
-    //         ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-    //         'benevoles' => Profile::role($request->header('Context-Role'))->whereHas(
-    //             'user', function (Builder $query) {
-    //                 $query->where('context_role', 'volontaire');
-    //             }
-    //         )->when(
-    //             $this->department, function ($query) {
-    //                 $query->department($this->department);
-    //             }
-    //         )
-    //         ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-    //         'benevoles_actifs' => $usersWithParticipations,
-    //         'benevoles_visibles_marketplace' => Profile::role($request->header('Context-Role'))->where('is_visible', true)->when(
-    //             $this->department, function ($query) {
-    //                 $query->department($this->department);
-    //             }
-    //         )
-    //         ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-    //         'benevoles_notifications_martketplace' => NotificationBenevole::when(
-    //             $this->department, function ($query) {
-    //                 $query->whereHas(
-    //                     'profile', function (Builder $query) {
-    //                         $query->department($this->department);
-    //                     }
-    //                 );
-    //             }
-    //         )
-    //         ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-    //         'utilisateurs_with_participations' => $usersWithParticipations,
-    //         'participations_avg' => $usersWithParticipations ? round($participationsCount / $usersWithParticipations, 1) : 0,
-    //     ];
-    // }
+    public function utilisateursByDate(Request $request)
+    {
+        $items = [];
+
+        $results = DB::select("
+                SELECT date_trunc('month', profiles.created_at) AS created_at,
+                date_part('year', profiles.created_at) as year,
+                date_part('month', profiles.created_at) as month,
+                count(*) AS count
+                FROM profiles
+                WHERE COALESCE(profiles.department,'') ILIKE :department
+                GROUP BY date_trunc('month', profiles.created_at), year, month
+                ORDER BY date_trunc('month', profiles.created_at) ASC
+            ", [
+            'department' => $this->department ? $this->department.'%' : '%%',
+        ]);
+
+        $collection = collect($results);
+
+        for ($year = $this->startYear; $year <= $this->endYear; $year++) {
+            for ($month = 1; $month < 13; $month++) {
+                $item = $collection->where('year', $year)->where('month', $month)->first();
+                $items[$year][] = $item ? $item->count : 0;
+            }
+        }
+
+        return $items;
+    }
 
     // public function participationsByStates(Request $request)
     // {
@@ -914,26 +927,26 @@ class StatisticsPublicController extends Controller
     //     return $results;
     // }
 
-    // public function utilisateursByDomaines(Request $request)
-    // {
-    //     $results = DB::select(
-    //         "
-    //             SELECT domaines.name, domaines.id, COUNT(*) AS count FROM profiles
-    //             LEFT JOIN domainables ON domainables.domainable_id = profiles.id AND domainables.domainable_type = 'App\Models\Profile'
-    //             LEFT JOIN domaines ON domaines.id = domainables.domaine_id
-    //             WHERE profiles.created_at BETWEEN :start and :end
-    //             AND COALESCE(profiles.zip,'') ILIKE :department
-    //             GROUP BY domaines.name, domaines.id
-    //             ORDER BY count DESC
-    //         ", [
-    //             'department' => $this->department ? $this->department.'%' : '%%',
-    //             'start' => $this->startDate,
-    //             'end' => $this->endDate,
-    //         ]
-    //     );
+    public function utilisateursByDomaines(Request $request)
+    {
+        $results = DB::select(
+            "
+                SELECT domaines.name, domaines.id, COUNT(*) AS count FROM profiles
+                LEFT JOIN domainables ON domainables.domainable_id = profiles.id AND domainables.domainable_type = 'App\Models\Profile'
+                LEFT JOIN domaines ON domaines.id = domainables.domaine_id
+                WHERE profiles.created_at BETWEEN :start and :end
+                AND COALESCE(profiles.zip,'') ILIKE :department
+                GROUP BY domaines.name, domaines.id
+                ORDER BY count DESC
+            ", [
+                'department' => $this->department ? $this->department.'%' : '%%',
+                'start' => $this->startDate,
+                'end' => $this->endDate,
+            ]
+        );
 
-    //     return $results;
-    // }
+        return $results;
+    }
 
     // public function utilisateursWithParticipations(Request $request)
     // {
@@ -1208,47 +1221,47 @@ class StatisticsPublicController extends Controller
     //     return $results;
     // }
 
-    // public function participationsCanceledByBenevoles(Request $request)
-    // {
-    //     return [
-    //         'no_response' => Message::role($request->header('Context-Role'))->where('contextual_state', 'Annulée par bénévole')->where('contextual_reason', 'no_response')->when(
-    //             $this->department, function ($query) {
-    //                 $query->whereHas(
-    //                     'conversation.conversable', function (Builder $query) {
-    //                         $query->department($this->department);
-    //                     }
-    //                 );
-    //             }
-    //         )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-    //         'requirements_not_fulfilled' => Message::role($request->header('Context-Role'))->where('contextual_state', 'Annulée par bénévole')->where('contextual_reason', 'requirements_not_fulfilled')->when(
-    //             $this->department, function ($query) {
-    //                 $query->whereHas(
-    //                     'conversation.conversable', function (Builder $query) {
-    //                         $query->department($this->department);
-    //                     }
-    //                 );
-    //             }
-    //         )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-    //         'not_available' => Message::role($request->header('Context-Role'))->where('contextual_state', 'Annulée par bénévole')->where('contextual_reason', 'not_available')->when(
-    //             $this->department, function ($query) {
-    //                 $query->whereHas(
-    //                     'conversation.conversable', function (Builder $query) {
-    //                         $query->department($this->department);
-    //                     }
-    //                 );
-    //             }
-    //         )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-    //         'other' => Message::role($request->header('Context-Role'))->where('contextual_state', 'Annulée par bénévole')->where('contextual_reason', 'other')->when(
-    //             $this->department, function ($query) {
-    //                 $query->whereHas(
-    //                     'conversation.conversable', function (Builder $query) {
-    //                         $query->department($this->department);
-    //                     }
-    //                 );
-    //             }
-    //         )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-    //     ];
-    // }
+    public function participationsCanceledByBenevoles(Request $request)
+    {
+        return [
+            'no_response' => Message::where('contextual_state', 'Annulée par bénévole')->where('contextual_reason', 'no_response')->when(
+                $this->department, function ($query) {
+                    $query->whereHas(
+                        'conversation.conversable', function (Builder $query) {
+                            $query->department($this->department);
+                        }
+                    );
+                }
+            )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'requirements_not_fulfilled' => Message::where('contextual_state', 'Annulée par bénévole')->where('contextual_reason', 'requirements_not_fulfilled')->when(
+                $this->department, function ($query) {
+                    $query->whereHas(
+                        'conversation.conversable', function (Builder $query) {
+                            $query->department($this->department);
+                        }
+                    );
+                }
+            )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'not_available' => Message::where('contextual_state', 'Annulée par bénévole')->where('contextual_reason', 'not_available')->when(
+                $this->department, function ($query) {
+                    $query->whereHas(
+                        'conversation.conversable', function (Builder $query) {
+                            $query->department($this->department);
+                        }
+                    );
+                }
+            )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'other' => Message::where('contextual_state', 'Annulée par bénévole')->where('contextual_reason', 'other')->when(
+                $this->department, function ($query) {
+                    $query->whereHas(
+                        'conversation.conversable', function (Builder $query) {
+                            $query->department($this->department);
+                        }
+                    );
+                }
+            )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+        ];
+    }
 
     // public function participationsRefusedByResponsables(Request $request)
     // {
@@ -1301,40 +1314,40 @@ class StatisticsPublicController extends Controller
     //     ];
     // }
 
-    // public function participationsDelaysByRegistrations(Request $request)
-    // {
-    //     $results = DB::select(
-    //         "
-    //         SELECT
-    //         COUNT(date_difference),
-    //         CASE
-    //             WHEN date_difference <= 60 THEN 'LESS_THAN_1_MIN'
-    //             WHEN date_difference BETWEEN 61 AND 300 THEN 'LESS_THAN_5_MIN'
-    //             WHEN date_difference BETWEEN 301 AND 3600 THEN 'LESS_THAN_1_HOUR'
-    //             WHEN date_difference BETWEEN 3601 AND 84600 THEN 'LESS_THAN_1_DAY'
-    //             WHEN date_difference BETWEEN 84601 AND 423000 THEN 'LESS_THAN_5_DAYS'
-    //             WHEN date_difference > 423000 THEN 'OTHER'
-    //         END delay
-    //         FROM (
-    //             SELECT DISTINCT ON (participations.profile_id)
-    //             participations.profile_id, participations.created_at, profiles.email, profiles.created_at,
-    //             EXTRACT(EPOCH FROM (participations.created_at - profiles.created_at)) AS date_difference
-    //             FROM participations
-    //             LEFT JOIN profiles ON profiles.id = participations.profile_id
-    //             WHERE profiles.created_at BETWEEN :start and :end
-    //             AND profiles.zip ILIKE :department
-    //             ORDER BY participations.profile_id, participations.id ASC
-    //         ) MyTable
-    //         GROUP BY delay
-    //         ", [
-    //             'department' => $this->department ? $this->department.'%' : '%%',
-    //             'start' => $this->startDate,
-    //             'end' => $this->endDate,
-    //         ]
-    //     );
+    public function participationsDelaysByRegistrations(Request $request)
+    {
+        $results = DB::select(
+            "
+            SELECT
+            COUNT(date_difference),
+            CASE
+                WHEN date_difference <= 60 THEN 'LESS_THAN_1_MIN'
+                WHEN date_difference BETWEEN 61 AND 300 THEN 'LESS_THAN_5_MIN'
+                WHEN date_difference BETWEEN 301 AND 3600 THEN 'LESS_THAN_1_HOUR'
+                WHEN date_difference BETWEEN 3601 AND 84600 THEN 'LESS_THAN_1_DAY'
+                WHEN date_difference BETWEEN 84601 AND 423000 THEN 'LESS_THAN_5_DAYS'
+                WHEN date_difference > 423000 THEN 'OTHER'
+            END delay
+            FROM (
+                SELECT DISTINCT ON (participations.profile_id)
+                participations.profile_id, participations.created_at, profiles.email, profiles.created_at,
+                EXTRACT(EPOCH FROM (participations.created_at - profiles.created_at)) AS date_difference
+                FROM participations
+                LEFT JOIN profiles ON profiles.id = participations.profile_id
+                WHERE profiles.created_at BETWEEN :start and :end
+                AND profiles.zip ILIKE :department
+                ORDER BY participations.profile_id, participations.id ASC
+            ) MyTable
+            GROUP BY delay
+            ", [
+                'department' => $this->department ? $this->department.'%' : '%%',
+                'start' => $this->startDate,
+                'end' => $this->endDate,
+            ]
+        );
 
-    //     return collect($results)->pluck('count', 'delay');
-    // }
+        return collect($results)->pluck('count', 'delay');
+    }
 
     // public function placesByReseaux(Request $request)
     // {
