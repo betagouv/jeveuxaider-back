@@ -277,7 +277,7 @@ class Structure extends Model implements HasMedia
 
     public function responsables()
     {
-        return $this->belongsToMany('App\Models\Profile', 'members')->wherePivot('role', 'responsable');
+        return $this->belongsToMany('App\Models\Profile', 'members')->wherePivot('role', 'responsable')->withPivot('role', 'fonction');
     }
 
     public function missions()
