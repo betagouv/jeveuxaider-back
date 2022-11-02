@@ -293,7 +293,7 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::get('statistics/api-engagement/incoming-applies', 'Api\ApiEngagementController@incomingApplies');
 });
 
-// STATISTICS
+// STATISTICS PRIVATE
 Route::group(['middleware' => ['auth:api', 'is.admin.or.referent']], function () {
 
     // NOTES
@@ -380,3 +380,31 @@ Route::group(['middleware' => ['auth:api', 'is.admin.or.referent']], function ()
     // CONVERSATIONS
     Route::post('conversations', 'Api\ConversationsController@store');
 });
+
+
+// STATISTICS PUBLIC
+Route::group(['prefix' => '/statistics/public'], function () {
+    Route::get('/overview-quick-glance', 'Api\StatisticsPublicController@overviewQuickGlance');
+    Route::get('/overview-participations', 'Api\StatisticsPublicController@overviewParticipations');
+    Route::get('/overview-utilisateurs', 'Api\StatisticsPublicController@overviewUtilisateurs');
+    Route::get('/overview-organisations', 'Api\StatisticsPublicController@overviewOrganisations');
+    Route::get('/overview-missions', 'Api\StatisticsPublicController@overviewMissions');
+    Route::get('/overview-places', 'Api\StatisticsPublicController@overviewPlaces');
+    Route::get('/overview-api-engagement', 'Api\StatisticsPublicController@overviewAPIEngagement');
+
+    Route::get('/global/participations', 'Api\StatisticsPublicController@globalParticipations');
+    Route::get('/participations-by-date', 'Api\StatisticsPublicController@participationsByDate');
+    Route::get('/participations-by-reseaux', 'Api\StatisticsPublicController@participationsByReseaux');
+    Route::get('/participations-by-activities', 'Api\StatisticsPublicController@participationsByActivities');
+    Route::get('/participations-by-domaines', 'Api\StatisticsPublicController@participationsByDomaines');
+    Route::get('/participations-by-organisations', 'Api\StatisticsPublicController@participationsByOrganisations');
+
+
+    // Route::get('/participations-by-mission-templates', 'Api\StatisticsPublicController@participationsByMissionTemplates');
+    // Route::get('/participations-by-missions', 'Api\StatisticsPublicController@participationsByMissions');
+    // Route::get('/participations-by-organisations', 'Api\StatisticsPublicController@participationsByOrganisations');
+    // Route::get('/participations-by-reseaux', 'Api\StatisticsPublicController@participationsByReseaux');
+    // Route::get('/participations-by-domaines', 'Api\StatisticsPublicController@participationsByDomaines');
+
+});
+
