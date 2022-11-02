@@ -329,18 +329,16 @@ class Structure extends Model implements HasMedia
         $user->resetContextRole();
         $user->save();
 
-        $this->resetResponsable($profile);
-
         return $this->load('members');
     }
 
-    public function resetResponsable(Profile $profile)
-    {
-        $newResponsableProfileId = $this->members->where('id', '!=', $profile->id)->pluck('id')->first();
-        if ($newResponsableProfileId) {
-            Mission::where('responsable_id', $profile->id)->where('structure_id', $this->id)->update(['responsable_id' => $newResponsableProfileId]);
-        }
-    }
+    // public function resetResponsable(Profile $profile)
+    // {
+    //     $newResponsableProfileId = $this->members->where('id', '!=', $profile->id)->pluck('id')->first();
+    //     if ($newResponsableProfileId) {
+    //         Mission::where('responsable_id', $profile->id)->where('structure_id', $this->id)->update(['responsable_id' => $newResponsableProfileId]);
+    //     }
+    // }
 
     public function addMission($values)
     {

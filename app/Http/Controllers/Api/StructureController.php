@@ -15,6 +15,8 @@ use App\Models\Participation;
 use App\Models\Profile;
 use App\Models\Structure;
 use App\Models\User;
+use App\Notifications\StructureAskUnregister;
+use App\Notifications\StructureSwitchResponsable;
 use App\Services\ApiEngagement;
 use App\Sorts\StructureMissionsCountSort;
 use App\Sorts\StructurePlacesLeftSort;
@@ -24,6 +26,7 @@ use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\AllowedInclude;
 use Spatie\QueryBuilder\AllowedSort;
 use Spatie\QueryBuilder\QueryBuilder;
+use Illuminate\Support\Facades\Notification;
 
 class StructureController extends Controller
 {
@@ -168,6 +171,21 @@ class StructureController extends Controller
         return $structure;
     }
 
+    public function askToUnregister(Structure $structure)
+    {
+        if (Auth::guard('api')->user()->cannot('unregister', $structure)) {
+            abort(403, "Vous n'avez pas les droits nécéssaires pour réaliser cette action");
+        }
+
+        $user = User::find(Auth::guard('api')->user()->id);
+
+        Notification::route('mail', ['coralie.chauvin@beta.gouv.fr', 'caroline.farhi@beta.gouv.fr'])
+            ->route('slack', config('services.slack.hook_url'))
+            ->notify(new StructureAskUnregister($user, $structure));
+
+        return $structure;
+    }
+
     public function unregister(Structure $structure)
     {
         if (Auth::guard('api')->user()->cannot('unregister', $structure)) {
@@ -179,6 +197,19 @@ class StructureController extends Controller
         ]);
 
         return $structure;
+    }
+
+
+    public function status(Structure $structure)
+    {
+        if (Auth::guard('api')->user()->cannot('update', $structure)) {
+            abort(403, "Vous n'avez pas les droits nécéssaires pour réaliser cette action");
+        }
+
+        return [
+            'responsables' => $structure->members,
+            'participations_count' => Participation::ofStructure($structure->id)->count()
+        ];
     }
 
     public function waitingParticipations(Structure $structure)
@@ -207,6 +238,23 @@ class StructureController extends Controller
 
     public function deleteMember(StructureRequest $request, Structure $structure, Profile $member)
     {
+        $user = User::find(Auth::guard('api')->user()->id);
+
+        // Switch responsable
+        if($request->has('new_responsable_id') && $request->input('new_responsable_id')) {
+            $newResponsable = Profile::find($request->input('new_responsable_id'));
+            if($newResponsable){
+                Mission::where('responsable_id', $member->id)
+                    ->where('structure_id', $structure->id)
+                    ->get()->map(function ($mission) use ($newResponsable) {
+                        $mission->update(['responsable_id' => $newResponsable->id]);
+                    });
+                if($user->profile->id != $newResponsable->id){
+                    $newResponsable->notify(new StructureSwitchResponsable($structure, $member));
+                }
+            }
+        }
+
         $structure->deleteMember($member);
 
         return $structure->members;
@@ -285,7 +333,7 @@ class StructureController extends Controller
 
     public function responsables(Request $request, Structure $structure)
     {
-        return $structure->responsables()->get();
+        return $structure->responsables()->withCount(['missions'])->get();
     }
 
     public function addResponsable(AddResponsableRequest $request, Structure $structure)

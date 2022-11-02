@@ -67,6 +67,7 @@ Route::post('webhook/sendinblue', 'Api\WebhookController@sendinblue');
 
 Route::group(['middleware' => ['auth:api']], function () {
     Route::get('user', 'Api\UserController@me');
+    Route::get('user/status', 'Api\UserController@status');
     Route::get('user/unread-messages', 'Api\UserController@unreadMessages');
     Route::get('user/participations', 'Api\UserController@participations');
     Route::post('user/anonymize', 'Api\UserController@anonymize');
@@ -83,8 +84,11 @@ Route::group(['middleware' => ['auth:api']], function () {
 
     Route::post('structure', 'Api\StructureController@store');
     Route::put('structures/{structure}', 'Api\StructureController@update');
+    Route::get('structures/{structure}/status', 'Api\StructureController@status');
     Route::post('structures/{structure}/unregister', 'Api\StructureController@unregister');
+    Route::post('structures/{structure}/ask-to-unregister', 'Api\StructureController@askToUnregister');
     Route::get('structures/{structure}/responsables', 'Api\StructureController@responsables');
+
     Route::post('structures/{structure}/waiting-participations', 'Api\StructureController@waitingParticipations');
     Route::post('structures/{structure}/validate-waiting-participations', 'Api\StructureController@validateWaitingParticipations');
 

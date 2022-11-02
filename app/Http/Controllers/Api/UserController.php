@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Filters\FiltersParticipationSearch;
 use App\Http\Controllers\Controller;
+use App\Models\Mission;
 use App\Models\Participation;
 use App\Models\User;
 use App\Notifications\UserAnonymize;
@@ -23,6 +24,19 @@ class UserController extends Controller
         $user->append(['roles', 'statistics']);
 
         return $user;
+    }
+
+    public function status(Request $request)
+    {
+        $user = User::find(Auth::guard('api')->user()->id);
+        $structure = $user->profile->structures->first();
+
+        return [
+            'structure' => $structure,
+            'structure_responsables' => $structure ? $structure->members : null,
+            'structure_missions_where_i_m_responsable_count' => Mission::where('responsable_id', $user->profile->id)->count(),
+            'structure_participations_count' => Participation::ofResponsable($user->profile->id)->count(),
+        ];
     }
 
     public function participations(Request $request)
@@ -133,17 +147,6 @@ class UserController extends Controller
         $user = $request->user();
         $notification = new UserAnonymize($user);
         $user->notify($notification);
-
-        // Si je suis le dernier responsable d'une organisation on la désinscrit
-        if ($user->profile->structures) {
-            foreach ($user->profile->structures as $structure) {
-                if ($structure->members->count() == 1) {
-                    $structure->state = 'Désinscrite';
-                    $structure->save();
-                }
-            }
-        }
-
         $user->anonymize();
 
         return $user;

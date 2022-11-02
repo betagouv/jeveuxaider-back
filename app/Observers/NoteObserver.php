@@ -19,7 +19,6 @@ class NoteObserver
      */
     public function created(Note $note)
     {
-
         if($note->user->is_admin){
             // Notify referent with tag Référent départemental - Contact principal
             if($note->notable->department) {
@@ -36,7 +35,7 @@ class NoteObserver
             }
         } else {
             Notification::route('slack', config('services.slack.hook_url'))
-                ->notify(new NoteCreated($note), 'slack');
+                ->notify(new NoteCreated($note));
         }
     }
 

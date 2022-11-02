@@ -50,12 +50,14 @@ use App\Notifications\RegisterUserVolontaireCejAdviser;
 use App\Notifications\ReseauNewLead;
 use App\Notifications\ResetPassword;
 use App\Notifications\ResponsableDailyTodo;
+use App\Notifications\StructureAskUnregister;
 use App\Notifications\StructureAssociationValidated;
 use App\Notifications\StructureBeingProcessed;
 use App\Notifications\StructureCollectivityValidated;
 use App\Notifications\StructureInDraft;
 use App\Notifications\StructureSignaled;
 use App\Notifications\StructureSubmitted;
+use App\Notifications\StructureSwitchResponsable;
 use App\Notifications\StructureValidated;
 use App\Notifications\UserAnonymize;
 use Illuminate\Http\Request;
@@ -230,6 +232,12 @@ class NotificationController extends Controller
             case 'notes_created':
                 $note = Note::latest()->first();
                 $notification = new NoteCreated($note);
+                break;
+            case 'structure_switch_responsable':
+                $notification = new StructureSwitchResponsable($structure, $user->profile);
+                break;
+            case 'structure_unregister_contact_admin':
+                $notification = new StructureAskUnregister($user, $structure);
                 break;
         }
 
