@@ -3,15 +3,27 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\WebhookSendinblueRequest;
 use App\Services\Sendinblue;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class WebhookController extends Controller
 {
-    public function sendinblue(WebhookSendinblueRequest $request)
+    public function sendinblue(Request $request)
     {
-        $payload = $request->validated();
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'event' => 'required|in:hard_bounce',
+                'email' => 'required|email'
+            ]
+        );
 
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $payload = $validator->validated();
         switch ($payload['event']) {
             case 'hard_bounce':
                 Sendinblue::onHardBounce($payload);
@@ -19,5 +31,7 @@ class WebhookController extends Controller
             default:
                 break;
         }
+
+        return response()->json('webhook sendinblue called successfully', 200);
     }
 }

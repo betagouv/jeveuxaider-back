@@ -53,11 +53,6 @@ class Sendinblue
 
     public static function sync(User $user, $withSMS = true)
     {
-        if ($withSMS) {
-            // ray('WITH MOBILE : Sendinblue sync user ' . $user->email . ' '.$user->profile->mobile);
-        } else {
-            // ray('WITHOUT MOBILE : Sendinblue sync user ' . $user->email);
-        }
         $response = self::updateContact($user, $withSMS);
 
         if (!$response->successful() && $response['code'] == 'document_not_found') {
@@ -68,8 +63,11 @@ class Sendinblue
             if ($response['code'] == 'duplicate_parameter') {
                 switch ($response['message']) {
                     case 'Unable to update contact, SMS is already associate with another Contact':
+                    case 'Unable to update contact, SMS is already associated with another Contact':
                     case 'SMS is already associate with another Contact':
+                    case 'SMS is already associated with another Contact':
                     case 'Unable to create contact, SMS is already associate with another Contact':
+                    case 'Unable to create contact, SMS is already associated with another Contact':
                         self::sync($user, false);
                         break;
                 }

@@ -54,8 +54,6 @@ class ProfileController extends Controller
 
     public function update(ProfileUpdateRequest $request, Profile $profile = null)
     {
-        $profile->update($request->validated());
-
         if ($request->has('domaines')) {
             $domaines = collect($request->input('domaines'));
             $values = $domaines->pluck($domaines, 'id')->map(function ($item) {
@@ -76,11 +74,6 @@ class ProfileController extends Controller
             $activities = collect($request->input('activities'));
             $values = $activities->pluck($activities, 'id')->toArray();
             $profile->activities()->sync(array_keys($values));
-            if (config('services.sendinblue.sync')) {
-                if ($profile->user) {
-                    SendinblueSyncUser::dispatch($profile->user);
-                }
-            }
         }
 
         if ($request->has('tags')) {
@@ -91,6 +84,8 @@ class ProfileController extends Controller
             $profile->tags()->sync($values);
         }
 
+        $profile->update($request->validated());
+
         return $profile;
     }
 
@@ -98,7 +93,7 @@ class ProfileController extends Controller
     {
         $profile = Profile::where('email', 'ILIKE', request('email'))->first();
 
-        if (! $profile) {
+        if (!$profile) {
             return null;
         }
 
