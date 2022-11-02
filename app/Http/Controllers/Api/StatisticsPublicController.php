@@ -200,156 +200,187 @@ class StatisticsPublicController extends Controller
         ];
     }
 
-    // public function globalOrganisations(Request $request)
-    // {
-    //     $organisationsCount = Structure::role($request->header('Context-Role'))->when(
-    //         $this->department, function ($query) {
-    //             $query->where('department', $this->department);
-    //         }
-    //     )->whereBetween('created_at', [$this->startDate, $this->endDate])->count();
+    public function globalOrganisations(Request $request)
+    {
+        $organisationsCount = Structure::when(
+            $this->department, function ($query) {
+                $query->where('department', $this->department);
+            }
+        )->whereBetween('created_at', [$this->startDate, $this->endDate])->count();
 
-    //     $organisationsValidatedCount = Structure::role($request->header('Context-Role'))->whereIn('state', ['Validée'])->when(
-    //         $this->department, function ($query) {
-    //             $query->where('department', $this->department);
-    //         }
-    //     )->whereBetween('created_at', [$this->startDate, $this->endDate])->count();
+        $organisationsValidatedCount = Structure::whereIn('state', ['Validée'])->when(
+            $this->department, function ($query) {
+                $query->where('department', $this->department);
+            }
+        )->whereBetween('created_at', [$this->startDate, $this->endDate])->count();
 
-    //     return [
-    //         'organisations_count' => $organisationsCount,
-    //         'organisations_validated_count' => $organisationsValidatedCount,
-    //         'organisations_conversion_rate' => $organisationsCount ? round(($organisationsValidatedCount / $organisationsCount) * 100) : 0,
-    //         'organisations_response_time_avg' => round(
-    //             Structure::role($request->header('Context-Role'))->whereIn('state', ['Validée'])->when(
-    //                 $this->department, function ($query) {
-    //                     $query->where('department', $this->department);
-    //                 }
-    //             )->whereBetween('created_at', [$this->startDate, $this->endDate])->avg('response_time')
-    //         ),
-    //         'organisations_response_ratio_avg' => round(
-    //             Structure::role($request->header('Context-Role'))->whereIn('state', ['Validée'])->when(
-    //                 $this->department, function ($query) {
-    //                     $query->where('department', $this->department);
-    //                 }
-    //             )->whereBetween('created_at', [$this->startDate, $this->endDate])->avg('response_ratio')
-    //         ),
-    //     ];
-    // }
+        return [
+            'organisations_count' => $organisationsCount,
+            'organisations_validated_count' => $organisationsValidatedCount,
+            'organisations_conversion_rate' => $organisationsCount ? round(($organisationsValidatedCount / $organisationsCount) * 100) : 0,
+            'organisations_response_time_avg' => round(
+                Structure::whereIn('state', ['Validée'])->when(
+                    $this->department, function ($query) {
+                        $query->where('department', $this->department);
+                    }
+                )->whereBetween('created_at', [$this->startDate, $this->endDate])->avg('response_time')
+            ),
+            'organisations_response_ratio_avg' => round(
+                Structure::whereIn('state', ['Validée'])->when(
+                    $this->department, function ($query) {
+                        $query->where('department', $this->department);
+                    }
+                )->whereBetween('created_at', [$this->startDate, $this->endDate])->avg('response_ratio')
+            ),
+        ];
+    }
 
-    // public function organisationsByStates(Request $request)
-    // {
-    //     return [
-    //         'draft' => Structure::role($request->header('Context-Role'))->where('state', 'Brouillon')->when(
-    //             $this->department, function ($query) {
-    //                 $query->where('department', $this->department);
-    //             }
-    //         )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-    //         'waiting' => Structure::role($request->header('Context-Role'))->where('state', 'En attente de validation')->when(
-    //             $this->department, function ($query) {
-    //                 $query->where('department', $this->department);
-    //             }
-    //         )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-    //         'in_progress' => Structure::role($request->header('Context-Role'))->where('state', 'En cours de traitement')->when(
-    //             $this->department, function ($query) {
-    //                 $query->where('department', $this->department);
-    //             }
-    //         )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-    //         'validated' => Structure::role($request->header('Context-Role'))->where('state', 'Validée')->when(
-    //             $this->department, function ($query) {
-    //                 $query->where('department', $this->department);
-    //             }
-    //         )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-    //         'signaled' => Structure::role($request->header('Context-Role'))->where('state', 'Signalée')->when(
-    //             $this->department, function ($query) {
-    //                 $query->where('department', $this->department);
-    //             }
-    //         )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-    //         'unsubscribed' => Structure::role($request->header('Context-Role'))->where('state', 'Désinscrite')->when(
-    //             $this->department, function ($query) {
-    //                 $query->where('department', $this->department);
-    //             }
-    //         )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-    //     ];
-    // }
+    public function organisationsByDate(Request $request)
+    {
+        $items = [];
 
-    // public function organisationsByTypes(Request $request)
-    // {
-    //     return [
-    //         'associations' => Structure::role($request->header('Context-Role'))->where('state', 'Validée')->where('statut_juridique', 'Association')->when(
-    //             $this->department, function ($query) {
-    //                 $query->where('department', $this->department);
-    //             }
-    //         )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-    //         'collectivites' => Structure::role($request->header('Context-Role'))->where('state', 'Validée')->where('statut_juridique', 'Collectivité')->when(
-    //             $this->department, function ($query) {
-    //                 $query->where('department', $this->department);
-    //             }
-    //         )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-    //         'organisations_publiques' => Structure::role($request->header('Context-Role'))->where('state', 'Validée')->where('statut_juridique', 'Organisation publique')->when(
-    //             $this->department, function ($query) {
-    //                 $query->where('department', $this->department);
-    //             }
-    //         )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-    //         'organisations_privees' => Structure::role($request->header('Context-Role'))->where('state', 'Validée')->where('statut_juridique', 'Organisation privée')->when(
-    //             $this->department, function ($query) {
-    //                 $query->where('department', $this->department);
-    //             }
-    //         )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-    //     ];
-    // }
+        $results = DB::select("
+                SELECT date_trunc('month', structures.created_at) AS created_at,
+                date_part('year', structures.created_at) as year,
+                date_part('month', structures.created_at) as month,
+                count(*) AS count
+                FROM structures
+                WHERE COALESCE(structures.department,'') ILIKE :department
+                AND structures.state IN ('Validée')
+                AND structures.deleted_at IS NULL
+                GROUP BY date_trunc('month', structures.created_at), year, month
+                ORDER BY date_trunc('month', structures.created_at) ASC
+            ", [
+            'department' => $this->department ? '%'.$this->department.'%' : '%%',
+        ]);
 
-    // public function organisationsByReseaux(Request $request)
-    // {
-    //     $results = DB::select(
-    //         "
-    //             SELECT reseaux.name, reseaux.id, COUNT(*) AS count FROM structures
-    //             LEFT JOIN reseau_structure ON reseau_structure.structure_id = structures.id
-    //             LEFT JOIN reseaux ON reseaux.id = reseau_structure.reseau_id
-    //             WHERE structures.deleted_at IS NULL
-    //             AND COALESCE(structures.department,'') ILIKE :department
-    //             AND reseaux.name IS NOT NULL
-    //             AND structures.created_at BETWEEN :start and :end
-    //             GROUP BY reseaux.name, reseaux.id
-    //             ORDER BY count DESC
-    //             LIMIT 5
-    //         ", [
-    //             'department' => $this->department ? '%'.$this->department.'%' : '%%',
-    //             'start' => $this->startDate,
-    //             'end' => $this->endDate,
-    //         ]
-    //     );
+        $collection = collect($results);
 
-    //     return $results;
-    // }
+        for ($year = $this->startYear; $year <= $this->endYear; $year++) {
+            for ($month = 1; $month < 13; $month++) {
+                $item = $collection->where('year', $year)->where('month', $month)->first();
+                $items[$year][] = $item ? $item->count : 0;
+            }
+        }
 
-    // public function missionsByReseaux(Request $request)
-    // {
-    //     $results = DB::select(
-    //         "
-    //             SELECT reseaux.name, reseaux.id, COUNT(*) AS count,
-    //             SUM(CASE WHEN missions.state IN ('Validée') THEN missions.places_left ELSE 0 END) AS sum_places_left
-    //             FROM missions
-    //             LEFT JOIN structures ON structures.id = missions.structure_id
-    //             LEFT JOIN reseau_structure ON reseau_structure.structure_id = structures.id
-    //             LEFT JOIN reseaux ON reseaux.id = reseau_structure.reseau_id
-    //             WHERE structures.deleted_at IS NULL
-    //             AND COALESCE(missions.department,'') ILIKE :department
-    //             AND structures.state = 'Validée'
-    //             AND structures.created_at BETWEEN :start and :end
-    //             AND missions.deleted_at IS NULL
-    //             AND missions.state IN ('Validée', 'Terminée')
-    //             AND reseaux.name IS NOT NULL
-    //             GROUP BY reseaux.name, reseaux.id
-    //             ORDER BY count DESC
-    //             LIMIT 5
-    //         ", [
-    //             'department' => $this->department ? '%'.$this->department.'%' : '%%',
-    //             'start' => $this->startDate,
-    //             'end' => $this->endDate,
-    //         ]
-    //     );
+        return $items;
+    }
 
-    //     return $results;
-    // }
+    public function organisationsByStates(Request $request)
+    {
+        return [
+            'draft' => Structure::where('state', 'Brouillon')->when(
+                $this->department, function ($query) {
+                    $query->where('department', $this->department);
+                }
+            )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'waiting' => Structure::where('state', 'En attente de validation')->when(
+                $this->department, function ($query) {
+                    $query->where('department', $this->department);
+                }
+            )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'in_progress' => Structure::where('state', 'En cours de traitement')->when(
+                $this->department, function ($query) {
+                    $query->where('department', $this->department);
+                }
+            )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'validated' => Structure::where('state', 'Validée')->when(
+                $this->department, function ($query) {
+                    $query->where('department', $this->department);
+                }
+            )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'signaled' => Structure::where('state', 'Signalée')->when(
+                $this->department, function ($query) {
+                    $query->where('department', $this->department);
+                }
+            )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'unsubscribed' => Structure::where('state', 'Désinscrite')->when(
+                $this->department, function ($query) {
+                    $query->where('department', $this->department);
+                }
+            )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+        ];
+    }
+
+    public function organisationsByTypes(Request $request)
+    {
+        return [
+            'associations' => Structure::where('state', 'Validée')->where('statut_juridique', 'Association')->when(
+                $this->department, function ($query) {
+                    $query->where('department', $this->department);
+                }
+            )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'collectivites' => Structure::where('state', 'Validée')->where('statut_juridique', 'Collectivité')->when(
+                $this->department, function ($query) {
+                    $query->where('department', $this->department);
+                }
+            )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'organisations_publiques' => Structure::where('state', 'Validée')->where('statut_juridique', 'Organisation publique')->when(
+                $this->department, function ($query) {
+                    $query->where('department', $this->department);
+                }
+            )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'organisations_privees' => Structure::where('state', 'Validée')->where('statut_juridique', 'Organisation privée')->when(
+                $this->department, function ($query) {
+                    $query->where('department', $this->department);
+                }
+            )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+        ];
+    }
+
+    public function organisationsByReseaux(Request $request)
+    {
+        $results = DB::select(
+            "
+                SELECT reseaux.name, reseaux.id, COUNT(*) AS count FROM structures
+                LEFT JOIN reseau_structure ON reseau_structure.structure_id = structures.id
+                LEFT JOIN reseaux ON reseaux.id = reseau_structure.reseau_id
+                WHERE structures.deleted_at IS NULL
+                AND COALESCE(structures.department,'') ILIKE :department
+                AND reseaux.name IS NOT NULL
+                AND structures.created_at BETWEEN :start and :end
+                GROUP BY reseaux.name, reseaux.id
+                ORDER BY count DESC
+                LIMIT 5
+            ", [
+                'department' => $this->department ? '%'.$this->department.'%' : '%%',
+                'start' => $this->startDate,
+                'end' => $this->endDate,
+            ]
+        );
+
+        return $results;
+    }
+
+    public function missionsByReseaux(Request $request)
+    {
+        $results = DB::select(
+            "
+                SELECT reseaux.name, reseaux.id, COUNT(*) AS count,
+                SUM(CASE WHEN missions.state IN ('Validée') THEN missions.places_left ELSE 0 END) AS sum_places_left
+                FROM missions
+                LEFT JOIN structures ON structures.id = missions.structure_id
+                LEFT JOIN reseau_structure ON reseau_structure.structure_id = structures.id
+                LEFT JOIN reseaux ON reseaux.id = reseau_structure.reseau_id
+                WHERE structures.deleted_at IS NULL
+                AND COALESCE(missions.department,'') ILIKE :department
+                AND structures.state = 'Validée'
+                AND structures.created_at BETWEEN :start and :end
+                AND missions.deleted_at IS NULL
+                AND missions.state IN ('Validée', 'Terminée')
+                AND reseaux.name IS NOT NULL
+                GROUP BY reseaux.name, reseaux.id
+                ORDER BY count DESC
+                LIMIT 5
+            ", [
+                'department' => $this->department ? '%'.$this->department.'%' : '%%',
+                'start' => $this->startDate,
+                'end' => $this->endDate,
+            ]
+        );
+
+        return $results;
+    }
 
     public function participationsByReseaux(Request $request)
     {
@@ -378,48 +409,77 @@ class StatisticsPublicController extends Controller
         return $results;
     }
 
-    // public function globalMissions(Request $request)
-    // {
-    //     $missionsCount = Mission::role($request->header('Context-Role'))
-    //     ->when(
-    //         $this->department, function ($query) {
-    //             $query->where('department', $this->department);
-    //         }
-    //     )
-    //     ->whereBetween('created_at', [$this->startDate, $this->endDate])->count();
+    public function globalMissions(Request $request)
+    {
+        $missionsCount = Mission::when(
+            $this->department, function ($query) {
+                $query->where('department', $this->department);
+            }
+        )
+        ->whereBetween('created_at', [$this->startDate, $this->endDate])->count();
 
-    //     $missionsValidatedOverCount = Mission::role($request->header('Context-Role'))->whereIn('state', ['Validée', 'Terminée'])
-    //     ->when(
-    //         $this->department, function ($query) {
-    //             $query->where('department', $this->department);
-    //         }
-    //     )
-    //     ->whereBetween('created_at', [$this->startDate, $this->endDate])->count();
+        $missionsValidatedOverCount = Mission::whereIn('state', ['Validée', 'Terminée'])
+        ->when(
+            $this->department, function ($query) {
+                $query->where('department', $this->department);
+            }
+        )
+        ->whereBetween('created_at', [$this->startDate, $this->endDate])->count();
 
-    //     return [
-    //         'missions' => $missionsCount,
-    //         'missions_validated_and_over' => $missionsValidatedOverCount,
-    //         // 'missions_conversion_rate' => $missionsCount ? round(($missionsValidatedOverCount / $missionsCount) * 100) : 0,
-    //         'missions_participations_max_sum' => Mission::role($request->header('Context-Role'))->whereIn('state', ['Validée', 'Terminée'])->when(
-    //             $this->department, function ($query) {
-    //                 $query->where('department', $this->department);
-    //             }
-    //         )
-    //         ->whereBetween('created_at', [$this->startDate, $this->endDate])->sum('participations_max'),
-    //         'missions_snu' => Mission::role($request->header('Context-Role'))->where('is_snu_mig_compatible', true)->whereIn('state', ['Validée', 'Terminée'])->when(
-    //             $this->department, function ($query) {
-    //                 $query->where('department', $this->department);
-    //             }
-    //         )
-    //         ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-    //         'missions_snu_participations_max_sum' => Mission::role($request->header('Context-Role'))->whereIn('state', ['Validée', 'Terminée'])->where('is_snu_mig_compatible', true)->when(
-    //             $this->department, function ($query) {
-    //                 $query->where('department', $this->department);
-    //             }
-    //         )
-    //         ->whereBetween('created_at', [$this->startDate, $this->endDate])->sum('snu_mig_places'),
-    //     ];
-    // }
+        return [
+            'missions' => $missionsCount,
+            'missions_validated_and_over' => $missionsValidatedOverCount,
+            // 'missions_conversion_rate' => $missionsCount ? round(($missionsValidatedOverCount / $missionsCount) * 100) : 0,
+            'missions_participations_max_sum' => Mission::whereIn('state', ['Validée', 'Terminée'])->when(
+                $this->department, function ($query) {
+                    $query->where('department', $this->department);
+                }
+            )
+            ->whereBetween('created_at', [$this->startDate, $this->endDate])->sum('participations_max'),
+            'missions_snu' => Mission::where('is_snu_mig_compatible', true)->whereIn('state', ['Validée', 'Terminée'])->when(
+                $this->department, function ($query) {
+                    $query->where('department', $this->department);
+                }
+            )
+            ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'missions_snu_participations_max_sum' => Mission::whereIn('state', ['Validée', 'Terminée'])->where('is_snu_mig_compatible', true)->when(
+                $this->department, function ($query) {
+                    $query->where('department', $this->department);
+                }
+            )
+            ->whereBetween('created_at', [$this->startDate, $this->endDate])->sum('snu_mig_places'),
+        ];
+    }
+
+    public function missionsByDate(Request $request)
+    {
+        $items = [];
+
+        $results = DB::select("
+                SELECT date_trunc('month', missions.created_at) AS created_at,
+                date_part('year', missions.created_at) as year,
+                date_part('month', missions.created_at) as month,
+                count(*) AS count
+                FROM missions
+                WHERE COALESCE(missions.department,'') ILIKE :department
+                AND missions.state IN ('Validée', 'Terminée')
+                GROUP BY date_trunc('month', missions.created_at), year, month
+                ORDER BY date_trunc('month', missions.created_at) ASC
+            ", [
+            'department' => $this->department ? '%'.$this->department.'%' : '%%',
+        ]);
+
+        $collection = collect($results);
+
+        for ($year = $this->startYear; $year <= $this->endYear; $year++) {
+            for ($month = 1; $month < 13; $month++) {
+                $item = $collection->where('year', $year)->where('month', $month)->first();
+                $items[$year][] = $item ? $item->count : 0;
+            }
+        }
+
+        return $items;
+    }
 
     public function globalParticipations(Request $request)
     {
@@ -597,114 +657,114 @@ class StatisticsPublicController extends Controller
     //     ];
     // }
 
-    // public function missionsByStates(Request $request)
-    // {
-    //     return [
-    //         'draft' => Mission::role($request->header('Context-Role'))->where('state', 'Brouillon')->when(
-    //             $this->department, function ($query) {
-    //                 $query->where('department', $this->department);
-    //             }
-    //         )
-    //         ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-    //         'waiting' => Mission::role($request->header('Context-Role'))->where('state', 'En attente de validation')->when(
-    //             $this->department, function ($query) {
-    //                 $query->where('department', $this->department);
-    //             }
-    //         )
-    //         ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-    //         'in_progress' => Mission::role($request->header('Context-Role'))->where('state', 'En cours de traitement')->when(
-    //             $this->department, function ($query) {
-    //                 $query->where('department', $this->department);
-    //             }
-    //         )
-    //         ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-    //         'validated' => Mission::role($request->header('Context-Role'))->where('state', 'Validée')->when(
-    //             $this->department, function ($query) {
-    //                 $query->where('department', $this->department);
-    //             }
-    //         )
-    //         ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-    //         'finished' => Mission::role($request->header('Context-Role'))->where('state', 'Terminée')->when(
-    //             $this->department, function ($query) {
-    //                 $query->where('department', $this->department);
-    //             }
-    //         )
-    //         ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-    //         'canceled' => Mission::role($request->header('Context-Role'))->where('state', 'Annulée')->when(
-    //             $this->department, function ($query) {
-    //                 $query->where('department', $this->department);
-    //             }
-    //         )
-    //         ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-    //         'signaled' => Mission::role($request->header('Context-Role'))->where('state', 'Signalée')->when(
-    //             $this->department, function ($query) {
-    //                 $query->where('department', $this->department);
-    //             }
-    //         )
-    //         ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-    //     ];
-    // }
+    public function missionsByStates(Request $request)
+    {
+        return [
+            'draft' => Mission::where('state', 'Brouillon')->when(
+                $this->department, function ($query) {
+                    $query->where('department', $this->department);
+                }
+            )
+            ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'waiting' => Mission::where('state', 'En attente de validation')->when(
+                $this->department, function ($query) {
+                    $query->where('department', $this->department);
+                }
+            )
+            ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'in_progress' => Mission::where('state', 'En cours de traitement')->when(
+                $this->department, function ($query) {
+                    $query->where('department', $this->department);
+                }
+            )
+            ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'validated' => Mission::where('state', 'Validée')->when(
+                $this->department, function ($query) {
+                    $query->where('department', $this->department);
+                }
+            )
+            ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'finished' => Mission::where('state', 'Terminée')->when(
+                $this->department, function ($query) {
+                    $query->where('department', $this->department);
+                }
+            )
+            ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'canceled' => Mission::where('state', 'Annulée')->when(
+                $this->department, function ($query) {
+                    $query->where('department', $this->department);
+                }
+            )
+            ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'signaled' => Mission::where('state', 'Signalée')->when(
+                $this->department, function ($query) {
+                    $query->where('department', $this->department);
+                }
+            )
+            ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+        ];
+    }
 
-    // public function missionsByTypes(Request $request)
-    // {
-    //     return [
-    //         'presentiels' => Mission::role($request->header('Context-Role'))->whereIn('state', ['Validée', 'Terminée'])->where('type', 'Mission en présentiel')->when(
-    //             $this->department, function ($query) {
-    //                 $query->where('department', $this->department);
-    //             }
-    //         )
-    //         ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-    //         'distances' => Mission::role($request->header('Context-Role'))->whereIn('state', ['Validée', 'Terminée'])->where('type', 'Mission à distance')->when(
-    //             $this->department, function ($query) {
-    //                 $query->where('department', $this->department);
-    //             }
-    //         )
-    //         ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-    //     ];
-    // }
+    public function missionsByTypes(Request $request)
+    {
+        return [
+            'presentiels' => Mission::whereIn('state', ['Validée', 'Terminée'])->where('type', 'Mission en présentiel')->when(
+                $this->department, function ($query) {
+                    $query->where('department', $this->department);
+                }
+            )
+            ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'distances' => Mission::whereIn('state', ['Validée', 'Terminée'])->where('type', 'Mission à distance')->when(
+                $this->department, function ($query) {
+                    $query->where('department', $this->department);
+                }
+            )
+            ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+        ];
+    }
 
-    // public function missionsByTemplateTypes(Request $request)
-    // {
-    //     return [
-    //         'with_template' => Mission::role($request->header('Context-Role'))->whereIn('state', ['Validée', 'Terminée'])->whereNotNull('template_id')->when(
-    //             $this->department, function ($query) {
-    //                 $query->where('department', $this->department);
-    //             }
-    //         )
-    //         ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-    //         'without_template' => Mission::role($request->header('Context-Role'))->whereIn('state', ['Validée', 'Terminée'])->whereNull('template_id')->when(
-    //             $this->department, function ($query) {
-    //                 $query->where('department', $this->department);
-    //             }
-    //         )
-    //         ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-    //     ];
-    // }
+    public function missionsByTemplateTypes(Request $request)
+    {
+        return [
+            'with_template' => Mission::whereIn('state', ['Validée', 'Terminée'])->whereNotNull('template_id')->when(
+                $this->department, function ($query) {
+                    $query->where('department', $this->department);
+                }
+            )
+            ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'without_template' => Mission::whereIn('state', ['Validée', 'Terminée'])->whereNull('template_id')->when(
+                $this->department, function ($query) {
+                    $query->where('department', $this->department);
+                }
+            )
+            ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+        ];
+    }
 
-    // public function missionsByOrganisations(Request $request)
-    // {
-    //     $results = DB::select(
-    //         "
-    //             SELECT structures.name, structures.id, COUNT(*) AS count FROM missions
-    //             LEFT JOIN structures ON structures.id = missions.structure_id
-    //             WHERE missions.deleted_at IS NULL
-    //             AND COALESCE(missions.department,'') ILIKE :department
-    //             AND missions.deleted_at IS NULL
-    //             AND missions.state IN ('Validée', 'Terminée')
-    //             AND structures.name IS NOT NULL
-    //             AND missions.created_at BETWEEN :start and :end
-    //             GROUP BY structures.name, structures.id
-    //             ORDER BY count DESC
-    //             LIMIT 5
-    //         ", [
-    //             'department' => $this->department ? '%'.$this->department.'%' : '%%',
-    //             'start' => $this->startDate,
-    //             'end' => $this->endDate,
-    //         ]
-    //     );
+    public function missionsByOrganisations(Request $request)
+    {
+        $results = DB::select(
+            "
+                SELECT structures.name, structures.id, COUNT(*) AS count FROM missions
+                LEFT JOIN structures ON structures.id = missions.structure_id
+                WHERE missions.deleted_at IS NULL
+                AND COALESCE(missions.department,'') ILIKE :department
+                AND missions.deleted_at IS NULL
+                AND missions.state IN ('Validée', 'Terminée')
+                AND structures.name IS NOT NULL
+                AND missions.created_at BETWEEN :start and :end
+                GROUP BY structures.name, structures.id
+                ORDER BY count DESC
+                LIMIT 5
+            ", [
+                'department' => $this->department ? '%'.$this->department.'%' : '%%',
+                'start' => $this->startDate,
+                'end' => $this->endDate,
+            ]
+        );
 
-    //     return $results;
-    // }
+        return $results;
+    }
 
     public function participationsByActivities(Request $request)
     {
@@ -830,102 +890,102 @@ class StatisticsPublicController extends Controller
         return $results;
     }
 
-    // public function missionsByActivities(Request $request)
-    // {
-    //     $results = DB::select(
-    //         "
-    //             SELECT activities.name, activities.id, COUNT(*) AS count FROM missions
-    //             LEFT JOIN mission_templates ON mission_templates.id = missions.template_id
-    //             LEFT JOIN activities ON activities.id = mission_templates.activity_id OR activities.id = missions.activity_id
-    //             WHERE missions.deleted_at IS NULL
-    //             AND missions.created_at BETWEEN :start and :end
-    //             AND missions.state IN ('Validée', 'Terminée')
-    //             AND COALESCE(missions.department,'') ILIKE :department
-    //             AND activities.name IS NOT NULL
-    //             GROUP BY activities.name, activities.id
-    //             ORDER BY count DESC
-    //             LIMIT 5
-    //         ", [
-    //             'department' => $this->department ? '%'.$this->department.'%' : '%%',
-    //             'start' => $this->startDate,
-    //             'end' => $this->endDate,
-    //         ]
-    //     );
+    public function missionsByActivities(Request $request)
+    {
+        $results = DB::select(
+            "
+                SELECT activities.name, activities.id, COUNT(*) AS count FROM missions
+                LEFT JOIN mission_templates ON mission_templates.id = missions.template_id
+                LEFT JOIN activities ON activities.id = mission_templates.activity_id OR activities.id = missions.activity_id
+                WHERE missions.deleted_at IS NULL
+                AND missions.created_at BETWEEN :start and :end
+                AND missions.state IN ('Validée', 'Terminée')
+                AND COALESCE(missions.department,'') ILIKE :department
+                AND activities.name IS NOT NULL
+                GROUP BY activities.name, activities.id
+                ORDER BY count DESC
+                LIMIT 5
+            ", [
+                'department' => $this->department ? '%'.$this->department.'%' : '%%',
+                'start' => $this->startDate,
+                'end' => $this->endDate,
+            ]
+        );
 
-    //     return $results;
-    // }
+        return $results;
+    }
 
-    // public function missionsByDomaines(Request $request)
-    // {
-    //     $results = DB::select(
-    //         "
-    //             SELECT domaines.name, domaines.id, COUNT(*) AS count
-    //             FROM missions
-    //             LEFT JOIN mission_templates ON mission_templates.id = missions.template_id
-    //             LEFT JOIN domaines ON domaines.id = mission_templates.domaine_id OR domaines.id = missions.domaine_id OR domaines.id = missions.domaine_secondary_id OR domaines.id = mission_templates.domaine_secondary_id
-    //             WHERE missions.deleted_at IS NULL
-    //             AND missions.state IN ('Validée', 'Terminée')
-    //             AND COALESCE(missions.department,'') ILIKE :department
-    //             AND missions.created_at BETWEEN :start and :end
-    //             GROUP BY domaines.name, domaines.id
-    //             ORDER BY count DESC
-    //         ", [
-    //             'department' => $this->department ? '%'.$this->department.'%' : '%%',
-    //             'start' => $this->startDate,
-    //             'end' => $this->endDate,
-    //         ]
-    //     );
+    public function missionsByDomaines(Request $request)
+    {
+        $results = DB::select(
+            "
+                SELECT domaines.name, domaines.id, COUNT(*) AS count
+                FROM missions
+                LEFT JOIN mission_templates ON mission_templates.id = missions.template_id
+                LEFT JOIN domaines ON domaines.id = mission_templates.domaine_id OR domaines.id = missions.domaine_id OR domaines.id = missions.domaine_secondary_id OR domaines.id = mission_templates.domaine_secondary_id
+                WHERE missions.deleted_at IS NULL
+                AND missions.state IN ('Validée', 'Terminée')
+                AND COALESCE(missions.department,'') ILIKE :department
+                AND missions.created_at BETWEEN :start and :end
+                GROUP BY domaines.name, domaines.id
+                ORDER BY count DESC
+            ", [
+                'department' => $this->department ? '%'.$this->department.'%' : '%%',
+                'start' => $this->startDate,
+                'end' => $this->endDate,
+            ]
+        );
 
-    //     return $results;
-    // }
+        return $results;
+    }
 
-    // public function missionsByTemplates(Request $request)
-    // {
-    //     $results = DB::select(
-    //         "
-    //             SELECT mission_templates.title, mission_templates.id, COUNT(*) AS count FROM missions
-    //             LEFT JOIN mission_templates ON mission_templates.id = missions.template_id
-    //             WHERE missions.deleted_at IS NULL
-    //             AND missions.deleted_at IS NULL
-    //             AND missions.state IN ('Validée', 'Terminée')
-    //             AND COALESCE(missions.department,'') ILIKE :department
-    //             AND mission_templates.title IS NOT NULL
-    //             AND missions.created_at BETWEEN :start and :end
-    //             GROUP BY mission_templates.title, mission_templates.id
-    //             ORDER BY count DESC
-    //             LIMIT 5
-    //         ", [
-    //             'department' => $this->department ? '%'.$this->department.'%' : '%%',
-    //             'start' => $this->startDate,
-    //             'end' => $this->endDate,
-    //         ]
-    //     );
+    public function missionsByTemplates(Request $request)
+    {
+        $results = DB::select(
+            "
+                SELECT mission_templates.title, mission_templates.id, COUNT(*) AS count FROM missions
+                LEFT JOIN mission_templates ON mission_templates.id = missions.template_id
+                WHERE missions.deleted_at IS NULL
+                AND missions.deleted_at IS NULL
+                AND missions.state IN ('Validée', 'Terminée')
+                AND COALESCE(missions.department,'') ILIKE :department
+                AND mission_templates.title IS NOT NULL
+                AND missions.created_at BETWEEN :start and :end
+                GROUP BY mission_templates.title, mission_templates.id
+                ORDER BY count DESC
+                LIMIT 5
+            ", [
+                'department' => $this->department ? '%'.$this->department.'%' : '%%',
+                'start' => $this->startDate,
+                'end' => $this->endDate,
+            ]
+        );
 
-    //     return $results;
-    // }
+        return $results;
+    }
 
-    // public function organisationsByDomaines(Request $request)
-    // {
-    //     $results = DB::select(
-    //         "
-    //             SELECT domaines.name, domaines.id, COUNT(*) AS count FROM structures
-    //             LEFT JOIN domainables ON domainables.domainable_id = structures.id AND domainables.domainable_type = 'App\Models\Structure'
-    //             LEFT JOIN domaines ON domaines.id = domainables.domaine_id
-    //             WHERE structures.deleted_at IS NULL
-    //             AND COALESCE(structures.department,'') ILIKE :department
-    //             AND structures.state IN ('Validée')
-    //             AND structures.created_at BETWEEN :start and :end
-    //             GROUP BY domaines.name, domaines.id
-    //             ORDER BY count DESC
-    //         ", [
-    //             'department' => $this->department ? '%'.$this->department.'%' : '%%',
-    //             'start' => $this->startDate,
-    //             'end' => $this->endDate,
-    //         ]
-    //     );
+    public function organisationsByDomaines(Request $request)
+    {
+        $results = DB::select(
+            "
+                SELECT domaines.name, domaines.id, COUNT(*) AS count FROM structures
+                LEFT JOIN domainables ON domainables.domainable_id = structures.id AND domainables.domainable_type = 'App\Models\Structure'
+                LEFT JOIN domaines ON domaines.id = domainables.domaine_id
+                WHERE structures.deleted_at IS NULL
+                AND COALESCE(structures.department,'') ILIKE :department
+                AND structures.state IN ('Validée')
+                AND structures.created_at BETWEEN :start and :end
+                GROUP BY domaines.name, domaines.id
+                ORDER BY count DESC
+            ", [
+                'department' => $this->department ? '%'.$this->department.'%' : '%%',
+                'start' => $this->startDate,
+                'end' => $this->endDate,
+            ]
+        );
 
-    //     return $results;
-    // }
+        return $results;
+    }
 
     public function utilisateursByDomaines(Request $request)
     {
@@ -1263,56 +1323,56 @@ class StatisticsPublicController extends Controller
         ];
     }
 
-    // public function participationsRefusedByResponsables(Request $request)
-    // {
-    //     return [
-    //         'no_response' => Message::role($request->header('Context-Role'))->where('contextual_state', 'Refusée')->where('contextual_reason', 'no_response')->when(
-    //             $this->department, function ($query) {
-    //                 $query->whereHas(
-    //                     'conversation.conversable', function (Builder $query) {
-    //                         $query->department($this->department);
-    //                     }
-    //                 );
-    //             }
-    //         )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-    //         'requirements_not_fulfilled' => Message::role($request->header('Context-Role'))->where('contextual_state', 'Refusée')->where('contextual_reason', 'requirements_not_fulfilled')->when(
-    //             $this->department, function ($query) {
-    //                 $query->whereHas(
-    //                     'conversation.conversable', function (Builder $query) {
-    //                         $query->department($this->department);
-    //                     }
-    //                 );
-    //             }
-    //         )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-    //         'mission_terminated' => Message::role($request->header('Context-Role'))->where('contextual_state', 'Refusée')->where('contextual_reason', 'mission_terminated')->when(
-    //             $this->department, function ($query) {
-    //                 $query->whereHas(
-    //                     'conversation.conversable', function (Builder $query) {
-    //                         $query->department($this->department);
-    //                     }
-    //                 );
-    //             }
-    //         )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-    //         'change_mind' => Message::role($request->header('Context-Role'))->where('contextual_state', 'Refusée')->where('contextual_reason', 'change_mind')->when(
-    //             $this->department, function ($query) {
-    //                 $query->whereHas(
-    //                     'conversation.conversable', function (Builder $query) {
-    //                         $query->department($this->department);
-    //                     }
-    //                 );
-    //             }
-    //         )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-    //         'other' => Message::role($request->header('Context-Role'))->where('contextual_state', 'Refusée')->where('contextual_reason', 'other')->when(
-    //             $this->department, function ($query) {
-    //                 $query->whereHas(
-    //                     'conversation.conversable', function (Builder $query) {
-    //                         $query->department($this->department);
-    //                     }
-    //                 );
-    //             }
-    //         )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-    //     ];
-    // }
+    public function participationsRefusedByResponsables(Request $request)
+    {
+        return [
+            'no_response' => Message::where('contextual_state', 'Refusée')->where('contextual_reason', 'no_response')->when(
+                $this->department, function ($query) {
+                    $query->whereHas(
+                        'conversation.conversable', function (Builder $query) {
+                            $query->department($this->department);
+                        }
+                    );
+                }
+            )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'requirements_not_fulfilled' => Message::where('contextual_state', 'Refusée')->where('contextual_reason', 'requirements_not_fulfilled')->when(
+                $this->department, function ($query) {
+                    $query->whereHas(
+                        'conversation.conversable', function (Builder $query) {
+                            $query->department($this->department);
+                        }
+                    );
+                }
+            )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'mission_terminated' => Message::where('contextual_state', 'Refusée')->where('contextual_reason', 'mission_terminated')->when(
+                $this->department, function ($query) {
+                    $query->whereHas(
+                        'conversation.conversable', function (Builder $query) {
+                            $query->department($this->department);
+                        }
+                    );
+                }
+            )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'change_mind' => Message::where('contextual_state', 'Refusée')->where('contextual_reason', 'change_mind')->when(
+                $this->department, function ($query) {
+                    $query->whereHas(
+                        'conversation.conversable', function (Builder $query) {
+                            $query->department($this->department);
+                        }
+                    );
+                }
+            )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'other' => Message::where('contextual_state', 'Refusée')->where('contextual_reason', 'other')->when(
+                $this->department, function ($query) {
+                    $query->whereHas(
+                        'conversation.conversable', function (Builder $query) {
+                            $query->department($this->department);
+                        }
+                    );
+                }
+            )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+        ];
+    }
 
     public function participationsDelaysByRegistrations(Request $request)
     {

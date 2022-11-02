@@ -400,10 +400,29 @@ Route::group(['prefix' => '/statistics/public'], function () {
     Route::get('/participations-by-organisations', 'Api\StatisticsPublicController@participationsByOrganisations');
     Route::get('/participations-canceled-by-benevoles', 'Api\StatisticsPublicController@participationsCanceledByBenevoles');
     Route::get('/participations-delays-by-registrations', 'Api\StatisticsPublicController@participationsDelaysByRegistrations');
+    Route::get('/participations-refused-by-responsables', 'Api\StatisticsPublicController@participationsRefusedByResponsables');
 
     Route::get('/global/utilisateurs', 'Api\StatisticsPublicController@globalUtilisateurs');
     Route::get('/utilisateurs-by-date', 'Api\StatisticsPublicController@utilisateursByDate');
     Route::get('/utilisateurs-by-domaines', 'Api\StatisticsPublicController@utilisateursByDomaines');
+
+    Route::get('/global/organisations', 'Api\StatisticsPublicController@globalOrganisations');
+    Route::get('/organisations-by-date', 'Api\StatisticsPublicController@organisationsByDate');
+    Route::get('/organisations-by-states', 'Api\StatisticsPublicController@organisationsByStates');
+    Route::get('/organisations-by-types', 'Api\StatisticsPublicController@organisationsByTypes');
+    Route::get('/organisations-by-domaines', 'Api\StatisticsPublicController@organisationsByDomaines');
+    Route::get('/organisations-by-reseaux', 'Api\StatisticsPublicController@organisationsByReseaux');
+
+    Route::get('/global/missions', 'Api\StatisticsPublicController@globalMissions');
+    Route::get('/missions-by-date', 'Api\StatisticsPublicController@missionsByDate');
+    Route::get('/missions-by-states', 'Api\StatisticsPublicController@missionsByStates');
+    Route::get('/missions-by-types', 'Api\StatisticsPublicController@missionsByTypes');
+    Route::get('/missions-by-activities', 'Api\StatisticsPublicController@missionsByActivities');
+    Route::get('/missions-by-templates', 'Api\StatisticsPublicController@missionsByTemplates');
+    Route::get('/missions-by-domaines', 'Api\StatisticsPublicController@missionsByDomaines');
+    Route::get('/missions-by-organisations', 'Api\StatisticsPublicController@missionsByOrganisations');
+    Route::get('/missions-by-reseaux', 'Api\StatisticsPublicController@missionsByReseaux');
+    Route::get('/missions-by-template-types', 'Api\StatisticsPublicController@missionsByTemplateTypes');
 
 
 
