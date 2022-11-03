@@ -191,7 +191,7 @@ class ParticipationController extends Controller
 
     public function benevole(ParticipationManageRequest $request, Participation $participation)
     {
-        return $participation->profile->append('roles', 'has_user', 'domaines');
+        return $participation->profile->load('user.roles')->append('has_user', 'domaines');
     }
 
     // public function mission(Request $request, Participation $participation)

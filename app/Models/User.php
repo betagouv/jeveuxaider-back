@@ -39,67 +39,6 @@ class User extends Authenticatable
         $this->attributes['email'] = mb_strtolower($value);
     }
 
-    public function getRolesAttribute()
-    {
-        $roles = [];
-
-        // Todo return map roles plutôt que suite de if
-
-        if ($this->hasRole('admin')) {
-            $roles[] = [
-                'key' => 'admin',
-                'label' => 'Modérateur',
-            ];
-        }
-
-        if ($this->hasRole('responsable')) {
-            foreach ($this->structures as $structure) {
-                $roles[] = [
-                    'key' => 'responsable',
-                    'contextable_type' => 'structure',
-                    'contextable_id' => $structure->id,
-                    'label' => $structure->name,
-                ];
-            }
-        }
-
-        if ($this->hasRole('referent')) {
-            $roles[] = [
-                'key' => 'referent',
-                'label' => $this->departmentsAsReferent()->get()->first()->name,
-            ];
-        }
-
-        if ($this->hasRole('referent_regional')) {
-            $roles[] = [
-                'key' => 'referent_regional',
-                'label' => $this->regionsAsReferent()->get()->first()->name,
-            ];
-        }
-
-        if ($this->hasRole('tete_de_reseau')) {
-            $reseau = $this->reseaux()->get()->first();
-            $roles[] = [
-                'key' => 'tete_de_reseau',
-                'contextable_type' => 'reseau',
-                'contextable_id' => $reseau->id,
-                'label' => $reseau->name,
-            ];
-        }
-
-        if ($this->hasRole('responsable_territoire')) {
-            $territoire = $this->territoires()->get()->first();
-            $roles[] = [
-                'key' => 'responsable_territoire',
-                'contextable_type' => 'territoire',
-                'contextable_id' => $territoire->id,
-                'label' => $territoire->name,
-            ];
-        }
-
-        return $roles;
-    }
-
     public function profile()
     {
         return $this->hasOne('App\Models\Profile');

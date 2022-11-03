@@ -30,13 +30,9 @@ class HasContextRoleHeader
             return new Response("Missing or wrong 'Context-Role' header", 401);
         }
 
-        if (array_search($request->header('Context-Role'), array_column($request->user()->roles, 'key')) === false) {
+        if (! $request->user()->roles()->pluck('name')->contains($request->header('Context-Role'))) {
             return new Response("Missing or wrong 'Context-Role' header", 401);
         }
-
-        // if ($request->user()->profiles->roles[$request->header('Context-Role')] !== true) {
-        //     return new Response("Missing or wrong 'Context-Role' header", 401);
-        // }
 
         return $next($request);
     }

@@ -73,13 +73,13 @@ class CreateRoles extends Command
             return;
         }
 
-        $usersAdmin = User::with('newRoles')->where('old_is_admin', true)->get();
+        $usersAdmin = User::with('roles')->where('old_is_admin', true)->get();
         $usersAdmin->each(function ($user) {
             $user->assignRole('admin');
         });
         $this->info('Role admin assigned to '.$usersAdmin->count().' users');
 
-        $profilesResponsable = Profile::with('user.newRoles', 'oldStructures')->whereHas('oldStructures')->get();
+        $profilesResponsable = Profile::with('user.roles', 'oldStructures')->whereHas('oldStructures')->get();
         $profilesResponsable->each(function ($profile) {
             foreach ($profile->oldStructures as $structure) {
                 $profile->user->assignRole('responsable', $structure, $structure->pivot->fonction);
@@ -87,25 +87,25 @@ class CreateRoles extends Command
         });
         $this->info('Role responsable assigned to '.$profilesResponsable->count().' users');
 
-        $profilesReferent = Profile::with('user.newRoles')->whereNotNull('old_referent_department')->get();
+        $profilesReferent = Profile::with('user.roles')->whereNotNull('old_referent_department')->get();
         $profilesReferent->each(function ($profile) {
             $profile->user->assignRole('referent', Department::whereNumber($profile->old_referent_department)->get()->first());
         });
         $this->info('Role referent assigned to '.$profilesReferent->count().' users');
 
-        $profilesReferentRegional = Profile::with('user.newRoles')->whereNotNull('old_referent_region')->get();
+        $profilesReferentRegional = Profile::with('user.roles')->whereNotNull('old_referent_region')->get();
         $profilesReferentRegional->each(function ($profile) {
             $profile->user->assignRole('referent_regional', Region::whereName($profile->old_referent_region)->get()->first());
         });
         $this->info('Role referent régionnal assigned to '.$profilesReferentRegional->count().' users');
 
-        $profilesTeteDeReseau = Profile::with('user.newRoles', 'oldReseau')->whereHas('oldReseau')->get();
+        $profilesTeteDeReseau = Profile::with('user.roles', 'oldReseau')->whereHas('oldReseau')->get();
         $profilesTeteDeReseau->each(function ($profile) {
             $profile->user->assignRole('tete_de_reseau', $profile->oldReseau);
         });
         $this->info('Role tête de réseau assigned to '.$profilesTeteDeReseau->count().' users');
 
-        $profilesResponsableTerritoire = Profile::with('user.newRoles', 'oldTerritoires')->whereHas('oldTerritoires')->get();
+        $profilesResponsableTerritoire = Profile::with('user.roles', 'oldTerritoires')->whereHas('oldTerritoires')->get();
         $profilesResponsableTerritoire->each(function ($profile) {
             foreach ($profile->oldTerritoires as $territoire) {
                 $profile->user->assignRole('responsable_territoire', $territoire);

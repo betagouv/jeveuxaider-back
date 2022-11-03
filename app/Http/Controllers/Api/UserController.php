@@ -19,8 +19,13 @@ class UserController extends Controller
 {
     public function me(Request $request)
     {
-        $user = User::with('profile', 'profile.avatar', 'profile.skills', 'profile.domaines', 'reseaux', 'profile.activities')->find(Auth::guard('api')->user()->id);
-        $user->append(['roles', 'statistics']);
+        $user = User::with('profile', 'profile.avatar', 'profile.skills', 'profile.domaines', 'reseaux', 'profile.activities', 'roles')->find(Auth::guard('api')->user()->id);
+        $user->append(['statistics']);
+        foreach ($user->roles as $key => $role) {
+            if (isset($role['pivot']['rolable_type'])) {
+                $user->roles[$key]['pivot_model'] = $role['pivot']['rolable_type']::find($role['pivot']['rolable_id']);
+            }
+        }
 
         return $user;
     }
@@ -69,8 +74,7 @@ class UserController extends Controller
 
         $user->update($request->all());
 
-        $user->load('profile', 'profile.media', 'profile.skills', 'profile.domaines');
-        $user->append(['roles']);
+        $user->load('profile', 'profile.media', 'profile.skills', 'profile.domaines', 'roles');
 
         return $user;
     }

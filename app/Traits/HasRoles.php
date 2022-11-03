@@ -8,23 +8,23 @@ use Illuminate\Support\Arr;
 
 trait HasRoles
 {
-    public function newRoles()
+    public function roles()
     {
         return $this->belongsToMany(Role::class, 'rolables')->withPivot('rolable_type', 'rolable_id');
     }
 
     public function assignRole($roleName, $rolable = null, $fonction = null)
     {
-        if($this->hasRole($roleName)) {
+        if ($this->hasRole($roleName)) {
             return false;
         }
-        
+
         $role = Role::firstWhere('name', $roleName);
 
-        $this->newRoles()->attach($role, [
-            'rolable_type' => $rolable ? $rolable::class : NULL,
-            'rolable_id' => $rolable ? $rolable->id : NULL,
-            'fonction' => $fonction
+        $this->roles()->attach($role, [
+            'rolable_type' => $rolable ? $rolable::class : null,
+            'rolable_id' => $rolable ? $rolable->id : null,
+            'fonction' => $fonction,
         ]);
 
         return $this;
@@ -34,19 +34,18 @@ trait HasRoles
     {
         $role = Role::firstWhere('name', $roleName);
 
-        $this->newRoles()->detach($role);
+        $this->roles()->detach($role);
     }
 
     public function hasRole($roles)
     {
         if (is_string($roles)) {
-            return $this->newRoles->contains('name', $roles);
+            return $this->roles->contains('name', $roles);
         }
 
         if ($roles instanceof Role) {
-            return $this->newRoles->contains('name', $roles->name);
+            return $this->roles->contains('name', $roles->name);
         }
-
 
         if (is_array($roles)) {
             foreach ($roles as $role) {
@@ -69,7 +68,7 @@ trait HasRoles
             return Role::where('name', $role)->get()->first();
         }, Arr::wrap($roles));
 
-        return $query->whereHas('newRoles', function (Builder $subQuery) use ($roles) {
+        return $query->whereHas('roles', function (Builder $subQuery) use ($roles) {
             $subQuery->whereIn('name', array_column($roles, 'name'));
         });
     }
