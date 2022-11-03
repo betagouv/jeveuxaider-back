@@ -87,16 +87,14 @@ class User extends Authenticatable
             ];
         }
 
-        $territoires = $this->profile->territoires;
-        if ($territoires) {
-            foreach ($territoires as $territoire) {
-                $roles[] = [
-                    'key' => 'responsable_territoire',
-                    'contextable_type' => 'territoire',
-                    'contextable_id' => $territoire->id,
-                    'label' => $territoire->name,
-                ];
-            }
+        if ($this->hasRole('responsable_territoire')) {
+            $territoire = $this->territoires()->get()->first();
+            $roles[] = [
+                'key' => 'responsable_territoire',
+                'contextable_type' => 'territoire',
+                'contextable_id' => $territoire->id,
+                'label' => $territoire->name,
+            ];
         }
 
         return $roles;
@@ -145,6 +143,11 @@ class User extends Authenticatable
     public function reseaux()
     {
         return $this->morphedByMany(Reseau::class, 'rolable', 'rolables');
+    }
+
+    public function territoires()
+    {
+        return $this->morphedByMany(Territoire::class, 'rolable', 'rolables');
     }
 
     public function messages()

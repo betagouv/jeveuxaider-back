@@ -91,11 +91,11 @@ class Invitation extends Model
         if ($user) {
             // RESPONSABLE ORGANISATION
             if ($this->role == 'responsable_organisation') {
-                $this->invitable->addMember($user, 'responsable');
+                $this->invitable->addMember($user);
             }
             // RESPONSABLE TERRITOIRE
             if ($this->role == 'responsable_territoire') {
-                $this->invitable->addResponsable($user->profile);
+                $this->invitable->addResponsable($user);
             }
             // RESPONSABLE RESEAU
             if ($this->role == 'responsable_reseau') {

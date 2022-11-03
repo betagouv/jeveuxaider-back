@@ -11,6 +11,7 @@ use App\Models\Mission;
 use App\Models\Participation;
 use App\Models\Profile;
 use App\Models\Territoire;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -46,7 +47,7 @@ class TerritoireController extends Controller
     public function show($slugOrId)
     {
         $territoire = (is_numeric($slugOrId))
-            ? Territoire::where('id', $slugOrId)->with(['responsables.tags', 'banner', 'logo', 'promotedOrganisations'])->firstOrFail()->append(['missing_fields', 'completion_rate'])
+            ? Territoire::where('id', $slugOrId)->with(['responsables.profile.tags', 'banner', 'logo', 'promotedOrganisations'])->firstOrFail()->append(['missing_fields', 'completion_rate'])
             : Territoire::where('slug', $slugOrId)->with(['banner', 'logo', 'promotedOrganisations'])->firstOrFail();
 
         return $territoire;
@@ -88,14 +89,14 @@ class TerritoireController extends Controller
 
     public function addResponsable(AddResponsableRequest $request, Territoire $territoire)
     {
-        $profile = Profile::whereEmail($request->input('email'))->first();
+        $user = User::whereEmail($request->input('email'))->first();
 
-        if ($profile->territoires()->where('id', $territoire->id)->first()) {
+        if ($user->territoires()->where('id', $territoire->id)->first()) {
             abort(422, 'Cet email est déjà rattaché à ce territoire');
         }
 
-        $territoire->addResponsable($profile);
-        $profile->user->resetContextRole();
+        $territoire->addResponsable($user);
+        $user->resetContextRole();
 
         return $territoire->responsables;
     }

@@ -54,6 +54,8 @@ return new class extends Migration
             $table->string('fonction')->nullable();
             $table->unique(['role_id', 'user_id', 'rolable_type', 'rolable_id']);
         });
+
+        Schema::rename('profile_territoire', 'old_profile_territoire');
     }
 
     /**
@@ -78,5 +80,7 @@ return new class extends Migration
         Schema::dropIfExists('roles');
         Schema::dropIfExists('departments');
         Schema::dropIfExists('regions');
+
+        Schema::rename('old_profile_territoire', 'profile_territoire');
     }
 };

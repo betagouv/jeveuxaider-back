@@ -250,9 +250,9 @@ class Profile extends Model implements HasMedia
             ->withPivot('role');
     }
 
-    public function territoires()
+    public function oldTerritoires()
     {
-        return $this->belongsToMany('App\Models\Territoire')->orderBy('name', 'ASC');
+        return $this->belongsToMany('App\Models\Territoire', 'old_profile_territoire')->orderBy('name', 'ASC');
     }
 
     public function structureAsResponsable()
