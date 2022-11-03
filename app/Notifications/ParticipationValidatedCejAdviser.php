@@ -57,13 +57,13 @@ class ParticipationValidatedCejAdviser extends Notification implements ShouldQue
     public function toMail($notifiable)
     {
         $message = (new MailMessage)
-            ->subject($this->participation->profile->full_name.' s’est inscrit sur une mission de bénévolat')
+            ->subject($this->participation->profile->full_name . ' s’est inscrit sur une mission de bénévolat')
             ->greeting('Bonjour,')
-            ->line(new HtmlString($this->participation->profile->full_name.', que vous accompagnez dans le cadre du Contrat d’Engagement Jeune, s’est inscrit sur la mission <a href="'.url(config('app.front_url').$this->participation->mission->full_url).'">'.$this->participation->mission->name.'</a>.'))
+            ->line(new HtmlString($this->participation->profile->full_name . ', que vous accompagnez dans le cadre du Contrat d’Engagement Jeune, s’est inscrit sur la mission <a href="' . url(config('app.front_url') . $this->participation->mission->full_url) . '">' . $this->participation->mission->name . '</a>.'))
             ->line('En cas de besoin, vous pouvez consulter les ressources mises à votre disposition :')
             ->line(new HtmlString('<ul><li><a href="https://www.jeveuxaider.gouv.fr/engagement/wp-content/uploads/GUIDE-CEJ-Mise-a-jour-Septembre-2022.pdf">👉 Le Guide</a></li>'))
-            ->line(new HtmlString('<ul><li><a href="https://www.jeveuxaider.gouv.fr/engagement/wp-content/uploads/Presentation-CEJ-A4-Synthetique-Mise-a-jour-Septembre-2022.pdf">👉 La Fiche récapitulative</a></li>'))
-            ->line(new HtmlString('<ul><li><a href="https://vimeo.com/750348414">👉 La vidéo de présentation de JeVeuxAider.gouv.fr</a></li></ul>'))
+            ->line(new HtmlString('<li><a href="https://www.jeveuxaider.gouv.fr/engagement/wp-content/uploads/Presentation-CEJ-A4-Synthetique-Mise-a-jour-Septembre-2022.pdf">👉 La Fiche récapitulative</a></li>'))
+            ->line(new HtmlString('<li><a href="https://vimeo.com/750348414">👉 La vidéo de présentation de JeVeuxAider.gouv.fr</a></li></ul>'))
             ->line('Pour toute question, vous pouvez également contacter notre équipe par retour de mail.');
 
         return $message;
