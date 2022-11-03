@@ -532,27 +532,25 @@ class StatisticsPublicController extends Controller
         return $items;
     }
 
-    // public function globalPlaces(Request $request)
-    // {
-    //     $missionsAvailable = Mission::role($request->header('Context-Role'))
-    //         ->when(
-    //             $this->department, function ($query) {
-    //                 $query->where('department', $this->department);
-    //             }
-    //         )
-    //         ->available()
-    //         ->get();
+    public function globalPlaces(Request $request)
+    {
+        $missionsAvailable = Mission::when(
+                $this->department, function ($query) {
+                    $query->where('department', $this->department);
+                }
+            )
+            ->available()
+            ->get();
 
-    //     $placesLeft = $missionsAvailable->sum('places_left');
-    //     $placesOffered = $missionsAvailable->sum('participations_max');
+        $placesLeft = $missionsAvailable->sum('places_left');
+        $placesOffered = $missionsAvailable->sum('participations_max');
 
-    //     return [
-    //         'missions_available' => $missionsAvailable->count(),
-    //         'places' => $placesOffered,
-    //         'places_left' => $placesLeft,
-    //         'places_occupation_rate' => $placesOffered ? round((($placesOffered - $placesLeft) / $placesOffered) * 100) : 0,
-    //     ];
-    // }
+        return [
+            'missions_available' => $missionsAvailable->count(),
+            'places' => $placesOffered,
+            'places_left' => $placesLeft,
+        ];
+    }
 
     public function globalUtilisateurs(Request $request)
     {
@@ -620,42 +618,6 @@ class StatisticsPublicController extends Controller
 
         return $items;
     }
-
-    // public function participationsByStates(Request $request)
-    // {
-    //     return [
-    //         'waiting' => Participation::role($request->header('Context-Role'))->where('state', 'En attente de validation')->when(
-    //             $this->department, function ($query) {
-    //                 $query->department($this->department);
-    //             }
-    //         )
-    //         ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-    //         'in_progress' => Participation::role($request->header('Context-Role'))->where('state', 'En cours de traitement')->when(
-    //             $this->department, function ($query) {
-    //                 $query->department($this->department);
-    //             }
-    //         )
-    //         ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-    //         'validated' => Participation::role($request->header('Context-Role'))->where('state', 'Validée')->when(
-    //             $this->department, function ($query) {
-    //                 $query->department($this->department);
-    //             }
-    //         )
-    //         ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-    //         'refused' => Participation::role($request->header('Context-Role'))->where('state', 'Refusée')->when(
-    //             $this->department, function ($query) {
-    //                 $query->department($this->department);
-    //             }
-    //         )
-    //         ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-    //         'canceled' => Participation::role($request->header('Context-Role'))->where('state', 'Annulée')->when(
-    //             $this->department, function ($query) {
-    //                 $query->department($this->department);
-    //             }
-    //         )
-    //         ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-    //     ];
-    // }
 
     public function missionsByStates(Request $request)
     {
@@ -792,54 +754,6 @@ class StatisticsPublicController extends Controller
 
         return $results;
     }
-
-    // public function participationsByMissionTemplates(Request $request)
-    // {
-    //     $results = DB::select(
-    //         "
-    //             SELECT mission_templates.title, COUNT(*) AS count FROM participations
-    //             LEFT JOIN missions ON missions.id = participations.mission_id
-    //             LEFT JOIN mission_templates ON mission_templates.id = missions.template_id
-    //             WHERE participations.deleted_at IS NULL
-    //             AND missions.deleted_at IS NULL
-    //             AND COALESCE(missions.department,'') ILIKE :department
-    //             AND mission_templates.title IS NOT NULL
-    //             AND participations.created_at BETWEEN :start and :end
-    //             GROUP BY mission_templates.title
-    //             ORDER BY count DESC
-    //             LIMIT 5
-    //         ", [
-    //             'department' => $this->department ? '%'.$this->department.'%' : '%%',
-    //             'start' => $this->startDate,
-    //             'end' => $this->endDate,
-    //         ]
-    //     );
-
-    //     return $results;
-    // }
-
-    // public function participationsByMissions(Request $request)
-    // {
-    //     $results = DB::select(
-    //         "
-    //             SELECT missions.id, COUNT(*) AS count FROM participations
-    //             LEFT JOIN missions ON missions.id = participations.mission_id
-    //             WHERE participations.deleted_at IS NULL
-    //             AND missions.deleted_at IS NULL
-    //             AND COALESCE(missions.department,'') ILIKE :department
-    //             AND participations.created_at BETWEEN :start and :end
-    //             GROUP BY missions.id
-    //             ORDER BY count DESC
-    //             LIMIT 5
-    //         ", [
-    //             'department' => $this->department ? '%'.$this->department.'%' : '%%',
-    //             'start' => $this->startDate,
-    //             'end' => $this->endDate,
-    //         ]
-    //     );
-
-    //     return $results;
-    // }
 
     public function participationsByOrganisations(Request $request)
     {
@@ -1008,279 +922,6 @@ class StatisticsPublicController extends Controller
         return $results;
     }
 
-    // public function utilisateursWithParticipations(Request $request)
-    // {
-    //     return [
-    //         'with_participations' => Profile::role($request->header('Context-Role'))->when(
-    //             $this->department, function ($query) {
-    //                 $query->where('department', $this->department);
-    //             }
-    //         )
-    //         ->whereBetween('created_at', [$this->startDate, $this->endDate])->has('participations')->count(),
-    //         'without_participations' => Profile::role($request->header('Context-Role'))->when(
-    //             $this->department, function ($query) {
-    //                 $query->where('department', $this->department);
-    //             }
-    //         )
-    //         ->whereBetween('created_at', [$this->startDate, $this->endDate])->doesntHave('participations')->count(),
-    //     ];
-    // }
-
-    // public function missionsOutdatedByOrganisations(Request $request)
-    // {
-    //     $results = DB::table('missions')
-    //         ->select(['structures.name', 'structures.id'])
-    //         ->selectRaw('count(*) as count')
-    //         ->leftJoin('structures', 'structures.id', '=', 'missions.structure_id')
-    //         ->whereNotNull('missions.end_date')
-    //         ->whereNull('missions.deleted_at')
-    //         ->whereNull('structures.deleted_at')
-    //         ->where('missions.end_date', '<', date('Y-m-d'))
-    //         ->where('missions.state', 'Validée')
-    //         ->when(
-    //             $this->department, function ($query) {
-    //                 $query->where('missions.department', $this->department);
-    //             }
-    //         )
-    //         // ->whereBetween('missions.created_at', [$this->startDate, $this->endDate])
-    //         ->orderByDesc('count')
-    //         ->groupBy(['structures.name', 'structures.id'])
-    //         ->limit(100)
-    //         ->get();
-
-    //     return $results;
-    // }
-
-    // public function participationsWaitingByOrganisations(Request $request)
-    // {
-    //     $results = DB::select(
-    //         "
-    //         SELECT structures.name, structures.id, COUNT(*) AS count FROM participations
-    //         LEFT JOIN missions ON missions.id = participations.mission_id
-    //         LEFT JOIN structures ON structures.id = missions.structure_id
-    //         WHERE participations.deleted_at IS NULL
-    //         AND participations.state = 'En attente de validation'
-    //         AND missions.deleted_at IS NULL
-    //         AND COALESCE(missions.department,'') ILIKE :department
-    //         AND structures.deleted_at IS NULL
-    //         AND structures.name IS NOT NULL
-    //         AND participations.created_at BETWEEN :start and :end
-    //         GROUP BY structures.name, structures.id
-    //         ORDER BY count DESC
-    //         LIMIT 100
-    //     ", [
-    //             'department' => $this->department ? '%'.$this->department.'%' : '%%',
-    //             'start' => $this->startDate,
-    //             'end' => $this->endDate,
-    //         ]
-    //     );
-
-    //     return $results;
-    // }
-
-    // public function participationsRefusedByOrganisations(Request $request)
-    // {
-    //     $results = DB::select(
-    //         "
-    //         SELECT structures.name, structures.id, COUNT(*) AS count FROM participations
-    //         LEFT JOIN missions ON missions.id = participations.mission_id
-    //         LEFT JOIN structures ON structures.id = missions.structure_id
-    //         WHERE participations.deleted_at IS NULL
-    //         AND participations.state = 'Refusée'
-    //         AND missions.deleted_at IS NULL
-    //         AND COALESCE(missions.department,'') ILIKE :department
-    //         AND structures.deleted_at IS NULL
-    //         AND structures.name IS NOT NULL
-    //         AND participations.created_at BETWEEN :start and :end
-    //         GROUP BY structures.name, structures.id
-    //         ORDER BY count DESC
-    //         LIMIT 100
-    //     ", [
-    //             'department' => $this->department ? '%'.$this->department.'%' : '%%',
-    //             'start' => $this->startDate,
-    //             'end' => $this->endDate,
-    //         ]
-    //     );
-
-    //     return $results;
-    // }
-
-    // public function participationsCanceledByOrganisations(Request $request)
-    // {
-    //     $results = DB::select(
-    //         "
-    //         SELECT structures.name, structures.id, COUNT(*) AS count FROM participations
-    //         LEFT JOIN missions ON missions.id = participations.mission_id
-    //         LEFT JOIN structures ON structures.id = missions.structure_id
-    //         WHERE participations.deleted_at IS NULL
-    //         AND participations.state = 'Annulée'
-    //         AND missions.deleted_at IS NULL
-    //         AND COALESCE(missions.department,'') ILIKE :department
-    //         AND structures.deleted_at IS NULL
-    //         AND structures.name IS NOT NULL
-    //         AND participations.created_at BETWEEN :start and :end
-    //         GROUP BY structures.name, structures.id
-    //         ORDER BY count DESC
-    //         LIMIT 100
-    //     ", [
-    //             'department' => $this->department ? '%'.$this->department.'%' : '%%',
-    //             'start' => $this->startDate,
-    //             'end' => $this->endDate,
-    //         ]
-    //     );
-
-    //     return $results;
-    // }
-
-    // public function participationsInProgressByOrganisations(Request $request)
-    // {
-    //     $results = DB::select(
-    //         "
-    //         SELECT structures.name, structures.id, COUNT(*) AS count FROM participations
-    //         LEFT JOIN missions ON missions.id = participations.mission_id
-    //         LEFT JOIN structures ON structures.id = missions.structure_id
-    //         WHERE participations.deleted_at IS NULL
-    //         AND participations.state = 'En cours de traitement'
-    //         AND missions.deleted_at IS NULL
-    //         AND COALESCE(missions.department,'') ILIKE :department
-    //         AND structures.deleted_at IS NULL
-    //         AND structures.name IS NOT NULL
-    //         AND participations.created_at BETWEEN :start and :end
-    //         GROUP BY structures.name, structures.id
-    //         ORDER BY count DESC
-    //         LIMIT 100
-    //     ", [
-    //             'department' => $this->department ? '%'.$this->department.'%' : '%%',
-    //             'start' => $this->startDate,
-    //             'end' => $this->endDate,
-    //         ]
-    //     );
-
-    //     return $results;
-    // }
-
-    // public function organisationsWaitingByDepartments(Request $request)
-    // {
-    //     $results = DB::table('structures')
-    //         ->select(['territoires.id', 'territoires.department'])
-    //         ->selectRaw('count(*) as count')
-    //         ->leftJoin('territoires', 'territoires.department', '=', 'structures.department')
-    //         ->whereNull('structures.deleted_at')
-    //         ->whereNotNull('structures.department')
-    //         ->where('structures.state', 'En attente de validation')
-    //         ->where('territoires.type', 'department')
-    //         ->when(
-    //             $this->department, function ($query) {
-    //                 $query->where('structures.department', $this->department);
-    //             }
-    //         )
-    //         // ->whereBetween('structures.created_at', [$this->startDate, $this->endDate])
-    //         ->whereNotNull('territoires.department')
-    //         ->groupBy(['territoires.id', 'territoires.department'])
-    //         ->orderByDesc('count')
-    //         ->get();
-
-    //     return $results;
-    // }
-
-    // public function organisationsInProgressByDepartments(Request $request)
-    // {
-    //     $results = DB::table('structures')
-    //         ->select(['territoires.id', 'territoires.department'])
-    //         ->selectRaw('count(*) as count')
-    //         ->leftJoin('territoires', 'territoires.department', '=', 'structures.department')
-    //         ->whereNull('structures.deleted_at')
-    //         ->whereNotNull('structures.department')
-    //         ->where('structures.state', 'En cours de traitement')
-    //         ->where('territoires.type', 'department')
-    //         ->when(
-    //             $this->department, function ($query) {
-    //                 $query->where('structures.department', $this->department);
-    //             }
-    //         )
-    //         // ->whereBetween('structures.created_at', [$this->startDate, $this->endDate])
-    //         ->whereNotNull('territoires.department')
-    //         ->groupBy(['territoires.id', 'territoires.department'])
-    //         ->orderByDesc('count')
-    //         ->get();
-
-    //     return $results;
-    // }
-
-    // public function missionsWaitingByDepartments(Request $request)
-    // {
-    //     $results = DB::table('missions')
-    //         ->select(['territoires.id', 'territoires.department'])
-    //         ->selectRaw('count(*) as count')
-    //         ->leftJoin('territoires', 'territoires.department', '=', 'missions.department')
-    //         ->whereNull('missions.deleted_at')
-    //         ->whereNotNull('missions.department')
-    //         ->where('missions.state', 'En attente de validation')
-    //         ->where('territoires.type', 'department')
-    //         ->when(
-    //             $this->department, function ($query) {
-    //                 $query->where('missions.department', $this->department);
-    //             }
-    //         )
-    //         // ->whereBetween('missions.created_at', [$this->startDate, $this->endDate])
-    //         ->whereNotNull('territoires.department')
-    //         ->groupBy(['territoires.id', 'territoires.department'])
-    //         ->orderByDesc('count')
-    //         ->get();
-
-    //     return $results;
-    // }
-
-    // public function missionsInProgressByDepartments(Request $request)
-    // {
-    //     $results = DB::table('missions')
-    //         ->select(['territoires.id', 'territoires.department'])
-    //         ->selectRaw('count(*) as count')
-    //         ->leftJoin('territoires', 'territoires.department', '=', 'missions.department')
-    //         ->whereNull('missions.deleted_at')
-    //         ->whereNotNull('missions.department')
-    //         ->where('missions.state', 'En cours de traitement')
-    //         ->where('territoires.type', 'department')
-    //         ->when(
-    //             $this->department, function ($query) {
-    //                 $query->where('missions.department', $this->department);
-    //             }
-    //         )
-    //         // ->whereBetween('missions.created_at', [$this->startDate, $this->endDate])
-    //         ->whereNotNull('territoires.department')
-    //         ->groupBy(['territoires.id', 'territoires.department'])
-    //         ->orderByDesc('count')
-    //         ->get();
-
-    //     return $results;
-    // }
-
-    // public function missionsOutdatedByDepartments(Request $request)
-    // {
-    //     $results = DB::table('missions')
-    //         ->select(['territoires.id', 'territoires.department'])
-    //         ->selectRaw('count(*) as count')
-    //         ->leftJoin('territoires', 'territoires.department', '=', 'missions.department')
-    //         ->whereNull('missions.deleted_at')
-    //         ->whereNotNull('missions.department')
-    //         ->whereNotNull('missions.end_date')
-    //         ->where('territoires.type', 'department')
-    //         ->where('missions.end_date', '<', date('Y-m-d'))
-    //         ->where('missions.state', 'Validée')
-    //         ->when(
-    //             $this->department, function ($query) {
-    //                 $query->where('missions.department', $this->department);
-    //             }
-    //         )
-    //         // ->whereBetween('missions.created_at', [$this->startDate, $this->endDate])
-    //         ->whereNotNull('territoires.department')
-    //         ->groupBy(['territoires.id', 'territoires.department'])
-    //         ->orderByDesc('count')
-    //         ->get();
-
-    //     return $results;
-    // }
-
     public function participationsCanceledByBenevoles(Request $request)
     {
         return [
@@ -1409,412 +1050,146 @@ class StatisticsPublicController extends Controller
         return collect($results)->pluck('count', 'delay');
     }
 
-    // public function placesByReseaux(Request $request)
-    // {
-    //     $results = DB::select(
-    //         "
-    //             SELECT reseaux.name, reseaux.id,
-    //             SUM(CASE WHEN missions.state IN ('Validée') THEN missions.places_left ELSE 0 END) AS count
-    //             FROM missions
-    //             LEFT JOIN structures ON structures.id = missions.structure_id
-    //             LEFT JOIN reseau_structure ON reseau_structure.structure_id = structures.id
-    //             LEFT JOIN reseaux ON reseaux.id = reseau_structure.reseau_id
-    //             WHERE structures.deleted_at IS NULL
-    //             AND structures.state = 'Validée'
-    //             AND COALESCE(missions.department,'') ILIKE :department
-    //             AND missions.deleted_at IS NULL
-    //             AND reseaux.name IS NOT NULL
-    //             GROUP BY reseaux.name, reseaux.id
-    //             ORDER BY count DESC
-    //             LIMIT 5
-    //         ", [
-    //             'department' => $this->department ? '%'.$this->department.'%' : '%%',
-    //         ]
-    //     );
+    public function placesByReseaux(Request $request)
+    {
+        $results = DB::select(
+            "
+                SELECT reseaux.name, reseaux.id,
+                SUM(CASE WHEN missions.state IN ('Validée') THEN missions.places_left ELSE 0 END) AS count
+                FROM missions
+                LEFT JOIN structures ON structures.id = missions.structure_id
+                LEFT JOIN reseau_structure ON reseau_structure.structure_id = structures.id
+                LEFT JOIN reseaux ON reseaux.id = reseau_structure.reseau_id
+                WHERE structures.deleted_at IS NULL
+                AND structures.state = 'Validée'
+                AND COALESCE(missions.department,'') ILIKE :department
+                AND missions.deleted_at IS NULL
+                AND reseaux.name IS NOT NULL
+                GROUP BY reseaux.name, reseaux.id
+                ORDER BY count DESC
+                LIMIT 5
+            ", [
+                'department' => $this->department ? '%'.$this->department.'%' : '%%',
+            ]
+        );
 
-    //     return $results;
-    // }
+        return $results;
+    }
 
-    // public function placesByOrganisations(Request $request)
-    // {
-    //     $results = DB::select(
-    //         "
-    //             SELECT structures.name, structures.id,
-    //             SUM(CASE WHEN missions.state IN ('Validée') THEN missions.places_left ELSE 0 END) AS count
-    //             FROM missions
-    //             LEFT JOIN structures ON structures.id = missions.structure_id
-    //             WHERE structures.deleted_at IS NULL
-    //             AND structures.state = 'Validée'
-    //             AND COALESCE(missions.department,'') ILIKE :department
-    //             AND missions.deleted_at IS NULL
-    //             AND structures.name IS NOT NULL
-    //             GROUP BY structures.name, structures.id
-    //             ORDER BY count DESC
-    //             LIMIT 5
-    //         ", [
-    //             'department' => $this->department ? '%'.$this->department.'%' : '%%',
-    //         ]
-    //     );
+    public function placesByOrganisations(Request $request)
+    {
+        $results = DB::select(
+            "
+                SELECT structures.name, structures.id,
+                SUM(CASE WHEN missions.state IN ('Validée') THEN missions.places_left ELSE 0 END) AS count
+                FROM missions
+                LEFT JOIN structures ON structures.id = missions.structure_id
+                WHERE structures.deleted_at IS NULL
+                AND structures.state = 'Validée'
+                AND COALESCE(missions.department,'') ILIKE :department
+                AND missions.deleted_at IS NULL
+                AND structures.name IS NOT NULL
+                GROUP BY structures.name, structures.id
+                ORDER BY count DESC
+                LIMIT 5
+            ", [
+                'department' => $this->department ? '%'.$this->department.'%' : '%%',
+            ]
+        );
 
-    //     return $results;
-    // }
+        return $results;
+    }
 
-    // public function placesByMissions(Request $request)
-    // {
-    //     $results = DB::select(
-    //         "
-    //             SELECT missions.name, missions.id, mission_templates.title,
-    //             SUM(CASE WHEN missions.state IN ('Validée') THEN missions.places_left ELSE 0 END) AS count
-    //             FROM missions
-    //             LEFT JOIN structures ON structures.id = missions.structure_id
-    //             LEFT JOIN mission_templates ON mission_templates.id = missions.template_id
-    //             WHERE structures.deleted_at IS NULL
-    //             AND structures.state = 'Validée'
-    //             AND COALESCE(missions.department,'') ILIKE :department
-    //             AND missions.deleted_at IS NULL
-    //             AND structures.name IS NOT NULL
-    //             GROUP BY missions.name, missions.id, mission_templates.title
-    //             ORDER BY count DESC
-    //             LIMIT 5
-    //         ", [
-    //             'department' => $this->department ? '%'.$this->department.'%' : '%%',
-    //         ]
-    //     );
+    public function placesByMissions(Request $request)
+    {
+        $results = DB::select(
+            "
+                SELECT missions.name, missions.id, mission_templates.title,
+                SUM(CASE WHEN missions.state IN ('Validée') THEN missions.places_left ELSE 0 END) AS count
+                FROM missions
+                LEFT JOIN structures ON structures.id = missions.structure_id
+                LEFT JOIN mission_templates ON mission_templates.id = missions.template_id
+                WHERE structures.deleted_at IS NULL
+                AND structures.state = 'Validée'
+                AND COALESCE(missions.department,'') ILIKE :department
+                AND missions.deleted_at IS NULL
+                AND structures.name IS NOT NULL
+                GROUP BY missions.name, missions.id, mission_templates.title
+                ORDER BY count DESC
+                LIMIT 5
+            ", [
+                'department' => $this->department ? '%'.$this->department.'%' : '%%',
+            ]
+        );
 
-    //     return $results;
-    // }
+        return $results;
+    }
 
-    // public function placesByDomaines(Request $request)
-    // {
-    //     $results = DB::select(
-    //         "
-    //             SELECT domaines.name, domaines.id,
-    //             SUM(CASE WHEN missions.state IN ('Validée') THEN missions.places_left ELSE 0 END) AS count
-    //             FROM missions
-    //             LEFT JOIN mission_templates ON mission_templates.id = missions.template_id
-    //             LEFT JOIN domaines ON domaines.id = mission_templates.domaine_id OR domaines.id = missions.domaine_id OR domaines.id = missions.domaine_secondary_id
-    //             WHERE missions.deleted_at IS NULL
-    //             AND COALESCE(missions.department,'') ILIKE :department
-    //             AND domaines.name IS NOT NULL
-    //             GROUP BY domaines.name, domaines.id
-    //             ORDER BY count DESC
-    //         ", [
-    //             'department' => $this->department ? '%'.$this->department.'%' : '%%',
-    //         ]
-    //     );
+    public function placesByDomaines(Request $request)
+    {
+        $results = DB::select(
+            "
+                SELECT domaines.name, domaines.id,
+                SUM(CASE WHEN missions.state IN ('Validée') THEN missions.places_left ELSE 0 END) AS count
+                FROM missions
+                LEFT JOIN mission_templates ON mission_templates.id = missions.template_id
+                LEFT JOIN domaines ON domaines.id = mission_templates.domaine_id OR domaines.id = missions.domaine_id OR domaines.id = missions.domaine_secondary_id
+                WHERE missions.deleted_at IS NULL
+                AND COALESCE(missions.department,'') ILIKE :department
+                AND domaines.name IS NOT NULL
+                GROUP BY domaines.name, domaines.id
+                ORDER BY count DESC
+            ", [
+                'department' => $this->department ? '%'.$this->department.'%' : '%%',
+            ]
+        );
 
-    //     return $results;
-    // }
+        return $results;
+    }
 
-    // public function placesByActivities(Request $request)
-    // {
-    //     $results = DB::select(
-    //         "
-    //             SELECT activities.name, activities.id,
-    //             SUM(CASE WHEN missions.state IN ('Validée') THEN missions.places_left ELSE 0 END) AS count
-    //             FROM missions
-    //             LEFT JOIN mission_templates ON mission_templates.id = missions.template_id
-    //             LEFT JOIN activities ON activities.id = mission_templates.activity_id OR activities.id = missions.activity_id
-    //             WHERE missions.deleted_at IS NULL
-    //             AND COALESCE(missions.department,'') ILIKE :department
-    //             AND activities.name IS NOT NULL
-    //             GROUP BY activities.name, activities.id
-    //             ORDER BY count DESC
-    //             LIMIT 5
-    //         ", [
-    //             'department' => $this->department ? '%'.$this->department.'%' : '%%',
-    //         ]
-    //     );
+    public function placesByActivities(Request $request)
+    {
+        $results = DB::select(
+            "
+                SELECT activities.name, activities.id,
+                SUM(CASE WHEN missions.state IN ('Validée') THEN missions.places_left ELSE 0 END) AS count
+                FROM missions
+                LEFT JOIN mission_templates ON mission_templates.id = missions.template_id
+                LEFT JOIN activities ON activities.id = mission_templates.activity_id OR activities.id = missions.activity_id
+                WHERE missions.deleted_at IS NULL
+                AND COALESCE(missions.department,'') ILIKE :department
+                AND activities.name IS NOT NULL
+                GROUP BY activities.name, activities.id
+                ORDER BY count DESC
+                LIMIT 5
+            ", [
+                'department' => $this->department ? '%'.$this->department.'%' : '%%',
+            ]
+        );
 
-    //     return $results;
-    // }
+        return $results;
+    }
 
-    // public function structuresByMonth(Request $request)
-    // {
-    //     $results = DB::select(
-    //         "
-    //         SELECT date_trunc('month', structures.created_at) AS created_at,
-    //             date_part('year', structures.created_at) as year,
-    //             date_part('month', structures.created_at) as month,
-    //             count(*) AS structures_total,
-    //             sum(case when structures.state  = 'Brouillon' then 1 else 0 end) as structures_draft,
-    //             sum(case when structures.state  = 'En attente de validation' then 1 else 0 end) as structures_waiting_validation,
-    //             sum(case when structures.state  = 'En cours de traitement' then 1 else 0 end) as structures_being_processed,
-    //             sum(case when structures.state  = 'Validée' then 1 else 0 end) as structures_validated,
-    //             sum(case when structures.state  = 'Signalée' then 1 else 0 end) as structures_signaled,
-    //             sum(case when structures.state  = 'Désinscrite' then 1 else 0 end) as structures_unsubscribed
-    //         FROM structures
-    //         WHERE structures.deleted_at IS NULL
-    //         AND COALESCE(structures.department,'') ILIKE :department
-    //         GROUP BY date_trunc('month', structures.created_at), year, month
-    //         ORDER BY date_trunc('month', structures.created_at) DESC
-    //         ", [
-    //             'department' => $this->department ? '%'.$this->department.'%' : '%%',
-    //         ]
-    //     );
+    public function temoignagesByGrades()
+    {
+        $results = DB::select(
+            "
+                SELECT COUNT(*), grade, COUNT(*) * 1.0 / SUM(COUNT(*)) OVER () As percent
+                FROM temoignages
+                LEFT JOIN participations ON participations.id = temoignages.participation_id
+                LEFT JOIN missions ON missions.id = participations.mission_id
+                WHERE temoignages.created_at BETWEEN :start and :end
+                AND COALESCE(missions.department,'') ILIKE :department
+                GROUP BY grade
+                ORDER by grade DESC
+            ", [
+                'department' => $this->department ? '%'.$this->department.'%' : '%%',
+                'start' => $this->startDate,
+                'end' => $this->endDate,
+            ]
+        );
 
-    //     foreach ($results as $index => $item) {
-    //         if (isset($results[$index + 12])) {
-    //             if($results[$index + 12]->structures_validated){
-    //                 $results[$index]->structures_validated_variation = (($item->structures_validated - $results[$index + 12]->structures_validated) / $results[$index + 12]->structures_validated) * 100;
-    //             }
-    //         }
-    //     }
+        return $results;
+    }
 
-    //     return $results;
-    // }
-
-    // public function structuresByYear(Request $request)
-    // {
-    //     $results = DB::select(
-    //         "
-    //         SELECT date_trunc('year', structures.created_at) AS created_at,
-    //             date_part('year', structures.created_at) as year,
-    //             count(*) AS structures_total,
-    //             sum(case when structures.state  = 'Brouillon' then 1 else 0 end) as structures_draft,
-    //             sum(case when structures.state  = 'En attente de validation' then 1 else 0 end) as structures_waiting_validation,
-    //             sum(case when structures.state  = 'En cours de traitement' then 1 else 0 end) as structures_being_processed,
-    //             sum(case when structures.state  = 'Validée' then 1 else 0 end) as structures_validated,
-    //             sum(case when structures.state  = 'Signalée' then 1 else 0 end) as structures_signaled,
-    //             sum(case when structures.state  = 'Désinscrite' then 1 else 0 end) as structures_unsubscribed
-    //         FROM structures
-    //         WHERE structures.deleted_at IS NULL
-    //         AND COALESCE(structures.department,'') ILIKE :department
-    //         GROUP BY date_trunc('year', structures.created_at), year
-    //         ORDER BY date_trunc('year', structures.created_at) DESC
-    //         ", [
-    //             'department' => $this->department ? '%'.$this->department.'%' : '%%',
-    //         ]
-    //     );
-
-    //     foreach ($results as $index => $item) {
-    //         if (isset($results[$index + 1])) {
-    //             if($results[$index + 1]->structures_validated){
-    //                 $results[$index]->structures_validated_variation = (($item->structures_validated - $results[$index + 1]->structures_validated) / $results[$index + 1]->structures_validated) * 100;
-    //             }
-    //         }
-    //     }
-
-    //     return $results;
-    // }
-
-    // public function missionsByMonth(Request $request)
-    // {
-    //     $results = DB::select(
-    //         "
-    //         SELECT date_trunc('month', missions.created_at) AS created_at,
-    //             date_part('year', missions.created_at) as year,
-    //             date_part('month', missions.created_at) as month,
-    //             count(*) AS missions_total,
-    //             sum(case when missions.state  = 'Brouillon' then 1 else 0 end) as missions_draft,
-    //             sum(case when missions.state  = 'En attente de validation' then 1 else 0 end) as missions_waiting_validation,
-    //             sum(case when missions.state  = 'En cours de traitement' then 1 else 0 end) as missions_being_processed,
-    //             sum(case when missions.state  = 'Validée' then 1 else 0 end) as missions_validated,
-    //             sum(case when missions.state  = 'Signalée' then 1 else 0 end) as missions_signaled,
-    //             sum(case when missions.state  = 'Terminée' then 1 else 0 end) as missions_finished,
-    //             sum(case when missions.state  = 'Annulée' then 1 else 0 end) as missions_canceled,
-    //             sum(case when missions.state IN ('Validée','Terminée') then 1 else 0 end) as missions_posted
-    //         FROM missions
-    //         WHERE missions.deleted_at IS NULL
-    //         AND COALESCE(missions.department,'') ILIKE :department
-    //         GROUP BY date_trunc('month', missions.created_at), year, month
-    //         ORDER BY date_trunc('month', missions.created_at) DESC
-    //         ", [
-    //             'department' => $this->department ? '%'.$this->department.'%' : '%%',
-    //         ]
-    //     );
-
-    //     foreach ($results as $index => $item) {
-    //         if (isset($results[$index + 12])) {
-    //             if($results[$index + 12]->missions_posted){
-    //                 $results[$index]->missions_posted_variation = (($item->missions_posted - $results[$index + 12]->missions_posted) / $results[$index + 12]->missions_posted) * 100;
-    //             }
-    //         }
-    //     }
-
-    //     return $results;
-    // }
-
-    // public function missionsByYear(Request $request)
-    // {
-    //     $results = DB::select(
-    //         "
-    //         SELECT date_trunc('year', missions.created_at) AS created_at,
-    //             date_part('year', missions.created_at) as year,
-    //             count(*) AS missions_total,
-    //             sum(case when missions.state  = 'Brouillon' then 1 else 0 end) as missions_draft,
-    //             sum(case when missions.state  = 'En attente de validation' then 1 else 0 end) as missions_waiting_validation,
-    //             sum(case when missions.state  = 'En cours de traitement' then 1 else 0 end) as missions_being_processed,
-    //             sum(case when missions.state  = 'Validée' then 1 else 0 end) as missions_validated,
-    //             sum(case when missions.state  = 'Signalée' then 1 else 0 end) as missions_signaled,
-    //             sum(case when missions.state  = 'Terminée' then 1 else 0 end) as missions_finished,
-    //             sum(case when missions.state  = 'Annulée' then 1 else 0 end) as missions_canceled,
-    //             sum(case when missions.state IN ('Validée','Terminée') then 1 else 0 end) as missions_posted
-    //         FROM missions
-    //         WHERE missions.deleted_at IS NULL
-    //         AND COALESCE(missions.department,'') ILIKE :department
-    //         GROUP BY date_trunc('year', missions.created_at), year
-    //         ORDER BY date_trunc('year', missions.created_at) DESC
-    //         ", [
-    //             'department' => $this->department ? '%'.$this->department.'%' : '%%',
-    //         ]
-    //     );
-
-    //     foreach ($results as $index => $item) {
-    //         if (isset($results[$index + 1])) {
-    //             if($results[$index + 1]->missions_posted){
-    //                 $results[$index]->missions_posted_variation = (($item->missions_posted - $results[$index + 1]->missions_posted) / $results[$index + 1]->missions_posted) * 100;
-    //             }
-    //         }
-    //     }
-
-    //     return $results;
-    // }
-
-    // public function participationsByMonth(Request $request)
-    // {
-    //     $results = DB::select(
-    //         "
-    //         SELECT date_trunc('month', participations.created_at) AS created_at,
-    //             date_part('year', participations.created_at) as year,
-    //             date_part('month', participations.created_at) as month,
-    //             count(*) AS participations_total,
-    //             sum(case when participations.state  = 'En attente de validation' then 1 else 0 end) as participations_waiting_validation,
-    //             sum(case when participations.state  = 'En cours de traitement' then 1 else 0 end) as participations_being_processed,
-    //             sum(case when participations.state  = 'Validée' then 1 else 0 end) as participations_validated,
-    //             sum(case when participations.state  = 'Refusée' then 1 else 0 end) as participations_refused,
-    //             sum(case when participations.state  = 'Annulée' then 1 else 0 end) as participations_canceled
-    //         FROM participations
-    //         LEFT JOIN missions ON participations.mission_id = missions.id
-    //         WHERE participations.deleted_at IS NULL
-    //         AND COALESCE(missions.department,'') ILIKE :department
-    //         GROUP BY date_trunc('month', participations.created_at), year, month
-    //         ORDER BY date_trunc('month', participations.created_at) DESC
-    //         ", [
-    //             'department' => $this->department ? '%'.$this->department.'%' : '%%',
-    //         ]
-    //     );
-
-    //     foreach ($results as $index => $item) {
-    //         if (isset($results[$index + 12])) {
-    //             if ($results[$index + 12]->participations_total) {
-    //                 $results[$index]->participations_total_variation = (($item->participations_total - $results[$index + 12]->participations_total) / $results[$index + 12]->participations_total) * 100;
-    //             }
-    //             if ($results[$index + 12]->participations_validated) {
-    //                 $results[$index]->participations_validated_variation = (($item->participations_validated - $results[$index + 12]->participations_validated) / $results[$index + 12]->participations_validated) * 100;
-    //             }
-    //         }
-
-    //         if ($item->participations_total) {
-    //             $results[$index]->participations_conversion = ($item->participations_validated / $item->participations_total) * 100;
-    //         }
-    //     }
-
-    //     return $results;
-    // }
-
-    // public function participationsByYear(Request $request)
-    // {
-    //     $results = DB::select(
-    //         "
-    //         SELECT date_trunc('year', participations.created_at) AS created_at,
-    //             date_part('year', participations.created_at) as year,
-    //             count(*) AS participations_total,
-    //             sum(case when participations.state  = 'En attente de validation' then 1 else 0 end) as participations_waiting_validation,
-    //             sum(case when participations.state  = 'En cours de traitement' then 1 else 0 end) as participations_being_processed,
-    //             sum(case when participations.state  = 'Validée' then 1 else 0 end) as participations_validated,
-    //             sum(case when participations.state  = 'Refusée' then 1 else 0 end) as participations_refused,
-    //             sum(case when participations.state  = 'Annulée' then 1 else 0 end) as participations_canceled
-    //         FROM participations
-    //         LEFT JOIN missions ON participations.mission_id = missions.id
-    //         WHERE participations.deleted_at IS NULL
-    //         AND COALESCE(missions.department,'') ILIKE :department
-    //         GROUP BY date_trunc('year', participations.created_at), year
-    //         ORDER BY date_trunc('year', participations.created_at) DESC
-    //         ", [
-    //             'department' => $this->department ? '%'.$this->department.'%' : '%%',
-    //         ]
-    //     );
-
-    //     foreach ($results as $index => $item) {
-    //         if (isset($results[$index + 1])) {
-    //             if ($results[$index + 1]->participations_total) {
-    //                 $results[$index]->participations_total_variation = (($item->participations_total - $results[$index + 1]->participations_total) / $results[$index + 1]->participations_total) * 100;
-    //             }
-    //             if ($results[$index + 1]->participations_validated) {
-    //                 $results[$index]->participations_validated_variation = (($item->participations_validated - $results[$index + 1]->participations_validated) / $results[$index + 1]->participations_validated) * 100;
-    //             }
-    //         }
-    //         if ($item->participations_total) {
-    //             $results[$index]->participations_conversion = ($item->participations_validated / $item->participations_total) * 100;
-    //         }
-    //     }
-
-    //     return $results;
-    // }
-
-    // public function usersByMonth(Request $request)
-    // {
-    //     // Users department is 20 for Corse
-    //     if (  $this->department && in_array($this->department, ['2A', '2B'])) {
-    //         $this->department = '20';
-    //     }
-
-    //     $results = DB::select(
-    //         "
-    //         SELECT date_trunc('month', profiles.created_at) AS created_at,
-    //             date_part('year', profiles.created_at) as year,
-    //             date_part('month', profiles.created_at) as month,
-    //             count(*) AS profiles_total
-    //         FROM profiles
-    //         WHERE COALESCE(profiles.department,'') ILIKE :department
-    //         GROUP BY date_trunc('month', profiles.created_at), year, month
-    //         ORDER BY date_trunc('month', profiles.created_at) DESC
-    //         ", [
-    //             'department' => $this->department ? '%'.$this->department.'%' : '%%',
-    //         ]
-    //     );
-
-    //     foreach ($results as $index => $item) {
-    //         if (isset($results[$index + 12])) {
-    //             if($results[$index + 12]->profiles_total){
-    //                 $results[$index]->profiles_total_variation = (($item->profiles_total - $results[$index + 12]->profiles_total) / $results[$index + 12]->profiles_total) * 100;
-    //             }
-    //         }
-    //     }
-
-    //     return $results;
-    // }
-
-    // public function usersByYear(Request $request)
-    // {
-    //    // Users department is 20 for Corse
-    //    if (  $this->department && in_array($this->department, ['2A', '2B'])) {
-    //         $this->department = '20';
-    //     }
-
-    //     $results = DB::select(
-    //         "
-    //         SELECT date_trunc('year', profiles.created_at) AS created_at,
-    //             date_part('year', profiles.created_at) as year,
-    //             count(*) AS profiles_total
-    //         FROM profiles
-    //         WHERE COALESCE(profiles.department,'') ILIKE :department
-    //         GROUP BY date_trunc('year', profiles.created_at), year
-    //         ORDER BY date_trunc('year', profiles.created_at) DESC
-    //         ", [
-    //             'department' => $this->department ? '%'.$this->department.'%' : '%%',
-    //         ]
-    //     );
-
-    //     foreach ($results as $index => $item) {
-    //         if (isset($results[$index + 1])) {
-    //             if($results[$index + 1]->profiles_total){
-    //                 $results[$index]->profiles_total_variation = (($item->profiles_total - $results[$index + 1]->profiles_total) / $results[$index + 1]->profiles_total) * 100;
-    //             }
-    //         }
-    //     }
-
-    //     return $results;
-    // }
 }

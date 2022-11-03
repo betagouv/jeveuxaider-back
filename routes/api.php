@@ -401,6 +401,7 @@ Route::group(['prefix' => '/statistics/public'], function () {
     Route::get('/participations-canceled-by-benevoles', 'Api\StatisticsPublicController@participationsCanceledByBenevoles');
     Route::get('/participations-delays-by-registrations', 'Api\StatisticsPublicController@participationsDelaysByRegistrations');
     Route::get('/participations-refused-by-responsables', 'Api\StatisticsPublicController@participationsRefusedByResponsables');
+    Route::get('/temoignages-by-grades', 'Api\StatisticsPublicController@temoignagesByGrades');
 
     Route::get('/global/utilisateurs', 'Api\StatisticsPublicController@globalUtilisateurs');
     Route::get('/utilisateurs-by-date', 'Api\StatisticsPublicController@utilisateursByDate');
@@ -423,6 +424,13 @@ Route::group(['prefix' => '/statistics/public'], function () {
     Route::get('/missions-by-organisations', 'Api\StatisticsPublicController@missionsByOrganisations');
     Route::get('/missions-by-reseaux', 'Api\StatisticsPublicController@missionsByReseaux');
     Route::get('/missions-by-template-types', 'Api\StatisticsPublicController@missionsByTemplateTypes');
+
+    Route::get('/global/places', 'Api\StatisticsPublicController@globalPlaces');
+    Route::get('/places-by-reseaux', 'Api\StatisticsPublicController@placesByReseaux');
+    Route::get('/places-by-organisations', 'Api\StatisticsPublicController@placesByOrganisations');
+    Route::get('/places-by-missions', 'Api\StatisticsPublicController@placesByMissions');
+    Route::get('/places-by-domaines', 'Api\StatisticsPublicController@placesByDomaines');
+    Route::get('/places-by-activities', 'Api\StatisticsPublicController@placesByActivities');
 
 
 
