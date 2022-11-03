@@ -232,9 +232,9 @@ class Profile extends Model implements HasMedia
         return $this->belongsTo('App\Models\User');
     }
 
-    public function reseau()
+    public function oldReseau()
     {
-        return $this->belongsTo(Reseau::class, 'tete_de_reseau_id');
+        return $this->belongsTo(Reseau::class, 'old_tete_de_reseau_id');
     }
 
     public function missions()

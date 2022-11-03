@@ -27,12 +27,9 @@ class ProfileCreateRequest extends ProfileRequest
             'email' => 'required|email|unique:profiles',
             'first_name' => 'required',
             'last_name' => 'required|min:2',
-            'role' => 'required|in:referent,referent_regional',
             'mobile' => '',
             'phone' => '',
             'avatar' => '',
-            'referent_region' => '',
-            'tete_de_reseau_id' => '',
         ];
     }
 }

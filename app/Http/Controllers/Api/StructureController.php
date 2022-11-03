@@ -12,7 +12,6 @@ use App\Http\Requests\Api\StructureUpdateRequest;
 use App\Http\Requests\StructureRequest;
 use App\Models\Mission;
 use App\Models\Participation;
-use App\Models\Profile;
 use App\Models\Structure;
 use App\Models\User;
 use App\Services\ApiEngagement;
@@ -144,7 +143,6 @@ class StructureController extends Controller
 
         if ($request->has('reseaux')) {
             if ($request->input('reseaux')) {
-                //  $structure->reseaux()->syncWithoutDetaching([$request->input('tete_de_reseau_id')]);
                 $reseaux = collect($request->input('reseaux'));
                 $structure->reseaux()->sync($reseaux->pluck('id'));
             }

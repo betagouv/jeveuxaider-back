@@ -75,17 +75,13 @@ class Participation extends Model
                     });
                 break;
             case 'tete_de_reseau':
-                return $query->ofReseau(Auth::guard('api')->user()->profile->tete_de_reseau_id);
+                return $query->ofReseau(Auth::guard('api')->user()->contextable_id);
                 break;
             case 'responsable':
-                $user = Auth::guard('api')->user();
-
-                return $query->ofStructure($user->contextable_id);
+                return $query->ofStructure(Auth::guard('api')->user()->contextable_id);
                 break;
             case 'responsable_territoire':
-                $user = Auth::guard('api')->user();
-
-                return $query->ofTerritoire($user->contextable_id);
+                return $query->ofTerritoire(Auth::guard('api')->user()->contextable_id);
                 break;
             default:
                 abort(403, 'This action is not authorized');

@@ -23,7 +23,6 @@ class Temoignage extends Model
         switch ($contextRole) {
             case 'admin':
                 return $query;
-                break;
             case 'referent':
                 return $query
                     ->whereHas('participation', function (Builder $query) {
@@ -31,7 +30,6 @@ class Temoignage extends Model
                             $query->where('department', Auth::guard('api')->user()->departmentsAsReferent->first()->number);
                         });
                     });
-                break;
             case 'referent_regional':
                 return $query
                     ->whereHas('participation', function (Builder $query) {
@@ -39,13 +37,10 @@ class Temoignage extends Model
                             $query->whereIn('department', config('taxonomies.regions.departments')[Auth::guard('api')->user()->regionsAsReferent->first()->name]);
                         });
                     });
-                break;
             case 'tete_de_reseau':
-                return $query->ofReseau(Auth::guard('api')->user()->profile->tete_de_reseau_id);
-                break;
+                return $query->ofReseau(Auth::guard('api')->user()->contextable_id);
             case 'responsable':
                 return $query->ofStructure(Auth::guard('api')->user()->contextable_id);
-                break;
             default:
                 abort(403, 'This action is not authorized');
                 break;

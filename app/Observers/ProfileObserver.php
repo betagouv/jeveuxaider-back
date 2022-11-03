@@ -41,10 +41,6 @@ class ProfileObserver
             $profile->user()->update(['email' => $newEmail]);
         }
 
-        if ($profile->isDirty(['tete_de_reseau_id'])) {
-            $profile->user->resetContextRole();
-        }
-
         if (config('services.sendinblue.sync')) {
             if ($profile->user) {
                 SendinblueSyncUser::dispatch($profile->user);

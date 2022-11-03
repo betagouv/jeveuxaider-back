@@ -77,8 +77,8 @@ class User extends Authenticatable
             ];
         }
 
-        if ($this->profile->tete_de_reseau_id) {
-            $reseau = Reseau::find($this->profile->tete_de_reseau_id);
+        if ($this->hasRole('tete_de_reseau')) {
+            $reseau = $this->reseaux()->get()->first();
             $roles[] = [
                 'key' => 'tete_de_reseau',
                 'contextable_type' => 'reseau',
@@ -140,6 +140,11 @@ class User extends Authenticatable
     public function regionsAsReferent()
     {
         return $this->morphedByMany(Region::class, 'rolable', 'rolables');
+    }
+
+    public function reseaux()
+    {
+        return $this->morphedByMany(Reseau::class, 'rolable', 'rolables');
     }
 
     public function messages()

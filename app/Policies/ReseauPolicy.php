@@ -20,7 +20,7 @@ class ReseauPolicy
     public function update(User $user, Reseau $reseau)
     {
         if (request()->header('Context-Role') == 'tete_de_reseau') {
-            return $user->profile->tete_de_reseau_id == $reseau->id;
+            return $user->reseaux()->get()->first()->id == $reseau->id;
         }
 
         return false;

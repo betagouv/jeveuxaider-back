@@ -118,7 +118,7 @@ class Structure extends Model implements HasMedia
                     ->whereIn('department', config('taxonomies.regions.departments')[$user->regionsAsReferent->first()->name]);
                 break;
             case 'tete_de_reseau':
-                return $query->ofReseau($user->profile->tete_de_reseau_id);
+                return $query->ofReseau($user->contextable_id);
                 break;
             case 'responsable_territoire':
                 return $query->ofTerritoire($user->contextable_id);

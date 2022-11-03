@@ -35,6 +35,7 @@ return new class extends Migration
         Schema::table('profiles', function (Blueprint $table) {
             $table->renameColumn('referent_department', 'old_referent_department');
             $table->renameColumn('referent_region', 'old_referent_region');
+            $table->renameColumn('tete_de_reseau_id', 'old_tete_de_reseau_id');
             $table->dropColumn('is_analyste');
         });
 
@@ -70,6 +71,7 @@ return new class extends Migration
         Schema::table('profiles', function (Blueprint $table) {
             $table->renameColumn('old_referent_department', 'referent_department');
             $table->renameColumn('old_referent_region', 'referent_region');
+            $table->renameColumn('old_tete_de_reseau_id', 'tete_de_reseau_id');
             $table->boolean('is_analyste')->default(false);
         });
         Schema::dropIfExists('rolables');

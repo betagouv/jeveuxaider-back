@@ -57,8 +57,6 @@ class ProfileUpdateRequest extends ProfileRequest
         ];
 
         if (request()->user()->isAdmin()) {
-            $rules['referent_region'] = '';
-            $rules['tete_de_reseau_id'] = '';
             $rules['can_export_profiles'] = 'boolean';
         }
 

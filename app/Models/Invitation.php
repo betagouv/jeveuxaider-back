@@ -99,7 +99,7 @@ class Invitation extends Model
             }
             // RESPONSABLE RESEAU
             if ($this->role == 'responsable_reseau') {
-                $user->profile->update(['tete_de_reseau_id' => $this->invitable->id]);
+                $this->invitable->addResponsable($user);
             }
             // RESPONSABLE ANTENNE
             if ($this->role == 'responsable_antenne') {

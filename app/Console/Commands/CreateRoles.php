@@ -58,13 +58,14 @@ class CreateRoles extends Command
         });
 
         if (Role::where('name', 'admin')->count() == 0) {
-            if (! $this->confirm('Roles will be created (admin, referent, responsable, referent_regional)')) {
+            if (! $this->confirm('Roles will be created (admin, referent, responsable, referent_regional, tete_de_reseau)')) {
                 return;
             }
             Role::create(['name' => 'admin']);
             Role::create(['name' => 'responsable']);
             Role::create(['name' => 'referent']);
             Role::create(['name' => 'referent_regional']);
+            Role::create(['name' => 'tete_de_reseau']);
         }
 
         if (! $this->confirm('Do you want to migrate all user roles ?')) {
@@ -96,5 +97,11 @@ class CreateRoles extends Command
             $profile->user->assignRole('referent_regional', Region::whereName($profile->old_referent_region)->get()->first());
         });
         $this->info('Role referent régionnal assigned to '.$profilesReferentRegional->count().' users');
+
+        $profilesTeteDeReseau = Profile::with('user.newRoles', 'oldReseau')->whereHas('oldReseau')->get();
+        $profilesTeteDeReseau->each(function ($profile) {
+            $profile->user->assignRole('tete_de_reseau', $profile->oldReseau);
+        });
+        $this->info('Role tête de réseau assigned to '.$profilesTeteDeReseau->count().' users');
     }
 }

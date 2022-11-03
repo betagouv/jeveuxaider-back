@@ -46,7 +46,7 @@ class ProfileController extends Controller
 
     public function show(ProfileRequest $request, Profile $profile)
     {
-        return $profile->load(['user', 'territoires', 'user.structures', 'user.regionsAsReferent', 'user.departmentsAsReferent', 'reseau', 'skills', 'domaines', 'avatar', 'activities', 'tags'])->loadCount(['participations', 'participationsValidated']);
+        return $profile->load(['user', 'territoires', 'user.structures', 'user.regionsAsReferent', 'user.departmentsAsReferent', 'user.reseaux', 'skills', 'domaines', 'avatar', 'activities', 'tags'])->loadCount(['participations', 'participationsValidated']);
     }
 
     public function update(ProfileUpdateRequest $request, Profile $profile = null)

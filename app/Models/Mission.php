@@ -454,14 +454,10 @@ class Mission extends Model
                 break;
             case 'responsable':
                 // Missions des structures dont je suis responsable
-                $user = Auth::guard('api')->user();
-
-                return $query->where('structure_id', $user->contextable_id);
+                return $query->where('structure_id', Auth::guard('api')->user()->contextable_id);
                 break;
             case 'responsable_territoire':
-                $user = Auth::guard('api')->user();
-
-                return $query->ofTerritoire($user->contextable_id);
+                return $query->ofTerritoire(Auth::guard('api')->user()->contextable_id);
                 break;
             case 'referent':
                 // Missions qui sont dans mon département
@@ -480,8 +476,7 @@ class Mission extends Model
                 break;
             case 'tete_de_reseau':
                 // Missions qui sont dans une structure rattachée à mon réseau
-                return $query
-                    ->ofReseau(Auth::guard('api')->user()->profile->tete_de_reseau_id);
+                return $query->ofReseau(Auth::guard('api')->user()->contextable_id);
                 break;
             default:
                 // Securite
