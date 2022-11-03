@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Filters\FiltersParticipationSearch;
 use App\Http\Controllers\Controller;
+use App\Models\Conversation;
 use App\Models\Mission;
 use App\Models\Participation;
 use App\Models\User;
@@ -15,6 +16,7 @@ use Illuminate\Support\Facades\Validator;
 use Laravel\Passport\Token;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
+use Illuminate\Database\Eloquent\Builder;
 
 class UserController extends Controller
 {
@@ -44,17 +46,17 @@ class UserController extends Controller
         $user = User::with(['profile'])->find(Auth::guard('api')->user()->id);
 
         return QueryBuilder::for(Participation::where('profile_id', $user->profile->id)->with('profile', 'mission'))
-        ->allowedFilters(
-            AllowedFilter::custom('search', new FiltersParticipationSearch),
-            'state',
-        )
-        ->allowedIncludes([
-            'conversation.latestMessage',
-            'mission.responsable.avatar',
-            'mission.structure',
-        ])
-        ->defaultSort('-created_at')
-        ->paginate(config('query-builder.results_per_page'));
+            ->allowedFilters(
+                AllowedFilter::custom('search', new FiltersParticipationSearch),
+                'state',
+            )
+            ->allowedIncludes([
+                'conversation.latestMessage',
+                'mission.responsable.avatar',
+                'mission.structure',
+            ])
+            ->defaultSort('-created_at')
+            ->paginate(config('query-builder.results_per_page'));
     }
 
     public function unreadMessages(Request $request)
@@ -74,7 +76,7 @@ class UserController extends Controller
         ];
 
         $validator = Validator::make($request->all(), [
-            'email' => ['required', 'email', 'unique:users,email,'.$user->id],
+            'email' => ['required', 'email', 'unique:users,email,' . $user->id],
         ], $messages);
 
         if ($validator->fails()) {
@@ -94,7 +96,7 @@ class UserController extends Controller
         $user = $request->user();
         $inputs = $request->all();
 
-        if (! (Hash::check($request->get('current_password'), $user->password))) {
+        if (!(Hash::check($request->get('current_password'), $user->password))) {
             abort(422, "L'ancien mot de passe est incorrect");
         }
 
@@ -118,7 +120,7 @@ class UserController extends Controller
             ],
         ], $messages);
 
-        if (! $validator->fails()) {
+        if (!$validator->fails()) {
             $user->password = Hash::make($inputs['password']);
             $user->save();
 
@@ -150,5 +152,18 @@ class UserController extends Controller
         $user->anonymize();
 
         return $user;
+    }
+
+    public function hasParticipation(Mission $mission, Request $request)
+    {
+        $user = User::find(Auth::guard('api')->user()->id);
+        $conversation = Conversation::where('conversable_type', 'App\Models\Participation')
+            ->whereHas('conversable', function (Builder $query) use ($user, $mission) {
+                $query->where('profile_id', $user->profile->id)
+                    ->where('mission_id', $mission->id)
+                    ->where('state', '!=', 'Annulée');
+            })->first();
+
+        return $conversation ? $conversation->id : false;
     }
 }

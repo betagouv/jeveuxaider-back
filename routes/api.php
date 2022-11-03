@@ -96,6 +96,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::put('participations/{participation}/cancel', 'Api\ParticipationController@cancel');
 
     Route::post('user/password', 'Api\UserController@updatePassword');
+    Route::get('user/mission/{mission}/has-participation', 'Api\UserController@hasParticipation');
 
     // MESSAGES
     Route::get('conversations', 'Api\ConversationsController@index');
