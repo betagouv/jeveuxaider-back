@@ -77,13 +77,6 @@ class User extends Authenticatable
             ];
         }
 
-        if ($this->profile->is_analyste) {
-            $roles[] = [
-                'key' => 'analyste',
-                'label' => 'Analyste',
-            ];
-        }
-
         if ($this->profile->tete_de_reseau_id) {
             $reseau = Reseau::find($this->profile->tete_de_reseau_id);
             $roles[] = [

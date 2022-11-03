@@ -24,11 +24,7 @@ class MissionPolicy
 
     public function update(User $user, Mission $mission)
     {
-        if (request()->header('Context-Role') == 'analyste') {
-            return false;
-        }
-
-        if(Mission::role(request()->header('Context-Role'))->where('id', $mission->id)->count() > 0) {
+        if (Mission::role(request()->header('Context-Role'))->where('id', $mission->id)->count() > 0) {
             return true;
         }
 
@@ -84,7 +80,7 @@ class MissionPolicy
 
     public function duplicate(User $user, Mission $mission)
     {
-        if(Mission::role('responsable')->where('id', $mission->id)->count() > 0 && request()->header('Context-Role') === 'responsable') {
+        if (Mission::role('responsable')->where('id', $mission->id)->count() > 0 && request()->header('Context-Role') === 'responsable') {
             return true;
         }
 

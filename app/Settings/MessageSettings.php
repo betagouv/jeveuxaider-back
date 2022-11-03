@@ -22,8 +22,6 @@ class MessageSettings extends Settings
 
     public string $responsable_reseau;
 
-    public string $analyste;
-
     public static function group(): string
     {
         return 'message';

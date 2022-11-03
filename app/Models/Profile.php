@@ -31,7 +31,6 @@ class Profile extends Model implements HasMedia
 
     protected $casts = [
         'birthday' => 'date:Y-m-d',
-        'is_analyste' => 'boolean',
         'is_visible' => 'boolean',
         'disponibilities' => 'array',
         'can_export_profiles' => 'boolean',
@@ -127,7 +126,6 @@ class Profile extends Model implements HasMedia
     {
         switch ($contextRole) {
             case 'admin':
-            case 'analyste':
                 return $query;
                 break;
             case 'referent':

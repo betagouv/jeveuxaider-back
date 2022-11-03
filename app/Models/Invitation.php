@@ -115,10 +115,6 @@ class Invitation extends Model
                 $region = Region::whereNumber($this->properties['referent_regional'])->get()->first();
                 $user->assignRole('referent_regional', $region);
             }
-            // DATAS ANALYST
-            if ($this->role == 'datas_analyst') {
-                $user->profile->update(['is_analyste' => true]);
-            }
         }
     }
 }

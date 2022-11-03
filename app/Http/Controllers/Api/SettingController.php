@@ -23,7 +23,6 @@ class SettingController
         $settings->referent_departemental = $request->input('referent_departemental');
         $settings->referent_regional = $request->input('referent_regional');
         $settings->responsable_reseau = $request->input('responsable_reseau');
-        $settings->analyste = $request->input('analyste');
         $settings->save();
 
         return $settings;

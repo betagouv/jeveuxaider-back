@@ -24,7 +24,6 @@ class HasContextRoleHeader
             'responsable',
             'responsable_territoire',
             'tete_de_reseau',
-            'analyste',
         ];
 
         if (! $request->hasHeader('Context-Role') || ! in_array($request->header('Context-Role'), $roles)) {

@@ -450,7 +450,6 @@ class Mission extends Model
     {
         switch ($contextRole) {
             case 'admin':
-            case 'analyste':
                 return $query;
                 break;
             case 'responsable':
