@@ -157,13 +157,12 @@ class UserController extends Controller
     public function hasParticipation(Mission $mission, Request $request)
     {
         $user = User::find(Auth::guard('api')->user()->id);
-        $conversation = Conversation::where('conversable_type', 'App\Models\Participation')
-            ->whereHas('conversable', function (Builder $query) use ($user, $mission) {
-                $query->where('participations.profile_id', $user->profile->id)
-                    ->where('participations.mission_id', $mission->id)
-                    ->where('participations.state', '!=', 'Annulée');
-            })->first();
+        $participation = Participation::where('profile_id', $user->profile->id)
+            ->where('mission_id', $mission->id)
+            ->where('state', '!=', 'Annulée')
+            ->with(['conversation'])
+            ->first();
 
-        return $conversation ? $conversation->id : false;
+        return $participation;
     }
 }
