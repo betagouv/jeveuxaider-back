@@ -154,7 +154,19 @@ class StatisticsPublicController extends Controller
                     $query->department($this->department);
                 }
             )
-            ->count()
+            ->count(),
+            'messages' => Message::when(
+                $this->department, function ($query) {
+                    $query
+                        ->whereHas('conversation', function (Builder $query) {
+                            $query->where('conversable_type', 'App\Models\Participation');
+                        })
+                        ->whereHas('conversation.conversable', function (Builder $query) {
+                            $query->department($this->department);
+                        }
+                    );
+                }
+            )->count(),
          ];
     }
 
@@ -499,6 +511,18 @@ class StatisticsPublicController extends Controller
         return [
             'participations' => $participationsCount,
             'participations_validated' => $participationsValidatedCount,
+            'messages' => Message::when(
+                $this->department, function ($query) {
+                    $query
+                        ->whereHas('conversation', function (Builder $query) {
+                            $query->where('conversable_type', 'App\Models\Participation');
+                        })
+                        ->whereHas('conversation.conversable', function (Builder $query) {
+                            $query->department($this->department);
+                        }
+                    );
+                }
+            )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
         ];
     }
 
@@ -740,7 +764,6 @@ class StatisticsPublicController extends Controller
                 AND missions.deleted_at IS NULL
                 AND COALESCE(missions.department,'') ILIKE :department
                 AND participations.created_at BETWEEN :start and :end
-                AND participations.state IN ('Validée')
                 AND activities.name IS NOT NULL
                 GROUP BY activities.name,activities.id
                 ORDER BY count DESC
@@ -790,7 +813,6 @@ class StatisticsPublicController extends Controller
                 LEFT JOIN domaines ON domaines.id = mission_templates.domaine_id OR domaines.id = missions.domaine_id OR domaines.id = missions.domaine_secondary_id OR domaines.id = mission_templates.domaine_secondary_id
                 WHERE missions.deleted_at IS NULL
                 AND participations.created_at BETWEEN :start and :end
-                AND participations.state IN ('Validée')
                 AND COALESCE(missions.department,'') ILIKE :department
                 GROUP BY domaines.name, domaines.id
                 ORDER BY count DESC
