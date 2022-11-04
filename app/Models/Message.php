@@ -39,10 +39,13 @@ class Message extends Model
                 return $query;
                 break;
             case 'referent':
-            return $query
-                    ->whereHas('conversation.conversable.mission', function (Builder $query) {
-                        $query->where('department', Auth::guard('api')->user()->profile->referent_department);
+            return $query->whereHas('conversation', function (Builder $query) {
+                    $query->whereHasMorph('conversable', [Participation::class], function (Builder $query) {
+                        $query->whereHas('mission', function (Builder $query) {
+                            $query->where('department', Auth::guard('api')->user()->profile->referent_department);
+                        });
                     });
+                 });
                 break;
             default:
                 return $query->whereHas('conversation.users', function (Builder $subquery) {
