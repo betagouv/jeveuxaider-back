@@ -46,7 +46,15 @@ class ProfileController extends Controller
 
     public function show(ProfileRequest $request, Profile $profile)
     {
-        return $profile->load(['user', 'user.territoires', 'user.structures', 'user.regionsAsReferent', 'user.departmentsAsReferent', 'user.reseaux', 'skills', 'domaines', 'avatar', 'activities', 'tags'])->loadCount(['participations', 'participationsValidated']);
+        $profile->load(['user', 'user.roles', 'user.territoires', 'user.structures', 'user.regionsAsReferent', 'user.departmentsAsReferent', 'user.reseaux', 'skills', 'domaines', 'avatar', 'activities', 'tags'])->loadCount(['participations', 'participationsValidated']);
+
+        foreach ($profile->user->roles as $key => $role) {
+            if (isset($role['pivot']['rolable_type'])) {
+                $profile->user->roles[$key]['pivot_model'] = $role['pivot']['rolable_type']::find($role['pivot']['rolable_id']);
+            }
+        }
+
+        return $profile;
     }
 
     public function update(ProfileUpdateRequest $request, Profile $profile = null)

@@ -160,8 +160,6 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::get('statistics/missions/{mission}', 'Api\StatisticsController@missions');
     Route::get('statistics/reseaux/{reseau}', 'Api\StatisticsController@reseaux');
 
-    
-
     // DOCUMENTS
     Route::get('documents', 'Api\DocumentController@index');
 
@@ -287,8 +285,11 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::get('statistics/api-engagement/incoming-trafic', 'Api\ApiEngagementController@incomingTrafic');
     Route::get('statistics/api-engagement/outgoing-applies', 'Api\ApiEngagementController@outgoingApplies');
     Route::get('statistics/api-engagement/incoming-applies', 'Api\ApiEngagementController@incomingApplies');
-});
 
+    // ROLES
+    Route::post('users/{user}/roles', 'Api\UserController@addRole');
+    Route::delete('users/{user}/roles/{role}', 'Api\UserController@deleteRole');
+});
 
 // STATISTICS
 Route::group(['middleware' => ['auth:api', 'is.admin.or.referent']], function () {
@@ -373,5 +374,4 @@ Route::group(['middleware' => ['auth:api', 'is.admin.or.referent']], function ()
     Route::get('statistics/missions-by-year', 'Api\NumbersController@missionsByYear');
     Route::get('statistics/participations-by-year', 'Api\NumbersController@participationsByYear');
     Route::get('statistics/users-by-year', 'Api\NumbersController@usersByYear');
-
 });

@@ -4,10 +4,14 @@ namespace App\Http\Controllers\Api;
 
 use App\Filters\FiltersParticipationSearch;
 use App\Http\Controllers\Controller;
+use App\Models\Department;
 use App\Models\Participation;
+use App\Models\Region;
+use App\Models\Role;
 use App\Models\User;
 use App\Notifications\UserAnonymize;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -21,11 +25,7 @@ class UserController extends Controller
     {
         $user = User::with('profile', 'profile.avatar', 'profile.skills', 'profile.domaines', 'reseaux', 'profile.activities', 'roles')->find(Auth::guard('api')->user()->id);
         $user->append(['statistics']);
-        foreach ($user->roles as $key => $role) {
-            if (isset($role['pivot']['rolable_type'])) {
-                $user->roles[$key]['pivot_model'] = $role['pivot']['rolable_type']::find($role['pivot']['rolable_id']);
-            }
-        }
+        $this->loadRoles($user);
 
         return $user;
     }
@@ -75,6 +75,7 @@ class UserController extends Controller
         $user->update($request->all());
 
         $user->load('profile', 'profile.media', 'profile.skills', 'profile.domaines', 'roles');
+        $this->loadRoles($user);
 
         return $user;
     }
@@ -149,6 +150,45 @@ class UserController extends Controller
         }
 
         $user->anonymize();
+
+        return $user;
+    }
+
+    public function addRole(Request $request, User $user)
+    {
+        $request->validate([
+            'role' => 'required|in:referent,referent_regional',
+            'department' => 'nullable|required_if:role,referent',
+            'region' => 'nullable|required_if:role,referent_regional',
+        ]);
+
+        if ($user->hasRole($request->input('role'))) {
+            return new Response(['message' => "L'utilisateur a déjà ce rôle."], 401);
+        }
+
+        if ($request->input('role') == 'referent') {
+            $user->assignRole('referent', Department::whereNumber($request->input('department'))->get()->first());
+        } elseif ($request->input('role') == 'referent_regional') {
+            $user->assignRole('referent_regional', Region::whereName($request->input('region'))->get()->first());
+        }
+
+        return $user;
+    }
+
+    public function deleteRole(Request $request, User $user, Role $role)
+    {
+        $user->removeRole($role->name);
+
+        return $user;
+    }
+
+    private function loadRoles($user)
+    {
+        foreach ($user->roles as $key => $role) {
+            if (isset($role['pivot']['rolable_type'])) {
+                $user->roles[$key]['pivot_model'] = $role['pivot']['rolable_type']::find($role['pivot']['rolable_id']);
+            }
+        }
 
         return $user;
     }
