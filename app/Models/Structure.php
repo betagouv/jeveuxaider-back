@@ -110,13 +110,13 @@ class Structure extends Model implements HasMedia
                 break;
             case 'referent':
                 return $query
-                    ->whereNotNull('department')
-                    ->where('department', $user->profile->referent_department);
+                    ->whereNotNull('structures.department')
+                    ->where('structures.department', $user->profile->referent_department);
                 break;
             case 'referent_regional':
                 return $query
-                    ->whereNotNull('department')
-                    ->whereIn('department', config('taxonomies.regions.departments')[$user->profile->referent_region]);
+                    ->whereNotNull('structures.department')
+                    ->whereIn('structures.department', config('taxonomies.regions.departments')[$user->profile->referent_region]);
                 break;
             case 'tete_de_reseau':
                 return $query->ofReseau($user->profile->tete_de_reseau_id);
