@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\Filters\FiltersProfileMinParticipations;
-use App\Filters\FiltersProfileRole;
 use App\Filters\FiltersProfileSearch;
 use App\Filters\FiltersTags;
 use App\Http\Controllers\Controller;
@@ -30,10 +29,8 @@ class ProfileController extends Controller
             ])
             ->allowedFilters(
                 AllowedFilter::custom('search', new FiltersProfileSearch),
-                AllowedFilter::custom('role', new FiltersProfileRole),
+                AllowedFilter::scope('user.role'),
                 AllowedFilter::exact('department'),
-                AllowedFilter::exact('referent_department'),
-                AllowedFilter::exact('referent_region'),
                 AllowedFilter::exact('zip'),
                 AllowedFilter::exact('is_visible'),
                 AllowedFilter::custom('min_participations', new FiltersProfileMinParticipations),
@@ -49,7 +46,15 @@ class ProfileController extends Controller
 
     public function show(ProfileRequest $request, Profile $profile)
     {
-        return $profile->load(['user', 'territoires', 'structures', 'reseau', 'skills', 'domaines', 'avatar', 'activities', 'tags'])->loadCount(['participations', 'participationsValidated']);
+        $profile->load(['user', 'user.roles', 'user.territoires', 'user.structures', 'user.regionsAsReferent', 'user.departmentsAsReferent', 'user.reseaux', 'skills', 'domaines', 'avatar', 'activities', 'tags'])->loadCount(['participations', 'participationsValidated']);
+
+        foreach ($profile->user->roles as $key => $role) {
+            if (isset($role['pivot']['rolable_type'])) {
+                $profile->user->roles[$key]['pivot_model'] = $role['pivot']['rolable_type']::find($role['pivot']['rolable_id']);
+            }
+        }
+
+        return $profile;
     }
 
     public function update(ProfileUpdateRequest $request, Profile $profile = null)

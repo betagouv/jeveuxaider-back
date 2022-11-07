@@ -100,26 +100,25 @@ class Structure extends Model implements HasMedia
 
         switch ($contextRole) {
             case 'admin':
-            case 'analyste':
                 return $query;
                 break;
             case 'responsable':
-                return $query->whereHas('responsables', function (Builder $query) use ($user) {
-                    $query->where('profile_id', $user->profile->id);
+                return $query->whereHas('members', function (Builder $query) use ($user) {
+                    $query->where('user_id', $user->id);
                 });
                 break;
             case 'referent':
                 return $query
-                    ->whereNotNull('structures.department')
-                    ->where('structures.department', $user->profile->referent_department);
+                    ->whereNotNull('department')
+                    ->where('department', $user->departmentsAsReferent->first()->number);
                 break;
             case 'referent_regional':
                 return $query
-                    ->whereNotNull('structures.department')
-                    ->whereIn('structures.department', config('taxonomies.regions.departments')[$user->profile->referent_region]);
+                    ->whereNotNull('department')
+                    ->whereIn('department', config('taxonomies.regions.departments')[$user->regionsAsReferent->first()->name]);
                 break;
             case 'tete_de_reseau':
-                return $query->ofReseau($user->profile->tete_de_reseau_id);
+                return $query->ofReseau($user->contextable_id);
                 break;
             case 'responsable_territoire':
                 return $query->ofTerritoire($user->contextable_id);
@@ -267,7 +266,7 @@ class Structure extends Model implements HasMedia
 
     public function members()
     {
-        return $this->belongsToMany('App\Models\Profile', 'members')->withPivot('role', 'fonction');
+        return $this->morphToMany(User::class, 'rolable', 'rolables')->withPivot('fonction');
     }
 
     public function invitations()
@@ -275,9 +274,9 @@ class Structure extends Model implements HasMedia
         return $this->morphMany('App\Models\Invitation', 'invitable');
     }
 
-    public function responsables()
+    public function OldResponsables()
     {
-        return $this->belongsToMany('App\Models\Profile', 'members')->wherePivot('role', 'responsable')->withPivot('role', 'fonction');
+        return $this->belongsToMany('App\Models\Profile', 'old_members')->wherePivot('role', 'responsable');
     }
 
     public function missions()
@@ -315,16 +314,14 @@ class Structure extends Model implements HasMedia
         return $this->morphToMany(Domaine::class, 'domainable')->wherePivot('field', 'structure_domaines');
     }
 
-    public function addMember(Profile $profile, $role)
+    public function addMember(User $user, $fonction = null)
     {
-        return $this->members()->attach($profile, ['role' => $role]);
+        return $user->assignRole('responsable', $this, $fonction);
     }
 
-    public function deleteMember(Profile $profile)
+    public function deleteMember(User $user)
     {
-        $this->members()->detach($profile);
-
-        $user = User::find($profile->user_id);
+        $this->members()->detach($user);
 
         $user->resetContextRole();
         $user->save();
@@ -622,14 +619,14 @@ class Structure extends Model implements HasMedia
                     'name' => $reseau->name,
                 ];
             })->all() : null,
-            'responsables' => $this->members ? $this->members->map(function ($responsable) {
+            'responsables' => $this->members ? $this->members->map(function ($user) {
                 return [
-                    'id' => $responsable->id,
-                    'first_name' => $responsable->first_name,
-                    'last_name' => $responsable->last_name,
-                    'email' => $responsable->email,
-                    'phone' => $responsable->phone,
-                    'mobile' => $responsable->mobile,
+                    'id' => $user->profile->id,
+                    'first_name' => $user->profile->first_name,
+                    'last_name' => $user->profile->last_name,
+                    'email' => $user->profile->email,
+                    'phone' => $user->profile->phone,
+                    'mobile' => $user->profile->mobile,
                 ];
             })->all() : null,
             'created_at' => $this->created_at,

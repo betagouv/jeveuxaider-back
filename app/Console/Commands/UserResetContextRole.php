@@ -46,7 +46,7 @@ class UserResetContextRole extends Command
             return;
         }
 
-        $user = User::with(['profile'])->find($options['user'])->append(['roles']);
+        $user = User::with(['profile', 'roles'])->find($options['user']);
 
         if (! $user) {
             $this->error("This user {$options['user']} doesnt exists!");

@@ -60,33 +60,28 @@ class Participation extends Model
     {
         switch ($contextRole) {
             case 'admin':
-            case 'analyste':
                 return $query;
                 break;
             case 'referent':
                 return $query
                     ->whereHas('mission', function (Builder $query) {
-                        $query->where('department', Auth::guard('api')->user()->profile->referent_department);
+                        $query->where('department', Auth::guard('api')->user()->departmentsAsReferent->first()->number);
                     });
                 break;
             case 'referent_regional':
                 return $query
                     ->whereHas('mission', function (Builder $query) {
-                        $query->whereIn('department', config('taxonomies.regions.departments')[Auth::guard('api')->user()->profile->referent_region]);
+                        $query->whereIn('department', config('taxonomies.regions.departments')[Auth::guard('api')->user()->regionsAsReferent->first()->name]);
                     });
                 break;
             case 'tete_de_reseau':
-                return $query->ofReseau(Auth::guard('api')->user()->profile->tete_de_reseau_id);
+                return $query->ofReseau(Auth::guard('api')->user()->contextable_id);
                 break;
             case 'responsable':
-                $user = Auth::guard('api')->user();
-
-                return $query->ofStructure($user->contextable_id);
+                return $query->ofStructure(Auth::guard('api')->user()->contextable_id);
                 break;
             case 'responsable_territoire':
-                $user = Auth::guard('api')->user();
-
-                return $query->ofTerritoire($user->contextable_id);
+                return $query->ofTerritoire(Auth::guard('api')->user()->contextable_id);
                 break;
             default:
                 abort(403, 'This action is not authorized');

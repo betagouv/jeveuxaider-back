@@ -8,6 +8,7 @@ use App\Models\Structure;
 use App\Notifications\ModerateurDailyTodo;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Notification;
 
 class SendNotificationTodoToModerateurs extends Command
@@ -70,7 +71,9 @@ class SendNotificationTodoToModerateurs extends Command
             $byDeparment[$department]['department_name'] = config('taxonomies.departments.terms')[$department];
             $byDeparment[$department]['missions'] = $missions;
             $byDeparment[$department]['structures'] = $structures;
-            $byDeparment[$department]['referents'] = Profile::where('referent_department', $department)->get();
+            $byDeparment[$department]['referents'] = Profile::whereHas('user.departmentsAsReferent', function (Builder $query) use ($department) {
+                $query->where('number', $department);
+            })->get();
         }
         Notification::route('mail', 'giulietta.bressy@gmail.com')->notify(new ModerateurDailyTodo($byDeparment));
     }

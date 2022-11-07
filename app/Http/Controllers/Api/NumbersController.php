@@ -34,7 +34,7 @@ class NumbersController extends Controller
         }
 
         if($request->header('Context-Role') == 'referent'){
-            $this->department = Auth::guard('api')->user()->profile->referent_department;
+            $this->department = Auth::guard('api')->user()->departmentsAsReferent->first()->number;
         }
         else if($request->input('department')){
             $this->department = $request->input('department');

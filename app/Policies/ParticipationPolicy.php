@@ -19,9 +19,7 @@ class ParticipationPolicy
 
     public function view(User $user, Participation $participation)
     {
-        $ids = Participation::role(request()->header('Context-Role'))->get()->pluck('id')->all();
-
-        if (in_array($participation->id, $ids)) {
+        if(Participation::role(request()->header('Context-Role'))->where('id', $participation->id)->count() > 0) {
             return true;
         }
 
@@ -56,9 +54,7 @@ class ParticipationPolicy
             return false;
         }
 
-        $ids = Participation::role(request()->header('Context-Role'))->get()->pluck('id')->all();
-
-        if (in_array($participation->id, $ids)) {
+        if(Participation::role(request()->header('Context-Role'))->where('id', $participation->id)->count() > 0) {
             return true;
         }
 

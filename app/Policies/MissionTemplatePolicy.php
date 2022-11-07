@@ -33,8 +33,7 @@ class MissionTemplatePolicy
 
     public function update(User $user, MissionTemplate $missionTemplate)
     {
-        $ids = MissionTemplate::role(request()->header('Context-Role'))->get()->pluck('id')->all();
-        if (in_array($missionTemplate->id, $ids)) {
+        if(MissionTemplate::role(request()->header('Context-Role'))->where('id', $missionTemplate->id)->count() > 0) {
             return true;
         }
 
@@ -43,8 +42,7 @@ class MissionTemplatePolicy
 
     public function delete(User $user, MissionTemplate $missionTemplate)
     {
-        $ids = MissionTemplate::role(request()->header('Context-Role'))->get()->pluck('id')->all();
-        if (in_array($missionTemplate->id, $ids)) {
+        if(MissionTemplate::role(request()->header('Context-Role'))->where('id', $missionTemplate->id)->count() > 0) {
             return true;
         }
 

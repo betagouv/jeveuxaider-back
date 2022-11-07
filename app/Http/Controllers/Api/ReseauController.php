@@ -11,6 +11,7 @@ use App\Models\Invitation;
 use App\Models\Profile;
 use App\Models\Reseau;
 use App\Models\Structure;
+use App\Models\User;
 use App\Notifications\ReseauNewLead;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
@@ -43,7 +44,7 @@ class ReseauController extends Controller
     {
         if (is_numeric($slugOrId)) {
             return Reseau::where('id', $slugOrId)
-            ->with(['responsables.tags', 'domaines', 'logo', 'illustrations', 'overrideImage1', 'overrideImage2', 'illustrationsAntennes'])
+            ->with(['responsables.profile.tags', 'domaines', 'logo', 'illustrations', 'overrideImage1', 'overrideImage2', 'illustrationsAntennes'])
             ->withCount('structures', 'missions', 'missionTemplates', 'invitationsAntennes', 'responsables')
             ->firstOrFail()->append(['missing_fields', 'completion_rate']);
         }
@@ -144,9 +145,14 @@ class ReseauController extends Controller
 
     public function addResponsable(AddResponsableRequest $request, Reseau $reseau)
     {
-        $profile = Profile::whereEmail($request->input('email'))->first();
-        $profile->update(['tete_de_reseau_id' => $reseau->id]);
-        $profile->user->resetContextRole();
+        $user = User::whereEmail($request->input('email'))->first();
+
+        if ($user && $user->reseaux->count() > 0) {
+            abort(422, 'Cet email est déjà rattaché à un réseau');
+        }
+
+        $reseau->addResponsable($user);
+        $user->resetContextRole();
 
         return $reseau->responsables;
     }

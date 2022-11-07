@@ -34,7 +34,7 @@ class SendNotificationsNoNewMission extends Command
      */
     public function handle()
     {
-        $query = Structure::with(['responsables'])->where('state', 'Validée')
+        $query = Structure::with(['members'])->where('state', 'Validée')
             ->whereHas('missions', function (Builder $query) {
                 return $query
                     ->whereBetween('created_at', [
@@ -49,9 +49,8 @@ class SendNotificationsNoNewMission extends Command
                             ->whereColumn('structure_id', 'structures.id');
                     });
             });
-
-        foreach ($query->get() as $structure) {
-            Notification::send($structure->responsables->first(), new NoNewMission($structure));
+        foreach ($query->limit(5)->get() as $structure) {
+            Notification::send($structure->members()->first(), new NoNewMission($structure));
         }
     }
 }

@@ -451,25 +451,20 @@ class Mission extends Model
     {
         switch ($contextRole) {
             case 'admin':
-            case 'analyste':
                 return $query;
                 break;
             case 'responsable':
                 // Missions des structures dont je suis responsable
-                $user = Auth::guard('api')->user();
-
-                return $query->where('structure_id', $user->contextable_id);
+                return $query->where('structure_id', Auth::guard('api')->user()->contextable_id);
                 break;
             case 'responsable_territoire':
-                $user = Auth::guard('api')->user();
-
-                return $query->ofTerritoire($user->contextable_id);
+                return $query->ofTerritoire(Auth::guard('api')->user()->contextable_id);
                 break;
             case 'referent':
                 // Missions qui sont dans mon département
                 return $query
                     ->whereNotNull('department')
-                    ->where('department', Auth::guard('api')->user()->profile->referent_department);
+                    ->where('department', Auth::guard('api')->user()->departmentsAsReferent->first()->number);
                 break;
             case 'referent_regional':
                 // Missions qui sont dans ma région
@@ -477,13 +472,12 @@ class Mission extends Model
                     ->whereNotNull('department')
                     ->whereIn(
                         'department',
-                        config('taxonomies.regions.departments')[Auth::guard('api')->user()->profile->referent_region]
+                        config('taxonomies.regions.departments')[Auth::guard('api')->user()->regionsAsReferent->first()->name]
                     );
                 break;
             case 'tete_de_reseau':
                 // Missions qui sont dans une structure rattachée à mon réseau
-                return $query
-                    ->ofReseau(Auth::guard('api')->user()->profile->tete_de_reseau_id);
+                return $query->ofReseau(Auth::guard('api')->user()->contextable_id);
                 break;
             default:
                 // Securite

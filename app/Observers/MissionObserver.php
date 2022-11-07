@@ -13,6 +13,7 @@ use App\Notifications\MissionSignaled;
 use App\Notifications\MissionSubmitted;
 use App\Notifications\MissionValidated;
 use App\Notifications\MissionWaitingValidation;
+use Illuminate\Database\Eloquent\Builder;
 
 class MissionObserver
 {
@@ -29,7 +30,9 @@ class MissionObserver
                 $mission->responsable->notify(new MissionWaitingValidation($mission));
             }
             if ($mission->department) {
-                Profile::where('referent_department', $mission->department)->get()->map(function ($profile) use ($mission) {
+                Profile::whereHas('user.departmentsAsReferent', function (Builder $query) use ($mission) {
+                    $query->where('number', $mission->department);
+                })->get()->map(function ($profile) use ($mission) {
                     $profile->notify(new MissionSubmitted($mission));
                 });
             }
@@ -46,11 +49,8 @@ class MissionObserver
 
         // Sync SENDINBLUE
         if (config('services.sendinblue.sync')) {
-            $mission->structure->responsables->each(function ($profile, $key) {
-                $profile->load('user');
-                if ($profile->user) { // Parfois il n'y a pas de user car ce sont des profiles invités
-                    SendinblueSyncUser::dispatch($profile->user);
-                }
+            $mission->structure->members->each(function ($user, $key) {
+                SendinblueSyncUser::dispatch($user);
             });
         }
 
@@ -86,7 +86,9 @@ class MissionObserver
                         $mission->responsable->notify(new MissionWaitingValidation($mission));
                     }
                     if ($mission->department) {
-                        Profile::where('referent_department', $mission->department)->get()->map(function ($profile) use ($mission) {
+                        Profile::whereHas('user.departmentsAsReferent', function (Builder $query) use ($mission) {
+                            $query->where('number', $mission->department);
+                        })->get()->map(function ($profile) use ($mission) {
                             $profile->notify(new MissionSubmitted($mission));
                         });
                     }
@@ -193,11 +195,8 @@ class MissionObserver
     {
         // Sync SENDINBLUE
         if (config('services.sendinblue.sync')) {
-            $mission->structure->responsables->each(function ($profile, $key) {
-                $profile->load('user');
-                if ($profile->user) { // Parfois il n'y a pas de user car ce sont des profiles invités
-                    SendinblueSyncUser::dispatch($profile->user);
-                }
+            $mission->structure->members->each(function ($user, $key) {
+                SendinblueSyncUser::dispatch($user);
             });
         }
 

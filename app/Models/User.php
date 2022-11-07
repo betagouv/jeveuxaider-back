@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Notifications\ParticipationDeclined;
 use App\Notifications\ResetPassword;
+use App\Traits\HasRoles;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -12,14 +13,14 @@ use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, Notifiable;
+    use HasApiTokens, Notifiable, HasRoles;
 
     protected $fillable = [
         'name', 'email', 'password', 'context_role', 'contextable_type', 'contextable_id', 'utm_source', 'utm_campaign', 'utm_medium',
     ];
 
     protected $hidden = [
-        'password', 'remember_token', 'is_admin', 'email_verified_at',
+        'password', 'remember_token', 'email_verified_at',
     ];
 
     protected $casts = [
@@ -38,75 +39,6 @@ class User extends Authenticatable
         $this->attributes['email'] = mb_strtolower($value);
     }
 
-    public function getRolesAttribute()
-    {
-        $roles = [];
-
-        if ($this->is_admin) {
-            $roles[] = [
-                'key' => 'admin',
-                'label' => 'Modérateur',
-            ];
-        }
-
-        if ($this->profile->is_analyste) {
-            $roles[] = [
-                'key' => 'analyste',
-                'label' => 'Analyste',
-            ];
-        }
-
-        if ($this->profile->referent_department) {
-            $roles[] = [
-                'key' => 'referent',
-                'label' => $this->profile->referent_department,
-            ];
-        }
-
-        if ($this->profile->tete_de_reseau_id) {
-            $reseau = Reseau::find($this->profile->tete_de_reseau_id);
-            $roles[] = [
-                'key' => 'tete_de_reseau',
-                'contextable_type' => 'reseau',
-                'contextable_id' => $reseau->id,
-                'label' => $reseau->name,
-            ];
-        }
-
-        if ($this->profile->referent_region) {
-            $roles[] = [
-                'key' => 'referent_regional',
-                'label' => $this->profile->referent_region,
-            ];
-        }
-
-        $structures = $this->profile->structures;
-        if ($structures) {
-            foreach ($structures as $structure) {
-                $roles[] = [
-                    'key' => 'responsable',
-                    'contextable_type' => 'structure',
-                    'contextable_id' => $structure->id,
-                    'label' => $structure->name,
-                ];
-            }
-        }
-
-        $territoires = $this->profile->territoires;
-        if ($territoires) {
-            foreach ($territoires as $territoire) {
-                $roles[] = [
-                    'key' => 'responsable_territoire',
-                    'contextable_type' => 'territoire',
-                    'contextable_id' => $territoire->id,
-                    'label' => $territoire->name,
-                ];
-            }
-        }
-
-        return $roles;
-    }
-
     public function profile()
     {
         return $this->hasOne('App\Models\Profile');
@@ -119,7 +51,7 @@ class User extends Authenticatable
 
     public function isAdmin()
     {
-        return $this->is_admin;
+        return $this->hasRole('admin');
     }
 
     public function sendPasswordResetNotification($token)
@@ -134,7 +66,27 @@ class User extends Authenticatable
 
     public function structures()
     {
-        return $this->hasMany('App\Models\Structure');
+        return $this->morphedByMany(Structure::class, 'rolable', 'rolables');
+    }
+
+    public function departmentsAsReferent()
+    {
+        return $this->morphedByMany(Department::class, 'rolable', 'rolables');
+    }
+
+    public function regionsAsReferent()
+    {
+        return $this->morphedByMany(Region::class, 'rolable', 'rolables');
+    }
+
+    public function reseaux()
+    {
+        return $this->morphedByMany(Reseau::class, 'rolable', 'rolables');
+    }
+
+    public function territoires()
+    {
+        return $this->morphedByMany(Territoire::class, 'rolable', 'rolables');
     }
 
     public function messages()

@@ -50,9 +50,19 @@ class Reseau extends Model implements HasMedia
             ->dontSubmitEmptyLogs();
     }
 
+    public function oldResponsables()
+    {
+        return $this->hasMany(Profile::class, 'old_tete_de_reseau_id');
+    }
+
     public function responsables()
     {
-        return $this->hasMany(Profile::class, 'tete_de_reseau_id');
+        return $this->morphToMany(User::class, 'rolable', 'rolables');
+    }
+
+    public function addResponsable(User $user)
+    {
+        return $user->assignRole('tete_de_reseau', $this);
     }
 
     public function structures()
@@ -92,11 +102,12 @@ class Reseau extends Model implements HasMedia
 
     public function deleteResponsable(Profile $profile)
     {
-        $profile->tete_de_reseau_id = null;
-        $profile->save();
+        $user = $profile->user;
 
-        $profile->user->resetContextRole();
-        $profile->user->save();
+        $this->responsables()->detach($user);
+
+        $user->resetContextRole();
+        $user->save();
 
         return $this->load('responsables');
     }

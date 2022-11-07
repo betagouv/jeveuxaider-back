@@ -31,7 +31,6 @@ class Profile extends Model implements HasMedia
 
     protected $casts = [
         'birthday' => 'date:Y-m-d',
-        'is_analyste' => 'boolean',
         'is_visible' => 'boolean',
         'disponibilities' => 'array',
         'can_export_profiles' => 'boolean',
@@ -127,11 +126,10 @@ class Profile extends Model implements HasMedia
     {
         switch ($contextRole) {
             case 'admin':
-            case 'analyste':
                 return $query;
                 break;
             case 'referent':
-                $departement = Auth::guard('api')->user()->profile->referent_department;
+                $departement = Auth::guard('api')->user()->departmentsAsReferent->first()->number;
 
                 return $query
                     ->where('zip', 'LIKE', $departement.'%')
@@ -144,17 +142,16 @@ class Profile extends Model implements HasMedia
                         }
                     )
                     ->orWhereHas(
-                        'structures',
+                        'user.structures',
                         function (Builder $query) use ($departement) {
                             $query
-                                ->where('role', 'responsable')
                                 ->whereNotNull('department')
                                 ->where('department', $departement);
                         }
                     );
                 break;
             case 'referent_regional':
-                $departements = config('taxonomies.regions.departments')[Auth::guard('api')->user()->profile->referent_region];
+                $departements = config('taxonomies.regions.departments')[Auth::guard('api')->user()->regionsAsReferent->first()->name];
 
                 return $query
                     ->whereHas(
@@ -183,7 +180,7 @@ class Profile extends Model implements HasMedia
                     );
                 break;
             case 'responsable':
-                $structures_id = Auth::guard('api')->user()->profile->structures->pluck('id')->toArray();
+                $structures_id = Auth::guard('api')->user()->structures->pluck('id')->toArray();
 
                 return $query->whereHas(
                     'participations',
@@ -235,9 +232,9 @@ class Profile extends Model implements HasMedia
         return $this->belongsTo('App\Models\User');
     }
 
-    public function reseau()
+    public function oldReseau()
     {
-        return $this->belongsTo(Reseau::class, 'tete_de_reseau_id');
+        return $this->belongsTo(Reseau::class, 'old_tete_de_reseau_id');
     }
 
     public function missions()
@@ -245,16 +242,17 @@ class Profile extends Model implements HasMedia
         return $this->hasMany('App\Models\Mission', 'responsable_id');
     }
 
-    public function structures()
+    // Todo : supprimer cette fonction après migration des rôles
+    public function oldStructures()
     {
         return $this
-            ->belongsToMany('App\Models\Structure', 'members')
+            ->belongsToMany('App\Models\Structure', 'old_members')
             ->withPivot('role');
     }
 
-    public function territoires()
+    public function oldTerritoires()
     {
-        return $this->belongsToMany('App\Models\Territoire')->orderBy('name', 'ASC');
+        return $this->belongsToMany('App\Models\Territoire', 'old_profile_territoire')->orderBy('name', 'ASC');
     }
 
     public function structureAsResponsable()

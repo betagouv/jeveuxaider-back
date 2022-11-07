@@ -108,7 +108,7 @@ class MissionTemplate extends Model implements HasMedia
             return $query;
                 break;
         case 'tete_de_reseau':
-            return $query->ofReseau(Auth::guard('api')->user()->profile->tete_de_reseau_id);
+            return $query->ofReseau(Auth::guard('api')->user()->contextable_id);
                 break;
         case 'responsable':
             return $query->available();
