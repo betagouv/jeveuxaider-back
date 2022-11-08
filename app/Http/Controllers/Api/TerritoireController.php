@@ -96,7 +96,6 @@ class TerritoireController extends Controller
         }
 
         $territoire->addResponsable($user);
-        $user->resetContextRole();
 
         return $territoire->responsables;
     }

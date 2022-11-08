@@ -344,7 +344,6 @@ class StructureController extends Controller
         }
 
         $structure->addMember($user);
-        $user->resetContextRole();
 
         return $structure->members;
     }

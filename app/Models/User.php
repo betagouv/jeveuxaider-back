@@ -153,11 +153,32 @@ class User extends Authenticatable
 
     public function resetContextRole()
     {
-        if (! empty($this->roles)) {
-            $role = $this->roles[0];
-            $this->context_role = $role['key'];
-            $this->contextable_type = isset($role['contextable_type']) ? $role['contextable_type'] : null;
-            $this->contextable_id = isset($role['contextable_id']) ? $role['contextable_id'] : null;
+        if ($this->roles()->count() > 0) {
+            $role = $this->roles()->first();
+            $this->context_role = $role['name'];
+            if(isset($role['pivot'])) {
+                $this->contextable_id = $role['pivot']['rolable_id'];
+                switch ($role['pivot']['rolable_type']) {
+                    case 'App\Models\Structure':
+                        $this->contextable_type = 'structure';
+                        break;
+                    case 'App\Models\Territoire':
+                        $this->contextable_type = 'responsable_territoire';
+                        break;
+                    case 'App\Models\Department':
+                        $this->contextable_type = 'referent';
+                        break;
+                    case 'App\Models\Region':
+                        $this->contextable_type = 'referent_regional';
+                        break;
+                    case 'App\Models\Reseau':
+                        $this->contextable_type = 'tete_de_reseau';
+                        break;
+                    default:
+                        $this->contextable_type = null;
+                        break;
+                }
+            }
         } else {
             $this->context_role = 'volontaire';
             $this->contextable_type = null;

@@ -27,6 +27,8 @@ trait HasRoles
             'fonction' => $fonction,
         ]);
 
+        $this->resetContextRole();
+
         return $this;
     }
 
@@ -35,6 +37,10 @@ trait HasRoles
         $role = Role::firstWhere('name', $roleName);
 
         $this->roles()->detach($role);
+
+        $this->resetContextRole();
+
+        return $this;
     }
 
     public function hasRole($roles)

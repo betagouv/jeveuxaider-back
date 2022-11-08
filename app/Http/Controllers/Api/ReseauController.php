@@ -152,7 +152,6 @@ class ReseauController extends Controller
         }
 
         $reseau->addResponsable($user);
-        $user->resetContextRole();
 
         return $reseau->responsables;
     }
