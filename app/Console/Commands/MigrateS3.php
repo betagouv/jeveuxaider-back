@@ -89,8 +89,6 @@ class MigrateS3 extends Command
                         Storage::disk($destination)->put($file, $content, $visibility);
                         $this->countOutputLog('copied', $file);
                     } else {
-                        ray('file not exist', $file);
-                        ray('content', $content);
                         $this->countOutputLog('file_not_exist', $file);
                     }
                 } else { // Skip file

@@ -16,20 +16,14 @@ class IsAdminOrReferent
      */
     public function handle($request, Closure $next)
     {
-
-        $roles = [
-            'admin',
-            'referent',
-        ];
-
-        if (! $request->hasHeader('Context-Role') || ! in_array($request->header('Context-Role'), $roles)) {
+        if (! $request->hasHeader('Context-Role') || ! in_array($request->header('Context-Role'), ['admin', 'referent'])) {
             return new Response(['message' => "Vous n'avez pas les droits administrateurs nécéssaires"], 401); 
        }
 
-        if (array_search($request->header('Context-Role'), array_column($request->user()->roles, 'key')) === false) {
-            return new Response(['message' => "Vous n'avez pas les droits administrateurs nécéssaires"], 401);
+        if ($request->user()->hasRole('admin') || $request->user()->hasRole('referent')) {
+            return $next($request);
         }
 
-        return $next($request);
+        return new Response(['message' => "Vous n'avez pas les droits administrateurs nécéssaires"], 401);
     }
 }
