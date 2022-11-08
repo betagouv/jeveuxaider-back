@@ -332,7 +332,9 @@ class StructureController extends Controller
 
     public function responsables(Request $request, Structure $structure)
     {
-        return $structure->members()->withCount(['profile.missions'])->get();
+        return $structure->members()->with(['profile' => function ($query) {
+            $query->withCount('missions');
+        }])->get();
     }
 
     public function addResponsable(AddResponsableRequest $request, Structure $structure)
