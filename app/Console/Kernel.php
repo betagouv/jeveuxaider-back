@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Console\Commands\AlgoliaMissionUpdateFieldOutdated;
 use App\Console\Commands\ApiEngagementExportMissions;
 use App\Console\Commands\ApiEngagementSyncMissions;
 use App\Console\Commands\SendNotificationsBenevoleCejNoParticipation;
