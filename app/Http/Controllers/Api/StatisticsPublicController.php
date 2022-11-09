@@ -128,8 +128,7 @@ class StatisticsPublicController extends Controller
 
     public function overviewPlaces(Request $request)
     {
-        $missionsAvailable = Mission::role($request->header('Context-Role'))
-            ->when(
+        $missionsAvailable = Mission::when(
                 $this->department, function ($query) {
                     $query->where('department', $this->department);
                 }
