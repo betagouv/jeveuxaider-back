@@ -255,11 +255,6 @@ class Profile extends Model implements HasMedia
         return $this->belongsToMany('App\Models\Territoire', 'old_profile_territoire')->orderBy('name', 'ASC');
     }
 
-    public function structureAsResponsable()
-    {
-        return $this->structures()->wherePivot('role', 'responsable')->first();
-    }
-
     public function participations()
     {
         return $this->hasMany('App\Models\Participation');
