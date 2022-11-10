@@ -83,6 +83,7 @@ class CreateRoles extends Command
         $profilesResponsable->each(function ($profile) {
             foreach ($profile->oldStructures as $structure) {
                 $profile->user->assignRole('responsable', $structure, $structure->pivot->fonction);
+                $this->info('new role responsable');
             }
         });
         $this->info('Role responsable assigned to '.$profilesResponsable->count().' users');
