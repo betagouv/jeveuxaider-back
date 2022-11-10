@@ -58,9 +58,9 @@ class CreateRoles extends Command
         });
 
         if (Role::where('name', 'admin')->count() == 0) {
-            if (! $this->confirm('Roles will be created (admin, referent, responsable, referent_regional, tete_de_reseau, responsable_territoire)')) {
-                return;
-            }
+            // if (! $this->confirm('Roles will be created (admin, referent, responsable, referent_regional, tete_de_reseau, responsable_territoire)')) {
+            //     return;
+            // }
             Role::create(['name' => 'admin']);
             Role::create(['name' => 'responsable']);
             Role::create(['name' => 'referent']);
@@ -69,9 +69,9 @@ class CreateRoles extends Command
             Role::create(['name' => 'responsable_territoire']);
         }
 
-        if (! $this->confirm('Do you want to migrate all user roles ?')) {
-            return;
-        }
+        // if (! $this->confirm('Do you want to migrate all user roles ?')) {
+        //     return;
+        // }
 
         $usersAdmin = User::with('roles')->where('old_is_admin', true)->get();
         $usersAdmin->each(function ($user) {
