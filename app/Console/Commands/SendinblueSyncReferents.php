@@ -5,7 +5,6 @@ namespace App\Console\Commands;
 use App\Models\User;
 use App\Services\Sendinblue;
 use Illuminate\Console\Command;
-use Illuminate\Database\Eloquent\Builder;
 
 class SendinblueSyncReferents extends Command
 {
@@ -40,11 +39,7 @@ class SendinblueSyncReferents extends Command
      */
     public function handle()
     {
-        $query = User::whereHas('profile', function (Builder $query) {
-            $query->where(function ($q) {
-                $q->whereNotNull('referent_region')->orWhereNotNull('referent_department');
-            });
-        });
+        $query = User::role(['referent', 'referent_regional']);
         if ($this->confirm($query->count().' users will be added or updated in Sendinblue')) {
             $query->chunk(50, function ($users) {
                 foreach ($users as $user) {

@@ -19,9 +19,7 @@ class TemoignagePolicy
 
     public function view(User $user, Temoignage $temoignage)
     {
-        $ids = Temoignage::role(request()->header('Context-Role'))->get()->pluck('id')->all();
-
-        if (in_array($temoignage->id, $ids)) {
+        if(Temoignage::role(request()->header('Context-Role'))->where('id', $temoignage->id)->count() > 0) {
             return true;
         }
 

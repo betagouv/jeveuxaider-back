@@ -74,7 +74,6 @@ class StructureRequest extends FormRequest
             'email' => '',
             'color' => '',
             'send_volunteer_coordonates' => '',
-            'tete_de_reseau_id' => '',
             'reseaux' => '',
         ];
     }

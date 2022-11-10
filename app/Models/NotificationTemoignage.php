@@ -30,14 +30,13 @@ class NotificationTemoignage extends Model
     {
         switch ($contextRole) {
             case 'admin':
-            case 'analyste':
                 return $query;
                 break;
             case 'referent':
                 return $query
                     ->whereHas('participation', function (Builder $query) {
                         $query->whereHas('mission', function (Builder $query) {
-                            $query->where('department', Auth::guard('api')->user()->profile->referent_department);
+                            $query->where('department', Auth::guard('api')->user()->departmentsAsReferent->first()->number);
                         });
                     });
                 break;
@@ -45,14 +44,14 @@ class NotificationTemoignage extends Model
                 return $query
                     ->whereHas('participation', function (Builder $query) {
                         $query->whereHas('mission', function (Builder $query) {
-                            $query->whereIn('department', config('taxonomies.regions.departments')[Auth::guard('api')->user()->profile->referent_region]);
+                            $query->whereIn('department', config('taxonomies.regions.departments')[Auth::guard('api')->user()->regionsAsReferent->first()->name]);
                         });
                     });
                 break;
             case 'tete_de_reseau':
                 return $query
                     ->whereHas('participation.mission.structure.reseaux', function (Builder $query) {
-                        $query->where('reseaux.id', Auth::guard('api')->user()->profile->tete_de_reseau_id);
+                        $query->where('reseaux.id', Auth::guard('api')->user()->contextable_id);
                     });
                 break;
             case 'responsable':
@@ -64,7 +63,7 @@ class NotificationTemoignage extends Model
                             if ($user->context_role == 'responsable' && $user->contextable_type == 'structure' && ! empty($user->contextable_id)) {
                                 $query->where('structure_id', $user->contextable_id);
                             } else {
-                                $query->where('structure_id', $user->profile->structures->pluck('id')->first());
+                                $query->where('structure_id', $user->structures->pluck('id')->first());
                             }
                         });
                     });

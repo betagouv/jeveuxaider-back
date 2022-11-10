@@ -42,7 +42,7 @@ class Message extends Model
             return $query->whereHas('conversation', function (Builder $query) {
                     $query->whereHasMorph('conversable', [Participation::class], function (Builder $query) {
                         $query->whereHas('mission', function (Builder $query) {
-                            $query->where('department', Auth::guard('api')->user()->profile->referent_department);
+                            $query->where('department', Auth::guard('api')->user()->departmentsAsReferent->first()->number);
                         });
                     });
                  });

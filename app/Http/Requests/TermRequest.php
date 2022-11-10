@@ -13,7 +13,7 @@ class TermRequest extends FormRequest
      */
     public function authorize()
     {
-        return $this->user()->is_admin;
+        return $this->user()->isAdmin();
     }
 
     /**

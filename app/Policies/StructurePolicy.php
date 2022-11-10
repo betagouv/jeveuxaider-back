@@ -27,9 +27,7 @@ class StructurePolicy
 
     public function view(User $user, Structure $structure)
     {
-        $ids = Structure::role(request()->header('Context-Role'))->get()->pluck('id')->all();
-
-        if (in_array($structure->id, $ids)) {
+        if(Structure::role(request()->header('Context-Role'))->where('id', $structure->id)->count() > 0) {
             return true;
         }
 
@@ -43,9 +41,7 @@ class StructurePolicy
 
     public function update(User $user, Structure $structure)
     {
-        $ids = Structure::role(request()->header('Context-Role'))->get()->pluck('id')->all();
-
-        if (in_array($structure->id, $ids)) {
+        if(Structure::role(request()->header('Context-Role'))->where('id', $structure->id)->count() > 0) {
             return true;
         }
 
@@ -59,9 +55,7 @@ class StructurePolicy
 
     public function unregister(User $user, Structure $structure)
     {
-        $ids = Structure::role(request()->header('Context-Role'))->get()->pluck('id')->all();
-
-        if (in_array($structure->id, $ids)) {
+        if(Structure::role(request()->header('Context-Role'))->where('id', $structure->id)->count() > 0) {
             return true;
         }
 

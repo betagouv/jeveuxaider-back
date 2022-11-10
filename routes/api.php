@@ -129,7 +129,7 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::get('structures', 'Api\StructureController@index');
     Route::get('structures/{structure}', 'Api\StructureController@show');
     Route::post('structures/{structure}/missions', 'Api\StructureController@addMission');
-    Route::delete('structures/{structure}/members/{member}', 'Api\StructureController@deleteMember');
+    Route::delete('structures/{structure}/members/{user}', 'Api\StructureController@deleteMember');
 
     // INVITATIONS
     Route::get('invitations', 'Api\InvitationController@index');
@@ -292,9 +292,13 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::get('statistics/api-engagement/incoming-trafic', 'Api\ApiEngagementController@incomingTrafic');
     Route::get('statistics/api-engagement/outgoing-applies', 'Api\ApiEngagementController@outgoingApplies');
     Route::get('statistics/api-engagement/incoming-applies', 'Api\ApiEngagementController@incomingApplies');
+
+    // ROLES
+    Route::post('users/{user}/roles', 'Api\UserController@addRole');
+    Route::delete('users/{user}/roles/{role}', 'Api\UserController@deleteRole');
 });
 
-// STATISTICS PRIVATE
+// STATISTICS
 Route::group(['middleware' => ['auth:api', 'is.admin.or.referent']], function () {
 
     // NOTES

@@ -133,7 +133,7 @@ class Territoire extends Model implements HasMedia
 
     public function responsables()
     {
-        return $this->belongsToMany('App\Models\Profile');
+        return $this->morphToMany(User::class, 'rolable', 'rolables');
     }
 
     public function invitations()
@@ -146,9 +146,9 @@ class Territoire extends Model implements HasMedia
         return $this->belongsTo('App\Models\Structure');
     }
 
-    public function addResponsable(Profile $profile)
+    public function addResponsable(User $user)
     {
-        return $this->responsables()->attach($profile);
+        return $user->assignRole('responsable_territoire', $this);
     }
 
     public function deleteResponsable(Profile $profile)

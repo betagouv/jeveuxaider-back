@@ -60,7 +60,7 @@ class UserRoleAdmin extends Command
             return;
         }
 
-        $user = User::with(['profile'])->find($options['user'])->append(['roles']);
+        $user = User::with(['profile', 'roles'])->find($options['user']);
 
         if (! $user) {
             $this->error("This user {$options['user']} doesnt exists!");
@@ -75,13 +75,11 @@ class UserRoleAdmin extends Command
 
         if ($this->confirm('Continuer ?')) {
             if ($options['action'] == 'add') {
-                $user->is_admin = true;
-                $user->resetContextRole();
+                $user->assignRole('admin');
                 $this->info("User {$user->profile->full_name} {$user->mail} is now admin");
             }
             if ($options['action'] == 'remove') {
-                $user->is_admin = false;
-                $user->resetContextRole();
+                $user->removeRole('admin');
                 $this->info("User {$user->profile->full_name} {$user->mail} is no more admin");
             }
         }

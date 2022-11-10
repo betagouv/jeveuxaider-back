@@ -2,16 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Exports\ParticipationsExport;
 use App\Filters\FiltersParticipationSearch;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\ParticipationCancelRequest;
 use App\Http\Requests\Api\ParticipationCreateRequest;
 use App\Http\Requests\Api\ParticipationDeclineRequest;
-use App\Http\Requests\Api\ParticipationDeleteRequest;
-use App\Http\Requests\Api\ParticipationManageRequest;
 use App\Http\Requests\Api\ParticipationUpdateRequest;
-use App\Models\Conversation;
 use App\Models\Mission;
 use App\Models\Participation;
 use App\Models\Profile;
@@ -20,7 +16,6 @@ use App\Models\User;
 use App\Notifications\ParticipationBenevoleCanceled;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Maatwebsite\Excel\Facades\Excel;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -61,14 +56,8 @@ class ParticipationController extends Controller
     public function show(Request $request, Participation $participation)
     {
         $participation = $participation->load(['mission', 'profile', 'conversation', 'conversation.latestMessage', 'mission.responsable', 'profile.skills', 'profile.domaines', 'profile.avatar']);
-        // $participation->mission->append(['full_address']);
 
         return $participation;
-    }
-
-    public function export(Request $request)
-    {
-        return Excel::download(new ParticipationsExport($request), 'profiles.xlsx');
     }
 
     public function store(ParticipationCreateRequest $request)
@@ -161,56 +150,6 @@ class ParticipationController extends Controller
 
         return $participation;
     }
-
-    // public function cancel(Request $request, Participation $participation)
-    // {
-    //     if (Auth::guard('api')->user()->profile->id != $participation->profile_id) {
-    //         abort(403, 'Cette participation ne vous appartient pas');
-    //     }
-
-    //     $participation->update(['state' => 'Annulée']);
-
-    //     return $participation;
-    // }
-
-    public function delete(ParticipationDeleteRequest $request, Participation $participation)
-    {
-        return (string) $participation->delete();
-    }
-
-    // public function massValidation(Request $request)
-    // {
-    //     $participations = Participation::role('responsable')->where('state', 'En attente de validation')->get();
-    //     foreach ($participations as $participation) {
-    //         $participation->update(['state' => 'Validée']);
-    //     }
-    // }
-
-    public function conversation(ParticipationManageRequest $request, Participation $participation)
-    {
-        if ($participation->conversation) {
-            $conversation = Conversation::with('latestMessage')->find($participation->conversation->id);
-
-            return $conversation;
-        }
-
-        return null;
-    }
-
-    public function benevole(ParticipationManageRequest $request, Participation $participation)
-    {
-        return $participation->profile->append('roles', 'has_user', 'domaines');
-    }
-
-    // public function mission(Request $request, Participation $participation)
-    // {
-    //     return $participation->mission->load('structure');
-    // }
-
-    // public function benevoleName(Request $request, Participation $participation)
-    // {
-    //     return $participation->profile->only(['id', 'first_name', 'last_name']);
-    // }
 
     public function temoignage(Request $request, Participation $participation)
     {

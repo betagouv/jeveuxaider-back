@@ -23,7 +23,6 @@ class StatisticsController extends Controller
 
         switch ($request->header('Context-Role')) {
             case 'admin':
-            case 'analyste':
                 return [
                     'organisations' => Structure::count(),
                     'organisations_actives' => $missionsAvailable->pluck('structure_id')->unique()->count(),

@@ -28,9 +28,9 @@ class ConversationsController extends Controller
             $query = Conversation::role($request->header('Context-Role'));
         }
 
-        $result = QueryBuilder::for(
+        return QueryBuilder::for(
             $query->whereHas('conversable')->with(
-                ['latestMessage', 'users', 'users.profile.avatar', 'users.profile.structures', 'users.profile.territoires', 'conversable' => function (MorphTo $morphTo) {
+                ['latestMessage', 'users', 'users.profile.avatar', 'users.structures', 'users.territoires', 'users.roles', 'conversable' => function (MorphTo $morphTo) {
                     $morphTo->morphWith(
                         [
                             Participation::class => [
@@ -56,17 +56,6 @@ class ConversationsController extends Controller
             )
             ->defaultSort('-updated_at')
             ->paginate(config('query-builder.results_per_page'));
-
-        // On ajoute le rôle, à supprimer quand le rôle sera en bdd
-        $result->through(function ($conversation) {
-            foreach ($conversation->users as $user) {
-                $user->append('roles');
-            }
-
-            return $conversation;
-        });
-
-        return $result;
     }
 
     public function show(ConversationRequest $request, Conversation $conversation)
@@ -74,8 +63,8 @@ class ConversationsController extends Controller
         $currentUser = User::find(Auth::guard('api')->user()->id);
         $currentUser->markConversationAsRead($conversation);
 
-        $conversation = Conversation::with(
-            ['users', 'users.profile.avatar', 'latestMessage', 'users.profile.structures', 'users.profile.territoires', 'conversable' => function (MorphTo $morphTo) {
+        return Conversation::with(
+            ['users', 'users.profile.avatar', 'latestMessage', 'users.structures', 'users.territoires', 'users.roles', 'conversable' => function (MorphTo $morphTo) {
                 $morphTo->morphWith(
                     [
                         Participation::class => [
@@ -88,12 +77,6 @@ class ConversationsController extends Controller
                 );
             }]
         )->where('id', $conversation->id)->first();
-
-        foreach ($conversation->users as $user) {
-            $user->append('roles');
-        }
-
-        return $conversation;
     }
 
     public function store(Request $request)
@@ -118,7 +101,7 @@ class ConversationsController extends Controller
 
     public function benevole(ConversationRequest $request, Conversation $conversation)
     {
-        return Profile::with(['structures:id,name', 'domaines'])->find($conversation->conversable->profile_id);
+        return Profile::with(['user.structures:id,name', 'domaines'])->find($conversation->conversable->profile_id);
     }
 
     public function setStatus(ConversationRequest $request, Conversation $conversation)

@@ -79,7 +79,7 @@ class Invitation extends Model
 
     public function accept()
     {
-        $profile = Profile::whereEmail($this->email)->first();
+        $user = User::whereEmail($this->email)->first();
 
         // Commenter car sinon pose problème pour le resetContextRole + ça va être accepté par la suite
         // if (in_array($this->role, ['responsable_organisation'])) {
@@ -88,34 +88,32 @@ class Invitation extends Model
         //     }
         // }
 
-        if ($profile) {
+        if ($user) {
             // RESPONSABLE ORGANISATION
             if ($this->role == 'responsable_organisation') {
-                $this->invitable->addMember($profile, 'responsable');
+                $this->invitable->addMember($user);
             }
             // RESPONSABLE TERRITOIRE
             if ($this->role == 'responsable_territoire') {
-                $this->invitable->addResponsable($profile);
+                $this->invitable->addResponsable($user);
             }
             // RESPONSABLE RESEAU
             if ($this->role == 'responsable_reseau') {
-                $profile->update(['tete_de_reseau_id' => $this->invitable->id]);
+                $this->invitable->addResponsable($user);
             }
             // RESPONSABLE ANTENNE
             if ($this->role == 'responsable_antenne') {
-                $this->invitable->createStructure($this->properties['antenne_name'], $profile->user);
+                $this->invitable->createStructure($this->properties['antenne_name'], $user);
             }
             // REFERENT DEPARTEMENTAL
             if ($this->role == 'referent_departemental') {
-                $profile->update(['referent_department' => $this->properties['referent_departemental']]);
+                $department = Department::whereNumber($this->properties['referent_departemental'])->get()->first();
+                $user->assignRole('referent', $department);
             }
             // REFERENT REGIONAL
             if ($this->role == 'referent_regional') {
-                $profile->update(['referent_region' => $this->properties['referent_regional']]);
-            }
-            // DATAS ANALYST
-            if ($this->role == 'datas_analyst') {
-                $profile->update(['is_analyste' => true]);
+                $region = Region::whereNumber($this->properties['referent_regional'])->get()->first();
+                $user->assignRole('referent_regional', $region);
             }
         }
     }

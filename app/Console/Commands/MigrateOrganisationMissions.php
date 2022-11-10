@@ -89,13 +89,15 @@ class MigrateOrganisationMissions extends Command
     {
         $addedMembers = [];
 
+        // ATTENTION : L'ajout de membres dans une autre structure n'est plus possible si l'utilisateur a déjà une structure.
+        // Ce script ne fonctionne plus pour la migration des membres
+
         // Migre le responsable de la mission dans la nouvelle structure.
         $bar = $this->output->createProgressBar($count);
         $bar->start();
         foreach ($missionsQuery->cursor() as $mission) {
+            $structureDestination->addMember($mission->responsable->user);
             $addedMembers[] = $mission->responsable;
-            $structureDestination->members()
-                ->syncWithPivotValues($mission->responsable_id, ['role' => 'responsable'], false);
             $bar->advance();
         }
         $bar->finish();
@@ -121,7 +123,7 @@ class MigrateOrganisationMissions extends Command
                 $count = $structureOrigin->missions->where('responsable_id', $member->id)->count();
                 if ($count == 0) {
                     $deletedMembers[] = $member;
-                    $structureOrigin->members()->detach($member);
+                    $structureOrigin->deleteMember($member->user);
                     // Force contextable_id s'il correspondait à l'ancienne structure.
                     $user = $member->user;
                     if ($user->contextable_id == $structureOrigin->id) {

@@ -53,7 +53,7 @@ class DocumentController extends Controller
 
     public function notify(Request $request, Document $document)
     {
-        $referents = Profile::whereNotNull('referent_department')->get();
+        $referents = Profile::has('user.departmentsAsReferent')->get();
 
         if (! empty($referents)) {
             foreach ($referents as $referent) {

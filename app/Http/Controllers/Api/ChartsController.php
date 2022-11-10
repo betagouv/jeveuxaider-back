@@ -26,7 +26,7 @@ class ChartsController extends Controller
             $this->endDate =  Carbon::createFromFormat('Y-m-d',  $request->input('endDate'))->hour(23)->minute(59)->second(59);
         }
         if($request->header('Context-Role') == 'referent'){
-            $this->department = Auth::guard('api')->user()->profile->referent_department;
+            $this->department = Auth::guard('api')->user()->departmentsAsReferent->first()->number;
         }
         else if($request->input('department')){
             $this->department = $request->input('department');

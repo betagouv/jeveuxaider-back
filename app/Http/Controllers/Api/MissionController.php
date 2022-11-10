@@ -9,9 +9,6 @@ use App\Filters\FiltersMissionPlacesLeft;
 use App\Filters\FiltersMissionPriorityAvailable;
 use App\Filters\FiltersMissionPublicsVolontaires;
 use App\Filters\FiltersMissionSearch;
-use App\Filters\FiltersProfileSkill;
-use App\Filters\FiltersProfileTag;
-use App\Filters\FiltersProfileZips;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\MissionDeleteRequest;
 use App\Http\Requests\Api\MissionDuplicateRequest;
@@ -91,7 +88,7 @@ class MissionController extends Controller
     public function show(Request $request, $id)
     {
         if (is_numeric($id)) {
-            $mission = Mission::with(['structure.members:id,first_name,last_name,mobile,email', 'template.domaine', 'template.domaineSecondary', 'domaine', 'domaineSecondary', 'responsable.tags', 'skills', 'template.photo', 'illustrations', 'structure.illustrations', 'structure.overrideImage1', 'structure.logo', 'activity:id,name', 'structure.reseaux:id,name'])->withCount('temoignages')->where('id', $id)->first();
+            $mission = Mission::with(['structure.members', 'template.domaine', 'template.domaineSecondary', 'domaine', 'domaineSecondary', 'responsable.tags', 'skills', 'template.photo', 'illustrations', 'structure.illustrations', 'structure.overrideImage1', 'structure.logo', 'activity:id,name', 'structure.reseaux:id,name'])->withCount('temoignages')->where('id', $id)->first();
             if ($mission) {
                 $mission->append(['full_address', 'has_places_left']);
             }

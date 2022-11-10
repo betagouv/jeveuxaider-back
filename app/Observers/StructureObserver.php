@@ -19,6 +19,7 @@ use App\Notifications\StructureSignaled;
 use App\Notifications\StructureSubmitted;
 use App\Notifications\StructureValidated;
 use App\Services\ApiEngagement;
+use Illuminate\Database\Eloquent\Builder;
 
 class StructureObserver
 {
@@ -30,9 +31,7 @@ class StructureObserver
      */
     public function created(Structure $structure)
     {
-        if ($structure->user->profile) {
-            $structure->members()->attach($structure->user->profile, ['role' => 'responsable']);
-        }
+        $structure->addMember($structure->user);
 
         // COLLECTIVITE
         if ($structure->statut_juridique === 'Collectivité') {
@@ -47,7 +46,7 @@ class StructureObserver
                 'type' => 'city',
                 'state' => 'waiting',
             ]);
-            $responsable = $structure->responsables->first();
+            $responsable = $structure->members->first();
             if ($responsable) {
                 $territoire->addResponsable($responsable);
             }
@@ -71,7 +70,7 @@ class StructureObserver
         $newState = $structure->state;
 
         // RESPONSABLE
-        $responsable = $structure->responsables->first();
+        $responsable = $structure->members->first()->profile;
 
         if ($oldState != $newState) {
             switch ($newState) {
@@ -81,7 +80,9 @@ class StructureObserver
                         $structure->user->notify($notification);
                     }
                     if ($structure->department) {
-                        Profile::where('referent_department', $structure->department)->get()->map(function ($profile) use ($structure) {
+                        Profile::whereHas('user.departmentsAsReferent', function (Builder $query) use ($structure) {
+                            $query->where('number', $structure->department);
+                        })->get()->map(function ($profile) use ($structure) {
                             $profile->notify(new StructureSubmitted($structure));
                         });
                     }
@@ -172,7 +173,9 @@ class StructureObserver
         if ($oldDepartment != $newDepartment) {
             if ($structure->state == 'En attente de validation') {
                 if ($structure->department) {
-                    Profile::where('referent_department', $structure->department)->get()->map(function ($profile) use ($structure) {
+                    Profile::whereHas('user.departmentsAsReferent', function (Builder $query) use ($structure) {
+                        $query->where('number', $structure->department);
+                    })->get()->map(function ($profile) use ($structure) {
                         $profile->notify(new StructureSubmitted($structure));
                     });
                 }
@@ -182,11 +185,8 @@ class StructureObserver
         // MAJ SENDINBLUE
         if (config('services.sendinblue.sync')) {
             if ($structure->isDirty('name')) {
-                $structure->responsables->each(function ($profile, $key) {
-                    $profile->load('user');
-                    if ($profile->user) { // Parfois il n'y a pas de user car ce sont des profiles invités
-                        SendinblueSyncUser::dispatch($profile->user);
-                    }
+                $structure->members->each(function ($user, $key) {
+                    SendinblueSyncUser::dispatch($user);
                 });
             }
         }
@@ -254,8 +254,8 @@ class StructureObserver
         $structure->invitations()->delete();
 
         // Detaching members from organisation
-        $structure->responsables->map(function ($responsable) use ($structure) {
-            $structure->deleteMember($responsable);
+        $structure->members->map(function ($user) use ($structure) {
+            $structure->deleteMember($user);
         });
 
         // Sync Airtable

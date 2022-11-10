@@ -87,7 +87,7 @@ class StructureController extends Controller
             abort(403);
         }
 
-        return $structure->load(['territoire', 'members.tags', 'domaines', 'reseaux', 'logo', 'illustrations', 'overrideImage1', 'overrideImage2'])->append(['missing_fields', 'completion_rate']);
+        return $structure->load(['territoire', 'members.profile.tags', 'domaines', 'reseaux', 'logo', 'illustrations', 'overrideImage1', 'overrideImage2'])->append(['missing_fields', 'completion_rate']);
     }
 
     public function associationSlugOrId(Request $request, $slugOrId)
@@ -107,8 +107,9 @@ class StructureController extends Controller
 
     public function store(StructureCreateRequest $request)
     {
+        $user = Auth::guard('api')->user();
         $structureAttributes = [
-            'user_id' => Auth::guard('api')->user()->id,
+            'user_id' => $user->id,
         ];
 
         // MAPPING API ENGAGEMENT
@@ -146,7 +147,6 @@ class StructureController extends Controller
 
         if ($request->has('reseaux')) {
             if ($request->input('reseaux')) {
-                //  $structure->reseaux()->syncWithoutDetaching([$request->input('tete_de_reseau_id')]);
                 $reseaux = collect($request->input('reseaux'));
                 $structure->reseaux()->sync($reseaux->pluck('id'));
             }
@@ -161,7 +161,7 @@ class StructureController extends Controller
         }
 
         if ($request->has('responsable_fonction')) {
-            $structure->members()->updateExistingPivot($structure->user->profile, [
+            $structure->members()->updateExistingPivot($structure->user, [
                 'fonction' => $request->input('responsable_fonction'),
             ]);
         }
@@ -236,26 +236,26 @@ class StructureController extends Controller
         return true;
     }
 
-    public function deleteMember(StructureRequest $request, Structure $structure, Profile $member)
+    public function deleteMember(StructureRequest $request, Structure $structure, User $user)
     {
-        $user = User::find(Auth::guard('api')->user()->id);
+        $currentUser = User::find(Auth::guard('api')->user()->id);
 
         // Switch responsable
         if($request->has('new_responsable_id') && $request->input('new_responsable_id')) {
             $newResponsable = Profile::find($request->input('new_responsable_id'));
             if($newResponsable){
-                Mission::where('responsable_id', $member->id)
+                Mission::where('responsable_id', $user->profile->id)
                     ->where('structure_id', $structure->id)
                     ->get()->map(function ($mission) use ($newResponsable) {
                         $mission->update(['responsable_id' => $newResponsable->id]);
                     });
-                if($user->profile->id != $newResponsable->id){
-                    $newResponsable->notify(new StructureSwitchResponsable($structure, $member));
+                if($currentUser->profile->id != $newResponsable->id){
+                    $newResponsable->notify(new StructureSwitchResponsable($structure, $user->profile));
                 }
             }
         }
 
-        $structure->deleteMember($member);
+       $structure->deleteMember($user);
 
         return $structure->members;
     }
@@ -312,7 +312,7 @@ class StructureController extends Controller
         return [
             'structure_id' => $structure->id,
             'structure_name' => $structure->name,
-            'responsable_fullname' => $structure->responsables->first() ? $structure->responsables->first()->full_name : null,
+            'responsable_fullname' => $structure->members->first() ? $structure->members->first()->profile->full_name : null,
         ];
     }
 
@@ -324,8 +324,8 @@ class StructureController extends Controller
             abort('422', "Cette organisation est reliée à {$relatedMissionsCount} mission(s)");
         }
 
-        $structure->responsables->map(function ($responsable) use ($structure) {
-            $structure->deleteMember($responsable);
+        $structure->members->map(function ($user) use ($structure) {
+            $structure->deleteMember($user);
         });
 
         return (string) $structure->delete();
@@ -333,19 +333,20 @@ class StructureController extends Controller
 
     public function responsables(Request $request, Structure $structure)
     {
-        return $structure->responsables()->withCount(['missions'])->get();
+        return $structure->members()->with(['profile' => function ($query) {
+            $query->withCount('missions');
+        }])->get();
     }
 
     public function addResponsable(AddResponsableRequest $request, Structure $structure)
     {
-        $profile = Profile::whereEmail($request->input('email'))->first();
+        $user = User::whereEmail($request->input('email'))->first();
 
-        if ($profile && $profile->structures->count() > 0) {
+        if ($user && $user->structures->count() > 0) {
             abort(422, 'Cet email est déjà rattaché à une organisation');
         }
 
-        $structure->addMember($profile, 'responsable');
-        $profile->user->resetContextRole();
+        $structure->addMember($user);
 
         return $structure->members;
     }

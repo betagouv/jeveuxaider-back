@@ -22,7 +22,7 @@ class NotePolicy
         if (request()->header('Context-Role') == 'referent') {
             $note->load('notable');
             $user->load('profile');
-            return $note->notable->department == $user->profile->referent_department;
+            return $note->notable->department == $user->departmentsAsReferent->first()->number;
         }
 
         return false;
