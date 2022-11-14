@@ -28,13 +28,13 @@ class MissionRequest extends FormRequest
         return [
             'user_id' => 'sometimes|required',
             'name' => 'required_without:template_id|min:3|max:255',
-            'responsable_id' => ['required', function ($attribute, $value, $fail) {
-                $datas = $this->validator->getData();
-                $structure = Structure::with('members.profile')->find($datas['structure_id']);
-                if (! $structure->members->pluck('profile.id')->contains($value)) {
-                    $fail("Le responsable renseigné n'est pas un membre de l'organisation");
-                }
-            }],
+            // 'responsable_id' => ['required', function ($attribute, $value, $fail) {
+            //     $datas = $this->validator->getData();
+            //     $structure = Structure::with('members.profile')->find($datas['structure_id']);
+            //     if (! $structure->members->pluck('profile.id')->contains($value)) {
+            //         $fail("Le responsable renseigné n'est pas un membre de l'organisation");
+            //     }
+            // }],
             'start_date' => 'required|date',
             'end_date' => 'nullable|date|after_or_equal:start_date',
             'structure_id' => '',
