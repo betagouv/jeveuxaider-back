@@ -44,7 +44,7 @@ class SendNotificationTodoToResponsables extends Command
     {
         $nb_jours_notif = 10;
 
-        $participationsByResponsable = Participation::with(['mission.responsable', 'mission.structure.responsables'])->where('state', 'En attente de validation')
+        $participationsByResponsable = Participation::with(['mission.responsable'])->where('state', 'En attente de validation')
           ->where('created_at', '>', Carbon::now()->subDays($nb_jours_notif)->startOfDay())
           ->get()
           ->groupBy('mission.responsable.id');
