@@ -129,8 +129,7 @@ class StructureObserver
                     $members = $structure->members;
                     $structure->members()->detach();
 
-                    foreach ($members as $member) {
-                        $user = User::find($member->user_id);
+                    foreach ($members as $user) {
                         if ($user->context_role == 'responsable' && $user->contextable_id == $structure->id) {
                             $user->resetContextRole();
                         }
@@ -159,7 +158,7 @@ class StructureObserver
             }
 
             // ALGOLIA - Missions reliées
-            if($newState == 'Validée'){
+            if ($newState == 'Validée') {
                 $structure->missions->where('state', 'Validée')->searchable();
             } else {
                 $structure->missions->unsearchable();
