@@ -128,6 +128,7 @@ class MissionRequest extends FormRequest
             'domaine_secondary_id' => '',
             'template_id' => '',
             'thumbnail' => '',
+            'tags' => '',
             'skills' => '',
             'commitment__duration' => '',
             'commitment__time_period' => '',

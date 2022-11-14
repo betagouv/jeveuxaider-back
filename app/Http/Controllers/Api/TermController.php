@@ -19,7 +19,7 @@ class TermController extends Controller
     {
         return QueryBuilder::for(Term::where('vocabulary_id', $vocabulary->id)->withCount(['related']))
             ->allowedFilters([
-                AllowedFilter::exact('is_archived'),
+                AllowedFilter::exact('is_published'),
                 AllowedFilter::custom('search', new FiltersNameSearch),
                 AllowedFilter::custom('has_related', new FiltersTermHasRelated),
             ])
@@ -38,7 +38,7 @@ class TermController extends Controller
 
     public function show(Term $term)
     {
-        return Term::with('vocabulary')->withCount(['related', 'missions', 'profiles'])->find($term->id);
+        return Term::with('vocabulary')->withCount(['related'])->find($term->id);
     }
 
     public function update(TermRequest $request, Vocabulary $vocabulary, Term $term)

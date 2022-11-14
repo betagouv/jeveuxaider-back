@@ -9,6 +9,7 @@ use App\Filters\FiltersMissionPlacesLeft;
 use App\Filters\FiltersMissionPriorityAvailable;
 use App\Filters\FiltersMissionPublicsVolontaires;
 use App\Filters\FiltersMissionSearch;
+use App\Filters\FiltersTags;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\MissionDeleteRequest;
 use App\Http\Requests\Api\MissionDuplicateRequest;
@@ -66,11 +67,13 @@ class MissionController extends Controller
                 AllowedFilter::scope('available'),
                 AllowedFilter::custom('is_template', new FiltersMissionIsTemplate),
                 AllowedFilter::exact('is_autonomy'),
+                AllowedFilter::custom('tags', new FiltersTags)
             ])
             ->allowedIncludes([
                 'template.photo',
                 'illustrations',
                 AllowedInclude::count('participationsCount'),
+                'tags',
             ])
             ->defaultSort('-created_at')
             ->allowedSorts([
@@ -88,7 +91,23 @@ class MissionController extends Controller
     public function show(Request $request, $id)
     {
         if (is_numeric($id)) {
-            $mission = Mission::with(['structure.members', 'template.domaine', 'template.domaineSecondary', 'domaine', 'domaineSecondary', 'responsable.tags', 'skills', 'template.photo', 'illustrations', 'structure.illustrations', 'structure.overrideImage1', 'structure.logo', 'activity:id,name', 'structure.reseaux:id,name'])->withCount('temoignages')->where('id', $id)->first();
+            $mission = Mission::with([
+                'structure.members',
+                'template.domaine',
+                'template.domaineSecondary',
+                'domaine',
+                'domaineSecondary',
+                'responsable.tags',
+                'skills',
+                'template.photo',
+                'illustrations',
+                'structure.illustrations',
+                'structure.overrideImage1',
+                'structure.logo',
+                'activity:id,name',
+                'structure.reseaux:id,name',
+                'tags'
+            ])->withCount('temoignages')->where('id', $id)->first();
             if ($mission) {
                 $mission->append(['full_address', 'has_places_left']);
             }
@@ -110,6 +129,14 @@ class MissionController extends Controller
 
     public function update(MissionUpdateRequest $request, Mission $mission)
     {
+        if ($request->has('tags')) {
+            $tags = collect($request->input('tags'));
+            $values = $tags->pluck($tags, 'id')->map(function ($item) {
+                return ['field' => 'mission_tags'];
+            });
+            $mission->tags()->sync($values);
+        }
+
         if ($request->has('skills')) {
             $skills = collect($request->input('skills'));
             $values = $skills->pluck($skills, 'id')->map(function ($item) {
