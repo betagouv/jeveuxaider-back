@@ -252,6 +252,7 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::get('scripts/activites-missions-libres/{activity}', 'Api\ScriptController@assignActivityToMissions');
 
     // VOCABULARIES
+    Route::get('/vocabularies/{vocabulary:slug}', 'Api\VocabularyController@show');
     Route::post('/vocabularies/{vocabulary:slug}/terms', 'Api\TermController@store');
     Route::put('/vocabularies/{vocabulary:slug}/terms/{term}', 'Api\TermController@update');
     Route::get('/terms/{term}', 'Api\TermController@show');

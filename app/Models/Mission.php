@@ -80,12 +80,12 @@ class Mission extends Model
 
     public function makeAllSearchableUsing(Builder $query)
     {
-        return $query->with(['structure', 'structure.reseaux', 'activity', 'template.activity', 'template.domaine', 'template.photo', 'illustrations', 'domaine', 'domaineSecondary']);
+        return $query->with(['structure', 'structure.reseaux', 'activity', 'template.activity', 'template.domaine', 'template.photo', 'illustrations', 'domaine', 'domaineSecondary', 'tags']);
     }
 
     public function toSearchableArray()
     {
-        $this->load(['structure', 'structure.reseaux:id,name', 'activity', 'template.activity', 'template.domaine', 'template.photo', 'illustrations', 'domaine', 'domaineSecondary']);
+        $this->load(['structure', 'structure.reseaux:id,name', 'activity', 'template.activity', 'template.domaine', 'template.photo', 'illustrations', 'domaine', 'domaineSecondary', 'tags']);
 
         $domaines = [];
         $domaine = $this->template_id ? $this->template->domaine : $this->domaine;
@@ -168,6 +168,7 @@ class Mission extends Model
             'is_autonomy' => $this->is_autonomy,
             'autonomy_zips' => $this->is_autonomy && count($this->autonomy_zips) > 0 ? $this->autonomy_zips : null,
             'is_outdated' => $this->end_date && $this->end_date < Carbon::today() ? true : false,
+            'tags' => $this->tags->pluck('name')
         ];
 
         if ($this->is_autonomy) {
@@ -548,6 +549,11 @@ class Mission extends Model
                 }
             )
             ->saveSlugsTo('slug');
+    }
+
+    public function tags()
+    {
+        return $this->morphToMany(Term::class, 'termable')->wherePivot('field', 'mission_tags');
     }
 
     public function skills()
