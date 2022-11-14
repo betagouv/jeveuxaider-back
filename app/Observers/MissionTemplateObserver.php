@@ -12,8 +12,7 @@ class MissionTemplateObserver
 {
 
     private $mailsToNotify = [
-        'maiwelle.mezi@beta.gouv.fr',
-        'joe.achkar@beta.gouv.fr',
+        'sophie.galent@beta.gouv.fr',
         'coralie.chauvin@beta.gouv.fr',
         'nivine.katanji@beta.gouv.fr'
     ];
