@@ -54,14 +54,14 @@ class Mission extends Model
     {
         return LogOptions::defaults()
             ->logOnly(['*'])
-            ->logExcept(['places_left'])
+            ->logExcept(['places_left', 'updated_at'])
             ->logOnlyDirty()
             ->dontSubmitEmptyLogs();
     }
 
     public function shouldBeSearchable()
     {
-        if (! $this->structure) {
+        if (!$this->structure) {
             return false;
         }
         // Attention  bien mettre à jour la query côté API Engagement aussi ( Api\EngagementController@feed )
@@ -70,7 +70,7 @@ class Mission extends Model
 
     public function searchableAs()
     {
-        return config('scout.prefix').'_covid_missions';
+        return config('scout.prefix') . '_covid_missions';
     }
 
     public function getFullUrlAttribute()
@@ -108,7 +108,7 @@ class Mission extends Model
             'city' => $this->city,
             'state' => $this->state,
             'department' => $this->department,
-            'department_name' => $this->department.' - '.config('taxonomies.departments.terms')[$this->department],
+            'department_name' => $this->department . ' - ' . config('taxonomies.departments.terms')[$this->department],
             'zip' => $this->zip,
             'periodicite' => $this->periodicite,
             'has_places_left' => $this->has_places_left,
@@ -372,8 +372,8 @@ class Mission extends Model
                 'template',
                 function (Builder $query) use ($domain_id) {
                     $query
-                    ->where('domaine_id', $domain_id)
-                    ->orWhere('domaine_secondary_id', $domain_id);
+                        ->where('domaine_id', $domain_id)
+                        ->orWhere('domaine_secondary_id', $domain_id);
                 }
             );
     }
@@ -500,9 +500,9 @@ class Mission extends Model
     {
         $latName = 'latitude';
         $lonName = 'longitude';
-        $query->select($this->getTable().'.*');
-        $sql = '((ACOS(SIN(? * PI() / 180) * SIN('.$latName.' * PI() / 180) + COS(? * PI() / 180) * COS('.
-            $latName.' * PI() / 180) * COS((? - '.$lonName.') * PI() / 180)) * 180 / PI()) * 60 * ?) as distance';
+        $query->select($this->getTable() . '.*');
+        $sql = '((ACOS(SIN(? * PI() / 180) * SIN(' . $latName . ' * PI() / 180) + COS(? * PI() / 180) * COS(' .
+            $latName . ' * PI() / 180) * COS((? - ' . $lonName . ') * PI() / 180)) * 180 / PI()) * 60 * ?) as distance';
 
         $query->selectRaw($sql, [$latitude, $latitude, $longitude, 1.1515 * 1.609344]);
 
@@ -543,7 +543,7 @@ class Mission extends Model
                 function ($mission) {
                     $mission->load('structure');
 
-                    return ! empty($mission->city)
+                    return !empty($mission->city)
                         ? "benevolat-{$mission->structure->name}-{$mission->city}"
                         : "benevolat-{$mission->structure->name}";
                 }
