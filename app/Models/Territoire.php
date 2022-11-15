@@ -153,19 +153,21 @@ class Territoire extends Model implements HasMedia
 
     public function deleteResponsable(Profile $profile)
     {
-        $this->responsables()->detach($profile);
+        $user = $profile->user;
 
-        $profile->user->resetContextRole();
-        $profile->user->save();
+        $this->responsables()->detach($user);
+
+        $user->resetContextRole();
+        $user->save();
 
         return $this->load('responsables');
     }
 
     public function setCoordonates()
     {
-        if (! empty($this->zips)) {
+        if (!empty($this->zips)) {
             $place = ApiAdresse::search(['q' => $this->zips[0], 'type' => 'municipality', 'limit' => 1]);
-            if (! empty($place)) {
+            if (!empty($place)) {
                 $this->latitude = $place['geometry']['coordinates'][1];
                 $this->longitude = $place['geometry']['coordinates'][0];
             }
@@ -193,14 +195,14 @@ class Territoire extends Model implements HasMedia
                 $departmentName = config('taxonomies.departments')['terms'][$territoire->department];
                 $config = array_merge($config, [
                     'facetFilters' => [
-                        'department_name:'.$territoire->department.' - '.$departmentName,
+                        'department_name:' . $territoire->department . ' - ' . $departmentName,
                     ],
                     'aroundLatLngViaIP' => true,
                 ]);
             } else {
                 if ($territoire->latitude && $territoire->longitude) {
                     $config = array_merge($config, [
-                        'aroundLatLng' => $territoire->latitude.','.$territoire->longitude,
+                        'aroundLatLng' => $territoire->latitude . ',' . $territoire->longitude,
                         'aroundRadius' => 35000,
                         'facetFilters' => ['type:Mission en présentiel'],
                     ]);
