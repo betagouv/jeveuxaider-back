@@ -78,8 +78,6 @@ class UserController extends Controller
             'email.unique' => 'Cet email est déjà pris',
         ];
 
-        ray('UPDATE USER');
-
         $validator = Validator::make($request->all(), [
             'email' => ['required', 'email', 'unique:users,email,'.$user->id],
         ], $messages);

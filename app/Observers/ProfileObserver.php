@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Helpers\Utils;
+use App\Jobs\AirtableSyncObject;
 use App\Jobs\SendinblueSyncUser;
 use App\Models\Profile;
 use App\Notifications\RegisterUserVolontaireCejAdviser;
@@ -47,8 +48,15 @@ class ProfileObserver
             }
         }
 
-        if (!empty($profile->cej_email_adviser) && $profile->getOriginal('cej_email_adviser') != $profile->cej_email_adviser) {
+        if (! empty($profile->cej_email_adviser) && $profile->getOriginal('cej_email_adviser') != $profile->cej_email_adviser) {
             Notification::route('mail', $profile->cej_email_adviser)->notify(new RegisterUserVolontaireCejAdviser($profile));
+        }
+
+        // Sync Airtable
+        if (config('services.airtable.sync')) {
+            if ($profile->user->hasRole(['referent', 'referent_regional'])) {
+                AirtableSyncObject::dispatch($profile->user);
+            }
         }
     }
 
