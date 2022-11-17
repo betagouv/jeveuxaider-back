@@ -68,4 +68,8 @@ return [
         'base' => env('AIRTABLE_BASE'),
         'sync' => env('AIRTABLE_SYNC'),
     ],
+
+    'emailable' => [
+        'key' => env('API_EMAILABLE_KEY'),
+    ],
 ];
