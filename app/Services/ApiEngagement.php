@@ -418,16 +418,15 @@ class ApiEngagement
 
     public function getStatistics($params)
     {
-
         try {
             $response = Http::accept('application/json')
             ->withHeaders([
-            'apikey' => config('app.api_engagement_key'),
-            ])->get("https://api.api-engagement.beta.gouv.fr/v0/view/stats?" . $params);
+                'apikey' => config('app.api_engagement_key'),
+            ])->get('https://api.api-engagement.beta.gouv.fr/v0/view/stats?'.$params);
         } catch (\Throwable $th) {
             throw $th;
         }
-        
+
         return $response->json();
     }
 }

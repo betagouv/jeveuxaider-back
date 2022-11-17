@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\UniqueInsensitive;
 use Illuminate\Foundation\Http\FormRequest;
 
 class RegisterResponsableRequest extends FormRequest
@@ -24,7 +25,7 @@ class RegisterResponsableRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => ['required', 'email', 'unique:users'],
+            'email' => ['required', 'email', new UniqueInsensitive('users')],
             'password' => 'required|min:8',
             'first_name' => 'required|min:3',
             'last_name' => 'required',
