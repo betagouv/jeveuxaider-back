@@ -17,15 +17,14 @@ use App\Models\Profile;
 use App\Models\Reseau;
 use App\Models\Structure;
 use App\Models\Temoignage;
+use App\Models\Term;
 use App\Models\Territoire;
 use App\Models\User;
-use App\Models\Term;
 use App\Observers\ActivityLogObserver;
 use App\Observers\ConversationObserver;
 use App\Observers\InvitationObserver;
 use App\Observers\MessageObserver;
 use App\Observers\MissionObserver;
-use App\Observers\TermObserver;
 use App\Observers\MissionTemplateObserver;
 use App\Observers\NoteObserver;
 use App\Observers\NotificationTemoignageObserver;
@@ -34,16 +33,19 @@ use App\Observers\ProfileObserver;
 use App\Observers\ReseauObserver;
 use App\Observers\StructureObserver;
 use App\Observers\TemoignageObserver;
+use App\Observers\TermObserver;
 use App\Observers\TerritoireObserver;
 use App\Observers\UserObserver;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Passport\Exceptions\OAuthServerException;
+use Predis\Connection\ConnectionException;
+use Spatie\LaravelIgnition\Facades\Flare;
 use Symfony\Component\Mailer\Bridge\Sendinblue\Transport\SendinblueTransportFactory;
 use Symfony\Component\Mailer\Transport\Dsn;
-use Carbon\Carbon;
+use Throwable;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -92,7 +94,6 @@ class AppServiceProvider extends ServiceProvider
         Note::observe(NoteObserver::class);
         Term::observe(TermObserver::class);
 
-
         Validator::extend('phone', function ($attribute, $value, $parameters) {
             return preg_match('/^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$/', $value);
         });
@@ -109,13 +110,17 @@ class AppServiceProvider extends ServiceProvider
             );
         });
 
-        if (config('mail.reroute')) {
-            if (Auth::guard('api')->user()) {
-                Mail::alwaysTo(Auth::guard('api')->user()->email);
-            } else {
-                Mail::alwaysTo('pinto.jeremy@gmail.com');
-            }
-        }
+        Flare::filterExceptionsUsing(
+            function (Throwable $throwable) {
+                if ($throwable instanceof OAuthServerException) {
+                    return false;
+                }
+                if ($throwable instanceof ConnectionException) {
+                    return false;
+                }
 
+                return true;
+            }
+        );
     }
 }
