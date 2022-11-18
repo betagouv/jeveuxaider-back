@@ -12,6 +12,7 @@ use App\Models\Region;
 use App\Models\Role;
 use App\Models\User;
 use App\Notifications\UserAnonymize;
+use App\Services\Sendinblue;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -154,6 +155,7 @@ class UserController extends Controller
         $user = $request->user();
         $notification = new UserAnonymize($user);
         $user->notify($notification);
+        Sendinblue::deleteContact($user);
         $user->anonymize();
 
         return $user;
@@ -170,7 +172,7 @@ class UserController extends Controller
 
         return $participation;
     }
-    
+
     public function addRole(Request $request, User $user)
     {
         $request->validate([
