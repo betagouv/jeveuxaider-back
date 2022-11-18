@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Filters\FiltersDisponibility;
+use App\Filters\FiltersDoesntHaveTags;
 use App\Filters\FiltersMissionDate;
 use App\Filters\FiltersMissionIsTemplate;
 use App\Filters\FiltersMissionPlacesLeft;
@@ -67,7 +68,9 @@ class MissionController extends Controller
                 AllowedFilter::scope('available'),
                 AllowedFilter::custom('is_template', new FiltersMissionIsTemplate),
                 AllowedFilter::exact('is_autonomy'),
-                AllowedFilter::custom('tags', new FiltersTags)
+                AllowedFilter::custom('tags', new FiltersTags),
+                AllowedFilter::custom('no_tags', new FiltersDoesntHaveTags)
+
             ])
             ->allowedIncludes([
                 'template.photo',
