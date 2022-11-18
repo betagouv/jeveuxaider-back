@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 
+use App\Jobs\AirtableSyncObject;
 use App\Models\Role;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
@@ -29,6 +30,13 @@ trait HasRoles
 
         $this->resetContextRole();
 
+        // Sync Airtable
+        if (config('services.airtable.sync')) {
+            if ($roleName == 'referent' || $roleName == 'referent_regional') {
+                AirtableSyncObject::dispatch($this);
+            }
+        }
+
         return $this;
     }
 
@@ -37,8 +45,14 @@ trait HasRoles
         $role = Role::firstWhere('name', $roleName);
 
         $this->roles()->detach($role);
-
         $this->resetContextRole();
+
+        // Sync Airtable
+        if (config('services.airtable.sync')) {
+            if ($roleName == 'referent' || $roleName == 'referent_regional') {
+                AirtableSyncObject::dispatch($this);
+            }
+        }
 
         return $this;
     }

@@ -4,9 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Filters\FiltersParticipationSearch;
 use App\Http\Controllers\Controller;
-use App\Models\Conversation;
-use App\Models\Mission;
 use App\Models\Department;
+use App\Models\Mission;
 use App\Models\Participation;
 use App\Models\Region;
 use App\Models\Role;
@@ -21,7 +20,6 @@ use Illuminate\Support\Facades\Validator;
 use Laravel\Passport\Token;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
-use Illuminate\Database\Eloquent\Builder;
 
 class UserController extends Controller
 {
@@ -82,7 +80,7 @@ class UserController extends Controller
         ];
 
         $validator = Validator::make($request->all(), [
-            'email' => ['required', 'email', 'unique:users,email,' . $user->id],
+            'email' => ['required', 'email', 'unique:users,email,'.$user->id],
         ], $messages);
 
         if ($validator->fails()) {
@@ -102,7 +100,7 @@ class UserController extends Controller
         $user = $request->user();
         $inputs = $request->all();
 
-        if (!(Hash::check($request->get('current_password'), $user->password))) {
+        if (! (Hash::check($request->get('current_password'), $user->password))) {
             abort(422, "L'ancien mot de passe est incorrect");
         }
 
@@ -126,7 +124,7 @@ class UserController extends Controller
             ],
         ], $messages);
 
-        if (!$validator->fails()) {
+        if (! $validator->fails()) {
             $user->password = Hash::make($inputs['password']);
             $user->save();
 

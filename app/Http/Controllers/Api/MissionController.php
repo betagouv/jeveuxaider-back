@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Filters\FiltersDisponibility;
+use App\Filters\FiltersDoesntHaveTags;
 use App\Filters\FiltersMissionDate;
 use App\Filters\FiltersMissionIsTemplate;
 use App\Filters\FiltersMissionPlacesLeft;
@@ -67,7 +68,9 @@ class MissionController extends Controller
                 AllowedFilter::scope('available'),
                 AllowedFilter::custom('is_template', new FiltersMissionIsTemplate),
                 AllowedFilter::exact('is_autonomy'),
-                AllowedFilter::custom('tags', new FiltersTags)
+                AllowedFilter::custom('tags', new FiltersTags),
+                AllowedFilter::custom('no_tags', new FiltersDoesntHaveTags)
+
             ])
             ->allowedIncludes([
                 'template.photo',
@@ -189,9 +192,18 @@ class MissionController extends Controller
 
     public function benevoles(Request $request, Mission $mission)
     {
-        if ($request->header('Context-Role') !== 'admin' && (!$mission->has_places_left || $mission->state != 'Validée' || $mission->structure->state != 'Validée')) {
-            abort(401, "Vous n'êtes pas autorisé à accéder à ce contenu");
+        if ($request->header('Context-Role') !== 'admin') {
+            if (!$mission->has_places_left) {
+                abort(401, "Plus aucune place de disponible pour cette mission");
+            }
+            if ($mission->state != 'Validée') {
+                abort(401, "Votre mission doit être validée pour accéder à cette fonctionnalité");
+            }
+            if ($mission->structure->state != 'Validée') {
+                abort(401, "Votre organisation doit être validée pour accéder à cette fonctionnalité");
+            }
         }
+
 
         $domaineId = $mission->template_id ? $mission->template->domaine_id : $mission->domaine_id;
 
