@@ -51,15 +51,23 @@ class Sendinblue
         );
     }
 
+    public static function deleteContact(User $user)
+    {
+        return self::api(
+            'delete',
+            "/contacts/$user->email"
+        );
+    }
+
     public static function sync(User $user, $withSMS = true)
     {
         $response = self::updateContact($user, $withSMS);
 
-        if (! $response->successful() && $response['code'] == 'document_not_found') {
+        if (!$response->successful() && $response['code'] == 'document_not_found') {
             $response = self::createContact($user, $withSMS);
         }
 
-        if (! $response->successful()) {
+        if (!$response->successful()) {
             if ($response['code'] == 'duplicate_parameter') {
                 switch ($response['message']) {
                     case 'Unable to update contact, SMS is already associate with another Contact':
@@ -137,7 +145,7 @@ class Sendinblue
         if ($response->getStatusCode() === 200) {
             $response = $response->json();
             foreach ($response['contacts'] as $contact) {
-                if (! isset($contact['reason']['code']) || $contact['reason']['code'] !== 'hardBounce') {
+                if (!isset($contact['reason']['code']) || $contact['reason']['code'] !== 'hardBounce') {
                     continue;
                 }
                 UserSetHardBouncedAt::dispatch($contact['email'], $contact['blockedAt']);
