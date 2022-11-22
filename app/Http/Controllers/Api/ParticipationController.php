@@ -55,7 +55,7 @@ class ParticipationController extends Controller
 
     public function show(Request $request, Participation $participation)
     {
-        $participation = $participation->load(['mission', 'profile', 'conversation', 'conversation.latestMessage', 'mission.responsable', 'profile.skills', 'profile.domaines', 'profile.avatar']);
+        $participation = $participation->load(['mission', 'profile', 'conversation', 'conversation.latestMessage', 'mission.responsable', 'mission.responsable.user', 'profile.skills', 'profile.domaines', 'profile.avatar']);
 
         return $participation;
     }
@@ -123,7 +123,7 @@ class ParticipationController extends Controller
             $participation->conversation->messages()->create([
                 'from_id' => $currentUser->id,
                 'type' => 'contextual',
-                'content' => 'La participation a été annulée par '.$currentUser->profile->full_name,
+                'content' => 'La participation a été annulée par ' . $currentUser->profile->full_name,
                 'contextual_state' => 'Annulée par bénévole',
                 'contextual_reason' => $request->input('reason'),
             ]);

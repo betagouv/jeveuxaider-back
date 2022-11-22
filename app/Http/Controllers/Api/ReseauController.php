@@ -44,9 +44,9 @@ class ReseauController extends Controller
     {
         if (is_numeric($slugOrId)) {
             return Reseau::where('id', $slugOrId)
-            ->with(['responsables.profile.tags', 'domaines', 'logo', 'illustrations', 'overrideImage1', 'overrideImage2', 'illustrationsAntennes'])
-            ->withCount('structures', 'missions', 'missionTemplates', 'invitationsAntennes', 'responsables')
-            ->firstOrFail()->append(['missing_fields', 'completion_rate']);
+                ->with(['responsables.profile.tags', 'responsables.profile.user', 'domaines', 'logo', 'illustrations', 'overrideImage1', 'overrideImage2', 'illustrationsAntennes'])
+                ->withCount('structures', 'missions', 'missionTemplates', 'invitationsAntennes', 'responsables')
+                ->firstOrFail()->append(['missing_fields', 'completion_rate']);
         }
 
         return Reseau::where('slug', $slugOrId)

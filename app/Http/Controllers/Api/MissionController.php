@@ -101,6 +101,7 @@ class MissionController extends Controller
                 'domaine',
                 'domaineSecondary',
                 'responsable.tags',
+                'responsable.user',
                 'skills',
                 'template.photo',
                 'illustrations',
