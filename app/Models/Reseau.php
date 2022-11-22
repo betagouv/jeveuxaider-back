@@ -100,10 +100,8 @@ class Reseau extends Model implements HasMedia
         return $this->morphMany('App\Models\Invitation', 'invitable')->where('role', 'responsable_antenne');
     }
 
-    public function deleteResponsable(Profile $profile)
+    public function deleteResponsable(User $user)
     {
-        $user = $profile->user;
-
         $this->responsables()->detach($user);
 
         $user->resetContextRole();

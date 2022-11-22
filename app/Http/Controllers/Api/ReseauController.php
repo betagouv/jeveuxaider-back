@@ -156,7 +156,7 @@ class ReseauController extends Controller
         return $reseau->responsables;
     }
 
-    public function deleteResponsable(Request $request, Reseau $reseau, Profile $responsable)
+    public function deleteResponsable(Request $request, Reseau $reseau, User $responsable)
     {
         $this->authorize('update', $reseau);
         $reseau->deleteResponsable($responsable);
@@ -191,7 +191,7 @@ class ReseauController extends Controller
             abort('422', "Ce réseau est relié à {$relatedInvitationsAntennesCount} invitation(s) d'antenne");
         }
 
-        $reseau->responsables->map(function ($responsable) use ($reseau) {
+        $reseau->responsables->map(function (User $responsable) use ($reseau) {
             $reseau->deleteResponsable($responsable);
         });
 

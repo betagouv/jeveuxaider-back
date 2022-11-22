@@ -80,7 +80,7 @@ class TerritoireController extends Controller
 
     public function delete(Request $request, Territoire $territoire)
     {
-        $territoire->responsables->map(function ($responsable) use ($territoire) {
+        $territoire->responsables->map(function (User $responsable) use ($territoire) {
             $territoire->deleteResponsable($responsable);
         });
 
@@ -100,7 +100,7 @@ class TerritoireController extends Controller
         return $territoire->responsables;
     }
 
-    public function deleteResponsable(Request $request, Territoire $territoire, Profile $responsable)
+    public function deleteResponsable(Request $request, Territoire $territoire, User $responsable)
     {
         $territoire->deleteResponsable($responsable);
 
