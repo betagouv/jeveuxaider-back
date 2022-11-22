@@ -8,6 +8,7 @@ use App\Filters\FiltersMissionDate;
 use App\Filters\FiltersMissionIsTemplate;
 use App\Filters\FiltersMissionPlacesLeft;
 use App\Filters\FiltersMissionPriorityAvailable;
+use App\Filters\FiltersMissionPublicsBeneficiaires;
 use App\Filters\FiltersMissionPublicsVolontaires;
 use App\Filters\FiltersMissionSearch;
 use App\Filters\FiltersTags;
@@ -64,6 +65,7 @@ class MissionController extends Controller
                 AllowedFilter::custom('place', new FiltersMissionPlacesLeft),
                 AllowedFilter::custom('date', new FiltersMissionDate),
                 AllowedFilter::custom('publics_volontaires', new FiltersMissionPublicsVolontaires),
+                AllowedFilter::custom('publics_beneficiaires', new FiltersMissionPublicsBeneficiaires),
                 AllowedFilter::custom('search', new FiltersMissionSearch),
                 AllowedFilter::scope('available'),
                 AllowedFilter::custom('is_template', new FiltersMissionIsTemplate),
