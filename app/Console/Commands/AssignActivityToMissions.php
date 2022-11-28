@@ -3,13 +3,10 @@
 namespace App\Console\Commands;
 
 use App\Models\Activity;
-use App\Models\Conversation;
 use App\Models\Mission;
-use App\Models\User;
+use App\Models\MissionTemplate;
 use App\Services\ActivityClassifier;
 use Illuminate\Console\Command;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Str;
 
 class AssignActivityToMissions extends Command
 {
@@ -19,44 +16,57 @@ class AssignActivityToMissions extends Command
 
     public function handle()
     {
-        // $query = Mission::whereNull('activity_id');
-        $query = Mission::whereNull('activity_id');
+        $this->handleMissions();
+        $this->handleTemplates();
+    }
 
+    private function handleMissions()
+    {
+        $query = Mission::whereNull('activity_id')->whereNull('template_id');
         if ($this->confirm($query->count() . ' missions will have an activity assigned. Continue ?')) {
             $bar = $this->output->createProgressBar($query->count());
             $bar->start();
-
             foreach ($query->cursor() as $mission) {
-                $this->assignActivity($mission);
-                // To avoid too many requests.
-                sleep(1);
+                $this->assignActivity($mission, implode(' ', [$mission->objectif, $mission->description]));
                 $bar->advance();
             }
-
             $bar->finish();
         }
     }
 
-    private function assignActivity(Mission $mission)
+    private function handleTemplates()
     {
-        $payload = !empty($mission->template_id) ? [$mission->template->objectif, $mission->template->description] : [$mission->objectif, $mission->description];
+        $query = MissionTemplate::whereNull('activity_id');
+        if ($this->confirm($query->count() . ' templates will have an activity assigned. Continue ?')) {
+            $bar = $this->output->createProgressBar($query->count());
+            $bar->start();
+            foreach ($query->cursor() as $template) {
+                $this->assignActivity($template, implode(' ', [$template->objectif, $template->description]));
+                $bar->advance();
+            }
+            $bar->finish();
+        }
+    }
 
-        $response = ActivityClassifier::evaluate(implode(' ', $payload));
+    private function assignActivity($model, $payload)
+    {
+        $response = ActivityClassifier::evaluate($payload);
 
         if ($response['code'] !== 200) {
             ray($response);
-            $this->error('Error code : ' . $response['code'] . ' | Mission id : ' . $mission->id);
+            $this->error('Error code : ' . $response['code'] . ' | ' . $model::class . ' :: ' . $model->id);
+            $this->error($response['content']);
             return;
         }
 
-        $activityLabel = $response['content'][0][0];
+        $activityLabel = $response['content'][0];
         $activity = Activity::where('name', $activityLabel)->first();
         if (empty($activity)) {
             $this->info('Activité non existante : ' . $activityLabel);
             return;
         }
 
-        $mission->activity_id = $activity->id;
-        $mission->saveQuietly();
+        $model->activity_id = $activity->id;
+        $model->saveQuietly();
     }
 }

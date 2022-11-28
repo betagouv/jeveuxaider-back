@@ -75,5 +75,6 @@ return [
 
     'activityclassifier' => [
         'token' => env('ACTIVITY_CLASSIFIER_TOKEN'),
+        'free_token' => env('ACTIVITY_CLASSIFIER_FREE_TOKEN'),
     ],
 ];

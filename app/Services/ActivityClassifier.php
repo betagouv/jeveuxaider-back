@@ -6,17 +6,18 @@ use Illuminate\Support\Facades\Http;
 
 class ActivityClassifier
 {
-    private static function api($method, $path, $body = [])
+    private static function api($method, $path, $body = [], $token)
     {
         try {
             $response = Http::withHeaders(
                 ['Content-Type' => 'application/json']
             )
-                ->withToken(self::getToken())
+                ->withToken($token)
                 ->withBody($body, 'json')
                 // @todo faire marcher 'wait_for_model,
                 // ->withOptions(['wait_for_model' => true])
-                ->$method("https://api-inference.huggingface.co/models/jeveuxaider${path}");
+                ->$method($path);
+
 
             return $response;
         } catch (\Exception $e) {
@@ -26,7 +27,23 @@ class ActivityClassifier
 
     public static function evaluate($payload)
     {
-        $response = self::api('post', "/activity-classifier", mb_substr($payload, 0, 512));
+        $response = self::api(
+            'post',
+            "https://urh8bb4mo5uae3eq.eu-west-1.aws.endpoints.huggingface.cloud",
+            json_encode(['inputs' => mb_substr($payload, 0, 512)]),
+            config('services.activityclassifier.token')
+        );
+        return self::formatResponse($response);
+    }
+
+    public static function sortedOptions($payload)
+    {
+        $response = self::api(
+            'post',
+            "https://api-inference.huggingface.co/models/jeveuxaider/activity-classifier",
+            json_encode(['inputs' => mb_substr($payload, 0, 512)]),
+            config('services.activityclassifier.free_token')
+        );
         return self::formatResponse($response);
     }
 

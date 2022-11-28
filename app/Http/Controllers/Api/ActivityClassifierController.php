@@ -10,9 +10,9 @@ use App\Services\ActivityClassifier;
 
 class ActivityClassifierController extends Controller
 {
-    public function evaluate(ActivityClassifyRequest $request)
+    public function sortedOptions(ActivityClassifyRequest $request)
     {
         $payload = $request->validated();
-        return ActivityClassifier::evaluate($payload['description']);
+        return ActivityClassifier::sortedOptions($payload['description']);
     }
 }
