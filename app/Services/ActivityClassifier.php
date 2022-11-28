@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Http;
 
 class ActivityClassifier
 {
-    private static function api($method, $path, $body = [], $token)
+    private static function api($method, $path, $body, $token)
     {
         try {
             $response = Http::withHeaders(
