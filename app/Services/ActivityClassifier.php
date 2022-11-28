@@ -62,9 +62,4 @@ class ActivityClassifier
             'content' => $response->json(),
         ];
     }
-
-    private static function getToken()
-    {
-        return config('services.activityclassifier.token');
-    }
 }
