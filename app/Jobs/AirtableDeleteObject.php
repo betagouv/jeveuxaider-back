@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Models\Mission;
 use App\Models\Structure;
+use App\Models\User;
 use App\Services\Airtable;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -22,7 +23,7 @@ class AirtableDeleteObject implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(Mission|Structure $object)
+    public function __construct(Mission|Structure|User $object)
     {
         $this->object = $object;
         $this->onQueue('airtable');
@@ -40,6 +41,8 @@ class AirtableDeleteObject implements ShouldQueue
             Airtable::deleteObject('mission', $this->object);
         } elseif ($class_name == 'Structure') {
             Airtable::deleteObject('structure', $this->object);
+        } elseif ($class_name == 'User') {
+            Airtable::deleteObject('user', $this->object);
         }
     }
 }

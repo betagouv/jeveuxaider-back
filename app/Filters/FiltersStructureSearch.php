@@ -10,7 +10,7 @@ class FiltersStructureSearch implements Filter
     public function __invoke(Builder $query, $value, string $property): Builder
     {
         return $query->where(function ($query) use ($value) {
-            if (is_numeric($value)) {
+            if (is_numeric($value) && strpos($value, '.') === false) {
                 $query->where('structures.id', $value);
             } else {
                 if (is_array($value)) {

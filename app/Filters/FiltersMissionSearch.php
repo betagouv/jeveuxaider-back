@@ -10,7 +10,7 @@ class FiltersMissionSearch implements Filter
     public function __invoke(Builder $query, $value, string $property): Builder
     {
         return $query->where(function ($query) use ($value) {
-            if (is_numeric($value)) {
+            if (is_numeric($value) && strpos($value, '.') === false) {
                 $query
                     ->where('id', $value);
             } else {

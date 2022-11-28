@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Mission;
 use App\Models\Structure;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Http;
@@ -48,14 +49,29 @@ class Airtable
         return self::syncObject('structure', $fields);
     }
 
+    public static function syncUser(User $user)
+    {
+        $fields = self::formatUserAttributes($user);
+
+        if (! $user->hasRole(['referent', 'referent_regional'])) {
+            return self::deleteObject('user', $user);
+        }
+
+        return self::syncObject('user', $fields);
+    }
+
     public static function deleteObject($type, Model $object)
     {
-        $objectAirtableId = self::getAirtableId($type, $object->id);
+        $id = $object->id;
+        if ($type == 'user') {
+            $id = $object->profile->id;
+        }
+        $objectAirtableId = self::getAirtableId($type, $id);
 
         if ($objectAirtableId) {
             return self::api(
                 'delete',
-                $type == 'mission' ? '/Missions/'.$objectAirtableId : '/Organisations/'.$objectAirtableId,
+                self::getAirtablePath($type).'/'.$objectAirtableId,
             );
         }
     }
@@ -73,9 +89,8 @@ class Airtable
 
     private static function getAirtableId($type, int $id)
     {
-        $path = $type == 'mission' ? '/Missions' : '/Organisations';
         $recordsAirtable = Http::withToken(config('services.airtable.key'))
-            ->get('https://api.airtable.com/v0/'.config('services.airtable.base').$path,
+            ->get('https://api.airtable.com/v0/'.config('services.airtable.base').self::getAirtablePath($type),
             [
                 'filterByFormula' => '{Id} = '.$id,
             ]);
@@ -87,7 +102,7 @@ class Airtable
     {
         return self::api(
             'post',
-            $type == 'mission' ? '/Missions' : '/Organisations',
+            self::getAirtablePath($type),
             [
                 'json' => [
                     'fields' => $fields,
@@ -100,7 +115,7 @@ class Airtable
     {
         return self::api(
             'patch',
-            $type == 'mission' ? '/Missions/'.$objectAirtableId : '/Organisations/'.$objectAirtableId,
+            self::getAirtablePath($type).'/'.$objectAirtableId,
             [
                 'json' => [
                     'fields' => $fields,
@@ -162,5 +177,51 @@ class Airtable
         ];
 
         return $attributes;
+    }
+
+    private static function formatUserAttributes(User $user)
+    {
+        foreach ($user->roles as $key => $role) {
+            if (isset($role['pivot']['rolable_type'])) {
+                $user->roles[$key]['pivot_model'] = $role['pivot']['rolable_type']::find($role['pivot']['rolable_id']);
+            }
+        }
+
+        $roles = $user->roles->map(function ($role) {
+            return $role->name;
+        });
+        $referentDepartments = $user->roles->where('name', 'referent')->map(function ($role) {
+            return $role->pivot_model->number;
+        });
+        $referentRegions = $user->roles->where('name', 'referent_regional')->map(function ($role) {
+            return $role->pivot_model->name;
+        });
+
+        $attributes = [
+            'Id' => $user->profile->id,
+            'Prénom' => $user->profile->first_name,
+            'Nom' => $user->profile->last_name,
+            'E-mail' => $user->profile->email,
+            'Département' => $referentDepartments->first(),
+            'Région' => $referentRegions->first(),
+            'Rôle' => $roles,
+            'URL' => config('app.front_url').'/admin/utilisateurs/'.$user->profile->id,
+            'Tag' => $user->profile->tags->count() > 0 ? $user->profile->tags->first()['name'] : null,
+            'Crée le' => Carbon::create($user->profile->created_at)->format('m-d-Y'),
+            'Modifié le' => Carbon::create($user->profile->updated_at)->format('m-d-Y'),
+        ];
+
+        return $attributes;
+    }
+
+    private static function getAirtablePath($type)
+    {
+        if ($type == 'mission') {
+            return '/Missions';
+        } elseif ($type == 'structure') {
+            return '/Organisations';
+        } elseif ($type == 'user') {
+            return '/Utilisateurs';
+        }
     }
 }

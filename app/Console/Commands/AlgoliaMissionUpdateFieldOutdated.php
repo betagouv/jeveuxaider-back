@@ -40,7 +40,7 @@ class AlgoliaMissionUpdateFieldOutdated extends Command
     public function handle()
     {
         // Get end date between yesterday and before today 0:0:00
-        Mission::where('end_date', '<', Carbon::today())
+        Mission::with('structure')->where('end_date', '<', Carbon::today())
             ->where('end_date', '>=', Carbon::yesterday())
             ->get()
             ->each(function ($mission, $key) {

@@ -87,7 +87,7 @@ class StructureController extends Controller
             abort(403);
         }
 
-        return $structure->load(['territoire', 'members.profile.tags', 'domaines', 'reseaux', 'logo', 'illustrations', 'overrideImage1', 'overrideImage2'])->append(['missing_fields', 'completion_rate']);
+        return $structure->load(['territoire', 'members.profile.tags', 'members.profile.user', 'domaines', 'reseaux', 'logo', 'illustrations', 'overrideImage1', 'overrideImage2'])->append(['missing_fields', 'completion_rate']);
     }
 
     public function associationSlugOrId(Request $request, $slugOrId)
@@ -241,21 +241,21 @@ class StructureController extends Controller
         $currentUser = User::find(Auth::guard('api')->user()->id);
 
         // Switch responsable
-        if($request->has('new_responsable_id') && $request->input('new_responsable_id')) {
+        if ($request->has('new_responsable_id') && $request->input('new_responsable_id')) {
             $newResponsable = Profile::find($request->input('new_responsable_id'));
-            if($newResponsable){
+            if ($newResponsable) {
                 Mission::where('responsable_id', $user->profile->id)
                     ->where('structure_id', $structure->id)
                     ->get()->map(function ($mission) use ($newResponsable) {
                         $mission->update(['responsable_id' => $newResponsable->id]);
                     });
-                if($currentUser->profile->id != $newResponsable->id){
+                if ($currentUser->profile->id != $newResponsable->id) {
                     $newResponsable->notify(new StructureSwitchResponsable($structure, $user->profile));
                 }
             }
         }
 
-       $structure->deleteMember($user);
+        $structure->deleteMember($user);
 
         return $structure->members;
     }
@@ -277,7 +277,7 @@ class StructureController extends Controller
             });
             $mission->tags()->sync($values);
         }
-        
+
         if ($request->has('skills')) {
             $skills = collect($request->input('skills'));
             $values = $skills->pluck($skills, 'id')->map(function ($item) {

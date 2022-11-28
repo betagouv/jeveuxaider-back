@@ -44,9 +44,9 @@ class ReseauController extends Controller
     {
         if (is_numeric($slugOrId)) {
             return Reseau::where('id', $slugOrId)
-            ->with(['responsables.profile.tags', 'domaines', 'logo', 'illustrations', 'overrideImage1', 'overrideImage2', 'illustrationsAntennes'])
-            ->withCount('structures', 'missions', 'missionTemplates', 'invitationsAntennes', 'responsables')
-            ->firstOrFail()->append(['missing_fields', 'completion_rate']);
+                ->with(['responsables.profile.tags', 'responsables.profile.user', 'domaines', 'logo', 'illustrations', 'overrideImage1', 'overrideImage2', 'illustrationsAntennes'])
+                ->withCount('structures', 'missions', 'missionTemplates', 'invitationsAntennes', 'responsables')
+                ->firstOrFail()->append(['missing_fields', 'completion_rate']);
         }
 
         return Reseau::where('slug', $slugOrId)
@@ -156,7 +156,7 @@ class ReseauController extends Controller
         return $reseau->responsables;
     }
 
-    public function deleteResponsable(Request $request, Reseau $reseau, Profile $responsable)
+    public function deleteResponsable(Request $request, Reseau $reseau, User $responsable)
     {
         $this->authorize('update', $reseau);
         $reseau->deleteResponsable($responsable);
@@ -191,7 +191,7 @@ class ReseauController extends Controller
             abort('422', "Ce réseau est relié à {$relatedInvitationsAntennesCount} invitation(s) d'antenne");
         }
 
-        $reseau->responsables->map(function ($responsable) use ($reseau) {
+        $reseau->responsables->map(function (User $responsable) use ($reseau) {
             $reseau->deleteResponsable($responsable);
         });
 

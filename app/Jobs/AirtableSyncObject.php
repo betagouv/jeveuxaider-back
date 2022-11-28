@@ -39,6 +39,8 @@ class AirtableSyncObject implements ShouldQueue
             Airtable::syncMission($this->object);
         } elseif ($class_name == 'Structure') {
             Airtable::syncStructure($this->object);
+        } elseif ($class_name == 'User') {
+            Airtable::syncUser($this->object);
         }
     }
 }

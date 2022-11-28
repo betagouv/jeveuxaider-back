@@ -151,10 +151,8 @@ class Territoire extends Model implements HasMedia
         return $user->assignRole('responsable_territoire', $this);
     }
 
-    public function deleteResponsable(Profile $profile)
+    public function deleteResponsable(User $user)
     {
-        $user = $profile->user;
-
         $this->responsables()->detach($user);
 
         $user->resetContextRole();

@@ -33,6 +33,7 @@ class TemoignageController extends Controller
         $temoignage->load(
             'participation.mission',
             'participation.mission.responsable',
+            'participation.mission.responsable.user',
             'participation.mission.structure',
             'participation.profile'
         );

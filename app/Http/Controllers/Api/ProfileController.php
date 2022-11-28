@@ -10,7 +10,7 @@ use App\Filters\FiltersTags;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\ProfileUpdateRequest;
 use App\Http\Requests\ProfileRequest;
-use App\Jobs\SendinblueSyncUser;
+use App\Jobs\AirtableSyncObject;
 use App\Models\Profile;
 use App\Sorts\ProfileParticipationsValidatedCountSort;
 use Illuminate\Http\Request;
@@ -91,6 +91,12 @@ class ProfileController extends Controller
                 return ['field' => 'tags'];
             });
             $profile->tags()->sync($values);
+            // Sync Airtable
+            if (config('services.airtable.sync')) {
+                if ($profile->user->hasRole(['referent', 'referent_regional'])) {
+                    AirtableSyncObject::dispatch($profile->user);
+                }
+            }
         }
 
         $profile->update($request->validated());
@@ -102,7 +108,7 @@ class ProfileController extends Controller
     {
         $profile = Profile::where('email', 'ILIKE', request('email'))->first();
 
-        if (!$profile) {
+        if (! $profile) {
             return null;
         }
 
