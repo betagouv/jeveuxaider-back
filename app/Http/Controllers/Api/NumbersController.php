@@ -226,6 +226,106 @@ class NumbersController extends Controller
         ];
     }
 
+    public function overviewAPIEngagementEntrant(Request $request)
+    {
+        $service = new ApiEngagement();
+
+        $from = Carbon::createFromFormat('Y-m-d', $request->input('startDate'))->hour(0)->minute(0)->second(0);
+        $to = Carbon::createFromFormat('Y-m-d', $request->input('endDate'))->hour(23)->minute(59)->second(59);
+
+        $periodRedirections = $service->getStatistics("toPublisherId=5f5931496c7ea514150a818f&type=click&createdAt=gt:$from&createdAt=lt:$to");
+        $totalRedirections = $service->getStatistics("toPublisherId=5f5931496c7ea514150a818f&type=click");
+        $periodApplications = $service->getStatistics("toPublisherId=5f5931496c7ea514150a818f&type=apply&createdAt=gt:$from&createdAt=lt:$to");
+        $totalApplications = $service->getStatistics("toPublisherId=5f5931496c7ea514150a818f&type=apply");
+
+        return [
+            'periodRedirections' => $periodRedirections['total'] ?? 0,
+            'totalRedirections' => $totalRedirections['total'] ?? 0,
+            'periodApplications' => $periodApplications['total'] ?? 0,
+            'totalApplications' => $totalApplications['total'] ?? 0,
+        ];
+    }
+
+    public function overviewAPIEngagementEntrantDetails(Request $request)
+    {
+        $service = new ApiEngagement();
+
+        $from = Carbon::createFromFormat('Y-m-d', $request->input('startDate'))->hour(0)->minute(0)->second(0);
+        $to = Carbon::createFromFormat('Y-m-d', $request->input('endDate'))->hour(23)->minute(59)->second(59);
+
+        $redirections = $service->getStatistics("size=100&facets=fromPublisherName&createdAt=gt:$from&createdAt=lt:$to&toPublisherId=5f5931496c7ea514150a818f&type=click");
+        $applications = $service->getStatistics("size=100&facets=fromPublisherName&createdAt=gt:$from&createdAt=lt:$to&toPublisherId=5f5931496c7ea514150a818f&type=apply");
+
+        return [
+            'redirections' => collect($redirections['facets']['fromPublisherName'])->map(
+                function ($item) {
+                    return [
+                        'name' => $item['key'],
+                        'redirections' => $item['doc_count'],
+                    ];
+                }
+            )->toArray(),
+            'applications' => collect($applications['facets']['fromPublisherName'])->map(
+                function ($item) {
+                    return [
+                        'name' => $item['key'],
+                        'applications' => $item['doc_count'],
+                    ];
+                }
+            )->toArray(),
+        ];
+    }
+
+    public function overviewAPIEngagementSortant(Request $request)
+    {
+        $service = new ApiEngagement();
+
+        $from = Carbon::createFromFormat('Y-m-d', $request->input('startDate'))->hour(0)->minute(0)->second(0);
+        $to = Carbon::createFromFormat('Y-m-d', $request->input('endDate'))->hour(23)->minute(59)->second(59);
+
+        $periodRedirections = $service->getStatistics("fromPublisherId=5f5931496c7ea514150a818f&type=click&createdAt=gt:$from&createdAt=lt:$to");
+        $totalRedirections = $service->getStatistics("fromPublisherId=5f5931496c7ea514150a818f&type=click");
+        $periodApplications = $service->getStatistics("fromPublisherId=5f5931496c7ea514150a818f&type=apply&createdAt=gt:$from&createdAt=lt:$to");
+        $totalApplications = $service->getStatistics("fromPublisherId=5f5931496c7ea514150a818f&type=apply");
+
+        return [
+            'periodRedirections' => $periodRedirections['total'] ?? 0,
+            'totalRedirections' => $totalRedirections['total'] ?? 0,
+            'periodApplications' => $periodApplications['total'] ?? 0,
+            'totalApplications' => $totalApplications['total'] ?? 0,
+        ];
+    }
+
+    public function overviewAPIEngagementSortantDetails(Request $request)
+    {
+        $service = new ApiEngagement();
+
+        $from = Carbon::createFromFormat('Y-m-d', $request->input('startDate'))->hour(0)->minute(0)->second(0);
+        $to = Carbon::createFromFormat('Y-m-d', $request->input('endDate'))->hour(23)->minute(59)->second(59);
+
+        $redirections = $service->getStatistics("size=100&facets=toPublisherName&createdAt=gt:$from&createdAt=lt:$to&fromPublisherId=5f5931496c7ea514150a818f&type=click");
+        $applications = $service->getStatistics("size=100&facets=toPublisherName&createdAt=gt:$from&createdAt=lt:$to&fromPublisherId=5f5931496c7ea514150a818f&type=apply");
+
+        return [
+            'redirections' => collect($redirections['facets']['toPublisherName'])->map(
+                function ($item) {
+                    return [
+                        'name' => $item['key'],
+                        'redirections' => $item['doc_count'],
+                    ];
+                }
+            )->toArray(),
+            'applications' => collect($applications['facets']['toPublisherName'])->map(
+                function ($item) {
+                    return [
+                        'name' => $item['key'],
+                        'applications' => $item['doc_count'],
+                    ];
+                }
+            )->toArray(),
+        ];
+    }
+
     public function globalOrganisations(Request $request)
     {
         $organisationsCount = Structure::role($request->header('Context-Role'))->when(
