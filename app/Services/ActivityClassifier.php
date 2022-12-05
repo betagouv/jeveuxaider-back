@@ -29,7 +29,7 @@ class ActivityClassifier
     {
         $response = self::api(
             'post',
-            "https://de2snqtb77khbe87.eu-west-1.aws.endpoints.huggingface.cloud",
+            "https://x69z25ki7w4chwbn.eu-west-1.aws.endpoints.huggingface.cloud",
             json_encode(['inputs' => mb_substr($payload, 0, 512)]),
             config('services.activityclassifier.token')
         );
