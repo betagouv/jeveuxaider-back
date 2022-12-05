@@ -31,6 +31,7 @@ class AssignActivityToMissions extends Command
                 $bar->advance();
             }
             $bar->finish();
+            $this->line(PHP_EOL);
         }
     }
 
@@ -45,6 +46,7 @@ class AssignActivityToMissions extends Command
                 $bar->advance();
             }
             $bar->finish();
+            $this->line(PHP_EOL);
         }
     }
 
