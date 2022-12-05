@@ -212,6 +212,9 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
 
     // BATCH
     Route::get('/batch/{batchId}', 'Api\BatchController@show');
+
+    // Activity classifier
+    Route::post('/activity-classifier', 'Api\ActivityClassifierController@sortedOptions');
 });
 
 // ONLY ADMIN
