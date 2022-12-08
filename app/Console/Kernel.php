@@ -11,7 +11,9 @@ use App\Console\Commands\SendNotificationsBenevoleCejSixMonthsAfter;
 use App\Console\Commands\SendNotificationsMissionInDraft;
 use App\Console\Commands\SendNotificationsMissionOutdated;
 use App\Console\Commands\SendNotificationsNoNewMission;
+use App\Console\Commands\SendNotificationsReferentsSummaryDaily;
 use App\Console\Commands\SendNotificationsRegisterUserVolontaireCej;
+use App\Console\Commands\SendNotificationsResponsablesSummaryDaily;
 use App\Console\Commands\SendNotificationsStructureInDraft;
 use App\Console\Commands\SendNotificationTodoToModerateurs;
 use App\Console\Commands\SendNotificationTodoToReferents;
@@ -50,6 +52,9 @@ class Kernel extends ConsoleKernel
         $schedule->command(SendNotificationsBenevoleCejNoParticipation::class)->daily()->at('10:10');
         $schedule->command(SendNotificationsBenevoleCejSixMonthsAfter::class)->daily()->at('10:20');
         $schedule->command(SendNotificationsBenevoleCejOneYearAfter::class)->daily()->at('10:30');
+
+        $schedule->command(SendNotificationsResponsablesSummaryDaily::class)->weekdays()->daily()->at('7:50');
+        $schedule->command(SendNotificationsReferentsSummaryDaily::class)->weekdays()->daily()->at('8:00');
 
         // Algolia
         $schedule->command(AlgoliaMissionUpdateFieldOutdated::class)->daily()->at('2:00');

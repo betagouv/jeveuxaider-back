@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\Models\Message;
 use App\Models\Participation;
+use App\Models\Structure;
 use App\Notifications\MessageCreated;
 use Illuminate\Support\Facades\Auth;
 
@@ -46,26 +47,51 @@ class MessageObserver
         }
 
         // Éviter le flood
-        if ($send) {
-            if ($message->conversation->messages->count() > 1) {
-                $lastMessage = $message->conversation->messages->where('type', 'chat')->sortBy([['created_at', 'desc']])->first();
-                if ($conversable::class == Participation::class) {
-                    $lastMessage = $message->conversation->messages->where('type', 'chat')->sortBy([['created_at', 'desc']])[1]; // 0 est le nouveau message
-                }
-                if ($lastMessage->from_id == $message->from_id) {
-                    // 1 heure entre deux emails de la même personne
-                    $diffInMinutes = $message->created_at->diffInMinutes($lastMessage->created_at);
-                    if ($diffInMinutes < 60) {
-                        $send = false;
-                    }
+        // if ($send) {
+        //     if ($message->conversation->messages->count() > 1) {
+        //         $lastMessage = $message->conversation->messages->where('type', 'chat')->sortBy([['created_at', 'desc']])->first();
+        //         if ($conversable::class == Participation::class) {
+        //             $lastMessage = $message->conversation->messages->where('type', 'chat')->sortBy([['created_at', 'desc']])[1]; // 0 est le nouveau message
+        //         }
+        //         if ($lastMessage->from_id == $message->from_id) {
+        //             // 1 heure entre deux emails de la même personne
+        //             $diffInMinutes = $message->created_at->diffInMinutes($lastMessage->created_at);
+        //             if ($diffInMinutes < 60) {
+        //                 $send = false;
+        //             }
+        //         }
+        //     }
+        // }
+
+        $toUser = $message->conversation->users->filter(function ($user) use ($message) {
+            return $user->id !== $message->from_id;
+        })->first();
+
+        ray($toUser);
+        ray($conversable);
+
+        // PARTICIPATION - Si le message est à destination du responsable et qu'il n'est pas en realtime
+        if ($send && $toUser) {
+            if ($conversable::class == Participation::class && $conversable->mission->responsable->user_id == $toUser->id) {
+                if($toUser->profile->notification__responsable_frequency !== 'realtime'){
+                    $send = false;
                 }
             }
         }
 
-        if ($send) {
-            $toUser = $message->conversation->users->filter(function ($user) use ($message) {
-                return $user->id !== $message->from_id;
-            })->first();
+        // STRUCTURE - Si le message est à destination du referent ou du responsable et qu'il n'est pas en realtime
+        if ($send && $toUser) {
+            if ($conversable::class == Structure::class) {
+                if($toUser->context_role == 'referent' && $toUser->profile->notification__referent_frequency !== 'realtime'){
+                    $send = false;
+                }
+                if($toUser->context_role == 'responsable' && $toUser->profile->notification__responsable_frequency !== 'realtime'){
+                    $send = false;
+                }
+            }
+        }
+
+        if ($send && $toUser) {
             $toUser->notify(new MessageCreated($message));
         }
     }
