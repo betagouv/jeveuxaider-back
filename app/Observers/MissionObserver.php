@@ -30,7 +30,8 @@ class MissionObserver
                 $mission->responsable->notify(new MissionWaitingValidation($mission));
             }
             if ($mission->department) {
-                Profile::whereHas('user.departmentsAsReferent', function (Builder $query) use ($mission) {
+                Profile::where('notification__referent_frequency', 'realtime')
+                ->whereHas('user.departmentsAsReferent', function (Builder $query) use ($mission) {
                     $query->where('number', $mission->department);
                 })->get()->map(function ($profile) use ($mission) {
                     $profile->notify(new MissionSubmitted($mission));
