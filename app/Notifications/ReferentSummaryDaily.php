@@ -5,6 +5,7 @@ namespace App\Notifications;
 use App\Helpers\Utils;
 use App\Models\Message;
 use App\Models\Mission;
+use App\Models\Note;
 use App\Models\Participation;
 use App\Models\Profile;
 use App\Models\Structure;
@@ -23,13 +24,13 @@ class ReferentSummaryDaily extends Notification implements ShouldQueue
     public $profile;
     public $user;
     public $department;
-    public $newMessagesCount;
+    public $newStructuresCount;
     public $newMissionsCount;
-    public $newOrganisationsCount;
+    public $newMessagesCount;
+    public $newNotesCount;
+    public $structuresWaitingCount;
     public $missionsWaitingCount;
-    public $missionsProcessingCount;
-    public $organisationsWaitingCount;
-    public $organisationsProcessingCount;
+    public $conversationsUnreadCount;
 
     /**
      * Create a new notification instance.
@@ -38,22 +39,27 @@ class ReferentSummaryDaily extends Notification implements ShouldQueue
      */
     public function __construct($referentId)
     {
-        $yesterday = date("Y-m-d", strtotime( '-1 days' ) );
+        $this->startDate = Carbon::now()->subDays(2)->startOfDay()->format('Y-m-d H:i:s');
+        $this->endDate = Carbon::now()->format('Y-m-d H:i:s');
 
         $this->profile = Profile::find($referentId);
         $this->user = User::find($this->profile->user_id);
         $this->department = $this->user->departmentsAsReferent->first();
+
         $this->newMessagesCount = Message::whereHas('conversation', function (Builder $query){
             $query->whereHas('users', function (Builder $query){
                 $query->where('users.id', $this->user->id);
             });
-        })->whereDate('created_at', $yesterday)->count();
-        $this->newMissionsCount = Mission::department($this->department->number)->whereDate('created_at', $yesterday)->count();
-        $this->newOrganisationsCount = Structure::department($this->department->number)->whereDate('created_at', $yesterday)->count();
+        })->whereBetween('created_at', [$this->startDate, $this->endDate])->count();
+        $this->newMissionsCount = Mission::department($this->department->number)->whereBetween('created_at', [$this->startDate, $this->endDate])->count();
+        $this->newStructuresCount = Structure::department($this->department->number)->whereBetween('created_at', [$this->startDate, $this->endDate])->count();
+        $this->newNotesCount = Note::whereHas('notable', function(Builder $query){
+            $query->department($this->department->number);
+        })->whereBetween('created_at', [$this->startDate, $this->endDate])->count();
+
         $this->missionsWaitingCount = Mission::department($this->department->number)->where('state', 'En attente de validation')->count();
-        $this->missionsProcessingCount = Mission::department($this->department->number)->where('state', 'En cours de traitement')->count();
-        $this->organisationsWaitingCount = Structure::department($this->department->number)->where('state', 'En attente de validation')->count();
-        $this->organisationsProcessingCount = Structure::department($this->department->number)->where('state', 'En cours de traitement')->count();
+        $this->structuresWaitingCount = Structure::department($this->department->number)->where('state', 'En attente de validation')->count();
+        $this->conversationsUnreadCount = $this->user->getUnreadConversationsCount();
     }
 
     public function viaQueues()
@@ -83,7 +89,7 @@ class ReferentSummaryDaily extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         $mailMessage = (new MailMessage)
-            ->subject($this->department->name . ' - Résumé de la journée du ' . Carbon::yesterday()->translatedFormat('d F Y'))
+            ->subject($this->department->name . ' - Résumé des 2 derniers jours')
             ->tag('app-referent-bilan-quotidien')
             ->markdown('emails.bilans.referent-summary-daily', [
                 'notifiable' => $notifiable,
@@ -92,11 +98,11 @@ class ReferentSummaryDaily extends Notification implements ShouldQueue
                 'variables' => [
                     'newMessagesCount' => $this->newMessagesCount,
                     'newMissionsCount' => $this->newMissionsCount,
-                    'newOrganisationsCount' => $this->newOrganisationsCount,
+                    'newStructuresCount' => $this->newStructuresCount,
+                    'newNotesCount' => $this->newNotesCount,
                     'missionsWaitingCount' => $this->missionsWaitingCount,
-                    'missionsProcessingCount' => $this->missionsProcessingCount,
-                    'organisationsProcessingCount' => $this->organisationsProcessingCount,
-                    'organisationsProcessingCount' => $this->organisationsProcessingCount
+                    'structuresWaitingCount' => $this->structuresWaitingCount,
+                    'conversationsUnreadCount' => $this->conversationsUnreadCount,
                 ],
             ]);
 

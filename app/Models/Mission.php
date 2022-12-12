@@ -486,6 +486,11 @@ class Mission extends Model
         }
     }
 
+    public function scopeOfResponsable($query, $profile_id)
+    {
+        return $query->where('responsable_id', $profile_id);
+    }
+
     public function scopeOfReseau($query, $reseau_id)
     {
         return $query->whereHas(

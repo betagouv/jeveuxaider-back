@@ -8,6 +8,7 @@ use App\Notifications\ResponsableDailyTodo;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Database\Eloquent\Builder;
 
 class SendNotificationTodoToResponsables extends Command
 {
@@ -46,6 +47,9 @@ class SendNotificationTodoToResponsables extends Command
 
         $participationsByResponsable = Participation::with(['mission.responsable'])->where('state', 'En attente de validation')
           ->where('created_at', '>', Carbon::now()->subDays($nb_jours_notif)->startOfDay())
+          ->whereHas('mission.responsable', function (Builder $query) {
+            $query->where('profiles.notification__responsable_frequency', 'realtime');
+          })
           ->get()
           ->groupBy('mission.responsable.id');
 
