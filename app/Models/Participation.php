@@ -24,7 +24,7 @@ class Participation extends Model
     ];
 
     protected $casts = [
-        'slots' => 'array',
+        'slots' => 'json',
     ];
 
     const ACTIVE_STATUS = [
