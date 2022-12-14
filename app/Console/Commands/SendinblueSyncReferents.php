@@ -40,12 +40,12 @@ class SendinblueSyncReferents extends Command
     public function handle()
     {
         $query = User::role(['referent', 'referent_regional']);
-        if ($this->confirm($query->count().' users will be added or updated in Sendinblue')) {
+        if ($this->confirm($query->count() . ' users will be added or updated in Sendinblue')) {
             $query->chunk(50, function ($users) {
                 foreach ($users as $user) {
                     $response = Sendinblue::sync($user, false);
-                    if (! $response->successful()) {
-                        $this->info("Sendinblue sync failed for user $user->email with code : ".$response['code']);
+                    if ($response && !$response->successful()) {
+                        $this->info("Sendinblue sync failed for user $user->email with code : " . $response['code']);
                     }
                 }
             });

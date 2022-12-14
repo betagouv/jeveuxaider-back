@@ -65,6 +65,8 @@ Route::get('settings/general', 'Api\SettingController@general');
 
 Route::post('webhook/sendinblue', 'Api\WebhookController@sendinblue');
 
+Route::get('emailable/verify/{email}', 'Api\EmailableController@verify');
+
 Route::group(['middleware' => ['auth:api']], function () {
     Route::get('user', 'Api\UserController@me');
     Route::get('user/status', 'Api\UserController@status');
@@ -210,6 +212,9 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
 
     // BATCH
     Route::get('/batch/{batchId}', 'Api\BatchController@show');
+
+    // Activity classifier
+    Route::post('/activity-classifier', 'Api\ActivityClassifierController@sortedOptions');
 });
 
 // ONLY ADMIN
@@ -437,8 +442,4 @@ Route::group(['prefix' => '/statistics/public'], function () {
     Route::get('/places-by-missions', 'Api\StatisticsPublicController@placesByMissions');
     Route::get('/places-by-domaines', 'Api\StatisticsPublicController@placesByDomaines');
     Route::get('/places-by-activities', 'Api\StatisticsPublicController@placesByActivities');
-
-
-
 });
-
