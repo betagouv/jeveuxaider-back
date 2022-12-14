@@ -86,7 +86,7 @@ class ReferentSummaryMonthly extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         $mailMessage = (new MailMessage)
-            ->subject($this->department->name . ' - Résumé mensuel de votre activité en '. Carbon::now()->subMonth()->translatedFormat('F Y'))
+            ->subject($this->profile->first_name . ', découvrez le résumé mensuel de l’activité sur JeVeuxaider.gouv.fr !')
             ->tag('app-referent-bilan-mensuel')
             ->markdown('emails.bilans.referent-summary-monthly', [
                 'notifiable' => $notifiable,

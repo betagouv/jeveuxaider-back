@@ -65,7 +65,7 @@
 @endif
 
 @component('mail::button', ['url' => $url])
-J’accède à mon compte
+J'accède à mon compte
 @endcomponent
 
 <p>A très vite !<br>

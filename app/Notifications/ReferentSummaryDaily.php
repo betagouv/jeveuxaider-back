@@ -94,7 +94,7 @@ class ReferentSummaryDaily extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         $mailMessage = (new MailMessage)
-            ->subject($this->department->name . ' - Résumé des 3 derniers jours')
+            ->subject($this->profile->first_name . ', voici le résumé des actions à réaliser sur votre territoire !')
             ->tag('app-referent-bilan-quotidien')
             ->markdown('emails.bilans.referent-summary-daily', [
                 'notifiable' => $notifiable,

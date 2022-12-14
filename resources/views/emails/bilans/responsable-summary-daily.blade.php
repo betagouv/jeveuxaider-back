@@ -45,10 +45,8 @@
 
 <p>Gardez à l’esprit que les associations qui répondent vite sont valorisées ; et que les bénévoles privilégient les missions pour lesquelles ils ont une réponse rapide !</p>
 
-<p>N’oubliez pas : plus vous répondez rapidement aux personnes qui vous contactent, et plus votre mission est valorisée sur la plateforme !</p>
-
 @component('mail::button', ['url' => $url])
-Répondre aux bénévoles
+Je réponds aux bénévoles
 @endcomponent
 
 <p>À très vite !<br>

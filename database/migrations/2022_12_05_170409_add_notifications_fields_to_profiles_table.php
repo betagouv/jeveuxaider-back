@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::table('profiles', function (Blueprint $table) {
             $table->string('notification__responsable_frequency')->default('realtime');
-            $table->boolean('notification__responsable_bilan')->default(false);
+            $table->boolean('notification__responsable_bilan')->default(true);
             $table->string('notification__referent_frequency')->default('realtime');
-            $table->boolean('notification__referent_bilan')->default(false);
+            $table->boolean('notification__referent_bilan')->default(true);
         });
     }
 

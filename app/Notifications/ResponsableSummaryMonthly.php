@@ -74,7 +74,7 @@ class ResponsableSummaryMonthly extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         $mailMessage = (new MailMessage)
-            ->subject('Résumé mensuel de votre activité en '. Carbon::now()->subMonth()->translatedFormat('F Y'))
+            ->subject($this->profile->first_name . ', découvrez votre résumé mensuel d’activité sur JeVeuxaider.gouv.fr !')
             ->tag('app-responsable-bilan-mensuel')
             ->markdown('emails.bilans.responsable-summary-monthly', [
                 'notifiable' => $notifiable,

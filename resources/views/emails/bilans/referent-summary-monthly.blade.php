@@ -65,7 +65,7 @@
 @endif
 
 @component('mail::button', ['url' => $url])
-Accéder aux statistiques
+J'accède aux statistiques
 @endcomponent
 
 <p>À très vite pour de nouvelles missions !<br>

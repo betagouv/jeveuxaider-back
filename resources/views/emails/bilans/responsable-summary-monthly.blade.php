@@ -35,10 +35,12 @@
 <li>⌚ En moyenne, vous avez répondu à vos bénévoles en {{ round($structure->response_time / 60 / 60) }} heure(s).</li>
 <li>👍 Vous avez répondu à {{ $structure->response_ratio }}% de vos demandes.</li>
 </ul>
+
+<p>Gardez à l’esprit que les associations qui répondent vite sont valorisées ; et que les bénévoles privilégient les missions pour lesquelles ils ont une réponse rapide !</p>
 @endif
 
 @component('mail::button', ['url' => $url])
-Accéder à mon compte
+J'accède à mon compte
 @endcomponent
 
 <p>À très vite pour de nouvelles missions !<br>

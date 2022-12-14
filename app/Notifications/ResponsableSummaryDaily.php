@@ -77,7 +77,7 @@ class ResponsableSummaryDaily extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         $mailMessage = (new MailMessage)
-            ->subject('Résumé de la journée du ' . Carbon::yesterday()->translatedFormat('d F Y'))
+            ->subject($this->profile->first_name . ', découvrez l’activité du jour sur JeVeuxAider.gouv.fr !')
             ->tag('app-responsable-bilan-quotidien')
             ->markdown('emails.bilans.responsable-summary-daily', [
                 'notifiable' => $notifiable,
