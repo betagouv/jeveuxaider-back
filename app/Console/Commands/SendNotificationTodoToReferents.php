@@ -75,7 +75,7 @@ class SendNotificationTodoToReferents extends Command
             $this->info($department.' has '.count($structures).' organisations, and '.count($missions).' missions');
             $referents = Profile::whereHas('user.departmentsAsReferent', function (Builder $query) use ($department) {
                 $query->where('number', $department);
-            })->get();
+            })->where('notification__referent_frequency', 'realtime')->get();
             $this->info($referents->pluck('email'));
             Notification::send($referents, new ReferentDailyTodo($structures, $missions));
         }

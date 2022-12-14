@@ -34,6 +34,8 @@ class Profile extends Model implements HasMedia
         'is_visible' => 'boolean',
         'disponibilities' => 'array',
         'can_export_profiles' => 'boolean',
+        'notification__responsable_bilan' => 'boolean',
+        'notification__referent_bilan' => 'boolean',
         'missing_fields' => 'array',
     ];
 
