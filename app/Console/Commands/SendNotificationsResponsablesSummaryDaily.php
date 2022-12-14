@@ -44,10 +44,26 @@ class SendNotificationsResponsablesSummaryDaily extends Command
     public function handle()
     {
         $responsables = Profile::select('id', 'email')
+            ->where('notification__responsable_frequency', 'summary')
+            ->whereHas('user.structures')
             ->whereHas('user.roles', function (Builder $query){
                 $query->where('roles.id', 2);
             })
-            ->where('notification__responsable_frequency', 'summary')
+            ->where(function(Builder $query){
+                $query->whereHas('missions.participations', function (Builder $query){
+                    $query
+                        ->whereIn('state', ['En attente de validation', 'En cours de traitement'])
+                        ->orWhereDate('created_at', date("Y-m-d", strtotime('-1 days')));
+                })
+                ->orWhereHas('user', function (Builder $query){
+                    $query->whereHas('conversations', function(Builder $query){
+                        $query->whereHas('messages', function (Builder $query) {
+                            $query->whereDate('created_at', date("Y-m-d", strtotime('-1 days')));
+                        })
+                        ->where('conversations_users.status', true);
+                    });
+                });
+            })
             ->get();
 
         foreach ($responsables as $responsable) {

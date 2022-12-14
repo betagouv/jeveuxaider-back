@@ -7,6 +7,7 @@ use App\Models\Message;
 use App\Models\Mission;
 use App\Models\Participation;
 use App\Models\Profile;
+use App\Models\Structure;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
@@ -23,9 +24,15 @@ class ReferentSummaryMonthly extends Notification implements ShouldQueue
     public $endDate;
     public $profile;
     public $user;
+    public $department;
+
+    public $newStructuresCount;
     public $newMissionsCount;
-    public $missionsOnlineCount;
     public $newParticipationsCount;
+    public $newBenevolesCount;
+    public $structuresActivesCount;
+    public $missionsOnlineCount;
+    public $placesLeftCount;
 
     /**
      * Create a new notification instance.
@@ -39,10 +46,17 @@ class ReferentSummaryMonthly extends Notification implements ShouldQueue
 
         $this->profile = Profile::find($referentId);
         $this->user = User::find($this->profile->user_id);
+        $this->department = $this->user->departmentsAsReferent->first();
 
-        // $this->newMissionsCount = Mission::ofResponsable($responsableId)->whereBetween('created_at', [$this->startDate, $this->endDate])->count();
-        // $this->missionsOnlineCount = Mission::ofResponsable($responsableId)->available()->count();
-        // $this->newParticipationsCount = Participation::ofResponsable($responsableId)->whereBetween('created_at', [$this->startDate, $this->endDate])->count();
+        $this->newStructuresCount = Structure::department($this->department->number)->whereBetween('created_at', [$this->startDate, $this->endDate])->count();
+        $this->newMissionsCount = Structure::department($this->department->number)->whereBetween('created_at', [$this->startDate, $this->endDate])->count();
+        $this->newParticipationsCount = Participation::department($this->department->number)->whereBetween('created_at', [$this->startDate, $this->endDate])->count();
+        $this->newBenevolesCount = Profile::department($this->department->number)->whereBetween('created_at', [$this->startDate, $this->endDate])->count();
+        $this->structuresActivesCount = Structure::where('state', 'Validée')->whereHas('missions', function(Builder $query){
+            $query->available();
+        })->department($this->department->number)->count();
+        $this->missionsOnlineCount = Mission::department($this->department->number)->available()->count();
+        $this->placesLeftCount = Mission::department($this->department->number)->available()->sum('places_left');
     }
 
     public function viaQueues()
@@ -72,15 +86,20 @@ class ReferentSummaryMonthly extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         $mailMessage = (new MailMessage)
-            ->subject('Résumé mensuel de votre activité en '. Carbon::now()->subMonth()->translatedFormat('F Y'))
+            ->subject($this->department->name . ' - Résumé mensuel de votre activité en '. Carbon::now()->subMonth()->translatedFormat('F Y'))
             ->tag('app-referent-bilan-mensuel')
             ->markdown('emails.bilans.referent-summary-monthly', [
                 'notifiable' => $notifiable,
-                'url' => url(config('app.front_url') . '/dashboard'),
+                'url' => url(config('app.front_url') . '/admin/statistics'),
+                'department' => $this->department,
                 'variables' => [
-                    // 'newMissionsCount' => $this->newMissionsCount,
-                    // 'missionsOnlineCount' => $this->missionsOnlineCount,
-                    // 'newParticipationsCount' => $this->newParticipationsCount
+                    'newStructuresCount' => $this->newStructuresCount,
+                    'newMissionsCount' => $this->newMissionsCount,
+                    'newParticipationsCount' => $this->newParticipationsCount,
+                    'newBenevolesCount' => $this->newBenevolesCount,
+                    'structuresActivesCount' => $this->structuresActivesCount,
+                    'missionsOnlineCount' => $this->missionsOnlineCount,
+                    'placesLeftCount' => $this->placesLeftCount
                 ],
             ]);
 

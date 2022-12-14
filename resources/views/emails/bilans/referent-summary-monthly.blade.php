@@ -1,47 +1,75 @@
 <?php $showSummaryActions = true; ?>
 
 @component('mail::message')
-Bonjour {{ $notifiable->first_name}},
+<p>Bonjour {{ $notifiable->first_name}},<p>
 
-Voici le récapitulatif de vos missions au cours du dernier mois.
+<p>C’est l’heure du bilan ! Voici le récapitulatif des actions sur votre département « {{ $department->name }} » au cours du dernier mois.
 
 <ul>
-@if($variables['newMissionsCount'] == 0)
-<li>🥳 Vous n'avez pas mis en ligne de nouvelle mission sur la plateforme</li>
-@elseif($variables['newMissionsCount'] == 1)
-<li>🥳 Vous avez mis en ligne {{ $variables['newMissionsCount'] }} mission sur la plateforme</li>
+@if($variables['newStructuresCount'] == 0)
+<li>🎉 Aucune nouvelle organisation inscrite</li>
+@elseif($variables['newStructuresCount'] == 1)
+<li>🎉 {{ $variables['newStructuresCount'] }} nouvelle organisation nous a rejoints !</li>
 @else
-<li>🥳 Vous avez mis en ligne {{ $variables['newMissionsCount'] }} missions sur la plateforme</li>
+<li>🎉 {{ $variables['newStructuresCount'] }} nouvelles organisations nous ont rejoints !</li>
 @endif
-@if($variables['missionsOnlineCount'] == 0)
-<li>🤩 Vous n'avez plus de mission active sur la plateforme</li>
-@elseif($variables['missionsOnlineCount'] == 1)
-<li>🤩 Vous avez désormais {{ $variables['missionsOnlineCount'] }} mission active sur la plateforme</li>
+@if($variables['newMissionsCount'] == 0)
+<li>🥂 Aucune nouvelle mission postée</li>
+@elseif($variables['newMissionsCount'] == 1)
+<li>🥂 {{ $variables['newMissionsCount'] }} nouvelle mission a été postée</li>
 @else
-<li>🤩 Vous avez désormais {{ $variables['missionsOnlineCount'] }} missions actives sur la plateforme</li>
+<li>🥂 {{ $variables['newMissionsCount'] }} nouvelles missions ont été postées</li>
+@endif
+@if($variables['newParticipationsCount'] == 0)
+<li>🌟 Aucune nouvelle demande de participation</li>
+@elseif($variables['newParticipationsCount'] == 1)
+<li>🌟 {{ $variables['newParticipationsCount'] }} nouvelle demande de participation</li>
+@else
+<li>🌟 {{ $variables['newParticipationsCount'] }} nouvelles demandes de participation</li>
+@endif
+@if($variables['newBenevolesCount'] == 0)
+<li>🎯 Aucun bénévole ne s'est inscrit</li>
+@elseif($variables['newBenevolesCount'] == 1)
+<li>🎯 {{ $variables['newBenevolesCount'] }} bénévole s'est inscrit sur la plateforme</li>
+@else
+<li>🎯 {{ $variables['newBenevolesCount'] }} bénévoles se sont inscrits sur la plateforme </li>
 @endif
 </ul>
 
 @if($showSummaryActions)
-JeVeuxAider.gouv.org vous accompagne dans la recherche de bénévoles ! Vous avez reçu : 
+<p>À l'heure d'aujourd'hui, voici l'offre de JeVeuxAider.gouv.fr sur le département « {{ $department->name }} » :</p>
 
 <ul>
-@if($variables['newParticipationsCount'] == 0)
-<li>🔥 Aucune demande de participation de la part de bénévoles sur vos missions</li>
-@elseif($variables['newParticipationsCount'] == 1)
-<li>🔥 {{ $variables['newParticipationsCount'] }} demande de participation de la part de bénévoles sur vos missions</li>
+@if($variables['structuresActivesCount'] == 0)
+<li>🌟 Aucune organisation n'est active</li>
+@elseif($variables['structuresActivesCount'] == 1)
+<li>🌟 {{ $variables['structuresActivesCount'] }} organisation est active</li>
 @else
-<li>🔥 {{ $variables['newParticipationsCount'] }} demandes de participation de la part de bénévoles sur vos missions</li>
+<li>🌟 {{ $variables['structuresActivesCount'] }} organisations sont actives</li>
+@endif
+@if($variables['missionsOnlineCount'] == 0)
+<li>🔥 Aucune mission n'est disponible sur la plateforme</li>
+@elseif($variables['missionsOnlineCount'] == 1)
+<li>🔥 {{ $variables['missionsOnlineCount'] }} mission est disponible sur la plateforme</li>
+@else
+<li>🔥 {{ $variables['missionsOnlineCount'] }} missions sont disponibles sur la plateforme</li>
+@endif
+@if($variables['placesLeftCount'] == 0)
+<li>✅ Aucune place n'est disponible sur les missions</li>
+@elseif($variables['placesLeftCount'] == 1)
+<li>✅ Il reste {{ $variables['placesLeftCount'] }} place disponible sur les missions</li>
+@else
+<li>✅ Il reste {{ $variables['placesLeftCount'] }} places disponibles sur les missions</li>
 @endif
 </ul>
 @endif
 
 @component('mail::button', ['url' => $url])
-Accéder à mon compte
+Accéder aux statistiques
 @endcomponent
 
-À très vite pour de nouvelles missions !
-L'équipe de JeVeuxAider.gouv.fr
+<p>À très vite pour de nouvelles missions !<br>
+L'équipe de JeVeuxAider.gouv.fr</p>
 
 @component('mail::footer')
 Vous recevez cette notification car vous avez opté pour un résumé mensuel de votre activité.

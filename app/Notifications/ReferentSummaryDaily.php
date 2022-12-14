@@ -39,7 +39,7 @@ class ReferentSummaryDaily extends Notification implements ShouldQueue
      */
     public function __construct($referentId)
     {
-        $this->startDate = Carbon::now()->subDays(2)->startOfDay()->format('Y-m-d H:i:s');
+        $this->startDate = Carbon::now()->subDays(3)->startOfDay()->format('Y-m-d H:i:s');
         $this->endDate = Carbon::now()->format('Y-m-d H:i:s');
 
         $this->profile = Profile::find($referentId);
@@ -57,9 +57,14 @@ class ReferentSummaryDaily extends Notification implements ShouldQueue
             $query->department($this->department->number);
         })->whereBetween('created_at', [$this->startDate, $this->endDate])->count();
 
-        $this->missionsWaitingCount = Mission::department($this->department->number)->where('state', 'En attente de validation')->count();
-        $this->structuresWaitingCount = Structure::department($this->department->number)->where('state', 'En attente de validation')->count();
+        $this->missionsWaitingCount = Mission::department($this->department->number)->whereIn('state', ['En attente de validation', 'En cours de traitement'])->count();
+        $this->structuresWaitingCount = Structure::department($this->department->number)->whereIn('state', ['En attente de validation', 'En cours de traitement'])->count();
         $this->conversationsUnreadCount = $this->user->getUnreadConversationsCount();
+    }
+
+    public function shouldSend($notifiable, $channel)
+    {
+        return $this->conversationsUnreadCount || $this->structuresWaitingCount || $this->missionsWaitingCount || $this->newNotesCount || $this->newMissionsCount || $this->newStructuresCount || $this->newMessagesCount;
     }
 
     public function viaQueues()
@@ -89,7 +94,7 @@ class ReferentSummaryDaily extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         $mailMessage = (new MailMessage)
-            ->subject($this->department->name . ' - Résumé des 2 derniers jours')
+            ->subject($this->department->name . ' - Résumé des 3 derniers jours')
             ->tag('app-referent-bilan-quotidien')
             ->markdown('emails.bilans.referent-summary-daily', [
                 'notifiable' => $notifiable,

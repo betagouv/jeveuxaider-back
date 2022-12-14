@@ -55,16 +55,16 @@ class Kernel extends ConsoleKernel
         $schedule->command(SendNotificationsNoNewMission::class)->weekdays()->daily()->at('08:50');
         $schedule->command(SendNotificationsStructureInDraft::class)->daily()->at('09:50');
         $schedule->command(SendNotificationTodoToResponsables::class)->days([1, 3, 5])->at('08:20');
-        $schedule->command(SendNotificationsResponsablesSummaryDaily::class)->daily()->at('7:50');
-        $schedule->command(SendNotificationsResponsablesSummaryMonthly::class)->monthlyOn(1)->at('8:00');
+        $schedule->command(SendNotificationsResponsablesSummaryDaily::class)->daily()->at('07:50');
+        $schedule->command(SendNotificationsResponsablesSummaryMonthly::class)->monthlyOn(1)->at('08:00');
 
         // Référents
-        $schedule->command(SendNotificationTodoToReferents::class)->weekdays()->daily()->at('08:10');
-        $schedule->command(SendNotificationsReferentsSummaryDaily::class)->weekdays()->daily()->at('8:10');
-        $schedule->command(SendNotificationsReferentsSummaryMonthly::class)->monthlyOn(1)->at('8:20');
+        $schedule->command(SendNotificationTodoToReferents::class)->weekdays()->daily()->at('08:00');
+        $schedule->command(SendNotificationsReferentsSummaryDaily::class)->days([1, 4])->at('08:10');
+        $schedule->command(SendNotificationsReferentsSummaryMonthly::class)->monthlyOn(1)->at('08:20');
 
         // Algolia
-        $schedule->command(AlgoliaMissionUpdateFieldOutdated::class)->daily()->at('2:00');
+        $schedule->command(AlgoliaMissionUpdateFieldOutdated::class)->daily()->at('02:00');
 
         // Sync ApiEngagement
         $schedule->command(ApiEngagementExportMissions::class)->everySixHours();

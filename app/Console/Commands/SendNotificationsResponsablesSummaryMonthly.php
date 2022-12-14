@@ -42,13 +42,13 @@ class SendNotificationsResponsablesSummaryMonthly extends Command
     public function handle()
     {
         $responsables = Profile::select('id', 'email')
+            ->where('notification__responsable_bilan', true)
+            ->whereHas('user.structures')
+            ->whereHas('user.structures.participations')
             ->whereHas('user.roles', function (Builder $query){
                 $query->where('roles.id', 2);
             })
-            ->where('notification__responsable_bilan', true)
             ->get();
-
-            ray($responsables);
 
         foreach ($responsables as $responsable) {
             Notification::send(Profile::find($responsable->id), new ResponsableSummaryMonthly($responsable->id));

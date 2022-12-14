@@ -1,9 +1,9 @@
 <?php $showActions = true; ?>
 
 @component('mail::message')
-Bonjour {{ $notifiable->first_name}},
+<p>Bonjour {{ $notifiable->first_name}},</p>
 
-Voici le récapitulatif des actions sur votre compte JeVeuxAider.gouv.fr au cours des deux derniers jours sur le département « {{ $department->name }} ».
+<p>Nous sommes heureux de travailler à vos côtés au quotidien ! Voici le récapitulatif des actions sur votre compte JeVeuxAider.gouv.fr sur votre département « {{ $department->name }} » sur les 3 derniers jours.</p>
 
 <ul>
 @if($variables['newStructuresCount'] == 0)
@@ -37,41 +37,41 @@ Voici le récapitulatif des actions sur votre compte JeVeuxAider.gouv.fr au cour
 </ul>
 
 @if($showActions)
-À vous de prendre le relais ! Rendez-vous sur votre compte JeVeuxAider.gouv.org pour : 
+<p>À vous de prendre le relais ! Rendez-vous sur votre compte JeVeuxAider.gouv.org pour :</p>
 
 <ul>
 @if($variables['structuresWaitingCount'] == 0)
-<li>🧐 Aucune organisation en attente de validation</li>
+<li>🧐 Aucune organisation en attente</li>
 @elseif($variables['structuresWaitingCount'] == 1)
-<li>🧐 Modérer l'organisation en attente de validation</li>
+<li>🧐 Modérer l'organisation en attente</li>
 @else
-<li>🧐 Modérer les {{ $variables['structuresWaitingCount'] }} organisations en attente de validation</li>
+<li>🧐 Modérer les {{ $variables['structuresWaitingCount'] }} organisations en attente</li>
 @endif
 @if($variables['missionsWaitingCount'] == 0)
-<li>✨ Aucune mission proposée en attente de validation</li>
+<li>✨ Aucune mission proposée en attente</li>
 @elseif($variables['missionsWaitingCount'] == 1)
-<li>✨ Prendre connaissance de la mission en attente de validation</li>
+<li>✨ Prendre connaissance de la mission en attente</li>
 @else
-<li>✨ Prendre connaissance des {{ $variables['missionsWaitingCount'] }} missions en attente de validation</li>
+<li>✨ Prendre connaissance des {{ $variables['missionsWaitingCount'] }} missions en attente</li>
 @endif
 @if($variables['conversationsUnreadCount'] == 0)
-<li>📨 Aucun message en attente</li>
+<li>📨 Aucun message non lu</li>
 @elseif($variables['conversationsUnreadCount'] == 1)
-<li>📨 {{ $variables['conversationsUnreadCount'] }} message est encore en attente</li>
+<li>📨 Lire le message non lu</li>
 @else
-<li>📨 {{ $variables['conversationsUnreadCount'] }} messages sont encore en attente</li>
+<li>📨 Lire les {{ $variables['conversationsUnreadCount'] }} messages non lus</li>
 @endif
 </ul>
 @endif
 
 @component('mail::button', ['url' => $url])
-Accéder à mon compte
+J’accède à mon compte
 @endcomponent
 
-A très vite !
-L'équipe de JeVeuxAider.gouv.fr
+<p>A très vite !<br>
+L'équipe de JeVeuxAider.gouv.fr<p>
 
-PS : Vous avez des questions ? N’hésitez pas à nous répondre par retour de mail, nous sommes toujours disponibles pour vous.
+<p>PS : Vous avez des questions ? N’hésitez pas à nous répondre par retour de mail, nous sommes toujours disponibles pour vous.</p>
 
 @component('mail::footer')
 Vous recevez cette notification car vous avez opté pour un résumé quotidien des notifications relatives aux missions/organisations et messages reçus.

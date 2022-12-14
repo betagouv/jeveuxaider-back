@@ -19,6 +19,7 @@ class ResponsableSummaryDaily extends Notification implements ShouldQueue
 {
     use Queueable;
 
+    public $structure;
     public $profile;
     public $user;
     public $newMessagesCount;
@@ -38,14 +39,14 @@ class ResponsableSummaryDaily extends Notification implements ShouldQueue
 
         $this->profile = Profile::find($responsableId);
         $this->user = User::find($this->profile->user_id);
+        $this->structure = $this->user->structures->first();
         $this->newMessagesCount = Message::whereHas('conversation', function (Builder $query){
             $query->whereHas('users', function (Builder $query){
                 $query->where('users.id', $this->user->id);
             });
         })->whereDate('created_at', $yesterday)->count();
         $this->newParticipationsCount = Participation::ofResponsable($responsableId)->whereDate('created_at', $yesterday)->count();
-        $this->participationsWaitingCount = Participation::ofResponsable($responsableId)->where('state', 'En attente de validation')->count();
-        $this->participationsProcessingCount = Participation::ofResponsable($responsableId)->where('state', 'En cours de traitement')->count();
+        $this->participationsWaitingCount = Participation::ofResponsable($responsableId)->whereIn('state', ['En attente de validation', 'En cours de traitement'])->count();
         $this->conversationsUnreadCount =  $this->user->getUnreadConversationsCount();
     }
 
@@ -81,6 +82,7 @@ class ResponsableSummaryDaily extends Notification implements ShouldQueue
             ->markdown('emails.bilans.responsable-summary-daily', [
                 'notifiable' => $notifiable,
                 'url' => url(config('app.front_url') . '/dashboard'),
+                'structure' => $this->structure,
                 'variables' => [
                     'newParticipationsCount' => $this->newParticipationsCount,
                     'newMessagesCount' => $this->newMessagesCount,

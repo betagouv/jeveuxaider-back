@@ -21,6 +21,7 @@ class ResponsableSummaryMonthly extends Notification implements ShouldQueue
 
     public $startDate;
     public $endDate;
+    public $structure;
     public $profile;
     public $user;
     public $newMissionsCount;
@@ -39,6 +40,7 @@ class ResponsableSummaryMonthly extends Notification implements ShouldQueue
 
         $this->profile = Profile::find($responsableId);
         $this->user = User::find($this->profile->user_id);
+        $this->structure = $this->user->structures->first();
 
         $this->newMissionsCount = Mission::ofResponsable($responsableId)->whereBetween('created_at', [$this->startDate, $this->endDate])->count();
         $this->missionsOnlineCount = Mission::ofResponsable($responsableId)->available()->count();
@@ -77,6 +79,7 @@ class ResponsableSummaryMonthly extends Notification implements ShouldQueue
             ->markdown('emails.bilans.responsable-summary-monthly', [
                 'notifiable' => $notifiable,
                 'url' => url(config('app.front_url') . '/dashboard'),
+                'structure' => $this->structure,
                 'variables' => [
                     'newMissionsCount' => $this->newMissionsCount,
                     'missionsOnlineCount' => $this->missionsOnlineCount,
