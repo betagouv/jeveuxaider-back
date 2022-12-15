@@ -65,6 +65,8 @@ Route::get('settings/general', 'Api\SettingController@general');
 
 Route::post('webhook/sendinblue', 'Api\WebhookController@sendinblue');
 
+Route::get('emailable/verify/{email}', 'Api\EmailableController@verify');
+
 Route::group(['middleware' => ['auth:api']], function () {
     Route::get('user', 'Api\UserController@me');
     Route::get('user/status', 'Api\UserController@status');
@@ -210,6 +212,9 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
 
     // BATCH
     Route::get('/batch/{batchId}', 'Api\BatchController@show');
+
+    // Activity classifier
+    Route::post('/activity-classifier', 'Api\ActivityClassifierController@sortedOptions');
 });
 
 // ONLY ADMIN
@@ -316,7 +321,12 @@ Route::group(['middleware' => ['auth:api', 'is.admin.or.referent']], function ()
     Route::get('statistics/overview-organisations', 'Api\NumbersController@overviewOrganisations');
     Route::get('statistics/overview-utilisateurs', 'Api\NumbersController@overviewUtilisateurs');
     Route::get('statistics/overview-participations', 'Api\NumbersController@overviewParticipations');
+
     Route::get('statistics/overview-api-engagement', 'Api\NumbersController@overviewAPIEngagement');
+    Route::get('statistics/overview-api-engagement-entrant', 'Api\NumbersController@overviewAPIEngagementEntrant');
+    Route::get('statistics/overview-api-engagement-entrant-details', 'Api\NumbersController@overviewAPIEngagementEntrantDetails');
+    Route::get('statistics/overview-api-engagement-sortant', 'Api\NumbersController@overviewAPIEngagementSortant');
+    Route::get('statistics/overview-api-engagement-sortant-details', 'Api\NumbersController@overviewAPIEngagementSortantDetails');
 
     Route::get('statistics/global/organisations', 'Api\NumbersController@globalOrganisations');
     Route::get('statistics/global/missions', 'Api\NumbersController@globalMissions');
@@ -437,8 +447,4 @@ Route::group(['prefix' => '/statistics/public'], function () {
     Route::get('/places-by-missions', 'Api\StatisticsPublicController@placesByMissions');
     Route::get('/places-by-domaines', 'Api\StatisticsPublicController@placesByDomaines');
     Route::get('/places-by-activities', 'Api\StatisticsPublicController@placesByActivities');
-
-
-
 });
-

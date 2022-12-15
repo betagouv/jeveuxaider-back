@@ -21,7 +21,9 @@ class ParticipationObserver
     {
         if ($participation->state == 'En attente de validation') {
             if ($participation->mission->responsable) {
-                $participation->mission->responsable->notify(new ParticipationWaitingValidation($participation));
+                if($participation->mission->responsable->notification__responsable_frequency == 'realtime') {
+                    $participation->mission->responsable->notify(new ParticipationWaitingValidation($participation));
+                }
             }
             if (!empty($participation->profile->cej_email_adviser)) {
                 Notification::route('mail', $participation->profile->cej_email_adviser)->notify(new ParticipationValidatedCejAdviser($participation));
@@ -99,6 +101,7 @@ class ParticipationObserver
                         'type' => 'contextual',
                         'contextual_state' => $newState,
                     ]);
+                    $currentUser->markConversationAsRead($participation->conversation);
                 }
                 $participation->conversation->setResponseTime()->save();
                 // Trigger updated_at refresh.

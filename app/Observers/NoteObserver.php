@@ -21,7 +21,8 @@ class NoteObserver
         if ($note->user->isAdmin()) {
             // Notify referent with tag Référent départemental - Contact principal
             if ($note->notable->department) {
-                $referents = Profile::whereHas('user.departmentsAsReferent', function (Builder $query) use ($note) {
+                $referents = Profile::where('notification__referent_frequency', 'realtime')
+                ->whereHas('user.departmentsAsReferent', function (Builder $query) use ($note) {
                     $query->where('number', $note->notable->department);
                 })->whereHas('tags', function (Builder $query) {
                     $query->where('name', 'Référent départemental - Contact principal');

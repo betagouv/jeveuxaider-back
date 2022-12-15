@@ -61,6 +61,12 @@ class Sendinblue
 
     public static function sync(User $user, $withSMS = true)
     {
+
+        // Don't sync if anonymous
+        if (str_contains($user->email, '@anonymized.fr')) {
+            return;
+        }
+
         $response = self::updateContact($user, $withSMS);
 
         if (!$response->successful() && $response['code'] == 'document_not_found') {
@@ -89,7 +95,6 @@ class Sendinblue
     {
         $organisation = $user->structures->first();
         $attributes = [
-            // TODO : EMAIL attributes if email has changed
             'NOM' => $user->profile->last_name,
             'PRENOM' => $user->profile->first_name,
             'DATE_DE_NAISSANCE' => $user->profile->birthday ? $user->profile->birthday->format('Y-m-d') : null,

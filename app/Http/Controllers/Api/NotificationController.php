@@ -12,6 +12,7 @@ use App\Models\Note;
 use App\Models\NotificationBenevole;
 use App\Models\NotificationTemoignage;
 use App\Models\Participation;
+use App\Models\Profile;
 use App\Models\Structure;
 use App\Models\User;
 use App\Notifications\BenevoleCejNoParticipation;
@@ -43,6 +44,8 @@ use App\Notifications\ParticipationValidated;
 use App\Notifications\ParticipationValidatedCejAdviser;
 use App\Notifications\ParticipationWaitingValidation;
 use App\Notifications\ReferentDailyTodo;
+use App\Notifications\ReferentSummaryDaily;
+use App\Notifications\ReferentSummaryMonthly;
 use App\Notifications\RegisterUserResponsable;
 use App\Notifications\RegisterUserVolontaire;
 use App\Notifications\RegisterUserVolontaireCej;
@@ -50,6 +53,8 @@ use App\Notifications\RegisterUserVolontaireCejAdviser;
 use App\Notifications\ReseauNewLead;
 use App\Notifications\ResetPassword;
 use App\Notifications\ResponsableDailyTodo;
+use App\Notifications\ResponsableSummaryDaily;
+use App\Notifications\ResponsableSummaryMonthly;
 use App\Notifications\StructureAskUnregister;
 use App\Notifications\StructureAssociationValidated;
 use App\Notifications\StructureBeingProcessed;
@@ -61,6 +66,7 @@ use App\Notifications\StructureSwitchResponsable;
 use App\Notifications\StructureValidated;
 use App\Notifications\UserAnonymize;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Builder;
 
 class NotificationController extends Controller
 {
@@ -238,6 +244,46 @@ class NotificationController extends Controller
                 break;
             case 'structure_unregister_contact_admin':
                 $notification = new StructureAskUnregister($user, $structure);
+                break;
+            case 'responsable_summary_daily':
+                $profile = Profile::select('id', 'email')
+                    ->whereHas('user.structures')
+                    ->whereHas('missions.participations')
+                    ->whereHas('user.roles', function (Builder $query){
+                        $query->where('roles.id', 2);
+                    })
+                    ->where('notification__responsable_frequency', 'summary')
+                    ->latest()->first();
+                $notification = new ResponsableSummaryDaily($profile->id);
+                break;
+            case 'responsable_summary_monthly':
+                $profile = Profile::select('id', 'email')
+                    ->where('notification__responsable_bilan', true)
+                    ->whereHas('user.structures')
+                    ->whereHas('user.structures.participations')
+                    ->whereHas('user.roles', function (Builder $query){
+                        $query->where('roles.id', 2);
+                    })
+                    ->latest()->first();
+                $notification = new ResponsableSummaryMonthly($profile->id);
+                break;
+            case 'referent_summary_daily':
+                $profile = Profile::select('id', 'email')
+                    ->whereHas('user.roles', function (Builder $query){
+                        $query->where('roles.id', 3);
+                    })
+                    ->where('notification__referent_frequency', 'summary')
+                    ->latest()->first();
+                $notification = new ReferentSummaryDaily($profile->id);
+                break;
+            case 'referent_summary_monthly':
+                $profile = Profile::select('id', 'email')
+                    ->whereHas('user.roles', function (Builder $query){
+                        $query->where('roles.id', 3);
+                    })
+                    ->where('notification__referent_bilan', true)
+                    ->latest()->first();
+                $notification = new ReferentSummaryMonthly($profile->id);
                 break;
         }
 

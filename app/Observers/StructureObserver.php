@@ -70,7 +70,8 @@ class StructureObserver
         $newState = $structure->state;
 
         // RESPONSABLE
-        $responsable = $structure->members->first()->profile;
+        $firstMember = $structure->members->first();
+        $responsable = $firstMember ? $firstMember->profile : null;
 
         if ($oldState != $newState) {
             switch ($newState) {
@@ -80,7 +81,8 @@ class StructureObserver
                         $structure->user->notify($notification);
                     }
                     if ($structure->department) {
-                        Profile::whereHas('user.departmentsAsReferent', function (Builder $query) use ($structure) {
+                        Profile::where('notification__referent_frequency', 'realtime')
+                        ->whereHas('user.departmentsAsReferent', function (Builder $query) use ($structure) {
                             $query->where('number', $structure->department);
                         })->get()->map(function ($profile) use ($structure) {
                             $profile->notify(new StructureSubmitted($structure));

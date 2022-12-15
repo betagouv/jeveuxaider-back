@@ -4,6 +4,7 @@ namespace App\Services;
 
 use Algolia\AlgoliaSearch\SearchClient;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class ApiEngagement
 {
@@ -29,7 +30,7 @@ class ApiEngagement
                 fn ($mission) => $this->formatMission($mission),
                 $response['data']
             );
-            $client->initIndex(config('scout.prefix').'_covid_missions')->saveObjects($missions);
+            $client->initIndex(config('scout.prefix') . '_covid_missions')->saveObjects($missions);
 
             $total = $response['total'];
             $done += $limit;
@@ -42,7 +43,7 @@ class ApiEngagement
     {
         $response = Http::withHeaders([
             'apikey' => config('app.api_engagement_key'),
-        ])->get('https://api.api-engagement.beta.gouv.fr/v0/mission/'.$id);
+        ])->get('https://api.api-engagement.beta.gouv.fr/v0/mission/' . $id);
 
         return isset($response['data']) ? $this->formatMission($response['data']) : null;
     }
@@ -51,7 +52,7 @@ class ApiEngagement
     {
         $response = Http::withHeaders([
             'apikey' => config('app.api_engagement_key'),
-        ])->get('https://api.api-engagement.beta.gouv.fr/v0/mymission/'.$id);
+        ])->get('https://api.api-engagement.beta.gouv.fr/v0/mymission/' . $id);
 
         return isset($response['data']) ? $response['data'] : null;
     }
@@ -64,7 +65,7 @@ class ApiEngagement
         );
 
         $res = $client
-            ->initIndex(config('scout.prefix').'_covid_missions')
+            ->initIndex(config('scout.prefix') . '_covid_missions')
             ->deleteBy([
                 'facetFilters' => 'provider:api_engagement',
             ]);
@@ -196,7 +197,7 @@ class ApiEngagement
 
     private function formatRemote($mission)
     {
-        if (! isset($mission['remote'])) {
+        if (!isset($mission['remote'])) {
             return null;
         }
 
@@ -219,10 +220,12 @@ class ApiEngagement
     private function formatMission($mission)
     {
         $domaine = $this->formatDomain($mission);
+        $departmentNumber = $this->getDepartmentNumber($mission);
+        $departmentName = $this->getDepartmentName($departmentNumber, $mission);
 
         return [
             'provider' => 'api_engagement',
-            'objectID' => 'ApiEngagement/'.$mission['_id'],
+            'objectID' => 'ApiEngagement/' . $mission['_id'],
             'publisher_name' => $mission['publisherName'],
             'publisher_logo' => $mission['publisherLogo'],
             'publisher_url' => $mission['publisherUrl'] ?? null,
@@ -230,9 +233,9 @@ class ApiEngagement
             'id' => $mission['_id'],
             'name' => $mission['title'],
             'city' => $mission['city'] ?? null,
-            'department' => $mission['departmentCode'] ?? null,
-            'department_name' => isset($mission['departmentName']) && ! empty($mission['departmentName']) ?
-                $mission['departmentCode'].' - '.$mission['departmentName'] : null,
+            'department' => $departmentNumber ?? null,
+            'department_name' => $departmentNumber && $departmentName ?
+                $departmentNumber . ' - ' . $departmentName : null,
             'zip' => $mission['postalCode'] ?? null,
             'places_left' => $mission['places'] ?? null,
             'participations_max' => $mission['places'] ?? null,
@@ -263,7 +266,7 @@ class ApiEngagement
             'description' => $mission['description'],
             'start_date' => $mission['startAt'] ?? null,
             'end_date' => $mission['endAt'] ?? null,
-            'full_address' => $mission['adresse'],
+            'full_address' => $mission['adresse'] ?? null,
         ];
     }
 
@@ -292,7 +295,7 @@ class ApiEngagement
                 : null;
 
             $place = ApiAdresse::search(['q' => $attributes['zip'], 'type' => 'municipality', 'limit' => 1]);
-            if (! empty($place)) {
+            if (!empty($place)) {
                 $attributes['latitude'] = $place['geometry']['coordinates'][1];
                 $attributes['longitude'] = $place['geometry']['coordinates'][0];
             }
@@ -334,10 +337,10 @@ class ApiEngagement
                 if ($structure->statut_juridique) {
                     $attributes['statut_juridique'] = $structure->statut_juridique;
                 }
-                if (! empty($structure->domaines)) {
+                if (!empty($structure->domaines)) {
                     $attributes['domaines'] = $structure->domaines->pluck('name')->toArray();
                 }
-                if (! empty($structure->publics_beneficiaires)) {
+                if (!empty($structure->publics_beneficiaires)) {
                     $termsPublicsBeneficiaires = config('taxonomies.mission_publics_beneficiaires.terms');
                     $attributes['publics_beneficiaires'] = collect($structure->publics_beneficiaires)->map(function ($item) use ($termsPublicsBeneficiaires) {
                         return $termsPublicsBeneficiaires[$item];
@@ -398,7 +401,7 @@ class ApiEngagement
 
                 return Http::withHeaders([
                     'apikey' => config('app.api_engagement_key'),
-                ])->put('https://api.api-engagement.beta.gouv.fr/v1/association/'.$structure->rna.'/etablissement/'.$structure->api_id, $attributes);
+                ])->put('https://api.api-engagement.beta.gouv.fr/v1/association/' . $structure->rna . '/etablissement/' . $structure->api_id, $attributes);
             } catch (\Throwable $th) {
                 throw $th;
             }
@@ -420,13 +423,66 @@ class ApiEngagement
     {
         try {
             $response = Http::accept('application/json')
-            ->withHeaders([
-                'apikey' => config('app.api_engagement_key'),
-            ])->get('https://api.api-engagement.beta.gouv.fr/v0/view/stats?'.$params);
+                ->withHeaders([
+                    'apikey' => config('app.api_engagement_key'),
+                ])->get('https://api.api-engagement.beta.gouv.fr/v0/view/stats?' . $params);
         } catch (\Throwable $th) {
             throw $th;
         }
 
         return $response->json();
+    }
+
+    public function getDepartmentNumber($mission)
+    {
+        if (empty($mission['departmentCode'])) {
+            return null;
+        }
+
+        if (strlen($mission['departmentCode']) === 1) {
+            return '0' . $mission['departmentCode'];
+        }
+
+        if (empty($mission['departmentName'])) {
+            return $mission['departmentCode'];
+        }
+
+        switch ($mission['departmentName']) {
+            case 'Guadeloupe':
+                return '971';
+            case 'Martinique':
+                return '972';
+            case 'Guyane':
+                return '973';
+            case 'La Réunion':
+            case 'LaRéunion':
+                return '974';
+            case 'Mayotte':
+                return '976';
+            case 'Polynésie française':
+                return '987';
+            case 'Nouvelle-Calédonie':
+                return '988';
+            case 'Corse-du-Sud':
+                return '2A';
+            case 'Haute-Corse':
+                return '2B';
+            default:
+                return $mission['departmentCode'];
+        }
+    }
+
+    public function getDepartmentName($departmentNumber, $mission)
+    {
+        if (empty($departmentNumber)) {
+            return null;
+        }
+
+        if (!isset(config('taxonomies.departments.terms')[$departmentNumber])) {
+            Log::warning('API Engagement : erreur département inexistant', $mission);
+            return;
+        }
+
+        return config('taxonomies.departments.terms')[$departmentNumber];
     }
 }

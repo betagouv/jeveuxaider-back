@@ -18,6 +18,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
+use Illuminate\Database\Eloquent\Builder;
 
 class ParticipationController extends Controller
 {
@@ -42,6 +43,11 @@ class ParticipationController extends Controller
                 AllowedFilter::exact('mission.zip'),
                 AllowedFilter::exact('mission.type'),
                 AllowedFilter::exact('id'),
+                AllowedFilter::callback('is_state_pending', function (Builder $query, $value) {
+                    if($value === true){
+                        $query->whereIn('state', ['En attente de validation', 'En cours de traitement']);
+                    }
+                })
             )
             ->allowedIncludes([
                 'conversation.latestMessage',
