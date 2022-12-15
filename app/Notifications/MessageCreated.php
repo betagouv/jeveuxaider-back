@@ -80,7 +80,7 @@ class MessageCreated extends Notification implements ShouldQueue
             $structure = $this->message->conversation->conversable;
 
             $toResponsable = false;
-            if ($structure->members->contains('user_id', $notifiable->id)) {
+            if ($structure->members->contains('id', $notifiable->id)) {
                 $toResponsable = true;
             }
 
@@ -105,7 +105,7 @@ class MessageCreated extends Notification implements ShouldQueue
             $structure = $this->message->conversation->conversable->structure;
 
             $toResponsable = false;
-            if ($structure->members->contains('user_id', $notifiable->id)) {
+            if ($structure->members->contains('id', $notifiable->id)) {
                 $toResponsable = true;
             }
 

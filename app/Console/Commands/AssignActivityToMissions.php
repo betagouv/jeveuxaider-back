@@ -27,7 +27,7 @@ class AssignActivityToMissions extends Command
             $bar = $this->output->createProgressBar($query->count());
             $bar->start();
             foreach ($query->cursor() as $mission) {
-                $this->assignActivity($mission, implode(' ', [$mission->objectif, $mission->description]));
+                $this->assignActivity($mission, implode(' ', [$mission->name, $mission->objectif, $mission->description]));
                 $bar->advance();
             }
             $bar->finish();
@@ -42,7 +42,7 @@ class AssignActivityToMissions extends Command
             $bar = $this->output->createProgressBar($query->count());
             $bar->start();
             foreach ($query->cursor() as $template) {
-                $this->assignActivity($template, implode(' ', [$template->objectif, $template->description]));
+                $this->assignActivity($template, implode(' ', [$template->title, $template->objectif, $template->description]));
                 $bar->advance();
             }
             $bar->finish();

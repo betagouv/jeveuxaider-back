@@ -54,6 +54,10 @@ class ProfileUpdateRequest extends ProfileRequest
             'service_civique_completion_date' => '',
             'cej' => '',
             'cej_email_adviser' => 'required_if:cej,true',
+            'notification__responsable_frequency' => 'nullable|in:realtime,summary',
+            'notification__responsable_bilan' => 'boolean',
+            'notification__referent_frequency' => 'nullable|in:realtime,summary',
+            'notification__referent_bilan' => 'boolean',
         ];
 
         if (request()->user()->isAdmin()) {
