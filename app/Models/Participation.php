@@ -24,6 +24,7 @@ class Participation extends Model
     ];
 
     protected $casts = [
+        'old_slots' => 'array',
         'slots' => 'json',
     ];
 
