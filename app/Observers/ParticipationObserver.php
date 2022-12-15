@@ -99,6 +99,7 @@ class ParticipationObserver
                         'type' => 'contextual',
                         'contextual_state' => $newState,
                     ]);
+                    $currentUser->markConversationAsRead($participation->conversation);
                 }
                 $participation->conversation->setResponseTime()->save();
                 // Trigger updated_at refresh.
