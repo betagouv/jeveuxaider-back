@@ -633,4 +633,13 @@ class Structure extends Model implements HasMedia
             'updated_at' => $this->updated_at,
         ];
     }
+
+
+    public function getPermissionsAttribute()
+    {
+        return [
+            'canUpdate' =>  Auth::guard('api')->user() ? Auth::guard('api')->user()->can('update', $this) : false,
+            'canChangeState' =>  Auth::guard('api')->user() ? Auth::guard('api')->user()->can('changeState', $this) : false,
+        ];
+    }
 }
