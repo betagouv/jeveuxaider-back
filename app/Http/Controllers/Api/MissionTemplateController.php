@@ -30,7 +30,7 @@ class MissionTemplateController extends Controller
                 AllowedFilter::exact('reseau.name'),
                 AllowedFilter::callback('with_reseaux', new FiltersTemplatesWithReseau)
             )
-            ->allowedIncludes(['photo', 'domaine', 'reseau', 'missions'])
+            ->allowedIncludes(['photo', 'domaine', 'reseau', 'missions', 'tags'])
             ->defaultSort('-updated_at')
             ->allowedSorts('reseau_id')
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
@@ -48,12 +48,22 @@ class MissionTemplateController extends Controller
             return $request->validated();
         }
 
-        return MissionTemplate::create($request->validated());
+        $missionTemplate =  MissionTemplate::create($request->validated());
+
+        if ($request->has('tags')) {
+            $tags = collect($request->input('tags'));
+            $values = $tags->pluck($tags, 'id')->map(function ($item) {
+                return ['field' => 'mission_template_tags'];
+            });
+            $missionTemplate->tags()->sync($values);
+        }
+
+        return $missionTemplate;
     }
 
     public function show(MissionTemplate $missionTemplate)
     {
-        return $missionTemplate->load(['reseau', 'photo', 'domaine', 'domaineSecondary']);
+        return $missionTemplate->load(['reseau', 'photo', 'domaine', 'domaineSecondary', 'tags']);
     }
 
     public function statistics(MissionTemplate $missionTemplate)
@@ -76,6 +86,15 @@ class MissionTemplateController extends Controller
 
     public function update(MissionTemplateUpdateRequest $request, MissionTemplate $missionTemplate)
     {
+
+        if ($request->has('tags')) {
+            $tags = collect($request->input('tags'));
+            $values = $tags->pluck($tags, 'id')->map(function ($item) {
+                return ['field' => 'mission_template_tags'];
+            });
+            $missionTemplate->tags()->sync($values);
+        }
+
         $missionTemplate->update($request->validated());
 
         return $missionTemplate;

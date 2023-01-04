@@ -86,6 +86,11 @@ class MissionTemplate extends Model implements HasMedia
         return $this->belongsTo(Reseau::class);
     }
 
+    public function tags()
+    {
+        return $this->morphToMany(Term::class, 'termable')->wherePivot('field', 'mission_template_tags');
+    }
+
     public function scopeWithReseau($query)
     {
         $query->whereNotNull('reseau_id');
