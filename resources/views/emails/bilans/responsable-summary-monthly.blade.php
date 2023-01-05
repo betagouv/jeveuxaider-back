@@ -3,7 +3,7 @@
 @component('mail::message')
 <p>Bonjour {{ $notifiable->first_name}},</p>
 
-<p>Nous sommes ravis de vous compter parmi nous sur JVA ! Voici l’activité reçue sur JVA au cours du dernier mois. </p>
+<p>Nous sommes ravis de vous compter parmi nous sur JeVeuxAider.gouv.fr ! Voici l’activité reçue pour « {{ $structure->name }} » au cours du dernier mois. </p>
 
 <ul>
 @if($variables['newMissionsCount'] == 0)
