@@ -32,10 +32,10 @@ class MissionRequest extends FormRequest
                 $datas = $this->validator->getData();
 
                 $structure = request()->route('structure');
-                if (! $structure) {
+                if (!$structure) {
                     $structure = Structure::with('members.profile')->find($datas['structure_id']);
                 }
-                if ($structure && ! $structure->members->pluck('profile.id')->contains($value)) {
+                if ($structure && !$structure->members->pluck('profile.id')->contains($value)) {
                     $fail("Le responsable renseigné n'est pas un membre de l'organisation");
                 }
             }],
@@ -92,7 +92,7 @@ class MissionRequest extends FormRequest
                 'requiredIf:type,Mission en présentiel',
                 function ($attribute, $department, $fail) {
                     $datas = $this->validator->getData();
-                    if (empty($datas['is_autonomy']) && ! empty($datas['zip'])) {
+                    if (empty($datas['is_autonomy']) && !empty($datas['zip'])) {
                         $zip = str_replace(' ', '', $datas['zip']);
 
                         if (substr($zip, 0, strlen($department)) != $department) {
@@ -114,7 +114,7 @@ class MissionRequest extends FormRequest
                         if ($value == 'Validée' && $this->mission->structure->state != 'Validée') {
                             $fail('Vous devez valider l\'organisation au préalable.');
                         }
-                        if (! $this->user()->can('changeState', [$this->mission, $value])) {
+                        if (!$this->user()->can('changeState', [$this->mission, $value])) {
                             $fail('Vous n\'êtes pas autorisé à changer le statut de cette mission.');
                         }
                     }
@@ -141,7 +141,7 @@ class MissionRequest extends FormRequest
                 'required_if:is_autonomy,true',
                 function ($attribute, $autonomy_zips, $fail) {
                     $datas = $this->validator->getData();
-                    if (! empty($autonomy_zips) && ! empty($datas['department'])) {
+                    if (!empty($autonomy_zips) && !empty($datas['department'])) {
                         $department = $datas['department'];
                         foreach ($autonomy_zips as $item) {
                             if (substr($item['zip'], 0, strlen($department)) != $department) {
@@ -185,6 +185,7 @@ class MissionRequest extends FormRequest
             'name.required_without' => 'Le nom de la mission est requis',
             'responsable_id.required' => 'Sélectionnez le contact principal de la mission',
             'snu_mig_places.required_if' => 'Merci d\'indiquer le nombre de places pour les jeunes du SNU',
+            'autonomy_zips.required_if' => 'Merci de renseigner les codes postaux liés à l\'autonomie de la mission'
         ];
     }
 }
