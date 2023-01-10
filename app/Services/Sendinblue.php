@@ -96,17 +96,17 @@ class Sendinblue
         $attributes = [
             'NOM' => $user->profile->last_name,
             'PRENOM' => $user->profile->first_name,
-            'DATE_DE_NAISSANCE' => $user->profile->birthday ? $user->profile->birthday->format('Y-m-d') : null,
+            'DATE_DE_NAISSANCE' => $user->profile->birthday ? $user->profile->birthday->format('Y-m-d') : "",
             'CODE_POSTAL' => $user->profile->zip,
             'DEPARTEMENT' => substr($user->profile->zip, 0, 2),
             'DATE_INSCRIPTION' => $user->created_at->format('Y-m-d'),
             'NB_DEMANDE_PARTICIPATION' => $user->profile->participations->count(),
             'NB_PARTICIPATION_VALIDE_EFFECTUE' => $user->profile->participations->whereIn('state', ['Validée'])->count(),
-            'ORGA_NAME' => $organisation ? $organisation->name : null,
-            'ORGA_CODE_POSTAL' => $organisation ? $organisation->zip : null,
-            'ORGA_NB_MISSION' => $organisation ? $organisation->missions->count() : null,
-            'REFERENT_DEPARTEMENT' => $user->departmentsAsReferent->first() ? $user->departmentsAsReferent->first()->number : null,
-            'REFERENT_REGION' => $user->regionsAsReferent->first() ? $user->regionsAsReferent->first()->name : null,
+            'ORGA_NAME' => $organisation ? $organisation->name : "",
+            'ORGA_CODE_POSTAL' => $organisation ? $organisation->zip : "",
+            'ORGA_NB_MISSION' => $organisation ? $organisation->missions->count() : "",
+            'REFERENT_DEPARTEMENT' => $user->departmentsAsReferent->first() ? $user->departmentsAsReferent->first()->number : "",
+            'REFERENT_REGION' => $user->regionsAsReferent->first() ? $user->regionsAsReferent->first()->name : "",
             'IS_VISIBLE' => $user->profile->is_visible,
             'DISPONIBILITES' => $user->profile->disponibilities,
             'DISPO_TIME_DURATION' => $user->profile->commitment__duration,
@@ -116,8 +116,8 @@ class Sendinblue
 
         if ($withSMS) {
             $phoneNumberUtil = \libphonenumber\PhoneNumberUtil::getInstance();
-            $mobile = ($user->profile->mobile && $phoneNumberUtil->isPossibleNumber($user->profile->mobile, 'FR')) ? $phoneNumberUtil->parse($user->profile->mobile, 'FR') : null;
-            $attributes['SMS'] = $mobile ? $phoneNumberUtil->format($mobile, \libphonenumber\PhoneNumberFormat::E164) : null;
+            $mobile = ($user->profile->mobile && $phoneNumberUtil->isPossibleNumber($user->profile->mobile, 'FR')) ? $phoneNumberUtil->parse($user->profile->mobile, 'FR') : "";
+            $attributes['SMS'] = $mobile ? $phoneNumberUtil->format($mobile, \libphonenumber\PhoneNumberFormat::E164) : "";
         }
 
         return $attributes;
