@@ -39,7 +39,7 @@ class SendinblueSyncReferents extends Command
      */
     public function handle()
     {
-        $query = User::role(['referent', 'referent_regional']);
+        $query = User::role(['referent', 'referent_regional'])->with(['structures', 'profile.participations', 'departmentsAsReferent', 'regionsAsReferent', 'profile.activities']);
         if ($this->confirm($query->count() . ' users will be added or updated in Sendinblue')) {
             $query->chunk(50, function ($users) {
                 foreach ($users as $user) {
