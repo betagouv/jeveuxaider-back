@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use App\Jobs\AirtableSyncObject;
+use App\Jobs\SendinblueSyncUser;
 use App\Models\Role;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
@@ -37,6 +38,11 @@ trait HasRoles
             }
         }
 
+        // Sync Sendinblue
+        if (config('services.sendinblue.sync')) {
+            SendinblueSyncUser::dispatch($this);
+        }
+
         return $this;
     }
 
@@ -52,6 +58,11 @@ trait HasRoles
             if ($roleName == 'referent' || $roleName == 'referent_regional') {
                 AirtableSyncObject::dispatch($this);
             }
+        }
+
+        // Sync Sendinblue
+        if (config('services.sendinblue.sync')) {
+            SendinblueSyncUser::dispatch($this);
         }
 
         return $this;

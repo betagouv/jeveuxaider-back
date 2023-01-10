@@ -61,7 +61,6 @@ class Sendinblue
 
     public static function sync(User $user, $withSMS = true)
     {
-
         // Don't sync if anonymous
         if (str_contains($user->email, '@anonymized.fr')) {
             return;
