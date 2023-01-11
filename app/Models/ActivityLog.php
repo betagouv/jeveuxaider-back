@@ -10,4 +10,9 @@ class ActivityLog extends SpatieActivity
         'properties' => 'collection',
         'data' => 'array',
     ];
+
+    // public function participationMission()
+    // {
+    //     return $this->subject_type === 'App\Models\Participation' ? $this->subject() : $this->subject();
+    // }
 }
