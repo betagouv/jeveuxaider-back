@@ -130,6 +130,7 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     // STRUCTURES
     Route::get('structures', 'Api\StructureController@index');
     Route::get('structures/{structure}', 'Api\StructureController@show');
+    Route::get('structures/{structure}/score', 'Api\StructureController@score');
     Route::post('structures/{structure}/missions', 'Api\StructureController@addMission');
     Route::delete('structures/{structure}/members/{user}', 'Api\StructureController@deleteMember');
 

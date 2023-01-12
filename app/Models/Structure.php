@@ -6,6 +6,7 @@ use App\Helpers\Utils;
 use App\Models\Media as ModelMedia;
 use App\Traits\HasMissingFields;
 use App\Traits\Notable;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
@@ -355,7 +356,7 @@ class Structure extends Model implements HasMedia
 
     public function setResponseTime()
     {
-        $avgResponseTime = $this->conversations->avg('response_time');
+        $avgResponseTime = $this->conversations->where('created_at', '>=', Carbon::now()->subMonth(3)->toDateTimeString())->avg('response_time');
         if ($avgResponseTime) {
             $this->response_time = intval($avgResponseTime);
         }
@@ -380,6 +381,23 @@ class Structure extends Model implements HasMedia
         $scoreResponseTime = round(100 - (100 * $responseTime / 10));
 
         return $scoreResponseTime > 0 ? $scoreResponseTime : 0;
+    }
+
+    public function getScoreAttribute()
+    {
+        if ($this->response_time == null) {
+            return 50;
+        }
+
+        $scoreResponseTime = round(100 - (100 * ($this->response_time / 60*60*24)) / 10);
+        $scoreResponseTime = $scoreResponseTime > 0 ? $scoreResponseTime : 0;
+
+        $pointsResponseTime = $scoreResponseTime * 0.7;
+        $pointsResponseRatio = $this->response_ratio * 0.3;
+
+        $score = $pointsResponseTime + $pointsResponseRatio;
+
+        return $score <= 100 ? $score : 100;
     }
 
     public function logo()

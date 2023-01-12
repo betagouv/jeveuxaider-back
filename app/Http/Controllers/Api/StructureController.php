@@ -360,4 +360,14 @@ class StructureController extends Controller
 
         return $structure->members;
     }
+
+    public function score(Request $request, Structure $structure)
+    {
+        return [
+            'response_ratio' => $structure->response_ratio,
+            'response_time' => $structure->response_time,
+            'missions_to_moderate_count' => Mission::ofStructure($structure->id)->whereIn('state', ['En attente de validation', 'En cours de modération'])->count(),
+            'score' => $structure->score,
+        ];
+    }
 }
