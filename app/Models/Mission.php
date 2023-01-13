@@ -118,7 +118,7 @@ class Mission extends Model
                 'id' => $this->structure->id,
                 'name' => $this->structure->name,
                 'response_time' => $this->structure->response_time,
-                'response_time_score' => $this->structure->response_time_score,
+                'score' => $this->structure->score,
                 'response_ratio' => $this->structure->response_ratio,
                 'reseau' => $this->structure->reseau ? [
                     'id' => $this->structure->reseau->id,
@@ -283,7 +283,7 @@ class Mission extends Model
         // Score = ( Taux de reponse score + Response time score ) / 2
         $structure_response_ratio = $this->structure->response_ratio ?? 50;
 
-        return round(($this->structure->response_time_score + $structure_response_ratio) / 2);
+        return round(($this->structure->score + $structure_response_ratio) / 2);
     }
 
     public function scopeHasPlacesLeft($query)

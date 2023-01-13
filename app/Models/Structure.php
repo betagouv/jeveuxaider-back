@@ -364,23 +364,26 @@ class Structure extends Model implements HasMedia
         return $this;
     }
 
-    public function getResponseTimeScoreAttribute()
+    public function getTestimonialsBonusAttribute()
     {
-        // Response time ( note sur 100 )
-        // 1 jour = 100 - ( 100 * 1 /10  )
-        // 2 jours = 100 - ( 100 * 2 / 10 )
-        // ...
-        // 10 jours = 0
+        $avg = Temoignage::ofStructure($this->id)->avg('grade');
 
-        // Dans le cas d'une nouvelle orga, le responseTime est null on met donc un score arbitraire 50
-        // Dans le cas d'une orga inactive après janvier 2021, le responseTime est null on met donc un score arbitraire 50
-        if ($this->response_time == null) {
-            return 50;
+        // no testimonials, no bonus
+        if(!$avg){
+            return 0;
         }
-        $responseTime = $this->response_time / 86400;
-        $scoreResponseTime = round(100 - (100 * $responseTime / 10));
 
-        return $scoreResponseTime > 0 ? $scoreResponseTime : 0;
+        $avg = $avg - 2.5;
+
+        if($avg > 0){
+            return round($avg * 4, 1);
+        }
+
+        if($avg < 0){
+            return round($avg * (10/1.5), 1);
+        }
+
+        return 0;
     }
 
     public function getScoreAttribute()
@@ -389,15 +392,16 @@ class Structure extends Model implements HasMedia
             return 50;
         }
 
-        $scoreResponseTime = round(100 - (100 * ($this->response_time / 60*60*24)) / 10);
+        $scoreResponseTime = round(100 - (100 * ($this->response_time / (60*60*24))) / 10);
+
         $scoreResponseTime = $scoreResponseTime > 0 ? $scoreResponseTime : 0;
 
         $pointsResponseTime = $scoreResponseTime * 0.7;
         $pointsResponseRatio = $this->response_ratio * 0.3;
 
-        $score = $pointsResponseTime + $pointsResponseRatio;
+        $score = $pointsResponseTime + $pointsResponseRatio + $this->testimonials_bonus;
 
-        return $score <= 100 ? $score : 100;
+        return $score <= 100 ? round($score) : 100;
     }
 
     public function logo()
@@ -499,11 +503,6 @@ class Structure extends Model implements HasMedia
             },
         );
     }
-
-    // public function makeAllSearchableUsing(Builder $query)
-    // {
-    //     return $query->with(['reseaux', 'domaines', 'illustrations', 'overrideImage1'])->withCount(['missionsAvailable']);
-    // }
 
     // ALGOLIA
     public function toSearchableArray()
