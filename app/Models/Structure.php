@@ -364,6 +364,17 @@ class Structure extends Model implements HasMedia
         return $this;
     }
 
+    public function getResponseRatioPointsAttribute(){
+        return round($this->response_ratio * 0.3);
+    }
+
+    public function getResponseTimePointsAttribute(){
+        $scoreResponseTime = round(100 - (100 * ($this->response_time / (60*60*24))) / 10);
+        $scoreResponseTime = $scoreResponseTime > 0 ? $scoreResponseTime : 0;
+
+        return round($scoreResponseTime * 0.7);
+    }
+
     public function getTestimonialsBonusAttribute()
     {
         $avg = Temoignage::ofStructure($this->id)->avg('grade');
@@ -392,14 +403,7 @@ class Structure extends Model implements HasMedia
             return 50;
         }
 
-        $scoreResponseTime = round(100 - (100 * ($this->response_time / (60*60*24))) / 10);
-
-        $scoreResponseTime = $scoreResponseTime > 0 ? $scoreResponseTime : 0;
-
-        $pointsResponseTime = $scoreResponseTime * 0.7;
-        $pointsResponseRatio = $this->response_ratio * 0.3;
-
-        $score = $pointsResponseTime + $pointsResponseRatio + $this->testimonials_bonus;
+        $score = $this->response_ratio_points + $this->response_time_points + $this->testimonials_bonus;
 
         return $score <= 100 ? round($score) : 100;
     }
