@@ -50,7 +50,6 @@ class MessageObserver
         if ($send) {
             if ($message->conversation->messages->where('type', 'chat')->count() > 1) {
                 $lastMessage = $message->conversation->messages->where('type', 'chat')->sortBy([['created_at', 'desc']])[1]; // 0 est le nouveau message
-                ray('last message', $lastMessage);
                 if ($lastMessage->from_id == $message->from_id) {
                     // 1 heure entre deux emails de la même personne
                     $diffInMinutes = $message->created_at->diffInMinutes($lastMessage->created_at);
