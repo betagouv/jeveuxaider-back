@@ -571,6 +571,7 @@ class Structure extends Model implements HasMedia
                 ];
             })->all() : null,
             'missions_available_count' => $this->missions_available_count,
+            'score' => $this->score
         ];
 
         if ($this->latitude && $this->longitude) {
