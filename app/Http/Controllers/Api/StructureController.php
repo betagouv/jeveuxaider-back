@@ -148,12 +148,9 @@ class StructureController extends Controller
         }
 
         if ($request->has('reseaux')) {
-            if ($request->input('reseaux')) {
-                $reseaux = collect($request->input('reseaux'));
-                $structure->reseaux()->sync($reseaux->pluck('id'));
-            } else {
-                $structure->reseaux()->detach();
-            }
+            $reseaux = collect($request->input('reseaux'));
+            $values = $reseaux->pluck($reseaux, 'id')->toArray();
+            $structure->reseaux()->sync(array_keys($values));
         }
 
         if ($request->has('illustrations')) {
