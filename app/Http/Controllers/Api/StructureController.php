@@ -151,6 +151,8 @@ class StructureController extends Controller
             if ($request->input('reseaux')) {
                 $reseaux = collect($request->input('reseaux'));
                 $structure->reseaux()->sync($reseaux->pluck('id'));
+            } else {
+                $structure->reseaux()->detach();
             }
         }
 
