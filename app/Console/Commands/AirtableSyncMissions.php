@@ -40,7 +40,7 @@ class AirtableSyncMissions extends Command
     public function handle()
     {
         $options = $this->options();
-        $query = Mission::whereHas('structure')->with(['structure', 'domaine', 'template.domaine', 'template.activity', 'activity'])->orderBy('id')->where('id', '>=', $options['fromId']);
+        $query = Mission::whereHas('structure')->with(['structure', 'domaine', 'template.domaine', 'template.activity', 'activity', 'tags'])->orderBy('id')->where('id', '>=', $options['fromId']);
 
         if ($this->confirm($query->count().' missions will be added or updated in Airtable')) {
             $start = now();
