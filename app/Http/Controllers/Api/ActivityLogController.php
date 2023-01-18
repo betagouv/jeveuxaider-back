@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Filters\FiltersActivityLogsSearch;
 use App\Http\Controllers\Controller;
 use App\Models\ActivityLog;
 use App\Models\Participation;
@@ -18,23 +19,27 @@ class ActivityLogController extends Controller
     public function index(Request $request)
     {
         return QueryBuilder::for(ActivityLog::with([
-            'subject' => function (MorphTo $morphTo) {
-                $morphTo->morphWith([
-                    Participation::class => ['mission'],
-                    // Post::class => ['comments'],
-                ]);
-            }
-        ]))
+                'subject' => function (MorphTo $morphTo) {
+                    $morphTo->morphWith([
+                        Participation::class => ['mission'],
+                        Structure::class => [],
+                        Mission::class => [],
+                    ]);
+                }
+            ]))
             // ->where('log_name', 'default'))
             ->allowedIncludes([
                 'causer',
-                'causer.profile'
+                'causer.profile',
+                'subject'
             ])
             ->allowedFilters([
                 'subject_type',
                 'causer_type',
+                'log_name',
                 AllowedFilter::exact('subject_id'),
                 AllowedFilter::exact('causer_id'),
+                AllowedFilter::custom('search', new FiltersActivityLogsSearch),
             ])
             ->defaultSort('-id')
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));

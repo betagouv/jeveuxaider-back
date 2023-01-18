@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Filters\FiltersParticipationSearch;
 use App\Http\Controllers\Controller;
+use App\Models\ActivityLog;
 use App\Models\Department;
 use App\Models\Mission;
 use App\Models\Participation;
@@ -208,5 +209,13 @@ class UserController extends Controller
         }
 
         return $user;
+    }
+
+    public function logs(Request $request, User $user)
+    {
+        return [
+            'activity_logs_count' => ActivityLog::where('causer_id', $user->id)->count(),
+            'last_activity_log' => ActivityLog::where('causer_id', $user->id)->latest()->first()
+        ];
     }
 }

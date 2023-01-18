@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Spatie\Activitylog\Models\Activity as SpatieActivity;
+use Illuminate\Database\Eloquent\Builder;
 
 class ActivityLog extends SpatieActivity
 {
@@ -11,8 +12,13 @@ class ActivityLog extends SpatieActivity
         'data' => 'array',
     ];
 
-    // public function participationMission()
-    // {
-    //     return $this->subject_type === 'App\Models\Participation' ? $this->subject() : $this->subject();
-    // }
+    protected static function booted()
+    {
+        static::addGlobalScope('exclude_not_used', function (Builder $builder) {
+            $builder->whereNotIn('subject_type', [
+                'App\Models\Collectivity',
+            ]);;
+        });
+    }
+
 }

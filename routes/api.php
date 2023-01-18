@@ -237,7 +237,8 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::post('documents/{document}/notify', 'Api\DocumentController@notify');
     Route::delete('documents/{document}', 'Api\DocumentController@delete');
 
-    // IMPERSONNATE
+    // USER
+    Route::get('users/{user}/logs', 'Api\UserController@logs');
     Route::post('users/{user}/impersonate', 'Api\UserController@impersonate');
 
     // STRUCTURES
