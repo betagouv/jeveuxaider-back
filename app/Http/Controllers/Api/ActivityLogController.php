@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Filters\FiltersActivityLogsSearch;
+use App\Filters\FiltersActivityLogsType;
 use App\Http\Controllers\Controller;
 use App\Models\ActivityLog;
 use App\Models\Participation;
@@ -40,6 +41,7 @@ class ActivityLogController extends Controller
                 AllowedFilter::exact('subject_id'),
                 AllowedFilter::exact('causer_id'),
                 AllowedFilter::custom('search', new FiltersActivityLogsSearch),
+                AllowedFilter::custom('type', new FiltersActivityLogsType),
             ])
             ->defaultSort('-id')
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
