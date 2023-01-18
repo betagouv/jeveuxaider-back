@@ -152,6 +152,7 @@ class Airtable
             'Description' => $mission->objectif,
             'Précision' => $mission->description,
             'Quelques mots' => $mission->information,
+            'Tag' => $mission->tags->count() > 0 ? $mission->tags->pluck('name')->join(', ') : null,
             'Crée le' => Carbon::create($mission->created_at)->format('m-d-Y'),
             'Modifiée le' => Carbon::create($mission->updated_at)->format('m-d-Y'),
         ];
