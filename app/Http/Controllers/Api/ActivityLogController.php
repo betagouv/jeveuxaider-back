@@ -7,6 +7,7 @@ use App\Filters\FiltersActivityLogsType;
 use App\Http\Controllers\Controller;
 use App\Models\ActivityLog;
 use App\Models\Participation;
+use App\Models\Profile;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\AllowedInclude;
@@ -25,6 +26,7 @@ class ActivityLogController extends Controller
                         Participation::class => ['mission'],
                         Structure::class => [],
                         Mission::class => [],
+                        Profile::class => [],
                     ]);
                 }
             ]))
@@ -32,7 +34,6 @@ class ActivityLogController extends Controller
             ->allowedIncludes([
                 'causer',
                 'causer.profile',
-                'subject'
             ])
             ->allowedFilters([
                 'subject_type',
