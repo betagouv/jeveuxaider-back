@@ -66,6 +66,10 @@ class Sendinblue
             return;
         }
 
+        if(!$user->profile) {
+            return;
+        }
+
         $response = self::updateContact($user, $withSMS);
 
         if (!$response->successful() && $response['code'] == 'document_not_found') {
