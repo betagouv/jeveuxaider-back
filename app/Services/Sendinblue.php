@@ -102,6 +102,7 @@ class Sendinblue
             'DATE_INSCRIPTION' => $user->created_at->format('Y-m-d'),
             'NB_DEMANDE_PARTICIPATION' => $user->profile->participations->count(),
             'NB_PARTICIPATION_VALIDE_EFFECTUE' => $user->profile->participations->whereIn('state', ['Validée'])->count(),
+            'ORGA_ID' => $organisation ? $organisation->id : "",
             'ORGA_NAME' => $organisation ? $organisation->name : "",
             'ORGA_CODE_POSTAL' => $organisation ? $organisation->zip : "",
             'ORGA_NB_MISSION' => $organisation ? $organisation->missions->count() : "",
