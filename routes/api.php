@@ -182,6 +182,7 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
 
     // ACTIVITY LOGS
     Route::get('activity-logs', 'Api\ActivityLogController@index');
+    Route::get('activity-logs/{activityLog}', 'Api\ActivityLogController@show');
 
     // TERRITOIRES
     Route::post('territoires', 'Api\TerritoireController@store');
@@ -237,7 +238,8 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::post('documents/{document}/notify', 'Api\DocumentController@notify');
     Route::delete('documents/{document}', 'Api\DocumentController@delete');
 
-    // IMPERSONNATE
+    // USER
+    Route::get('users/{user}/actions', 'Api\UserController@actions');
     Route::post('users/{user}/impersonate', 'Api\UserController@impersonate');
 
     // STRUCTURES
