@@ -13,6 +13,7 @@ use App\Models\Role;
 use App\Models\User;
 use App\Notifications\UserAnonymize;
 use App\Services\Sendinblue;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -211,10 +212,11 @@ class UserController extends Controller
         return $user;
     }
 
-    public function logs(Request $request, User $user)
+    public function actions(Request $request, User $user)
     {
         return [
             'activity_logs_count' => ActivityLog::where('causer_id', $user->id)->count(),
+            'activity_logs_last_days_count' => ActivityLog::where('causer_id', $user->id)->where('created_at', '>', Carbon::now()->subDays(30))->count(),
             'last_activity_log' => ActivityLog::where('causer_id', $user->id)->latest()->first()
         ];
     }

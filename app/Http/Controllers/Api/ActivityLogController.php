@@ -30,7 +30,6 @@ class ActivityLogController extends Controller
                     ]);
                 }
             ]))
-            // ->where('log_name', 'default'))
             ->allowedIncludes([
                 'causer',
                 'causer.profile',
@@ -39,6 +38,7 @@ class ActivityLogController extends Controller
                 'subject_type',
                 'causer_type',
                 'log_name',
+                'description',
                 AllowedFilter::exact('subject_id'),
                 AllowedFilter::exact('causer_id'),
                 AllowedFilter::custom('search', new FiltersActivityLogsSearch),
@@ -46,5 +46,11 @@ class ActivityLogController extends Controller
             ])
             ->defaultSort('-id')
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
+    }
+
+    public function show(Request $request, ActivityLog $activityLog)
+    {
+        $activityLog->load(['causer.roles', 'causer.profile.tags', 'subject']);
+        return $activityLog;
     }
 }
