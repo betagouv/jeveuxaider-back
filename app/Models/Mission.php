@@ -118,7 +118,7 @@ class Mission extends Model
                 'id' => $this->structure->id,
                 'name' => $this->structure->name,
                 'response_time' => $this->structure->response_time,
-                'response_time_score' => $this->structure->response_time_score,
+                'score' => $this->structure->score,
                 'response_ratio' => $this->structure->response_ratio,
                 'reseau' => $this->structure->reseau ? [
                     'id' => $this->structure->reseau->id,
@@ -153,7 +153,6 @@ class Mission extends Model
             'end_date' => $this->end_date ? strtotime($this->end_date) : null,
             'illustrations' => $this->illustrations->all(),
             'template_id' => $this->template_id,
-            'score' => $this->score,
             'is_priority' => $this->is_priority,
             'is_snu_mig_compatible' => $this->is_snu_mig_compatible,
             'snu_mig_places' => $this->snu_mig_places,
@@ -276,14 +275,6 @@ class Mission extends Model
     public function setNameAttribute($value)
     {
         $this->attributes['name'] = isset($this->attributes['template_id']) ? null : $value;
-    }
-
-    public function getScoreAttribute()
-    {
-        // Score = ( Taux de reponse score + Response time score ) / 2
-        $structure_response_ratio = $this->structure->response_ratio ?? 50;
-
-        return round(($this->structure->response_time_score + $structure_response_ratio) / 2);
     }
 
     public function scopeHasPlacesLeft($query)

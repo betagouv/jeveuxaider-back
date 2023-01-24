@@ -90,7 +90,7 @@ class StatisticsController extends Controller
             'places_occupation_rate' => $places_left ? round((($places_offered - $places_left) / $places_offered) * 100) : 0,
             'response_ratio' => $structure->response_ratio,
             'response_time' => $structure->response_time,
-            'score_response_time' => $structure->response_time_score,
+            'score' => $structure->score,
         ];
     }
 

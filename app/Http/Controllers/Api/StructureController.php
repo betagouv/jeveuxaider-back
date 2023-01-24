@@ -359,4 +359,16 @@ class StructureController extends Controller
 
         return $structure->members;
     }
+
+    public function score(Request $request, Structure $structure)
+    {
+        return [
+            'response_ratio' => $structure->response_ratio,
+            'response_ratio_pts' => $structure->response_ratio_points,
+            'response_time' => $structure->response_time,
+            'response_time_pts' => $structure->response_time_points,
+            'testimonials_bonus' => $structure->testimonials_bonus,
+            'score' => $structure->score,
+        ];
+    }
 }
