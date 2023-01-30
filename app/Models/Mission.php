@@ -37,6 +37,7 @@ class Mission extends Model
         'latitude' => 'float',
         'longitude' => 'float',
         'is_autonomy' => 'boolean',
+        'is_qpv' => 'boolean',
         'autonomy_zips' => 'json',
         'dates' => 'json',
     ];

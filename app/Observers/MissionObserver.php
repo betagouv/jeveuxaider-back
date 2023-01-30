@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\Jobs\AirtableDeleteObject;
 use App\Jobs\AirtableSyncObject;
+use App\Jobs\MissionGetQPV;
 use App\Jobs\SendinblueSyncUser;
 use App\Models\Mission;
 use App\Models\Participation;
@@ -59,6 +60,11 @@ class MissionObserver
         if (config('services.airtable.sync')) {
             AirtableSyncObject::dispatch($mission);
             AirtableSyncObject::dispatch($mission->structure);
+        }
+
+        // Sync QPV
+        if (config('services.qpv.sync')) {
+            MissionGetQPV::dispatch($mission);
         }
     }
 
@@ -151,6 +157,11 @@ class MissionObserver
         if (config('services.airtable.sync')) {
             AirtableSyncObject::dispatch($mission);
             AirtableSyncObject::dispatch($mission->structure);
+        }
+
+        // Sync QPV
+        if (config('services.qpv.sync')) {
+            MissionGetQPV::dispatch($mission);
         }
     }
 
