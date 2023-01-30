@@ -1,6 +1,6 @@
 /* Base */
 
-body,
+/* body,
 body *:not(html):not(style):not(br):not(tr):not(code) {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif,
         'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
@@ -8,11 +8,12 @@ body *:not(html):not(style):not(br):not(tr):not(code) {
 }
 
 body {
-    background-color: #f8fafc;
-    color: #74787e;
+    background-color: red;
+    color: #585858;
+    font-size: 24px;
+    line-height: 32px;
     height: 100%;
     hyphens: auto;
-    line-height: 1.4;
     margin: 0;
     -moz-hyphens: auto;
     -ms-word-break: break-all;
@@ -21,13 +22,13 @@ body {
     -webkit-text-size-adjust: none;
     word-break: break-all;
     word-break: break-word;
-}
+} */
 
-p,
+/* p,
 ul,
 ol,
 blockquote {
-    line-height: 1.4;
+    line-height: 32px;
     text-align: left;
 }
 
@@ -38,30 +39,32 @@ ul.list-none {
 }
 
 li {
-    color: #3d4852;
+    color: #585858;
     font-size: 16px;
 }
 
 a {
-    color: #3869d4;
+    color: #070191;
 }
 
 a img {
     border: none;
-}
+} */
 
 /* Typography */
 
-h1 {
-    color: #3d4852;
-    font-size: 19px;
-    font-weight: bold;
+/* h1 {
+    color: #1a1a1a;
+    font-size: 40px;
+    line-height: 60px;
+    font-weight: 400;
+    letter-spacing: -1.5px;
     margin-top: 0;
     text-align: left;
 }
 
 h2 {
-    color: #3d4852;
+    color: #1a1a1a;
     font-size: 16px;
     font-weight: bold;
     margin-top: 0;
@@ -69,7 +72,7 @@ h2 {
 }
 
 h3 {
-    color: #3d4852;
+    color: #1a1a1a;
     font-size: 14px;
     font-weight: bold;
     margin-top: 0;
@@ -77,9 +80,6 @@ h3 {
 }
 
 p {
-    color: #3d4852;
-    font-size: 16px;
-    line-height: 1.5em;
     margin-top: 0;
     text-align: left;
 }
@@ -90,12 +90,12 @@ p.sub {
 
 img {
     max-width: 100%;
-}
+} */
 
 /* Layout */
 
-.wrapper {
-    background-color: #f8fafc;
+/* .wrapper {
+    background-color: yellowgreen;
     margin: 0;
     padding: 0;
     width: 100%;
@@ -111,11 +111,11 @@ img {
     -premailer-cellpadding: 0;
     -premailer-cellspacing: 0;
     -premailer-width: 100%;
-}
+} */
 
 /* Header */
 
-.header {
+/* .header {
     padding: 25px 0;
     text-align: center;
 }
@@ -126,11 +126,11 @@ img {
     font-weight: bold;
     text-decoration: none;
     text-shadow: 0 1px 0 white;
-}
+} */
 
 /* Body */
 
-.body {
+/* .body {
     background-color: #ffffff;
     border-bottom: 1px solid #edeff2;
     border-top: 1px solid #edeff2;
@@ -150,11 +150,11 @@ img {
     -premailer-cellpadding: 0;
     -premailer-cellspacing: 0;
     -premailer-width: 570px;
-}
+} */
 
 /* Subcopy */
 
-.subcopy {
+/* .subcopy {
     border-top: 1px solid #edeff2;
     margin-top: 25px;
     padding-top: 25px;
@@ -162,11 +162,11 @@ img {
 
 .subcopy p {
     font-size: 12px;
-}
+} */
 
 /* Footer */
 
-.footer {
+/* .footer {
     margin: 0 auto;
     padding: 0;
     text-align: center;
@@ -180,11 +180,11 @@ img {
     color: #aeaeae;
     font-size: 12px;
     text-align: center;
-}
+} */
 
 /* Tables */
 
-.table table {
+/* .table table {
     margin: 30px auto;
     width: 100%;
     -premailer-cellpadding: 0;
@@ -208,11 +208,11 @@ img {
 
 .content-cell {
     padding: 35px;
-}
+} */
 
 /* Buttons */
 
-.action {
+/* .action {
     margin: 30px auto;
     padding: 0;
     text-align: center;
@@ -238,9 +238,9 @@ img {
     border-right: 18px solid #070191;
     border-bottom: 10px solid #070191;
     border-left: 18px solid #070191;
-}
+} */
 
-.button-green,
+/* .button-green,
 .button-success {
     background-color: #38c172;
     border-top: 10px solid #38c172;
@@ -256,11 +256,11 @@ img {
     border-right: 18px solid #e3342f;
     border-bottom: 10px solid #e3342f;
     border-left: 18px solid #e3342f;
-}
+} */
 
 /* Panels */
 
-.panel {
+/* .panel {
     margin: 0 0 21px;
 }
 
@@ -276,11 +276,11 @@ img {
 .panel-item p:last-of-type {
     margin-bottom: 0;
     padding-bottom: 0;
-}
+} */
 
 /* Promotions */
 
-.promotion {
+/* .promotion {
     background-color: #ffffff;
     border: 2px dashed #9ba2ab;
     margin: 0;
@@ -300,12 +300,12 @@ img {
 .promotion p {
     font-size: 15px;
     text-align: center;
-}
+} */
 
 
 /* Quotes */
 
-.quote {
+/* .quote {
     margin: 0 0 21px;
 }
 
@@ -328,11 +328,11 @@ img {
 .quote-item p:last-of-type {
     margin-bottom: 0;
     padding-bottom: 0;
-}
+} */
 
 /* Custom table */
 
-.table-model {
+/* .table-model {
     border: 1px solid #E5E5E5;
     -premailer-cellpadding: 0;
     -premailer-cellspacing: 0;
@@ -410,4 +410,18 @@ img {
 .tag.blue {
     background: #E8EDFF;
     color: #0063CB;
+}
+
+.headline {
+    color: #1a1a1a;
+    font-size: 40px;
+    line-height: 60px;
+    font-weight: 400;
+    letter-spacing: -1.5px;
+} */
+
+
+a.link {
+    color: #070191;
+    text-decoration: underline;
 }

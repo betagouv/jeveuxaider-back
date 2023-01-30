@@ -107,7 +107,7 @@ class NotificationController extends Controller
                 $notification = new ParticipationBenevoleCanceled($participation, 'not_available');
                 break;
             case 'benevole_participation_refused':
-                $notification = new ParticipationDeclined($participation, 'requirements_not_fulfilled');
+                $notification = new ParticipationDeclined($participation, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer maximus neque nec nulla ullamcorper auctor. Aliquam in leo massa. Etiam luctus luctus volutpat. Curabitur interdum sem a urna finibus, ut porttitor ipsum elementum. Aliquam erat volutpat. Integer ultrices, metus id sagittis scelerisque, lectus ex feugiat massa, at laoreet ante enim ac ipsum.', 'requirements_not_fulfilled');
                 break;
             case 'responsable_mission_created':
                 $notification = new MissionWaitingValidation($mission);
