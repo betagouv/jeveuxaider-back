@@ -40,6 +40,7 @@ class Mission extends Model
         'is_qpv' => 'boolean',
         'autonomy_zips' => 'json',
         'dates' => 'json',
+        'prerequisites' => 'array',
     ];
 
     protected $attributes = [
