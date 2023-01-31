@@ -39,6 +39,7 @@ class Mission extends Model
         'is_autonomy' => 'boolean',
         'autonomy_zips' => 'json',
         'dates' => 'json',
+        'prerequisites' => 'array',
     ];
 
     protected $attributes = [

@@ -161,6 +161,24 @@ class MissionRequest extends FormRequest
             'dates' => '',
             'date_type' => '',
             'recurrent_description' => '',
+            'prerequisites' => [
+                'max:3',
+                function ($attribute, $prerequisites, $fail) {
+                    $datas = $this->validator->getData();
+                    if (!empty($prerequisites)) {
+                        foreach ($prerequisites as $item) {
+                            if (!is_string($item)) {
+                                $fail('prerequisite must be a string');
+                                return;
+                            }
+                            if (strlen($item) > 100) {
+                                $fail('Un pré-requis ne peut pas dépasser 100 caractères');
+                                return;
+                            }
+                        }
+                    }
+                },
+            ],
         ];
     }
 
@@ -185,7 +203,8 @@ class MissionRequest extends FormRequest
             'name.required_without' => 'Le nom de la mission est requis',
             'responsable_id.required' => 'Sélectionnez le contact principal de la mission',
             'snu_mig_places.required_if' => 'Merci d\'indiquer le nombre de places pour les jeunes du SNU',
-            'autonomy_zips.required_if' => 'Merci de renseigner les codes postaux liés à l\'autonomie de la mission'
+            'autonomy_zips.required_if' => 'Merci de renseigner les codes postaux liés à l\'autonomie de la mission',
+            'prerequisites.max' => 'Les pre-requis sont limités à 3'
         ];
     }
 }
