@@ -107,12 +107,7 @@
                                 style="font-size: 17px; line-height: 20px;">
                                 <span
                                     style="font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #868686; font-size: 17px; line-height: 20px;">
-                                    Cet e-mail a été envoyé à test@jeveuxaider.gouv.fr
-                                </span>
-                                <br />
-                                <span
-                                    style="font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #868686; font-size: 17px; line-height: 20px;">
-                                    à votre inscription sur JeVeuxAider.gouv.fr
+                                    Cet e-mail a été envoyé suite à <br>votre inscription sur JeVeuxAider.gouv.fr
                                 </span>
                             </font>
                         </p>

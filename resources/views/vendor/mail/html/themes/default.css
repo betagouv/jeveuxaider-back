@@ -420,6 +420,23 @@ img {
     letter-spacing: -1.5px;
 } */
 
+.inline-mail {
+    padding: 0px 24px;
+    text-align: left;
+    color: #585858;
+    font-size: 24px;
+    line-height: 32px;
+    height: 100%;
+    hyphens: auto;
+    margin: 0;
+    -moz-hyphens: auto;
+    -ms-word-break: break-all;
+    width: 88% !important;
+    -webkit-hyphens: auto;
+    -webkit-text-size-adjust: none;
+    word-break: break-all;
+    word-break: break-word;
+}
 
 a.link {
     color: #070191;

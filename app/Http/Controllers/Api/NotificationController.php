@@ -22,6 +22,9 @@ use App\Notifications\DocumentSubmitted;
 use App\Notifications\ExportReady;
 use App\Notifications\InvitationSent;
 use App\Notifications\MessageCreated;
+use App\Notifications\MessageMissionCreated;
+use App\Notifications\MessageParticipationCreated;
+use App\Notifications\MessageStructureCreated;
 use App\Notifications\MissionAlmostFull;
 use App\Notifications\MissionBeingProcessed;
 use App\Notifications\MissionInDraft;
@@ -180,24 +183,56 @@ class NotificationController extends Controller
                 $message = Message::whereHas('from')->whereHas('conversation.conversable')->latest()->first();
                 $notification = new MessageCreated($message);
                 break;
+            case 'benevole_message_participation':
+                $message = Message::whereHas('from.roles',function (Builder $query){
+                    $query->where('roles.id', 2);
+                })->whereHas('conversation', function (Builder $query){
+                    $query->where('conversable_type', 'App\\Models\\Participation');
+                })->latest()->first();
+                $notification = new MessageParticipationCreated($message);
+                break;
+            case 'responsable_message_participation':
+                $message = Message::whereDoesntHave('from.roles')->whereHas('conversation', function (Builder $query){
+                    $query->where('conversable_type', 'App\\Models\\Participation');
+                })->latest()->first();
+                $notification = new MessageParticipationCreated($message);
+                break;
+            case 'responsable_message_organisation':
+                $message = Message::whereHas('from.roles',function (Builder $query){
+                    $query->where('roles.id', 3);
+                })->whereHas('conversation', function (Builder $query){
+                    $query->where('conversable_type', 'App\\Models\\Structure');
+                })->latest()->first();
+                $notification = new MessageStructureCreated($message);
+                break;
+            case 'referent_message_organisation':
+                $message = Message::whereHas('from.roles',function (Builder $query){
+                    $query->where('roles.id', '!=', 3);
+                })->whereHas('conversation', function (Builder $query){
+                    $query->where('conversable_type', 'App\\Models\\Structure');
+                })->latest()->first();
+                $notification = new MessageStructureCreated($message);
+                break;
+            case 'responsable_message_mission':
+                $message = Message::whereHas('from.roles',function (Builder $query){
+                    $query->where('roles.id', 3);
+                })->whereHas('conversation', function (Builder $query){
+                    $query->where('conversable_type', 'App\\Models\\Mission');
+                })->latest()->first();
+                $notification = new MessageMissionCreated($message);
+                break;
+            case 'referent_message_mission':
+                $message = Message::whereHas('from.roles',function (Builder $query){
+                    $query->where('roles.id', '!=', 3);
+                })->whereHas('conversation', function (Builder $query){
+                    $query->where('conversable_type', 'App\\Models\\Mission');
+                })->latest()->first();
+                $notification = new MessageMissionCreated($message);
+                break;
             case 'mission_template_created':
                 $missionTemplate = MissionTemplate::whereHas('reseau')->latest()->first();
                 $notification = new MissionTemplateWaiting($missionTemplate);
                 break;
-                // case 'moderateur_daily_todo':
-                //     $byDepartment[75] = [
-                //         'department_name' => 'Paris',
-                //         'missions' => ['test'],
-                //         'structures' => ['test'],
-                //         'referents' => [[
-                //             'first_name' => 'Prénom',
-                //             'last_name' => 'Nom',
-                //             'email' => 'test@test.fr',
-                //             'mobile' => '06 12 34 56 78',
-                //         ]],
-                //     ];
-                //     $notification = new ModerateurDailyTodo($byDepartment);
-                //     break;
             case 'responsable_no_new_mission':
                 $notification = new NoNewMission($structure);
                 break;

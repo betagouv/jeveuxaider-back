@@ -11,6 +11,12 @@
     <div style="height: 33px; line-height: 33px; font-size: 31px;">&nbsp;</div>
 
     {{-- Footer --}}
+    @slot('subfooter')
+        @component('mail::subfooter')
+        @endcomponent
+    @endslot
+
+    {{-- Footer --}}
     @slot('footer')
         @component('mail::footer', ['url' => config('app.front_url')])
         @endcomponent

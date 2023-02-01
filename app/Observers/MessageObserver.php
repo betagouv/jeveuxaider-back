@@ -6,6 +6,9 @@ use App\Models\Message;
 use App\Models\Participation;
 use App\Models\Structure;
 use App\Notifications\MessageCreated;
+use App\Notifications\MessageMissionCreated;
+use App\Notifications\MessageParticipationCreated;
+use App\Notifications\MessageStructureCreated;
 use Illuminate\Support\Facades\Auth;
 
 class MessageObserver
@@ -86,7 +89,15 @@ class MessageObserver
         }
 
         if ($send && $toUser) {
-            $toUser->notify(new MessageCreated($message));
+            if($conversable::class == Participation::class){
+                $toUser->notify(new MessageParticipationCreated($message));
+            }
+            if($conversable::class == Structure::class){
+                $toUser->notify(new MessageStructureCreated($message));
+            }
+            if($conversable::class == Mission::class){
+                $toUser->notify(new MessageMissionCreated($message));
+            }
         }
     }
 }
