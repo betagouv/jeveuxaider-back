@@ -54,7 +54,7 @@ class ResponsableDailyTodo extends Notification implements ShouldQueue
             ->greeting('Bonjour '.$notifiable->first_name.',')
             ->tag('app-organisation-rappel-participations-en-attente-de-validation')
             ->line('Des bénévoles souhaitent vous aider !')
-            ->line('Votre action est requise pour valider leur participation :');
+            ->line('Votre action est requise pour valider leur participation :');
         if (count($this->participations) == 1) {
             $mailMessage->action(count($this->participations).' participation en attente', url(config('app.front_url').'/dashboard'));
         } else {

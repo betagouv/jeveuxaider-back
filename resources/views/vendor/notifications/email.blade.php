@@ -9,6 +9,7 @@
 {{-- Intro Lines --}}
 @foreach ($introLines as $line)
 {{ $line }}
+
 @endforeach
 {{-- Action Button --}}
 @isset($actionText)
@@ -21,6 +22,7 @@
 {{-- Outro Lines --}}
 @foreach ($outroLines as $line)
 {{ $line }}
+
 @endforeach
 {{-- Subcopy --}}
 @isset($actionText)
