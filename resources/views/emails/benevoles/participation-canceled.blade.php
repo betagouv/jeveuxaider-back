@@ -9,7 +9,7 @@
     @endcomponent
     @component('mail::components.paragraph', ['title' => 'Petit rappel de la mission'])
         {{ $mission->name }}<br />
-        <a class="link" href="{{ $url }}" target="_blank">Plus de détails ›</a>
+        <a class="link" href="{{ $url }}">Plus de détails ›</a>
     @endcomponent
     @component('mail::components.tips', ['title' => 'Ce n\'est que partie remise !'])
         Plus de 10 000 missions de bénévolat vous attendent sur JeVeuxAider.gouv.fr

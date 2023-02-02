@@ -8,7 +8,7 @@
     @endcomponent
     @component('mail::components.paragraph', ['title' => 'Petit rappel de la mission'])
         {{ $mission->name }}<br />
-        <a class="link" href="{{ $url }}" target="_blank">Plus de détails ›</a>
+        <a class="link" href="{{ $url }}">Plus de détails ›</a>
     @endcomponent
     @component('mail::components.card-message', [
         'title' => $responsable->first_name,

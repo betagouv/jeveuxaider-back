@@ -35,7 +35,7 @@
                                 <td width="6" style="width: 6px; max-width: 6px; min-width: 6px;">&nbsp;</td>
                                 <td class="mob_center" align="left" valign="top">
                                     <div style="height: 10px; line-height: 10px; font-size: 8px;">&nbsp;</div>
-                                    <a href="#" target="_blank"
+                                    <a href="#"
                                         style="font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #1a1a1a; font-size: 19px; line-height: 25px; font-weight: 600; text-decoration: none;">
                                         <font face="'Source Sans Pro', sans-serif" color="#1a1a1a"
                                             style="font-size: 19px; line-height: 25px; font-weight: 600; text-decoration: none;">
@@ -44,7 +44,7 @@
                                         </font>
                                     </a>
                                     <div style="height: 2px; line-height: 2px; font-size: 1px;">&nbsp;</div>
-                                    <a href="#" target="_blank"
+                                    <a href="#"
                                         style="font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #888888; font-size: 19px; line-height: 22px; text-decoration: none;">
                                         <font face="'Source Sans Pro', sans-serif" color="#888888"
                                             style="font-size: 19px; line-height: 22px; text-decoration: none;">

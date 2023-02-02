@@ -12,17 +12,17 @@
             <tr>
                 <td align="center" valign="top">
                     <!--[if (gte mso 9)|(IE)]>
-                                <table border="0" cellspacing="0" cellpadding="0">
-                                <tr><td align="center" valign="top" width="325"><![endif]-->
+                                                            <table border="0" cellspacing="0" cellpadding="0">
+                                                            <tr><td align="center" valign="top" width="325"><![endif]-->
                     <div class="mob_btn" style="display: inline-block; vertical-align: top; width: 325px;">
-                        <table class="mob_card" cellpadding="0" cellspacing="0" border="0" width="295"
-                            style="width: 295px !important; min-width: 295px; max-width: 295px;">
+                        <table class="mob_card" cellpadding="0" cellspacing="0" border="0" width="100%"
+                            style="width: 100% !important; max-width: 295px;">
                             <tbody>
                                 <tr>
                                     <td align="left" valign="top">
                                         <div style="height: 35px; line-height: 35px; font-size: 33px;">&nbsp;</div>
                                         <a href="https://www.jeveuxaider.gouv.fr/missions-benevolat?activity.name=Alphab%C3%A9tisation%20%2F%20Apprentissage%20du%20fran%C3%A7ais%20%28FLE%29"
-                                            target="_blank" style="display: block; max-width: 100%;">
+                                            style="display: block; max-width: 100%;">
                                             <img src="{{ config('app.front_url') }}/images/mail/activites-enseignement-francais.jpg"
                                                 alt="img" width="100%" border="0"
                                                 style="display: block; width: 100%;">
@@ -49,14 +49,14 @@
                     </div>
                     <!--[if (gte mso 9)|(IE)]></td><td align="center" valign="top" width="325"><![endif]-->
                     <div class="mob_btn" style="display: inline-block; vertical-align: top; width: 325px;">
-                        <table class="mob_card" cellpadding="0" cellspacing="0" border="0" width="295"
-                            style="width: 295px !important; min-width: 295px; max-width: 295px;">
+                        <table class="mob_card" cellpadding="0" cellspacing="0" border="0" width="100%"
+                            style="width: 100% !important; max-width: 295px;">
                             <tbody>
                                 <tr>
                                     <td align="left" valign="top">
                                         <div style="height: 35px; line-height: 35px; font-size: 33px;">&nbsp;</div>
                                         <a href="https://www.jeveuxaider.gouv.fr/missions-benevolat?activity.name=Collecte%20de%20produits"
-                                            target="_blank" style="display: block; max-width: 100%;">
+                                            style="display: block; max-width: 100%;">
                                             <img src="{{ config('app.front_url') }}/images/mail/activites-collectes-produits.jpg"
                                                 alt="img" width="100%" border="0"
                                                 style="display: block; width: 100%;">
@@ -82,8 +82,8 @@
                         </table>
                     </div>
                     <!--[if (gte mso 9)|(IE)]>
-                                </td></tr>
-                                </table><![endif]-->
+                                                            </td></tr>
+                                                            </table><![endif]-->
                 </td>
             </tr>
         </tbody>
@@ -94,17 +94,17 @@
             <tr>
                 <td align="center" valign="top">
                     <!--[if (gte mso 9)|(IE)]>
-                                <table border="0" cellspacing="0" cellpadding="0">
-                                <tr><td align="center" valign="top" width="325"><![endif]-->
+                                                            <table border="0" cellspacing="0" cellpadding="0">
+                                                            <tr><td align="center" valign="top" width="325"><![endif]-->
                     <div class="mob_btn" style="display: inline-block; vertical-align: top; width: 325px;">
-                        <table class="mob_card" cellpadding="0" cellspacing="0" border="0" width="295"
-                            style="width: 295px !important; min-width: 295px; max-width: 295px;">
+                        <table class="mob_card" cellpadding="0" cellspacing="0" border="0" width="100%"
+                            style="width: 100% !important; max-width: 295px;">
                             <tbody>
                                 <tr>
                                     <td align="left" valign="top">
                                         <div style="height: 35px; line-height: 35px; font-size: 33px;">&nbsp;</div>
                                         <a href="https://www.jeveuxaider.gouv.fr/missions-benevolat?activity.name=Mentorat%20%26%20Parrainage"
-                                            target="_blank" style="display: block; max-width: 100%;">
+                                            style="display: block; max-width: 100%;">
                                             <img src="{{ config('app.front_url') }}/images/mail/activites-devenir-mentor.jpg"
                                                 alt="img" width="100%" border="0"
                                                 style="display: block; width: 100%;">
@@ -131,14 +131,14 @@
                     </div>
                     <!--[if (gte mso 9)|(IE)]></td><td align="center" valign="top" width="325"><![endif]-->
                     <div class="mob_btn" style="display: inline-block; vertical-align: top; width: 325px;">
-                        <table class="mob_card" cellpadding="0" cellspacing="0" border="0" width="295"
-                            style="width: 295px !important; min-width: 295px; max-width: 295px;">
+                        <table class="mob_card" cellpadding="0" cellspacing="0" border="0" width="100%"
+                            style="width: 100% !important; max-width: 295px;">
                             <tbody>
                                 <tr>
                                     <td align="left" valign="top">
                                         <div style="height: 35px; line-height: 35px; font-size: 33px;">&nbsp;</div>
                                         <a href="https://www.jeveuxaider.gouv.fr/missions-benevolat?activity.name=Lutte%20contre%20l%27isolement"
-                                            target="_blank" style="display: block; max-width: 100%;">
+                                            style="display: block; max-width: 100%;">
                                             <img src="{{ config('app.front_url') }}/images/mail/activites-luttez-contre-isolement.jpg"
                                                 alt="img" width="100%" border="0"
                                                 style="display: block; width: 100%;">
@@ -164,8 +164,8 @@
                         </table>
                     </div>
                     <!--[if (gte mso 9)|(IE)]>
-                                </td></tr>
-                                </table><![endif]-->
+                                                            </td></tr>
+                                                            </table><![endif]-->
                 </td>
             </tr>
         </tbody>
@@ -178,6 +178,6 @@
         Rien de plus simple, il suffit de vous rendre sur JeVeuxAider.gouv.fr et de renseigner votre ville ou département. Vous
         pouvez ensuite trier selon vos centres d’intérêt et lancer la recherche pour faire votre choix parmi de nombreuses
         missions de bénévolat.
-        Si vous avez un doute, <a class="link" href="#" target="_blank">regardez notre vidéo ›</a>
+        Si vous avez un doute, <a class="link" href="#">regardez notre vidéo ›</a>
     @endcomponent
 @endcomponent

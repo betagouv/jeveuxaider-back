@@ -1,9 +1,9 @@
 @component('mail::message')
     @component('mail::components.headline')
-        Votre participation est en cours de traitement ⏳
+        Votre demande de participation a bien été enregistrée 🔖
     @endcomponent
     @component('mail::components.paragraph')
-        Le responsable de la mission traite votre demande et vous contactera prochainement pour échanger avec vous par
+        Le responsable de la mission a bien reçu votre demande et vous contactera prochainement pour échanger avec vous par
         téléphone, par e-mail ou via <a class="link" href="{{ $url }}">messagerie ›</a>
     @endcomponent
     @component('mail::components.paragraph', ['title' => 'Un conseil'])

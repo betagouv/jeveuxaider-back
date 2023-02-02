@@ -42,6 +42,7 @@ use App\Notifications\NotificationToBenevole;
 use App\Notifications\ParticipationBeingProcessed;
 use App\Notifications\ParticipationBenevoleCanceled;
 use App\Notifications\ParticipationCanceled;
+use App\Notifications\ParticipationCreated;
 use App\Notifications\ParticipationDeclined;
 use App\Notifications\ParticipationValidated;
 use App\Notifications\ParticipationValidatedCejAdviser;
@@ -92,6 +93,9 @@ class NotificationController extends Controller
                 break;
             case 'responsable_participation_created':
                 $notification = new ParticipationWaitingValidation($participation);
+                break;
+            case 'benevole_participation_created':
+                $notification = new ParticipationCreated($participation);
                 break;
             case 'benevole_participation_being_processed':
                 $notification = new ParticipationBeingProcessed($participation);

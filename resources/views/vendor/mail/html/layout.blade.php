@@ -88,14 +88,14 @@
 
 <body style="margin: 0; padding: 0;">
     <table cellpadding="0" cellspacing="0" border="0" width="100%"
-        style="background: #f3f3f3; min-width: 350px; font-size: 1px; line-height: normal;">
+        style="background: #f3f3f3; font-size: 1px; line-height: normal;">
         <tr>
             <td align="center" valign="top">
                 <!--[if (gte mso 9)|(IE)]>
             <table border="0" cellspacing="0" cellpadding="0">
             <tr><td align="center" valign="top" width="750"><![endif]-->
                 <table cellpadding="0" cellspacing="0" border="0" width="750" class="table750"
-                    style="width: 100%; max-width: 750px; min-width: 350px; background: #f3f3f3;">
+                    style="width: 100%; max-width: 750px; background: #f3f3f3;">
                     <tr>
                         <td class="mob_pad" width="25" style="width: 25px; max-width: 25px; min-width: 25px;">&nbsp;
                         </td>
@@ -122,7 +122,7 @@
                                             style="font-size: 24px; line-height: 32px;"> <span
                                                 style="font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #585858; font-size: 24px; line-height: 32px;">À
                                                 bientôt <br>
-                                                L’équipe de <a href="https://www.jeveuxaider.gouv.fr/" target="_blank"
+                                                L’équipe de <a href="https://www.jeveuxaider.gouv.fr/"
                                                     style="font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #1a1a1a; font-size: 24px; line-height: 32px; text-decoration: none; font-weight: 600">JeVeuxAider.gouv.fr</a></span>
                                         </font>
                                         <div style="height: 28px; line-height: 28px; font-size: 26px;">&nbsp;</div>

@@ -14,7 +14,7 @@
                 <span
                     style="font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #585858; font-size: 24px; line-height: 32px;">À
                     bientôt <br> {{ $slot }}
-                    L’équipe de <a href="https://www.jeveuxaider.gouv.fr/" target="_blank"
+                    L’équipe de <a href="https://www.jeveuxaider.gouv.fr/"
                         style="font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #1a1a1a; font-size: 24px; line-height: 32px; text-decoration: none; font-weight: 600">JeVeuxAider.gouv.fr</a></span>
             </font>
             <div style="height: 28px; line-height: 28px; font-size: 26px;">&nbsp;</div>

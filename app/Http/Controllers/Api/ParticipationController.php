@@ -14,6 +14,7 @@ use App\Models\Profile;
 use App\Models\Temoignage;
 use App\Models\User;
 use App\Notifications\ParticipationBenevoleCanceled;
+use App\Notifications\ParticipationCreated;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -92,6 +93,10 @@ class ParticipationController extends Controller
                 $user = $mission->responsable->user ?? $mission->structure->user;
                 $conversation = $currentUser->startConversation($user, $participation);
                 $currentUser->sendMessage($conversation->id, request('content'));
+            }
+
+            if ($participation->profile) {
+                $participation->profile->notify(new ParticipationCreated($participation));
             }
 
             return $participation;

@@ -10,7 +10,7 @@
                     </span>
                 </font>
             @endisset
-            <p>
+            <p style="margin-bottom: 24px;">
                 <font face="'Source Sans Pro', sans-serif" color="#585858" style="font-size: 24px; line-height: 32px;">
                     <span
                         style="font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #585858; font-size: 24px; line-height: 32px;">
