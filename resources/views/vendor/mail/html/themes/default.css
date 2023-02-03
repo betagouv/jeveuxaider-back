@@ -1,4 +1,9 @@
-body {
+html {
+    -webkit-text-size-adjust: none;
+    -ms-text-size-adjust: none;
+}
+
+body, .mail-body {
     font-family: 'Source Sans Pro', Arial, Verdana, Tahoma, Geneva, sans-serif;
     color: #585858;
     font-size: 24px;
@@ -21,7 +26,6 @@ p {
 }
 
 ul {
-    /* list-style: none; */
     list-style: disc;
     margin-left: 24px;
     padding-left: 24px;
@@ -101,3 +105,76 @@ a.link {
     max-width: 88%;
     text-align: left;
 }
+
+/* @media only screen and (min-device-width: 750px) {
+    .table750 {
+        width: 750px !important;
+    }
+}
+
+@media only screen and (max-device-width: 750px),
+only screen and (max-width: 750px) {
+    table[class="table750"] {
+        width: 100% !important;
+    }
+
+    .mob_b {
+        width: 93% !important;
+        max-width: 93% !important;
+        min-width: 93% !important;
+    }
+
+    .mob_b1 {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 100% !important;
+    }
+
+    .mob_left {
+        text-align: left !important;
+    }
+
+    .mob_soc {
+        width: 50% !important;
+        max-width: 50% !important;
+        min-width: 50% !important;
+    }
+
+    .mob_menu {
+        width: 50% !important;
+        max-width: 50% !important;
+        min-width: 50% !important;
+        box-shadow: inset -1px -1px 0 0 rgba(255, 255, 255, 0.2);
+    }
+
+    .mob_center {
+        text-align: center !important;
+    }
+
+    .top_pad {
+        height: 15px !important;
+        max-height: 15px !important;
+        min-height: 15px !important;
+    }
+
+    .mob_pad {
+        width: 15px !important;
+        max-width: 15px !important;
+        min-width: 15px !important;
+    }
+
+    .mob_div {
+        display: block !important;
+    }
+}
+
+@media only screen and (max-device-width: 550px),
+only screen and (max-width: 550px) {
+    .mod_div {
+        display: block !important;
+    }
+}
+
+.table750 {
+    width: 750px;
+} */
