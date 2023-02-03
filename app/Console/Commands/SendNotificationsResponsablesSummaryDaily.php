@@ -45,7 +45,9 @@ class SendNotificationsResponsablesSummaryDaily extends Command
     {
         $responsables = Profile::select('id', 'email')
             ->where('notification__responsable_frequency', 'summary')
-            ->whereHas('user.structures')
+            ->whereHas('user.structures', function (Builder $query){
+                $query->where('state', 'Validée');
+            })
             ->whereHas('user.roles', function (Builder $query){
                 $query->where('roles.id', 2);
             })
