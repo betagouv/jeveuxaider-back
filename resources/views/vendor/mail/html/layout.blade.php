@@ -88,7 +88,7 @@
 
 <body style="margin: 0; padding: 0;">
     <table cellpadding="0" cellspacing="0" border="0" width="100%"
-        style="background: #f3f3f3; font-size: 1px; line-height: normal;">
+        style="background: #f3f3f3; line-height: normal;">
         <tr>
             <td align="center" valign="top">
                 <!--[if (gte mso 9)|(IE)]>

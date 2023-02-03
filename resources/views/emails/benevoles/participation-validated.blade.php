@@ -11,7 +11,8 @@
             ›</a>
     @endcomponent
     @component('mail::components.paragraph', ['title' => 'Petit rappel de la mission'])
-        {{ $mission->name }}<br />
+        <div>{{ $mission->name }}</div>
+        <div style="height: 10px; line-height: 10px; font-size: 10px;">&nbsp;</div>
         <a class="link" href="{{ $url }}">Plus de détails ›</a>
     @endcomponent
     @component('mail::components.tips', ['title' => 'Vous n\'êtes plus disponible ?'])

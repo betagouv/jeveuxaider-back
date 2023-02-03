@@ -6,112 +6,31 @@
             <table cellpadding="0" cellspacing="0" border="0" width="88%"
                 style="width: 88% !important; min-width: 88%; max-width: 88%;">
                 <tr>
-                    <td align="center" valign="top">
-                        <font face="'Source Sans Pro', sans-serif" color="#1a1a1a"
-                            style="font-size: 14px; line-height: 20px; text-decoration: none; font-weight: bold;">
-                            <span>
-                                <a href="https://www.jeveuxaider.gouv.fr/missions-benevolat"
-                                    style="font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #1a1a1a; font-size: 14px; line-height: 20px; text-decoration: none; white-space: nowrap; font-weight: bold;">
-                                    <font face="'Source Sans Pro', sans-serif" color="#1a1a1a"
-                                        style="font-size: 14px; line-height: 20px; text-decoration: none; white-space: nowrap; font-weight: bold;">
-                                        <span
-                                            style="font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #1a1a1a; font-size: 14px; line-height: 20px; text-decoration: none; white-space: nowrap; font-weight: bold;">
-                                            Trouver
-                                            une mission</span>
-                                    </font>
-                                </a>
-                            </span>
-                            <span>
-                                <font face="'Source Sans Pro', sans-serif" color="#1a1a1a"
-                                    style="font-size: 17px; line-height: 17px; font-weight: bold;">
-                                    <span
-                                        style="font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #1a1a1a; font-size: 17px; line-height: 17px; font-weight: bold;">&bull;</span>
-                                </font>
-                            </span>
-                            <span><a href="https://reserve-civique.crisp.help/fr/"
-                                    style="font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #1a1a1a; font-size: 14px; line-height: 20px; text-decoration: none; white-space: nowrap; font-weight: bold;">
-                                    <font face="'Source Sans Pro', sans-serif" color="#1a1a1a"
-                                        style="font-size: 14px; line-height: 20px; text-decoration: none; white-space: nowrap; font-weight: bold;">
-                                        <span
-                                            style="font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #1a1a1a; font-size: 14px; line-height: 20px; text-decoration: none; white-space: nowrap; font-weight: bold;">
-                                            Foire aux questions
-                                        </span>
-                                    </font>
-                                </a></span>
-                            <span>
-                                <font face="'Source Sans Pro', sans-serif" color="#1a1a1a"
-                                    style="font-size: 17px; line-height: 17px; font-weight: bold;">
-                                    <span
-                                        style="font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #1a1a1a; font-size: 17px; line-height: 17px; font-weight: bold;">&bull;</span>
-                                </font>
-                            </span>
-                            <span><a href="https://www.jeveuxaider.gouv.fr/profile"
-                                    style="font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #1a1a1a; font-size: 14px; line-height: 20px; text-decoration: none; white-space: nowrap; font-weight: bold;">
-                                    <font face="'Source Sans Pro', sans-serif" color="#1a1a1a"
-                                        style="font-size: 14px; line-height: 20px; text-decoration: none; white-space: nowrap; font-weight: bold;">
-                                        <span
-                                            style="font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #1a1a1a; font-size: 14px; line-height: 20px; text-decoration: none; white-space: nowrap; font-weight: bold;">Mon
-                                            compte</span>
-                                    </font>
-                                </a>
-                            </span>
-                        </font>
+                    <td class="footer-links-wrapper" align="center" valign="top">
+                        <span>
+                            <a href="https://www.jeveuxaider.gouv.fr/missions-benevolat">
+                                Trouver une mission
+                            </a>
+                        </span>
+                        <span class="bull">
+                            &bull;
+                        </span>
+                        <span>
+                            <a href="https://reserve-civique.crisp.help/fr/">
+                                Foire aux questions
+                            </a></span>
+                        <span class="bull">
+                            &bull;
+                        </span>
+                        <span>
+                            <a href="https://www.jeveuxaider.gouv.fr/profile">
+                                Mon compte
+                            </a>
+                        </span>
                     </td>
                 </tr>
                 <tr>
                     <td align="center" valign="top">
-                        {{-- <table cellpadding="0" cellspacing="0" border="0" width="78%" style="min-width: 300px;">
-                            <tr>
-                                <td align="center" valign="top" width="23%">
-                                    <a href="https://www.jeveuxaider.gouv.fr/missions-benevolat"
-                                        style="font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #1a1a1a; font-size: 14px; line-height: 20px; text-decoration: none; white-space: nowrap; font-weight: bold;">
-                                        <font face="'Source Sans Pro', sans-serif" color="#1a1a1a"
-                                            style="font-size: 14px; line-height: 20px; text-decoration: none; white-space: nowrap; font-weight: bold;">
-                                            <span
-                                                style="font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #1a1a1a; font-size: 14px; line-height: 20px; text-decoration: none; white-space: nowrap; font-weight: bold;">Trouver
-                                                une mission</span>
-                                        </font>
-                                    </a>
-                                </td>
-                                <td align="center" valign="top" width="10%">
-                                    <font face="'Source Sans Pro', sans-serif" color="#1a1a1a"
-                                        style="font-size: 17px; line-height: 17px; font-weight: bold;">
-                                        <span
-                                            style="font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #1a1a1a; font-size: 17px; line-height: 17px; font-weight: bold;">&bull;</span>
-                                    </font>
-                                </td>
-                                <td align="center" valign="top" width="23%">
-                                    <a href="https://reserve-civique.crisp.help/fr/"
-                                        style="font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #1a1a1a; font-size: 14px; line-height: 20px; text-decoration: none; white-space: nowrap; font-weight: bold;">
-                                        <font face="'Source Sans Pro', sans-serif" color="#1a1a1a"
-                                            style="font-size: 14px; line-height: 20px; text-decoration: none; white-space: nowrap; font-weight: bold;">
-                                            <span
-                                                style="font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #1a1a1a; font-size: 14px; line-height: 20px; text-decoration: none; white-space: nowrap; font-weight: bold;">
-                                                Foire aux questions
-                                            </span>
-                                        </font>
-                                    </a>
-                                </td>
-                                <td align="center" valign="top" width="10%">
-                                    <font face="'Source Sans Pro', sans-serif" color="#1a1a1a"
-                                        style="font-size: 17px; line-height: 17px; font-weight: bold;">
-                                        <span
-                                            style="font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #1a1a1a; font-size: 17px; line-height: 17px; font-weight: bold;">&bull;</span>
-                                    </font>
-                                </td>
-                                <td align="center" valign="top" width="23%">
-                                    <a href="https://www.jeveuxaider.gouv.fr/profile"
-                                        style="font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #1a1a1a; font-size: 14px; line-height: 20px; text-decoration: none; white-space: nowrap; font-weight: bold;">
-                                        <font face="'Source Sans Pro', sans-serif" color="#1a1a1a"
-                                            style="font-size: 14px; line-height: 20px; text-decoration: none; white-space: nowrap; font-weight: bold;">
-                                            <span
-                                                style="font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #1a1a1a; font-size: 14px; line-height: 20px; text-decoration: none; white-space: nowrap; font-weight: bold;">Mon
-                                                compte</span>
-                                        </font>
-                                    </a>
-                                </td>
-                            </tr>
-                        </table> --}}
                         <div style="height: 35px; line-height: 35px; font-size: 33px;">
                             &nbsp;</div>
                         <table cellpadding="0" cellspacing="0" border="0">
@@ -153,19 +72,12 @@
                                 </td>
                             </tr>
                         </table>
-                        <div style="height: 35px; line-height: 35px; font-size: 33px;">
-                            &nbsp;</div>
-                        <p>
-                            <font face="'Source Sans Pro', sans-serif" color="#868686"
-                                style="font-size: 17px; line-height: 20px;">
-                                <span
-                                    style="font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #868686; font-size: 17px; line-height: 20px;">
-                                    Cet e-mail a été envoyé suite à <br>votre inscription sur JeVeuxAider.gouv.fr
-                                </span>
-                            </font>
-                        </p>
-                        <div style="height: 35px; line-height: 35px; font-size: 33px;">
-                            &nbsp;</div>
+                        <div style="height: 35px; line-height: 35px; font-size: 33px;">&nbsp;</div>
+                        <div
+                            style="font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #868686; font-size: 17px; line-height: 20px;">
+                            Cet e-mail a été envoyé suite à <br>votre inscription sur JeVeuxAider.gouv.fr
+                        </div>
+                        <div style="height: 35px; line-height: 35px; font-size: 33px;">&nbsp;</div>
                     </td>
                 </tr>
             </table>

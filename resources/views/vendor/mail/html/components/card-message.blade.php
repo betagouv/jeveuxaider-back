@@ -43,7 +43,7 @@
                                                 style="font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #1a1a1a; font-size: 19px; line-height: 25px; font-weight: 600; text-decoration: none;">{{ $title }}</span>
                                         </font>
                                     </a>
-                                    <div style="height: 2px; line-height: 2px; font-size: 1px;">&nbsp;</div>
+                                    <div style="height: 2px; line-height: 2px;">&nbsp;</div>
                                     <a href="#"
                                         style="font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #888888; font-size: 19px; line-height: 22px; text-decoration: none;">
                                         <font face="'Source Sans Pro', sans-serif" color="#888888"

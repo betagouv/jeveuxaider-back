@@ -11,11 +11,11 @@
     <tr>
         <td align="center" valign="top">
             <font face="'Source Sans Pro', sans-serif" color="#585858" style="font-size: 24px; line-height: 32px;">
-                <span
-                    style="font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #585858; font-size: 24px; line-height: 32px;">À
-                    bientôt <br> {{ $slot }}
+                <p>
+                    À bientôt <br>
                     L’équipe de <a href="https://www.jeveuxaider.gouv.fr/"
-                        style="font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #1a1a1a; font-size: 24px; line-height: 32px; text-decoration: none; font-weight: 600">JeVeuxAider.gouv.fr</a></span>
+                        style="font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #1a1a1a; font-size: 24px; line-height: 32px; text-decoration: none; font-weight: 600">JeVeuxAider.gouv.fr</a>
+                </p>
             </font>
             <div style="height: 28px; line-height: 28px; font-size: 26px;">&nbsp;</div>
         </td>
