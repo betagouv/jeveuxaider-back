@@ -14,7 +14,7 @@
             @component('mail::button', ['url' => $url, 'align' => 'left'])
                 Répondre au message
             @endcomponent
-            <div style="height: 24px; line-height: 24px; font-size: 22px;">&nbsp;</div>
+            @component('mail::components.space', ['height' => 24])@endcomponent
             @if (!$isFromResponsable)
                 <font face="'Source Sans Pro', sans-serif" color="#5E5E5E"
                     style="font-size: 19px; line-height: 22px; text-decoration: none;">
@@ -24,7 +24,7 @@
                         via la <a href="{{ $url }}" style="color: #070191; text-decoration:  ">messagerie ›</a>
                     </span>
                 </font>
-                <div style="height: 24px; line-height: 24px; font-size: 22px;">&nbsp;</div>
+                @component('mail::components.space', ['height' => 24])@endcomponent
             @endif
         @endslot
     @endcomponent

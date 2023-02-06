@@ -2,37 +2,27 @@
     style="width: 100% !important; min-width: 100%; max-width: 100%; background: #f3f3f3;">
     <tr>
         <td align="center" valign="top">
-            <div style="height: 34px; line-height: 34px; font-size: 32px;">&nbsp;</div>
+            @component('mail::components.space', ['height' => 34, 'color' => '#f3f3f3'])@endcomponent
             <table cellpadding="0" cellspacing="0" border="0" width="88%"
                 style="width: 88% !important; min-width: 88%; max-width: 88%;">
                 <tr>
                     <td class="footer-links-wrapper" align="center" valign="top">
-                        <span>
-                            <a href="https://www.jeveuxaider.gouv.fr/missions-benevolat">
-                                Trouver une mission
-                            </a>
-                        </span>
-                        <span class="bull">
-                            &bull;
-                        </span>
-                        <span>
-                            <a href="https://reserve-civique.crisp.help/fr/">
-                                Foire aux questions
-                            </a></span>
-                        <span class="bull">
-                            &bull;
-                        </span>
-                        <span>
-                            <a href="https://www.jeveuxaider.gouv.fr/profile">
-                                Mon compte
-                            </a>
-                        </span>
+                        <a href="https://www.jeveuxaider.gouv.fr/missions-benevolat">
+                            Trouver une mission
+                        </a>
+                        <span class="bull">&bull;</span>
+                        <a href="https://reserve-civique.crisp.help/fr/">
+                            Foire aux questions
+                        </a>
+                        <span class="bull">&bull;</span>
+                        <a href="https://www.jeveuxaider.gouv.fr/profile">
+                            Mon compte
+                        </a>
                     </td>
                 </tr>
                 <tr>
                     <td align="center" valign="top">
-                        <div style="height: 35px; line-height: 35px; font-size: 33px;">
-                            &nbsp;</div>
+                        @component('mail::components.space', ['height' => 35, 'color' => '#f3f3f3'])@endcomponent
                         <table cellpadding="0" cellspacing="0" border="0">
                             <tr>
                                 <td align="center" valign="top">
@@ -72,12 +62,12 @@
                                 </td>
                             </tr>
                         </table>
-                        <div style="height: 35px; line-height: 35px; font-size: 33px;">&nbsp;</div>
+                        @component('mail::components.space', ['height' => 35, 'color' => '#f3f3f3'])@endcomponent
                         <div
                             style="font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #868686; font-size: 17px; line-height: 20px;">
                             Cet e-mail a été envoyé suite à <br>votre inscription sur JeVeuxAider.gouv.fr
                         </div>
-                        <div style="height: 35px; line-height: 35px; font-size: 33px;">&nbsp;</div>
+                        @component('mail::components.space', ['height' => 35, 'color' => '#f3f3f3'])@endcomponent
                     </td>
                 </tr>
             </table>

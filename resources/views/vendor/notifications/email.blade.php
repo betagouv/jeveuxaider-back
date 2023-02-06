@@ -13,11 +13,11 @@
 @endforeach
 {{-- Action Button --}}
 @isset($actionText)
-<div style="height: 33px; line-height: 33px; font-size: 31px;">&nbsp;</div>
+@component('mail::components.space', ['height' => 33])@endcomponent
 @component('mail::button', ['url' => $actionUrl])
 {{ $actionText }}
 @endcomponent
-<div style="height: 33px; line-height: 33px; font-size: 31px;">&nbsp;</div>
+@component('mail::components.space', ['height' => 33])@endcomponent
 @endisset
 {{-- Outro Lines --}}
 @foreach ($outroLines as $line)

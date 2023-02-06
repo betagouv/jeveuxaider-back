@@ -66,9 +66,9 @@
             </ul>
         @endcomponent
     @endif
-    <div style="height: 33px; line-height: 33px; font-size: 31px;">&nbsp;</div>
+    @component('mail::components.space', ['height' => 33])@endcomponent
     @component('mail::button', ['url' => $url])
         J'accède aux statistiques
     @endcomponent
-    <div style="height: 33px; line-height: 33px; font-size: 31px;">&nbsp;</div>
+    @component('mail::components.space', ['height' => 33])@endcomponent
 @endcomponent

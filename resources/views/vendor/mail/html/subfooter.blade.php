@@ -2,7 +2,7 @@
     style="width: 90% !important; min-width: 90%; max-width: 90%; border-width: 1px; border-style: solid; border-color: #e8e8e8; border-bottom: none; border-left: none; border-right: none;">
     <tr>
         <td align="left" valign="top">
-            <div style="height: 24px; line-height: 24px; font-size: 24px;">&nbsp;</div>
+            @component('mail::components.space', ['height' => 24])@endcomponent
         </td>
     </tr>
 </table>
@@ -17,7 +17,7 @@
                         style="font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #1a1a1a; font-size: 24px; line-height: 32px; text-decoration: none; font-weight: 600">JeVeuxAider.gouv.fr</a>
                 </p>
             </font>
-            <div style="height: 28px; line-height: 28px; font-size: 26px;">&nbsp;</div>
+            @component('mail::components.space', ['height' => 28])@endcomponent
         </td>
     </tr>
 </table>

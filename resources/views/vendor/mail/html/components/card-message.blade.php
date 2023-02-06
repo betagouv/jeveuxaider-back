@@ -1,11 +1,11 @@
-<div style="height: 24px; line-height: 24px; font-size: 22px;">&nbsp;</div>
+@component('mail::components.space', ['height' => 24])@endcomponent
 <table cellpadding="0" cellspacing="0" border="0" width="88%"
     style="width: 88% !important; min-width: 88%; max-width: 88%; background: #e5e4f6; border-top-left-radius: 8px; border-top-right-radius: 8px;">
     <tbody>
         <tr>
             <td width="10" style="width: 10px; max-width: 10px; min-width: 10px;">&nbsp;</td>
             <td align="center" valign="top">
-                <div style="height: 8px; line-height: 8px; font-size: 6px;">&nbsp;</div>
+                @component('mail::components.space', ['height' => 8])@endcomponent
                 <!--[if (gte mso 9)|(IE)]>
           <table border="0" cellspacing="0" cellpadding="0">
           <tr><td align="center" valign="top" width="65"><![endif]-->
@@ -15,7 +15,7 @@
                         <tbody>
                             <tr>
                                 <td align="center" valign="top">
-                                    <div style="height: 10px; line-height: 10px; font-size: 8px;">&nbsp;</div>
+                                    @component('mail::components.space', ['height' => 10])@endcomponent
                                     <span style="display: block; max-width: 50px;">
                                         <img src="{{ config('app.front_url') }}/images/mail/user.jpg" alt="img"
                                             width="50" border="0"
@@ -33,8 +33,9 @@
                         <tbody>
                             <tr>
                                 <td width="6" style="width: 6px; max-width: 6px; min-width: 6px;">&nbsp;</td>
+                                @component('mail::components.space', ['height' => 6])@endcomponent
                                 <td class="mob_center" align="left" valign="top">
-                                    <div style="height: 10px; line-height: 10px; font-size: 8px;">&nbsp;</div>
+                                    @component('mail::components.space', ['height' => 10])@endcomponent
                                     <a href="#"
                                         style="font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #1a1a1a; font-size: 19px; line-height: 25px; font-weight: 600; text-decoration: none;">
                                         <font face="'Source Sans Pro', sans-serif" color="#1a1a1a"
@@ -43,7 +44,7 @@
                                                 style="font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #1a1a1a; font-size: 19px; line-height: 25px; font-weight: 600; text-decoration: none;">{{ $title }}</span>
                                         </font>
                                     </a>
-                                    <div style="height: 2px; line-height: 2px;">&nbsp;</div>
+                                    @component('mail::components.space', ['height' => 2])@endcomponent
                                     <a href="#"
                                         style="font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #888888; font-size: 19px; line-height: 22px; text-decoration: none;">
                                         <font face="'Source Sans Pro', sans-serif" color="#888888"
@@ -61,7 +62,7 @@
                 <!--[if (gte mso 9)|(IE)]>
           </td></tr>
           </table><![endif]-->
-                <div style="height: 18px; line-height: 18px; font-size: 16px;">&nbsp;</div>
+                @component('mail::components.space', ['height' => 18])@endcomponent
             </td>
             <td width="10" style="width: 10px; max-width: 10px; min-width: 10px;">&nbsp;</td>
         </tr>
@@ -73,7 +74,7 @@
         <tr>
             <td width="5%" style="width: 5%; max-width: 5%; min-width: 5%;">&nbsp;</td>
             <td align="left" valign="top">
-                <div style="height: 24px; line-height: 24px; font-size: 22px;">&nbsp;</div>
+                @component('mail::components.space', ['height' => 24])@endcomponent
                 <font class="mob_txt" face="'Source Sans Pro', sans-serif" color="#1a1a1a"
                     style="font-size: 22px; line-height: 27px;">
                     <span class="mob_txt"
@@ -81,7 +82,7 @@
                         "{{ $slot }}"
                     </span>
                 </font>
-                <div style="height: 24px; line-height: 24px; font-size: 22px;">&nbsp;</div>
+                @component('mail::components.space', ['height' => 24])@endcomponent
                 @isset($footer)
                     {{ $footer }}
                 @endisset

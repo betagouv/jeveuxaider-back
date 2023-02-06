@@ -52,11 +52,11 @@
         Gardez à l’esprit que les associations qui répondent vite sont valorisées ; et que les bénévoles privilégient les
         missions pour lesquelles ils ont une réponse rapide !
     @endcomponent
-    <div style="height: 33px; line-height: 33px; font-size: 31px;">&nbsp;</div>
+    @component('mail::components.space', ['height' => 33])@endcomponent
     @component('mail::button', ['url' => $url])
         Je réponds aux bénévoles
     @endcomponent
-    <div style="height: 33px; line-height: 33px; font-size: 31px;">&nbsp;</div>
+    @component('mail::components.space', ['height' => 33])@endcomponent
     @component('mail::components.paragraph')
         PS : Vous avez des questions ? N’hésitez pas à nous répondre par retour de mail, nous sommes toujours disponibles
         pour vous.

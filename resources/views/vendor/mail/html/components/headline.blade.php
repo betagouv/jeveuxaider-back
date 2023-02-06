@@ -8,4 +8,4 @@
         </tr>
     </tbody>
 </table>
-<div style="height: 33px; line-height: 33px; font-size: 31px;">&nbsp;</div>
+@component('mail::components.space', ['height' => 33])@endcomponent

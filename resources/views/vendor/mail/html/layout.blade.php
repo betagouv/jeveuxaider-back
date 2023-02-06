@@ -5,6 +5,13 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <!--[if mso]>
+    <style type="text/css">
+        table {border-collapse:collapse; border-spacing:0; margin:0}
+        div, td {padding:0;}
+        div {margin:0 !important;}
+    </style>
+    <![endif]-->
 </head>
 
 <body style="margin: 0; padding: 0;">
@@ -30,7 +37,7 @@
                                 style="width: 90% !important; min-width: 90%; max-width: 90%; border-width: 1px; border-style: solid; border-color: #e8e8e8; border-bottom: none; border-left: none; border-right: none;">
                                 <tr>
                                     <td align="left" valign="top">
-                                        <div style="height: 24px; line-height: 24px; font-size: 24px;">&nbsp;</div>
+                                        @component('mail::components.space', ['height' => 24])@endcomponent
                                     </td>
                                 </tr>
                             </table>
@@ -46,7 +53,7 @@
                                                 L’équipe de <a href="https://www.jeveuxaider.gouv.fr/"
                                                     style="font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #1a1a1a; font-size: 24px; line-height: 32px; text-decoration: none; font-weight: 600">JeVeuxAider.gouv.fr</a></span>
                                         </font>
-                                        <div style="height: 28px; line-height: 28px; font-size: 26px;">&nbsp;</div>
+                                        @component('mail::components.space', ['height' => 28])@endcomponent
                                     </td>
                                 </tr>
                             </table>

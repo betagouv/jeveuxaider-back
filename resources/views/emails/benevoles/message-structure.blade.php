@@ -14,7 +14,7 @@
             @component('mail::button', ['url' => $url, 'align' => 'left'])
                 Répondre au message
             @endcomponent
-            <div style="height: 24px; line-height: 24px; font-size: 22px;">&nbsp;</div>
+            @component('mail::components.space', ['height' => 24])@endcomponent
         @endslot
     @endcomponent
     @component('mail::components.tips', ['title' => 'Ne le laissez pas sans réponse !'])

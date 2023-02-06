@@ -19,9 +19,9 @@
         @component('mail::components.table-mission', ['mission' => $notable, 'showInfos' => true])
         @endcomponent
     @endif
-    <div style="height: 33px; line-height: 33px; font-size: 31px;">&nbsp;</div>
+    @component('mail::components.space', ['height' => 33])@endcomponent
     @component('mail::button', ['url' => $url])
         Accéder à la fiche
     @endcomponent
-    <div style="height: 33px; line-height: 33px; font-size: 31px;">&nbsp;</div>
+    @component('mail::components.space', ['height' => 33])@endcomponent
 @endcomponent

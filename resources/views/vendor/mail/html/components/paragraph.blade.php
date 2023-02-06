@@ -8,7 +8,7 @@
             <div class="content">
                 {{ $slot }}
             </div>
-            <div style="height: 24px; line-height: 24px; font-size: 22px;">&nbsp;</div>
+            @component('mail::components.space', ['height' => 24])@endcomponent
         </td>
     </tr>
 </table>
