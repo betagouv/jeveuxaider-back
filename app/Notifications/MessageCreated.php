@@ -90,7 +90,7 @@ class MessageCreated extends Notification implements ShouldQueue
                 ->line($this->message->from->profile->full_name.' souhaite obtenir des informations complémentaires quant à votre organisation. C’est la personne référente sur votre département pour assurer la mise en ligne de missions de bénévolat.')
                 ->line('Nous vous invitons à lui répondre dans les plus brefs délais, **via la messagerie** de JeVeuxAider.gouv.fr.')
                 ->action('Consulter le message', url(config('app.front_url').$urlCTA))
-                ->line('Pour tout complément d’information, vous pouvez contacter le Support Utilisateurs par retour de mail')
+                ->line('Pour tout complément d’information, vous pouvez contacter le support utilisateurs par retour de mail')
                 ->line('Une bonne journée à vous,');
             } else {
                 $message->subject('Le responsable de '.$structure->name.' vous a répondu !');
@@ -115,7 +115,7 @@ class MessageCreated extends Notification implements ShouldQueue
                 ->line($this->message->from->profile->full_name.' souhaite obtenir des informations complémentaires quant à votre mission. C’est la personne référente sur votre département pour assurer la mise en ligne de missions de bénévolat.')
                 ->line('Nous vous invitons à lui répondre dans les plus brefs délais, **via la messagerie** de JeVeuxAider.gouv.fr.')
                 ->action('Consulter le message', url(config('app.front_url').$urlCTA))
-                ->line('Pour tout complément d’information, vous pouvez contacter le Support Utilisateurs par retour de mail')
+                ->line('Pour tout complément d’information, vous pouvez contacter le support utilisateurs par retour de mail')
                 ->line('Une bonne journée à vous,');
             } else {
                 $message->subject('Le responsable de '.$structure->name.' vous a répondu !');

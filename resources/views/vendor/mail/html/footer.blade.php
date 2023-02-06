@@ -2,7 +2,8 @@
     style="width: 100% !important; min-width: 100%; max-width: 100%; background: #f3f3f3;">
     <tr>
         <td align="center" valign="top">
-            @component('mail::components.space', ['height' => 34, 'color' => '#f3f3f3'])@endcomponent
+            @component('mail::components.space', ['height' => 34, 'color' => '#f3f3f3'])
+            @endcomponent
             <table cellpadding="0" cellspacing="0" border="0" width="88%"
                 style="width: 88% !important; min-width: 88%; max-width: 88%;">
                 <tr>
@@ -22,7 +23,8 @@
                 </tr>
                 <tr>
                     <td align="center" valign="top">
-                        @component('mail::components.space', ['height' => 35, 'color' => '#f3f3f3'])@endcomponent
+                        @component('mail::components.space', ['height' => 35, 'color' => '#f3f3f3'])
+                        @endcomponent
                         <table cellpadding="0" cellspacing="0" border="0">
                             <tr>
                                 <td align="center" valign="top">
@@ -62,12 +64,13 @@
                                 </td>
                             </tr>
                         </table>
-                        @component('mail::components.space', ['height' => 35, 'color' => '#f3f3f3'])@endcomponent
-                        <div
-                            style="font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #868686; font-size: 17px; line-height: 20px;">
+                        @component('mail::components.space', ['height' => 35, 'color' => '#f3f3f3'])
+                        @endcomponent
+                        <div style="color: #868686; font-size: 17px; line-height: 20px;">
                             Cet e-mail a été envoyé suite à <br>votre inscription sur JeVeuxAider.gouv.fr
                         </div>
-                        @component('mail::components.space', ['height' => 35, 'color' => '#f3f3f3'])@endcomponent
+                        @component('mail::components.space', ['height' => 35, 'color' => '#f3f3f3'])
+                        @endcomponent
                     </td>
                 </tr>
             </table>

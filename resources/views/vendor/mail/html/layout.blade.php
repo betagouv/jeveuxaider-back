@@ -47,13 +47,10 @@
                                 style="width: 88% !important; min-width: 88%; max-width: 88%;">
                                 <tr>
                                     <td align="center" valign="top">
-                                        <font face="'Source Sans Pro', sans-serif" color="#585858"
-                                            style="font-size: 24px; line-height: 32px;"> <span
-                                                style="font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #585858; font-size: 24px; line-height: 32px;">À
-                                                bientôt <br>
-                                                L’équipe de <a href="https://www.jeveuxaider.gouv.fr/"
-                                                    style="font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #1a1a1a; font-size: 24px; line-height: 32px; text-decoration: none; font-weight: 600">JeVeuxAider.gouv.fr</a></span>
-                                        </font>
+                                        <span style="color: #585858; font-size: 24px; line-height: 32px;">À
+                                            bientôt <br>
+                                            L’équipe de <a href="https://www.jeveuxaider.gouv.fr/"
+                                                style="color: #1a1a1a; font-size: 24px; line-height: 32px; text-decoration: none; font-weight: 600">JeVeuxAider.gouv.fr</a></span>
                                         @component('mail::components.space', ['height' => 28])
                                         @endcomponent
                                     </td>

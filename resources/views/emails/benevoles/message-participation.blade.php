@@ -14,17 +14,15 @@
             @component('mail::button', ['url' => $url, 'align' => 'left'])
                 Répondre au message
             @endcomponent
-            @component('mail::components.space', ['height' => 24])@endcomponent
+            @component('mail::components.space', ['height' => 24])
+            @endcomponent
             @if (!$isFromResponsable)
-                <font face="'Source Sans Pro', sans-serif" color="#5E5E5E"
-                    style="font-size: 19px; line-height: 22px; text-decoration: none;">
-                    <span
-                        style="font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #5E5E5E; font-size: 19px; line-height: 22px; text-decoration: none;">
-                        Contactez directement le bénévole grâce aux informations présentes sur son profil, ou bien tout simplement
-                        via la <a href="{{ $url }}" style="color: #070191; text-decoration:  ">messagerie ›</a>
-                    </span>
-                </font>
-                @component('mail::components.space', ['height' => 24])@endcomponent
+                <span style="color: #5E5E5E; font-size: 19px; line-height: 22px; text-decoration: none;">
+                    Contactez directement le bénévole grâce aux informations présentes sur son profil, ou bien tout simplement
+                    via la <a href="{{ $url }}" style="color: #070191; text-decoration:  ">messagerie ›</a>
+                </span>
+                @component('mail::components.space', ['height' => 24])
+                @endcomponent
             @endif
         @endslot
     @endcomponent

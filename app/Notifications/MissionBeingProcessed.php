@@ -60,7 +60,7 @@ class MissionBeingProcessed extends Notification implements ShouldQueue
             ->greeting('Bonjour '.$notifiable->first_name.',');
         $message->line('Votre mission « '.$this->mission->name.' » est actuellement en cours de traitement.');
         $message->line('En vue d’instruire votre proposition de mission, le référent départemental vous contactera très prochainement pour obtenir des informations complémentaires sur le format de mission envisagé.');
-        $message->line('Pour toute question, vous pouvez contacter le Support Utilisateurs en répondant à ce mail.');
+        $message->line('Pour toute question, vous pouvez contacter le support utilisateurs en répondant à ce mail.');
 
         return $message;
     }
