@@ -1,4 +1,5 @@
-@component('mail::components.space', ['height' => 24])@endcomponent
+@component('mail::components.space', ['height' => 24])
+@endcomponent
 <table class="table-model" width="88%" cellpadding="0" cellspacing="0">
     <tr>
         <td style="padding: 10px 0"></td>
@@ -116,4 +117,5 @@
         <td style="padding: 10px 0"></td>
     </tr>
 </table>
-@component('mail::components.space', ['height' => 24])@endcomponent
+@component('mail::components.space', ['height' => 24])
+@endcomponent

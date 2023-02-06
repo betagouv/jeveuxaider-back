@@ -24,14 +24,5 @@
 {{ $line }}
 
 @endforeach
-{{-- Subcopy --}}
-@isset($actionText)
-@slot('subcopy')
-@lang("Si vous ne parvenez pas à cliquer sur le bouton \":actionText\", copiez-collez l'URL ci-dessous\n" . 'dans votre navigateur: [:actionURL](:actionURL)', [
-'actionText' => $actionText,
-'actionURL' => $actionUrl,
-])
-@endslot
-@endisset
 </div>
 @endcomponent

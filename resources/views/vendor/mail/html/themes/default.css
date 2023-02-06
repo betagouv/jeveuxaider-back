@@ -107,6 +107,110 @@ a.link {
     text-align: left;
 }
 
+.table-default table {
+    margin: 30px auto;
+    width: 88%;
+    -premailer-cellpadding: 0;
+    -premailer-cellspacing: 0;
+    -premailer-width: 88%;
+}
+
+.table-default th {
+    border-bottom: 1px solid #edeff2;
+    padding-bottom: 8px;
+    margin: 0;
+    font-size: 20px;
+    text-align: left;
+}
+
+.table-default td {
+    color: #74787e;
+    font-size: 20px;
+    line-height: 18px;
+    padding: 10px 0;
+    margin: 0;
+}
+
+.table-model {
+    border: 1px solid #E5E5E5;
+    -premailer-cellpadding: 0;
+    -premailer-cellspacing: 0;
+    -premailer-width: 100%;
+}
+
+.table-model td {
+    padding: 8px 0;
+    margin: 0;
+}
+
+.table-model .divider {
+    font-weight: 700;
+    font-size: 11px;
+    line-height: 24px;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+    position: relative;
+    height: 24px;
+}
+
+.table-model .divider .label {
+    padding-right: 15px;
+    position: absolute;
+    z-index: 10;
+    background: white;
+    color: #696974;
+}
+
+.table-model .divider hr {
+    position: relative;
+    top: 11px;
+    z-index: 1;
+}
+
+.table-model .title-blue {
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 24px;
+    color: #000091;
+}
+
+.table-model .text-label {
+    font-weight: 700;
+    font-size: 15px;
+    line-height: 20px;
+    color: #111111;
+}
+
+.table-model .text-value {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 20px;
+    color: #696974;
+}
+
+.tag {
+    display: inline-block;
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 24px;
+    text-transform: uppercase;
+    padding: 1px 9px;
+    margin: 0 6px 6px 0;
+    background: #EEEEEE;
+    border-radius: 4px;
+    color: #696974;
+}
+
+.tag.pink {
+    background: #F4E7F3;
+    color: #855080;
+}
+
+.tag.blue {
+    background: #E8EDFF;
+    color: #0063CB;
+}
+
 /* @media only screen and (min-device-width: 750px) {
     .table750 {
         width: 750px !important;
