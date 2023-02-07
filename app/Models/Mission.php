@@ -170,7 +170,8 @@ class Mission extends Model
             'is_autonomy' => $this->is_autonomy,
             'autonomy_zips' => $this->is_autonomy && count($this->autonomy_zips) > 0 ? $this->autonomy_zips : null,
             'is_outdated' => $this->end_date && $this->end_date < Carbon::today() ? true : false,
-            'tags' => $this->tags->pluck('name')
+            'tags' => $this->tags->pluck('name'),
+            'is_registration_open' => $this->is_registration_open,
         ];
 
         if ($this->is_autonomy) {
