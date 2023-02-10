@@ -55,7 +55,7 @@ class MissionBeingProcessed extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-         return (new MailMessage)
+        return (new MailMessage)
             ->subject('Votre mission est en cours de traitement ⏳')
             ->markdown('emails.responsables.mission-being-processed', [
                 'url' => url(config('app.front_url').'/admin/missions/'.$this->mission->id),

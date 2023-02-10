@@ -55,14 +55,13 @@ class StructureBeingProcessed extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $message = (new MailMessage)
-            ->subject('L’inscription de votre organisation est en cours de traitement')
-            ->greeting('Bonjour '.$notifiable->first_name.',');
-        $message->line('L’inscription de votre organisation « '.$this->structure->name.' » est actuellement en cours de traitement.');
-        $message->line('En vue d’instruire votre demande d’inscription sur JeVeuxAider.gouv.fr, le référent départemental vous contactera très prochainement pour obtenir des informations complémentaires quant à votre structure.');
-        $message->line('Pour toute question, vous pouvez contacter le support utilisateurs en répondant à ce mail.');
-
-        return $message;
+        return (new MailMessage)
+            ->subject('Votre demande d’inscription est en cours d’analyse')
+            ->markdown('emails.responsables.structure-being-processed', [
+                'structure' => $this->structure,
+                'notifiable' => $notifiable
+            ])
+            ->tag('app-responsable-mission-presque-complete');
     }
 
     /**

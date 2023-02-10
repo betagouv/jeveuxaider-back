@@ -56,12 +56,13 @@ class MissionAlmostFull extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject('Votre mission « '.$this->mission->name.' » est bientôt complète !')
-            ->greeting('Bonjour '.$notifiable->first_name.' 👋,')
-            ->line('Félicitations, votre mission est bientôt complète ! Pour rappel, lorsque votre mission est complète, les bénévoles ne peuvent plus y candidater.')
-            ->line('Si vous le souhaitez, vous pouvez en un clic augmenter le nombre de bénévoles recherchés.')
-            ->action("Je modifie la mission", url(config('app.front_url').'/admin/missions/'.$this->mission->id.'/edit'))
-            ->line('En cas de besoin, vous pouvez répondre à ce mail pour échanger directement avec le support utilisateurs !');
+            ->subject('🔥 Votre mission est presque complète ! ')
+            ->markdown('emails.responsables.mission-almost-full', [
+                'url' => url(config('app.front_url').'/admin/missions/'.$this->mission->id),
+                'mission' => $this->mission,
+                'notifiable' => $notifiable
+            ])
+            ->tag('app-responsable-mission-presque-complete');
     }
 
     /**
