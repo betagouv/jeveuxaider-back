@@ -13,7 +13,7 @@
                     <tbody>
                         <tr>
                             <td width="65" align="center" valign="top">
-                                @component('mail::components.space', ['height' => 15])
+                                @component('mail::components.space', ['height' => 10])
                                 @endcomponent
                                 <span style="display: block; max-width: 50px;">
                                     <img src="{{ config('app.front_url') }}/images/mail/user.jpg" alt="img"
@@ -23,7 +23,7 @@
                             </td>
                             <td width="6" style="width: 6px; max-width: 6px; min-width: 6px;">&nbsp;</td>
                             <td class="mob_center" align="left" valign="top">
-                                @component('mail::components.space', ['height' => 10])
+                                @component('mail::components.space', ['height' => 13])
                                 @endcomponent
                                 <div style="color: #1a1a1a; font-size: 19px; font-weight: 600;">{{ $title }}
                                 </div>
