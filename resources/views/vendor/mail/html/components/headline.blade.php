@@ -2,10 +2,11 @@
     style="width: 88% !important; min-width: 88%; max-width: 88%;">
     <tbody>
         <tr>
-            <td class="headline-wrapper" align="left" valign="top">
+            <td align="{{ $align ?? 'left' }}" class="headline-wrapper" align="left" valign="top">
                 <span class="headline"> {{ $slot }}</span>
             </td>
         </tr>
     </tbody>
 </table>
-@component('mail::components.space', ['height' => 33])@endcomponent
+@component('mail::components.space', ['height' => 33])
+@endcomponent
