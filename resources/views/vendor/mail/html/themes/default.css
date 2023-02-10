@@ -50,8 +50,8 @@ ul {
 
 .headline-wrapper .headline {
     color: #1a1a1a;
-    font-size: 40px;
-    line-height: 50px;
+    font-size: 36px;
+    line-height: 48px;
     font-weight: 600;
     letter-spacing: -1.5px;
 }
@@ -70,7 +70,7 @@ ul {
 
 .tips-wrapper .title {
     color: #1a1a1a;
-    font-size: 35px;
+    font-size: 32px;
     line-height: 45px;
     font-weight: 400;
     letter-spacing: 0px;

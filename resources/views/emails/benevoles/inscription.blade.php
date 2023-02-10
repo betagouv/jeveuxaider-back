@@ -2,8 +2,7 @@
     @component('mail::components.headline')
         Bonjour {{ $notifiable->profile->first_name }} 👋
     @endcomponent
-    @component('mail::components.headline')
-        Merci pour votre inscription !<br>
+    @component('mail::components.paragraph', ['title' => 'Merci pour votre inscription !'])
         L'heure est venue de trouver votre première mission de bénévolat.
     @endcomponent
     <table cellpadding="0" cellspacing="0" border="0" width="100%"
@@ -12,8 +11,8 @@
             <tr>
                 <td align="center" valign="top">
                     <!--[if (gte mso 9)|(IE)]>
-                                                                                    <table border="0" cellspacing="0" cellpadding="0">
-                                                                                    <tr><td align="center" valign="top" width="325"><![endif]-->
+                                <table border="0" cellspacing="0" cellpadding="0">
+                                <tr><td align="center" valign="top" width="325"><![endif]-->
                     <div style="display: inline-block; vertical-align: top; width: 325px;">
                         <table class="mob_card" cellpadding="0" cellspacing="0" border="0" width="100%"
                             style="width: 100% !important; max-width: 295px;">
@@ -36,7 +35,7 @@
                                         @component('mail::components.space', ['height' => 12])
                                         @endcomponent
                                         <span
-                                            style="color: #101010; font-size: 26px; line-height: 33px; font-weight: 400; letter-spacing: 0px;">Enseignez
+                                            style="color: #101010; font-size: 22px; line-height: 30px; font-weight: 400; letter-spacing: 0px;">Enseignez
                                             le français comme langue étrangère</span>
                                         @component('mail::components.space', ['height' => 8])
                                         @endcomponent
@@ -68,7 +67,7 @@
                                         @component('mail::components.space', ['height' => 12])
                                         @endcomponent
                                         <span
-                                            style="color: #101010; font-size: 26px; line-height: 33px; font-weight: 400; letter-spacing: 0px;">Collectez
+                                            style="color: #101010; font-size: 22px; line-height: 30px; font-weight: 400; letter-spacing: 0px;">Collectez
                                             des produits pour lutter contre le gaspillage alimentaire</span>
                                         @component('mail::components.space', ['height' => 8])
                                         @endcomponent
@@ -78,8 +77,8 @@
                         </table>
                     </div>
                     <!--[if (gte mso 9)|(IE)]>
-                                                                                    </td></tr>
-                                                                                    </table><![endif]-->
+                                                                                                    </td></tr>
+                                                                                                    </table><![endif]-->
                 </td>
             </tr>
         </tbody>
@@ -90,8 +89,8 @@
             <tr>
                 <td align="center" valign="top">
                     <!--[if (gte mso 9)|(IE)]>
-                                                                                    <table border="0" cellspacing="0" cellpadding="0">
-                                                                                    <tr><td align="center" valign="top" width="325"><![endif]-->
+                                                                                                    <table border="0" cellspacing="0" cellpadding="0">
+                                                                                                    <tr><td align="center" valign="top" width="325"><![endif]-->
                     <div style="display: inline-block; vertical-align: top; width: 325px;">
                         <table class="mob_card" cellpadding="0" cellspacing="0" border="0" width="100%"
                             style="width: 100% !important; max-width: 295px;">
@@ -114,7 +113,7 @@
                                         @component('mail::components.space', ['height' => 12])
                                         @endcomponent
                                         <span
-                                            style="color: #101010; font-size: 26px; line-height: 33px; font-weight: 400; letter-spacing: 0px;">Devenez
+                                            style="color: #101010; font-size: 22px; line-height: 30px; font-weight: 400; letter-spacing: 0px;">Devenez
                                             un mentor d'une personne en difficulté</span>
                                         @component('mail::components.space', ['height' => 8])
                                         @endcomponent
@@ -146,7 +145,7 @@
                                         @component('mail::components.space', ['height' => 12])
                                         @endcomponent
                                         <span
-                                            style="color: #101010; font-size: 26px; line-height: 33px; font-weight: 400; letter-spacing: 0px;">Luttez
+                                            style="color: #101010; font-size: 22px; line-height: 30px; font-weight: 400; letter-spacing: 0px;">Luttez
                                             contre l'isolement des personnes fragiles</span>
                                         @component('mail::components.space', ['height' => 8])
                                         @endcomponent
@@ -156,8 +155,8 @@
                         </table>
                     </div>
                     <!--[if (gte mso 9)|(IE)]>
-                                            </td></tr></table>
-                                        <![endif]-->
+                                                            </td></tr></table>
+                                                        <![endif]-->
                 </td>
             </tr>
         </tbody>

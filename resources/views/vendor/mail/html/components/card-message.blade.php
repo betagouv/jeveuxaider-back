@@ -5,47 +5,36 @@
     <tbody>
         <tr>
             <td width="10" style="width: 10px; max-width: 10px; min-width: 10px;">&nbsp;</td>
-            <td align="center" valign="top">
+            <td valign="top">
                 @component('mail::components.space', ['height' => 8])
                 @endcomponent
-                <div style="display: inline-block; vertical-align: top; width: 65px;">
-                    <table cellpadding="0" cellspacing="0" border="0" width="100%"
-                        style="width: 100% !important; min-width: 100%; max-width: 100%;">
-                        <tbody>
-                            <tr>
-                                <td align="center" valign="top">
-                                    @component('mail::components.space', ['height' => 10])
-                                    @endcomponent
-                                    <span style="display: block; max-width: 50px;">
-                                        <img src="{{ config('app.front_url') }}/images/mail/user.jpg" alt="img"
-                                            width="50" border="0"
-                                            style="display: block; width: 50px;border-radius:100px">
-                                    </span>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div style="display: inline-block; vertical-align: top; width: 88%; min-width: 260px;">
-                    <table cellpadding="0" cellspacing="0" border="0" width="100%"
-                        style="width: 100% !important; min-width: 100%; max-width: 100%;">
-                        <tbody>
-                            <tr>
-                                <td width="6" style="width: 6px; max-width: 6px; min-width: 6px;">&nbsp;</td>
-                                <td class="mob_center" align="left" valign="top">
-                                    @component('mail::components.space', ['height' => 10])
-                                    @endcomponent
-                                    <div style="color: #1a1a1a; font-size: 19px; font-weight: 600;">{{ $title }}
-                                    </div>
-                                    @if (isset($subtitle))
-                                        <div style="color: #302e6c; font-size: 19px;">{{ $subtitle }}</div>
-                                    @endif
-                                </td>
-                                <td width="6" style="width: 6px; max-width: 6px; min-width: 6px;">&nbsp;</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                <table cellpadding="0" cellspacing="0" border="0" width="100%"
+                    style="width: 100% !important; min-width: 100%; max-width: 100%;">
+                    <tbody>
+                        <tr>
+                            <td width="65" align="center" valign="top">
+                                @component('mail::components.space', ['height' => 10])
+                                @endcomponent
+                                <span style="display: block; max-width: 50px;">
+                                    <img src="{{ config('app.front_url') }}/images/mail/user.jpg" alt="img"
+                                        width="50" border="0"
+                                        style="display: block; width: 50px;border-radius:100px">
+                                </span>
+                            </td>
+                            <td width="6" style="width: 6px; max-width: 6px; min-width: 6px;">&nbsp;</td>
+                            <td class="mob_center" align="left" valign="top">
+                                @component('mail::components.space', ['height' => 10])
+                                @endcomponent
+                                <div style="color: #1a1a1a; font-size: 19px; font-weight: 600;">{{ $title }}
+                                </div>
+                                @if (isset($subtitle))
+                                    <div style="color: #302e6c; font-size: 19px;">{{ $subtitle }}</div>
+                                @endif
+                            </td>
+                            <td width="6" style="width: 6px; max-width: 6px; min-width: 6px;">&nbsp;</td>
+                        </tr>
+                    </tbody>
+                </table>
                 @component('mail::components.space', ['height' => 18])
                 @endcomponent
             </td>
