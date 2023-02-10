@@ -11,8 +11,8 @@
             <tr>
                 <td align="center" valign="top">
                     <!--[if (gte mso 9)|(IE)]>
-                                <table border="0" cellspacing="0" cellpadding="0">
-                                <tr><td align="center" valign="top" width="325"><![endif]-->
+                                    <table border="0" cellspacing="0" cellpadding="0">
+                                    <tr><td align="center" valign="top" width="325"><![endif]-->
                     <div style="display: inline-block; vertical-align: top; width: 325px;">
                         <table class="mob_card" cellpadding="0" cellspacing="0" border="0" width="100%"
                             style="width: 100% !important; max-width: 295px;">
@@ -77,8 +77,8 @@
                         </table>
                     </div>
                     <!--[if (gte mso 9)|(IE)]>
-                                                                                                    </td></tr>
-                                                                                                    </table><![endif]-->
+                                                                                                        </td></tr>
+                                                                                                        </table><![endif]-->
                 </td>
             </tr>
         </tbody>
@@ -89,8 +89,8 @@
             <tr>
                 <td align="center" valign="top">
                     <!--[if (gte mso 9)|(IE)]>
-                                                                                                    <table border="0" cellspacing="0" cellpadding="0">
-                                                                                                    <tr><td align="center" valign="top" width="325"><![endif]-->
+                                                                                                        <table border="0" cellspacing="0" cellpadding="0">
+                                                                                                        <tr><td align="center" valign="top" width="325"><![endif]-->
                     <div style="display: inline-block; vertical-align: top; width: 325px;">
                         <table class="mob_card" cellpadding="0" cellspacing="0" border="0" width="100%"
                             style="width: 100% !important; max-width: 295px;">
@@ -155,15 +155,15 @@
                         </table>
                     </div>
                     <!--[if (gte mso 9)|(IE)]>
-                                                            </td></tr></table>
-                                                        <![endif]-->
+                                                                </td></tr></table>
+                                                            <![endif]-->
                 </td>
             </tr>
         </tbody>
     </table>
     @component('mail::components.space', ['height' => 33])
     @endcomponent
-    @component('mail::button', ['url' => $url])
+    @component('mail::button', ['url' => $url, 'spaces' => true])
         Trouver votre mission
     @endcomponent
     @component('mail::components.tips', ['title' => 'Comment trouver une mission ?'])

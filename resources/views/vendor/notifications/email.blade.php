@@ -14,7 +14,7 @@
 {{-- Action Button --}}
 @isset($actionText)
 @component('mail::components.space', ['height' => 33])@endcomponent
-@component('mail::button', ['url' => $actionUrl])
+@component('mail::button', ['url' => $actionUrl, 'spaces' => true])
 {{ $actionText }}
 @endcomponent
 @component('mail::components.space', ['height' => 33])@endcomponent

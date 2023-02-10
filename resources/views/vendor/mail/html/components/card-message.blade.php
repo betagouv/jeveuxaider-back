@@ -13,7 +13,7 @@
                     <tbody>
                         <tr>
                             <td width="65" align="center" valign="top">
-                                @component('mail::components.space', ['height' => 10])
+                                @component('mail::components.space', ['height' => 15])
                                 @endcomponent
                                 <span style="display: block; max-width: 50px;">
                                     <img src="{{ config('app.front_url') }}/images/mail/user.jpg" alt="img"

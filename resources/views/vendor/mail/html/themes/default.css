@@ -6,7 +6,7 @@ html {
 body, .mail-body {
     font-family: Arial, Verdana, Tahoma, Geneva, sans-serif;
     color: #585858;
-    font-size: 24px;
+    font-size: 22px;
     line-height: 32px;
     hyphens: auto;
     margin: 0;
@@ -20,7 +20,7 @@ body, .mail-body {
 }
 
 p {
-    font-size: 24px;
+    font-size: 22px;
     line-height: 32px;
     margin-bottom: 24px;
 }
@@ -29,7 +29,7 @@ ul {
     list-style: disc;
     margin-left: 24px;
     padding-left: 24px;
-    font-size: 24px;
+    font-size: 22px;
     line-height: 32px;
     margin-bottom: 24px;
 }
@@ -41,6 +41,7 @@ ul {
 }
 
 .btn-wrapper a.button {
+    background: #070191;
     color: #ffffff;
     font-size: 20px;
     text-decoration: none;
@@ -50,7 +51,7 @@ ul {
 
 .headline-wrapper .headline {
     color: #1a1a1a;
-    font-size: 36px;
+    font-size: 32px;
     line-height: 48px;
     font-weight: 600;
     letter-spacing: -1.5px;
@@ -58,26 +59,26 @@ ul {
 
 .paragraph-wrapper .title {
     color: #1a1a1a;
-    font-size: 24px;
+    font-size: 22px;
     line-height: 40px;
     font-weight: 600;
 }
 
 .paragraph-wrapper .content {
-    font-size: 24px;
+    font-size: 22px;
     line-height: 32px;
 }
 
 .tips-wrapper .title {
     color: #1a1a1a;
-    font-size: 32px;
-    line-height: 45px;
+    font-size: 28px;
+    line-height: 36px;
     font-weight: 400;
     letter-spacing: 0px;
 }
 
 .tips-wrapper-content {
-    font-size: 24px;
+    font-size: 22px;
     line-height: 32px;
 }
 
