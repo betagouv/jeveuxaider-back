@@ -11,7 +11,7 @@
         notre <a class="link" href="https://www.jeveuxaider.gouv.fr/charte-reserve-civique">Charte de la Réserve Civique ›</a>
         et la modifier si besoin.
     @endcomponent
-    @component('mail::components.paragraph', ['title' => 'Petit rappel de la mission :'])
+    @component('mail::components.paragraph', ['title' => 'Petit rappel de la mission'])
         {{ $mission->name }}
         @component('mail::components.space', ['height' => 10])
         @endcomponent

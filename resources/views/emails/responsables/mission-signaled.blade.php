@@ -10,7 +10,7 @@
         Par conséquent, les bénévoles ne peuvent pas s’y inscrire. De plus, si certains s’étaient déjà inscrits, ils ont été
         informés que la mission est désormais annulée.
     @endcomponent
-    @component('mail::components.paragraph', ['title' => 'Petit rappel de la mission :'])
+    @component('mail::components.paragraph', ['title' => 'Petit rappel de la mission'])
         {{ $mission->name }}
         @component('mail::components.space', ['height' => 10])
         @endcomponent

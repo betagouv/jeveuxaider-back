@@ -9,17 +9,15 @@
         cadre de notre <a class="link" href="https://www.jeveuxaider.gouv.fr/charte-reserve-civique">Charte de la Réserve
             Civique ›</a>
     @endcomponent
-    @component('mail::components.paragraph', ['title' => 'Bon à savoir :'])
+    @component('mail::components.paragraph', ['title' => 'Bon à savoir'])
         Dans le cadre de cette étude, le référent pourra être amené à prendre contact avec vous pour obtenir plus d’informations
         concernant l’activité de votre structure. Cette étape peut prendre jusqu’à 7 jours.
     @endcomponent
     @component('mail::components.paragraph', ['title' => 'Ajoutez dès maintenant vos missions !'])
         Vous pouvez dès à présent proposer des missions de bénévolat. Elles seront visibles sur la plateforme dès que
         l’organisation aura été validée. De quoi trouver vos bénévoles au plus vite !
-        @component('mail::components.space', ['height' => 25])
-        @endcomponent
-        @component('mail::button', ['url' => $url, 'align' => 'left'])
-            Ajoutez vos missions
-        @endcomponent
+    @endcomponent
+    @component('mail::button', ['url' => $url])
+        Ajoutez vos missions
     @endcomponent
 @endcomponent

@@ -14,16 +14,12 @@
             @component('mail::button', ['url' => $url, 'align' => 'left'])
                 Répondre au message
             @endcomponent
-            @component('mail::components.space', ['height' => 24])@endcomponent
+            @component('mail::components.space', ['height' => 24])
+            @endcomponent
         @endslot
     @endcomponent
     @component('mail::components.tips', ['title' => 'Ne le laissez pas sans réponse !'])
-        @if (!$isFromResponsable)
-            Un retour rapide de votre part est toujours très apprécié de la part des responsables d'organisation, et décuple les
-            possibilités d’engagement.
-        @else
-            Un retour rapide de votre part est toujours très apprécié de la part des référents, et décuple les
-            possibilités d’engagement.
-        @endif
+        Un retour rapide de votre part est toujours très apprécié, et décuple les
+        possibilités d’engagement.
     @endcomponent
 @endcomponent

@@ -3,7 +3,7 @@
         Votre mission est presque complète 😅
     @endcomponent
     @component('mail::components.paragraph', [
-        'title' => 'La mission :',
+        'title' => 'La mission',
         'align' => 'center',
     ])
         {{ $mission->name }}

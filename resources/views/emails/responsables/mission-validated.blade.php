@@ -9,7 +9,7 @@
     @component('mail::components.paragraph', ['title' => 'N’oubliez pas !'])
         Soyez réactif pour garder vos bénévoles motivés !
     @endcomponent
-    @component('mail::components.paragraph', ['title' => 'Petit rappel de la mission :'])
+    @component('mail::components.paragraph', ['title' => 'Petit rappel de la mission'])
         {{ $mission->name }}
         @component('mail::components.space', ['height' => 10])
         @endcomponent

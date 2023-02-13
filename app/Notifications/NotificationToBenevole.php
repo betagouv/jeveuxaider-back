@@ -64,7 +64,7 @@ class NotificationToBenevole extends Notification implements ShouldQueue
             ->line("L'organisation {$this->notificationBenevole->mission->structure->name} vous propose une nouvelle mission de bénévolat dans le domaine d'action **{$domaine->name}**.")
             ->line('Votre profil correspond à celui des bénévoles recherchés.')
             ->line('')
-            ->line('La mission :')
+            ->line('La mission')
             ->line("**{$this->notificationBenevole->mission->name}**")
             ->action('Proposer votre aide', url(config('app.front_url')."/missions/{$this->notificationBenevole->mission->id}/{$this->notificationBenevole->mission->slug}/?utm_source=mktplace"))
             ->line('Nous comptons sur vous pour faire vivre l’engagement. Merci !');

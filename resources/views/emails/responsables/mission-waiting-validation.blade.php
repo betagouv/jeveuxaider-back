@@ -7,11 +7,11 @@
         cadre défini par notre <a class="link" href="https://www.jeveuxaider.gouv.fr/charte-reserve-civique">Charte de la
             Réserve Civique ›</a>
     @endcomponent
-    @component('mail::components.paragraph', ['title' => 'Bon à savoir :'])
+    @component('mail::components.paragraph', ['title' => 'Bon à savoir'])
         Votre mission sera examinée par le référent JeVeuxAider.gouv.fr de votre département et cela peut prendre jusqu’à 7
         jours.
     @endcomponent
-    @component('mail::components.paragraph', ['title' => 'Petit rappel de la mission :'])
+    @component('mail::components.paragraph', ['title' => 'Petit rappel de la mission'])
         {{ $mission->name }}
         @component('mail::components.space', ['height' => 10])
         @endcomponent

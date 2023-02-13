@@ -13,7 +13,7 @@
             <li>Vous ne pouvez pas publier de nouvelles missions via JeVeuxAider.gouv.fr</li>
             <li>Vous ne pouvez pas engager de nouveaux bénévoles</li>
             <li>Les missions déjà publiées ne sont désormais plus visibles sur la plateforme</li>
-            <li>Les bénévoles qui étaient inscrits à l’une de vos missions ont été informés qu’elle est désormais annulée</li>
+            <li>Les bénévoles qui étaient inscrits à l’une de vos missions ont été informés de son annulation</li>
         </ul>
     @endcomponent
     @component('mail::components.tips', ['title' => 'Des questions ?'])
