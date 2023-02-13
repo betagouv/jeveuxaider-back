@@ -148,7 +148,7 @@ class ParticipationController extends Controller
             // Trigger updated_at refresh.
             $participation->conversation->touch();
 
-            $participation->mission->responsable->notify(new ParticipationBenevoleCanceled($participation, $request->input('reason')));
+            $participation->mission->responsable->notify(new ParticipationBenevoleCanceled($participation, $request->input('content'), $request->input('reason')));
         }
 
         $participation->state = 'Annulée';

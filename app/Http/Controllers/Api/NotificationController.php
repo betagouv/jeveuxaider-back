@@ -111,7 +111,7 @@ class NotificationController extends Controller
                 $notification = new ParticipationCanceled($participation);
                 break;
             case 'responsable_participation_canceled':
-                $notification = new ParticipationBenevoleCanceled($participation, 'not_available');
+                $notification = new ParticipationBenevoleCanceled($participation, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer maximus neque nec nulla ullamcorper auctor. Aliquam in leo massa. Etiam luctus luctus volutpat. Curabitur interdum sem a urna finibus, ut porttitor ipsum elementum. Aliquam erat volutpat. Integer ultrices, metus id sagittis scelerisque, lectus ex feugiat massa, at laoreet ante enim ac ipsum.', 'not_available');
                 break;
             case 'benevole_participation_refused':
                 $notification = new ParticipationDeclined($participation, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer maximus neque nec nulla ullamcorper auctor. Aliquam in leo massa. Etiam luctus luctus volutpat. Curabitur interdum sem a urna finibus, ut porttitor ipsum elementum. Aliquam erat volutpat. Integer ultrices, metus id sagittis scelerisque, lectus ex feugiat massa, at laoreet ante enim ac ipsum.', 'requirements_not_fulfilled');
@@ -252,6 +252,7 @@ class NotificationController extends Controller
                 break;
             case 'responsable_waiting_actions':
                 $notification = new ResponsableDailyTodo([1, 2, 3]);
+                ray($notification->toMail($user));
                 break;
             case 'user_anonymize':
                 $notification = new UserAnonymize();
