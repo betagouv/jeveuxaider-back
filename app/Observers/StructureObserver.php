@@ -11,7 +11,7 @@ use App\Models\Profile;
 use App\Models\Structure;
 use App\Models\Territoire;
 use App\Models\User;
-use App\Notifications\RegisterUserResponsable;
+use App\Notifications\StructureWaitingValidation;
 use App\Notifications\StructureAssociationValidated;
 use App\Notifications\StructureBeingProcessed;
 use App\Notifications\StructureCollectivityValidated;
@@ -77,7 +77,7 @@ class StructureObserver
             switch ($newState) {
                 case 'En attente de validation':
                     if ($structure->user->profile) {
-                        $notification = new RegisterUserResponsable($structure);
+                        $notification = new StructureWaitingValidation($structure);
                         $structure->user->notify($notification);
                     }
                     if ($structure->department) {

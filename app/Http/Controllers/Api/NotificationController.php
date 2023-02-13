@@ -50,7 +50,7 @@ use App\Notifications\ParticipationWaitingValidation;
 use App\Notifications\ReferentDailyTodo;
 use App\Notifications\ReferentSummaryDaily;
 use App\Notifications\ReferentSummaryMonthly;
-use App\Notifications\RegisterUserResponsable;
+use App\Notifications\StructureWaitingValidation;
 use App\Notifications\RegisterUserVolontaire;
 use App\Notifications\RegisterUserVolontaireCej;
 use App\Notifications\RegisterUserVolontaireCejAdviser;
@@ -85,8 +85,8 @@ class NotificationController extends Controller
             case 'benevole_register':
                 $notification = new RegisterUserVolontaire($user);
                 break;
-            case 'responsable_register':
-                $notification = new RegisterUserResponsable($structure);
+            case 'responsable_organisation_waiting_validation':
+                $notification = new StructureWaitingValidation($structure);
                 break;
             case 'responsable_still_in_draft':
                 $notification = new StructureInDraft($structure, 'j+1');
