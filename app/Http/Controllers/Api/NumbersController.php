@@ -1039,6 +1039,44 @@ class NumbersController extends Controller
         return $results;
     }
 
+    public function utilisateursByAge(Request $request)
+    {
+        $items = [];
+
+        $results = DB::select("
+                SELECT
+                    CASE
+                        WHEN age(birthday) BETWEEN '15 years'::interval AND '20 years'::interval THEN 'BETWEEN_15_AND_20'
+                        WHEN age(birthday) BETWEEN '20 years'::interval AND '25 years'::interval THEN 'BETWEEN_20_AND_25'
+                        WHEN age(birthday) BETWEEN '25 years'::interval AND '30 years'::interval THEN 'BETWEEN_25_AND_30'
+                        WHEN age(birthday) BETWEEN '30 years'::interval AND '35 years'::interval THEN 'BETWEEN_30_AND_35'
+                        WHEN age(birthday) BETWEEN '35 years'::interval AND '40 years'::interval THEN 'BETWEEN_35_AND_40'
+                        WHEN age(birthday) BETWEEN '40 years'::interval AND '45 years'::interval THEN 'BETWEEN_40_AND_45'
+                        WHEN age(birthday) BETWEEN '45 years'::interval AND '50 years'::interval THEN 'BETWEEN_45_AND_50'
+                        WHEN age(birthday) BETWEEN '50 years'::interval AND '55 years'::interval THEN 'BETWEEN_50_AND_55'
+                        WHEN age(birthday) BETWEEN '55 years'::interval AND '60 years'::interval THEN 'BETWEEN_55_AND_60'
+                        WHEN age(birthday) BETWEEN '60 years'::interval AND '65 years'::interval THEN 'BETWEEN_60_AND_65'
+                        WHEN age(birthday) BETWEEN '65 years'::interval AND '70 years'::interval THEN 'BETWEEN_65_AND_70'
+                        WHEN age(birthday) BETWEEN '70 years'::interval AND '75 years'::interval THEN 'BETWEEN_70_AND_75'
+                        WHEN age(birthday) BETWEEN '75 years'::interval AND '80 years'::interval THEN 'BETWEEN_75_AND_80'
+                        ELSE 'MORE_THAN_80'
+                    END AS age_range,
+                    count(*) AS user_count
+                    FROM profiles
+                    WHERE age(birthday) > '15 years'::interval AND birthday IS NOT NULL
+                    AND COALESCE(profiles.department,'') ILIKE :department
+                    AND profiles.created_at BETWEEN :start and :end
+                    GROUP BY age_range
+                    ORDER BY age_range;
+            ", [
+            'department' => $this->department ? $this->department.'%' : '%%',
+            'start' => $this->startDate,
+            'end' => $this->endDate,
+        ]);
+
+        return collect($results)->pluck('user_count', 'age_range');
+    }
+
     public function utilisateursWithParticipations(Request $request)
     {
         return [

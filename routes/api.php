@@ -372,6 +372,7 @@ Route::group(['middleware' => ['auth:api', 'is.admin.or.referent']], function ()
 
     Route::get('statistics/utilisateurs-by-domaines', 'Api\NumbersController@utilisateursByDomaines');
     Route::get('statistics/utilisateurs-with-participations', 'Api\NumbersController@utilisateursWithParticipations');
+    Route::get('statistics/utilisateurs-by-age', 'Api\NumbersController@utilisateursByAge');
 
     Route::get('statistics/participations-waiting-by-organisations', 'Api\NumbersController@participationsWaitingByOrganisations');
     Route::get('statistics/participations-refused-by-organisations', 'Api\NumbersController@participationsRefusedByOrganisations');
@@ -426,6 +427,7 @@ Route::group(['prefix' => '/statistics/public'], function () {
     Route::get('/global/utilisateurs', 'Api\StatisticsPublicController@globalUtilisateurs');
     Route::get('/utilisateurs-by-date', 'Api\StatisticsPublicController@utilisateursByDate');
     Route::get('/utilisateurs-by-domaines', 'Api\StatisticsPublicController@utilisateursByDomaines');
+    Route::get('/utilisateurs-by-age', 'Api\StatisticsPublicController@utilisateursByAge');
 
     Route::get('/global/organisations', 'Api\StatisticsPublicController@globalOrganisations');
     Route::get('/organisations-by-date', 'Api\StatisticsPublicController@organisationsByDate');
