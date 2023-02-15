@@ -173,7 +173,7 @@ class Mission extends Model
             'publics_volontaires' => $this->publics_volontaires,
             'is_autonomy' => $this->is_autonomy,
             'autonomy_zips' => $this->is_autonomy && count($this->autonomy_zips) > 0 ? $this->autonomy_zips : null,
-            'is_outdated' => $trueEndDate && (Carbon::today())->gt($trueEndDate) ? true : false,
+            'is_outdated' => isset($trueEndDate) && (Carbon::today())->gt($trueEndDate) ? true : false,
             'tags' => $this->tags->pluck('name'),
             'is_registration_open' => $this->is_registration_open,
         ];
