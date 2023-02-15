@@ -104,6 +104,10 @@ class Mission extends Model
         $activity = $this->template_id ? $this->template->activity : $this->activity;
         $publicsBeneficiaires = config('taxonomies.mission_publics_beneficiaires.terms');
 
+        if ($this->end_date) {
+            $trueEndDate = (new Carbon($this->end_date))->endOfDay();
+        }
+
         $mission = [
             'id' => $this->id,
             'name' => $this->name,
@@ -169,7 +173,7 @@ class Mission extends Model
             'publics_volontaires' => $this->publics_volontaires,
             'is_autonomy' => $this->is_autonomy,
             'autonomy_zips' => $this->is_autonomy && count($this->autonomy_zips) > 0 ? $this->autonomy_zips : null,
-            'is_outdated' => $this->end_date && $this->end_date < Carbon::today() ? true : false,
+            'is_outdated' => $trueEndDate && (Carbon::today())->gt($trueEndDate) ? true : false,
             'tags' => $this->tags->pluck('name'),
             'is_registration_open' => $this->is_registration_open,
         ];
