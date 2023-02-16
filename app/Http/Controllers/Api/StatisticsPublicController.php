@@ -23,6 +23,8 @@ class StatisticsPublicController extends Controller
     public $startDate;
     public $endDate;
     public $department;
+    public $startYear;
+    public $endYear;
 
     public function __construct(Request $request)
     {
