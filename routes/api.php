@@ -108,6 +108,12 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('conversations/{conversation}/benevole', 'Api\ConversationsController@benevole');
     Route::post('conversations/{conversation}/setStatus', 'Api\ConversationsController@setStatus');
 
+    // MESSAGES V2
+    Route::get('conversationsv2', 'Api\ConversationsV2Controller@index');
+    Route::get('conversationsv2/{conversation}', 'Api\ConversationsV2Controller@show')->where('conversation', '[0-9]+');
+    Route::get('conversationsv2/{conversation}/messages', 'Api\ConversationsV2Controller@messages');
+    Route::post('conversationsv2/{conversation}/messages', 'Api\ConversationsV2Controller@storeMessage');
+
     Route::post('invitations/{token}/resend', 'Api\InvitationController@resend');
     Route::delete('invitations/{token}/delete', 'Api\InvitationController@delete');
     Route::post('invitations/{token}/accept', 'Api\InvitationController@accept');
