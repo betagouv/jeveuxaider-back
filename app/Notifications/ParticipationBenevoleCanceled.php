@@ -62,8 +62,7 @@ class ParticipationBenevoleCanceled extends Notification implements ShouldQueue
         return (new MailMessage)
             ->subject('😔 Oh non… '.$this->participation->profile->full_name.' a annulé sa participation')
             ->markdown('emails.responsables.participation-canceled', [
-                'url' => url(config('app.front_url') . $this->participation->conversation ? '/messages/'.$this->participation->conversation->id : '/messages'),
-                'mission' => $this->participation->mission,
+                'url' => $this->participation->conversation ? url(config('app.front_url') . '/messages/'.$this->participation->conversation->id) : url(config('app.front_url') . '/messages'),                'mission' => $this->participation->mission,
                 'benevole' => $this->participation->profile,
                 'message' => $this->message && $this->message != '' ? $this->message : null,
                 'reason' => $this->reason && $this->reason != 'other' ? config('taxonomies.participation_canceled_by_benevole_reasons.terms')[$this->reason] : null,

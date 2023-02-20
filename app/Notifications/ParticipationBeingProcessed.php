@@ -58,8 +58,7 @@ class ParticipationBeingProcessed extends Notification implements ShouldQueue
         return (new MailMessage)
             ->subject('⏳ Votre demande de participation est en cours de traitement')
             ->markdown('emails.benevoles.participation-being-processed', [
-                'url' => url(config('app.front_url') . $this->participation->conversation ? '/messages/'.$this->participation->conversation->id : '/messages'),
-                'mission' => $this->participation->mission,
+                'url' => $this->participation->conversation ? url(config('app.front_url') . '/messages/'.$this->participation->conversation->id) : url(config('app.front_url') . '/messages'),                'mission' => $this->participation->mission,
                 'notifiable' => $notifiable
             ])
             ->tag('app-benevole-participation-being-processed');

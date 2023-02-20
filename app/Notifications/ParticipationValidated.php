@@ -58,8 +58,7 @@ class ParticipationValidated extends Notification implements ShouldQueue
         return (new MailMessage)
             ->subject('🥳 Bonne nouvelle ! Votre demande de participation est validée')
             ->markdown('emails.benevoles.participation-validated', [
-                'url' => url(config('app.front_url') . $this->participation->conversation ? '/messages/'.$this->participation->conversation->id : '/messages'),
-                'mission' => $this->participation->mission,
+                'url' => $this->participation->conversation ? url(config('app.front_url') . '/messages/'.$this->participation->conversation->id) : url(config('app.front_url') . '/messages'),                'mission' => $this->participation->mission,
                 'responsable' => $this->participation->mission->responsable,
                 'notifiable' => $notifiable
             ])

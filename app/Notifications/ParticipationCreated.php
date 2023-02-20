@@ -59,7 +59,7 @@ class ParticipationCreated extends Notification implements ShouldQueue
         return (new MailMessage)
             ->subject('🔖 Votre demande de participation a bien été enregistrée !')
             ->markdown('emails.benevoles.participation-created', [
-                'url' => url(config('app.front_url') . $this->participation->conversation ? '/messages/'.$this->participation->conversation->id : '/messages'),
+                'url' => $this->participation->conversation ? url(config('app.front_url') . '/messages/'.$this->participation->conversation->id) : url(config('app.front_url') . '/messages'),
                 'mission' => $this->participation->mission,
                 'notifiable' => $notifiable
             ])

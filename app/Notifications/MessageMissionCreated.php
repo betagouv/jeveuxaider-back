@@ -59,7 +59,7 @@ class MessageMissionCreated extends Notification implements ShouldQueue
         return (new MailMessage)
             ->subject($subject)
             ->markdown('emails.benevoles.message-mission', [
-                'url' => url(config('app.front_url') . $this->message->conversation ? '/messages/'.$this->message->conversation->id : '/messages'),
+                'url' => $this->message->conversation ? url(config('app.front_url') . '/messages/'.$this->message->conversation->id) :  url(config('app.front_url') . '/messages'),
                 'message' => $this->message,
                 'mission' => $mission,
                 'structure' => $structure,
