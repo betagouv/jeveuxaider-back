@@ -11,8 +11,9 @@
             <tr>
                 <td align="center" valign="top">
                     <!--[if (gte mso 9)|(IE)]>
-                                    <table border="0" cellspacing="0" cellpadding="0">
-                                    <tr><td align="center" valign="top" width="325"><![endif]-->
+                        <table border="0" cellspacing="0" cellpadding="0">
+                        <tr><td align="center" valign="top" width="325">
+                    <![endif]-->
                     <div style="display: inline-block; vertical-align: top; width: 100%; max-width: 325px;">
                         <table cellpadding="0" cellspacing="0" border="0" width="100%" style="width: 88%;">
                             <tbody>
@@ -76,8 +77,9 @@
                         </table>
                     </div>
                     <!--[if (gte mso 9)|(IE)]>
-                                                                                                        </td></tr>
-                                                                                                        </table><![endif]-->
+                        </td></tr>
+                        </table>
+                    <![endif]-->
                 </td>
             </tr>
         </tbody>
@@ -88,8 +90,9 @@
             <tr>
                 <td align="center" valign="top">
                     <!--[if (gte mso 9)|(IE)]>
-                                                                                                        <table border="0" cellspacing="0" cellpadding="0">
-                                                                                                        <tr><td align="center" valign="top" width="325"><![endif]-->
+                        <table border="0" cellspacing="0" cellpadding="0">
+                        <tr><td align="center" valign="top" width="325">
+                    <![endif]-->
                     <div style="display: inline-block; vertical-align: top; width: 100%; max-width: 325px;">
                         <table cellpadding="0" cellspacing="0" border="0" width="100%"
                             style="width: 88%;">
@@ -175,6 +178,8 @@
         Rien de plus simple, il suffit de vous rendre sur JeVeuxAider.gouv.fr et de renseigner votre ville ou département. Vous
         pouvez ensuite trier selon vos centres d’intérêt et lancer la recherche pour faire votre choix parmi de nombreuses
         missions de bénévolat.
-        Si vous avez un doute, <a class="link" href="#">regardez notre vidéo ›</a>
+        Si vous avez un doute, <a class="link"
+            href="https://www.youtube.com/watch?v=R-gEYk-06I4&ab_channel=JeVeuxAider-gouv-fr">regardez
+            notre vidéo ›</a>
     @endcomponent
 @endcomponent
