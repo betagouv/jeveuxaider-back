@@ -252,7 +252,6 @@ class NotificationController extends Controller
                 break;
             case 'responsable_waiting_actions':
                 $notification = new ResponsableDailyTodo([1, 2, 3]);
-                ray($notification->toMail($user));
                 break;
             case 'user_anonymize':
                 $notification = new UserAnonymize();
