@@ -31,7 +31,7 @@
         Plus de 10 000 missions de bénévolat vous attendent sur JeVeuxAider.gouv.fr
         @component('mail::components.space', ['height' => 24])
         @endcomponent
-        @component('mail::button', ['url' => $url, 'align' => 'left'])
+        @component('mail::button', ['url' => $urlCTA, 'align' => 'left'])
             Trouver une nouvelle mission
         @endcomponent
     @endcomponent

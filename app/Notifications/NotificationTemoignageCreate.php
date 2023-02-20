@@ -72,7 +72,7 @@ class NotificationTemoignageCreate extends Notification implements ShouldQueue
         return (new MailMessage)
             ->subject($notifiable->profile->first_name . ', comment s’est passée votre mission ?')
             ->markdown('emails.benevoles.mission-over', [
-                'url' => url(config('app.front_url') . '/temoignages/' . $this->notificationTemoignage->toke),
+                'url' => url(config('app.front_url') . '/temoignages/' . $this->notificationTemoignage->token),
                 'mission' => $this->mission,
                 'organisation' =>  $this->structure,
                 'notifiable' => $notifiable

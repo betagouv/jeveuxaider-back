@@ -63,6 +63,7 @@ class ParticipationDeclined extends Notification implements ShouldQueue
             ->subject('Quel dommage… votre participation vient d’être déclinée')
             ->markdown('emails.benevoles.participation-declined', [
                 'url' => $this->participation->conversation ? url(config('app.front_url') . '/messages/'.$this->participation->conversation->id) : url(config('app.front_url') . '/messages'),                'mission' => $this->participation->mission,
+                'urlCTA' => url(config('app.front_url') . '/missions-benevolat'),
                 'structure' => $this->participation->mission->structure,
                 'responsable' => $this->participation->mission->responsable,
                 'message' => $this->message,
