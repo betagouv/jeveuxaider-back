@@ -651,7 +651,7 @@ class StatisticsPublicController extends Controller
         $results = DB::select("
                 SELECT
                     CASE
-                        WHEN age(birthday) BETWEEN '15 years'::interval AND '20 years'::interval THEN 'BETWEEN_15_AND_20'
+                        WHEN age(birthday) BETWEEN '16 years'::interval AND '20 years'::interval THEN 'BETWEEN_16_AND_20'
                         WHEN age(birthday) BETWEEN '20 years'::interval AND '25 years'::interval THEN 'BETWEEN_20_AND_25'
                         WHEN age(birthday) BETWEEN '25 years'::interval AND '30 years'::interval THEN 'BETWEEN_25_AND_30'
                         WHEN age(birthday) BETWEEN '30 years'::interval AND '35 years'::interval THEN 'BETWEEN_30_AND_35'
@@ -668,7 +668,7 @@ class StatisticsPublicController extends Controller
                     END AS age_range,
                     count(*) AS user_count
                     FROM profiles
-                    WHERE age(birthday) > '15 years'::interval AND birthday IS NOT NULL
+                    WHERE age(birthday) > '16 years'::interval AND birthday IS NOT NULL
                     AND COALESCE(profiles.department,'') ILIKE :department
                     AND profiles.created_at BETWEEN :start and :end
                     GROUP BY age_range
