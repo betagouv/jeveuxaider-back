@@ -11,8 +11,8 @@
             <tr>
                 <td align="center" valign="top">
                     <!--[if (gte mso 9)|(IE)]>
-                                    <table border="0" cellspacing="0" cellpadding="0">
-                                    <tr><td align="center" valign="top" width="325"><![endif]-->
+                                        <table border="0" cellspacing="0" cellpadding="0">
+                                        <tr><td align="center" valign="top" width="325"><![endif]-->
                     <div style="display: inline-block; vertical-align: top; width: 325px;">
                         <table class="mob_card" cellpadding="0" cellspacing="0" border="0" width="100%"
                             style="width: 100% !important; max-width: 295px;">
@@ -77,8 +77,8 @@
                         </table>
                     </div>
                     <!--[if (gte mso 9)|(IE)]>
-                                                                                                        </td></tr>
-                                                                                                        </table><![endif]-->
+                                                                                                            </td></tr>
+                                                                                                            </table><![endif]-->
                 </td>
             </tr>
         </tbody>
@@ -89,8 +89,8 @@
             <tr>
                 <td align="center" valign="top">
                     <!--[if (gte mso 9)|(IE)]>
-                                                                                                        <table border="0" cellspacing="0" cellpadding="0">
-                                                                                                        <tr><td align="center" valign="top" width="325"><![endif]-->
+                                                                                                            <table border="0" cellspacing="0" cellpadding="0">
+                                                                                                            <tr><td align="center" valign="top" width="325"><![endif]-->
                     <div style="display: inline-block; vertical-align: top; width: 325px;">
                         <table class="mob_card" cellpadding="0" cellspacing="0" border="0" width="100%"
                             style="width: 100% !important; max-width: 295px;">
@@ -155,8 +155,8 @@
                         </table>
                     </div>
                     <!--[if (gte mso 9)|(IE)]>
-                                                                </td></tr></table>
-                                                            <![endif]-->
+                                                                    </td></tr></table>
+                                                                <![endif]-->
                 </td>
             </tr>
         </tbody>
@@ -170,6 +170,8 @@
         Rien de plus simple, il suffit de vous rendre sur JeVeuxAider.gouv.fr et de renseigner votre ville ou département. Vous
         pouvez ensuite trier selon vos centres d’intérêt et lancer la recherche pour faire votre choix parmi de nombreuses
         missions de bénévolat.
-        Si vous avez un doute, <a class="link" href="#">regardez notre vidéo ›</a>
+        Si vous avez un doute, <a class="link"
+            href="https://reserve-civique.crisp.help/fr/article/comment-trouver-une-mission-sur-jeveuxaidergouvfr-a1fbnf/">regardez
+            notre guide ›</a>
     @endcomponent
 @endcomponent

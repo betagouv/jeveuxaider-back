@@ -66,8 +66,8 @@
                         </table>
                         @component('mail::components.space', ['height' => 35, 'color' => '#f3f3f3'])
                         @endcomponent
-                        <div style="color: #868686; font-size: 17px; line-height: 20px;">
-                            Cet e-mail a été envoyé suite à <br>votre inscription sur JeVeuxAider.gouv.fr
+                        <div style="color: #868686; font-size: 17px; line-height: 20px; max-width: 300px;">
+                            Cet e-mail a été envoyé suite à votre inscription sur JeVeuxAider.gouv.fr
                         </div>
                         @component('mail::components.space', ['height' => 35, 'color' => '#f3f3f3'])
                         @endcomponent

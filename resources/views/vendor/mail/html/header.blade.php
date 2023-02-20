@@ -10,9 +10,9 @@
 <table cellpadding="0" cellspacing="0" border="0" width="100%"
     style="width: 100% !important; min-width: 100%; max-width: 100%;">
     <tr>
-        <td align="center" valign="bottom" height="161"
+        <td class="header-logo" align="center" valign="bottom"
             background="{{ config('app.front_url') }}/images/mail/header.jpg"
-            style="width: 100%; background-image:url({{ config('app.front_url') }}/images/mail/header.jpg); background-repeat: no-repeat; background-position: top center;"
+            style="width: 100%; background-size: cover; background-image:url({{ config('app.front_url') }}/images/mail/header.jpg); background-repeat: no-repeat; background-position: center center;"
             bgcolor="#f5f8fa">
             <!--[if (gte mso 9)|(IE)]>
                 <v:rect xmlns:v="urn:schemas-microsoft-com:vml" fill="true" stroke="false" style="width:100%;height:161px;">
