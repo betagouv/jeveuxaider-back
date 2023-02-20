@@ -8,7 +8,7 @@
                 style="width: 88% !important; min-width: 88%; max-width: 88%;">
                 <tr>
                     <td class="footer-links-wrapper" align="center" valign="top">
-                        <a href="https://www.jeveuxaider.gouv.fr/missions-benevolat">
+                        <a href="{{ config('app.front_url') }}/missions-benevolat">
                             Trouver une mission
                         </a>
                         <span class="bull">&bull;</span>
@@ -16,7 +16,7 @@
                             Foire aux questions
                         </a>
                         <span class="bull">&bull;</span>
-                        <a href="https://www.jeveuxaider.gouv.fr/profile">
+                        <a href="{{ config('app.front_url') }}/profile">
                             Mon compte
                         </a>
                     </td>

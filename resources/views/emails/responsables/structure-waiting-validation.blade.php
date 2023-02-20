@@ -17,7 +17,15 @@
         Vous pouvez dès à présent proposer des missions de bénévolat. Elles seront visibles sur la plateforme dès que
         l’organisation aura été validée. De quoi trouver vos bénévoles au plus vite !
     @endcomponent
-    @component('mail::button', ['url' => $url])
-        Ajoutez vos missions
-    @endcomponent
+    <table cellpadding="0" cellspacing="0" border="0" width="88%" style="width: 88%;">
+        <tbody>
+            <tr>
+                <td align="left" valign="top">
+                @component('mail::button', ['url' => $url])
+                    Ajoutez vos missions
+                @endcomponent
+                </td>
+            </tr>
+        </tbody>
+    </table>
 @endcomponent
