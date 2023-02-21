@@ -6,7 +6,7 @@
                 <table class="btn-wrapper" cellpadding="0" cellspacing="0" border="0" width="100%">
                     <tbody>
                         <tr>
-                            <td align="center" valign="middle" style="padding: 16px 24px">
+                            <td align="center" valign="middle">
                                 <a class="button" href="{{ $url }}">
                                     {{ $slot }}
                                 </a>

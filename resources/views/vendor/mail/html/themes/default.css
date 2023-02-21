@@ -41,7 +41,6 @@ ul > li > p {
 .btn-wrapper {
     width: 100% !important;
     max-width: 310px;
-    background: #070191;
 }
 
 .btn-wrapper a.button {
@@ -51,6 +50,9 @@ ul > li > p {
     text-decoration: none;
     /* white-space: nowrap; */
     font-weight: 400;
+    padding: 16px 24px;
+    line-height: normal;
+    display: inline-block;
 }
 
 .headline-wrapper .headline {
