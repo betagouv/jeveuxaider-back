@@ -20,7 +20,7 @@
         <tr>
             <td width="10" style="width: 10px; max-width: 10px; min-width: 10px;">&nbsp;</td>
             <td align="center" valign="top">
-                @component('mail::components.space', ['height' => 10, 'color' => '#070191'])
+                @component('mail::components.space', ['height' => 10, 'color' => '#070191', 'msoNoSpace' => true])
                 @endcomponent
             </td>
             <td width="10" style="width: 10px; max-width: 10px; min-width: 10px;">&nbsp;</td>

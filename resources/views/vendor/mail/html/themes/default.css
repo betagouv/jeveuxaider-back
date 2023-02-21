@@ -45,15 +45,17 @@ ul > li > p {
 
 .btn-wrapper a.button {
     background: #070191;
+    text-underline-color:#070191;
     color: #ffffff;
     font-size: 20px;
     text-decoration: none;
-    /* white-space: nowrap; */
     font-weight: 400;
     padding: 16px 24px;
     line-height: normal;
     display: inline-block;
     mso-padding-alt: 0;
+    box-sizing: border-box;
+    width: 100%;
 }
 
 .headline-wrapper .headline {
