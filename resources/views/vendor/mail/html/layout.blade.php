@@ -12,6 +12,13 @@
         div {margin:0 !important;}
     </style>
     <![endif]-->
+
+    <style>
+        @media screen and (max-width:600px) {
+            .footer-links-wrapper a { display: block !important; }
+            .footer-links-wrapper .bull { display: none !important; }
+        }
+    </style>
 </head>
 
 <body style="margin: 0; padding: 0;">
@@ -25,7 +32,7 @@
                 <table cellpadding="0" cellspacing="0" border="0" width="750" class="table750"
                     style="width: 100%; max-width: 750px; background: #f3f3f3;">
                     <tr>
-                        <td class="mob_pad" width="25" style="width: 25px; max-width: 25px; min-width: 25px;">&nbsp;
+                        <td class="mob_pad" width="16" style="width: 16px; max-width: 16px; min-width: 16px;">&nbsp;
                         </td>
                         <td align="center" valign="top" style="background: #ffffff;">
 
@@ -61,7 +68,7 @@
                             {{ $footer ?? '' }}
 
                         </td>
-                        <td class="mob_pad" width="25" style="width: 25px; max-width: 25px; min-width: 25px;">
+                        <td class="mob_pad" width="16" style="width: 16px; max-width: 16px; min-width: 16px;">
                             &nbsp;</td>
                     </tr>
                 </table>

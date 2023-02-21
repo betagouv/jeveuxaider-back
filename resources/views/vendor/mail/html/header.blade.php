@@ -2,7 +2,7 @@
     style="width: 100% !important; min-width: 100%; max-width: 100%; background: #f3f3f3;">
     <tr>
         <td align="right" valign="top">
-            <div class="top_pad" style="height: 25px; line-height: 25px; font-size: 23px;">
+            <div class="top_pad" style="height: 16px; line-height: 16px; font-size: 23px;">
                 &nbsp;</div>
         </td>
     </tr>
