@@ -8,7 +8,13 @@
                         <tr>
                             <td align="center" valign="middle">
                                 <a class="button" href="{{ $url }}">
+                                    <!--[if mso]>
+                                    <i style="letter-spacing: 25px; mso-font-width: -100%; mso-text-raise: 30pt;">&nbsp;</i>
+                                    <![endif]-->
                                     {{ $slot }}
+                                    <!--[if mso]>
+                                    <i style="letter-spacing: 25px; mso-font-width: -100%;">&nbsp;</i>
+                                    <![endif]-->
                                 </a>
                             </td>
                         </tr>
