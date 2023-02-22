@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class RegisterUserResponsable extends Notification implements ShouldQueue
+class StructureWaitingValidation extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -50,12 +50,13 @@ class RegisterUserResponsable extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject('Votre organisation est en cours de validation')
-            ->greeting('Bonjour '.$notifiable->profile->first_name.',')
-            ->line('Vous vous êtes inscrit sur JeVeuxAider.gouv.fr, la plateforme publique du bénévolat.')
-            ->line('Votre organisation « '.$this->structure->name.' » est en cours de validation.')
-            ->line('Vous pouvez désormais proposer des missions de bénévolat qui seront visibles sur la plateforme une fois votre organisation validée.')
-            ->action('Créer une mission', url(config('app.front_url').'/admin/organisations/'.$this->structure->id.'/missions/add'));
+            ->subject('Plus que quelques étapes avant de commencer à recruter des bénévoles !')
+            ->markdown('emails.responsables.structure-waiting-validation', [
+                'url' => url(config('app.front_url').'/admin/organisations/'.$this->structure->id.'/missions/add'),
+                'structure' => $this->structure,
+                'notifiable' => $notifiable
+            ])
+            ->tag('app-responsable-organisation-en-attente-de-validation');
     }
 
     /**

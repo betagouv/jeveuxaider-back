@@ -59,7 +59,7 @@ class BenevoleCejNoParticipation extends Notification implements ShouldQueue
             ->line(new HtmlString('<li>♻️ <a href="'.config('app.front_url').'/activites/ramassage-de-dechets">Ramassage de déchets</a></li>'))
             ->line(new HtmlString('<li>👨‍🚒 <a href="'.config('app.front_url').'/activites/secourisme-et-securite-civile">Secourisme</a></li></ul>'))
             ->line('Intéressé par d’autres types de missions ? Retrouvez des milliers de missions près de chez vous ou bien à distance 👇')
-            ->action('Je trouve une mission', url(config('app.front_url').'/missions-benevolat'));
+            ->action('Trouver votre mission', url(config('app.front_url').'/missions-benevolat'));
     }
 
     /**

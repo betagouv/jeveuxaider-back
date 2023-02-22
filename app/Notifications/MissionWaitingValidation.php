@@ -56,12 +56,13 @@ class MissionWaitingValidation extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject('Votre mission a bien été déposée')
-            ->greeting('Bonjour '.$notifiable->first_name.',')
-            ->line('Vous avez proposé une mission : '.$this->mission->name.'.')
-            ->line('Cette mission, avant d’être proposée à un ou plusieurs bénévoles, doit être validée par le service en charge des missions proposées sur JeVeuxAider.gouv.fr.')
-            ->line('Nous vous informerons sous peu de la validation de la mission que vous avez proposée.')
-            ->action('Accéder à mon compte', url(config('app.front_url').'/admin/missions/'.$this->mission->id));
+            ->subject('😊 Merci d’avoir proposé une mission !')
+            ->markdown('emails.responsables.mission-waiting-validation', [
+                'url' => url(config('app.front_url').'/admin/missions/'.$this->mission->id),
+                'mission' => $this->mission,
+                'notifiable' => $notifiable
+            ])
+            ->tag('app-responsable-mission-en-attente-de-validation');
     }
 
     /**

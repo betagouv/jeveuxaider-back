@@ -56,10 +56,13 @@ class MissionSignaled extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject('Votre mission a été signalée')
-            ->greeting('Bonjour '.$notifiable->first_name.',')
-            ->line('Votre mission « '.$this->mission->name.' » ne répond pas aux exigences de la Charte de la Réserve Civique et/ou aux règles fixés par le Décret n° 2017-930 du 9 mai 2017 relatif à la réserve civique.')
-            ->line('Par conséquent, votre mission « '.$this->mission->name.' » a été signalée et dépubliée de la plateforme et les éventuels bénévoles qui y étaient inscrits ont été notifiés de son annulation.');
+            ->subject('Mince, votre mission ne respecte par la Charte de la Réserve Civique')
+            ->markdown('emails.responsables.mission-signaled', [
+                'url' => url(config('app.front_url').'/admin/missions/'.$this->mission->id),
+                'mission' => $this->mission,
+                'notifiable' => $notifiable
+            ])
+            ->tag('app-responsable-mission-signalee');
     }
 
     /**

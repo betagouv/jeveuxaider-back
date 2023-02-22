@@ -262,7 +262,7 @@ class User extends Authenticatable
             // Trigger updated_at refresh.
             $participation->conversation->touch();
 
-            $participation->profile->notify(new ParticipationDeclined($participation, $reason));
+            $participation->profile->notify(new ParticipationDeclined($participation, $message, $reason));
         }
 
         $participation->update(['state' => 'Refusée']);

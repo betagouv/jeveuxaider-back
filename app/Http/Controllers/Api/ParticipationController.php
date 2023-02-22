@@ -14,6 +14,7 @@ use App\Models\Profile;
 use App\Models\Temoignage;
 use App\Models\User;
 use App\Notifications\ParticipationBenevoleCanceled;
+use App\Notifications\ParticipationCreated;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -94,6 +95,10 @@ class ParticipationController extends Controller
                 $currentUser->sendMessage($conversation->id, request('content'));
             }
 
+            if ($participation->profile) {
+                $participation->profile->notify(new ParticipationCreated($participation));
+            }
+
             return $participation;
         }
 
@@ -143,7 +148,7 @@ class ParticipationController extends Controller
             // Trigger updated_at refresh.
             $participation->conversation->touch();
 
-            $participation->mission->responsable->notify(new ParticipationBenevoleCanceled($participation, $request->input('reason')));
+            $participation->mission->responsable->notify(new ParticipationBenevoleCanceled($participation, $request->input('content'), $request->input('reason')));
         }
 
         $participation->state = 'Annulée';

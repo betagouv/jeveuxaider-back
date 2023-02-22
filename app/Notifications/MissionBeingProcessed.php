@@ -55,14 +55,14 @@ class MissionBeingProcessed extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $message = (new MailMessage)
-            ->subject('Votre mission est en cours de traitement')
-            ->greeting('Bonjour '.$notifiable->first_name.',');
-        $message->line('Votre mission « '.$this->mission->name.' » est actuellement en cours de traitement.');
-        $message->line('En vue d’instruire votre proposition de mission, le référent départemental vous contactera très prochainement pour obtenir des informations complémentaires sur le format de mission envisagé.');
-        $message->line('Pour toute question, vous pouvez contacter le Support Utilisateurs en répondant à ce mail.');
-
-        return $message;
+        return (new MailMessage)
+            ->subject('Votre mission est en cours de traitement ⏳')
+            ->markdown('emails.responsables.mission-being-processed', [
+                'url' => url(config('app.front_url').'/admin/missions/'.$this->mission->id),
+                'mission' => $this->mission,
+                'notifiable' => $notifiable
+            ])
+            ->tag('app-responsable-mission-en-cours-de-traitement');
     }
 
     /**

@@ -62,7 +62,7 @@ class MissionInDraft extends Notification implements ShouldQueue
             ->greeting('Bonjour '.$notifiable->first_name.' 👋,')
             ->line("L'une de vos missions est encore au statut « Brouillon » : les visiteurs ne peuvent pas la consulter pour le moment. C'est dommage !")
             ->line('Pour la mettre en ligne, il suffit de modifier la mission concernée puis de cliquer sur le bouton « '.$label.' » en bas de page.')
-            ->action('Je change le statut de la mission', url(config('app.front_url').'/admin/missions/'.$this->mission->id.'/edit'))
+            ->action('Modifier la mission', url(config('app.front_url').'/admin/missions/'.$this->mission->id.'/edit'))
             ->line('En cas de besoin, vous pouvez répondre à ce mail pour échanger directement avec le support utilisateurs !');
     }
 

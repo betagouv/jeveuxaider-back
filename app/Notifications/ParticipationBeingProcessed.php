@@ -55,17 +55,13 @@ class ParticipationBeingProcessed extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $message = (new MailMessage)
-            ->subject('Votre demande de participation est en cours de traitement')
-            ->greeting('Bonjour '.$notifiable->first_name.',')
-            ->line('Votre demande de participation à la mission « '.$this->participation->mission->name.' » est actuellement en cours de traitement.')
-            ->line('Le responsable de la mission vous contactera très prochainement pour un premier échange.')
-            ->line('En cas de besoin, vous pouvez le contacter directement via la messagerie de JeVeuxAider.gouv.fr.');
-
-        $url = $this->participation->conversation ? '/messages/'.$this->participation->conversation->id : '/messages';
-        $message->action('Accéder à ma messagerie', url(config('app.front_url').$url));
-
-        return $message;
+        return (new MailMessage)
+            ->subject('⏳ Votre demande de participation est en cours de traitement')
+            ->markdown('emails.benevoles.participation-being-processed', [
+                'url' => $this->participation->conversation ? url(config('app.front_url') . '/messages/'.$this->participation->conversation->id) : url(config('app.front_url') . '/messages'),                'mission' => $this->participation->mission,
+                'notifiable' => $notifiable
+            ])
+            ->tag('app-benevole-participation-being-processed');
     }
 
     /**
