@@ -126,8 +126,8 @@ class ReseauController extends Controller
     public function lead(Request $request)
     {
         Notification::route('mail', [
-            'nassim.merzouk@beta.gouv.fr' => 'Joe',
-            'joe.achkar@beta.gouv.fr' => 'Nassim',
+            'nivine.katanji@beta.gouv.fr' => 'Nivine',
+            'joe.achkar@beta.gouv.fr' => 'Joe',
         ])->notify(new ReseauNewLead($request->all()));
 
         return true;
