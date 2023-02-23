@@ -12,10 +12,10 @@ trait HasRoles
 {
     public function roles()
     {
-        return $this->belongsToMany(Role::class, 'rolables')->withPivot('rolable_type', 'rolable_id');
+        return $this->belongsToMany(Role::class, 'rolables')->withPivot('rolable_type', 'rolable_id', 'invited_by_user_id');
     }
 
-    public function assignRole($roleName, $rolable = null, $fonction = null)
+    public function assignRole($roleName, $rolable = null, $fonction = null, $invitedByUserId = null)
     {
         if ($this->hasRole($roleName)) {
             return false;
@@ -27,6 +27,7 @@ trait HasRoles
             'rolable_type' => $rolable ? $rolable::class : null,
             'rolable_id' => $rolable ? $rolable->id : null,
             'fonction' => $fonction,
+            'invited_by_user_id' => $invitedByUserId
         ]);
 
         $this->resetContextRole();

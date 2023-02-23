@@ -146,9 +146,9 @@ class Territoire extends Model implements HasMedia
         return $this->belongsTo('App\Models\Structure');
     }
 
-    public function addResponsable(User $user)
+    public function addResponsable(User $user, $fonction = null, $invitedByUserId = null)
     {
-        return $user->assignRole('responsable_territoire', $this);
+        return $user->assignRole('responsable_territoire', $this, $fonction, $invitedByUserId);
     }
 
     public function deleteResponsable(User $user)

@@ -67,7 +67,7 @@ class Structure extends Model implements HasMedia
 
     public function searchableAs()
     {
-        return config('scout.prefix').'_covid_organisations';
+        return config('scout.prefix') . '_covid_organisations';
     }
 
     public function getCheckFieldsAttribute()
@@ -243,7 +243,7 @@ class Structure extends Model implements HasMedia
 
     public function getCeuAttribute()
     {
-        if (! isset($this->attributes['structure_publique_etat_type'])) {
+        if (!isset($this->attributes['structure_publique_etat_type'])) {
             return false;
         }
 
@@ -315,9 +315,9 @@ class Structure extends Model implements HasMedia
         return $this->morphToMany(Domaine::class, 'domainable')->wherePivot('field', 'structure_domaines');
     }
 
-    public function addMember(User $user, $fonction = null)
+    public function addMember(User $user, $fonction = null, $invitedByUserId = null)
     {
-        return $user->assignRole('responsable', $this, $fonction);
+        return $user->assignRole('responsable', $this, $fonction, $invitedByUserId);
     }
 
     public function deleteMember(User $user)
@@ -364,12 +364,14 @@ class Structure extends Model implements HasMedia
         return $this;
     }
 
-    public function getResponseRatioPointsAttribute(){
+    public function getResponseRatioPointsAttribute()
+    {
         return round($this->response_ratio * 0.3);
     }
 
-    public function getResponseTimePointsAttribute(){
-        $scoreResponseTime = round(100 - (100 * ($this->response_time / (60*60*24))) / 10);
+    public function getResponseTimePointsAttribute()
+    {
+        $scoreResponseTime = round(100 - (100 * ($this->response_time / (60 * 60 * 24))) / 10);
         $scoreResponseTime = $scoreResponseTime > 0 ? $scoreResponseTime : 0;
 
         return round($scoreResponseTime * 0.7);
@@ -380,18 +382,18 @@ class Structure extends Model implements HasMedia
         $avg = Temoignage::ofStructure($this->id)->avg('grade');
 
         // no testimonials, no bonus
-        if(!$avg){
+        if (!$avg) {
             return 0;
         }
 
         $avg = $avg - 2.5;
 
-        if($avg > 0){
+        if ($avg > 0) {
             return round($avg * 4, 1);
         }
 
-        if($avg < 0){
-            return round($avg * (10/1.5), 1);
+        if ($avg < 0) {
+            return round($avg * (10 / 1.5), 1);
         }
 
         return 0;
@@ -540,7 +542,7 @@ class Structure extends Model implements HasMedia
             'city' => $this->city,
             'department' => $this->department,
             'country' => $this->country,
-            'department_name' => $this->department && isset(config('taxonomies.departments.terms')[$this->department]) ? $this->department.' - '.config('taxonomies.departments.terms')[$this->department] : null,
+            'department_name' => $this->department && isset(config('taxonomies.departments.terms')[$this->department]) ? $this->department . ' - ' . config('taxonomies.departments.terms')[$this->department] : null,
             'website' => $this->website,
             'facebook' => $this->facebook,
             'twitter' => $this->twitter,
