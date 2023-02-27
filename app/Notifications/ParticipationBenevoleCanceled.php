@@ -18,7 +18,7 @@ class ParticipationBenevoleCanceled extends Notification implements ShouldQueue
      * @var Participation
      */
     public $participation;
-
+    public $message;
     public $reason;
 
     /**
@@ -26,9 +26,10 @@ class ParticipationBenevoleCanceled extends Notification implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(Participation $participation, $reason)
+    public function __construct(Participation $participation, $message, $reason)
     {
         $this->participation = $participation;
+        $this->message = $message;
         $this->reason = $reason;
     }
 
@@ -58,19 +59,16 @@ class ParticipationBenevoleCanceled extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $message = (new MailMessage)
-            ->subject('Une participation a été annulée')
-            ->greeting('Bonjour '.$notifiable->first_name.',')
-            ->line($this->participation->profile->full_name.' a annulée sa participation à la mission « '.$this->participation->mission->name.' ».');
-
-        if ($this->reason && $this->reason != 'other') {
-            $message->line('La raison est la suivante : '.config('taxonomies.participation_canceled_by_benevole_reasons.terms')[$this->reason]);
-        }
-
-        $url = $this->participation->conversation ? '/messages/'.$this->participation->conversation->id : '/messages';
-        $message->action('Accéder à ma messagerie', url(config('app.front_url').$url));
-
-        return $message;
+        return (new MailMessage)
+            ->subject('😔 Oh non… '.$this->participation->profile->full_name.' a annulé sa participation')
+            ->markdown('emails.responsables.participation-canceled', [
+                'url' => $this->participation->conversation ? url(config('app.front_url') . '/messages/'.$this->participation->conversation->id) : url(config('app.front_url') . '/messages'),                'mission' => $this->participation->mission,
+                'benevole' => $this->participation->profile,
+                'message' => $this->message && $this->message != '' ? $this->message : null,
+                'reason' => $this->reason && $this->reason != 'other' ? config('taxonomies.participation_canceled_by_benevole_reasons.terms')[$this->reason] : null,
+                'notifiable' => $notifiable
+            ])
+            ->tag('app-responsable-participation-annulee-par-benevole');
     }
 
     /**

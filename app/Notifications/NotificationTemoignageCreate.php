@@ -70,12 +70,14 @@ class NotificationTemoignageCreate extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject("Comment s'est déroulée votre mission ?")
-            ->greeting('Bonjour ' . $notifiable->profile->first_name . ',')
-            ->line('La mission « ' . $this->mission->name . ' » est désormais finie ! ' . $this->structure->name . " et toute l'équipe de JVA tenons à vous remercier pour votre engagement.")
-            ->line('Prenez désormais le temps de nous raconter votre expérience 😉')
-            ->action('Raconter mon expérience', url(config('app.front_url') . '/temoignages/' . $this->notificationTemoignage->token))
-            ->line('À bientôt sur JeVeuxAider.gouv.fr !');
+            ->subject($notifiable->profile->first_name . ', comment s’est passée votre mission ?')
+            ->markdown('emails.benevoles.mission-over', [
+                'url' => url(config('app.front_url') . '/temoignages/' . $this->notificationTemoignage->token),
+                'mission' => $this->mission,
+                'organisation' =>  $this->structure,
+                'notifiable' => $notifiable
+            ])
+            ->tag('app-benevole-mission-over-temoignage');
     }
 
     /**

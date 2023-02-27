@@ -37,8 +37,11 @@ class Mission extends Model
         'latitude' => 'float',
         'longitude' => 'float',
         'is_autonomy' => 'boolean',
+        'is_qpv' => 'boolean',
         'autonomy_zips' => 'json',
         'dates' => 'json',
+        'prerequisites' => 'array',
+        'is_registration_open' => 'boolean',
     ];
 
     protected $attributes = [
@@ -101,6 +104,10 @@ class Mission extends Model
         $activity = $this->template_id ? $this->template->activity : $this->activity;
         $publicsBeneficiaires = config('taxonomies.mission_publics_beneficiaires.terms');
 
+        if ($this->end_date) {
+            $trueEndDate = (new Carbon($this->end_date))->endOfDay();
+        }
+
         $mission = [
             'id' => $this->id,
             'name' => $this->name,
@@ -118,7 +125,7 @@ class Mission extends Model
                 'id' => $this->structure->id,
                 'name' => $this->structure->name,
                 'response_time' => $this->structure->response_time,
-                'response_time_score' => $this->structure->response_time_score,
+                'score' => $this->structure->score,
                 'response_ratio' => $this->structure->response_ratio,
                 'reseau' => $this->structure->reseau ? [
                     'id' => $this->structure->reseau->id,
@@ -153,7 +160,6 @@ class Mission extends Model
             'end_date' => $this->end_date ? strtotime($this->end_date) : null,
             'illustrations' => $this->illustrations->all(),
             'template_id' => $this->template_id,
-            'score' => $this->score,
             'is_priority' => $this->is_priority,
             'is_snu_mig_compatible' => $this->is_snu_mig_compatible,
             'snu_mig_places' => $this->snu_mig_places,
@@ -167,8 +173,9 @@ class Mission extends Model
             'publics_volontaires' => $this->publics_volontaires,
             'is_autonomy' => $this->is_autonomy,
             'autonomy_zips' => $this->is_autonomy && count($this->autonomy_zips) > 0 ? $this->autonomy_zips : null,
-            'is_outdated' => $this->end_date && $this->end_date < Carbon::today() ? true : false,
-            'tags' => $this->tags->pluck('name')
+            'is_outdated' => isset($trueEndDate) && (Carbon::today())->gt($trueEndDate) ? true : false,
+            'tags' => $this->tags->pluck('name'),
+            'is_registration_open' => $this->is_registration_open,
         ];
 
         if ($this->is_autonomy) {
@@ -276,14 +283,6 @@ class Mission extends Model
     public function setNameAttribute($value)
     {
         $this->attributes['name'] = isset($this->attributes['template_id']) ? null : $value;
-    }
-
-    public function getScoreAttribute()
-    {
-        // Score = ( Taux de reponse score + Response time score ) / 2
-        $structure_response_ratio = $this->structure->response_ratio ?? 50;
-
-        return round(($this->structure->response_time_score + $structure_response_ratio) / 2);
     }
 
     public function scopeHasPlacesLeft($query)

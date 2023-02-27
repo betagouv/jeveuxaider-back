@@ -55,20 +55,15 @@ class MissionValidated extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $message = (new MailMessage)
-            ->subject('Votre mission est validée !')
-            ->greeting('Bonjour '.$notifiable->first_name.',');
-
-        if ($this->mission->city && $this->mission->type == 'Mission en présentiel') {
-            $message->line('Nous avons le plaisir de vous informer que la mission « '.$this->mission->name.' » proposée à '.$this->mission->city.' a bien été validée. Elle sera proposée aux bénévoles de JeVeuxAider.gouv.fr.');
-        } else {
-            $message->line('Nous avons le plaisir de vous informer que la mission « '.$this->mission->name.' » a bien été validée. Elle sera proposée aux bénévoles de JeVeuxAider.gouv.fr.');
-        }
-
-        $message->line("Dès qu'un bénévole candidatera à votre mission, nous vous transmettrons automatiquement ses coordonnées. Vous pourrez alors valider ou refuser sa candidature, et échanger directement avec lui sur la messagerie intégrée à la plateforme.")
-            ->action('Voir ma mission en ligne', url(config('app.front_url').$this->mission->full_url));
-
-        return $message;
+        return (new MailMessage)
+            ->subject('🔎 Votre mission est désormais visible par les bénévoles !')
+            ->markdown('emails.responsables.mission-validated', [
+                'marketPlaceUrl' => url(config('app.front_url').'/admin/missions/'.$this->mission->id.'/trouver-des-benevoles'),
+                'missionUrl' => url(config('app.front_url').$this->mission->full_url),
+                'mission' => $this->mission,
+                'notifiable' => $notifiable
+            ])
+            ->tag('app-responsable-mission-validee');
     }
 
     /**

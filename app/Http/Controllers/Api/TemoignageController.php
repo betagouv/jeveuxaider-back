@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Filters\FiltersTemoignageOrganisationSearch;
 use App\Filters\FiltersTemoignageSearch;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\TemoignageCreateRequest;
@@ -23,6 +24,7 @@ class TemoignageController extends Controller
                 AllowedFilter::exact('participation.mission.id'),
                 AllowedFilter::exact('grade'),
                 AllowedFilter::custom('search', new FiltersTemoignageSearch),
+                AllowedFilter::custom('organisation', new FiltersTemoignageOrganisationSearch),
             )
             ->defaultSort('-created_at')
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));

@@ -33,15 +33,8 @@ class MissionPolicy
 
     public function delete(User $user, Mission $mission)
     {
-        if (in_array(request()->header('Context-Role'), ['referent', 'referent_regional'])) {
+        if (Mission::role(request()->header('Context-Role'))->where('id', $mission->id)->count() > 0) {
             return true;
-        }
-
-        if (request()->header('Context-Role') == 'responsable') {
-            $structureMembersIds = $mission->structure->members->pluck('user_id')->toArray();
-            if (in_array($user->id, $structureMembersIds)) {
-                return true;
-            }
         }
 
         return false;

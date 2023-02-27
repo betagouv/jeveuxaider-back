@@ -87,7 +87,9 @@ class StructureController extends Controller
             abort(403);
         }
 
-        return $structure->load(['territoire', 'members.profile.tags', 'members.profile.user', 'domaines', 'reseaux', 'logo', 'illustrations', 'overrideImage1', 'overrideImage2'])->append(['missing_fields', 'completion_rate']);
+        return $structure
+            ->load(['territoire', 'members.profile.tags', 'members.profile.user', 'domaines', 'reseaux', 'logo', 'illustrations', 'overrideImage1', 'overrideImage2'])
+            ->append(['missing_fields', 'completion_rate', 'permissions']);
     }
 
     public function associationSlugOrId(Request $request, $slugOrId)
@@ -146,10 +148,9 @@ class StructureController extends Controller
         }
 
         if ($request->has('reseaux')) {
-            if ($request->input('reseaux')) {
-                $reseaux = collect($request->input('reseaux'));
-                $structure->reseaux()->sync($reseaux->pluck('id'));
-            }
+            $reseaux = collect($request->input('reseaux'));
+            $values = $reseaux->pluck($reseaux, 'id')->toArray();
+            $structure->reseaux()->sync(array_keys($values));
         }
 
         if ($request->has('illustrations')) {
@@ -357,5 +358,17 @@ class StructureController extends Controller
         $structure->addMember($user);
 
         return $structure->members;
+    }
+
+    public function score(Request $request, Structure $structure)
+    {
+        return [
+            'response_ratio' => $structure->response_ratio,
+            'response_ratio_pts' => $structure->response_ratio_points,
+            'response_time' => $structure->response_time,
+            'response_time_pts' => $structure->response_time_points,
+            'testimonials_bonus' => $structure->testimonials_bonus,
+            'score' => $structure->score,
+        ];
     }
 }

@@ -25,6 +25,7 @@ class MissionTemplateRequest extends FormRequest
             'published' => 'boolean',
             'priority' => 'boolean',
             'state' => '',
+            'tags' => ''
         ];
     }
 }

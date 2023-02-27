@@ -22,6 +22,9 @@ use App\Notifications\DocumentSubmitted;
 use App\Notifications\ExportReady;
 use App\Notifications\InvitationSent;
 use App\Notifications\MessageCreated;
+use App\Notifications\MessageMissionCreated;
+use App\Notifications\MessageParticipationCreated;
+use App\Notifications\MessageStructureCreated;
 use App\Notifications\MissionAlmostFull;
 use App\Notifications\MissionBeingProcessed;
 use App\Notifications\MissionInDraft;
@@ -39,6 +42,7 @@ use App\Notifications\NotificationToBenevole;
 use App\Notifications\ParticipationBeingProcessed;
 use App\Notifications\ParticipationBenevoleCanceled;
 use App\Notifications\ParticipationCanceled;
+use App\Notifications\ParticipationCreated;
 use App\Notifications\ParticipationDeclined;
 use App\Notifications\ParticipationValidated;
 use App\Notifications\ParticipationValidatedCejAdviser;
@@ -46,7 +50,7 @@ use App\Notifications\ParticipationWaitingValidation;
 use App\Notifications\ReferentDailyTodo;
 use App\Notifications\ReferentSummaryDaily;
 use App\Notifications\ReferentSummaryMonthly;
-use App\Notifications\RegisterUserResponsable;
+use App\Notifications\StructureWaitingValidation;
 use App\Notifications\RegisterUserVolontaire;
 use App\Notifications\RegisterUserVolontaireCej;
 use App\Notifications\RegisterUserVolontaireCejAdviser;
@@ -81,14 +85,17 @@ class NotificationController extends Controller
             case 'benevole_register':
                 $notification = new RegisterUserVolontaire($user);
                 break;
-            case 'responsable_register':
-                $notification = new RegisterUserResponsable($structure);
+            case 'responsable_organisation_waiting_validation':
+                $notification = new StructureWaitingValidation($structure);
                 break;
             case 'responsable_still_in_draft':
                 $notification = new StructureInDraft($structure, 'j+1');
                 break;
             case 'responsable_participation_created':
                 $notification = new ParticipationWaitingValidation($participation);
+                break;
+            case 'benevole_participation_created':
+                $notification = new ParticipationCreated($participation);
                 break;
             case 'benevole_participation_being_processed':
                 $notification = new ParticipationBeingProcessed($participation);
@@ -104,10 +111,10 @@ class NotificationController extends Controller
                 $notification = new ParticipationCanceled($participation);
                 break;
             case 'responsable_participation_canceled':
-                $notification = new ParticipationBenevoleCanceled($participation, 'not_available');
+                $notification = new ParticipationBenevoleCanceled($participation, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer maximus neque nec nulla ullamcorper auctor. Aliquam in leo massa. Etiam luctus luctus volutpat. Curabitur interdum sem a urna finibus, ut porttitor ipsum elementum. Aliquam erat volutpat. Integer ultrices, metus id sagittis scelerisque, lectus ex feugiat massa, at laoreet ante enim ac ipsum.', 'not_available');
                 break;
             case 'benevole_participation_refused':
-                $notification = new ParticipationDeclined($participation, 'requirements_not_fulfilled');
+                $notification = new ParticipationDeclined($participation, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer maximus neque nec nulla ullamcorper auctor. Aliquam in leo massa. Etiam luctus luctus volutpat. Curabitur interdum sem a urna finibus, ut porttitor ipsum elementum. Aliquam erat volutpat. Integer ultrices, metus id sagittis scelerisque, lectus ex feugiat massa, at laoreet ante enim ac ipsum.', 'requirements_not_fulfilled');
                 break;
             case 'responsable_mission_created':
                 $notification = new MissionWaitingValidation($mission);
@@ -180,24 +187,56 @@ class NotificationController extends Controller
                 $message = Message::whereHas('from')->whereHas('conversation.conversable')->latest()->first();
                 $notification = new MessageCreated($message);
                 break;
+            case 'benevole_message_participation':
+                $message = Message::whereHas('from.roles',function (Builder $query){
+                    $query->where('roles.id', 2);
+                })->whereHas('conversation', function (Builder $query){
+                    $query->where('conversable_type', 'App\\Models\\Participation');
+                })->latest()->first();
+                $notification = new MessageParticipationCreated($message);
+                break;
+            case 'responsable_message_participation':
+                $message = Message::whereDoesntHave('from.roles')->whereHas('conversation', function (Builder $query){
+                    $query->where('conversable_type', 'App\\Models\\Participation');
+                })->latest()->first();
+                $notification = new MessageParticipationCreated($message);
+                break;
+            case 'responsable_message_organisation':
+                $message = Message::whereHas('from.roles',function (Builder $query){
+                    $query->where('roles.id', 3);
+                })->whereHas('conversation', function (Builder $query){
+                    $query->where('conversable_type', 'App\\Models\\Structure');
+                })->latest()->first();
+                $notification = new MessageStructureCreated($message);
+                break;
+            case 'referent_message_organisation':
+                $message = Message::whereHas('from.roles',function (Builder $query){
+                    $query->where('roles.id', '!=', 3);
+                })->whereHas('conversation', function (Builder $query){
+                    $query->where('conversable_type', 'App\\Models\\Structure');
+                })->latest()->first();
+                $notification = new MessageStructureCreated($message);
+                break;
+            case 'responsable_message_mission':
+                $message = Message::whereHas('from.roles',function (Builder $query){
+                    $query->where('roles.id', 3);
+                })->whereHas('conversation', function (Builder $query){
+                    $query->where('conversable_type', 'App\\Models\\Mission');
+                })->latest()->first();
+                $notification = new MessageMissionCreated($message);
+                break;
+            case 'referent_message_mission':
+                $message = Message::whereHas('from.roles',function (Builder $query){
+                    $query->where('roles.id', '!=', 3);
+                })->whereHas('conversation', function (Builder $query){
+                    $query->where('conversable_type', 'App\\Models\\Mission');
+                })->latest()->first();
+                $notification = new MessageMissionCreated($message);
+                break;
             case 'mission_template_created':
                 $missionTemplate = MissionTemplate::whereHas('reseau')->latest()->first();
                 $notification = new MissionTemplateWaiting($missionTemplate);
                 break;
-                // case 'moderateur_daily_todo':
-                //     $byDepartment[75] = [
-                //         'department_name' => 'Paris',
-                //         'missions' => ['test'],
-                //         'structures' => ['test'],
-                //         'referents' => [[
-                //             'first_name' => 'Prénom',
-                //             'last_name' => 'Nom',
-                //             'email' => 'test@test.fr',
-                //             'mobile' => '06 12 34 56 78',
-                //         ]],
-                //     ];
-                //     $notification = new ModerateurDailyTodo($byDepartment);
-                //     break;
             case 'responsable_no_new_mission':
                 $notification = new NoNewMission($structure);
                 break;

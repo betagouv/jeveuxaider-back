@@ -6,6 +6,7 @@ use App\Helpers\Utils;
 use App\Models\Media as ModelMedia;
 use App\Traits\HasMissingFields;
 use App\Traits\Notable;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
@@ -66,7 +67,7 @@ class Structure extends Model implements HasMedia
 
     public function searchableAs()
     {
-        return config('scout.prefix').'_covid_organisations';
+        return config('scout.prefix') . '_covid_organisations';
     }
 
     public function getCheckFieldsAttribute()
@@ -242,7 +243,7 @@ class Structure extends Model implements HasMedia
 
     public function getCeuAttribute()
     {
-        if (! isset($this->attributes['structure_publique_etat_type'])) {
+        if (!isset($this->attributes['structure_publique_etat_type'])) {
             return false;
         }
 
@@ -314,9 +315,9 @@ class Structure extends Model implements HasMedia
         return $this->morphToMany(Domaine::class, 'domainable')->wherePivot('field', 'structure_domaines');
     }
 
-    public function addMember(User $user, $fonction = null)
+    public function addMember(User $user, $fonction = null, $invitedByUserId = null)
     {
-        return $user->assignRole('responsable', $this, $fonction);
+        return $user->assignRole('responsable', $this, $fonction, $invitedByUserId);
     }
 
     public function deleteMember(User $user)
@@ -355,7 +356,7 @@ class Structure extends Model implements HasMedia
 
     public function setResponseTime()
     {
-        $avgResponseTime = $this->conversations->avg('response_time');
+        $avgResponseTime = $this->conversations->where('created_at', '>=', Carbon::now()->subMonth(3)->toDateTimeString())->avg('response_time');
         if ($avgResponseTime) {
             $this->response_time = intval($avgResponseTime);
         }
@@ -363,23 +364,50 @@ class Structure extends Model implements HasMedia
         return $this;
     }
 
-    public function getResponseTimeScoreAttribute()
+    public function getResponseRatioPointsAttribute()
     {
-        // Response time ( note sur 100 )
-        // 1 jour = 100 - ( 100 * 1 /10  )
-        // 2 jours = 100 - ( 100 * 2 / 10 )
-        // ...
-        // 10 jours = 0
+        return round($this->response_ratio * 0.3);
+    }
 
-        // Dans le cas d'une nouvelle orga, le responseTime est null on met donc un score arbitraire 50
-        // Dans le cas d'une orga inactive après janvier 2021, le responseTime est null on met donc un score arbitraire 50
+    public function getResponseTimePointsAttribute()
+    {
+        $scoreResponseTime = round(100 - (100 * ($this->response_time / (60 * 60 * 24))) / 10);
+        $scoreResponseTime = $scoreResponseTime > 0 ? $scoreResponseTime : 0;
+
+        return round($scoreResponseTime * 0.7);
+    }
+
+    public function getTestimonialsBonusAttribute()
+    {
+        $avg = Temoignage::ofStructure($this->id)->avg('grade');
+
+        // no testimonials, no bonus
+        if (!$avg) {
+            return 0;
+        }
+
+        $avg = $avg - 2.5;
+
+        if ($avg > 0) {
+            return round($avg * 4, 1);
+        }
+
+        if ($avg < 0) {
+            return round($avg * (10 / 1.5), 1);
+        }
+
+        return 0;
+    }
+
+    public function getScoreAttribute()
+    {
         if ($this->response_time == null) {
             return 50;
         }
-        $responseTime = $this->response_time / 86400;
-        $scoreResponseTime = round(100 - (100 * $responseTime / 10));
 
-        return $scoreResponseTime > 0 ? $scoreResponseTime : 0;
+        $score = $this->response_ratio_points + $this->response_time_points + $this->testimonials_bonus;
+
+        return $score <= 100 ? round($score) : 100;
     }
 
     public function logo()
@@ -482,11 +510,6 @@ class Structure extends Model implements HasMedia
         );
     }
 
-    // public function makeAllSearchableUsing(Builder $query)
-    // {
-    //     return $query->with(['reseaux', 'domaines', 'illustrations', 'overrideImage1'])->withCount(['missionsAvailable']);
-    // }
-
     // ALGOLIA
     public function toSearchableArray()
     {
@@ -519,7 +542,7 @@ class Structure extends Model implements HasMedia
             'city' => $this->city,
             'department' => $this->department,
             'country' => $this->country,
-            'department_name' => $this->department && isset(config('taxonomies.departments.terms')[$this->department]) ? $this->department.' - '.config('taxonomies.departments.terms')[$this->department] : null,
+            'department_name' => $this->department && isset(config('taxonomies.departments.terms')[$this->department]) ? $this->department . ' - ' . config('taxonomies.departments.terms')[$this->department] : null,
             'website' => $this->website,
             'facebook' => $this->facebook,
             'twitter' => $this->twitter,
@@ -550,6 +573,7 @@ class Structure extends Model implements HasMedia
                 ];
             })->all() : null,
             'missions_available_count' => $this->missions_available_count,
+            'score' => $this->score
         ];
 
         if ($this->latitude && $this->longitude) {
@@ -631,6 +655,15 @@ class Structure extends Model implements HasMedia
             })->all() : null,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+        ];
+    }
+
+
+    public function getPermissionsAttribute()
+    {
+        return [
+            'canUpdate' =>  Auth::guard('api')->user() ? Auth::guard('api')->user()->can('update', $this) : false,
+            'canChangeState' =>  Auth::guard('api')->user() ? Auth::guard('api')->user()->can('changeState', $this) : false,
         ];
     }
 }

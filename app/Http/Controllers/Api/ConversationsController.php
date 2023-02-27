@@ -61,7 +61,9 @@ class ConversationsController extends Controller
     public function show(ConversationRequest $request, Conversation $conversation)
     {
         $currentUser = User::find(Auth::guard('api')->user()->id);
-        $currentUser->markConversationAsRead($conversation);
+        if (!$request->headers->has('Impersonating')) {
+            $currentUser->markConversationAsRead($conversation);
+        }
 
         return Conversation::with(
             ['users', 'users.profile.avatar', 'latestMessage', 'users.structures', 'users.territoires', 'users.roles', 'conversable' => function (MorphTo $morphTo) {

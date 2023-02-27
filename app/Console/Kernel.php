@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Console\Commands\AirtableSyncOrganisationsScore;
 use App\Console\Commands\AlgoliaMissionUpdateFieldOutdated;
 use App\Console\Commands\ApiEngagementExportMissions;
 use App\Console\Commands\ApiEngagementSyncMissions;
@@ -69,6 +70,9 @@ class Kernel extends ConsoleKernel
         // Sync ApiEngagement
         $schedule->command(ApiEngagementExportMissions::class)->everySixHours();
         $schedule->command(ApiEngagementSyncMissions::class)->everySixHours();
+
+        // Sync Airtable Orga
+        $schedule->command(AirtableSyncOrganisationsScore::class)->thursdays()->at('02:00');
 
         // Horizon update dashboard metrics
         $schedule->command('horizon:snapshot')->everyFiveMinutes();

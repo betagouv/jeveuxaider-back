@@ -5,6 +5,7 @@ namespace App\Policies;
 use App\Models\Structure;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Database\Query\Builder;
 
 class StructurePolicy
 {
@@ -15,20 +16,31 @@ class StructurePolicy
         if ($user->isAdmin()) {
             return true;
         }
-
-        if (request()->header('Context-Role') == 'referent') {
-            return true;
-        }
-
-        if (request()->header('Context-Role') == 'referent_regional') {
-            return true;
-        }
     }
 
     public function view(User $user, Structure $structure)
     {
         if(Structure::role(request()->header('Context-Role'))->where('id', $structure->id)->count() > 0) {
             return true;
+        }
+
+        if (request()->header('Context-Role') == 'referent') {
+            return $structure->has('missions', function(Builder $query) use ($user){
+                $query
+                    ->whereNotNull('department')
+                    ->where('department', $user->departmentsAsReferent->first()->number);
+            });
+        }
+
+        if (request()->header('Context-Role') == 'referent_regional') {
+            return $structure->has('missions', function(Builder $query) use ($user){
+                $query
+                    ->whereNotNull('department')
+                    ->whereIn(
+                        'department',
+                        config('taxonomies.regions.departments')[$user->regionsAsReferent->first()->name]
+                    );
+            });
         }
 
         return false;
@@ -69,6 +81,15 @@ class StructurePolicy
 
     public function restore(User $user, Structure $structure)
     {
+        return false;
+    }
+
+    public function changeState(User $user, Structure $structure) {
+
+        if(Structure::role(request()->header('Context-Role'))->where('id', $structure->id)->count() > 0) {
+            return true;
+        }
+
         return false;
     }
 }

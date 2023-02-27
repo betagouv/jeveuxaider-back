@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Filters\FiltersParticipationSearch;
 use App\Http\Controllers\Controller;
+use App\Models\ActivityLog;
 use App\Models\Department;
 use App\Models\Mission;
 use App\Models\Participation;
@@ -12,6 +13,7 @@ use App\Models\Role;
 use App\Models\User;
 use App\Notifications\UserAnonymize;
 use App\Services\Sendinblue;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -80,7 +82,7 @@ class UserController extends Controller
         ];
 
         $validator = Validator::make($request->all(), [
-            'email' => ['required', 'email', 'unique:users,email,'.$user->id],
+            'email' => ['required', 'email', 'unique:users,email,' . $user->id],
         ], $messages);
 
         if ($validator->fails()) {
@@ -100,7 +102,7 @@ class UserController extends Controller
         $user = $request->user();
         $inputs = $request->all();
 
-        if (! (Hash::check($request->get('current_password'), $user->password))) {
+        if (!(Hash::check($request->get('current_password'), $user->password))) {
             abort(422, "L'ancien mot de passe est incorrect");
         }
 
@@ -124,7 +126,7 @@ class UserController extends Controller
             ],
         ], $messages);
 
-        if (! $validator->fails()) {
+        if (!$validator->fails()) {
             $user->password = Hash::make($inputs['password']);
             $user->save();
 
@@ -208,5 +210,27 @@ class UserController extends Controller
         }
 
         return $user;
+    }
+
+    public function actions(Request $request, User $user)
+    {
+        return [
+            'activity_logs_count' => ActivityLog::where('causer_id', $user->id)->count(),
+            'activity_logs_last_days_count' => ActivityLog::where('causer_id', $user->id)->where('created_at', '>', Carbon::now()->subDays(30))->count(),
+            'last_activity_log' => ActivityLog::where('causer_id', $user->id)->latest()->first()
+        ];
+    }
+
+    public function roles(Request $request, User $user)
+    {
+        $roles = $user->roles;
+        foreach ($roles as $key => $role) {
+            if (isset($role['pivot']['rolable_type'])) {
+                $roles[$key]['pivot_model'] = $role['pivot']['rolable_type']::find($role['pivot']['rolable_id']);
+                $roles[$key]['invited_by'] = isset($role['pivot']['invited_by_user_id']) ? User::find($role['pivot']['invited_by_user_id']) : null;;
+            }
+        }
+
+        return $roles;
     }
 }

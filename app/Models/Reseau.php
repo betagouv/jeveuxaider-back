@@ -60,9 +60,9 @@ class Reseau extends Model implements HasMedia
         return $this->morphToMany(User::class, 'rolable', 'rolables');
     }
 
-    public function addResponsable(User $user)
+    public function addResponsable(User $user, $fonction = null, $invitedByUserId = null)
     {
-        return $user->assignRole('tete_de_reseau', $this);
+        return $user->assignRole('tete_de_reseau', $this, $fonction, $invitedByUserId);
     }
 
     public function structures()

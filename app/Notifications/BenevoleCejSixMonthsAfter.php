@@ -53,8 +53,7 @@ class BenevoleCejSixMonthsAfter extends Notification implements ShouldQueue
             ->greeting('Bonjour '.$notifiable->first_name.',')
             ->line(new HtmlString('Lors de votre inscription sur <a href="'.url(config('app.front_url')).'">JeVeuxAider.gouv.fr</a>, vous nous avez indiqué être accompagné dans le cadre du Contrat d’Engagement Jeune.'))
             ->line('Si vous n’êtes plus accompagné dans le cadre de ce dispositif, nous vous invitons à mettre à jour votre profil. Promis, cela ne prend que 2 minutes !')
-            ->action('Je mets à jour mon profil', url(config('app.front_url').'/profile/edit'))
-            ->line('Si besoin, vous pouvez contacter le Support Utilisateurs par simple retour de mail.');
+            ->action('Mettre à jour mon profil', url(config('app.front_url').'/profile/edit'));
     }
 
     /**

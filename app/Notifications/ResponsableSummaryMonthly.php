@@ -42,9 +42,9 @@ class ResponsableSummaryMonthly extends Notification implements ShouldQueue
         $this->user = User::find($this->profile->user_id);
         $this->structure = $this->user->structures->first();
 
-        $this->newMissionsCount = Mission::ofResponsable($responsableId)->whereBetween('created_at', [$this->startDate, $this->endDate])->count();
-        $this->missionsOnlineCount = Mission::ofResponsable($responsableId)->available()->count();
-        $this->newParticipationsCount = Participation::ofResponsable($responsableId)->whereBetween('created_at', [$this->startDate, $this->endDate])->count();
+        $this->newMissionsCount = Mission::ofStructure($this->structure->id)->whereBetween('created_at', [$this->startDate, $this->endDate])->count();
+        $this->missionsOnlineCount = Mission::ofStructure($this->structure->id)->available()->count();
+        $this->newParticipationsCount = Participation::ofStructure($this->structure->id)->whereBetween('created_at', [$this->startDate, $this->endDate])->count();
     }
 
     public function viaQueues()

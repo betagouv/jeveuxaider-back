@@ -130,6 +130,7 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     // STRUCTURES
     Route::get('structures', 'Api\StructureController@index');
     Route::get('structures/{structure}', 'Api\StructureController@show');
+    Route::get('structures/{structure}/score', 'Api\StructureController@score');
     Route::post('structures/{structure}/missions', 'Api\StructureController@addMission');
     Route::delete('structures/{structure}/members/{user}', 'Api\StructureController@deleteMember');
 
@@ -182,6 +183,7 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
 
     // ACTIVITY LOGS
     Route::get('activity-logs', 'Api\ActivityLogController@index');
+    Route::get('activity-logs/{activityLog}', 'Api\ActivityLogController@show');
 
     // TERRITOIRES
     Route::post('territoires', 'Api\TerritoireController@store');
@@ -237,7 +239,9 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::post('documents/{document}/notify', 'Api\DocumentController@notify');
     Route::delete('documents/{document}', 'Api\DocumentController@delete');
 
-    // IMPERSONNATE
+    // USER
+    Route::get('users/{user}/actions', 'Api\UserController@actions');
+    Route::get('users/{user}/roles', 'Api\UserController@roles');
     Route::post('users/{user}/impersonate', 'Api\UserController@impersonate');
 
     // STRUCTURES
@@ -308,6 +312,7 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
 Route::group(['middleware' => ['auth:api', 'is.admin.or.referent']], function () {
 
     // NOTES
+    Route::get('/notes', 'Api\NoteController@all');
     Route::get('/{notable_type}/{notable_id}/notes', 'Api\NoteController@index')->where('notable_id', '[0-9]+');
     Route::get('/notes/{note}', 'Api\NoteController@index');
     Route::post('/{notable_type}/{notable_id}/notes', 'Api\NoteController@store')->where('notable_id', '[0-9]+');
@@ -368,6 +373,7 @@ Route::group(['middleware' => ['auth:api', 'is.admin.or.referent']], function ()
 
     Route::get('statistics/utilisateurs-by-domaines', 'Api\NumbersController@utilisateursByDomaines');
     Route::get('statistics/utilisateurs-with-participations', 'Api\NumbersController@utilisateursWithParticipations');
+    Route::get('statistics/utilisateurs-by-age', 'Api\NumbersController@utilisateursByAge');
 
     Route::get('statistics/participations-waiting-by-organisations', 'Api\NumbersController@participationsWaitingByOrganisations');
     Route::get('statistics/participations-refused-by-organisations', 'Api\NumbersController@participationsRefusedByOrganisations');
@@ -422,6 +428,7 @@ Route::group(['prefix' => '/statistics/public'], function () {
     Route::get('/global/utilisateurs', 'Api\StatisticsPublicController@globalUtilisateurs');
     Route::get('/utilisateurs-by-date', 'Api\StatisticsPublicController@utilisateursByDate');
     Route::get('/utilisateurs-by-domaines', 'Api\StatisticsPublicController@utilisateursByDomaines');
+    Route::get('/utilisateurs-by-age', 'Api\StatisticsPublicController@utilisateursByAge');
 
     Route::get('/global/organisations', 'Api\StatisticsPublicController@globalOrganisations');
     Route::get('/organisations-by-date', 'Api\StatisticsPublicController@organisationsByDate');

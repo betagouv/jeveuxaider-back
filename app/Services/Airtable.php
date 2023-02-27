@@ -152,6 +152,7 @@ class Airtable
             'Description' => $mission->objectif,
             'Précision' => $mission->description,
             'Quelques mots' => $mission->information,
+            'Tag' => $mission->tags->count() > 0 ? $mission->tags->pluck('name')->join(', ') : null,
             'Crée le' => Carbon::create($mission->created_at)->format('m-d-Y'),
             'Modifiée le' => Carbon::create($mission->updated_at)->format('m-d-Y'),
         ];
@@ -170,6 +171,7 @@ class Airtable
             'Bénévoles recherchés' => $structure->places_left,
             'Taux de réponse' => $structure->response_ratio / 100,
             'Temps de réponse' => $structure->response_time / (60 * 60 * 24),
+            'Score de réactivité' => $structure->score,
             'Missions en ligne' => $structure->missions()->available()->count(),
             'URL' => config('app.front_url').$structure->full_url,
             'Crée le' => Carbon::create($structure->created_at)->format('m-d-Y'),

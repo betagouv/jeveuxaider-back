@@ -56,11 +56,14 @@ class ParticipationCanceled extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject('Votre participation a été annulée')
-            ->greeting('Bonjour '.$notifiable->first_name.',')
-            ->line('Nous sommes au regret de vous informer que votre participation à la mission « '.$this->participation->mission->name.' » est annulée.')
-            ->line('Nous vous invitons à proposer votre aide sur une autre mission disponible sur JeVeuxAider.gouv.fr')
-            ->action('Toutes nos missions', url(config('app.front_url').'/missions-benevolat'));
+            ->subject('😔 Oh non… La mission de ' . $this->participation->mission->structure->name . ' a été annulée')
+            ->markdown('emails.benevoles.participation-canceled', [
+                'url' => $this->participation->conversation ? url(config('app.front_url') . '/messages/'.$this->participation->conversation->id) : url(config('app.front_url') . '/messages'),                'mission' => $this->participation->mission,
+                'urlCTA' => url(config('app.front_url') . '/missions-benevolat'),
+                'structure' => $this->participation->mission->structure,
+                'notifiable' => $notifiable
+            ])
+            ->tag('app-benevole-participation-canceled');
     }
 
     /**

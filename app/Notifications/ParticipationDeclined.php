@@ -18,7 +18,7 @@ class ParticipationDeclined extends Notification implements ShouldQueue
      * @var Participation
      */
     public $participation;
-
+    public $message;
     public $reason;
 
     /**
@@ -26,9 +26,10 @@ class ParticipationDeclined extends Notification implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(Participation $participation, $reason)
+    public function __construct(Participation $participation,$message, $reason)
     {
         $this->participation = $participation;
+        $this->message = $message;
         $this->reason = $reason;
     }
 
@@ -58,22 +59,18 @@ class ParticipationDeclined extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $message = (new MailMessage)
-            ->subject('Votre participation a été déclinée')
-            ->greeting('Bonjour '.$notifiable->first_name.',')
-            ->line('Nous avons bien reçu votre candidature pour une mission au sein de l\'organisation '.$this->participation->mission->structure->name.'.')
-            ->line("Malheureusement, l'organisation ne pourra pas vous accueillir en mission de bénévolat.");
-
-        if ($this->reason && $this->reason != 'other') {
-            $message->line('La raison est la suivante: '.config('taxonomies.participation_declined_reasons.terms')[$this->reason]);
-        }
-
-        $url = $this->participation->conversation ? '/messages/'.$this->participation->conversation->id : '/messages';
-        $message->action('Accéder à ma messagerie', url(config('app.front_url').$url));
-
-        $message->line('Encore merci pour votre engagement.');
-
-        return $message;
+        return (new MailMessage)
+            ->subject('Quel dommage… votre participation vient d’être déclinée')
+            ->markdown('emails.benevoles.participation-declined', [
+                'url' => $this->participation->conversation ? url(config('app.front_url') . '/messages/'.$this->participation->conversation->id) : url(config('app.front_url') . '/messages'),                'mission' => $this->participation->mission,
+                'urlCTA' => url(config('app.front_url') . '/missions-benevolat'),
+                'structure' => $this->participation->mission->structure,
+                'responsable' => $this->participation->mission->responsable,
+                'message' => $this->message,
+                'reason' => $this->reason && $this->reason != 'other' ? config('taxonomies.participation_declined_reasons.terms')[$this->reason] : null,
+                'notifiable' => $notifiable
+            ])
+            ->tag('app-benevole-participation-declinee');
     }
 
     /**

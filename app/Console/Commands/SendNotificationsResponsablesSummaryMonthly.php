@@ -43,7 +43,9 @@ class SendNotificationsResponsablesSummaryMonthly extends Command
     {
         $responsables = Profile::select('id', 'email')
             ->where('notification__responsable_bilan', true)
-            ->whereHas('user.structures')
+            ->whereHas('user.structures', function (Builder $query){
+                $query->where('state', 'Validée');
+            })
             ->whereHas('user.structures.participations')
             ->whereHas('user.roles', function (Builder $query){
                 $query->where('roles.id', 2);

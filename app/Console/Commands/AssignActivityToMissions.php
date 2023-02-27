@@ -55,7 +55,6 @@ class AssignActivityToMissions extends Command
         $response = ActivityClassifier::evaluate($payload);
 
         if ($response['code'] !== 200) {
-            ray($response);
             $this->error('Error code : ' . $response['code'] . ' | ' . $model::class . ' :: ' . $model->id);
             $this->error($response['content']);
             return;

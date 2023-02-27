@@ -27,7 +27,7 @@ class Invitation extends Model
 
     public function setPropertiesAttribute($array)
     {
-        $this->attributes['properties'] = ! empty($array) ? json_encode($array) : null;
+        $this->attributes['properties'] = !empty($array) ? json_encode($array) : null;
     }
 
     public function user()
@@ -91,29 +91,43 @@ class Invitation extends Model
         if ($user) {
             // RESPONSABLE ORGANISATION
             if ($this->role == 'responsable_organisation') {
-                $this->invitable->addMember($user);
+                $this->invitable->addMember($user, null, $this->user->id);
             }
             // RESPONSABLE TERRITOIRE
             if ($this->role == 'responsable_territoire') {
-                $this->invitable->addResponsable($user);
+                $this->invitable->addResponsable($user, null, $this->user->id);
             }
             // RESPONSABLE RESEAU
             if ($this->role == 'responsable_reseau') {
-                $this->invitable->addResponsable($user);
+                $this->invitable->addResponsable($user, null, $this->user->id);
             }
             // RESPONSABLE ANTENNE
             if ($this->role == 'responsable_antenne') {
-                $this->invitable->createStructure($this->properties['antenne_name'], $user);
+                $structure = $this->invitable->createStructure($this->properties['antenne_name'], $user);
+                $rolable = Rolable::find([
+                    'role_id' => 2, /* Responsable */
+                    'user_id' => $user->id,
+                    'rolable_type' => $structure::class,
+                    'rolable_id' => $structure->id
+                ]);
+                if ($rolable) {
+                    $rolable->invited_by_user_id = $this->user->id;
+                    $rolable->save();
+                }
             }
             // REFERENT DEPARTEMENTAL
             if ($this->role == 'referent_departemental') {
                 $department = Department::whereNumber($this->properties['referent_departemental'])->get()->first();
-                $user->assignRole('referent', $department);
+                if ($department) {
+                    $user->assignRole('referent', $department, null, $this->user->id);
+                }
             }
             // REFERENT REGIONAL
             if ($this->role == 'referent_regional') {
-                $region = Region::whereNumber($this->properties['referent_regional'])->get()->first();
-                $user->assignRole('referent_regional', $region);
+                $region = Region::whereName($this->properties['referent_regional'])->get()->first();
+                if ($region) {
+                    $user->assignRole('referent_regional', $region, null, $this->user->id);
+                }
             }
         }
     }

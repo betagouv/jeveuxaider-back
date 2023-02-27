@@ -77,4 +77,10 @@ return [
         'token' => env('ACTIVITY_CLASSIFIER_TOKEN'),
         'free_token' => env('ACTIVITY_CLASSIFIER_FREE_TOKEN'),
     ],
+
+    'qpv' => [
+        'username' => env('QPV_USERNAME'),
+        'password' => env('QPV_PASSWORD'),
+        'sync' => env('QPV_SYNC'),
+    ],
 ];

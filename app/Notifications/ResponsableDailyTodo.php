@@ -49,22 +49,20 @@ class ResponsableDailyTodo extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $mailMessage = (new MailMessage)
-            ->subject('Des bénévoles attendent votre réponse !')
-            ->greeting('Bonjour '.$notifiable->first_name.',')
-            ->tag('app-organisation-rappel-participations-en-attente-de-validation')
-            ->line('Des bénévoles souhaitent vous aider !')
-            ->line('Votre action est requise pour valider leur participation :');
-        if (count($this->participations) == 1) {
-            $mailMessage->action(count($this->participations).' participation en attente', url(config('app.front_url').'/dashboard'));
-        } else {
-            $mailMessage->action(count($this->participations).' participations en attente', url(config('app.front_url').'/dashboard'));
-        }
-        $mailMessage->line('Afin d’assurer vos recrutements de bénévoles, veuillez leur répondre au plus vite.')
-            ->line('Vous pouvez aussi les contacter directement ou échanger avec eux sur la messagerie de JeVeuxAider.gouv.fr.')
-            ->line('Merci beaucoup par avance pour votre action.');
+        $participationsCount = count($this->participations);
 
-        return $mailMessage;
+        return (new MailMessage)
+            ->when($participationsCount == 1, function (MailMessage $mailMessage) use ($notifiable) {
+                return $mailMessage->subject($notifiable->first_name . ', 1 bénévole souhaite vous aider ! 🙌');
+            }, function ($mailMessage) use ($notifiable, $participationsCount) {
+                return $mailMessage->subject($notifiable->first_name . ', '.$participationsCount.' bénévoles souhaitent vous aider ! 🙌');
+            })
+            ->markdown('emails.responsables.participations-rappel-waiting-validation', [
+                'url' => url(config('app.front_url').'/admin/participations?filter%5Bstate%5D=En%20attente%20de%20validation'),
+                'participationsCount' => $participationsCount,
+                'notifiable' => $notifiable
+            ])
+            ->tag('app-responsable-rappel-participations-en-attente-de-validation');
     }
 
     /**
