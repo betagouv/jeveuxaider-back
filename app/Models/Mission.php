@@ -154,7 +154,7 @@ class Mission extends Model
             ] : null,
             'domaines' => $domaines,
             'provider' => 'reserve_civique',
-            'publisher_name' => 'Réserve Civique',
+            'publisher_name' => 'JeVeuxAider.gouv.fr',
             'post_date' => strtotime($this->created_at),
             'start_date' => $this->start_date ? strtotime($this->start_date) : null,
             'end_date' => $this->end_date ? strtotime($this->end_date) : null,
