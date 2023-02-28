@@ -11,6 +11,7 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
+use Illuminate\Database\Eloquent\Builder;
 
 class ParticipationsExport implements FromQuery, WithMapping, WithHeadings
 {
@@ -52,7 +53,12 @@ class ParticipationsExport implements FromQuery, WithMapping, WithHeadings
                 AllowedFilter::exact('state'),
                 AllowedFilter::exact('mission.zip'),
                 AllowedFilter::exact('mission.type'),
-                AllowedFilter::exact('id')
+                AllowedFilter::exact('id'),
+                AllowedFilter::callback('is_state_pending', function (Builder $query, $value) {
+                    if($value === true){
+                        $query->whereIn('state', ['En attente de validation', 'En cours de traitement']);
+                    }
+                })
             )
             ->defaultSort('-created_at');
     }
