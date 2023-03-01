@@ -218,6 +218,167 @@ class ApiEngagement
         }
     }
 
+    private function formatActivity($mission)
+    {
+        if (!isset($mission['activity'])) {
+            return null;
+        }
+
+        switch ($mission['activity']) {
+            case 'sante-soins':
+                return [
+                    'id' => 2,
+                    'name' => 'Médical',
+                ];
+                break;
+            case 'alphabetisation':
+                return [
+                    'id' => 4,
+                    'name' => 'Alphabétisation / Apprentissage du français (FLE)',
+                ];
+                break;
+            case 'jardinage':
+                return [
+                    'id' => 5,
+                    'name' => "Aménagement d'espaces naturels",
+                ];
+                break;
+            case 'animation':
+                return [
+                    'id' => 6,
+                    'name' => 'Animation / Loisirs',
+                ];
+                break;
+            case 'collecte':
+                return [
+                    'id' => 7,
+                    'name' => 'Collecte de produits',
+                ];
+                break;
+            case 'mentorat-parrainage':
+                return [
+                    'id' => 10,
+                    'name' => 'Mentorat & Parrainage',
+                ];
+                break;
+            case 'secourisme':
+                return [
+                    'id' => 14,
+                    'name' => 'Secourisme et sécurité civile',
+                ];
+                break;
+            case 'enseignement-formation':
+            case 'soutien-scolaire':
+                return [
+                    'id' => 17,
+                    'name' => 'Soutien scolaire et formation',
+                ];
+                break;
+            case 'encadrement-d-equipes':
+                return [
+                    'id' => 20,
+                    'name' => 'Accompagnement aux activités sportives',
+                ];
+                break;
+            case 'accueil-de-public':
+                return [
+                    'id' => 21,
+                    'name' => 'Accueil / Information',
+                ];
+                break;
+            case 'activites-manuelles':
+            case 'bricolage':
+                return [
+                    'id' => 22,
+                    'name' => 'Travaux manuels',
+                ];
+                break;
+            case 'communication':
+            case 'ecoute-permanence':
+                return [
+                    'id' => 24,
+                    'name' => 'Communication',
+                ];
+                break;
+            case 'gestion-recherche-des-partenariats':
+                return [
+                    'id' => 26,
+                    'name' => 'Recherche de partenariats',
+                ];
+                break;
+            case 'distribution':
+                return [
+                    'id' => 28,
+                    'name' => 'Distribution',
+                ];
+                break;
+            case 'aide-psychologique':
+            case 'ecoute-permanence':
+                return [
+                    'id' => 29,
+                    'name' => 'Écoute / Aide psychologique',
+                ];
+                break;
+            case 'comptabilite-finance':
+                return [
+                    'id' => 30,
+                    'name' => 'Gestion financière / comptabilité',
+                ];
+                break;
+            case 'taches-administratives':
+                return [
+                    'id' => 31,
+                    'name' => 'Gestion administrative',
+                ];
+                break;
+            case 'responsabilites-associatives':
+                return [
+                    'id' => 32,
+                    'name' => 'Gouvernance',
+                ];
+                break;
+            case 'logistique':
+                return [
+                    'id' => 33,
+                    'name' => 'Logistique',
+                ];
+                break;
+            case 'documentation-traduction':
+                return [
+                    'id' => 35,
+                    'name' => 'Traduction',
+                ];
+                break;
+            case 'gestion-de-projets':
+                return [
+                    'id' => 37,
+                    'name' => 'Gestion de projets',
+                ];
+                break;
+            case 'recrutement':
+                return [
+                    'id' => 38,
+                    'name' => 'Gestion des ressources humaines',
+                ];
+                break;
+            case 'informatique':
+                return [
+                    'id' => 39,
+                    'name' => 'Informatique',
+                ];
+                break;
+            case 'juridique':
+                return [
+                    'id' => 41,
+                    'name' => 'Droit et conseil juridique',
+                ];
+                break;
+            default:
+                return null;
+                break;
+        }
+    }
+
     private function formatMission($mission)
     {
         $domaine = $this->formatDomain($mission);
@@ -269,7 +430,8 @@ class ApiEngagement
             'end_date' => $mission['endAt'] ?? null,
             'full_address' => $mission['adresse'] ?? null,
             'is_outdated' => isset($mission['endAt']) && $mission['endAt'] < Carbon::today() ? true : false, // Fallback to false for sorting purposes
-            'is_registration_open' => true // Fallback to true for sorting purposes
+            'is_registration_open' => true, // Fallback to true for sorting purposes
+            'activity' => $this->formatActivity($mission)
         ];
     }
 
