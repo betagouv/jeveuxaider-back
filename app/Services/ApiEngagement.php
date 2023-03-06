@@ -413,7 +413,6 @@ class ApiEngagement
                 'title' => $this->formatTemplateTitle($mission),
                 'photo' => null,
             ],
-            'domaine_name' => $this->formatDomain($mission)['name'], // @TODO: A retirer
             'domaine_id' => $domaine['id'],
             'domaine' => [
                 'id' => $domaine['id'],
