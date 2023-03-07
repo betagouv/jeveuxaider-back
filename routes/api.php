@@ -68,6 +68,8 @@ Route::post('webhook/sendinblue', 'Api\WebhookController@sendinblue');
 
 Route::get('emailable/verify/{email}', 'Api\EmailableController@verify');
 
+Route::post('algolia/missions', 'Api\AlgoliaController@missions');
+
 Route::group(['middleware' => ['auth:api']], function () {
     Route::get('user', 'Api\UserController@me');
     Route::get('user/status', 'Api\UserController@status');
