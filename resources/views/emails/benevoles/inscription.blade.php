@@ -37,7 +37,7 @@
                                         <a href="{{ config('app.front_url') }}/missions-benevolat?domaines=Sport%20pour%20tous"
                                             style="display: block; max-width: 100%; text-decoration: none;">
                                             <span
-                                                style="color: #101010; font-size: 22px; line-height: 30px; font-weight: 400; letter-spacing: 0px;">Participer à l’organisation à la vie d’un club sportif</span>
+                                                style="color: #101010; font-size: 22px; line-height: 30px; font-weight: 400; letter-spacing: 0px;">Participer à l’organisation d’un évènement sportif</span>
                                         </a>
                                         @component('mail::components.space', ['height' => 8])
                                         @endcomponent
@@ -153,7 +153,7 @@
                                         <a href="{{ config('app.front_url') }}/missions-benevolat?domaines=Protection%20de%20la nature"
                                             style="display: block; max-width: 100%; text-decoration: none;">
                                             <span
-                                                style="color: #101010; font-size: 22px; line-height: 30px; font-weight: 400; letter-spacing: 0px;">Je contribue à la protection de l’environnement</span>
+                                                style="color: #101010; font-size: 22px; line-height: 30px; font-weight: 400; letter-spacing: 0px;">Contribuer à la protection de l’environnement</span>
                                         </a>
                                         @component('mail::components.space', ['height' => 8])
                                         @endcomponent
