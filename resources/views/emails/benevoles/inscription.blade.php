@@ -21,24 +21,23 @@
                                     <td align="left" valign="top">
                                         @component('mail::components.space', ['height' => 35])
                                         @endcomponent
-                                        <a href="{{ config('app.front_url') }}/missions-benevolat?activity.name=Alphab%C3%A9tisation%20%2F%20Apprentissage%20du%20fran%C3%A7ais%20%28FLE%29"
+                                        <a href="{{ config('app.front_url') }}/missions-benevolat?domaines=Sport%20pour%20tous"
                                             style="display: block; max-width: 100%;">
-                                            <img src="{{ config('app.front_url') }}/images/mail/activites-enseignement-francais.jpg"
+                                            <img src="{{ config('app.front_url') }}/images/mail/activites-participez-vie-club-sportif.jpg"
                                                 alt="img" width="100%" border="0"
                                                 style="display: block; width: 100%;">
                                         </a>
                                         @component('mail::components.space', ['height' => 22])
                                         @endcomponent
                                         <span
-                                            style="color: #3f51b5; font-size: 16px; line-height: 22px; font-weight: 700; text-transform: uppercase;">ÉDUCATION
+                                            style="color: #3f51b5; font-size: 16px; line-height: 22px; font-weight: 700; text-transform: uppercase;">SPORT
                                             POUR TOUS</span>
                                         @component('mail::components.space', ['height' => 12])
                                         @endcomponent
-                                        <a href="{{ config('app.front_url') }}/missions-benevolat?activity.name=Alphab%C3%A9tisation%20%2F%20Apprentissage%20du%20fran%C3%A7ais%20%28FLE%29"
+                                        <a href="{{ config('app.front_url') }}/missions-benevolat?domaines=Sport%20pour%20tous"
                                             style="display: block; max-width: 100%; text-decoration: none;">
                                             <span
-                                                style="color: #101010; font-size: 22px; line-height: 30px; font-weight: 400; letter-spacing: 0px;">Enseignez
-                                                le français comme langue étrangère</span>
+                                                style="color: #101010; font-size: 22px; line-height: 30px; font-weight: 400; letter-spacing: 0px;">Participer à l’organisation à la vie d’un club sportif</span>
                                         </a>
                                         @component('mail::components.space', ['height' => 8])
                                         @endcomponent
@@ -139,24 +138,22 @@
                                     <td align="left" valign="top">
                                         @component('mail::components.space', ['height' => 35])
                                         @endcomponent
-                                        <a href="{{ config('app.front_url') }}/missions-benevolat?activity.name=Lutte%20contre%20l%27isolement"
+                                        <a href="{{ config('app.front_url') }}/missions-benevolat?domaines=Protection%20de%20la nature"
                                             style="display: block; max-width: 100%;">
-                                            <img src="{{ config('app.front_url') }}/images/mail/activites-luttez-contre-isolement.jpg"
+                                            <img src="{{ config('app.front_url') }}/images/mail/activites-protection-nature.jpg"
                                                 alt="img" width="100%" border="0"
                                                 style="display: block; width: 100%;">
                                         </a>
                                         @component('mail::components.space', ['height' => 22])
                                         @endcomponent
                                         <span
-                                            style="color: #FD5655; font-size: 16px; line-height: 22px; font-weight: 700; text-transform: uppercase;">SOLIDARITÉ
-                                            ET INSERTION</span>
+                                            style="color: #FD5655; font-size: 16px; line-height: 22px; font-weight: 700; text-transform: uppercase;">PROTECTION DE LA NATURE</span>
                                         @component('mail::components.space', ['height' => 12])
                                         @endcomponent
-                                        <a href="{{ config('app.front_url') }}/missions-benevolat?activity.name=Lutte%20contre%20l%27isolement"
+                                        <a href="{{ config('app.front_url') }}/missions-benevolat?domaines=Protection%20de%20la nature"
                                             style="display: block; max-width: 100%; text-decoration: none;">
                                             <span
-                                                style="color: #101010; font-size: 22px; line-height: 30px; font-weight: 400; letter-spacing: 0px;">Luttez
-                                                contre l'isolement des personnes fragiles</span>
+                                                style="color: #101010; font-size: 22px; line-height: 30px; font-weight: 400; letter-spacing: 0px;">Je contribue à la protection de l’environnement</span>
                                         </a>
                                         @component('mail::components.space', ['height' => 8])
                                         @endcomponent
