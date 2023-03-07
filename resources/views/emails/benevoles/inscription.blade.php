@@ -30,7 +30,7 @@
                                         @component('mail::components.space', ['height' => 22])
                                         @endcomponent
                                         <span
-                                            style="color: #3f51b5; font-size: 16px; line-height: 22px; font-weight: 700; text-transform: uppercase;">SPORT
+                                            style="color: #FF732C; font-size: 16px; line-height: 22px; font-weight: 700; text-transform: uppercase;">SPORT
                                             POUR TOUS</span>
                                         @component('mail::components.space', ['height' => 12])
                                         @endcomponent
@@ -63,7 +63,7 @@
                                         @component('mail::components.space', ['height' => 22])
                                         @endcomponent
                                         <span
-                                            style="color: #FD5655; font-size: 16px; line-height: 22px; font-weight: 700; text-transform: uppercase;">SOLIDARITÉ
+                                            style="color: #FF5655; font-size: 16px; line-height: 22px; font-weight: 700; text-transform: uppercase;">SOLIDARITÉ
                                             ET INSERTION</span>
                                         @component('mail::components.space', ['height' => 12])
                                         @endcomponent
@@ -113,7 +113,7 @@
                                         @component('mail::components.space', ['height' => 22])
                                         @endcomponent
                                         <span
-                                            style="color: #3f51b5; font-size: 16px; line-height: 22px; font-weight: 700; text-transform: uppercase;">ÉDUCATION
+                                            style="color: #D47A65; font-size: 16px; line-height: 22px; font-weight: 700; text-transform: uppercase;">ÉDUCATION
                                             POUR TOUS</span>
                                         @component('mail::components.space', ['height' => 12])
                                         @endcomponent
@@ -147,7 +147,7 @@
                                         @component('mail::components.space', ['height' => 22])
                                         @endcomponent
                                         <span
-                                            style="color: #FD5655; font-size: 16px; line-height: 22px; font-weight: 700; text-transform: uppercase;">PROTECTION DE LA NATURE</span>
+                                            style="color: #21AB8E; font-size: 16px; line-height: 22px; font-weight: 700; text-transform: uppercase;">PROTECTION DE LA NATURE</span>
                                         @component('mail::components.space', ['height' => 12])
                                         @endcomponent
                                         <a href="{{ config('app.front_url') }}/missions-benevolat?domaines=Protection%20de%20la nature"
