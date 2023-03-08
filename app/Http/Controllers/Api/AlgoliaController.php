@@ -10,10 +10,12 @@ class AlgoliaController extends Controller
 {
     public function missions(Request $request)
     {
+
         $query = Mission::search($request->input('search'))
             ->with([
                 'facetFilters' => $request->input('facetFilters') ?? '',
                 'filters' => $request->input('filters') ?? '',
+                'numericFilters' => $request->input('numericFilters') ?? '',
                 'aroundLatLngViaIP' => $request->input('aroundLatLngViaIP') ?? false
             ]);
 
