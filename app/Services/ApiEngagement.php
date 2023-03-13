@@ -373,6 +373,24 @@ class ApiEngagement
                     'name' => 'Droit et conseil juridique',
                 ];
                 break;
+            case 'sensibilisation':
+                return [
+                    'id' => 19,
+                    'name' => 'Actions de sensibilisation',
+                ];
+                break;
+            case 'soins-animaux':
+                return [
+                    'id' => 16,
+                    'name' => 'Soins aux animaux',
+                ];
+                break;
+            case 'ramassage-dechets':
+                return [
+                    'id' => 12,
+                    'name' => 'Ramassage de déchets',
+                ];
+                break;
             default:
                 return null;
                 break;
