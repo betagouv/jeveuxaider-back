@@ -409,9 +409,14 @@ class Structure extends Model implements HasMedia
         ];
     }
 
+    public function getAverageTestimonyGrade()
+    {
+        return Temoignage::ofStructure($this->id)->avg('grade');
+    }
+
     public function getBonusPointsAttribute()
     {
-        $avg = Temoignage::ofStructure($this->id)->avg('grade');
+        $avg = $this->getAverageTestimonyGrade();
 
         // no testimonials, no bonus
         if (!$avg) {

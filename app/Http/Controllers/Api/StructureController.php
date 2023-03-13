@@ -387,6 +387,7 @@ class StructureController extends Controller
 
             'nb_last_participations' => $structure->lastParticipationsResponseRatio['total'],
             'nb_last_participations_with_response' => $structure->lastParticipationsResponseRatio['with_response'],
+            'average_testimony_grade' => round($structure->getAverageTestimonyGrade(), 1)
         ];
     }
 }
