@@ -11,9 +11,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\ProfileUpdateRequest;
 use App\Http\Requests\ProfileRequest;
 use App\Jobs\AirtableSyncObject;
+use App\Models\Activity;
 use App\Models\Profile;
 use App\Sorts\ProfileParticipationsValidatedCountSort;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\AllowedSort;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -114,4 +116,27 @@ class ProfileController extends Controller
 
         return collect($profile)->only('first_name', 'email');
     }
+
+    public function attachActivity(Profile $profile, Activity $activity)
+    {
+        if(!Auth::guard('api')->user()->can('update', $profile)) {
+            abort(403, 'This action is not authorized');
+        }
+
+        $profile->activities()->attach($activity);
+
+        return $profile;
+    }
+
+    public function detachActivity(Profile $profile, Activity $activity)
+    {
+        if(!Auth::guard('api')->user()->can('update', $profile)) {
+            abort(403, 'This action is not authorized');
+        }
+
+        $profile->activities()->detach($activity);
+
+        return $profile;
+    }
+
 }

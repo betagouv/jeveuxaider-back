@@ -79,6 +79,9 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::put('user', 'Api\UserController@update');
     Route::get('profiles/{profile}', 'Api\ProfileController@show');
     Route::put('profiles/{profile}', 'Api\ProfileController@update');
+    Route::put('profiles/{profile}/activity/{activity}/attach', 'Api\ProfileController@attachActivity');
+    Route::put('profiles/{profile}/activity/{activity}/detach', 'Api\ProfileController@detachActivity');
+
     Route::get('user/actions', 'Api\ActionController@index');
     Route::get('user/actions/benevole', 'Api\ActionController@benevole');
 
