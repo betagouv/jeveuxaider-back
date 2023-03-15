@@ -10,7 +10,6 @@ class AlgoliaController extends Controller
 {
     public function missions(Request $request)
     {
-
         $query = Mission::search($request->input('search'))
             ->with([
                 'facetFilters' => $request->input('facetFilters') ?? '',
@@ -19,7 +18,9 @@ class AlgoliaController extends Controller
                 'aroundLatLngViaIP' => $request->input('aroundLatLngViaIP') ?? false
             ]);
 
-        $results = $query->paginate(6)->load('domaine', 'template', 'template.domaine', 'template.media', 'structure', 'illustrations', 'template.activity');
+        $results = $query
+            ->paginate($request->input('paginate') ?? 10)
+            ->load('domaine', 'template', 'template.domaine', 'template.media', 'structure', 'illustrations', 'template.activity');
 
         return $results;
     }
