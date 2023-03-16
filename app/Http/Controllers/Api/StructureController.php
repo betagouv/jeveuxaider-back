@@ -27,6 +27,8 @@ use Spatie\QueryBuilder\AllowedInclude;
 use Spatie\QueryBuilder\AllowedSort;
 use Spatie\QueryBuilder\QueryBuilder;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Database\Eloquent\Builder;
+use Carbon\Carbon;
 
 class StructureController extends Controller
 {
@@ -370,5 +372,26 @@ class StructureController extends Controller
             'testimonials_bonus' => $structure->testimonials_bonus,
             'score' => $structure->score,
         ];
+    }
+
+    public function popular(Request $request)
+    {
+        return Structure::where('state', 'Validée')
+            ->withCount(['participations' => function (Builder $query) {
+                $query
+                    ->where('participations.created_at', '>', Carbon::now()->subDays(7));
+            }])
+            ->whereHas('missions', function (Builder $query) {
+                $query
+                    ->where('places_left', '>', 0)
+                    ->where('state', 'Validée');
+            })
+            ->whereHas('participations', function (Builder $query) {
+                $query
+                    ->where('participations.created_at', '>', Carbon::now()->subDays(7));
+            })
+            ->orderBy('participations_count', 'desc')
+            ->limit(20)
+            ->get();
     }
 }
