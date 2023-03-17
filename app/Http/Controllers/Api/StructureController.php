@@ -363,12 +363,17 @@ class StructureController extends Controller
     public function score(Request $request, Structure $structure)
     {
         return [
-            'response_ratio' => $structure->response_ratio,
-            'response_ratio_pts' => $structure->response_ratio_points,
-            'response_time' => $structure->response_time,
-            'response_time_pts' => $structure->response_time_points,
-            'testimonials_bonus' => $structure->testimonials_bonus,
             'score' => $structure->score,
+            'engagement_points' => $structure->engagement_points,
+            'reactivity_points' => $structure->reactivity_points,
+            'bonus_points' => $structure->bonus_points,
+
+            'response_ratio' => $structure->response_ratio,
+            'response_time' => $structure->response_time,
+
+            'nb_last_participations' => $structure->lastParticipationsResponseRatio['total'],
+            'nb_last_participations_with_response' => $structure->lastParticipationsResponseRatio['with_response'],
+            'average_testimony_grade' => round($structure->getAverageTestimonyGrade(), 1)
         ];
     }
 }

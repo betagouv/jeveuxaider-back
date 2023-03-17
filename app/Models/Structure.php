@@ -348,15 +348,23 @@ class Structure extends Model implements HasMedia
     public function setResponseRatio()
     {
         $participationsCount = $this->participations->count();
+        if ($participationsCount == 0) {
+            return $this;
+        }
+
         $waitingParticipationsCount = $this->participations->where('state', 'En attente de validation')->count();
         $this->response_ratio = round(($participationsCount - $waitingParticipationsCount) / $participationsCount * 100);
-
         return $this;
     }
 
     public function setResponseTime()
     {
-        $avgResponseTime = $this->conversations->where('created_at', '>=', Carbon::now()->subMonth(3)->toDateTimeString())->avg('response_time');
+        $avgResponseTime = $this->conversations()
+            ->where('conversable_type', 'App\Models\Participation')
+            ->latest('conversations.created_at')
+            ->take(30)
+            ->avg('response_time');
+
         if ($avgResponseTime) {
             $this->response_time = intval($avgResponseTime);
         }
@@ -364,22 +372,51 @@ class Structure extends Model implements HasMedia
         return $this;
     }
 
-    public function getResponseRatioPointsAttribute()
+    public function getEngagementPointsAttribute()
     {
         return round($this->response_ratio * 0.3);
     }
 
-    public function getResponseTimePointsAttribute()
+    public function getReactivityPointsAttribute()
     {
-        $scoreResponseTime = round(100 - (100 * ($this->response_time / (60 * 60 * 24))) / 10);
-        $scoreResponseTime = $scoreResponseTime > 0 ? $scoreResponseTime : 0;
+        $reactivityPoints = round(100 - (100 * ($this->response_time / (60 * 60 * 24))) / 10);
+        $reactivityPoints = $reactivityPoints > 0 ? $reactivityPoints : 0;
 
-        return round($scoreResponseTime * 0.7);
+        // Pondérer avec le ratio participations avec réponse / totales
+        if ($this->lastParticipationsResponseRatio['total'] > 0) {
+            $reactivityPoints = $reactivityPoints * ($this->lastParticipationsResponseRatio['with_response'] / $this->lastParticipationsResponseRatio['total']);
+        }
+
+        return round($reactivityPoints * 0.7);
     }
 
-    public function getTestimonialsBonusAttribute()
+    public function getLastParticipationsResponseRatioAttribute()
     {
-        $avg = Temoignage::ofStructure($this->id)->avg('grade');
+        $lastConversations = $this->conversations()
+            ->where('conversable_type', 'App\Models\Participation')
+            ->latest('conversations.created_at')
+            ->take(30)
+            ->pluck('conversations.id');
+
+        $lastConversationsWithResponses = $this->conversations()
+            ->whereIn('conversations.id', $lastConversations)
+            ->whereNotNull('response_time')
+            ->pluck('conversations.id');
+
+        return [
+            'with_response' => $lastConversationsWithResponses->count(),
+            'total' => $lastConversations->count()
+        ];
+    }
+
+    public function getAverageTestimonyGrade()
+    {
+        return Temoignage::ofStructure($this->id)->avg('grade');
+    }
+
+    public function getBonusPointsAttribute()
+    {
+        $avg = $this->getAverageTestimonyGrade();
 
         // no testimonials, no bonus
         if (!$avg) {
@@ -401,11 +438,11 @@ class Structure extends Model implements HasMedia
 
     public function getScoreAttribute()
     {
-        if ($this->response_time == null) {
+        if ($this->response_time == null && $this->response_ratio == null) {
             return 50;
         }
 
-        $score = $this->response_ratio_points + $this->response_time_points + $this->testimonials_bonus;
+        $score = $this->engagement_points + $this->reactivity_points + $this->bonus_points;
 
         return $score <= 100 ? round($score) : 100;
     }
