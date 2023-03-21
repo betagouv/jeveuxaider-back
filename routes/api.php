@@ -79,6 +79,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::put('profiles/{profile}', 'Api\ProfileController@update');
     Route::get('user/actions', 'Api\ActionController@index');
     Route::get('user/actions/benevole', 'Api\ActionController@benevole');
+    Route::get('users/{user}/roles', 'Api\UserController@roles');
 
     Route::get('medias', 'Api\MediaController@index');
     Route::post('medias/{modelType}/{modelId}/{collectionName}', 'Api\MediaController@store');
@@ -242,7 +243,6 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
 
     // USER
     Route::get('users/{user}/actions', 'Api\UserController@actions');
-    Route::get('users/{user}/roles', 'Api\UserController@roles');
     Route::post('users/{user}/impersonate', 'Api\UserController@impersonate');
 
     // STRUCTURES
