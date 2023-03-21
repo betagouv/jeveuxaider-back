@@ -153,10 +153,16 @@ class Airtable
             'Précision' => $mission->description,
             'Quelques mots' => $mission->information,
             'Tag' => $mission->tags->count() > 0 ? $mission->tags->pluck('name')->join(', ') : null,
+            'Fréquence d\'engagement' => $mission->commitment__time_period,
+            'Durée d\'engagement' =>  $mission->commitment__duration,
+            'Durée totale d\'Engagement' => $mission->commitment__total,
+            'Date type' => $mission->date_type,
+            'Inscription ouverte' => $mission->is_registration_open,
+            'Prerequisites' => $mission->prerequisites,
             'Crée le' => Carbon::create($mission->created_at)->format('m-d-Y'),
             'Modifiée le' => Carbon::create($mission->updated_at)->format('m-d-Y'),
         ];
-
+        
         return $attributes;
     }
 
