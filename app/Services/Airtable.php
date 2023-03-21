@@ -158,7 +158,7 @@ class Airtable
             'Durée totale d\'Engagement' => $mission->commitment__total,
             'Date type' => $mission->date_type,
             'Inscription ouverte' => $mission->is_registration_open,
-            'Prerequisites' => $mission->prerequisites,
+            'Prerequisites' => collect($mission->prerequisites)->count() > 0 ? collect($mission->prerequisites)->join(', ') : null,
             'Crée le' => Carbon::create($mission->created_at)->format('m-d-Y'),
             'Modifiée le' => Carbon::create($mission->updated_at)->format('m-d-Y'),
         ];
