@@ -29,6 +29,7 @@ use Spatie\QueryBuilder\QueryBuilder;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Database\Eloquent\Builder;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class StructureController extends Controller
 {
@@ -381,22 +382,17 @@ class StructureController extends Controller
 
     public function popular(Request $request)
     {
-        return Structure::where('state', 'Validée')
-            ->withCount(['participations' => function (Builder $query) {
-                $query
-                    ->where('participations.created_at', '>', Carbon::now()->subDays(7));
-            }])
-            ->whereHas('missions', function (Builder $query) {
-                $query
-                    ->where('places_left', '>', 0)
-                    ->where('state', 'Validée');
-            })
-            ->whereHas('participations', function (Builder $query) {
-                $query
-                    ->where('participations.created_at', '>', Carbon::now()->subDays(7));
-            })
-            ->orderBy('participations_count', 'desc')
-            ->limit(20)
-            ->get();
+        return DB::select(DB::raw("
+            SELECT COUNT(participations) as participations_count, structures.name
+            FROM participations
+            LEFT JOIN missions ON missions.id = participations.mission_id
+            LEFT JOIN structures ON structures.id = missions.structure_id
+            WHERE participations.created_at > NOW() - INTERVAL '30 days'
+            AND missions.state = 'Validée'
+            AND participations.state = 'Validée'
+            GROUP BY structures.name
+            ORDER BY COUNT(participations) DESC
+            LIMIT 20
+        "));
     }
 }
