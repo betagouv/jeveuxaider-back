@@ -415,6 +415,15 @@ class Mission extends Model
         }
     }
 
+    public function scopeHasCreneaux($query, $value)
+    {
+        if ($value) {
+            return $query->whereNotNull('dates');
+        } else {
+            return $query->whereNull('dates');
+        }
+    }
+
     public function scopeOfActivity($query, $activity_id)
     {
         return $query

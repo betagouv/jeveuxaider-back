@@ -62,6 +62,7 @@ class MissionController extends Controller
                 AllowedFilter::scope('ofActivity'),
                 AllowedFilter::scope('hasActivity'),
                 AllowedFilter::scope('hasTemplate'),
+                AllowedFilter::scope('hasCreneaux'),
                 AllowedFilter::custom('place', new FiltersMissionPlacesLeft),
                 AllowedFilter::custom('date', new FiltersMissionDate),
                 AllowedFilter::custom('publics_volontaires', new FiltersMissionPublicsVolontaires),
