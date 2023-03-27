@@ -27,7 +27,7 @@ use App\Notifications\MessageParticipationCreated;
 use App\Notifications\MessageStructureCreated;
 use App\Notifications\MissionAlmostFull;
 use App\Notifications\MissionBeingProcessed;
-use App\Notifications\MissionInDraft;
+use App\Notifications\MissionStillInDraft;
 use App\Notifications\MissionOutdated;
 use App\Notifications\MissionSignaled;
 use App\Notifications\MissionSubmitted;
@@ -134,8 +134,8 @@ class NotificationController extends Controller
             case 'responsable_mission_almost_full':
                 $notification = new MissionAlmostFull($mission);
                 break;
-            case 'responsable_missin_in_draft':
-                $notification = new MissionInDraft($mission);
+            case 'responsable_mission_still_in_draft':
+                $notification = new MissionStillInDraft($mission);
                 break;
             case 'referent_mission_created':
                 $notification = new MissionSubmitted($mission);

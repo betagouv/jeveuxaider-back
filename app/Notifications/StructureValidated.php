@@ -56,11 +56,13 @@ class StructureValidated extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject('Votre organisation a été validée')
-            ->greeting('Bonjour '.$notifiable->first_name.',')
-            ->line('Votre organisation « '.$this->structure->name.' » vient d\'être validée.')
-            ->line('Vous pouvez désormais publier directement vos missions depuis votre espace organisation.')
-            ->action('Publier une mission', url(config('app.front_url').'/admin/organisations/'.$this->structure->id.'/missions/add'));
+            ->subject('Vos missions sont désormais visibles par les bénévoles')
+            ->markdown('emails.responsables.structure-validated', [
+                'url' => url(config('app.front_url').'/admin/organisations/'.$this->structure->id.'/missions/add'),
+                'structure' => $this->structure,
+                'notifiable' => $notifiable
+            ])
+            ->tag('app-responsable-organisation-validee');
     }
 
     /**

@@ -51,7 +51,7 @@ class StructureAssociationValidated extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         $mailMessage = (new MailMessage)
-            ->subject('Bienvenue sur JeVeuxAider.gouv.fr')
+            ->subject('Découvrez le fonctionnement de la plateforme JeVeuxAider.gouv.fr')
             ->greeting('Bonjour '.$notifiable->first_name.',')
             ->line(new HtmlString('Vous venez de rejoindre la plateforme <a href='.url(config('app.url')).'>JeVeuxAider.gouv.fr</a> proposée par la Réserve Civique : bienvenue ! Toute l’équipe est ravie de vous compter parmi les 5000 organisations membres.'))
             ->line("Pour faire connaissance, nous vous invitons à notre session d'accueil. Au programme :")
@@ -62,7 +62,7 @@ class StructureAssociationValidated extends Notification implements ShouldQueue
             ->line("D'ici là, vous pouvez déjà poster vos premières missions et vous familiariser avec la plateforme.")
             ->action('Créer une mission', url(config('app.front_url').'/admin/organisations/'.$this->structure->id.'/missions/add'))
             ->line('JeVeuxAider.gouv.fr a pour mission de faciliter vos recrutements de bénévoles et de faire grandir l’engagement en France. Merci pour votre confiance !')
-            ->tag('app-organisation-validee');
+            ->tag('app-responsable-association-validee');
 
         return $mailMessage;
     }
