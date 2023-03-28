@@ -222,6 +222,13 @@
             @endif
         </publicsVolontaires>
 
+        <openToMinors>
+            @php
+                $isOpenToMinors = !empty($mission->publics_volontaires) && in_array('Mineurs', $mission->publics_volontaires);
+            @endphp
+            <![CDATA[{{ $isOpenToMinors ? 'yes' : 'no' }}]]>
+        </openToMinors>
+
         <snu>
             @php
                 $isSnu = !empty($mission->publics_volontaires) && in_array('Jeunes volontaires du Service National Universel', $mission->publics_volontaires);
