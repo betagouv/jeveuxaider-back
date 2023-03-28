@@ -1,10 +1,10 @@
-<?php $showActions = true; ?>
+<?php $showActions = $variables['structuresWaitingCount'] > 0 || $variables['missionsWaitingCount'] > 0 || $variables['conversationsUnreadCount'] > 0; ?>
 @component('mail::message')
     @component('mail::components.headline')
-        Bonjour {{ $notifiable->first_name }},
+        Faisons le point 🤝
     @endcomponent
     @component('mail::components.paragraph')
-        <p>Nous sommes heureux de travailler à vos côtés au quotidien ! Voici le récapitulatif des actions sur votre compte
+        <p>Voici le récapitulatif des actions sur votre compte
             JeVeuxAider.gouv.fr sur votre département « {{ $department->name }} » sur les 3 derniers jours.</p>
         <ul>
             @if ($variables['newStructuresCount'] == 0)
@@ -63,15 +63,17 @@
                     <li>📨 Lire les {{ $variables['conversationsUnreadCount'] }} messages non lus</li>
                 @endif
             </ul>
-        @endif
-    @endcomponent
-    @component('mail::components.space', ['height' => 33])@endcomponent
+        @endcomponent
+        @component('mail::components.space', ['height' => 33])
+        @endcomponent
+    @endif
     @component('mail::button', ['url' => $url])
-        J'accède à mon compte
+        Accéder à mon compte
     @endcomponent
-    @component('mail::components.space', ['height' => 33])@endcomponent
-    @component('mail::components.paragraph')
-        <p>PS : Vous avez des questions ? N’hésitez pas à nous répondre par retour de mail, nous sommes toujours disponibles
-            pour vous.</p>
+    @component('mail::components.space', ['height' => 33])
+    @endcomponent
+    @component('mail::components.tips', ['title' => 'Des questions ?'])
+        N’hésitez pas à nous répondre par retour de mail, nous sommes toujours disponibles
+        pour vous.
     @endcomponent
 @endcomponent
