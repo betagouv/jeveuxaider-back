@@ -1,10 +1,10 @@
 <?php $showSummaryActions = true; ?>
 @component('mail::message')
     @component('mail::components.headline')
-        Bonjour {{ $notifiable->first_name }},
+        C’est l’heure du bilan ! 🤝
     @endcomponent
     @component('mail::components.paragraph')
-        <p>C’est l’heure du bilan ! Voici le récapitulatif des actions sur votre département « {{ $department->name }} » au
+        <p>Voici le récapitulatif des actions sur votre département « {{ $department->name }} » au
             cours du dernier mois.
         <ul>
             @if ($variables['newStructuresCount'] == 0)
@@ -39,7 +39,7 @@
     @endcomponent
     @if ($showSummaryActions)
         @component('mail::components.paragraph')
-            <p>À l'heure d'aujourd'hui, voici l'offre de JeVeuxAider.gouv.fr sur le département « {{ $department->name }} » :
+            <p>À l’heure actuelle, voici l'offre de JeVeuxAider.gouv.fr sur le département « {{ $department->name }} » :
             </p>
             <ul>
                 @if ($variables['structuresActivesCount'] == 0)
@@ -66,9 +66,15 @@
             </ul>
         @endcomponent
     @endif
-    @component('mail::components.space', ['height' => 33])@endcomponent
-    @component('mail::button', ['url' => $url])
-        J'accède aux statistiques
+    @component('mail::components.space', ['height' => 33])
     @endcomponent
-    @component('mail::components.space', ['height' => 33])@endcomponent
+    @component('mail::button', ['url' => $url])
+        Accéder aux statistiques
+    @endcomponent
+    @component('mail::components.space', ['height' => 33])
+    @endcomponent
+    @component('mail::components.tips', ['title' => 'Des questions ?'])
+        N’hésitez pas à nous répondre par retour de mail, nous sommes toujours disponibles
+        pour vous.
+    @endcomponent
 @endcomponent

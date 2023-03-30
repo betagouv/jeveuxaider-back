@@ -56,11 +56,13 @@ class MissionSubmitted extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject('Nouvelle mission d’intérêt général déposée dans votre département')
-            ->greeting('Bonjour '.$notifiable->first_name.',')
-            ->line('L\'organisation « '.$this->mission->structure->name.' » propose une mission : '.$this->mission->name)
-            ->line('Vous pouvez, sur votre espace personnel la consulter et valider cette mission.')
-            ->action('Accéder à mon compte', url(config('app.front_url').'/admin/missions/'.$this->mission->id));
+            ->subject($notifiable->first_name . ', vous avez une nouvelle mission à modérer')
+            ->markdown('emails.referents.mission-submitted', [
+                'url' => url(config('app.front_url').'/admin/missions/'.$this->mission->id),
+                'mission' => $this->mission,
+                'notifiable' => $notifiable
+            ])
+            ->tag('app-referent-mission-en-attente-de-validation');
     }
 
     /**

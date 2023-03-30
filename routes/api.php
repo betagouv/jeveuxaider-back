@@ -233,6 +233,7 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::post('settings/general', 'Api\SettingController@updateGeneral');
 
     Route::get('notifications/{key}', 'Api\NotificationController@show');
+    Route::post('notifications/{key}/test', 'Api\NotificationController@test');
 
     // DOMAINES D'ACTIONS
     Route::get('domaines', 'Api\DomaineController@index');

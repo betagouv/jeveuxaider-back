@@ -2,6 +2,9 @@
     @component('mail::components.headline')
         Votre mission attend d’être mise en ligne 🗒️
     @endcomponent
+    @component('mail::components.paragraph', ['title' => 'La mission'])
+        {{ $mission->name }}
+    @endcomponent
     @component('mail::components.paragraph')
         Cette mission n’a pas encore été validée. Les visiteurs ne peuvent pas la consulter pour le moment. C'est dommage !
     @endcomponent
