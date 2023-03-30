@@ -352,7 +352,7 @@ class Structure extends Model implements HasMedia
             return $this;
         }
 
-        $waitingParticipationsCount = $this->participations->where('state', 'En attente de validation')->count();
+        $waitingParticipationsCount = $this->participations->whereIn('state', ['En attente de validation', 'En cours de traitement'])->count();
         $this->response_ratio = round(($participationsCount - $waitingParticipationsCount) / $participationsCount * 100);
         return $this;
     }
