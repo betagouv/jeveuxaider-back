@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Filters\FiltersParticipationSearch;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\UserRolesRequest;
 use App\Models\ActivityLog;
 use App\Models\Department;
 use App\Models\Mission;
@@ -221,13 +222,13 @@ class UserController extends Controller
         ];
     }
 
-    public function roles(Request $request, User $user)
+    public function roles(UserRolesRequest $request, User $user)
     {
         $roles = $user->roles;
         foreach ($roles as $key => $role) {
             if (isset($role['pivot']['rolable_type'])) {
                 $roles[$key]['pivot_model'] = $role['pivot']['rolable_type']::find($role['pivot']['rolable_id']);
-                $roles[$key]['invited_by'] = isset($role['pivot']['invited_by_user_id']) ? User::find($role['pivot']['invited_by_user_id']) : null;;
+                $roles[$key]['invited_by'] = isset($role['pivot']['invited_by_user_id']) ? User::find($role['pivot']['invited_by_user_id']) : null;
             }
         }
 

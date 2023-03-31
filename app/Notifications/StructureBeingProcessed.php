@@ -61,7 +61,7 @@ class StructureBeingProcessed extends Notification implements ShouldQueue
                 'structure' => $this->structure,
                 'notifiable' => $notifiable
             ])
-            ->tag('app-responsable-mission-presque-complete');
+            ->tag('app-responsable-organisation-en-cours-de-traitement');
     }
 
     /**

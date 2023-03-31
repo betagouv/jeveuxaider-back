@@ -27,7 +27,7 @@ use App\Notifications\MessageParticipationCreated;
 use App\Notifications\MessageStructureCreated;
 use App\Notifications\MissionAlmostFull;
 use App\Notifications\MissionBeingProcessed;
-use App\Notifications\MissionInDraft;
+use App\Notifications\MissionStillInDraft;
 use App\Notifications\MissionOutdated;
 use App\Notifications\MissionSignaled;
 use App\Notifications\MissionSubmitted;
@@ -71,12 +71,61 @@ use App\Notifications\StructureValidated;
 use App\Notifications\UserAnonymize;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
 
 class NotificationController extends Controller
 {
     public function show(Request $request, $key)
     {
         $user = User::with('profile')->find($request->user()->id);
+        $userOrProfile = $this->getRecepientResolver($key, $user);
+        $notification = $this->getNotification($key, $user);
+
+        if(isset($notification)){
+            return $notification->toMail($userOrProfile)->render();
+        }
+
+        return abort(401, 'Notification introuvable');
+    }
+
+    public function test(Request $request, $key)
+    {
+        $user = User::with('profile')->find($request->user()->id);
+        $userOrProfile = $this->getRecepientResolver($key, $user);
+        $notification = $this->getNotification($key, $user);
+
+        if(isset($notification)){
+            return $userOrProfile->notify($notification);
+        }
+
+        return abort(401, 'Notification introuvable');
+    }
+
+    private function getRecepientResolver($key, $user) {
+
+        switch ($key) {
+            case 'benevole_cej_no_participation':
+                case 'benevole_cej_one_year_after':
+                case 'benevole_cej_six_months_after':
+                case 'admin_document_submitted':
+                case 'responsable_mission_outdated':
+                case 'referent_mission_created':
+                case 'register_user_volontaire_cej':
+                case 'responsable_waiting_actions':
+                case 'responsable_association_validated':
+                case 'responsable_collectivite_validated':
+                case 'referent_organisation_created':
+                case 'structure_switch_responsable':
+                    return $user->profile;
+                default:
+                    return $user;
+        }
+    }
+
+    private function getNotification($key, $user){
+
         $structure = Structure::latest()->first();
         $mission = Mission::latest()->first();
         $participation = Participation::latest()->first();
@@ -134,8 +183,8 @@ class NotificationController extends Controller
             case 'responsable_mission_almost_full':
                 $notification = new MissionAlmostFull($mission);
                 break;
-            case 'responsable_missin_in_draft':
-                $notification = new MissionInDraft($mission);
+            case 'responsable_mission_still_in_draft':
+                $notification = new MissionStillInDraft($mission);
                 break;
             case 'referent_mission_created':
                 $notification = new MissionSubmitted($mission);
@@ -324,16 +373,10 @@ class NotificationController extends Controller
                     ->latest()->first();
                 $notification = new ReferentSummaryMonthly($profile->id);
                 break;
+            default:
+                return null;
         }
 
-        if(isset($mail)){
-            return $mail->render();
-        }
-
-        if(isset($notification)){
-            return $notification->toMail($user)->render();
-        }
-
-        return abort(401, 'Notification introuvable');
+        return $notification;
     }
 }

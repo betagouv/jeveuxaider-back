@@ -62,6 +62,7 @@ class MissionController extends Controller
                 AllowedFilter::scope('ofActivity'),
                 AllowedFilter::scope('hasActivity'),
                 AllowedFilter::scope('hasTemplate'),
+                AllowedFilter::scope('hasCreneaux'),
                 AllowedFilter::custom('place', new FiltersMissionPlacesLeft),
                 AllowedFilter::custom('date', new FiltersMissionDate),
                 AllowedFilter::custom('publics_volontaires', new FiltersMissionPublicsVolontaires),
@@ -111,6 +112,7 @@ class MissionController extends Controller
                 'structure.overrideImage1',
                 'structure.logo',
                 'activity:id,name',
+                'template.activity:id,name',
                 'structure.reseaux:id,name',
                 'tags'
             ])->withCount('temoignages')->where('id', $id)->first();
@@ -244,18 +246,44 @@ class MissionController extends Controller
 
     public function similar(Request $request, Mission $mission)
     {
-        // X-sell sur le domain d'action ET la ville
+        $activity = $mission->template?->activity?->name ?? $mission->activity?->name;
+        $domaine = $mission->template?->domaine?->name ?? $mission->domaine?->name;
+        $facetFilters = $activity ? 'activity.name:' . $activity : ($domaine ? 'domaines:' . $domaine : '');
+
         $query = Mission::search('')
             ->where('id', '!=', $mission->id)
             ->with([
-                'facetFilters' => 'domaine_name:' . $mission->domaine_name,
+                'facetFilters' => $facetFilters,
                 // Sans prendre en compte l'API, sinon erreur ScoutExtended ObjectID seems invalid
-                'filters' => 'provider:reserve_civique',
+                'filters' => 'provider:reserve_civique AND is_registration_open=1 AND has_places_left=1 AND is_outdated=0',
             ]);
         if ($mission->latitude && $mission->longitude) {
             $query->aroundLatLng($mission->latitude, $mission->longitude);
         }
 
-        return $query->paginate(10)->load('domaine', 'template', 'template.domaine', 'template.media', 'structure', 'illustrations');
+        return $query->paginate(10)->load('domaine', 'template', 'template.domaine', 'template.media', 'structure', 'illustrations', 'template.activity');
+    }
+
+    public function similarForApi(Request $request)
+    {
+        $mission = request('mission');
+        $facetFilters = '';
+        if ($mission['activity']) {
+            $facetFilters = 'activity.name:' . $mission['activity']['name'];
+        } elseif ($mission['domaine']) {
+            $facetFilters = 'domaines:' . $mission['domaine']['name'];
+        }
+
+        $query = Mission::search('')
+            ->with([
+                'facetFilters' => $facetFilters,
+                // Sans prendre en compte l'API, sinon erreur ScoutExtended ObjectID seems invalid
+                'filters' => 'provider:reserve_civique AND is_registration_open=1 AND has_places_left=1 AND is_outdated=0',
+            ]);
+        if ($mission['_geoloc']) {
+            $query->aroundLatLng($mission['_geoloc']['lat'], $mission['_geoloc']['lng']);
+        }
+
+        return $query->paginate(10)->load('domaine', 'template', 'template.domaine', 'template.media', 'structure', 'illustrations', 'template.activity');
     }
 }

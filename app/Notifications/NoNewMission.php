@@ -48,12 +48,13 @@ class NoNewMission extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject('Publiez une nouvelle mission sur JeVeuxAider.gouv.fr')
+            ->subject('Vous nous manquez sur JeVeuxAider.gouv.fr !')
             ->greeting('Bonjour '.$notifiable->profile->first_name.' 👋,')
-            ->line('Cela fait quelques temps que vous n’avez pas proposé de mission sur JeVeuxAider.gouv.fr.')
-            ->line('💡 Si vous souhaitez à nouveau recruter des bénévoles, vous pouvez publier une nouvelle mission en moins de 5 minutes.')
-            ->action('Je propose une mission', url(config('app.front_url').'/admin/organisations/'.$this->structure->id.'/missions/add'))
-            ->line('En cas de besoin, vous pouvez répondre à ce mail pour échanger directement avec le support utilisateurs !');
+            ->line('Nous avons remarqué que vous n’avez pas proposé de nouvelle mission depuis quelques temps sur JeVeuxAider.gouv.fr. Si vous avez besoin de bénévoles, publier une nouvelle mission ne vous prendra que 5 minutes !')
+            ->line('Nous avons à coeur de vous accompagner dans l’engagement de vos bénévoles sur l’ensemble de vos missions. ')
+            ->action('Proposer une mission', url(config('app.front_url').'/admin/organisations/'.$this->structure->id.'/missions/add'))
+            ->line('En cas de besoin, vous pouvez répondre à ce mail pour échanger directement avec le support utilisateurs !')
+            ->tag('app-responsable-no-new-mission');
     }
 
     /**

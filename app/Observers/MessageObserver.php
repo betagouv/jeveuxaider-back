@@ -22,7 +22,7 @@ class MessageObserver
         if ($conversable::class == Participation::class) {
             $participation = $conversable;
             // On vérifie que ce n'est pas le créateur de la conversation
-            if ($participation->profile_id != $user->profile->id) {
+            if ($user && $participation->profile_id != $user->profile->id) {
                 if ($message->conversation) {
                     $message->conversation->setResponseTime()->save();
                 }
@@ -30,10 +30,14 @@ class MessageObserver
 
             // Si la participation est en attente de validation, et que le responsable envoie un message
             // la participation devient "En cours de traitement"
-            if ($participation->profile_id != $user->profile->id) {
+            if ($user && $participation->profile_id != $user->profile->id) {
                 if ($participation->state == 'En attente de validation') {
                     $participation->state = 'En cours de traitement';
                     $participation->saveQuietly(); // Quietly pour éviter la double notif : message + en cours de traitement
+                    // RESPONSE RATIO
+                    $structure = $participation->mission->structure;
+                    $structure->setResponseRatio();
+                    $structure->saveQuietly();
                 }
             }
         }
@@ -70,7 +74,7 @@ class MessageObserver
         // PARTICIPATION - Si le message est à destination du responsable et qu'il n'est pas en realtime
         if ($send && $toUser) {
             if ($conversable::class == Participation::class && $conversable->mission->responsable->user_id == $toUser->id) {
-                if($toUser->profile->notification__responsable_frequency !== 'realtime'){
+                if ($toUser->profile->notification__responsable_frequency !== 'realtime') {
                     $send = false;
                 }
             }
@@ -79,23 +83,23 @@ class MessageObserver
         // STRUCTURE - Si le message est à destination du referent ou du responsable et qu'il n'est pas en realtime
         if ($send && $toUser) {
             if ($conversable::class == Structure::class) {
-                if($toUser->context_role == 'referent' && $toUser->profile->notification__referent_frequency !== 'realtime'){
+                if ($toUser->context_role == 'referent' && $toUser->profile->notification__referent_frequency !== 'realtime') {
                     $send = false;
                 }
-                if($toUser->context_role == 'responsable' && $toUser->profile->notification__responsable_frequency !== 'realtime'){
+                if ($toUser->context_role == 'responsable' && $toUser->profile->notification__responsable_frequency !== 'realtime') {
                     $send = false;
                 }
             }
         }
 
         if ($send && $toUser) {
-            if($conversable::class == Participation::class){
+            if ($conversable::class == Participation::class) {
                 $toUser->notify(new MessageParticipationCreated($message));
             }
-            if($conversable::class == Structure::class){
+            if ($conversable::class == Structure::class) {
                 $toUser->notify(new MessageStructureCreated($message));
             }
-            if($conversable::class == Mission::class){
+            if ($conversable::class == Mission::class) {
                 $toUser->notify(new MessageMissionCreated($message));
             }
         }

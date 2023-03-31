@@ -56,12 +56,13 @@ class StructureSubmitted extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject('Une organisation est en attente de validation')
-            ->greeting('Bonjour '.$notifiable->first_name.',')
-            ->line("L'organisation « ".$this->structure->name." » vient de s'inscrire dans votre département et est en attente de modération.")
-            ->line("Les missions proposées par cette organisation ne seront publiées qu'après validation de l'organisation.")
-            ->line('Pour valider ou signaler cette organisation, rendez vous dans votre espace référent.')
-            ->action('Mon espace référent', url(config('app.front_url').'/admin/organisations?filter[state]=En attente de validation'));
+            ->subject($notifiable->first_name. ', une nouvelle organisation vient de s’inscrire sur JeVeuxAider.gouv.fr !')
+            ->markdown('emails.referents.structure-submitted', [
+                'url' => url(config('app.front_url').'/admin/organisations?filter[state]=En attente de validation'),
+                'structure' => $this->structure,
+                'notifiable' => $notifiable
+            ])
+            ->tag('app-referent-organisation-en-attente-de-validation');
     }
 
     /**

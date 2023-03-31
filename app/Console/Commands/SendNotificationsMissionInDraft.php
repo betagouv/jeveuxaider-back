@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Mission;
-use App\Notifications\MissionInDraft;
+use App\Notifications\MissionStillInDraft;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Notification;
@@ -38,7 +38,7 @@ class SendNotificationsMissionInDraft extends Command
         ]);
 
         foreach ($query->get() as $mission) {
-            Notification::send($mission->responsable, new MissionInDraft($mission));
+            Notification::send($mission->responsable, new MissionStillInDraft($mission));
         }
     }
 }

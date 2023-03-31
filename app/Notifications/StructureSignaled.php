@@ -56,7 +56,7 @@ class StructureSignaled extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject('Votre mission est en cours de traitement ⏳')
+            ->subject('Votre organisation a été signalée')
             ->markdown('emails.responsables.structure-signaled', [
                 'structure' => $this->structure,
                 'notifiable' => $notifiable

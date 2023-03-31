@@ -27,6 +27,9 @@ use Spatie\QueryBuilder\AllowedInclude;
 use Spatie\QueryBuilder\AllowedSort;
 use Spatie\QueryBuilder\QueryBuilder;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Database\Eloquent\Builder;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class StructureController extends Controller
 {
@@ -363,12 +366,33 @@ class StructureController extends Controller
     public function score(Request $request, Structure $structure)
     {
         return [
-            'response_ratio' => $structure->response_ratio,
-            'response_ratio_pts' => $structure->response_ratio_points,
-            'response_time' => $structure->response_time,
-            'response_time_pts' => $structure->response_time_points,
-            'testimonials_bonus' => $structure->testimonials_bonus,
             'score' => $structure->score,
+            'engagement_points' => $structure->engagement_points,
+            'reactivity_points' => $structure->reactivity_points,
+            'bonus_points' => $structure->bonus_points,
+
+            'response_ratio' => $structure->response_ratio,
+            'response_time' => $structure->response_time,
+
+            'nb_last_participations' => $structure->lastParticipationsResponseRatio['total'],
+            'nb_last_participations_with_response' => $structure->lastParticipationsResponseRatio['with_response'],
+            'average_testimony_grade' => round($structure->getAverageTestimonyGrade(), 1)
         ];
+    }
+
+    public function popular(Request $request)
+    {
+        return DB::select(DB::raw("
+            SELECT COUNT(participations) as participations_count, structures.name
+            FROM participations
+            LEFT JOIN missions ON missions.id = participations.mission_id
+            LEFT JOIN structures ON structures.id = missions.structure_id
+            WHERE participations.created_at > NOW() - INTERVAL '30 days'
+            AND missions.state = 'Validée'
+            AND participations.state = 'Validée'
+            GROUP BY structures.name
+            ORDER BY COUNT(participations) DESC
+            LIMIT 20
+        "));
     }
 }

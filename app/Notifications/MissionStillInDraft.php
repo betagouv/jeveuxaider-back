@@ -8,7 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class MissionInDraft extends Notification implements ShouldQueue
+class MissionStillInDraft extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -55,15 +55,14 @@ class MissionInDraft extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $label = $this->mission->template_id ? 'Enregistrer et publier' : 'Soumettre à validation';
-
         return (new MailMessage)
-            ->subject('Votre mission « '.$this->mission->name.' » est restée au statut « Brouillon »')
-            ->greeting('Bonjour '.$notifiable->first_name.' 👋,')
-            ->line("L'une de vos missions est encore au statut « Brouillon » : les visiteurs ne peuvent pas la consulter pour le moment. C'est dommage !")
-            ->line('Pour la mettre en ligne, il suffit de modifier la mission concernée puis de cliquer sur le bouton « '.$label.' » en bas de page.')
-            ->action('Modifier la mission', url(config('app.front_url').'/admin/missions/'.$this->mission->id.'/edit'))
-            ->line('En cas de besoin, vous pouvez répondre à ce mail pour échanger directement avec le support utilisateurs !');
+            ->subject('Votre mission est restée au statut “Brouillon”')
+            ->markdown('emails.responsables.mission-still-in-draft', [
+                'url' => url(config('app.front_url').'/admin/missions/'.$this->mission->id.'/edit'),
+                'mission' => $this->mission,
+                'notifiable' => $notifiable
+            ])
+            ->tag('app-responsable-mission-restee-en-brouillon');
     }
 
     /**

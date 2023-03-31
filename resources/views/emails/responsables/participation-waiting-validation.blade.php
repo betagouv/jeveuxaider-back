@@ -3,7 +3,7 @@
         {{ $benevole->first_name }} attend votre réponse ⌛
     @endcomponent
     @component('mail::components.paragraph', [
-        'title' => 'Il vous propose sa participation sur la mission',
+        'title' => $benevole->first_name . ' vous propose sa participation sur la mission',
         'align' => 'center',
     ])
         {{ $mission->name }}

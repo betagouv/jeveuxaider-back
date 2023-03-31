@@ -12,7 +12,11 @@
         {{ $message->content }}
         @slot('footer')
             @component('mail::button', ['url' => $url, 'align' => 'left'])
-                Répondre au bénévole
+                @if ($isFromResponsable)
+                    Répondre au responsable
+                @else
+                    Répondre au bénévole
+                @endif
             @endcomponent
             @component('mail::components.space', ['height' => 24])
             @endcomponent
