@@ -12,7 +12,7 @@ trait HasRoles
 {
     public function roles()
     {
-        return $this->belongsToMany(Role::class, 'rolables')->withPivot('rolable_type', 'rolable_id', 'invited_by_user_id');
+        return $this->belongsToMany(Role::class, 'rolables')->withPivot('rolable_type', 'rolable_id', 'invited_by_user_id', 'fonction');
     }
 
     public function assignRole($roleName, $rolable = null, $fonction = null, $invitedByUserId = null)
