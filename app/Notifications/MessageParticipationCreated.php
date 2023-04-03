@@ -52,7 +52,7 @@ class MessageParticipationCreated extends Notification implements ShouldQueue
     {
         $participation = $this->message->conversation->conversable;
         $isFromResponsable = $participation->mission->responsable_id == $this->message->from->profile->id ? true: false;
-        $subject = $isFromResponsable ? 'Poursuivez la conversation avec ' . $this->message->from->profile->full_name : $this->message->from->profile->full_name . ' vous en envoyé un nouveau message !';
+        $subject = $isFromResponsable ? 'Nouveau message de la part de ' . $this->message->from->profile->first_name : $this->message->from->profile->first_name . ' vous a envoyé un nouveau message !';
         $tag = $isFromResponsable ? 'app-benevole-nouveau-message' : 'app-organisation-nouveau-message';
 
         return (new MailMessage)

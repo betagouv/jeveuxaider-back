@@ -11,9 +11,9 @@
             <tr>
                 <td align="center" valign="top">
                     <!--[if (gte mso 9)|(IE)]>
-                            <table border="0" cellspacing="0" cellpadding="0">
-                            <tr><td align="center" valign="top" width="325">
-                        <![endif]-->
+                                                                        <table border="0" cellspacing="0" cellpadding="0">
+                                                                        <tr><td align="center" valign="top" width="325">
+                                                                    <![endif]-->
                     <div style="display: inline-block; vertical-align: top; width: 100%; max-width: 325px;">
                         <table cellpadding="0" cellspacing="0" border="0" width="100%" style="width: 88%;">
                             <tbody>
@@ -37,8 +37,14 @@
                                         <a href="{{ config('app.front_url') }}/missions-benevolat?domaines=Sport%20pour%20tous"
                                             style="display: block; max-width: 100%; text-decoration: none;">
                                             <span
-                                                style="color: #101010; font-size: 22px; line-height: 30px; font-weight: 400; letter-spacing: 0px;">Participez à l’organisation d’un évènement sportif</span>
+                                                style="color: #101010; font-size: 22px; line-height: 30px; font-weight: 400; letter-spacing: 0px;">Participez
+                                                à l’organisation d’un évènement sportif</span>
                                         </a>
+                                        @component('mail::components.space', ['height' => 8])
+                                        @endcomponent
+                                        <a class="link"
+                                            href="{{ config('app.front_url') }}/missions-benevolat?domaines=Sport%20pour%20tous">Voir
+                                            les missions ›</a>
                                         @component('mail::components.space', ['height' => 8])
                                         @endcomponent
                                     </td>
@@ -71,8 +77,13 @@
                                             style="display: block; max-width: 100%; text-decoration: none;">
                                             <span
                                                 style="color: #101010; font-size: 22px; line-height: 30px; font-weight: 400; letter-spacing: 0px;">Collectez
-                                                des produits pour lutter contre le gaspillage alimentaire</span>
+                                                des produits pour lutter contre le gaspillage</span>
                                         </a>
+                                        @component('mail::components.space', ['height' => 8])
+                                        @endcomponent
+                                        <a class="link"
+                                            href="{{ config('app.front_url') }}/missions-benevolat?activity.name=Collecte%20de%20produits">Voir
+                                            les missions ›</a>
                                         @component('mail::components.space', ['height' => 8])
                                         @endcomponent
                                     </td>
@@ -81,9 +92,9 @@
                         </table>
                     </div>
                     <!--[if (gte mso 9)|(IE)]>
-                            </td></tr>
-                            </table>
-                        <![endif]-->
+                                                                        </td></tr>
+                                                                        </table>
+                                                                    <![endif]-->
                 </td>
             </tr>
         </tbody>
@@ -94,9 +105,9 @@
             <tr>
                 <td align="center" valign="top">
                     <!--[if (gte mso 9)|(IE)]>
-                            <table border="0" cellspacing="0" cellpadding="0">
-                            <tr><td align="center" valign="top" width="325">
-                        <![endif]-->
+                                                                        <table border="0" cellspacing="0" cellpadding="0">
+                                                                        <tr><td align="center" valign="top" width="325">
+                                                                    <![endif]-->
                     <div style="display: inline-block; vertical-align: top; width: 100%; max-width: 325px;">
                         <table cellpadding="0" cellspacing="0" border="0" width="100%" style="width: 88%;">
                             <tbody>
@@ -125,6 +136,11 @@
                                         </a>
                                         @component('mail::components.space', ['height' => 8])
                                         @endcomponent
+                                        <a class="link"
+                                            href="{{ config('app.front_url') }}/missions-benevolat?activity.name=Mentorat%20%26%20Parrainage">Voir
+                                            les missions ›</a>
+                                        @component('mail::components.space', ['height' => 8])
+                                        @endcomponent
                                     </td>
                                 </tr>
                             </tbody>
@@ -147,14 +163,21 @@
                                         @component('mail::components.space', ['height' => 22])
                                         @endcomponent
                                         <span
-                                            style="color: #21AB8E; font-size: 16px; line-height: 22px; font-weight: 700; text-transform: uppercase;">PROTECTION DE LA NATURE</span>
+                                            style="color: #21AB8E; font-size: 16px; line-height: 22px; font-weight: 700; text-transform: uppercase;">PROTECTION
+                                            DE LA NATURE</span>
                                         @component('mail::components.space', ['height' => 12])
                                         @endcomponent
                                         <a href="{{ config('app.front_url') }}/missions-benevolat?domaines=Protection%20de%20la nature"
                                             style="display: block; max-width: 100%; text-decoration: none;">
                                             <span
-                                                style="color: #101010; font-size: 22px; line-height: 30px; font-weight: 400; letter-spacing: 0px;">Contribuez à la protection de l’environnement</span>
+                                                style="color: #101010; font-size: 22px; line-height: 30px; font-weight: 400; letter-spacing: 0px;">Contribuez
+                                                à la protection de l’environnement</span>
                                         </a>
+                                        @component('mail::components.space', ['height' => 8])
+                                        @endcomponent
+                                        <a class="link"
+                                            href="{{ config('app.front_url') }}/missions-benevolat?domaines=Protection%20de%20la nature">Voir
+                                            les missions ›</a>
                                         @component('mail::components.space', ['height' => 8])
                                         @endcomponent
                                     </td>
@@ -169,7 +192,7 @@
             </tr>
         </tbody>
     </table>
-    @component('mail::components.space', ['height' => 33])
+    @component('mail::components.space', ['height' => 45])
     @endcomponent
     <table cellpadding="0" cellspacing="0" border="0" width="88%" style="width: 88%;">
         <tbody>

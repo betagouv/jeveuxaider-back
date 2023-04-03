@@ -1,6 +1,10 @@
 @component('mail::message')
     @component('mail::components.headline', ['align' => 'center'])
-        {{ $participationsCount }} bénévoles souhaitent vous aider 🙌
+        @if ($participationsCount > 1)
+            {{ $participationsCount }} bénévoles souhaitent vous aider 🙌
+        @else
+            1 bénévole souhaite vous aider 🙌
+        @endif
     @endcomponent
     @component('mail::components.space', ['height' => 24])
     @endcomponent
@@ -19,7 +23,11 @@
         @component('mail::components.space', ['height' => 12])
         @endcomponent
         @component('mail::button', ['url' => $url])
-            Répondre au bénévole
+            @if ($participationsCount > 1)
+                Répondre aux bénévoles
+            @else
+                Répondre au bénévole
+            @endif
         @endcomponent
         @component('mail::components.space', ['height' => 24])
         @endcomponent

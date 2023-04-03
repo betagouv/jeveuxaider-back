@@ -56,7 +56,7 @@ class ParticipationWaitingValidation extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject('👊 ' . $this->participation->profile->full_name .' souhaite participer à votre mission !')
+            ->subject('Vous avez une nouvelle demande de participation 👊')
             ->markdown('emails.responsables.participation-waiting-validation', [
                 'url' => url(config('app.front_url') . '/messages'),
                 'mission' => $this->participation->mission,

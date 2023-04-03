@@ -5,23 +5,30 @@
     @component('mail::components.paragraph', ['title' => 'Au sujet de la mission'])
         {{ $mission->name }}
     @endcomponent
-    @component('mail::components.card-message', [
-        'title' => $from->first_name,
-        'subtitle' => $isFromResponsable ? 'Responsable de mission chez ' . $structure->name : 'Bénévole',
-    ])
-        {{ $message->content }}
-        @slot('footer')
-            @component('mail::button', ['url' => $url, 'align' => 'left'])
-                @if ($isFromResponsable)
-                    Répondre au responsable
-                @else
+    @if ($isFromResponsable)
+        @component('mail::components.paragraph')
+            {{ $from->first_name }}, responsable de mission chez <strong
+                style="color: #1a1a1a; font-weight: 600;">{{ $structure->name }}</strong> vous a envoyé un message. Répondez lui
+            au plus vite.
+        @endcomponent
+        @component('mail::button', ['url' => $url])
+            Voir le message
+        @endcomponent
+    @else
+        @component('mail::components.card-message', [
+            'title' => $from->first_name,
+            'subtitle' => 'Bénévole',
+        ])
+            {{ $message->content }}
+            @slot('footer')
+                @component('mail::button', ['url' => $url, 'align' => 'left'])
                     Répondre au bénévole
-                @endif
-            @endcomponent
-            @component('mail::components.space', ['height' => 24])
-            @endcomponent
-        @endslot
-    @endcomponent
+                @endcomponent
+                @component('mail::components.space', ['height' => 24])
+                @endcomponent
+            @endslot
+        @endcomponent
+    @endif
     @component('mail::components.tips', [
         'title' => $isFromResponsable ? 'Ne le laissez pas sans réponse !' : 'Les petites astuces',
     ])
