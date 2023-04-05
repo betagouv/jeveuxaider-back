@@ -55,7 +55,6 @@ class GenerateStructuresResponseRatioAndTime extends Command
                 $structure->setResponseRatio();
                 $structure->setResponseTime();
                 $structure->saveQuietly();
-                $this->info("\n" . $structure->name . ' : response time ' . $structure->response_time);
                 $bar->advance();
             }
 
