@@ -32,6 +32,18 @@ class MessageObserver
             // la participation devient "En cours de traitement"
             if ($user && $participation->profile_id != $user->profile->id) {
                 if ($participation->state == 'En attente de validation') {
+
+                    // Log (because saveQuietly)
+                    activity()
+                        ->causedBy($user)
+                        ->performedOn($participation)
+                        ->withProperties([
+                                'attributes' => ['state' => 'En cours de traitement'],
+                                'old' => ['state' => $participation->state]
+                            ])
+                        ->event('updated')
+                        ->log('updated');
+
                     $participation->state = 'En cours de traitement';
                     $participation->saveQuietly(); // Quietly pour éviter la double notif : message + en cours de traitement
                     // RESPONSE RATIO

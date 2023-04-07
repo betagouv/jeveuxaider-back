@@ -192,6 +192,9 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     // ACTIVITY LOGS
     Route::get('activity-logs', 'Api\ActivityLogController@index');
     Route::get('activity-logs/{activityLog}', 'Api\ActivityLogController@show');
+    Route::get('activity-logs/structure/{structure}/states', 'Api\ActivityLogController@structureStatesChanges');
+    Route::get('activity-logs/mission/{mission}/states', 'Api\ActivityLogController@missionStatesChanges');
+    Route::get('activity-logs/participation/{participation}/states', 'Api\ActivityLogController@participationStatesChanges');
 
     // TERRITOIRES
     Route::post('territoires', 'Api\TerritoireController@store');
