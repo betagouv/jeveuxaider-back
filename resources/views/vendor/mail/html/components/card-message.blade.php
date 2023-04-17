@@ -16,7 +16,7 @@
                                 @component('mail::components.space', ['height' => 10])
                                 @endcomponent
                                 <span style="display: block; max-width: 50px;">
-                                    <img src="{{ config('app.front_url') }}/images/mail/user.jpg" alt="img"
+                                    <img src="https://www.jeveuxaider.gouv.fr/images/mail/user.jpg" alt="img"
                                         width="50" border="0"
                                         style="display: block; width: 50px;border-radius:100px">
                                 </span>
