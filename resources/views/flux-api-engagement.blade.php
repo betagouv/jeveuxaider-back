@@ -242,6 +242,12 @@
                 <![CDATA[{{ $mission->illustrations[0]->urls['original'] }}]]>
             @endif
         </image>
+        <schedule>
+            @php
+                $schedule = isset($mission->commitment__duration) ? isset($mission->commitment__time_period) ? config('taxonomies.duration.terms')[$mission->commitment__duration] . ' par ' . config('taxonomies.time_period.terms')[$mission->commitment__time_period] : config('taxonomies.duration.terms')[$mission->commitment__duration] : null;
+            @endphp
+            <![CDATA[{{ $schedule }}]]>
+        </schedule>
     </mission>
 @endforeach
 </source>

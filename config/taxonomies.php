@@ -915,7 +915,9 @@ return [
             "2_hours" => "2 heures",
             "half_day" => "Une demi-journée",
             "day" => "1 jour",
+            "2_days" => "2 jours",
             "3_days" => "3 jours",
+            "4_days" => "4 jours",
             "5_days" => "5 jours",
         ]
     ],
@@ -929,6 +931,7 @@ return [
     'time_period' => [
         "vocabulary" => "Période de temps",
         "terms" => [
+            "day" => "jour",
             "week" => "semaine",
             "month" => "mois",
             "year" => "an"
