@@ -162,8 +162,8 @@ class UserController extends Controller
                 $participation->conversation->messages()->create([
                     'from_id' => $user->id,
                     'type' => 'contextual',
-                    'content' => 'La participation a été annulée par ' . $user->profile->full_name,
-                    'contextual_state' => 'Annulée par bénévole',
+                    'content' => 'La participation a été annulée',
+                    'contextual_state' => 'Désinscription',
                     'contextual_reason' => 'user_unsubscribed',
                 ]);
 
