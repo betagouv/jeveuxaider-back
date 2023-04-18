@@ -153,7 +153,34 @@ class UserController extends Controller
 
     public function anonymize(Request $request)
     {
+
         $user = $request->user();
+
+        // Annulation de ses participations en cours de modération
+        $user->profile->participations()->with(['conversation'])->whereIn('state', ['En attente de validation', 'En cours de traitement'])
+            ->each(function ($participation) use ($user) {
+                $participation->conversation->messages()->create([
+                    'from_id' => $user->id,
+                    'type' => 'contextual',
+                    'content' => 'La participation a été annulée par ' . $user->profile->full_name,
+                    'contextual_state' => 'Annulée par bénévole',
+                    'contextual_reason' => 'user_unsubscribed',
+                ]);
+
+                activity()
+                    ->causedBy($user)
+                    ->performedOn($participation)
+                    ->withProperties([
+                            'attributes' => ['state' => 'Annulée'],
+                            'old' => ['state' => $participation->state]
+                        ])
+                    ->event('updated')
+                    ->log('updated');
+
+                $participation->state = 'Annulée';
+                $participation->saveQuietly();
+            });
+
         $notification = new UserAnonymize($user);
         $user->notify($notification);
         Sendinblue::deleteContact($user);
