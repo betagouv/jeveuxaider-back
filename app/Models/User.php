@@ -16,7 +16,7 @@ class User extends Authenticatable
     use HasApiTokens, Notifiable, HasRoles;
 
     protected $fillable = [
-        'name', 'email', 'password', 'context_role', 'contextable_type', 'contextable_id', 'utm_source', 'utm_campaign', 'utm_medium',
+        'name', 'email', 'password', 'context_role', 'contextable_type', 'contextable_id', 'utm_source', 'utm_campaign', 'utm_medium', 'has_agreed_responsable_terms_at',
     ];
 
     protected $hidden = [
@@ -135,7 +135,7 @@ class User extends Authenticatable
 
     public function anonymize()
     {
-        $email = $this->id.'@anonymized.fr';
+        $email = $this->id . '@anonymized.fr';
         $this->anonymous_at = Carbon::now();
         $this->name = $email;
         $this->email = $email;
@@ -156,7 +156,7 @@ class User extends Authenticatable
         if ($this->roles()->count() > 0) {
             $role = $this->roles()->first();
             $this->context_role = $role['name'];
-            if(isset($role['pivot'])) {
+            if (isset($role['pivot'])) {
                 $this->contextable_id = $role['pivot']['rolable_id'];
                 switch ($role['pivot']['rolable_type']) {
                     case 'App\Models\Structure':
