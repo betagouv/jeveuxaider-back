@@ -234,6 +234,8 @@ class User extends Authenticatable
                 ->whereIn('state', ['En attente de validation'])
                 ->whereDate('created_at', '>=', (Carbon::createMidnightDate()))
                 ->count(),
+            'missions_as_responsable_count' => Mission::where('responsable_id', $this->profile->id)
+                ->count(),
         ];
     }
 

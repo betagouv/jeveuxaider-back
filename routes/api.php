@@ -68,7 +68,7 @@ Route::post('webhook/sendinblue', 'Api\WebhookController@sendinblue');
 
 Route::get('emailable/verify/{email}', 'Api\EmailableController@verify');
 
-// Route::post('algolia/missions', 'Api\AlgoliaController@missions');
+
 Route::get('organisations/popular', 'Api\StructureController@popular');
 
 Route::group(['middleware' => ['auth:api']], function () {
@@ -412,6 +412,10 @@ Route::group(['middleware' => ['auth:api', 'is.admin.or.referent']], function ()
 
     // CONVERSATIONS
     Route::post('conversations', 'Api\ConversationsController@store');
+
+    // ALGOLIA
+    Route::post('algolia/missions', 'Api\AlgoliaController@missions');
+    Route::post('algolia/organisations', 'Api\AlgoliaController@organisations');
 });
 
 

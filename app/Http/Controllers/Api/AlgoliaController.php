@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Mission;
+use App\Models\Structure;
 use Illuminate\Http\Request;
 
 class AlgoliaController extends Controller
@@ -21,6 +22,20 @@ class AlgoliaController extends Controller
         $results = $query
             ->paginate($request->input('paginate') ?? 10)
             ->load('domaine', 'template', 'template.domaine', 'template.media', 'structure', 'illustrations', 'template.activity');
+
+        return $results;
+    }
+
+    public function organisations(Request $request)
+    {
+        $query = Structure::search($request->input('search'))
+            ->with([
+                'restrictSearchableAttributes' => ['name'],
+            ]);
+
+        $results = $query
+            ->paginate($request->input('paginate') ?? 10)
+            ;
 
         return $results;
     }
