@@ -31,6 +31,10 @@ class AlgoliaController extends Controller
         $query = Structure::search($request->input('search'))
             ->with([
                 'restrictSearchableAttributes' => ['name'],
+                'facetFilters' => $request->input('facetFilters') ?? '',
+                'filters' => $request->input('filters') ?? '',
+                'numericFilters' => $request->input('numericFilters') ?? '',
+                'aroundLatLngViaIP' => $request->input('aroundLatLngViaIP') ?? false
             ]);
 
         $results = $query
