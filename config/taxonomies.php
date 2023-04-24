@@ -968,7 +968,7 @@ return [
             8 => "mémoire et citoyenneté", // Mémoire et citoyenneté
             9 => "education", // Éducation pour tous
             10 => "environnement", // Protection de la nature
-            11 => "autre", // Bénévolat de compétences
+            11 => "benevolat-competences", // Bénévolat de compétences
         ]
     ],
 
