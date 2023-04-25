@@ -52,9 +52,6 @@ class ParticipationsRefuseExplorJob extends Command
                             'read_at' => Carbon::now(),
                         ]);
                     }
-
-                    // Trigger updated_at refresh.
-                    $participation->conversation->touch();
                 }
 
                 // Changer évolution des statuts

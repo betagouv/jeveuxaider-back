@@ -255,12 +255,11 @@ class User extends Authenticatable
 
             if ($message) {
                 $this->sendMessage($participation->conversation->id, $message);
+                // Trigger updated_at refresh.
+                $participation->conversation->touch();
             }
 
             $this->markConversationAsRead($participation->conversation);
-
-            // Trigger updated_at refresh.
-            $participation->conversation->touch();
 
             $participation->profile->notify(new ParticipationDeclined($participation, $message, $reason));
         }

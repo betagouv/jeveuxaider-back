@@ -58,7 +58,6 @@ class ParticipationsValidateAccesLibre extends Command
                     $responsable = $participation->mission->responsable->user;
                     $responsable->markConversationAsRead($participation->conversation);
                     $participation->conversation->setResponseTime()->save();
-                    $participation->conversation->touch();
                 }
 
                 $participation->state = 'Validée';

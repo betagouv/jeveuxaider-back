@@ -21,10 +21,12 @@ class MessageObserver
         $conversable = $message->conversation->conversable;
         if ($conversable::class == Participation::class) {
             $participation = $conversable;
-            // On vérifie que ce n'est pas le créateur de la conversation
+            // On vérifie que ce n'est pas le bénévole (= le créateur de la conversation)
             if ($user && $participation->profile_id != $user->profile->id) {
                 if ($message->conversation) {
-                    $message->conversation->setResponseTime()->save();
+                    $message->conversation->setResponseTime();
+                    $message->conversation->timestamps = false;
+                    $message->conversation->save();
                 }
             }
 

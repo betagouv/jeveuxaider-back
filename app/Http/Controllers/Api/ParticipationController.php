@@ -141,12 +141,11 @@ class ParticipationController extends Controller
 
             if ($request->input('content')) {
                 $currentUser->sendMessage($participation->conversation->id, $request->input('content'));
+                // Trigger updated_at refresh.
+                $participation->conversation->touch();
             }
 
             $currentUser->markConversationAsRead($participation->conversation);
-
-            // Trigger updated_at refresh.
-            $participation->conversation->touch();
 
             $participation->mission->responsable->notify(new ParticipationBenevoleCanceled($participation, $request->input('content'), $request->input('reason')));
         }
