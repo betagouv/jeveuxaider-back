@@ -83,8 +83,8 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::put('profiles/{profile}/activity/{activity}/attach', 'Api\ProfileController@attachActivity');
     Route::put('profiles/{profile}/activity/{activity}/detach', 'Api\ProfileController@detachActivity');
 
-    Route::get('user/actions', 'Api\ActionController@index');
-    Route::get('user/actions/benevole', 'Api\ActionController@benevole');
+    Route::get('user/actions', 'Api\UserActionController@index');
+    Route::get('user/actions/benevole', 'Api\UserActionController@benevole');
     Route::get('users/{user}/roles', 'Api\UserController@roles');
 
     Route::get('medias', 'Api\MediaController@index');
@@ -210,7 +210,7 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::get('reseaux', 'Api\ReseauController@index');
 
     // SNU
-    Route::get('user/snu-actions', 'Api\ActionController@snuWaitingActions');
+    Route::get('user/snu-actions', 'Api\UserActionController@snuWaitingActions');
 
     // ACTIVITIES
     Route::get('activities', 'Api\ActivityController@index');
@@ -250,6 +250,13 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::put('documents/{document}', 'Api\DocumentController@update');
     Route::post('documents/{document}/notify', 'Api\DocumentController@notify');
     Route::delete('documents/{document}', 'Api\DocumentController@delete');
+
+    // Rules
+    Route::get('rules', 'Api\RuleController@index');
+    Route::get('rules/{rule}', 'Api\RuleController@show');
+    Route::post('rules', 'Api\RuleController@store');
+    Route::put('rules/{rule}', 'Api\RuleController@update');
+    Route::delete('rules/{rule}', 'Api\RuleController@delete');
 
     // USER
     Route::get('users/{user}/actions', 'Api\UserController@actions');

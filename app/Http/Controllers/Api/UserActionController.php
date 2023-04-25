@@ -13,7 +13,7 @@ use App\Settings\GeneralSettings;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
-class ActionController extends Controller
+class UserActionController extends Controller
 {
     public function index(Request $request)
     {
