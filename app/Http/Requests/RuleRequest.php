@@ -20,7 +20,7 @@ class RuleRequest extends FormRequest
                 'max:255',
             ],
             'events' => 'array|required',
-            'criterias' => 'array|required',
+            'conditions' => 'array|required',
             'actions' => 'array|required',
             'is_active' => 'boolean',
         ];

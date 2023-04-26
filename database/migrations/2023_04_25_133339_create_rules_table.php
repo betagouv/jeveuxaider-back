@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->json('events');
-            $table->json('criterias');
+            $table->json('conditions');
             $table->json('actions');
             $table->boolean('is_active');
             $table->timestamps();

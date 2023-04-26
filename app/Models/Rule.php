@@ -18,7 +18,7 @@ class Rule extends Model
 
     protected $casts = [
         'events' => 'array',
-        'criterias' => 'json',
+        'conditions' => 'json',
         'actions' => 'json',
     ];
 
