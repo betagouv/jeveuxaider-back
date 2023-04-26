@@ -287,7 +287,7 @@ class Structure extends Model implements HasMedia
 
     public function missionsAvailable()
     {
-        return $this->hasMany('App\Models\Mission')->where('state', 'Validée');
+        return $this->hasMany('App\Models\Mission')->where('state', 'Validée')->where('is_active', true);
     }
 
     public function participations()
@@ -539,8 +539,8 @@ class Structure extends Model implements HasMedia
     {
         return Attribute::make(
             get: function () {
-                $activitiesThroughMissions = Mission::ofStructure($this->id)->where('state', 'Validée')->whereHas('activity')->get()->map(fn ($mission) => $mission->activity_id)->toArray();
-                $activitiesThroughTemplates = Mission::ofStructure($this->id)->where('state', 'Validée')->whereHas('template.activity')->get()->map(fn ($mission) => $mission->template->activity_id)->toArray();
+                $activitiesThroughMissions = Mission::ofStructure($this->id)->where('state', 'Validée')->where('is_active', true)->whereHas('activity')->get()->map(fn ($mission) => $mission->activity_id)->toArray();
+                $activitiesThroughTemplates = Mission::ofStructure($this->id)->where('state', 'Validée')->where('is_active', true)->whereHas('template.activity')->get()->map(fn ($mission) => $mission->template->activity_id)->toArray();
                 $activitiesMergedIds = array_unique(array_merge($activitiesThroughMissions, $activitiesThroughTemplates));
 
                 return Activity::whereIn('id', $activitiesMergedIds)->get();
