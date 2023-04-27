@@ -236,6 +236,7 @@ class User extends Authenticatable
                 ->count(),
             'missions_as_responsable_count' => Mission::where('responsable_id', $this->profile->id)
                 ->count(),
+            'missions_inactive_count' => $this->profile->missionsInactive->count()
         ];
     }
 
