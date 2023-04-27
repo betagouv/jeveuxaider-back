@@ -244,6 +244,11 @@ class Profile extends Model implements HasMedia
         return $this->hasMany('App\Models\Mission', 'responsable_id');
     }
 
+    public function missionsInactive()
+    {
+        return $this->hasMany('App\Models\Mission', 'responsable_id')->where('is_active', false);
+    }
+
     // Todo : supprimer cette fonction après migration des rôles
     public function oldStructures()
     {
