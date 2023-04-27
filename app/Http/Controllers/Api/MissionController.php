@@ -72,8 +72,8 @@ class MissionController extends Controller
                 AllowedFilter::custom('is_template', new FiltersMissionIsTemplate),
                 AllowedFilter::exact('is_autonomy'),
                 AllowedFilter::custom('tags', new FiltersTags),
-                AllowedFilter::custom('no_tags', new FiltersDoesntHaveTags)
-
+                AllowedFilter::custom('no_tags', new FiltersDoesntHaveTags),
+                AllowedFilter::exact('is_active')
             ])
             ->allowedIncludes([
                 'template.photo',
