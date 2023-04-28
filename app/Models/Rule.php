@@ -26,7 +26,7 @@ class Rule extends Model
     {
         return LogOptions::defaults()
             ->logOnly(['*'])
-            ->logExcept(['updated_at'])
+            ->logExcept(['updated_at', 'last_triggered_at', 'triggers_count'])
             ->logOnlyDirty()
             ->dontSubmitEmptyLogs();
     }

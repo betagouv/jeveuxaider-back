@@ -20,6 +20,8 @@ return new class extends Migration
             $table->json('conditions');
             $table->json('actions');
             $table->boolean('is_active');
+            $table->integer('triggers_count')->nullable();
+            $table->timestamp('last_triggered_at')->nullable();
             $table->timestamps();
         });
     }
