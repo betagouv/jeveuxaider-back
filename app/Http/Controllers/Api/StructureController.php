@@ -347,7 +347,7 @@ class StructureController extends Controller
     {
         return $structure->members()->with(['profile' => function ($query) {
             $query->withCount('missions');
-        }])->get();
+        }, 'profile.tags'])->get();
     }
 
     public function addResponsable(AddResponsableRequest $request, Structure $structure)
