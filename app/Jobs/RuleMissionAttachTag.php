@@ -17,18 +17,16 @@ class RuleMissionAttachTag implements ShouldQueue
 
     protected $rule;
     protected $mission;
-    protected $tagId;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(Rule $rule, Mission $mission, $tagId)
+    public function __construct(Rule $rule, Mission $mission)
     {
         $this->rule = $rule;
         $this->mission = $mission;
-        $this->tagId = $tagId;
         $this->onQueue('rules');
     }
 
@@ -39,7 +37,7 @@ class RuleMissionAttachTag implements ShouldQueue
      */
     public function handle()
     {
-        $this->mission->tags()->syncWithoutDetaching([$this->tagId => ['field' => 'mission_tags']]);
+        $this->mission->tags()->syncWithoutDetaching([$this->rule->action_value => ['field' => 'mission_tags']]);
 
         if ( $this->mission->shouldBeSearchable()) {
              $this->mission->searchable();

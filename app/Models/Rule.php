@@ -46,11 +46,15 @@ class Rule extends Model
         return  $pendingItems ?  $pendingItems->count() : false;
     }
 
+    public function scopeActive($query){
+        return $query->where('is_active', 1);
+    }
+
     protected function pendingItems()
     {
         $queryBuilder = $this->resolveQueryBuilder();
 
-        if($this->action_key == 'attach_tag') {
+        if($this->action_key == 'mission_attach_tag') {
             $queryBuilder->whereDoesntHave('tags', function(Builder $query) {
                 $query->where('id', $this->action_value);
             });
@@ -62,8 +66,8 @@ class Rule extends Model
     public function bulkExecute()
     {
         $this->pendingItems()->each(function($item) {
-            if($this->action_key == 'attach_tag') {
-                RuleMissionAttachTag::dispatch($this, $item, $this->action_value);
+            if($this->action_key == 'mission_attach_tag') {
+                RuleMissionAttachTag::dispatch($this, $item);
             }
         });
     }
