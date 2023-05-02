@@ -27,8 +27,10 @@ use App\Notifications\MessageParticipationCreated;
 use App\Notifications\MessageStructureCreated;
 use App\Notifications\MissionAlmostFull;
 use App\Notifications\MissionBeingProcessed;
+use App\Notifications\MissionDeactivated;
 use App\Notifications\MissionStillInDraft;
 use App\Notifications\MissionOutdated;
+use App\Notifications\MissionReactivated;
 use App\Notifications\MissionSignaled;
 use App\Notifications\MissionSubmitted;
 use App\Notifications\MissionTemplateWaiting;
@@ -372,6 +374,12 @@ class NotificationController extends Controller
                     ->where('notification__referent_bilan', true)
                     ->latest()->first();
                 $notification = new ReferentSummaryMonthly($profile->id);
+                break;
+            case 'responsable_missions_deactivated':
+                $notification = new MissionDeactivated($mission);
+                break;
+            case 'responsable_missions_reactivated':
+                $notification = new MissionReactivated($mission);
                 break;
             default:
                 return null;

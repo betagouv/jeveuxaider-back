@@ -10,6 +10,8 @@ use App\Models\Mission;
 use App\Models\Participation;
 use App\Models\Profile;
 use App\Notifications\MissionBeingProcessed;
+use App\Notifications\MissionDeactivated;
+use App\Notifications\MissionReactivated;
 use App\Notifications\MissionSignaled;
 use App\Notifications\MissionSubmitted;
 use App\Notifications\MissionValidated;
@@ -175,6 +177,14 @@ class MissionObserver
         // Sync QPV
         if (config('services.qpv.sync')) {
             MissionGetQPV::dispatch($mission);
+        }
+
+        if ($mission->getOriginal('is_active') != $mission->is_active) {
+            if ($mission->is_active) {
+                $mission->responsable->notify(new MissionReactivated($mission));
+            } else {
+                $mission->responsable->notify(new MissionDeactivated($mission));
+            }
         }
     }
 
