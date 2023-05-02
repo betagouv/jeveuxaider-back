@@ -9,6 +9,7 @@ use App\Models\Rule;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
+use Illuminate\Support\Facades\Validator;
 
 class RuleController extends Controller
 {
@@ -23,8 +24,12 @@ class RuleController extends Controller
             ->paginate(config('query-builder.results_per_page'));
     }
 
-    public function show(Rule $rule)
+    public function show(Request $request, Rule $rule)
     {
+        if($request->has('appends')){
+            $rule->append(explode(',',$request->input('appends')));
+        }
+
         return $rule;
     }
 
@@ -45,6 +50,23 @@ class RuleController extends Controller
     public function delete(Request $request, Rule $rule)
     {
         return (string) $rule->delete();
+    }
+
+    public function bulkExecute(Rule $rule)
+    {
+        $validator = Validator::make($rule->toArray(), [
+            'conditions' => 'array|required',
+            'action_key' => 'required',
+            'action_value' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            abort('422', "Cette règle n'a pas de conditions ou d'action");
+        }
+
+        $rule->bulkExecute();
+
+        return true;
     }
 
 }

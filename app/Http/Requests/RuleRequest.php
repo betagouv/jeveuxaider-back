@@ -21,7 +21,8 @@ class RuleRequest extends FormRequest
             ],
             'events' => 'array|required',
             'conditions' => 'array|required',
-            'actions' => 'array|required',
+            'action_key' => 'required',
+            'action_value' => 'required',
             'is_active' => 'boolean',
         ];
     }

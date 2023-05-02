@@ -18,9 +18,10 @@ return new class extends Migration
             $table->string('name');
             $table->json('events');
             $table->json('conditions');
-            $table->json('actions');
+            $table->string('action_key');
+            $table->string('action_value');
             $table->boolean('is_active');
-            $table->integer('triggers_count')->nullable();
+            $table->integer('triggers_count')->default(0);
             $table->timestamp('last_triggered_at')->nullable();
             $table->timestamps();
         });
