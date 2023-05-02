@@ -12,6 +12,7 @@ use App\Http\Requests\Api\ProfileUpdateRequest;
 use App\Http\Requests\ProfileRequest;
 use App\Jobs\AirtableSyncObject;
 use App\Models\Activity;
+use App\Models\Mission;
 use App\Models\Profile;
 use App\Sorts\ProfileParticipationsValidatedCountSort;
 use Illuminate\Http\Request;
@@ -139,4 +140,17 @@ class ProfileController extends Controller
         return $profile;
     }
 
+    public function setMissionsIsActiveForResponsable (Request $request, Profile $profile)
+    {
+        if ($request->input('is_active')) {
+            $missionIds = Mission::ofResponsable($profile->id)->where('is_active', false)->get()->pluck('id');
+            Mission::whereIn('id', $missionIds)->update(['is_active' => true]);
+            Mission::whereIn('id', $missionIds)->with('structure')->searchable();
+        }
+        else {
+            $missionIds = Mission::ofResponsable($profile->id)->available()->get()->pluck('id');
+            Mission::whereIn('id', $missionIds)->update(['is_active' => false]);
+            Mission::whereIn('id', $missionIds)->unsearchable();
+        }
+    }
 }
