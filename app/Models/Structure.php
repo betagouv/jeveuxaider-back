@@ -363,6 +363,7 @@ class Structure extends Model implements HasMedia
             ->where('conversable_type', 'App\Models\Participation')
             ->latest('conversations.created_at')
             ->take(30)
+            ->get()
             ->avg('response_time');
 
         if ($avgResponseTime) {

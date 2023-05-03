@@ -12,7 +12,7 @@
     @endcomponent
     @component('mail::components.card')
         <div style="display: block; max-width: 100px;">
-            <img src="{{ config('app.front_url') }}/images/mail/user.jpg" alt="img" width="100" border="0"
+            <img src="https://www.jeveuxaider.gouv.fr/images/mail/user.jpg" alt="img" width="100" border="0"
                 style="display: block; width: 100px; border-radius:100px">
         </div>
         @component('mail::components.space', ['height' => 24])

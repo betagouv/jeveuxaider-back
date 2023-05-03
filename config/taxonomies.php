@@ -915,7 +915,9 @@ return [
             "2_hours" => "2 heures",
             "half_day" => "Une demi-journée",
             "day" => "1 jour",
+            "2_days" => "2 jours",
             "3_days" => "3 jours",
+            "4_days" => "4 jours",
             "5_days" => "5 jours",
         ]
     ],
@@ -929,6 +931,7 @@ return [
     'time_period' => [
         "vocabulary" => "Période de temps",
         "terms" => [
+            "day" => "jour",
             "week" => "semaine",
             "month" => "mois",
             "year" => "an"
@@ -951,5 +954,66 @@ return [
     //         "5" => "5 étoiles",
     //     ]
     // ],
+
+    'api_engagement_domaines' => [
+        "vocabulary" => "Tableau de correspondance des domaines",
+        "terms" => [
+            1 => "sante", // Santé pour tous
+            2 => "prevention-protection", // Prévention et protection
+            3 => "culture-loisirs", // Art et culture pour tous
+            4 => "sport", // Sport pour tous
+            5 => "sante", // Mobilisation covid-19
+            6 => "vivre-ensemble", // Coopération internationale
+            7 => "solidarite-insertion", // Solidarité et insertion
+            8 => "mémoire et citoyenneté", // Mémoire et citoyenneté
+            9 => "education", // Éducation pour tous
+            10 => "environnement", // Protection de la nature
+            11 => "benevolat-competences", // Bénévolat de compétences
+        ]
+    ],
+
+    'api_engagement_activities' => [
+        "vocabulary" => "Tableau de correspondance des activités",
+        "terms" => [
+            1 => "collecte", // Maraude
+            2 => "sante-soins", // Médical
+            3 => "taches-administratives", // Aide aux démarches administratives
+            4 => "alphabetisation", // Alphabétisation / Apprentissage du français (FLE)
+            5 => "jardinage", // Aménagement d'espaces naturels
+            6 => "animation", // Animation / Loisirs
+            7 => "collecte", // Collecte de produits
+            8 => "lutte-contre-isolement", // Lutte contre l'isolement
+            10 => "mentorat-parrainage", // Mentorat & Parrainage
+            11 => "autre", // Evenementiel
+            12 => "ramassage-dechets", // Ramassage de déchets
+            14 => "secourisme", // Secourisme et sécurité civile
+            15 => "autre", // Services à la personne
+            16 => "soins-animaux", // Soins aux animaux
+            17 => "soutien-scolaire", // Soutien scolaire et formation
+            18 => "autre", // Vie citoyenne
+            19 => "sensibilisation", // Actions de sensibilisation
+            20 => "encadrement-d-equipes", // Accompagnement aux activités sportives
+            21 => "accueil-de-public", // Accueil / Information
+            22 => "activites-manuelles", // Travaux manuelles
+            23 => "gestion-recherche-des-partenariats", // Collecte de fonds
+            24 => "communication", // Communication
+            26 => "gestion-recherche-des-partenariats", // Recherche de partenariats
+            27 => "autre", // Dialogue interculturel
+            28 => "distribution", // Distribution
+            29 => "aide-psychologique", // Écoute / Aide psychologique
+            30 => "comptabilite-finance", // Gestion financière / comptabilité
+            31 => "taches-administratives", // Gestion administrative
+            32 => "responsabilites-associatives", // Gouvernance
+            33 => "logistique", // Logistique
+            34 => "autre", // Médiation culturelle
+            35 => "documentation-traduction", // Traduction
+            36 => "autre", // Accompagnement à la mobilité
+            37 => "gestion-de-projets", // Gestion de projets
+            38 => "recrutement", // Gestion des ressources humaines
+            39 => "informatique", // Informatique
+            40 => "autre", // Valorisation du patrimoine
+            41 => "juridique", // Droit et conseil juridique
+        ]
+    ],
 
 ];

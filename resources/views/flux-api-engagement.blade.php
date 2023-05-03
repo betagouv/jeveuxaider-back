@@ -115,91 +115,21 @@
                 @endforeach
             @endif
         </autonomyZips>
-        @php
-            $domain_id = $mission->template ? $mission->template->domaine_id : $mission->domaine_id;
-        @endphp
-        @switch($domain_id)
-            @case(5)
-                {{-- Mobilisation covid-19 --}}
-                <domain>
-                    <![CDATA[sante]]>
-                </domain>
-            @break
 
-            @case(9)
-                {{-- Éducation pour tous --}}
-                <domain>
-                    <![CDATA[education]]>
-                </domain>
-            @break
-
-            @case(1)
-                {{-- Santé pour tous --}}
-                <domain>
-                    <![CDATA[sante]]>
-                </domain>
-            @break
-
-            @case(10)
-                {{-- Protection de la nature --}}
-                <domain>
-                    <![CDATA[environnement]]>
-                </domain>
-            @break
-
-            @case(7)
-                {{-- Solidarité et insertion --}}
-                <domain>
-                    <![CDATA[solidarite-insertion]]>
-                </domain>
-            @break
-
-            @case(4)
-                {{-- Sport pour tous --}}
-                <domain>
-                    <![CDATA[sport]]>
-                </domain>
-            @break
-
-            @case(2)
-                {{-- Prévention et protection --}}
-                <domain>
-                    <![CDATA[prevention-protection]]>
-                </domain>
-            @break
-
-            @case(8)
-                {{-- Mémoire et citoyenneté --}}
-                <domain>
-                    <![CDATA[mémoire et citoyenneté]]>
-                </domain>
-            @break
-
-            @case(6)
-                {{-- Coopération internationale --}}
-                <domain>
-                    <![CDATA[vivre-ensemble]]>
-                </domain>
-            @break
-
-            @case(3)
-                {{-- Art et culture pour tous --}}
-                <domain>
-                    <![CDATA[culture-loisirs]]>
-                </domain>
-            @break
-
-            @default
-                <domain>
-                    <![CDATA[autre]]>
-                </domain>
-        @endswitch
+        <domain>
+            @php
+                $domainId = $mission->template ? $mission->template->domaine_id : $mission->domaine_id;
+                $domainApiName = (isset($domainId) && isset(config('taxonomies.api_engagement_domaines.terms')[$domainId])) ? config('taxonomies.api_engagement_domaines.terms')[$domainId] : "autre";
+            @endphp
+            <![CDATA[{{ $domainApiName }}]]>
+        </domain>
 
         <activity>
             @php
-                $activity = $mission->template ? $mission->template->activity : $mission->activity;
+                $activityId = $mission->template ? $mission->template->activity_id : $mission->activity_id;
+                $activityApiName = (isset($activityId) && isset(config('taxonomies.api_engagement_activities.terms')[$activityId])) ? config('taxonomies.api_engagement_activities.terms')[$activityId] : null;
             @endphp
-            <![CDATA[{{ $activity ? $activity->name : null }}]]>
+            <![CDATA[{{ $activityApiName }}]]>
         </activity>
 
         <publicsBeneficiaires>
@@ -242,6 +172,12 @@
                 <![CDATA[{{ $mission->illustrations[0]->urls['original'] }}]]>
             @endif
         </image>
+        <schedule>
+            @php
+                $schedule = isset($mission->commitment__duration) ? isset($mission->commitment__time_period) ? config('taxonomies.duration.terms')[$mission->commitment__duration] . ' par ' . config('taxonomies.time_period.terms')[$mission->commitment__time_period] : config('taxonomies.duration.terms')[$mission->commitment__duration] : null;
+            @endphp
+            <![CDATA[{{ $schedule }}]]>
+        </schedule>
     </mission>
 @endforeach
 </source>

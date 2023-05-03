@@ -122,7 +122,20 @@ class MissionObserver
                 case 'Terminée':
                     if ($mission->responsable) {
                         // Notif OFF
-                        $mission->participations()->whereIn('state', ['En attente de validation', 'En cours de traitement'])->update(['state' => 'Annulée']);
+                        $mission->participations->whereIn('state', ['En attente de validation', 'En cours de traitement'])
+                            ->each(function ($participation) {
+                                activity()
+                                    ->performedOn($participation)
+                                    ->withProperties([
+                                            'attributes' => ['state' => 'Annulée'],
+                                            'old' => ['state' => $participation->state]
+                                        ])
+                                    ->event('updated')
+                                    ->log('updated');
+
+                                $participation->state = 'Annulée';
+                                $participation->saveQuietly();
+                            });
 
                         // Notifications temoignage.
                         $mission->sendNotificationsTemoignages();

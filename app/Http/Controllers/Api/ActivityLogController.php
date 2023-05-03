@@ -6,8 +6,10 @@ use App\Filters\FiltersActivityLogsSearch;
 use App\Filters\FiltersActivityLogsType;
 use App\Http\Controllers\Controller;
 use App\Models\ActivityLog;
+use App\Models\Mission;
 use App\Models\Participation;
 use App\Models\Profile;
+use App\Models\Structure;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\AllowedInclude;
@@ -52,5 +54,35 @@ class ActivityLogController extends Controller
     {
         $activityLog->load(['causer.roles', 'causer.profile.tags', 'subject']);
         return $activityLog;
+    }
+
+    public function structureStatesChanges(Request $request, Structure $structure)
+    {
+        return ActivityLog::with('causer.profile')
+            ->where('subject_id', $structure->id)
+            ->where('subject_type', 'App\Models\Structure')
+            ->where('properties->attributes->state','<>', '')
+            ->orderBy('created_at')
+            ->get();
+    }
+
+    public function missionStatesChanges(Request $request, Mission $mission)
+    {
+        return ActivityLog::with('causer.profile')
+            ->where('subject_id', $mission->id)
+            ->where('subject_type', 'App\Models\Mission')
+            ->where('properties->attributes->state','<>', '')
+            ->orderBy('created_at')
+            ->get();
+    }
+
+    public function participationStatesChanges(Request $request, Participation $participation)
+    {
+        return ActivityLog::with('causer.profile')
+            ->where('subject_id', $participation->id)
+            ->where('subject_type', 'App\Models\Participation')
+            ->where('properties->attributes->state','<>', '')
+            ->orderBy('created_at')
+            ->get();
     }
 }

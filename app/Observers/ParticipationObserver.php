@@ -103,9 +103,9 @@ class ParticipationObserver
                     ]);
                     $currentUser->markConversationAsRead($participation->conversation);
                 }
-                $participation->conversation->setResponseTime()->save();
-                // Trigger updated_at refresh.
-                $participation->conversation->touch();
+                $participation->conversation->setResponseTime();
+                $participation->conversation->timestamps = false;
+                $participation->conversation->save();
             }
         }
     }

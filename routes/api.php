@@ -68,7 +68,7 @@ Route::post('webhook/sendinblue', 'Api\WebhookController@sendinblue');
 
 Route::get('emailable/verify/{email}', 'Api\EmailableController@verify');
 
-// Route::post('algolia/missions', 'Api\AlgoliaController@missions');
+
 Route::get('organisations/popular', 'Api\StructureController@popular');
 
 Route::group(['middleware' => ['auth:api']], function () {
@@ -192,6 +192,9 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     // ACTIVITY LOGS
     Route::get('activity-logs', 'Api\ActivityLogController@index');
     Route::get('activity-logs/{activityLog}', 'Api\ActivityLogController@show');
+    Route::get('activity-logs/structure/{structure}/states', 'Api\ActivityLogController@structureStatesChanges');
+    Route::get('activity-logs/mission/{mission}/states', 'Api\ActivityLogController@missionStatesChanges');
+    Route::get('activity-logs/participation/{participation}/states', 'Api\ActivityLogController@participationStatesChanges');
 
     // TERRITOIRES
     Route::post('territoires', 'Api\TerritoireController@store');
@@ -409,6 +412,10 @@ Route::group(['middleware' => ['auth:api', 'is.admin.or.referent']], function ()
 
     // CONVERSATIONS
     Route::post('conversations', 'Api\ConversationsController@store');
+
+    // ALGOLIA
+    Route::post('algolia/missions', 'Api\AlgoliaController@missions');
+    Route::post('algolia/organisations', 'Api\AlgoliaController@organisations');
 });
 
 

@@ -49,7 +49,7 @@ class RegisterUserVolontaire extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject('👏 '. $notifiable->profile->full_name. ', félicitations pour votre inscription sur JeVeuxAider.gouv.fr !')
+            ->subject('💪 Une dernière étape pour s’engager '. $notifiable->profile->first_name .' !')
             ->markdown('emails.benevoles.inscription', [
                 'url' => url(config('app.front_url') . '/missions-benevolat'),
                 'notifiable' => $notifiable

@@ -53,9 +53,9 @@ class ResponsableDailyTodo extends Notification implements ShouldQueue
 
         return (new MailMessage)
             ->when($participationsCount == 1, function (MailMessage $mailMessage) use ($notifiable) {
-                return $mailMessage->subject($notifiable->first_name . ', 1 bénévole souhaite vous aider ! 🙌');
+                return $mailMessage->subject("Vous avez une participation à traiter en priorité ! 🙌");
             }, function ($mailMessage) use ($notifiable, $participationsCount) {
-                return $mailMessage->subject($notifiable->first_name . ', '.$participationsCount.' bénévoles souhaitent vous aider ! 🙌');
+                return $mailMessage->subject("Vous avez des participations à traiter en priorité ! 🙌");
             })
             ->markdown('emails.responsables.participations-rappel-waiting-validation', [
                 'url' => url(config('app.front_url').'/admin/participations?filter%5Bstate%5D=En%20attente%20de%20validation'),

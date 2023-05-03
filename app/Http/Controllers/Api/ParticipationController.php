@@ -127,9 +127,9 @@ class ParticipationController extends Controller
     public function cancel(ParticipationCancelRequest $request, Participation $participation)
     {
         $participation->load('conversation');
+        $currentUser = User::find(Auth::guard('api')->user()->id);
 
         if ($participation->conversation) {
-            $currentUser = User::find(Auth::guard('api')->user()->id);
 
             $participation->conversation->messages()->create([
                 'from_id' => $currentUser->id,
@@ -141,15 +141,25 @@ class ParticipationController extends Controller
 
             if ($request->input('content')) {
                 $currentUser->sendMessage($participation->conversation->id, $request->input('content'));
+                // Trigger updated_at refresh.
+                $participation->conversation->touch();
             }
 
             $currentUser->markConversationAsRead($participation->conversation);
 
-            // Trigger updated_at refresh.
-            $participation->conversation->touch();
-
             $participation->mission->responsable->notify(new ParticipationBenevoleCanceled($participation, $request->input('content'), $request->input('reason')));
         }
+
+         // Log (because saveQuietly)
+         activity()
+            ->causedBy($currentUser)
+            ->performedOn($participation)
+            ->withProperties([
+                    'attributes' => ['state' => 'Annulée'],
+                    'old' => ['state' => $participation->state]
+                ])
+            ->event('updated')
+            ->log('updated');
 
         $participation->state = 'Annulée';
         $participation->saveQuietly();

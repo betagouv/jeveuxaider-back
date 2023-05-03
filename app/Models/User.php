@@ -234,6 +234,8 @@ class User extends Authenticatable
                 ->whereIn('state', ['En attente de validation'])
                 ->whereDate('created_at', '>=', (Carbon::createMidnightDate()))
                 ->count(),
+            'missions_as_responsable_count' => Mission::where('responsable_id', $this->profile->id)
+                ->count(),
         ];
     }
 
@@ -255,12 +257,11 @@ class User extends Authenticatable
 
             if ($message) {
                 $this->sendMessage($participation->conversation->id, $message);
+                // Trigger updated_at refresh.
+                $participation->conversation->touch();
             }
 
             $this->markConversationAsRead($participation->conversation);
-
-            // Trigger updated_at refresh.
-            $participation->conversation->touch();
 
             $participation->profile->notify(new ParticipationDeclined($participation, $message, $reason));
         }
