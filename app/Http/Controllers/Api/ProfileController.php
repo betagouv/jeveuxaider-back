@@ -14,6 +14,8 @@ use App\Jobs\AirtableSyncObject;
 use App\Models\Activity;
 use App\Models\Mission;
 use App\Models\Profile;
+use App\Notifications\ResponsableMissionsDeactivated;
+use App\Notifications\ResponsableMissionsReactivated;
 use App\Sorts\ProfileParticipationsValidatedCountSort;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -146,11 +148,13 @@ class ProfileController extends Controller
             $missionIds = Mission::ofResponsable($profile->id)->where('is_active', false)->get()->pluck('id');
             Mission::whereIn('id', $missionIds)->update(['is_active' => true]);
             Mission::whereIn('id', $missionIds)->with('structure')->searchable();
+            $profile->notify(new ResponsableMissionsReactivated);
         }
         else {
             $missionIds = Mission::ofResponsable($profile->id)->available()->get()->pluck('id');
             Mission::whereIn('id', $missionIds)->update(['is_active' => false]);
             Mission::whereIn('id', $missionIds)->unsearchable();
+            $profile->notify(new ResponsableMissionsDeactivated);
         }
     }
 }

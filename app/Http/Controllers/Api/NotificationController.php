@@ -59,6 +59,8 @@ use App\Notifications\RegisterUserVolontaireCejAdviser;
 use App\Notifications\ReseauNewLead;
 use App\Notifications\ResetPassword;
 use App\Notifications\ResponsableDailyTodo;
+use App\Notifications\ResponsableMissionsDeactivated;
+use App\Notifications\ResponsableMissionsReactivated;
 use App\Notifications\ResponsableSummaryDaily;
 use App\Notifications\ResponsableSummaryMonthly;
 use App\Notifications\StructureAskUnregister;
@@ -375,11 +377,17 @@ class NotificationController extends Controller
                     ->latest()->first();
                 $notification = new ReferentSummaryMonthly($profile->id);
                 break;
-            case 'responsable_missions_deactivated':
+            case 'responsable_mission_deactivated':
                 $notification = new MissionDeactivated($mission);
                 break;
-            case 'responsable_missions_reactivated':
+            case 'responsable_mission_reactivated':
                 $notification = new MissionReactivated($mission);
+                break;
+            case 'responsable_missions_deactivated':
+                $notification = new ResponsableMissionsDeactivated;
+                break;
+            case 'responsable_missions_reactivated':
+                $notification = new ResponsableMissionsReactivated;
                 break;
             default:
                 return null;
