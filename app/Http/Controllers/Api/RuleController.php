@@ -5,11 +5,18 @@ namespace App\Http\Controllers\Api;
 use App\Filters\FiltersTitleBodySearch;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RuleRequest;
+use App\Jobs\RuleMissionAttachTag;
 use App\Models\Rule;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Bus;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Bus\Batch;
+use Illuminate\Support\Facades\Notification;
+use Throwable;
 
 class RuleController extends Controller
 {
@@ -52,7 +59,7 @@ class RuleController extends Controller
         return (string) $rule->delete();
     }
 
-    public function bulkExecute(Rule $rule)
+    public function batch(Rule $rule)
     {
         $validator = Validator::make($rule->toArray(), [
             'event' => 'required',
@@ -65,9 +72,35 @@ class RuleController extends Controller
             abort('422', "Cette règle n'a pas de conditions ou d'action");
         }
 
-        $rule->bulkExecute();
+        $currentUserId = Auth::guard('api')->user()->id;
+        $user = User::find($currentUserId);
 
-        return true;
+        $batch = Bus::batch(
+            $rule->pendingItems()->map(function($item) use ($rule) {
+                return new RuleMissionAttachTag($rule, $item);
+            })
+        )
+        ->onQueue('rules')
+        ->then(function (Batch $batch) use ($rule, $user) {
+            activity()
+                ->causedBy($user)
+                ->withProperties(['rule_id' => $rule->id, 'rule_event' => $rule->event])
+                ->event('bulk_rule_execute')
+                ->log('success');
+
+            // Notification::route('slack', config('services.slack.hook_url'))
+            //     ->notify(new BulkOperationsParticipationsValidated($rule));
+        })->catch(function (Batch $batch, Throwable $e) use ($rule, $user) {
+            activity()
+                ->causedBy($user)
+                ->withProperties(['rule_id' => $rule->id, 'rule_event' => $rule->event])
+                ->event('bulk_rule_execute')
+                ->log('error');
+        })->finally(function (Batch $batch) {
+            // The batch has finished executing...
+        })->allowFailures()->dispatch();
+
+        return $batch->id;
     }
 
 }

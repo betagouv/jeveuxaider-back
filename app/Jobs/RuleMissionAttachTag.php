@@ -10,10 +10,11 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Carbon\Carbon;
+use Illuminate\Bus\Batchable;
 
 class RuleMissionAttachTag implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $rule;
     protected $mission;
@@ -37,6 +38,10 @@ class RuleMissionAttachTag implements ShouldQueue
      */
     public function handle()
     {
+        if ($this->batch()->cancelled()) {
+            return;
+        }
+
         $this->mission->tags()->syncWithoutDetaching([$this->rule->action_value => ['field' => 'mission_tags']]);
 
         if ( $this->mission->shouldBeSearchable()) {

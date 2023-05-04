@@ -40,9 +40,8 @@ class Rule extends Model
 
     protected function getPendingItemsCountAttribute()
     {
-        $pendingItems = $this->pendingItems();
-
-        return  $pendingItems ?  $pendingItems->count() : false;
+        $queryBuilder = $this->pendingItemsQueryBuilder();
+        return  $queryBuilder ?  $queryBuilder->count() : false;
     }
 
     public function scopeActive($query)
@@ -66,32 +65,29 @@ class Rule extends Model
          }
     }
 
-    protected function appendReverseActionToQueryBuilder($queryBuilder)
+    protected function appendReverseActionToQueryBuilder(Builder $queryBuilder)
     {
-        if($this->action_key == 'mission_attach_tag') {
-            $queryBuilder->whereDoesntHave('tags', function(Builder $query) {
-                $query->where('id', $this->action_value);
-            });
+        switch ($this->action_key) {
+            case 'mission_attach_tag':
+                $queryBuilder->whereDoesntHave('tags', function(Builder $query) {
+                    $query->where('id', $this->action_value);
+                });
+                break;
+            // add more cases here if necessary
         }
 
         return $queryBuilder;
     }
 
-    protected function pendingItems()
+    protected function pendingItemsQueryBuilder()
     {
         $queryBuilder = $this->resolveQueryBuilder();
-        $queryBuilder = $this->appendReverseActionToQueryBuilder($queryBuilder);
-
-        return  $queryBuilder ?  $queryBuilder->get() : false;
+        return $this->appendReverseActionToQueryBuilder($queryBuilder);
     }
 
-    public function bulkExecute()
+    public function pendingItems()
     {
-        $this->pendingItems()->each(function($item) {
-            if($this->action_key == 'mission_attach_tag') {
-                RuleMissionAttachTag::dispatch($this, $item);
-            }
-        });
+        return $this->pendingItemsQueryBuilder()->get();
     }
 
     public function resolveQueryBuilder() {

@@ -225,6 +225,7 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
 
     // BATCH
     Route::get('/batch/{batchId}', 'Api\BatchController@show');
+    Route::post('/batch/{batchId}/cancel', 'Api\BatchController@cancel');
 
     // Activity classifier
     Route::post('/activity-classifier', 'Api\ActivityClassifierController@sortedOptions');
@@ -255,7 +256,7 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::get('rules', 'Api\RuleController@index');
     Route::get('rules/{rule}', 'Api\RuleController@show');
     Route::post('rules', 'Api\RuleController@store');
-    Route::post('rules/{rule}/bulk-execute', 'Api\RuleController@bulkExecute');
+    Route::post('rules/{rule}/batch', 'Api\RuleController@batch');
     Route::put('rules/{rule}', 'Api\RuleController@update');
     Route::delete('rules/{rule}', 'Api\RuleController@delete');
 
