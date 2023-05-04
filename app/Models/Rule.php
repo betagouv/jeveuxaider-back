@@ -20,7 +20,6 @@ class Rule extends Model
     ];
 
     protected $casts = [
-        'events' => 'array',
         'conditions' => 'json',
     ];
 
@@ -46,19 +45,35 @@ class Rule extends Model
         return  $pendingItems ?  $pendingItems->count() : false;
     }
 
-    public function scopeActive($query){
+    public function scopeActive($query)
+    {
         return $query->where('is_active', 1);
     }
 
-    protected function pendingItems()
+    public function shouldExecuteOnModel($model)
     {
         $queryBuilder = $this->resolveQueryBuilder();
+        $queryBuilder = $this->appendReverseActionToQueryBuilder($queryBuilder);
+        $queryBuilder->where('id', '!=', $model->id);
 
+        return $queryBuilder->count() > 0 ? true : false;
+    }
+
+    protected function appendReverseActionToQueryBuilder($queryBuilder)
+    {
         if($this->action_key == 'mission_attach_tag') {
             $queryBuilder->whereDoesntHave('tags', function(Builder $query) {
                 $query->where('id', $this->action_value);
             });
         }
+
+        return $queryBuilder;
+    }
+
+    protected function pendingItems()
+    {
+        $queryBuilder = $this->resolveQueryBuilder();
+        $queryBuilder = $this->appendReverseActionToQueryBuilder($queryBuilder);
 
         return  $queryBuilder ?  $queryBuilder->get() : false;
     }
@@ -79,7 +94,7 @@ class Rule extends Model
         }
 
         try {
-            $queryBuilder = Mission::whereIn('state', ['Validée']);
+            $queryBuilder = Mission::query();
 
             foreach ($this->conditions as $index => $groupCondition) {
                 if ($index == 0) {

@@ -19,7 +19,7 @@ class RuleRequest extends FormRequest
                 'min:2',
                 'max:255',
             ],
-            'events' => 'array|required',
+            'event' => 'required',
             'conditions' => 'array|required',
             'action_key' => 'required',
             'action_value' => 'required',

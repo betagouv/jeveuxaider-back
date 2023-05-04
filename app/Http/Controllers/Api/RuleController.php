@@ -55,6 +55,7 @@ class RuleController extends Controller
     public function bulkExecute(Rule $rule)
     {
         $validator = Validator::make($rule->toArray(), [
+            'event' => 'required',
             'conditions' => 'array|required',
             'action_key' => 'required',
             'action_value' => 'required',

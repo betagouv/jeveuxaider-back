@@ -180,12 +180,16 @@ class MissionObserver
         }
 
         // Rules
-        Rule::active()->whereJsonContains('events', 'mission_updated')->get()->each(function($rule) use ($mission) {
-            ray('mission observer');
+        ray('RULES CHECKER');
+        Rule::active()->where('event', 'mission_updated')->get()->each(function($rule) use ($mission) {
             ray($rule);
-            ray($mission);
-            if($rule->action_key == 'mission_attach_tag') {
-                RuleMissionAttachTag::dispatch($rule, $mission);
+            if($rule->shouldExecuteOnModel($mission)){
+                ray('YES EXECUTE');
+                if($rule->action_key == 'mission_attach_tag') {
+                   //  RuleMissionAttachTag::dispatch($rule, $mission);
+                }
+            } else {
+                ray('NO EXCUTE');
             }
         });
     }
