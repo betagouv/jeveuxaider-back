@@ -54,9 +54,16 @@ class Rule extends Model
     {
         $queryBuilder = $this->resolveQueryBuilder();
         $queryBuilder = $this->appendReverseActionToQueryBuilder($queryBuilder);
-        $queryBuilder->where('id', '!=', $model->id);
+        $queryBuilder->where('id', '=', $model->id);
 
         return $queryBuilder->count() > 0 ? true : false;
+    }
+
+    public function executeOnModel($model)
+    {
+        if($this->action_key == 'mission_attach_tag') {
+            RuleMissionAttachTag::dispatch($this, $model);
+         }
     }
 
     protected function appendReverseActionToQueryBuilder($queryBuilder)

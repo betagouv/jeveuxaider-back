@@ -5,7 +5,7 @@ namespace App\Observers;
 use App\Jobs\AirtableDeleteObject;
 use App\Jobs\AirtableSyncObject;
 use App\Jobs\MissionGetQPV;
-use App\Jobs\RuleMissionAttachTag;
+use App\Jobs\RuleDispatcherByEvent;
 use App\Jobs\SendinblueSyncUser;
 use App\Models\Mission;
 use App\Models\Participation;
@@ -179,19 +179,7 @@ class MissionObserver
             MissionGetQPV::dispatch($mission);
         }
 
-        // Rules
-        ray('RULES CHECKER');
-        Rule::active()->where('event', 'mission_updated')->get()->each(function($rule) use ($mission) {
-            ray($rule);
-            if($rule->shouldExecuteOnModel($mission)){
-                ray('YES EXECUTE');
-                if($rule->action_key == 'mission_attach_tag') {
-                   //  RuleMissionAttachTag::dispatch($rule, $mission);
-                }
-            } else {
-                ray('NO EXCUTE');
-            }
-        });
+        RuleDispatcherByEvent::dispatch('mission_updated', $mission);
     }
 
     public function saving(Mission $mission)
