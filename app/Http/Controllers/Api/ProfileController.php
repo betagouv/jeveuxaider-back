@@ -147,7 +147,9 @@ class ProfileController extends Controller
         if ($request->input('is_active')) {
             $missionIds = Mission::ofResponsable($profile->id)->where('is_active', false)->get()->pluck('id');
             Mission::whereIn('id', $missionIds)->update(['is_active' => true]);
-            Mission::whereIn('id', $missionIds)->with('structure')->searchable();
+            // @todo: job pour éviter la latence MissionSetSearchable
+            // utiliser un batch qui dispatch le job, plus finally envoi de la notif
+            Mission::whereIn('id', $missionIds)->with(['structure'])->searchable();
             $profile->notify(new ResponsableMissionsReactivated);
         }
         else {
