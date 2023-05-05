@@ -41,7 +41,7 @@ class ResponsableMissionsDeactivated extends Notification implements ShouldQueue
         $dashboardParticipationsUrl = url(config('app.front_url')."/admin/participations?filter[is_state_pending]=true&filter[ofResponsable]=".$notifiable->id);
 
         return (new MailMessage)
-            ->subject('Vos missions ont été désactivées par un modérateur')
+            ->subject('Vos missions ont été désactivées')
             ->markdown('emails.responsables.missions-deactivated', [
                 'notifiable' => $notifiable,
                 'dashboardParticipationsUrl' => $dashboardParticipationsUrl

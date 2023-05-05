@@ -56,7 +56,7 @@ class MissionReactivated extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject('Votre mission a été réactivée ! 🎉')
+            ->subject('Votre mission a été réactivée !')
             ->markdown('emails.responsables.mission-reactivated', [
                 'missionUrl' => url(config('app.front_url').$this->mission->full_url),
                 'mission' => $this->mission,

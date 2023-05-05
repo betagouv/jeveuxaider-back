@@ -1,19 +1,19 @@
 @component('mail::message')
     @component('mail::components.headline')
-        Vos missions ont été suspendues 😯
+        Vos missions ont été désactivées 😢
     @endcomponent
     @component('mail::components.paragraph')
-        Ce n’est pas une punition, c’est juste que trop de bénévoles attendent un retour. Vos missions ont de ce fait été désactivée par un modérateur, le temps que vous puissiez mettre le statut des participations à jour. Elles ne sont plus visibles dans la recherche et il n'est plus possible pour de nouveaux bénévoles de s'y inscrire.
+        <p>Lorsque vous publiez une mission sur <a class="link" href="https://www.jeveuxaider.gouv.fr/">JeVeuxAider.gouv.fr</a>, vous vous engagez à <strong>mettre à jour le statut des participations (Validée ou Refusée) sous 2 mois</strong>.</p>
+        <p>Actuellement, plusieurs participations ne sont pas modérées.</p>
+        <p>Pour éviter d’avoir de nouvelles participations à mettre à jour, vos missions ont été ponctuellement désactivées. Elle ne sont plus visibles depuis la recherche, et les bénévoles ne peuvent plus proposer leur aide.</p>
+        <p>Nous avons à coeur de vous accompagner dans la régularisation de cette situation et la compréhension de vos besoins, une personne du support prendra contact avec vous 🙂</p>
     @endcomponent
-    @component('mail::components.paragraph', ['title' => "Besoin d'aide ?"])
-        Une personne du support va rentrer en contact avec vous afin de vous accompagner.
+    @component('mail::button', ['url' => $dashboardParticipationsUrl])
+        Traiter les participations
     @endcomponent
-    @component('mail::components.tips', ['title' => 'N’oubliez pas !'])
-        Il est important de rester réactif pour garder vos bénévoles motivés ! Suivez ce lien pour mettre à jour les participations
-        @component('mail::components.space', ['height' => 24])
-        @endcomponent
-        @component('mail::button', ['url' => $dashboardParticipationsUrl, 'align' => 'left'])
-            Traiter les participations
-        @endcomponent
+    @component('mail::components.space', ['height' => 24])
+    @endcomponent
+    @component('mail::components.tips', ['title' => 'Des questions ?'])
+        En cas de besoin, vous pouvez répondre à ce mail pour échanger directement avec le support utilisateurs !
     @endcomponent
 @endcomponent

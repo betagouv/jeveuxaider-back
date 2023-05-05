@@ -39,7 +39,7 @@ class ResponsableMissionsReactivated extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject('Vos missions ont été réactivées ! 🎉')
+            ->subject('Vos missions ont été réactivées !')
             ->markdown('emails.responsables.missions-reactivated', [
                 'notifiable' => $notifiable,
             ])

@@ -1,25 +1,25 @@
 @component('mail::message')
     @component('mail::components.headline')
-        Votre mission a été suspendue 😯
+        Votre mission a été désactivée 😢
+    @endcomponent
+    @component('mail::components.paragraph', ['title' => 'La mission'])
+        <p>
+            {{ $mission->name }}<br>
+            <a class="link" href="{{ $missionUrl }}">Voir la mission ›</a>
+        </p>
     @endcomponent
     @component('mail::components.paragraph')
-        Ce n’est pas une punition, c’est juste que trop de bénévoles attendent un retour. La mission a de ce fait été désactivée par un modérateur, le temps que vous puissiez mettre le statut des participations à jour. Elle a été enlevée de la recherche et il n'est plus possible pour de nouveaux bénévoles de s'y inscrire.
+        <p>Lorsque vous publiez une mission sur <a href="https://www.jeveuxaider.gouv.fr/">JeVeuxAider.gouv.fr</a>, vous vous engagez à <strong>mettre à jour le statut des participations (Validée ou Refusée) sous 2 mois</strong>.</p>
+        <p>Actuellement, plusieurs participations ne sont pas modérées.</p>
+        <p>Pour éviter d’avoir de nouvelles participations à mettre à jour, la mission a été ponctuellement désactivée. Elle n’est plus visible depuis la recherche, et les bénévoles ne peuvent plus proposer leur aide.</p>
+        <p>Nous avons à coeur de vous accompagner dans la régularisation de cette situation et la compréhension de vos besoins, une personne du support prendra contact avec vous 🙂</p>
     @endcomponent
-    @component('mail::components.paragraph', ['title' => "Besoin d'aide ?"])
-        Une personne du support va rentrer en contact avec vous afin de vous accompagner.
+    @component('mail::button', ['url' => $dashboardParticipationsUrl])
+        Traiter les participations
     @endcomponent
-    @component('mail::components.paragraph', ['title' => 'Petit rappel de la mission'])
-        {{ $mission->name }}
-        @component('mail::components.space', ['height' => 10])
-        @endcomponent
-        <a class="link" href="{{ $missionUrl }}">Voir la mission ›</a>
+    @component('mail::components.space', ['height' => 24])
     @endcomponent
-    @component('mail::components.tips', ['title' => 'N’oubliez pas !'])
-        Il est important de rester réactif pour garder vos bénévoles motivés ! Suivez ce lien pour mettre à jour les participations de la mission
-        @component('mail::components.space', ['height' => 24])
-        @endcomponent
-        @component('mail::button', ['url' => $dashboardParticipationsUrl, 'align' => 'left'])
-            Gérer les participations
-        @endcomponent
+    @component('mail::components.tips', ['title' => 'Des questions ?'])
+        En cas de besoin, vous pouvez répondre à ce mail pour échanger directement avec le support utilisateurs !
     @endcomponent
 @endcomponent

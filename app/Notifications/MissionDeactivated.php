@@ -58,7 +58,7 @@ class MissionDeactivated extends Notification implements ShouldQueue
         $dashboardParticipationsUrl = url(config('app.front_url')."/admin/participations?filter[mission.id]=".$this->mission->id."&context_name=".$this->mission->name."&filter[is_state_pending]=true");
 
         return (new MailMessage)
-            ->subject('Votre mission a été désactivée par un modérateur')
+            ->subject('Votre mission a été désactivée')
             ->markdown('emails.responsables.mission-deactivated', [
                 'missionUrl' => url(config('app.front_url').$this->mission->full_url),
                 'mission' => $this->mission,
