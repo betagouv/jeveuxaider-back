@@ -73,7 +73,6 @@ class Rule extends Model
                     $query->where('id', $this->action_value);
                 });
                 break;
-            // add more cases here if necessary
         }
 
         return $queryBuilder;

@@ -8,6 +8,7 @@ use App\Http\Requests\RuleRequest;
 use App\Jobs\RuleMissionAttachTag;
 use App\Models\Rule;
 use App\Models\User;
+use App\Notifications\BatchRuleExecuted;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Bus;
@@ -84,9 +85,9 @@ class RuleController extends Controller
         )
         ->onQueue('rules')
         ->then(function (Batch $batch) use ($rule, $user, $itemsCount) {
-            //
-            // Notification::route('slack', config('services.slack.hook_url'))
-            //     ->notify(new BulkOperationsParticipationsValidated($rule));
+            
+            Notification::route('slack', config('services.slack.hook_url'))
+                ->notify(new BatchRuleExecuted($rule, $user, $itemsCount));
         })->catch(function (Batch $batch, Throwable $e) use ($rule, $user, $itemsCount) {
            //
         })->finally(function (Batch $batch) use ($rule, $user, $itemsCount) {
