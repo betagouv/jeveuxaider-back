@@ -75,29 +75,27 @@ class RuleController extends Controller
         $currentUserId = Auth::guard('api')->user()->id;
         $user = User::find($currentUserId);
 
+        $itemsCount = $rule->pending_items_count;
+
         $batch = Bus::batch(
             $rule->pendingItems()->map(function($item) use ($rule) {
                 return new RuleMissionAttachTag($rule, $item);
             })
         )
         ->onQueue('rules')
-        ->then(function (Batch $batch) use ($rule, $user) {
-            activity()
-                ->causedBy($user)
-                ->withProperties(['rule_id' => $rule->id, 'rule_event' => $rule->event])
-                ->event('bulk_rule_execute')
-                ->log('success');
-
+        ->then(function (Batch $batch) use ($rule, $user, $itemsCount) {
+            //
             // Notification::route('slack', config('services.slack.hook_url'))
             //     ->notify(new BulkOperationsParticipationsValidated($rule));
-        })->catch(function (Batch $batch, Throwable $e) use ($rule, $user) {
-            activity()
+        })->catch(function (Batch $batch, Throwable $e) use ($rule, $user, $itemsCount) {
+           //
+        })->finally(function (Batch $batch) use ($rule, $user, $itemsCount) {
+            activity('batch')
                 ->causedBy($user)
-                ->withProperties(['rule_id' => $rule->id, 'rule_event' => $rule->event])
-                ->event('bulk_rule_execute')
-                ->log('error');
-        })->finally(function (Batch $batch) {
-            // The batch has finished executing...
+                ->on($rule)
+                ->withProperties(['rule_id' => $rule->id, 'rule_event' => $rule->event, 'items_count' => $itemsCount])
+                ->event('executed')
+                ->log('executed');
         })->allowFailures()->dispatch();
 
         return $batch->id;
