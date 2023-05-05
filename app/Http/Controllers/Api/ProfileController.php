@@ -11,17 +11,23 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\ProfileUpdateRequest;
 use App\Http\Requests\ProfileRequest;
 use App\Jobs\AirtableSyncObject;
+use App\Jobs\MissionSetSearchable;
 use App\Models\Activity;
 use App\Models\Mission;
 use App\Models\Profile;
+use App\Models\User;
 use App\Notifications\ResponsableMissionsDeactivated;
 use App\Notifications\ResponsableMissionsReactivated;
 use App\Sorts\ProfileParticipationsValidatedCountSort;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Bus;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\AllowedSort;
 use Spatie\QueryBuilder\QueryBuilder;
+use Illuminate\Bus\Batch;
+use Laravel\Passport\Passport;
+use Throwable;
 
 class ProfileController extends Controller
 {
@@ -144,19 +150,42 @@ class ProfileController extends Controller
 
     public function setMissionsIsActiveForResponsable (Request $request, Profile $profile)
     {
+        $currentUserId = Auth::guard('api')->user()->id;
+        $currentUser = User::find($currentUserId);
+
         if ($request->input('is_active')) {
             $missionIds = Mission::ofResponsable($profile->id)->where('is_active', false)->get()->pluck('id');
             Mission::whereIn('id', $missionIds)->update(['is_active' => true]);
-            // @todo: job pour éviter la latence MissionSetSearchable
-            // utiliser un batch qui dispatch le job, plus finally envoi de la notif
-            Mission::whereIn('id', $missionIds)->with(['structure'])->searchable();
-            $profile->notify(new ResponsableMissionsReactivated);
+
+            $batch = Bus::batch(
+                $missionIds->map(fn($id) => new MissionSetSearchable($id))
+            )
+                ->then(function (Batch $batch) use ($currentUser, $profile, $missionIds) {
+                    Passport::actingAs($currentUser);
+                    $profile->notify(new ResponsableMissionsReactivated);
+                    activity()
+                        ->causedBy($currentUser)
+                        ->on($profile)
+                        ->withProperties(['items_count' => $missionIds->count()])
+                        ->event('responsable_reactivate_missions')
+                        ->log('responsable_reactivate_missions');
+                })
+                ->allowFailures()
+                ->dispatch();
+
+            return $batch->id;
         }
         else {
             $missionIds = Mission::ofResponsable($profile->id)->available()->get()->pluck('id');
             Mission::whereIn('id', $missionIds)->update(['is_active' => false]);
             Mission::whereIn('id', $missionIds)->unsearchable();
             $profile->notify(new ResponsableMissionsDeactivated);
+            activity()
+                ->causedBy($currentUser)
+                ->on($profile)
+                ->withProperties(['items_count' => $missionIds->count()])
+                ->event('responsable_deactivate_missions')
+                ->log('responsable_deactivate_missions');
         }
     }
 }
