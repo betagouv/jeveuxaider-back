@@ -40,8 +40,6 @@ class AlgoliaController extends Controller
                 'minWordSizefor2Typos' => $request->input('minWordSizefor2Typos') ?? 10
             ]);
 
-            ray($query);
-
         $results = $query
             ->paginate($request->input('paginate') ?? 10)
             ;
