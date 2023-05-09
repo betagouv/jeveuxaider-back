@@ -24,3 +24,4 @@ package-lock.json
 .eslintcache
 sitemap.xml
 /thunder-tests
+/.vscode/tasks.json
