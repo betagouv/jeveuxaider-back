@@ -136,4 +136,12 @@ class StatisticsController extends Controller
             'places_occupation_rate' => $placesOffered ? round((($placesOffered - $placesLeft) / $placesOffered) * 100) : 0,
         ];
     }
+
+    public function profiles (Request $request, Profile $profile)
+    {
+        return [
+            'missions_available' => $profile->missions()->available()->count(),
+            'missions_inactive' => $profile->missionsInactive()->count(),
+        ];
+    }
 }

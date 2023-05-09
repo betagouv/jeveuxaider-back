@@ -180,6 +180,7 @@ class MissionRequest extends FormRequest
                 },
             ],
             'is_registration_open' => '',
+            'is_active' => '',
         ];
     }
 

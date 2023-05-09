@@ -86,6 +86,14 @@ class ParticipationController extends Controller
 
         $mission = Mission::find(request('mission_id'));
 
+        if (!$mission->is_registration_open) {
+            abort(422, 'Désolé, les inscriptions à cette mission sont fermées !');
+        }
+
+        if (!$mission->is_active) {
+            abort(422, 'Désolé, cette mission est désactivée !');
+        }
+
         if ($mission && $mission->has_places_left) {
             $participation = Participation::create($request->validated());
             if (request('content')) {

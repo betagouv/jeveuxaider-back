@@ -27,8 +27,10 @@ use App\Notifications\MessageParticipationCreated;
 use App\Notifications\MessageStructureCreated;
 use App\Notifications\MissionAlmostFull;
 use App\Notifications\MissionBeingProcessed;
+use App\Notifications\MissionDeactivated;
 use App\Notifications\MissionStillInDraft;
 use App\Notifications\MissionOutdated;
+use App\Notifications\MissionReactivated;
 use App\Notifications\MissionSignaled;
 use App\Notifications\MissionSubmitted;
 use App\Notifications\MissionTemplateWaiting;
@@ -57,6 +59,8 @@ use App\Notifications\RegisterUserVolontaireCejAdviser;
 use App\Notifications\ReseauNewLead;
 use App\Notifications\ResetPassword;
 use App\Notifications\ResponsableDailyTodo;
+use App\Notifications\ResponsableMissionsDeactivated;
+use App\Notifications\ResponsableMissionsReactivated;
 use App\Notifications\ResponsableSummaryDaily;
 use App\Notifications\ResponsableSummaryMonthly;
 use App\Notifications\StructureAskUnregister;
@@ -372,6 +376,18 @@ class NotificationController extends Controller
                     ->where('notification__referent_bilan', true)
                     ->latest()->first();
                 $notification = new ReferentSummaryMonthly($profile->id);
+                break;
+            case 'responsable_mission_deactivated':
+                $notification = new MissionDeactivated($mission);
+                break;
+            case 'responsable_mission_reactivated':
+                $notification = new MissionReactivated($mission);
+                break;
+            case 'responsable_missions_deactivated':
+                $notification = new ResponsableMissionsDeactivated;
+                break;
+            case 'responsable_missions_reactivated':
+                $notification = new ResponsableMissionsReactivated;
                 break;
             default:
                 return null;
