@@ -161,7 +161,7 @@ class StructureObserver
 
             // ALGOLIA - Missions reliées
             if ($newState == 'Validée') {
-                $structure->missions->where('state', 'Validée')->searchable();
+                $structure->missions->where('state', 'Validée')->where('is_active', true)->searchable();
             } else {
                 $structure->missions->unsearchable();
             }

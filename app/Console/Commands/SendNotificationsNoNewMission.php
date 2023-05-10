@@ -49,7 +49,7 @@ class SendNotificationsNoNewMission extends Command
                             ->whereColumn('structure_id', 'structures.id');
                     });
             });
-        foreach ($query->limit(5)->get() as $structure) {
+        foreach ($query->get() as $structure) {
             Notification::send($structure->members()->first(), new NoNewMission($structure));
         }
     }

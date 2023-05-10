@@ -42,6 +42,7 @@ class Mission extends Model
         'dates' => 'json',
         'prerequisites' => 'array',
         'is_registration_open' => 'boolean',
+        'is_active' => 'boolean',
     ];
 
     protected $attributes = [
@@ -68,7 +69,7 @@ class Mission extends Model
             return false;
         }
         // Attention  bien mettre à jour la query côté API Engagement aussi ( Api\EngagementController@feed )
-        return $this->structure->state == 'Validée' && $this->state == 'Validée' ? true : false;
+        return $this->structure->state == 'Validée' && $this->state == 'Validée' && $this->is_active ? true : false;
     }
 
     public function searchableAs()
@@ -343,12 +344,12 @@ class Mission extends Model
 
     public function scopeAvailable($query)
     {
-        return $query->where('missions.state', 'Validée')->whereHas(
-            'structure',
-            function (Builder $query) {
+        return $query
+            ->where('missions.state', 'Validée')
+            ->where('missions.is_active', true)
+            ->whereHas('structure', function (Builder $query) {
                 $query->where('structures.state', 'Validée');
-            }
-        );
+            });
     }
 
     public function scopeDepartment($query, $value)

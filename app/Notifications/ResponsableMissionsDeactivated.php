@@ -2,28 +2,21 @@
 
 namespace App\Notifications;
 
+use App\Models\Mission;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
-class ReferentDailyTodo extends Notification implements ShouldQueue
+class ResponsableMissionsDeactivated extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    public $missions;
-
-    public $structures;
-
-    /**
-     * Create a new notification instance.
-     *
-     * @return void
-     */
-    public function __construct($missions, $structures)
+    public function viaQueues()
     {
-        $this->missions = $missions;
-        $this->structures = $structures;
+        return [
+            'mail' => 'emails',
+        ];
     }
 
     /**
@@ -37,13 +30,6 @@ class ReferentDailyTodo extends Notification implements ShouldQueue
         return ['mail'];
     }
 
-    public function viaQueues()
-    {
-        return [
-            'mail' => 'emails',
-        ];
-    }
-
     /**
      * Get the mail representation of the notification.
      *
@@ -52,17 +38,15 @@ class ReferentDailyTodo extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
+        $dashboardParticipationsUrl = url(config('app.front_url')."/admin/participations?filter[is_state_pending]=true&filter[ofResponsable]=".$notifiable->id);
+
         return (new MailMessage)
-            ->subject('Ça bouge dans votre département !')
-            ->markdown('emails.bilans.referent-daily-todo', [
+            ->subject('Vos missions ont été désactivées')
+            ->markdown('emails.responsables.missions-deactivated', [
                 'notifiable' => $notifiable,
-                'url' => url(config('app.front_url') . '/dashboard'),
-                'variables' => [
-                    'newMissionsCount' => count($this->missions),
-                    'newStructuresCount' => count($this->structures),
-                ],
+                'dashboardParticipationsUrl' => $dashboardParticipationsUrl
             ])
-            ->tag('app-referent-daily-todo');
+            ->tag('app-responsable-missions-desactivees');
     }
 
     /**

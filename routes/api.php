@@ -177,6 +177,7 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::get('statistics/organisations/{structure}', 'Api\StatisticsController@organisations');
     Route::get('statistics/missions/{mission}', 'Api\StatisticsController@missions');
     Route::get('statistics/reseaux/{reseau}', 'Api\StatisticsController@reseaux');
+    Route::get('statistics/profiles/{profile}', 'Api\StatisticsController@profiles');
 
     // DOCUMENTS
     Route::get('documents', 'Api\DocumentController@index');
@@ -326,6 +327,8 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     // ROLES
     Route::post('users/{user}/roles', 'Api\UserController@addRole');
     Route::delete('users/{user}/roles/{role}', 'Api\UserController@deleteRole');
+
+    Route::post('profiles/{profile}/setMissionsIsActive', 'Api\ProfileController@setMissionsIsActiveForResponsable');
 });
 
 // STATISTICS

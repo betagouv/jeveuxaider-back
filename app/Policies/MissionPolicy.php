@@ -73,7 +73,7 @@ class MissionPolicy
 
     public function duplicate(User $user, Mission $mission)
     {
-        if (Mission::role('responsable')->where('id', $mission->id)->count() > 0 && request()->header('Context-Role') === 'responsable') {
+        if (Mission::role('responsable')->where('id', $mission->id)->count() > 0 && request()->header('Context-Role') === 'responsable' && !empty($user->profile->mobile) && $user->profile->doesntHave('missionsInactive')) {
             return true;
         }
 

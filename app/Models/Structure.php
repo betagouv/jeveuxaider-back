@@ -110,13 +110,13 @@ class Structure extends Model implements HasMedia
                 break;
             case 'referent':
                 return $query
-                    ->whereNotNull('department')
-                    ->where('department', $user->departmentsAsReferent->first()->number);
+                    ->whereNotNull('structures.department')
+                    ->where('structures.department', $user->departmentsAsReferent->first()->number);
                 break;
             case 'referent_regional':
                 return $query
-                    ->whereNotNull('department')
-                    ->whereIn('department', config('taxonomies.regions.departments')[$user->regionsAsReferent->first()->name]);
+                    ->whereNotNull('structures.department')
+                    ->whereIn('structures.department', config('taxonomies.regions.departments')[$user->regionsAsReferent->first()->name]);
                 break;
             case 'tete_de_reseau':
                 return $query->ofReseau($user->contextable_id);
@@ -287,7 +287,7 @@ class Structure extends Model implements HasMedia
 
     public function missionsAvailable()
     {
-        return $this->hasMany('App\Models\Mission')->where('state', 'Validée');
+        return $this->hasMany('App\Models\Mission')->where('state', 'Validée')->where('is_active', true);
     }
 
     public function participations()
@@ -539,8 +539,8 @@ class Structure extends Model implements HasMedia
     {
         return Attribute::make(
             get: function () {
-                $activitiesThroughMissions = Mission::ofStructure($this->id)->where('state', 'Validée')->whereHas('activity')->get()->map(fn ($mission) => $mission->activity_id)->toArray();
-                $activitiesThroughTemplates = Mission::ofStructure($this->id)->where('state', 'Validée')->whereHas('template.activity')->get()->map(fn ($mission) => $mission->template->activity_id)->toArray();
+                $activitiesThroughMissions = Mission::ofStructure($this->id)->where('state', 'Validée')->where('is_active', true)->whereHas('activity')->get()->map(fn ($mission) => $mission->activity_id)->toArray();
+                $activitiesThroughTemplates = Mission::ofStructure($this->id)->where('state', 'Validée')->where('is_active', true)->whereHas('template.activity')->get()->map(fn ($mission) => $mission->template->activity_id)->toArray();
                 $activitiesMergedIds = array_unique(array_merge($activitiesThroughMissions, $activitiesThroughTemplates));
 
                 return Activity::whereIn('id', $activitiesMergedIds)->get();

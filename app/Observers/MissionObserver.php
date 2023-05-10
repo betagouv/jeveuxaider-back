@@ -12,6 +12,8 @@ use App\Models\Participation;
 use App\Models\Profile;
 use App\Models\Rule;
 use App\Notifications\MissionBeingProcessed;
+use App\Notifications\MissionDeactivated;
+use App\Notifications\MissionReactivated;
 use App\Notifications\MissionSignaled;
 use App\Notifications\MissionSubmitted;
 use App\Notifications\MissionValidated;
@@ -180,6 +182,14 @@ class MissionObserver
         }
 
         RuleDispatcherByEvent::dispatch('mission_updated', $mission);
+        
+        if ($mission->getOriginal('is_active') != $mission->is_active) {
+            if ($mission->is_active) {
+                $mission->responsable->notify(new MissionReactivated($mission));
+            } else {
+                $mission->responsable->notify(new MissionDeactivated($mission));
+            }
+        }
     }
 
     public function saving(Mission $mission)
