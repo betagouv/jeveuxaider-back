@@ -9,6 +9,7 @@ use App\Models\ActivityLog;
 use App\Models\Mission;
 use App\Models\Participation;
 use App\Models\Profile;
+use App\Models\Rule;
 use App\Models\Structure;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -29,6 +30,7 @@ class ActivityLogController extends Controller
                         Structure::class => [],
                         Mission::class => [],
                         Profile::class => [],
+                        Rule::class => [],
                     ]);
                 }
             ]))

@@ -5,10 +5,12 @@ namespace App\Observers;
 use App\Jobs\AirtableDeleteObject;
 use App\Jobs\AirtableSyncObject;
 use App\Jobs\MissionGetQPV;
+use App\Jobs\RuleDispatcherByEvent;
 use App\Jobs\SendinblueSyncUser;
 use App\Models\Mission;
 use App\Models\Participation;
 use App\Models\Profile;
+use App\Models\Rule;
 use App\Notifications\MissionBeingProcessed;
 use App\Notifications\MissionDeactivated;
 use App\Notifications\MissionReactivated;
@@ -179,6 +181,8 @@ class MissionObserver
             MissionGetQPV::dispatch($mission);
         }
 
+        RuleDispatcherByEvent::dispatch('mission_updated', $mission);
+        
         if ($mission->getOriginal('is_active') != $mission->is_active) {
             if ($mission->is_active) {
                 $mission->responsable->notify(new MissionReactivated($mission));

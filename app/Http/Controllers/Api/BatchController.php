@@ -11,8 +11,16 @@ use Throwable;
 
 class BatchController extends Controller
 {
-    public function show(String $batchId)
+    public function show(string $batchId)
     {
         return Bus::findBatch($batchId);
+    }
+
+    public function cancel(string $batchId)
+    {
+        $batch = Bus::findBatch($batchId);
+        $batch->cancel();
+
+        return $batch;
     }
 }
