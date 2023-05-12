@@ -145,6 +145,7 @@ class MissionObserver
                                 ->event('updated')
                                 ->log('updated');
 
+                            $participation->load('conversation');
                             (new Message([
                                 'conversation_id' => $participation->conversation->id,
                                 'type' => 'contextual',
