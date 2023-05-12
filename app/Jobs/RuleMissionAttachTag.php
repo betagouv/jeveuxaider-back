@@ -38,7 +38,7 @@ class RuleMissionAttachTag implements ShouldQueue
      */
     public function handle()
     {
-        if ($this->batch()->cancelled()) {
+        if ($this->batch()?->cancelled()) {
             return;
         }
 
