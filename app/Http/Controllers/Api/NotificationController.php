@@ -29,7 +29,8 @@ use App\Notifications\MissionAlmostFull;
 use App\Notifications\MissionBeingProcessed;
 use App\Notifications\MissionDeactivated;
 use App\Notifications\MissionStillInDraft;
-use App\Notifications\MissionOutdated;
+use App\Notifications\MissionOutdatedFirstReminder;
+use App\Notifications\MissionOutdatedSecondReminder;
 use App\Notifications\MissionReactivated;
 use App\Notifications\MissionSignaled;
 use App\Notifications\MissionSubmitted;
@@ -190,8 +191,11 @@ class NotificationController extends Controller
             case 'responsable_mission_being_processed':
                 $notification = new MissionBeingProcessed($mission);
                 break;
-            case 'responsable_mission_outdated':
-                $notification = new MissionOutdated($mission);
+            case 'responsable_mission_outdated_first_reminder':
+                $notification = new MissionOutdatedFirstReminder($mission);
+                break;
+            case 'responsable_mission_outdated_second_reminder':
+                $notification = new MissionOutdatedSecondReminder($mission);
                 break;
             case 'responsable_mission_signaled':
                 $notification = new MissionSignaled($mission);

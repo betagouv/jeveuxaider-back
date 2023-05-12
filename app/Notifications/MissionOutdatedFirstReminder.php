@@ -8,7 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class MissionOutdated extends Notification implements ShouldQueue
+class MissionOutdatedFirstReminder extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -62,7 +62,8 @@ class MissionOutdated extends Notification implements ShouldQueue
             ->line('- Si votre mission se poursuit, il suffit de mettre à jour la date de fin')
             ->line('- Si votre mission a pris fin, il faut la passer au statut « Terminé ».')
             ->action('Mettre à jour ma mission', url(config('app.front_url').'/admin/missions/'.$this->mission->id))
-            ->line('En cas de besoin, vous pouvez répondre à ce mail pour échanger directement avec le support utilisateurs !');
+            ->line('En cas de besoin, vous pouvez répondre à ce mail pour échanger directement avec le support utilisateurs !')
+            ->tag('app-responsable-relance-mission-passee-1');
     }
 
     /**
