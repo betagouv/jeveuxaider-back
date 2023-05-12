@@ -264,4 +264,5 @@ class User extends Authenticatable
 
         return $participation->load(['conversation', 'conversation.latestMessage']);
     }
+
 }

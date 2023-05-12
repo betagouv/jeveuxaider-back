@@ -103,7 +103,8 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('structures/{structure}/validate-waiting-participations', 'Api\StructureController@validateWaitingParticipations');
 
     Route::post('participations', 'Api\ParticipationController@store');
-    Route::put('participations/{participation}/cancel', 'Api\ParticipationController@cancel');
+    Route::put('participations/{participation}/cancel-by-benevole', 'Api\ParticipationController@cancelByBenevole');
+    Route::put('participations/{participation}/validate-by-benevole', 'Api\ParticipationController@validateByBenevole');
 
     Route::post('user/password', 'Api\UserController@updatePassword');
     Route::get('user/mission/{mission}/has-participation', 'Api\UserController@hasParticipation');
