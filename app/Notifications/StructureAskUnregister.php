@@ -62,7 +62,7 @@ class StructureAskUnregister extends Notification
         return (new SlackMessage)
             ->from($from)
             ->success()
-            ->to('#produit-logs')
+            ->to('#' . config('services.slack.log_channel'))
             ->content('*'.$this->user->profile->full_name . '* souhaite désinscrire l\'organisation *<'.$url.'|'.$structure->name.'>*')
             ->attachment(function ($attachment) use ($structure, $url) {
                 $attachment

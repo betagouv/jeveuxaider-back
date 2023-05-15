@@ -46,7 +46,7 @@ class BatchRuleExecuted extends Notification
         return (new SlackMessage)
             ->from($from)
             ->success()
-            ->to('#produit-logs')
+            ->to('#' . config('services.slack.log_channel'))
             ->content('*'.$this->user->profile->full_name . '* a mis à jour *'. $this->itemsCount .' élément(s)*')
             ->attachment(function ($attachment) {
                 $attachment
