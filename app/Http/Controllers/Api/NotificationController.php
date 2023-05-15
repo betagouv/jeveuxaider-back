@@ -43,6 +43,7 @@ use App\Notifications\NotificationTemoignageCreate;
 use App\Notifications\NotificationToBenevole;
 use App\Notifications\ParticipationBeingProcessed;
 use App\Notifications\ParticipationBenevoleCanceled;
+use App\Notifications\ParticipationBenevoleValidated;
 use App\Notifications\ParticipationCanceled;
 use App\Notifications\ParticipationCreated;
 use App\Notifications\ParticipationDeclined;
@@ -165,6 +166,9 @@ class NotificationController extends Controller
                 break;
             case 'responsable_participation_canceled':
                 $notification = new ParticipationBenevoleCanceled($participation, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer maximus neque nec nulla ullamcorper auctor. Aliquam in leo massa. Etiam luctus luctus volutpat. Curabitur interdum sem a urna finibus, ut porttitor ipsum elementum. Aliquam erat volutpat. Integer ultrices, metus id sagittis scelerisque, lectus ex feugiat massa, at laoreet ante enim ac ipsum.', 'not_available');
+                break;
+            case 'responsable_participation_validated_by_benevole':
+                $notification = new ParticipationBenevoleValidated($participation);
                 break;
             case 'benevole_participation_refused':
                 $notification = new ParticipationDeclined($participation, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer maximus neque nec nulla ullamcorper auctor. Aliquam in leo massa. Etiam luctus luctus volutpat. Curabitur interdum sem a urna finibus, ut porttitor ipsum elementum. Aliquam erat volutpat. Integer ultrices, metus id sagittis scelerisque, lectus ex feugiat massa, at laoreet ante enim ac ipsum.', 'requirements_not_fulfilled');
