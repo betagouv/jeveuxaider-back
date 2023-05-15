@@ -132,6 +132,7 @@ class Airtable
             'Id' => $mission->id,
             'Title' => $mission->name,
             'Statut' => $mission->state,
+            'Active' => $mission->is_active,
             'Code Postal' => $mission->zip,
             'Département' => $mission->department,
             'Adresse' => $mission->address,
@@ -162,7 +163,7 @@ class Airtable
             'Crée le' => Carbon::create($mission->created_at)->format('m-d-Y'),
             'Modifiée le' => Carbon::create($mission->updated_at)->format('m-d-Y'),
         ];
-        
+
         return $attributes;
     }
 
