@@ -58,6 +58,7 @@ class MissionsExport implements FromQuery, WithMapping, WithHeadings
                 AllowedFilter::custom('search', new FiltersMissionSearch),
                 AllowedFilter::scope('available'),
                 AllowedFilter::custom('is_template', new FiltersMissionIsTemplate),
+                AllowedFilter::scope('ofResponsable'),
             ])
             ->defaultSort('-created_at')
             ->allowedSorts([
