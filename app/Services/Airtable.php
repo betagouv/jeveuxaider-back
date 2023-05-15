@@ -132,7 +132,7 @@ class Airtable
             'Id' => $mission->id,
             'Title' => $mission->name,
             'Statut' => $mission->state,
-            'Active' => $mission->is_active,
+            // 'Active' => $mission->is_active,
             'Code Postal' => $mission->zip,
             'Département' => $mission->department,
             'Adresse' => $mission->address,
