@@ -61,6 +61,7 @@ return [
 
     'slack' => [
         'hook_url' => env('SLACK_HOOK_URL'),
+        'log_channel' => env('SLACK_LOG_CHANNEL', 'produit-logs')
     ],
 
     'airtable' => [

@@ -107,7 +107,8 @@ class NoteController extends Controller
 
         $note = $this->model->createNote([
             'user_id' => $user->id,
-            'content' => $attributes['content']
+            'content' => $attributes['content'],
+            'context' => $attributes['context'],
         ]);
 
         activity('note')

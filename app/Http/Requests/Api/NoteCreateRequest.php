@@ -26,6 +26,7 @@ class NoteCreateRequest extends FormRequest
         $rules = [
             'content' => 'required',
             'parent_id' => '',
+            'context' => ''
         ];
 
         return $rules;

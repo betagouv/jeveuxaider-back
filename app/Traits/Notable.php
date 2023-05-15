@@ -17,6 +17,7 @@ trait Notable
 
         $note = new Note([
             'content' => $attributes['content'],
+            'context' => $attributes['context'],
             'parent_id' => isset($attributes['parent_id']) ? $attributes['parent_id'] : null,
             'user_id' => $attributes['user_id'],
             'notable_id' => $this->getKey(),
