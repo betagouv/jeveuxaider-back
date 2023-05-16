@@ -45,14 +45,14 @@ class AdministrationController extends Controller
     {
         $results = DB::select(
             "
-                SELECT activity_log.causer_id, profiles.first_name, profiles.last_name, COUNT(*) AS count FROM activity_log
+                SELECT activity_log.causer_id, profiles.id as profile_id, profiles.first_name, profiles.last_name, COUNT(*) AS count FROM activity_log
                 LEFT JOIN users ON users.id = activity_log.causer_id
                 LEFT JOIN profiles ON users.id = profiles.user_id
                 LEFT JOIN rolables ON rolables.user_id = users.id
                 WHERE activity_log.causer_type = 'App\Models\User'
                 AND rolables.role_id = 1
                 AND activity_log.created_at BETWEEN :start and :end
-                GROUP BY activity_log.causer_id, profiles.first_name, profiles.last_name
+                GROUP BY activity_log.causer_id,  profiles.id, profiles.first_name, profiles.last_name
                 ORDER BY count DESC
                 LIMIT 5
             ", [
@@ -68,14 +68,14 @@ class AdministrationController extends Controller
     {
         $results = DB::select(
             "
-                SELECT activity_log.causer_id, profiles.first_name, profiles.last_name, COUNT(*) AS count FROM activity_log
+                SELECT activity_log.causer_id, profiles.id as profile_id, profiles.first_name, profiles.last_name, COUNT(*) AS count FROM activity_log
                 LEFT JOIN users ON users.id = activity_log.causer_id
                 LEFT JOIN profiles ON users.id = profiles.user_id
                 LEFT JOIN rolables ON rolables.user_id = users.id
                 WHERE activity_log.causer_type = 'App\Models\User'
                 AND rolables.role_id = 3
                 AND activity_log.created_at BETWEEN :start and :end
-                GROUP BY activity_log.causer_id, profiles.first_name, profiles.last_name
+                GROUP BY activity_log.causer_id, profiles.id, profiles.first_name, profiles.last_name
                 ORDER BY count DESC
                 LIMIT 5
             ", [
