@@ -331,7 +331,7 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::post('profiles/{profile}/setMissionsIsActive', 'Api\ProfileController@setMissionsIsActiveForResponsable');
 
     // ADMINISTRATION
-    Route::get('administration/jva-goals', 'Api\AdministrationController@jvaGoals');
+    Route::get('administration/goals', 'Api\AdministrationController@goals');
     Route::get('administration/missions-trending', 'Api\AdministrationController@missionsTrending');
     Route::get('administration/organisations-trending', 'Api\AdministrationController@organisationsTrending');
     Route::get('administration/topito-admins', 'Api\AdministrationController@topitoAdmins');

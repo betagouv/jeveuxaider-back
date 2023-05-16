@@ -31,13 +31,14 @@ class AdministrationController extends Controller
         }
     }
 
-    public function jvaGoals(Request $request)
+    public function goals(Request $request)
     {
 
         return [
-            'utilisateurs' => User::whereYear('created_at', '=', date('Y'))->count(),
-            'organisations' => Structure::whereYear('created_at', '=', date('Y'))->count(),
-            'participations' => Participation::whereYear('created_at', '=', date('Y'))->count(),
+            'utilisateurs_count' => User::count(),
+            'organisations_validated_count' => Structure::where('state', 'Validée')->count(),
+            'participations_count' => Participation::whereYear('created_at', '=', date('Y'))->count(),
+            'participations_validated_count' => Participation::where('state', 'Validée')->whereYear('created_at', '=', date('Y'))->count(),
         ];
     }
 
