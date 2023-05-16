@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\Mission;
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -10,7 +11,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Bus\Batchable;
 
-class MissionClose implements ShouldQueue
+class MissionCloseOutdatedJob implements ShouldQueue
 {
     use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -41,7 +42,7 @@ class MissionClose implements ShouldQueue
             return;
         }
 
-        if ($this->mission->state !== 'Terminée') {
+        if ($this->mission->state === 'Validée' && ($this->mission->end_date < Carbon::now())) {
             $this->mission->state = 'Terminée';
             $this->mission->save();
         }

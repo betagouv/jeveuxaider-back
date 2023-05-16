@@ -23,7 +23,7 @@ use App\Console\Commands\SendNotificationTodoToModerateurs;
 use App\Console\Commands\SendNotificationTodoToReferents;
 use App\Console\Commands\SendNotificationResponsablesParticipationsNeedToBeTreated;
 use App\Console\Commands\SendNotificationsStructureWithoutMission;
-use App\Console\Commands\MissionsCloseOutdated;
+use App\Console\Commands\MissionsCloseOutdatedCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -89,7 +89,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('queue:prune-batches')->daily();
 
         // Close outdated missions
-        $schedule->command(MissionsCloseOutdated::class)->daily()->at('09:30');
+        $schedule->command(MissionsCloseOutdatedCommand::class)->daily()->at('09:30');
     }
 
     /**

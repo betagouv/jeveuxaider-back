@@ -2,12 +2,12 @@
 
 namespace App\Console\Commands;
 
-use App\Jobs\MissionClose;
+use App\Jobs\MissionCloseOutdatedJob;
 use App\Models\Mission;
 use Illuminate\Console\Command;
 use Carbon\Carbon;
 
-class MissionsCloseOutdated extends Command
+class MissionsCloseOutdatedCommand extends Command
 {
     /**
      * The name and signature of the console command.
@@ -46,6 +46,6 @@ class MissionsCloseOutdated extends Command
                 Carbon::now()->subDays(20)->endOfDay(),
             ]);
 
-        $query->pluck('id')->each(fn ($id) => MissionClose::dispatch($id));
+        $query->pluck('id')->each(fn ($id) => MissionCloseOutdatedJob::dispatch($id));
     }
 }
