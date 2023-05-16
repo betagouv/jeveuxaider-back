@@ -34,7 +34,7 @@ class MissionClose implements ShouldQueue
      */
     public function handle()
     {
-        if ($this->batch() && $this->batch()->cancelled()) {
+        if ($this->batch()?->cancelled()) {
             return;
         }
         if (!$this->mission) {

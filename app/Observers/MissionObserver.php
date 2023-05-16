@@ -146,13 +146,15 @@ class MissionObserver
                                 ->log('updated');
 
                             $participation->load('conversation');
-                            (new Message([
-                                'conversation_id' => $participation->conversation->id,
-                                'type' => 'contextual',
-                                'content' => 'La participation a été déclinée',
-                                'contextual_state' => 'Refusée',
-                                'contextual_reason' => 'mission_terminated',
-                            ]))->saveQuietly();
+                            if ($participation->conversation) {
+                                (new Message([
+                                    'conversation_id' => $participation->conversation->id,
+                                    'type' => 'contextual',
+                                    'content' => 'La participation a été déclinée',
+                                    'contextual_state' => 'Refusée',
+                                    'contextual_reason' => 'mission_terminated',
+                                ]))->saveQuietly();
+                            }
                         });
 
                     // Notifications temoignage.
