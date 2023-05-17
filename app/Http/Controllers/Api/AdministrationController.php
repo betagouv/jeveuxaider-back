@@ -3,10 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Mission;
 use App\Models\Participation;
-use App\Models\Profile;
-use App\Models\Reseau;
 use App\Models\Structure;
 use App\Models\User;
 use Carbon\Carbon;
@@ -35,8 +32,8 @@ class AdministrationController extends Controller
     {
 
         return [
-            'utilisateurs_count' => User::count(),
-            'organisations_validated_count' => Structure::where('state', 'Validée')->count(),
+            'utilisateurs_count' => User::whereYear('created_at', '=', date('Y'))->count(),
+            'organisations_validated_count' => Structure::whereYear('created_at', '=', date('Y'))->where('state', 'Validée')->count(),
             'participations_count' => Participation::whereYear('created_at', '=', date('Y'))->count(),
             'participations_validated_count' => Participation::where('state', 'Validée')->whereYear('created_at', '=', date('Y'))->count(),
         ];
