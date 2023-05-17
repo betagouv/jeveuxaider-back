@@ -187,19 +187,6 @@ class User extends Authenticatable
         $this->saveQuietly();
     }
 
-    // public static function getUnreadConversations($id)
-    // {
-    //     return User::find($id)->conversations()
-    //         ->whereHas('messages')
-    //         ->where(function ($query) {
-    //             $query->whereRaw('conversations_users.read_at < conversations.updated_at')
-    //                 ->orWhere('conversations_users.read_at', null);
-    //         })
-    //         ->where('conversations_users.status', true)
-    //         ->pluck('conversations.id')
-    //         ->toArray();
-    // }
-
     public function getUnreadConversationsCount()
     {
         return $this->conversations()
@@ -214,19 +201,6 @@ class User extends Authenticatable
             ->count();
     }
 
-    // public static function getNbParticipationsOver($pid)
-    // {
-    //     return Profile::find($pid)->participations->whereIn('state', ['Validée', 'Terminée'])->count();
-    // }
-
-    // public static function getNbTodayParticipationsOnPendingValidation($pid)
-    // {
-    //     $result = Profile::find($pid)->participations()->whereIn('state', ['En attente de validation'])
-    //         ->whereDate('created_at', '>=', (Carbon::createMidnightDate()))
-    //         ->count();
-    //     return $result;
-    // }
-
     public function getStatisticsAttribute()
     {
         return [
@@ -235,6 +209,20 @@ class User extends Authenticatable
                 ->whereDate('created_at', '>=', (Carbon::createMidnightDate()))
                 ->count(),
             'missions_as_responsable_count' => Mission::where('responsable_id', $this->profile->id)
+                ->count(),
+            'missions_as_responsable_with_participations_waiting_count' => Mission::where('responsable_id', $this->profile->id)
+                ->whereHas('participations', function($query){
+                    $query->where(function($query){
+                        $query
+                            ->where('participations.state', 'En attente de validation')
+                            ->where('participations.created_at', '<', Carbon::now()->subDays(10)->startOfDay());
+                    })
+                    ->orWhere(function($query){
+                        $query
+                            ->where('participations.state', 'En cours de traitement')
+                            ->where('participations.created_at', '<', Carbon::now()->subMonths(2)->startOfDay());
+                    });
+                })
                 ->count(),
             'missions_inactive_count' => $this->profile->missionsInactive->count()
         ];
