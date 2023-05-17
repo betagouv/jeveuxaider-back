@@ -329,6 +329,13 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::delete('users/{user}/roles/{role}', 'Api\UserController@deleteRole');
 
     Route::post('profiles/{profile}/setMissionsIsActive', 'Api\ProfileController@setMissionsIsActiveForResponsable');
+
+    // ADMINISTRATION
+    Route::get('administration/goals', 'Api\AdministrationController@goals');
+    Route::get('administration/missions-trending', 'Api\AdministrationController@missionsTrending');
+    Route::get('administration/organisations-trending', 'Api\AdministrationController@organisationsTrending');
+    Route::get('administration/topito-admins', 'Api\AdministrationController@topitoAdmins');
+    Route::get('administration/topito-referents', 'Api\AdministrationController@topitoReferents');
 });
 
 // STATISTICS

@@ -132,7 +132,6 @@ class MissionRequest extends FormRequest
             'skills' => '',
             'commitment__duration' => '',
             'commitment__time_period' => '',
-            'is_priority' => '',
             'is_snu_mig_compatible' => '',
             'snu_mig_places' => 'required_if:is_snu_mig_compatible,true',
             'activity_id' => '',
