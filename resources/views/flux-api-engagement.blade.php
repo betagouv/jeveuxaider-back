@@ -17,19 +17,24 @@
         <applicationUrl>
             <![CDATA[{{ config('app.front_url') }}/missions/{{ $mission->id }}/{{ $mission->slug }}]]>
         </applicationUrl>
+         <organizationId>
+            <![CDATA[{{ $mission->structure->id }}]]>
+        </organizationId>
         <organizationName>
             <![CDATA[{{ $mission->structure->name }}]]>
         </organizationName>
-        <organizationId>
-            <![CDATA[{{ $mission->structure->id }}]]>
-        </organizationId>
+        <organizationLogo>
+            @if ($mission->structure->logo)
+                <![CDATA[{{ $mission->structure->logo->getFullUrl() }}]]>
+            @endif
+        </organizationLogo>
         <organizationStatusJuridique>
             <![CDATA[{{ $mission->structure->statut_juridique }}]]>
         </organizationStatusJuridique>
-        @php
-            $assoFrontUrl = $mission->structure->statut_juridique == 'Association' ? config('app.front_url') . '/organisations/' . $mission->structure->slug : null;
-        @endphp
         <organizationUrl>
+            @php
+                $assoFrontUrl = $mission->structure->statut_juridique == 'Association' ? config('app.front_url') . '/organisations/' . $mission->structure->slug : null;
+            @endphp
             <![CDATA[{{ $assoFrontUrl }}]]>
         </organizationUrl>
         <organizationWebsite>

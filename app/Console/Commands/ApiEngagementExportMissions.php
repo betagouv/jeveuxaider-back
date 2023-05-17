@@ -44,7 +44,7 @@ class ApiEngagementExportMissions extends Command
         $structuresNotInApi = [25, 7383, 5577]; // Bénénovat
         $missions = Mission::with([
                 'domaine', 'template', 'template.activity', 'activity', 'template.domaine',
-                'template.photo', 'structure', 'structure.reseaux', 'illustrations'
+                'template.photo', 'structure', 'structure.reseaux', 'illustrations','structure.logo'
             ])
             ->whereHas('structure', function (Builder $query) use ($structuresNotInApi) {
                 $query->where('state', 'Validée')
