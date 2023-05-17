@@ -120,33 +120,29 @@ class MissionObserver
                     }
                     break;
                 case 'Annulée':
-                    if ($mission->responsable) {
-                        foreach (Participation::where('mission_id', $mission->id)->whereIn('state', ['En attente de validation', 'En cours de traitement']) as $participation) {
-                            $participation->update(['state' => 'Annulée']);
-                        }
+                    foreach (Participation::where('mission_id', $mission->id)->whereIn('state', ['En attente de validation', 'En cours de traitement']) as $participation) {
+                        $participation->update(['state' => 'Annulée']);
                     }
                     break;
                 case 'Terminée':
-                    if ($mission->responsable) {
-                        // Notif OFF
-                        $mission->participations->whereIn('state', ['En attente de validation', 'En cours de traitement'])
-                            ->each(function ($participation) {
-                                activity()
-                                    ->performedOn($participation)
-                                    ->withProperties([
-                                            'attributes' => ['state' => 'Annulée'],
-                                            'old' => ['state' => $participation->state]
-                                        ])
-                                    ->event('updated')
-                                    ->log('updated');
+                    // Notif OFF
+                    $mission->participations->whereIn('state', ['En attente de validation', 'En cours de traitement'])
+                        ->each(function ($participation) {
+                            activity()
+                                ->performedOn($participation)
+                                ->withProperties([
+                                        'attributes' => ['state' => 'Annulée'],
+                                        'old' => ['state' => $participation->state]
+                                    ])
+                                ->event('updated')
+                                ->log('updated');
 
-                                $participation->state = 'Annulée';
-                                $participation->saveQuietly();
-                            });
+                            $participation->state = 'Annulée';
+                            $participation->saveQuietly();
+                        });
 
-                        // Notifications temoignage.
-                        $mission->sendNotificationsTemoignages();
-                    }
+                    // Notifications temoignage.
+                    $mission->sendNotificationsTemoignages();
                     break;
                 case 'En cours de traitement':
                     if ($mission->responsable) {
