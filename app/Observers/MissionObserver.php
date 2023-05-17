@@ -85,24 +85,27 @@ class MissionObserver
 
         $mission->load(['structure', 'responsable']);
 
+        // STATUT BROUILLON -> EN ATTENTE DE VALIDATION
+        if($oldState == 'Brouillon' && $newState == 'En attente de validation'){
+            if ($mission->responsable) {
+                $mission->responsable->notify(new MissionWaitingValidation($mission));
+            }
+            if ($mission->department) {
+                Profile::where('notification__referent_frequency', 'realtime')
+                ->whereHas('user.departmentsAsReferent', function (Builder $query) use ($mission) {
+                    $query->where('number', $mission->department);
+                })->get()->map(function ($profile) use ($mission) {
+                    $profile->notify(new MissionSubmitted($mission));
+                });
+            }
+        }
+
+        // AUTRES CHANGEMENTS DE STATUT
         if ($oldState != $newState) {
             switch ($newState) {
                 case 'Validée':
                     if ($mission->responsable) {
                         $mission->responsable->notify(new MissionValidated($mission));
-                    }
-                    break;
-                case 'En attente de validation':
-                    if ($mission->responsable) {
-                        $mission->responsable->notify(new MissionWaitingValidation($mission));
-                    }
-                    if ($mission->department) {
-                        Profile::where('notification__referent_frequency', 'realtime')
-                        ->whereHas('user.departmentsAsReferent', function (Builder $query) use ($mission) {
-                            $query->where('number', $mission->department);
-                        })->get()->map(function ($profile) use ($mission) {
-                            $profile->notify(new MissionSubmitted($mission));
-                        });
                     }
                     break;
                 case 'Signalée':
@@ -182,7 +185,7 @@ class MissionObserver
         }
 
         RuleDispatcherByEvent::dispatch('mission_updated', $mission);
-        
+
         if ($mission->getOriginal('is_active') != $mission->is_active) {
             if ($mission->is_active) {
                 $mission->responsable->notify(new MissionReactivated($mission));

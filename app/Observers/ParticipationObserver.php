@@ -59,11 +59,6 @@ class ParticipationObserver
 
         if ($oldState != $newState) {
             switch ($newState) {
-                case 'En attente de validation':
-                    if ($participation->mission->responsable && !$currentUser->isAdmin()) {
-                        $participation->mission->responsable->notify(new ParticipationWaitingValidation($participation));
-                    }
-                    break;
                 case 'En cours de traitement':
                     if ($participation->profile && !$currentUser->isAdmin()) {
                         $participation->profile->notify(new ParticipationBeingProcessed($participation));
