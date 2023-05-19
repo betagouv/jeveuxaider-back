@@ -35,6 +35,7 @@ class AdministrationController extends Controller
             'utilisateurs_count' => User::whereYear('created_at', '=', date('Y'))->count(),
             'organisations_validated_count' => Structure::whereYear('created_at', '=', date('Y'))->where('state', 'Validée')->count(),
             'participations_count' => Participation::whereYear('created_at', '=', date('Y'))->count(),
+            'participations_in_progress_count' => Participation::whereIn('state', ['En attente de validation', 'En cours de traitement', 'Validée'])->whereYear('created_at', '=', date('Y'))->count(),
             'participations_validated_count' => Participation::where('state', 'Validée')->whereYear('created_at', '=', date('Y'))->count(),
         ];
     }
