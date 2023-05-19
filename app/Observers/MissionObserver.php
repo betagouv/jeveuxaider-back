@@ -111,18 +111,22 @@ class MissionObserver
                 case 'Signalée':
                     if ($mission->responsable) {
                         $mission->responsable->notify(new MissionSignaled($mission));
-                        // Notif ON
-                        foreach ($mission->participations->whereIn('state', ['En attente de validation', 'En cours de traitement']) as $participation) {
-                            $participation->update(['state' => 'Annulée']);
-                        }
-                        // Notif OFF
-                        $mission->participations()->update(['state' => 'Annulée']);
                     }
+                    // @TODO: Job CancelMissionParticipations (avec contexte mission signalée)
+                    // Notif ON
+                    $mission->participations->whereIn('state', ['En attente de validation', 'En cours de traitement'])
+                        ->each(function ($participation) {
+                            $participation->update(['state' => 'Annulée']);
+                        });
+                    // Notif OFF
+                    $mission->participations()->update(['state' => 'Annulée']);
                     break;
                 case 'Annulée':
-                    foreach (Participation::where('mission_id', $mission->id)->whereIn('state', ['En attente de validation', 'En cours de traitement']) as $participation) {
-                        $participation->update(['state' => 'Annulée']);
-                    }
+                    // @TODO: Job CancelMissionParticipations (avec contexte mission annulée)
+                    $mission->participations->whereIn('state', ['En attente de validation', 'En cours de traitement'])
+                        ->each(function ($participation) {
+                            $participation->update(['state' => 'Annulée']);
+                        });
                     break;
                 case 'Terminée':
                     // Notif OFF

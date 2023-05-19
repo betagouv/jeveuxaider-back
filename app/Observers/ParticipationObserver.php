@@ -86,6 +86,7 @@ class ParticipationObserver
 
         // SET STRUCTURE RESPONSE RATIO
         if ($oldState != $newState) {
+            $participation->load(['conversation', 'mission.structure']);
             if ($oldState == 'En attente de validation') {
                 $participation->mission->structure->setResponseRatio()->saveQuietly();
             }
