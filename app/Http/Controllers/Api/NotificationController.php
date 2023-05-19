@@ -47,6 +47,7 @@ use App\Notifications\ParticipationBenevoleValidated;
 use App\Notifications\ParticipationCanceled;
 use App\Notifications\ParticipationCreated;
 use App\Notifications\ParticipationDeclined;
+use App\Notifications\ParticipationShouldBeDone;
 use App\Notifications\ParticipationValidated;
 use App\Notifications\ParticipationValidatedCejAdviser;
 use App\Notifications\ParticipationWaitingValidation;
@@ -112,20 +113,21 @@ class NotificationController extends Controller
 
         switch ($key) {
             case 'benevole_cej_no_participation':
-                case 'benevole_cej_one_year_after':
-                case 'benevole_cej_six_months_after':
-                case 'admin_document_submitted':
-                case 'responsable_mission_outdated':
-                case 'referent_mission_created':
-                case 'register_user_volontaire_cej':
-                case 'responsable_waiting_actions':
-                case 'responsable_association_validated':
-                case 'responsable_collectivite_validated':
-                case 'referent_organisation_created':
-                case 'structure_switch_responsable':
-                    return $user->profile;
-                default:
-                    return $user;
+            case 'benevole_cej_one_year_after':
+            case 'benevole_cej_six_months_after':
+            case 'admin_document_submitted':
+            case 'responsable_mission_outdated':
+            case 'referent_mission_created':
+            case 'register_user_volontaire_cej':
+            case 'responsable_waiting_actions':
+            case 'responsable_association_validated':
+            case 'responsable_collectivite_validated':
+            case 'referent_organisation_created':
+            case 'structure_switch_responsable':
+            case 'benevole_participation_should_be_done':
+                return $user->profile;
+            default:
+                return $user;
         }
     }
 
@@ -153,6 +155,9 @@ class NotificationController extends Controller
                 break;
             case 'benevole_participation_being_processed':
                 $notification = new ParticipationBeingProcessed($participation);
+                break;
+            case 'benevole_participation_should_be_done':
+                $notification = new ParticipationShouldBeDone($participation);
                 break;
             case 'benevole_participation_validated':
                 $notification = new ParticipationValidated($participation);
