@@ -152,18 +152,23 @@ class Participation extends Model
         });
     }
 
-    public function scopeNeedToBeTreated($query)
+    public function scopeNeedToBeTreated($query, $responsableId)
     {
         return $query
-            ->where(function($query){
-                $query
-                    ->where('participations.state', 'En attente de validation')
-                    ->where('participations.created_at', '<', Carbon::now()->subDays(10)->startOfDay());
+            ->whereHas('mission', function($query) use ($responsableId) {
+                $query->where('responsable_id', $responsableId);
             })
-            ->orWhere(function($query){
-                $query
-                    ->where('participations.state', 'En cours de traitement')
-                    ->where('participations.created_at', '<', Carbon::now()->subMonths(2)->startOfDay());
+            ->where(function($query){
+                $query->where(function($query){
+                    $query
+                        ->where('participations.state', 'En attente de validation')
+                        ->where('participations.created_at', '<', Carbon::now()->subDays(10)->startOfDay());
+                })
+                ->orWhere(function($query){
+                    $query
+                        ->where('participations.state', 'En cours de traitement')
+                        ->where('participations.created_at', '<', Carbon::now()->subMonths(2)->startOfDay());
+                });
             });
     }
 

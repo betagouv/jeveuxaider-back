@@ -210,18 +210,9 @@ class User extends Authenticatable
             $responsableStats = [
                 'missions_as_responsable_count' => Mission::where('responsable_id', $this->profile->id)
                     ->count(),
-                'missions_as_responsable_with_participations_waiting_count' => Mission::where('responsable_id', $this->profile->id)
-                    ->whereHas('participations', function($query){
-                        $query->where(function($query){
-                            $query
-                                ->where('participations.state', 'En attente de validation')
-                                ->where('participations.created_at', '<', Carbon::now()->subDays(10)->startOfDay());
-                        })
-                        ->orWhere(function($query){
-                            $query
-                                ->where('participations.state', 'En cours de traitement')
-                                ->where('participations.created_at', '<', Carbon::now()->subMonths(2)->startOfDay());
-                        });
+                'participations_need_to_be_treated_count' => Participation::needToBeTreated($this->profile->id)
+                    ->whereHas('mission', function($query) {
+                        $query->where('responsable_id', $this->profile->id);
                     })
                     ->count(),
                 'missions_inactive_count' => $this->profile->missionsInactive->count()
