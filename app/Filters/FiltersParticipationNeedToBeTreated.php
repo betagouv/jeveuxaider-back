@@ -14,7 +14,7 @@ class FiltersParticipationNeedToBeTreated implements Filter
         return $query->where(function ($query) use ($value) {
             if ($value === true) {
                 $currentUser = User::find(Auth::guard('api')->user()->id);
-                $query->needToBeTreated($currentUser->profile->id);
+                $query->needToBeTreated()->ofResponsable($currentUser->profile->id);
             }
         });
     }

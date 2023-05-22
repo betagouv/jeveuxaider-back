@@ -210,10 +210,7 @@ class User extends Authenticatable
             $responsableStats = [
                 'missions_as_responsable_count' => Mission::where('responsable_id', $this->profile->id)
                     ->count(),
-                'participations_need_to_be_treated_count' => Participation::needToBeTreated($this->profile->id)
-                    ->whereHas('mission', function($query) {
-                        $query->where('responsable_id', $this->profile->id);
-                    })
+                'participations_need_to_be_treated_count' => Participation::ofResponsable($this->profile->id)->needToBeTreated()
                     ->count(),
                 'missions_inactive_count' => $this->profile->missionsInactive->count()
             ];
