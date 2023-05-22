@@ -33,19 +33,23 @@ class SendNotificationsBenevoleWhenParticipationShouldBeDone extends Command
     public function handle()
     {
         $this->sendReminderForPonctualMissions();
-        $this->sendReminderForRecursiveMissions();
+        $this->sendReminderForRecurringMissions();
     }
 
     private function sendReminderForPonctualMissions()
     {
-        $query = Participation::whereIn('state', ['En attente de validation', 'En cours de traitement'])
+        $query = Participation::with(['profile'])
+            ->whereIn('state', ['En attente de validation', 'En cours de traitement'])
             ->whereHas('mission', function (Builder $query) {
                 $query->where('date_type', 'ponctual')
                 ->where('state', 'Validée')
                 ->whereBetween('end_date', [
                     Carbon::now()->subDays(1)->startOfDay(),
                     Carbon::now()->subDays(1)->endOfDay(),
-                ]);
+                ])
+                ->whereHas('structure', function (Builder $query) {
+                    $query->where('state', 'Validée');
+                });
             });
 
         foreach ($query->get() as $participation) {
@@ -53,19 +57,23 @@ class SendNotificationsBenevoleWhenParticipationShouldBeDone extends Command
         }
     }
 
-    private function sendReminderForRecursiveMissions()
+    private function sendReminderForRecurringMissions()
     {
-        $query = Participation::whereIn('state', ['En attente de validation', 'En cours de traitement'])
+        $query = Participation::with(['profile'])
+            ->whereIn('state', ['En attente de validation', 'En cours de traitement'])
             ->whereBetween('created_at', [
-                Carbon::now()->subMonths(2)->startOfDay(),
-                Carbon::now()->subMonths(2)->endOfDay(),
+                Carbon::now()->subMonths(1)->startOfDay(),
+                Carbon::now()->subMonths(1)->endOfDay(),
             ])
             ->whereHas('mission', function (Builder $query) {
                 $query->where('state', 'Validée')
-                    ->where(function(Builder $query) {
-                        $query->where('date_type', 'recurring')
-                            ->orWhereNull('end_date');
-                    });
+                ->where(function(Builder $query) {
+                    $query->where('date_type', 'recurring')
+                    ->orWhereNull('end_date');
+                })
+                ->whereHas('structure', function (Builder $query) {
+                    $query->where('state', 'Validée');
+                });
             });
 
         foreach ($query->get() as $participation) {
