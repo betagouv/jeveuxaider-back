@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Carbon\Carbon;
 
 class Participation extends Model
 {
@@ -149,6 +150,21 @@ class Participation extends Model
         return $query->whereHas('mission', function (Builder $query) use ($territoire_id) {
             $query->ofTerritoire($territoire_id);
         });
+    }
+
+    public function scopeNeedToBeTreated($query)
+    {
+        return $query
+            ->where(function($query){
+                $query
+                    ->where('participations.state', 'En attente de validation')
+                    ->where('participations.created_at', '<', Carbon::now()->subDays(10)->startOfDay());
+            })
+            ->orWhere(function($query){
+                $query
+                    ->where('participations.state', 'En cours de traitement')
+                    ->where('participations.created_at', '<', Carbon::now()->subMonths(2)->startOfDay());
+            });
     }
 
     public function deleteQuietly(array $options = [])

@@ -40,6 +40,7 @@ class ParticipationController extends Controller
                 AllowedFilter::scope('ofActivity'),
                 AllowedFilter::scope('ofDomaine'),
                 AllowedFilter::scope('ofResponsable'),
+                AllowedFilter::scope('need_to_be_treated', 'needToBeTreated'),
                 AllowedFilter::exact('state'),
                 AllowedFilter::exact('mission.zip'),
                 AllowedFilter::exact('mission.type'),
