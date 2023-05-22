@@ -41,6 +41,7 @@ class SendNotificationsBenevoleWhenParticipationShouldBeDone extends Command
         $query = Participation::whereIn('state', ['En attente de validation', 'En cours de traitement'])
             ->whereHas('mission', function (Builder $query) {
                 $query->where('date_type', 'ponctual')
+                ->where('state', 'Validée')
                 ->whereBetween('end_date', [
                     Carbon::now()->subDays(1)->startOfDay(),
                     Carbon::now()->subDays(1)->endOfDay(),
@@ -60,8 +61,11 @@ class SendNotificationsBenevoleWhenParticipationShouldBeDone extends Command
                 Carbon::now()->subMonths(2)->endOfDay(),
             ])
             ->whereHas('mission', function (Builder $query) {
-                $query->where('date_type', 'recurring')
-                    ->orWhereNull('end_date');
+                $query->where('state', 'Validée')
+                    ->where(function(Builder $query) {
+                        $query->where('date_type', 'recurring')
+                            ->orWhereNull('end_date');
+                    });
             });
 
         foreach ($query->get() as $participation) {
