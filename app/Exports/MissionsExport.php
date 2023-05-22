@@ -2,12 +2,14 @@
 
 namespace App\Exports;
 
+use App\Filters\FiltersDoesntHaveTags;
 use App\Filters\FiltersMissionDate;
 use App\Filters\FiltersMissionIsTemplate;
 use App\Filters\FiltersMissionPlacesLeft;
 use App\Filters\FiltersMissionPublicsVolontaires;
 use App\Filters\FiltersMissionPublicsBeneficiaires;
 use App\Filters\FiltersMissionSearch;
+use App\Filters\FiltersTags;
 use App\Models\Mission;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Concerns\Exportable;
@@ -37,14 +39,13 @@ class MissionsExport implements FromQuery, WithMapping, WithHeadings
                 AllowedFilter::exact('id'),
                 AllowedFilter::exact('department'),
                 AllowedFilter::exact('responsable.id'),
-                AllowedFilter::exact('template_id'),
+                AllowedFilter::exact('template.id'),
                 AllowedFilter::exact('structure.id'),
                 AllowedFilter::exact('structure.name'),
                 AllowedFilter::exact('structure.statut_juridique'),
                 AllowedFilter::exact('structure.reseaux.id'),
                 AllowedFilter::exact('structure.reseaux.name'),
                 AllowedFilter::exact('is_snu_mig_compatible'),
-                AllowedFilter::scope('ofReseau'),
                 AllowedFilter::scope('ofDomaine'),
                 AllowedFilter::scope('ofTerritoire'),
                 AllowedFilter::scope('ofActivity'),
@@ -58,6 +59,10 @@ class MissionsExport implements FromQuery, WithMapping, WithHeadings
                 AllowedFilter::custom('search', new FiltersMissionSearch),
                 AllowedFilter::scope('available'),
                 AllowedFilter::custom('is_template', new FiltersMissionIsTemplate),
+                AllowedFilter::exact('is_autonomy'),
+                AllowedFilter::custom('tags', new FiltersTags),
+                AllowedFilter::custom('no_tags', new FiltersDoesntHaveTags),
+                AllowedFilter::exact('is_active'),
                 AllowedFilter::scope('ofResponsable'),
             ])
             ->defaultSort('-created_at')
