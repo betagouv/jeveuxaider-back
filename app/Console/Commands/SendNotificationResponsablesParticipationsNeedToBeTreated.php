@@ -41,7 +41,6 @@ class SendNotificationResponsablesParticipationsNeedToBeTreated extends Command
      */
     public function handle()
     {
-        // @TODO -> 1 fois par mois max ?
         $results = DB::select(
             "
                 SELECT missions.responsable_id, COUNT(*) As total_count,
@@ -58,7 +57,6 @@ class SendNotificationResponsablesParticipationsNeedToBeTreated extends Command
                 AND missions.responsable_id IS NOT NULL
                 GROUP BY missions.responsable_id
                 ORDER BY total_count DESC
-                LIMIT 5
             "
         );
 
