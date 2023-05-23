@@ -336,6 +336,10 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::get('administration/organisations-trending', 'Api\AdministrationController@organisationsTrending');
     Route::get('administration/topito-admins', 'Api\AdministrationController@topitoAdmins');
     Route::get('administration/topito-referents', 'Api\AdministrationController@topitoReferents');
+
+    // SUPPORT
+    Route::get('support/referents', 'Api\SupportController@referents');
+    Route::get('support/referents-inactives', 'Api\SupportController@referentsInactives');
 });
 
 // STATISTICS
