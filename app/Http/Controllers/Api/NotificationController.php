@@ -61,6 +61,7 @@ use App\Notifications\ResetPassword;
 use App\Notifications\ResponsableDailyTodo;
 use App\Notifications\ResponsableMissionsDeactivated;
 use App\Notifications\ResponsableMissionsReactivated;
+use App\Notifications\ResponsableParticipationAModeredEnPriorite;
 use App\Notifications\ResponsableSummaryDaily;
 use App\Notifications\ResponsableSummaryMonthly;
 use App\Notifications\StructureAskUnregister;
@@ -303,8 +304,8 @@ class NotificationController extends Controller
             case 'reset_password':
                 $notification = new ResetPassword('token');
                 break;
-            case 'responsable_waiting_actions':
-                $notification = new ResponsableDailyTodo([1, 2, 3]);
+            case 'responsable_participations_need_to_be_treated':
+                $notification = new ResponsableParticipationAModeredEnPriorite(45, 20, 25);
                 break;
             case 'user_anonymize':
                 $notification = new UserAnonymize();
