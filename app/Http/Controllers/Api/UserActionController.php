@@ -70,7 +70,7 @@ class UserActionController extends Controller
                 ];
                 $actions[] = [
                     'type' => 'participations_need_to_be_treated',
-                    'value' => Participation::role($request->header('Context-Role'))->needToBeTreated($user->profile->id)->count(),
+                    'value' => Participation::role($request->header('Context-Role'))->ofResponsable($user->profile->id)->needToBeTreated($user->profile->id)->count(),
                 ];
                 $actions[] = [
                     'type' => 'missions_outdated',
