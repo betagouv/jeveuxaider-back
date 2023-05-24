@@ -3,12 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Participation;
-use App\Models\Structure;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Password;
 
 class SupportController extends Controller
 {
@@ -239,6 +238,69 @@ class SupportController extends Controller
             ->paginate(20);
 
         return $results;
+    }
+
+    public function responsablesMissionsOutdated(Request $request)
+    {
+        $orderBy = $request->input('sort') ? $request->input('sort') . ' DESC' : 'missions_total_count DESC';
+        $searchValue = $request->input('search') ?? null;
+        $inactiveValue = $request->input('inactive') ?? null;
+        $organisationValue = $request->input('organisation') ?? null;
+
+        $results = DB::table('profiles')
+            ->select(
+                'profiles.id as profile_id',
+                'profiles.first_name',
+                'profiles.last_name',
+                'profiles.email',
+                'users.last_online_at',
+                'structures.name as structure_name',
+                'structures.id as structure_id',
+                DB::raw('COUNT(distinct missions.id) as missions_total_count'),
+            )
+            ->join('users', 'users.id', '=', 'profiles.user_id')
+            ->join('rolables', 'rolables.user_id', '=', 'users.id')
+            ->join('roles', 'roles.id', '=', 'rolables.role_id')
+            ->join('structures', function ($join) use ($organisationValue) {
+                $join->on('rolables.rolable_id', '=', 'structures.id')
+                    ->where('rolables.rolable_type', 'App\Models\Structure')
+                    ->whereIn('structures.state', ['Validée'])
+                    ->whereNull('structures.deleted_at')
+                    ->when($organisationValue, function($query) use ($organisationValue){
+                        $query->where('structures.id', '=', $organisationValue);
+                    });
+            })
+            ->join('missions', function ($join) {
+                $join->on('missions.responsable_id', '=', 'profiles.id')
+                    ->whereIn('missions.state', ['Validée'])
+                    ->where('missions.end_date', '<', Carbon::now())
+                    ->whereNull('missions.deleted_at');
+            })
+            ->where('roles.id', 2)
+            ->when($searchValue, function($query) use ($searchValue){
+                $query->whereRaw("CONCAT(profiles.first_name, ' ', profiles.last_name, ' ', profiles.email) ILIKE ?", ['%' . $searchValue . '%']);
+            })
+            ->when($inactiveValue, function($query) {
+                $query->whereRaw("users.last_online_at <= NOW() - interval '1 month'");
+            })
+            ->groupBy('profiles.id', 'profiles.first_name', 'profiles.last_name', 'profiles.email', 'users.last_online_at', 'structures.name', 'structures.id')
+            ->orderByRaw($orderBy)
+            ->paginate(20);
+
+        return $results;
+
+    }
+
+    public function generatePasswordResetLink(Request $request)
+    {
+        $user = User::find($request->input('user_id'));
+
+        if (!$user) {
+            abort('422', "L'utilisateur n'a pas été trouvé !");
+        }
+
+        $token = Password::createToken($user);
+        return config('app.front_url') . '/password-reset/' . $token . '?email=' . $user->email;
     }
 
 }

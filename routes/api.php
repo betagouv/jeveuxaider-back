@@ -341,6 +341,8 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::get('support/referents/waiting-actions', 'Api\SupportController@referentsWaitingActions');
     Route::get('support/referents/activity-logs', 'Api\SupportController@referentsActivityLogs');
     Route::get('support/responsables/participations-to-be-treated', 'Api\SupportController@responsablesParticipationsToBeTreated');
+    Route::get('support/responsables/missions-outdated', 'Api\SupportController@responsablesMissionsOutdated');
+    Route::post('support/scripts/generate-password-reset-link', 'Api\SupportController@generatePasswordResetLink');
 });
 
 // STATISTICS
