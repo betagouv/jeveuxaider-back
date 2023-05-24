@@ -67,7 +67,7 @@ class SupportController extends Controller
     //     return $results;
     // }
 
-    public function referents(Request $request)
+    public function referentsWaitingActions(Request $request)
     {
 
         $orderBy = $request->input('sort') ? $request->input('sort') . ' DESC' : 'department_number ASC';
@@ -132,47 +132,45 @@ class SupportController extends Controller
         return $results;
     }
 
-    public function referentsInactive(Request $request)
+    public function referentsActivityLogs(Request $request)
     {
-        $results = DB::select(
-            "
-                SELECT departments.number, departments.name, profiles.first_name, profiles.last_name, profiles.email, profiles.mobile,profiles.phone, users.last_online_at,
-                extract('day' from date_trunc('day', now() - users.last_online_at::date)) As inactive_days
-                FROM profiles
-                LEFT JOIN termables ON termables.termable_id = profiles.id AND termables.termable_type = 'App\Models\Profile'
-                LEFT JOIN users ON users.id = profiles.user_id
-                LEFT JOIN rolables ON rolables.user_id = users.id
-                LEFT JOIN roles ON roles.id = rolables.role_id
-                LEFT JOIN departments ON departments.id = rolables.rolable_id AND rolables.rolable_type = 'App\Models\Department'
-                WHERE roles.id = 3
-                AND users.last_online_at <= NOW() - interval '1 month'
-                AND termables.term_id = 652
-                ORDER BY departments.number ASC
-            "
-        );
+        $orderBy = $request->input('sort') ? $request->input('sort') . ' DESC' : 'department_number ASC';
+        $searchValue = $request->input('search') ?? null;
+        $departmentValue = $request->input('department') ?? null;
 
-        return $results;
-    }
-
-    public function topitoReferents(Request $request)
-    {
-        $results = DB::select(
-            "
-                SELECT activity_log.causer_id, profiles.id as profile_id, profiles.first_name, profiles.last_name, COUNT(*) AS count FROM activity_log
-                LEFT JOIN users ON users.id = activity_log.causer_id
-                LEFT JOIN profiles ON users.id = profiles.user_id
-                LEFT JOIN rolables ON rolables.user_id = users.id
-                WHERE activity_log.causer_type = 'App\Models\User'
-                AND rolables.role_id = 3
-                AND activity_log.created_at BETWEEN :start and :end
-                GROUP BY activity_log.causer_id, profiles.id, profiles.first_name, profiles.last_name
-                ORDER BY count DESC
-                LIMIT 5
-            ", [
-                'start' => $this->startDate,
-                'end' => $this->endDate,
-            ]
-        );
+        $results = DB::table('profiles')
+            ->select(
+                'departments.number as department_number',
+                'profiles.id as profile_id',
+                'profiles.first_name',
+                'profiles.last_name',
+                'profiles.email',
+                'users.last_online_at',
+                DB::raw('COUNT(distinct activity_log.id) as activity_logs_total_count'),
+                DB::raw('COUNT(distinct activity_log.id) filter(WHERE activity_log.created_at >= NOW() - interval \'1 month\') as activity_logs_last_month_count'),
+                DB::raw('COUNT(distinct activity_log.id) filter(WHERE activity_log.created_at >= NOW() - interval \'1 week\') as activity_logs_last_week_count'),
+            )
+            ->leftJoin('users', 'users.id', '=', 'profiles.user_id')
+            ->leftJoin('rolables', 'rolables.user_id', '=', 'users.id')
+            ->leftJoin('roles', 'roles.id', '=', 'rolables.role_id')
+            ->leftJoin('departments', function ($join) {
+                $join->on('departments.id', '=', 'rolables.rolable_id')
+                    ->where('rolables.rolable_type', '=', 'App\Models\Department');
+            })
+            ->leftJoin('activity_log', function ($join) {
+                $join->on('activity_log.causer_id', '=', 'users.id')
+                    ->where('activity_log.causer_type', '=', 'App\Models\User');
+            })
+            ->where('roles.id', 3)
+            ->when($searchValue, function($query) use ($searchValue){
+                $query->where("CONCAT(profiles.first_name, ' ', profiles.last_name, ' ', profiles.email) ILIKE ?", ['%' . $searchValue . '%']);
+            })
+            ->when($departmentValue, function($query) use ($departmentValue){
+                $query->where('departments.number', $departmentValue);
+            })
+            ->groupBy('departments.number','profiles.id', 'profiles.first_name', 'profiles.last_name', 'profiles.email', 'users.last_online_at')
+            ->orderByRaw($orderBy)
+            ->get();
 
         return $results;
     }

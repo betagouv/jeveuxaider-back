@@ -338,8 +338,8 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::get('administration/topito-referents', 'Api\AdministrationController@topitoReferents');
 
     // SUPPORT
-    Route::get('support/referents', 'Api\SupportController@referents');
-    Route::get('support/referents-inactives', 'Api\SupportController@referentsInactives');
+    Route::get('support/referents/waiting-actions', 'Api\SupportController@referentsWaitingActions');
+    Route::get('support/referents/activity-logs', 'Api\SupportController@referentsActivityLogs');
 });
 
 // STATISTICS
