@@ -340,6 +340,7 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     // SUPPORT
     Route::get('support/referents/waiting-actions', 'Api\SupportController@referentsWaitingActions');
     Route::get('support/referents/activity-logs', 'Api\SupportController@referentsActivityLogs');
+    Route::get('support/responsables/participations-to-be-treated', 'Api\SupportController@responsablesParticipationsToBeTreated');
 });
 
 // STATISTICS

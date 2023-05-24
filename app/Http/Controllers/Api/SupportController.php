@@ -70,7 +70,7 @@ class SupportController extends Controller
     public function referentsWaitingActions(Request $request)
     {
 
-        $orderBy = $request->input('sort') ? $request->input('sort') . ' DESC' : 'department_number ASC';
+        $orderBy = $request->input('sort') ? $request->input('sort') . ' DESC' : 'missions_total_count DESC';
         $searchValue = $request->input('search') ?? null;
         $departmentValue = $request->input('department') ?? null;
         $tagValue = $request->input('tag') ?? null;
@@ -117,7 +117,7 @@ class SupportController extends Controller
                 });
             })
             ->when($searchValue, function($query) use ($searchValue){
-                $query->where("CONCAT(profiles.first_name, ' ', profiles.last_name, ' ', profiles.email) ILIKE ?", ['%' . $searchValue . '%']);
+                $query->whereRaw("CONCAT(profiles.first_name, ' ', profiles.last_name, ' ', profiles.email) ILIKE ?", ['%' . $searchValue . '%']);
             })
             ->when($inactiveValue, function($query) {
                 $query->whereRaw("users.last_online_at <= NOW() - interval '1 month'");
@@ -127,14 +127,14 @@ class SupportController extends Controller
             })
             ->groupBy('departments.number','profiles.id', 'profiles.first_name', 'profiles.last_name', 'profiles.email', 'users.last_online_at')
             ->orderByRaw($orderBy)
-            ->get();
+            ->paginate(20);
 
         return $results;
     }
 
     public function referentsActivityLogs(Request $request)
     {
-        $orderBy = $request->input('sort') ? $request->input('sort') . ' DESC' : 'department_number ASC';
+        $orderBy = $request->input('sort') ? $request->input('sort') . ' DESC' : 'activity_logs_last_month_count DESC';
         $searchValue = $request->input('search') ?? null;
         $departmentValue = $request->input('department') ?? null;
 
@@ -163,14 +163,80 @@ class SupportController extends Controller
             })
             ->where('roles.id', 3)
             ->when($searchValue, function($query) use ($searchValue){
-                $query->where("CONCAT(profiles.first_name, ' ', profiles.last_name, ' ', profiles.email) ILIKE ?", ['%' . $searchValue . '%']);
+                $query->whereRaw("CONCAT(profiles.first_name, ' ', profiles.last_name, ' ', profiles.email) ILIKE ?", ['%' . $searchValue . '%']);
             })
             ->when($departmentValue, function($query) use ($departmentValue){
                 $query->where('departments.number', $departmentValue);
             })
             ->groupBy('departments.number','profiles.id', 'profiles.first_name', 'profiles.last_name', 'profiles.email', 'users.last_online_at')
             ->orderByRaw($orderBy)
-            ->get();
+            ->paginate(20);
+
+        return $results;
+    }
+
+    public function responsablesParticipationsToBeTreated(Request $request)
+    {
+
+        $orderBy = $request->input('sort') ? $request->input('sort') . ' DESC' : 'participations_total_count DESC';
+        $searchValue = $request->input('search') ?? null;
+        $inactiveValue = $request->input('inactive') ?? null;
+        $organisationValue = $request->input('organisation') ?? null;
+
+        $results = DB::table('profiles')
+            ->select(
+                'profiles.id as profile_id',
+                'profiles.first_name',
+                'profiles.last_name',
+                'profiles.email',
+                'users.last_online_at',
+                'structures.name as structure_name',
+                'structures.id as structure_id',
+                DB::raw('COUNT(distinct participations.id) as participations_total_count'),
+                DB::raw('COUNT(distinct participations.id) filter(WHERE participations.state = \'En attente de validation\') as participations_waiting_count'),
+                DB::raw('COUNT(distinct participations.id) filter(WHERE participations.state = \'En cours de traitement\') as participations_in_progress_count'),
+            )
+            ->join('users', 'users.id', '=', 'profiles.user_id')
+            ->join('rolables', 'rolables.user_id', '=', 'users.id')
+            ->join('roles', 'roles.id', '=', 'rolables.role_id')
+            ->join('structures', function ($join) use ($organisationValue) {
+                $join->on('rolables.rolable_id', '=', 'structures.id')
+                    ->where('rolables.rolable_type', 'App\Models\Structure')
+                    ->whereIn('structures.state', ['Validée'])
+                    ->whereNull('structures.deleted_at')
+                    ->when($organisationValue, function($query) use ($organisationValue){
+                        $query->where('structures.id', '=', $organisationValue);
+                    });
+            })
+            ->join('missions', function ($join) {
+                $join->on('missions.responsable_id', '=', 'profiles.id')
+                    ->whereIn('missions.state', ['Validée', 'Terminée'])
+                    ->whereNull('missions.deleted_at');
+            })
+            ->join('participations', function ($join) {
+                $join->on('participations.mission_id', '=', 'missions.id')
+                    ->whereIn('participations.state', ['En attente de validation', 'En cours de traitement']);
+            })
+            ->where('roles.id', 2)
+            ->where(function($query){
+                $query
+                    ->where('participations.state', 'En attente de validation')
+                    ->where('participations.created_at', '<', Carbon::now()->subDays(10)->startOfDay());
+                })
+                ->orWhere(function($query){
+                    $query
+                        ->where('participations.state', 'En cours de traitement')
+                        ->where('participations.created_at', '<', Carbon::now()->subMonths(2)->startOfDay());
+            })
+            ->when($searchValue, function($query) use ($searchValue){
+                $query->whereRaw("CONCAT(profiles.first_name, ' ', profiles.last_name, ' ', profiles.email) ILIKE ?", ['%' . $searchValue . '%']);
+            })
+            ->when($inactiveValue, function($query) {
+                $query->whereRaw("users.last_online_at <= NOW() - interval '1 month'");
+            })
+            ->groupBy('profiles.id', 'profiles.first_name', 'profiles.last_name', 'profiles.email', 'users.last_online_at', 'structures.name', 'structures.id')
+            ->orderByRaw($orderBy)
+            ->paginate(20);
 
         return $results;
     }
