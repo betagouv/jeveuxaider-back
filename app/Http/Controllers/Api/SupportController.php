@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Mission;
+use App\Models\Participation;
+use App\Models\Structure;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -27,44 +30,33 @@ class SupportController extends Controller
         }
     }
 
-    // public function goals(Request $request)
-    // {
+    public function referentsOverview(Request $request)
+    {
+        return [
+            'referents_online_count' => User::role('referent')->online()->count(),
+            'referents_count' => User::role('referent')->count(),
+            'referents_inactive_count' => User::role('referent')->inactive()->count(),
+            'structures_need_to_be_treated_count' => Structure::whereIn('state', ['En attente de validation', 'En cours de traitement'])->count(),
+            'structures_waiting_count' => Structure::whereIn('state', ['En attente de validation'])->count(),
+            'structures_in_progress_count' => Structure::whereIn('state', ['En cours de traitement'])->count(),
+            'missions_need_to_be_treated_count' => Mission::whereIn('state', ['En attente de validation', 'En cours de traitement'])->count(),
+            'missions_waiting_count' => Mission::whereIn('state', ['En attente de validation'])->count(),
+            'missions_in_progress_count' =>Mission::whereIn('state', ['En cours de traitement'])->count(),
+        ];
+    }
 
-    //     return [
-    //         'utilisateurs_count' => User::whereYear('created_at', '=', date('Y'))->count(),
-    //         'organisations_validated_count' => Structure::whereYear('created_at', '=', date('Y'))->where('state', 'Validée')->count(),
-    //         'participations_count' => Participation::whereYear('created_at', '=', date('Y'))->count(),
-    //         'participations_in_progress_count' => Participation::whereIn('state', ['En attente de validation', 'En cours de traitement', 'Validée'])->whereYear('created_at', '=', date('Y'))->count(),
-    //         'participations_validated_count' => Participation::where('state', 'Validée')->whereYear('created_at', '=', date('Y'))->count(),
-    //     ];
-    // }
-
-    // public function responsables(Request $request)
-    // {
-    //     $results = DB::select(
-    //         "
-    //             SELECT missions.responsable_id, COUNT(*) As total_count,
-    //             COUNT(*) filter(WHERE participations.state = 'En attente de validation' AND participations.created_at < (NOW() - INTERVAL '10 days')) As waiting_count,
-    //             COUNT(*) filter(WHERE participations.state = 'En cours de traitement' AND participations.created_at < (NOW() - INTERVAL '2 months')) As in_progress_count
-    //             FROM participations
-    //             LEFT JOIN missions ON missions.id = participations.mission_id
-    //             LEFT JOIN profiles ON profiles.id = missions.responsable_id
-    //             WHERE profiles.notification__responsable_frequency = 'realtime'
-    //             AND (
-    //                 (participations.state = 'En attente de validation' AND participations.created_at < (NOW() - INTERVAL '10 days'))
-    //                 OR (participations.state = 'En cours de traitement' AND participations.created_at < (NOW() - INTERVAL '2 months'))
-    //             )
-    //             AND missions.responsable_id IS NOT NULL
-    //             GROUP BY missions.responsable_id
-    //             ORDER BY total_count DESC
-    //         ", [
-    //             'start' => $this->startDate,
-    //             'end' => $this->endDate,
-    //         ]
-    //     );
-
-    //     return $results;
-    // }
+    public function responsablesOverview(Request $request)
+    {
+        return [
+            'responsables_online_count' => User::role('responsable')->online()->count(),
+            'responsables_count' => User::role('responsable')->count(),
+            'responsables_inactive_count' => User::role('responsable')->inactive()->count(),
+            'participations_need_to_be_treated_count' => Participation::needToBeTreated()->count(),
+            'participations_waiting_count' => Participation::needToBeTreated()->whereIn('state', ['En attente de validation'])->count(),
+            'participations_in_progress_count' => Participation::needToBeTreated()->whereIn('state', ['En cours de traitement'])->count(),
+            'missions_outdated_count' => Mission::whereIn('state', ['En attente de validation', 'En cours de traitement'])->count(),
+        ];
+    }
 
     public function referentsWaitingActions(Request $request)
     {
