@@ -72,10 +72,14 @@ class SupportController extends Controller
 
         $orderBy = $request->input('sort') ? $request->input('sort') . ' DESC' : 'department_number ASC';
         $searchValue = $request->input('search') ?? null;
+        $departmentValue = $request->input('department') ?? null;
+        $tagValue = $request->input('tag') ?? null;
+        $inactiveValue = $request->input('inactive') ?? null;
 
         $results = DB::table('profiles')
             ->select(
                 'departments.number as department_number',
+                'profiles.id as profile_id',
                 'profiles.first_name',
                 'profiles.last_name',
                 'profiles.email',
@@ -105,10 +109,23 @@ class SupportController extends Controller
                     ->whereNull('missions.deleted_at');
             })
             ->where('roles.id', 3)
-            ->when($searchValue, function($query) use ($searchValue){
-                $query->whereRaw("CONCAT(profiles.first_name, ' ', profiles.last_name, ' ', profiles.email) ILIKE ?", ['%' . $searchValue . '%']);
+            ->when($tagValue, function($query) use ($tagValue){
+                $query->join('termables', function ($join) use ($tagValue) {
+                    $join->on('termables.termable_id', '=', 'profiles.id')
+                        ->where('termables.term_id', $tagValue)
+                        ->where('termables.termable_type', '=', 'App\Models\Profile');
+                });
             })
-            ->groupBy('departments.number', 'profiles.first_name', 'profiles.last_name', 'profiles.email', 'users.last_online_at')
+            ->when($searchValue, function($query) use ($searchValue){
+                $query->where("CONCAT(profiles.first_name, ' ', profiles.last_name, ' ', profiles.email) ILIKE ?", ['%' . $searchValue . '%']);
+            })
+            ->when($inactiveValue, function($query) {
+                $query->whereRaw("users.last_online_at <= NOW() - interval '1 month'");
+            })
+            ->when($departmentValue, function($query) use ($departmentValue){
+                $query->where('departments.number', $departmentValue);
+            })
+            ->groupBy('departments.number','profiles.id', 'profiles.first_name', 'profiles.last_name', 'profiles.email', 'users.last_online_at')
             ->orderByRaw($orderBy)
             ->get();
 
