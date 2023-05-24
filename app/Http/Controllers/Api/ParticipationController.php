@@ -191,7 +191,7 @@ class ParticipationController extends Controller
                 'from_id' => $currentUser->id,
                 'type' => 'contextual',
                 'content' => 'La participation a été validée par ' . $currentUser->profile->full_name,
-                'contextual_state' => 'Validée par bénévole',
+                'contextual_state' => 'Validée par le bénévole',
             ]);
         }
 
