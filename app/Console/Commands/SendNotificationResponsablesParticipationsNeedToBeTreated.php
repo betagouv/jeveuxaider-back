@@ -49,12 +49,11 @@ class SendNotificationResponsablesParticipationsNeedToBeTreated extends Command
                 FROM participations
                 LEFT JOIN missions ON missions.id = participations.mission_id
                 LEFT JOIN profiles ON profiles.id = missions.responsable_id
-                WHERE profiles.notification__responsable_frequency = 'realtime'
+                WHERE missions.responsable_id IS NOT NULL
                 AND (
                     (participations.state = 'En attente de validation' AND participations.created_at < (NOW() - INTERVAL '10 days'))
                     OR (participations.state = 'En cours de traitement' AND participations.created_at < (NOW() - INTERVAL '2 months'))
                 )
-                AND missions.responsable_id IS NOT NULL
                 GROUP BY missions.responsable_id
                 ORDER BY total_count DESC
             "
