@@ -135,6 +135,10 @@ class ParticipationController extends Controller
 
     public function cancelByBenevole(ParticipationCancelRequest $request, Participation $participation)
     {
+        if ($participation->state == 'Annulée') {
+            abort(422, 'La participation a déjà été annulée.');
+        }
+
         $participation->load('conversation');
         $currentUser = User::find(Auth::guard('api')->user()->id);
 
@@ -183,6 +187,10 @@ class ParticipationController extends Controller
 
     public function validateByBenevole(Request $request, Participation $participation)
     {
+        if ($participation->state == 'Validée') {
+            abort(422, 'La participation a déjà été validée.');
+        }
+
         $participation->load('conversation');
         $currentUser = User::find(Auth::guard('api')->user()->id);
 
