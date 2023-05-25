@@ -9,6 +9,7 @@ use App\Console\Commands\ApiEngagementSyncMissions;
 use App\Console\Commands\SendNotificationsBenevoleCejNoParticipation;
 use App\Console\Commands\SendNotificationsBenevoleCejOneYearAfter;
 use App\Console\Commands\SendNotificationsBenevoleCejSixMonthsAfter;
+use App\Console\Commands\SendNotificationsBenevoleWhenParticipationShouldBeDone;
 use App\Console\Commands\SendNotificationsMissionInDraft;
 use App\Console\Commands\SendNotificationsMissionOutdated;
 use App\Console\Commands\SendNotificationsNoNewMission;
@@ -49,6 +50,7 @@ class Kernel extends ConsoleKernel
         $schedule->command(SendNotificationsBenevoleCejNoParticipation::class)->daily()->at('10:10');
         $schedule->command(SendNotificationsBenevoleCejSixMonthsAfter::class)->daily()->at('10:20');
         $schedule->command(SendNotificationsBenevoleCejOneYearAfter::class)->daily()->at('10:30');
+        $schedule->command(SendNotificationsBenevoleWhenParticipationShouldBeDone::class)->daily()->at('18:00');
 
         // Responsables
         $schedule->command(SendNotificationsMissionOutdated::class)->weekdays()->daily()->at('08:30');

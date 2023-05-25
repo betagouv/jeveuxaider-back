@@ -12,7 +12,7 @@ class TemoignageObserver
 
     public function created(Temoignage $temoignage)
     {
-        $temoignage->participation->notificationTemoignage->delete();
+        $temoignage->participation->notificationTemoignage?->delete();
     }
 
     public function updated(Temoignage $temoignage)
