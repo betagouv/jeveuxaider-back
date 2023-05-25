@@ -21,8 +21,8 @@
     @endcomponent
     @component('mail::components.space', ['height' => 48])
     @endcomponent
-    @component('mail::components.paragraph', ['title' => 'Pourquoi mettre à jour le statut de votre participation ?'])
-        En tant que plateforme publique du bénévolat, nous avons besoin de connaître le nombre de bénévoles qui se sont réellement engagés par notre intermédiaire. Alors, on compte sur vous, ça se fait en 2 clics !
+    @component('mail::components.paragraph', ['title' => 'Pourquoi mettre à jour votre statut de participation ?'])
+        Pour nous aider à mieux comprendre votre usage de la plateforme et assurer un suivi de l’engagement des bénévoles. Un petit clic de bénévole, un grand pas pour <a class="link" href="https://www.jeveuxaider.gouv.fr/">JeVeuxAider.gouv.fr</a>
     @endcomponent
     @component('mail::components.tips', ['title' => 'Des questions ?'])
         En cas de besoin, vous pouvez répondre à ce mail pour échanger directement avec le support utilisateurs !
