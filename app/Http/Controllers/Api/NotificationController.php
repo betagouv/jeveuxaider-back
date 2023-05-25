@@ -71,10 +71,12 @@ use App\Notifications\StructureAssociationValidated;
 use App\Notifications\StructureBeingProcessed;
 use App\Notifications\StructureCollectivityValidated;
 use App\Notifications\StructureInDraft;
+use App\Notifications\StructureWithoutMissionFirstReminder;
 use App\Notifications\StructureSignaled;
 use App\Notifications\StructureSubmitted;
 use App\Notifications\StructureSwitchResponsable;
 use App\Notifications\StructureValidated;
+use App\Notifications\StructureWithoutMissionSecondReminder;
 use App\Notifications\UserAnonymize;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Builder;
@@ -220,6 +222,12 @@ class NotificationController extends Controller
                 break;
             case 'responsable_organisation_validated':
                 $notification = new StructureValidated($structure);
+                break;
+            case 'responsable_organisation_without_mission_first_reminder':
+                $notification = new StructureWithoutMissionFirstReminder($structure);
+                break;
+            case 'responsable_organisation_without_mission_second_reminder':
+                $notification = new StructureWithoutMissionSecondReminder($structure);
                 break;
             case 'admin_reseau_new_lead':
                 $form = [
