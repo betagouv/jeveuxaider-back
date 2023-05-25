@@ -66,6 +66,7 @@ class SupportController extends Controller
         $departmentValue = $request->input('department') ?? null;
         $tagValue = $request->input('tag') ?? null;
         $inactiveValue = $request->input('inactive') ?? null;
+        $onlineValue = $request->input('online') ?? null;
 
         $results = DB::table('profiles')
             ->select(
@@ -113,6 +114,9 @@ class SupportController extends Controller
             ->when($inactiveValue, function($query) {
                 $query->whereRaw("users.last_online_at <= NOW() - interval '1 month'");
             })
+            ->when($onlineValue, function($query) {
+                $query->whereRaw("users.last_online_at >= NOW() - interval '5 minutes'");
+            })
             ->when($departmentValue, function($query) use ($departmentValue){
                 $query->where('departments.number', $departmentValue);
             })
@@ -128,6 +132,8 @@ class SupportController extends Controller
         $orderBy = $request->input('sort') ? $request->input('sort') . ' DESC' : 'activity_logs_last_month_count DESC';
         $searchValue = $request->input('search') ?? null;
         $departmentValue = $request->input('department') ?? null;
+        $inactiveValue = $request->input('inactive') ?? null;
+        $onlineValue = $request->input('online') ?? null;
 
         $results = DB::table('profiles')
             ->select(
@@ -156,6 +162,12 @@ class SupportController extends Controller
             ->when($searchValue, function($query) use ($searchValue){
                 $query->whereRaw("CONCAT(profiles.first_name, ' ', profiles.last_name, ' ', profiles.email) ILIKE ?", ['%' . $searchValue . '%']);
             })
+            ->when($inactiveValue, function($query) {
+                $query->whereRaw("users.last_online_at <= NOW() - interval '1 month'");
+            })
+            ->when($onlineValue, function($query) {
+                $query->whereRaw("users.last_online_at >= NOW() - interval '5 minutes'");
+            })
             ->when($departmentValue, function($query) use ($departmentValue){
                 $query->where('departments.number', $departmentValue);
             })
@@ -173,6 +185,7 @@ class SupportController extends Controller
         $searchValue = $request->input('search') ?? null;
         $inactiveValue = $request->input('inactive') ?? null;
         $organisationValue = $request->input('organisation') ?? null;
+        $onlineValue = $request->input('online') ?? null;
 
         $results = DB::table('profiles')
             ->select(
@@ -225,6 +238,9 @@ class SupportController extends Controller
             ->when($inactiveValue, function($query) {
                 $query->whereRaw("users.last_online_at <= NOW() - interval '1 month'");
             })
+            ->when($onlineValue, function($query) {
+                $query->whereRaw("users.last_online_at >= NOW() - interval '5 minutes'");
+            })
             ->groupBy('profiles.id', 'profiles.first_name', 'profiles.last_name', 'profiles.email', 'users.last_online_at', 'structures.name', 'structures.id')
             ->orderByRaw($orderBy)
             ->paginate(20);
@@ -238,7 +254,8 @@ class SupportController extends Controller
         $searchValue = $request->input('search') ?? null;
         $inactiveValue = $request->input('inactive') ?? null;
         $organisationValue = $request->input('organisation') ?? null;
-
+        $onlineValue = $request->input('online') ?? null;
+        
         $results = DB::table('profiles')
             ->select(
                 'profiles.id as profile_id',
@@ -274,6 +291,9 @@ class SupportController extends Controller
             })
             ->when($inactiveValue, function($query) {
                 $query->whereRaw("users.last_online_at <= NOW() - interval '1 month'");
+            })
+            ->when($onlineValue, function($query) {
+                $query->whereRaw("users.last_online_at >= NOW() - interval '5 minutes'");
             })
             ->groupBy('profiles.id', 'profiles.first_name', 'profiles.last_name', 'profiles.email', 'users.last_online_at', 'structures.name', 'structures.id')
             ->orderByRaw($orderBy)
