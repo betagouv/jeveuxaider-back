@@ -115,7 +115,7 @@ class SupportController extends Controller
                 $query->whereRaw("users.last_online_at <= NOW() - interval '1 month'");
             })
             ->when($onlineValue, function($query) {
-                $query->whereRaw("users.last_online_at >= NOW() - interval '5 minutes'");
+                $query->whereRaw("users.last_online_at >= NOW() - interval '10 minutes'");
             })
             ->when($departmentValue, function($query) use ($departmentValue){
                 $query->where('departments.number', $departmentValue);
@@ -166,7 +166,7 @@ class SupportController extends Controller
                 $query->whereRaw("users.last_online_at <= NOW() - interval '1 month'");
             })
             ->when($onlineValue, function($query) {
-                $query->whereRaw("users.last_online_at >= NOW() - interval '5 minutes'");
+                $query->whereRaw("users.last_online_at >= NOW() - interval '10 minutes'");
             })
             ->when($departmentValue, function($query) use ($departmentValue){
                 $query->where('departments.number', $departmentValue);
@@ -239,7 +239,7 @@ class SupportController extends Controller
                 $query->whereRaw("users.last_online_at <= NOW() - interval '1 month'");
             })
             ->when($onlineValue, function($query) {
-                $query->whereRaw("users.last_online_at >= NOW() - interval '5 minutes'");
+                $query->whereRaw("users.last_online_at >= NOW() - interval '10 minutes'");
             })
             ->groupBy('profiles.id', 'profiles.first_name', 'profiles.last_name', 'profiles.email', 'users.last_online_at', 'structures.name', 'structures.id')
             ->orderByRaw($orderBy)
@@ -293,7 +293,7 @@ class SupportController extends Controller
                 $query->whereRaw("users.last_online_at <= NOW() - interval '1 month'");
             })
             ->when($onlineValue, function($query) {
-                $query->whereRaw("users.last_online_at >= NOW() - interval '5 minutes'");
+                $query->whereRaw("users.last_online_at >= NOW() - interval '10 minutes'");
             })
             ->groupBy('profiles.id', 'profiles.first_name', 'profiles.last_name', 'profiles.email', 'users.last_online_at', 'structures.name', 'structures.id')
             ->orderByRaw($orderBy)
