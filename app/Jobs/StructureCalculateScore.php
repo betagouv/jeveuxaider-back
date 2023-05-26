@@ -17,7 +17,7 @@ class StructureCalculateScore implements ShouldQueue
     use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $structure;
-    protected $processedParticipationsRate;
+    protected $responseRatio;
     protected $responseTime;
     protected $lastParticipationsResponseRatio;
     protected $bonusPoints;
@@ -29,10 +29,10 @@ class StructureCalculateScore implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($structure)
+    public function __construct($structureId)
     {
-        $this->structure = $structure;
-        $this->onQueue('rules');
+        $this->structure = Structure::find($structureId);
+        $this->onQueue('default');
     }
 
     /**
@@ -49,7 +49,7 @@ class StructureCalculateScore implements ShouldQueue
             return;
         }
 
-        $this->setProcessedParticipationsRate();
+        $this->setResponseRatio();
         $this->setResponseTime();
         $this->setLastParticipationsResponseRatio();
         $this->setBonusPoints();
@@ -62,7 +62,7 @@ class StructureCalculateScore implements ShouldQueue
                 'nb_last_participations' => $this->lastParticipationsResponseRatio['total'],
                 'nb_last_participations_with_response' => $this->lastParticipationsResponseRatio['with_response'],
                 'response_time' => $this->responseTime,
-                'processed_participations_rate' => $this->processedParticipationsRate,
+                'response_ratio' => $this->responseRatio,
                 'bonus_points' => $this->bonusPoints,
                 'reactivity_points' => $this->reactivityPoints,
                 'engagement_points' => $this->engagementPoints,
@@ -70,13 +70,12 @@ class StructureCalculateScore implements ShouldQueue
             ]
         );
 
-        // ray('StructureCalculateScore');
         // ray($structureScore);
     }
 
     private function getTotalPoints()
     {
-        if ($this->responseTime == null && $this->processedParticipationsRate == null) {
+        if ($this->responseTime == null && $this->responseRatio == null) {
             return 50;
         }
 
@@ -86,7 +85,7 @@ class StructureCalculateScore implements ShouldQueue
 
     private function setEngagementPoints()
     {
-        $this->engagementPoints = round($this->processedParticipationsRate * 0.3);
+        $this->engagementPoints = round($this->responseRatio * 0.3);
     }
 
     private function setReactivityPoints()
@@ -123,9 +122,9 @@ class StructureCalculateScore implements ShouldQueue
         }
     }
 
-    private function setProcessedParticipationsRate()
+    private function setResponseRatio()
     {
-        $this->processedParticipationsRate = null;
+        $this->responseRatio = null;
         $participationsCount = $this->structure->participations->count();
         if ($participationsCount == 0) {
             return;
@@ -134,7 +133,7 @@ class StructureCalculateScore implements ShouldQueue
             'state', ['En attente de validation', 'En cours de traitement']
         )->count();
 
-        $this->processedParticipationsRate = round(($participationsCount - $waitingParticipationsCount) / $participationsCount * 100);
+        $this->responseRatio = round(($participationsCount - $waitingParticipationsCount) / $participationsCount * 100);
     }
 
     private function setResponseTime()

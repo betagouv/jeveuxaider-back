@@ -715,14 +715,8 @@ class Structure extends Model implements HasMedia
         ];
     }
 
-    // @todo: rename score après cleanup
-    public function scoreNew()
+    public function score()
     {
         return $this->belongsTo('App\Models\StructureScore', 'id', 'structure_id');
-    }
-
-    public function calculateScore()
-    {
-        StructureCalculateScore::dispatch($this);
     }
 }

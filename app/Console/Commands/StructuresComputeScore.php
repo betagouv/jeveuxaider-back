@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Jobs\StructureCalculateScore;
 use App\Models\Structure;
 use Illuminate\Console\Command;
 
@@ -12,14 +13,14 @@ class StructuresComputeScore extends Command
      *
      * @var string
      */
-    protected $signature = 'structures:compute-score {structureIds?*} {--all}';
+    protected $signature = 'structures:compute-score {structureIds?*}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Compute structures scores {--all= : for all structures }';
+    protected $description = 'Compute structures scores';
 
     /**
      * Create a new command instance.
@@ -38,13 +39,9 @@ class StructuresComputeScore extends Command
      */
     public function handle()
     {
-        $options = $this->options();
-        $query = Structure::query();
+
+        $query = Structure::whereNotNull('response_time');
         $structureIds = $this->argument('structureIds');
-        // @todo: rename scoreNew -> score après cleanup
-        if (empty($options['all'])) {
-            $query->whereDoesntHave('scoreNew');
-        }
         if (!empty($structureIds)) {
             $query->whereIn('id', $structureIds);
         }
@@ -56,7 +53,7 @@ class StructuresComputeScore extends Command
             $bar->start();
 
             foreach ($query->cursor() as $structure) {
-                $structure->calculateScore();
+                StructureCalculateScore::dispatch($structure->id);
                 $bar->advance();
             }
 
