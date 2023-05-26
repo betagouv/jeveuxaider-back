@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Filters\FiltersParticipationSearch;
+use App\Filters\FiltersParticipationBenevoleSearch;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\UserRolesRequest;
 use App\Models\ActivityLog;
@@ -54,13 +54,14 @@ class UserController extends Controller
 
         return QueryBuilder::for(Participation::where('profile_id', $user->profile->id)->with('profile', 'mission'))
             ->allowedFilters(
-                AllowedFilter::custom('search', new FiltersParticipationSearch),
+                AllowedFilter::custom('search', new FiltersParticipationBenevoleSearch),
                 'state',
             )
             ->allowedIncludes([
                 'conversation.latestMessage',
                 'mission.responsable.avatar',
                 'mission.structure',
+                'temoignage'
             ])
             ->defaultSort('-created_at')
             ->paginate(config('query-builder.results_per_page'));

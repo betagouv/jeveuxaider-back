@@ -11,6 +11,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Carbon\Carbon;
 use Illuminate\Bus\Batchable;
+use App\Jobs\AirtableSyncObject;
 
 class RuleMissionAttachTag implements ShouldQueue
 {
@@ -46,6 +47,12 @@ class RuleMissionAttachTag implements ShouldQueue
 
         if ( $this->mission->shouldBeSearchable()) {
              $this->mission->searchable();
+        }
+
+        // Sync Airtable
+        if (config('services.airtable.sync')) {
+            AirtableSyncObject::dispatch($this->mission);
+            AirtableSyncObject::dispatch($this->mission->structure);
         }
 
         $this->rule->update([

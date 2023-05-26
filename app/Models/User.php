@@ -274,4 +274,5 @@ class User extends Authenticatable
     {
         return $query->whereRaw("users.last_online_at <= NOW() - interval '1 month'");
     }
+
 }
