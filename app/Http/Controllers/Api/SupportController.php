@@ -83,15 +83,7 @@ class SupportController extends Controller
                 DB::raw('COUNT(distinct missions.id) filter(WHERE missions.state = \'En attente de validation\') as missions_waiting_count'),
                 DB::raw('COUNT(distinct missions.id) filter(WHERE missions.state = \'En cours de traitement\') as missions_in_progress_count')
             )
-            ->leftJoin('users', function ($join) use ($onlineValue, $inactiveValue) {
-                $join->on('users.id', '=', 'profiles.user_id')
-                    ->when($onlineValue, function($query){
-                        $query->whereRaw("users.last_online_at >= NOW() - interval '10 minutes'");
-                    })
-                    ->when($inactiveValue, function($query) {
-                        $query->whereRaw("users.last_online_at <= NOW() - interval '1 month'");
-                    });
-            })
+            ->leftJoin('users', 'users.id', '=', 'profiles.user_id')
             ->leftJoin('rolables', 'rolables.user_id', '=', 'users.id')
             ->leftJoin('roles', 'roles.id', '=', 'rolables.role_id')
             ->leftJoin('departments', function ($join) {
@@ -118,6 +110,12 @@ class SupportController extends Controller
             })
             ->when($searchValue, function($query) use ($searchValue){
                 $query->whereRaw("CONCAT(profiles.first_name, ' ', profiles.last_name, ' ', profiles.email) ILIKE ?", ['%' . $searchValue . '%']);
+            })
+            ->when($inactiveValue, function($query) {
+                $query->whereRaw("users.last_online_at <= NOW() - interval '1 month'");
+            })
+            ->when($onlineValue, function($query) {
+                $query->whereRaw("users.last_online_at >= NOW() - interval '10 minutes'");
             })
             ->when($departmentValue, function($query) use ($departmentValue){
                 $query->where('departments.number', $departmentValue);
@@ -149,15 +147,7 @@ class SupportController extends Controller
                 DB::raw('COUNT(distinct activity_log.id) filter(WHERE activity_log.created_at >= NOW() - interval \'1 month\') as activity_logs_last_month_count'),
                 DB::raw('COUNT(distinct activity_log.id) filter(WHERE activity_log.created_at >= NOW() - interval \'1 week\') as activity_logs_last_week_count'),
             )
-            ->leftJoin('users', function ($join) use ($onlineValue, $inactiveValue) {
-                $join->on('users.id', '=', 'profiles.user_id')
-                    ->when($onlineValue, function($query){
-                        $query->whereRaw("users.last_online_at >= NOW() - interval '10 minutes'");
-                    })
-                    ->when($inactiveValue, function($query) {
-                        $query->whereRaw("users.last_online_at <= NOW() - interval '1 month'");
-                    });
-            })
+            ->leftJoin('users', 'users.id', '=', 'profiles.user_id')
             ->leftJoin('rolables', 'rolables.user_id', '=', 'users.id')
             ->leftJoin('roles', 'roles.id', '=', 'rolables.role_id')
             ->leftJoin('departments', function ($join) {
@@ -171,6 +161,12 @@ class SupportController extends Controller
             ->where('roles.id', 3)
             ->when($searchValue, function($query) use ($searchValue){
                 $query->whereRaw("CONCAT(profiles.first_name, ' ', profiles.last_name, ' ', profiles.email) ILIKE ?", ['%' . $searchValue . '%']);
+            })
+            ->when($inactiveValue, function($query) {
+                $query->whereRaw("users.last_online_at <= NOW() - interval '1 month'");
+            })
+            ->when($onlineValue, function($query) {
+                $query->whereRaw("users.last_online_at >= NOW() - interval '10 minutes'");
             })
             ->when($departmentValue, function($query) use ($departmentValue){
                 $query->where('departments.number', $departmentValue);
@@ -204,18 +200,10 @@ class SupportController extends Controller
                 DB::raw('COUNT(distinct participations.id) filter(WHERE participations.state = \'En attente de validation\') as participations_waiting_count'),
                 DB::raw('COUNT(distinct participations.id) filter(WHERE participations.state = \'En cours de traitement\') as participations_in_progress_count'),
             )
-            ->leftJoin('users', function ($join) use ($onlineValue, $inactiveValue) {
-                $join->on('users.id', '=', 'profiles.user_id')
-                    ->when($onlineValue, function($query){
-                        $query->whereRaw("users.last_online_at >= NOW() - interval '10 minutes'");
-                    })
-                    ->when($inactiveValue, function($query) {
-                        $query->whereRaw("users.last_online_at <= NOW() - interval '1 month'");
-                    });
-            })
-            ->leftJoin('rolables', 'rolables.user_id', '=', 'users.id')
-            ->leftJoin('roles', 'roles.id', '=', 'rolables.role_id')
-            ->leftJoin('structures', function ($join) use ($organisationValue) {
+            ->join('users', 'users.id', '=', 'profiles.user_id')
+            ->join('rolables', 'rolables.user_id', '=', 'users.id')
+            ->join('roles', 'roles.id', '=', 'rolables.role_id')
+            ->join('structures', function ($join) use ($organisationValue) {
                 $join->on('rolables.rolable_id', '=', 'structures.id')
                     ->where('rolables.rolable_type', 'App\Models\Structure')
                     ->whereIn('structures.state', ['Validée'])
@@ -224,12 +212,12 @@ class SupportController extends Controller
                         $query->where('structures.id', '=', $organisationValue);
                     });
             })
-            ->leftJoin('missions', function ($join) {
+            ->join('missions', function ($join) {
                 $join->on('missions.responsable_id', '=', 'profiles.id')
                     ->whereIn('missions.state', ['Validée', 'Terminée'])
                     ->whereNull('missions.deleted_at');
             })
-            ->leftJoin('participations', function ($join) {
+            ->join('participations', function ($join) {
                 $join->on('participations.mission_id', '=', 'missions.id')
                     ->whereIn('participations.state', ['En attente de validation', 'En cours de traitement']);
             })
@@ -247,6 +235,12 @@ class SupportController extends Controller
             ->when($searchValue, function($query) use ($searchValue){
                 $query->whereRaw("CONCAT(profiles.first_name, ' ', profiles.last_name, ' ', profiles.email) ILIKE ?", ['%' . $searchValue . '%']);
             })
+            ->when($inactiveValue, function($query) {
+                $query->whereRaw("users.last_online_at <= NOW() - interval '1 month'");
+            })
+            ->when($onlineValue, function($query) {
+                $query->whereRaw("users.last_online_at >= NOW() - interval '10 minutes'");
+            })
             ->groupBy('profiles.id', 'profiles.first_name', 'profiles.last_name', 'profiles.email', 'users.last_online_at', 'structures.name', 'structures.id')
             ->orderByRaw($orderBy)
             ->paginate(20);
@@ -261,7 +255,7 @@ class SupportController extends Controller
         $inactiveValue = $request->input('inactive') ?? null;
         $organisationValue = $request->input('organisation') ?? null;
         $onlineValue = $request->input('online') ?? null;
-        
+
         $results = DB::table('profiles')
             ->select(
                 'profiles.id as profile_id',
@@ -273,18 +267,10 @@ class SupportController extends Controller
                 'structures.id as structure_id',
                 DB::raw('COUNT(distinct missions.id) as missions_total_count'),
             )
-            ->leftJoin('users', function ($join) use ($onlineValue, $inactiveValue) {
-                $join->on('users.id', '=', 'profiles.user_id')
-                    ->when($onlineValue, function($query){
-                        $query->whereRaw("users.last_online_at >= NOW() - interval '10 minutes'");
-                    })
-                    ->when($inactiveValue, function($query) {
-                        $query->whereRaw("users.last_online_at <= NOW() - interval '1 month'");
-                    });
-            })
-            ->leftJoin('rolables', 'rolables.user_id', '=', 'users.id')
-            ->leftJoin('roles', 'roles.id', '=', 'rolables.role_id')
-            ->leftJoin('structures', function ($join) use ($organisationValue) {
+            ->join('users', 'users.id', '=', 'profiles.user_id')
+            ->join('rolables', 'rolables.user_id', '=', 'users.id')
+            ->join('roles', 'roles.id', '=', 'rolables.role_id')
+            ->join('structures', function ($join) use ($organisationValue) {
                 $join->on('rolables.rolable_id', '=', 'structures.id')
                     ->where('rolables.rolable_type', 'App\Models\Structure')
                     ->whereIn('structures.state', ['Validée'])
@@ -293,7 +279,7 @@ class SupportController extends Controller
                         $query->where('structures.id', '=', $organisationValue);
                     });
             })
-            ->leftJoin('missions', function ($join) {
+            ->join('missions', function ($join) {
                 $join->on('missions.responsable_id', '=', 'profiles.id')
                     ->whereIn('missions.state', ['Validée'])
                     ->where('missions.end_date', '<', Carbon::now())
@@ -302,6 +288,12 @@ class SupportController extends Controller
             ->where('roles.id', 2)
             ->when($searchValue, function($query) use ($searchValue){
                 $query->whereRaw("CONCAT(profiles.first_name, ' ', profiles.last_name, ' ', profiles.email) ILIKE ?", ['%' . $searchValue . '%']);
+            })
+            ->when($inactiveValue, function($query) {
+                $query->whereRaw("users.last_online_at <= NOW() - interval '1 month'");
+            })
+            ->when($onlineValue, function($query) {
+                $query->whereRaw("users.last_online_at >= NOW() - interval '10 minutes'");
             })
             ->groupBy('profiles.id', 'profiles.first_name', 'profiles.last_name', 'profiles.email', 'users.last_online_at', 'structures.name', 'structures.id')
             ->orderByRaw($orderBy)
