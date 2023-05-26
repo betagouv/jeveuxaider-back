@@ -83,9 +83,9 @@ class SupportController extends Controller
                 DB::raw('COUNT(distinct missions.id) filter(WHERE missions.state = \'En attente de validation\') as missions_waiting_count'),
                 DB::raw('COUNT(distinct missions.id) filter(WHERE missions.state = \'En cours de traitement\') as missions_in_progress_count')
             )
-            ->leftJoin('users', 'users.id', '=', 'profiles.user_id')
-            ->leftJoin('rolables', 'rolables.user_id', '=', 'users.id')
-            ->leftJoin('roles', 'roles.id', '=', 'rolables.role_id')
+            ->join('users', 'users.id', '=', 'profiles.user_id')
+            ->join('rolables', 'rolables.user_id', '=', 'users.id')
+            ->join('roles', 'roles.id', '=', 'rolables.role_id')
             ->leftJoin('departments', function ($join) {
                 $join->on('departments.id', '=', 'rolables.rolable_id')
                     ->where('rolables.rolable_type', '=', 'App\Models\Department');
@@ -147,9 +147,9 @@ class SupportController extends Controller
                 DB::raw('COUNT(distinct activity_log.id) filter(WHERE activity_log.created_at >= NOW() - interval \'1 month\') as activity_logs_last_month_count'),
                 DB::raw('COUNT(distinct activity_log.id) filter(WHERE activity_log.created_at >= NOW() - interval \'1 week\') as activity_logs_last_week_count'),
             )
-            ->leftJoin('users', 'users.id', '=', 'profiles.user_id')
-            ->leftJoin('rolables', 'rolables.user_id', '=', 'users.id')
-            ->leftJoin('roles', 'roles.id', '=', 'rolables.role_id')
+            ->join('users', 'users.id', '=', 'profiles.user_id')
+            ->join('rolables', 'rolables.user_id', '=', 'users.id')
+            ->join('roles', 'roles.id', '=', 'rolables.role_id')
             ->leftJoin('departments', function ($join) {
                 $join->on('departments.id', '=', 'rolables.rolable_id')
                     ->where('rolables.rolable_type', '=', 'App\Models\Department');
@@ -207,10 +207,7 @@ class SupportController extends Controller
                 $join->on('rolables.rolable_id', '=', 'structures.id')
                     ->where('rolables.rolable_type', 'App\Models\Structure')
                     ->whereIn('structures.state', ['Validée'])
-                    ->whereNull('structures.deleted_at')
-                    ->when($organisationValue, function($query) use ($organisationValue){
-                        $query->where('structures.id', '=', $organisationValue);
-                    });
+                    ->whereNull('structures.deleted_at');
             })
             ->join('missions', function ($join) {
                 $join->on('missions.responsable_id', '=', 'profiles.id')
@@ -223,14 +220,15 @@ class SupportController extends Controller
             })
             ->where('roles.id', 2)
             ->where(function($query){
-                $query
-                    ->where('participations.state', 'En attente de validation')
-                    ->where('participations.created_at', '<', Carbon::now()->subDays(10)->startOfDay());
+                $query->where(function($query){
+                    $query->where('participations.state', 'En attente de validation')
+                        ->where('participations.created_at', '<', Carbon::now()->subDays(7)->startOfDay());
                 })
                 ->orWhere(function($query){
                     $query
                         ->where('participations.state', 'En cours de traitement')
                         ->where('participations.created_at', '<', Carbon::now()->subMonths(2)->startOfDay());
+                });
             })
             ->when($searchValue, function($query) use ($searchValue){
                 $query->whereRaw("CONCAT(profiles.first_name, ' ', profiles.last_name, ' ', profiles.email) ILIKE ?", ['%' . $searchValue . '%']);
@@ -240,6 +238,9 @@ class SupportController extends Controller
             })
             ->when($onlineValue, function($query) {
                 $query->whereRaw("users.last_online_at >= NOW() - interval '10 minutes'");
+            })
+            ->when($organisationValue, function($query) use ($organisationValue){
+                $query->where('structures.id', '=', $organisationValue);
             })
             ->groupBy('profiles.id', 'profiles.first_name', 'profiles.last_name', 'profiles.email', 'users.last_online_at', 'structures.name', 'structures.id')
             ->orderByRaw($orderBy)
@@ -274,10 +275,7 @@ class SupportController extends Controller
                 $join->on('rolables.rolable_id', '=', 'structures.id')
                     ->where('rolables.rolable_type', 'App\Models\Structure')
                     ->whereIn('structures.state', ['Validée'])
-                    ->whereNull('structures.deleted_at')
-                    ->when($organisationValue, function($query) use ($organisationValue){
-                        $query->where('structures.id', '=', $organisationValue);
-                    });
+                    ->whereNull('structures.deleted_at');
             })
             ->join('missions', function ($join) {
                 $join->on('missions.responsable_id', '=', 'profiles.id')
@@ -294,6 +292,9 @@ class SupportController extends Controller
             })
             ->when($onlineValue, function($query) {
                 $query->whereRaw("users.last_online_at >= NOW() - interval '10 minutes'");
+            })
+            ->when($organisationValue, function($query) use ($organisationValue){
+                $query->where('structures.id', '=', $organisationValue);
             })
             ->groupBy('profiles.id', 'profiles.first_name', 'profiles.last_name', 'profiles.email', 'users.last_online_at', 'structures.name', 'structures.id')
             ->orderByRaw($orderBy)
