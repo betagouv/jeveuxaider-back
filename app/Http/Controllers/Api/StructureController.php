@@ -91,7 +91,7 @@ class StructureController extends Controller
         }
 
         return $structure
-            ->load(['territoire', 'members.profile.tags', 'members.profile.user', 'domaines', 'reseaux', 'logo', 'illustrations', 'overrideImage1', 'overrideImage2'])
+            ->load(['territoire', 'members.profile.tags', 'members.profile.user', 'domaines', 'reseaux', 'logo', 'illustrations', 'overrideImage1', 'overrideImage2', 'score'])
             ->append(['missing_fields', 'completion_rate', 'permissions']);
     }
 

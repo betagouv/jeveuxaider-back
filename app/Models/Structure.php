@@ -345,6 +345,7 @@ class Structure extends Model implements HasMedia
         return $mission;
     }
 
+    // @todo: delete
     public function setResponseRatio()
     {
         $participationsCount = $this->participations->count();
@@ -357,6 +358,7 @@ class Structure extends Model implements HasMedia
         return $this;
     }
 
+    // @todo: delete
     public function setResponseTime()
     {
         $avgResponseTime = $this->conversations()
@@ -373,11 +375,13 @@ class Structure extends Model implements HasMedia
         return $this;
     }
 
+    // @todo: delete
     public function getEngagementPointsAttribute()
     {
         return round($this->response_ratio * 0.3);
     }
 
+    // @todo: delete
     public function getReactivityPointsAttribute()
     {
         $reactivityPoints = round(100 - (100 * ($this->response_time / (60 * 60 * 24))) / 10);
@@ -391,6 +395,7 @@ class Structure extends Model implements HasMedia
         return round($reactivityPoints * 0.7);
     }
 
+    // @todo: delete
     public function getLastParticipationsResponseRatioAttribute()
     {
         $lastConversations = $this->conversations()
@@ -410,11 +415,13 @@ class Structure extends Model implements HasMedia
         ];
     }
 
+    // @todo: delete
     public function getAverageTestimonyGrade()
     {
         return Temoignage::ofStructure($this->id)->avg('grade');
     }
 
+    // @todo: delete
     public function getBonusPointsAttribute()
     {
         $avg = $this->getAverageTestimonyGrade();
@@ -437,6 +444,7 @@ class Structure extends Model implements HasMedia
         return 0;
     }
 
+    // @todo: delete
     public function getScoreAttribute()
     {
         if ($this->response_time == null && $this->response_ratio == null) {
@@ -704,5 +712,10 @@ class Structure extends Model implements HasMedia
             'canUpdate' =>  Auth::guard('api')->user() ? Auth::guard('api')->user()->can('update', $this) : false,
             'canChangeState' =>  Auth::guard('api')->user() ? Auth::guard('api')->user()->can('changeState', $this) : false,
         ];
+    }
+
+    public function score()
+    {
+        return $this->belongsTo('App\Models\StructureScore', 'id', 'structure_id');
     }
 }
