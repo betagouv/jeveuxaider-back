@@ -267,12 +267,12 @@ class User extends Authenticatable
 
     public function scopeOnline($query)
     {
-        return $query->whereRaw("users.last_online_at >= NOW() - interval '10 minutes'");
+        return $query->where("users.last_online_at", ">=" , Carbon::now()->subMinutes(10));
     }
 
     public function scopeInactive($query)
     {
-        return $query->whereRaw("users.last_online_at <= NOW() - interval '1 month'");
+        return  $query->where("users.last_online_at", "<=" , Carbon::now()->subMonth(1));
     }
 
 }

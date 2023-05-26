@@ -112,10 +112,10 @@ class SupportController extends Controller
                 $query->whereRaw("CONCAT(profiles.first_name, ' ', profiles.last_name, ' ', profiles.email) ILIKE ?", ['%' . $searchValue . '%']);
             })
             ->when($inactiveValue, function($query) {
-                $query->whereRaw("users.last_online_at <= NOW() - interval '1 month'");
+                $query->where("users.last_online_at", "<=" , Carbon::now()->subMonth(1));
             })
             ->when($onlineValue, function($query) {
-                $query->whereRaw("users.last_online_at >= NOW() - interval '10 minutes'");
+                $query->where("users.last_online_at", ">=" , Carbon::now()->subMinutes(10));
             })
             ->when($departmentValue, function($query) use ($departmentValue){
                 $query->where('departments.number', $departmentValue);
@@ -163,10 +163,10 @@ class SupportController extends Controller
                 $query->whereRaw("CONCAT(profiles.first_name, ' ', profiles.last_name, ' ', profiles.email) ILIKE ?", ['%' . $searchValue . '%']);
             })
             ->when($inactiveValue, function($query) {
-                $query->whereRaw("users.last_online_at <= NOW() - interval '1 month'");
+                $query->where("users.last_online_at", "<=" , Carbon::now()->subMonth(1));
             })
             ->when($onlineValue, function($query) {
-                $query->whereRaw("users.last_online_at >= NOW() - interval '10 minutes'");
+                $query->where("users.last_online_at", ">=" , Carbon::now()->subMinutes(10));
             })
             ->when($departmentValue, function($query) use ($departmentValue){
                 $query->where('departments.number', $departmentValue);
@@ -234,10 +234,10 @@ class SupportController extends Controller
                 $query->whereRaw("CONCAT(profiles.first_name, ' ', profiles.last_name, ' ', profiles.email) ILIKE ?", ['%' . $searchValue . '%']);
             })
             ->when($inactiveValue, function($query) {
-                $query->whereRaw("users.last_online_at <= NOW() - interval '1 month'");
+                $query->where("users.last_online_at", "<=" , Carbon::now()->subMonth(1));
             })
             ->when($onlineValue, function($query) {
-                $query->whereRaw("users.last_online_at >= NOW() - interval '10 minutes'");
+                $query->where("users.last_online_at", ">=" , Carbon::now()->subMinutes(10));
             })
             ->when($organisationValue, function($query) use ($organisationValue){
                 $query->where('structures.id', '=', $organisationValue);
@@ -288,10 +288,10 @@ class SupportController extends Controller
                 $query->whereRaw("CONCAT(profiles.first_name, ' ', profiles.last_name, ' ', profiles.email) ILIKE ?", ['%' . $searchValue . '%']);
             })
             ->when($inactiveValue, function($query) {
-                $query->whereRaw("users.last_online_at <= NOW() - interval '1 month'");
+                $query->where("users.last_online_at", "<=" , Carbon::now()->subMonth(1));
             })
             ->when($onlineValue, function($query) {
-                $query->whereRaw("users.last_online_at >= NOW() - interval '10 minutes'");
+                $query->where("users.last_online_at", ">=" , Carbon::now()->subMinutes(10));
             })
             ->when($organisationValue, function($query) use ($organisationValue){
                 $query->where('structures.id', '=', $organisationValue);
