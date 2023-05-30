@@ -12,14 +12,14 @@ class StructuresComputeScore extends Command
      *
      * @var string
      */
-    protected $signature = 'structures:compute-score {structureIds?*}';
+    protected $signature = 'structures:compute-score {structureIds?*} {--all}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Compute structures scores';
+    protected $description = 'Compute structures scores {--all= : for all structures }';
 
     /**
      * Create a new command instance.
@@ -38,8 +38,13 @@ class StructuresComputeScore extends Command
      */
     public function handle()
     {
+        $options = $this->options();
         $query = Structure::query();
         $structureIds = $this->argument('structureIds');
+        // @todo: rename scoreNew -> score après cleanup
+        if (empty($options['all'])) {
+            $query->whereDoesntHave('scoreNew');
+        }
         if (!empty($structureIds)) {
             $query->whereIn('id', $structureIds);
         }
