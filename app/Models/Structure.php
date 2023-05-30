@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Helpers\Utils;
+use App\Jobs\StructureCalculateScore;
 use App\Models\Media as ModelMedia;
 use App\Traits\HasMissingFields;
 use App\Traits\Notable;
@@ -718,5 +719,10 @@ class Structure extends Model implements HasMedia
     public function scoreNew()
     {
         return $this->belongsTo('App\Models\StructureScore', 'id', 'structure_id');
+    }
+
+    public function calculateScore()
+    {
+        StructureCalculateScore::dispatch($this);
     }
 }

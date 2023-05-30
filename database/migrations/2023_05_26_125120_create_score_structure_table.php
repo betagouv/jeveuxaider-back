@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('structures_scores', function (Blueprint $table) {
+        Schema::create('score_structure', function (Blueprint $table) {
             $table->unsignedBigInteger('structure_id')->index();
             $table->foreign('structure_id')->references('id')->on('structures')->onDelete('cascade');
             $table->unique(['structure_id']);
@@ -36,6 +36,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('structures_scores');
+        Schema::dropIfExists('score_structure');
     }
 };

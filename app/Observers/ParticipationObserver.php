@@ -34,10 +34,10 @@ class ParticipationObserver
         // RESPONSE RATIO
         $structure = $participation->mission->structure;
 
-        // @todo: Only leave StructureCalculateScore
+        // @todo: Only leave calculateScore
         $structure->setResponseRatio();
         $structure->saveQuietly();
-        StructureCalculateScore::dispatch($structure);
+        $structure->calculateScore();
 
         // Maj Sendinblue
         if (config('services.sendinblue.sync')) {
@@ -92,9 +92,9 @@ class ParticipationObserver
         if ($oldState != $newState) {
             $participation->load(['conversation', 'mission.structure']);
             if ($oldState == 'En attente de validation') {
-                // @todo: Only leave StructureCalculateScore
+                // @todo: Only leave calculateScore
                 $participation->mission->structure->setResponseRatio()->saveQuietly();
-                StructureCalculateScore::dispatch($participation->mission->structure);
+                $participation->mission->structure->calculateScore();
             }
             if ($participation->conversation) {
                 if ($newState != 'Refusée') {

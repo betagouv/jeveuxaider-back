@@ -9,7 +9,6 @@ use App\Http\Requests\Api\ParticipationCancelRequest;
 use App\Http\Requests\Api\ParticipationCreateRequest;
 use App\Http\Requests\Api\ParticipationDeclineRequest;
 use App\Http\Requests\Api\ParticipationUpdateRequest;
-use App\Jobs\StructureCalculateScore;
 use App\Models\Mission;
 use App\Models\Participation;
 use App\Models\Profile;
@@ -186,7 +185,7 @@ class ParticipationController extends Controller
         }
 
         // Score
-        StructureCalculateScore::dispatch($participation->mission->structure);
+        $participation->mission->structure->calculateScore();
 
         return $participation;
     }
@@ -232,7 +231,7 @@ class ParticipationController extends Controller
         }
 
         // Score
-        StructureCalculateScore::dispatch($participation->mission->structure);
+        $participation->mission->structure->calculateScore();
 
         return $participation;
     }
