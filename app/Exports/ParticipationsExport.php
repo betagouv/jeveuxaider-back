@@ -2,6 +2,7 @@
 
 namespace App\Exports;
 
+use App\Filters\FiltersParticipationNeedToBeTreated;
 use App\Filters\FiltersParticipationSearch;
 use App\Models\Participation;
 use Illuminate\Http\Request;
@@ -38,6 +39,7 @@ class ParticipationsExport implements FromQuery, WithMapping, WithHeadings
         return QueryBuilder::for($queryBuilder)
             ->allowedFilters(
                 AllowedFilter::custom('search', new FiltersParticipationSearch),
+                AllowedFilter::custom('need_to_be_treated', new FiltersParticipationNeedToBeTreated),
                 AllowedFilter::exact('mission.id'),
                 AllowedFilter::exact('mission.name'),
                 AllowedFilter::exact('mission.department'),
