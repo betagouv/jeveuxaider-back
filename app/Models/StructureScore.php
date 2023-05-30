@@ -10,4 +10,9 @@ class StructureScore extends Model
     protected $primaryKey = null;
     protected $guarded = [];
     public $incrementing = false;
+
+    public function structure()
+    {
+        return $this->belongsTo('App\Models\Structure', 'structure_id', 'id');
+    }
 }
