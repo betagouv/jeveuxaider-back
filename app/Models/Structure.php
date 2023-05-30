@@ -720,4 +720,9 @@ class Structure extends Model implements HasMedia
     {
         return $this->belongsTo('App\Models\StructureScore', 'id', 'structure_id');
     }
+
+    public function calculateScore()
+    {
+        StructureCalculateScore::dispatch($this);
+    }
 }

@@ -2,7 +2,6 @@
 
 namespace App\Console\Commands;
 
-use App\Jobs\StructureCalculateScore;
 use App\Models\Structure;
 use Illuminate\Console\Command;
 
@@ -52,7 +51,7 @@ class StructuresComputeScore extends Command
             $bar->start();
 
             foreach ($query->cursor() as $structure) {
-                StructureCalculateScore::dispatch($structure);
+                $structure->calculateScore();
                 $bar->advance();
             }
 

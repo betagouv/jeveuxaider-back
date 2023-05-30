@@ -17,11 +17,11 @@ return new class extends Migration
             $table->unsignedBigInteger('structure_id')->index();
             $table->foreign('structure_id')->references('id')->on('structures')->onDelete('cascade');
             $table->unique(['structure_id']);
-            $table->decimal('total_points');
             $table->decimal('engagement_points');
             $table->decimal('reactivity_points');
             $table->decimal('bonus_points');
-            $table->decimal('processed_participations_rate')->nullable();
+            $table->decimal('total_points');
+            $table->decimal('response_ratio')->nullable();
             $table->integer('response_time')->nullable();
             $table->integer('nb_last_participations');
             $table->integer('nb_last_participations_with_response');

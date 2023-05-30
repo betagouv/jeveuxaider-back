@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class StructureScore extends Model
 {
-    protected $table = 'structures_scores';
+    protected $table = 'score_structure';
     protected $primaryKey = null;
     protected $guarded = [];
     public $incrementing = false;
