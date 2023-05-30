@@ -39,8 +39,7 @@ class StructuresComputeScore extends Command
      */
     public function handle()
     {
-
-        $query = Structure::whereNotNull('response_time');
+        $query = Structure::query();
         $structureIds = $this->argument('structureIds');
         if (!empty($structureIds)) {
             $query->whereIn('id', $structureIds);
@@ -53,7 +52,7 @@ class StructuresComputeScore extends Command
             $bar->start();
 
             foreach ($query->cursor() as $structure) {
-                StructureCalculateScore::dispatch($structure->id);
+                StructureCalculateScore::dispatch($structure);
                 $bar->advance();
             }
 
