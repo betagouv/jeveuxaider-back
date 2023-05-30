@@ -59,7 +59,7 @@ class StructureWithoutMissionFirstReminder extends Notification implements Shoul
                 'structure' => $this->structure,
                 'notifiable' => $notifiable
             ])
-            ->tag('app-responsable-organisation-sans-mission-1');
+            ->tag('app-responsable-publication-mission');
     }
 
     /**
