@@ -157,7 +157,7 @@ class Participation extends Model
         return $query->where(function($query){
             $query
                 ->where('participations.state', 'En attente de validation')
-                ->where('participations.created_at', '<', Carbon::now()->subDays(10)->startOfDay());
+                ->where('participations.created_at', '<', Carbon::now()->subDays(7)->startOfDay());
             })
             ->orWhere(function($query){
                 $query

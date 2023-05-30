@@ -44,14 +44,14 @@ class SendNotificationResponsablesParticipationsNeedToBeTreated extends Command
         $results = DB::select(
             "
                 SELECT missions.responsable_id, COUNT(*) As total_count,
-                COUNT(*) filter(WHERE participations.state = 'En attente de validation' AND participations.created_at < (NOW() - INTERVAL '10 days')) As waiting_count,
+                COUNT(*) filter(WHERE participations.state = 'En attente de validation' AND participations.created_at < (NOW() - INTERVAL '7 days')) As waiting_count,
                 COUNT(*) filter(WHERE participations.state = 'En cours de traitement' AND participations.created_at < (NOW() - INTERVAL '2 months')) As in_progress_count
                 FROM participations
                 LEFT JOIN missions ON missions.id = participations.mission_id
                 LEFT JOIN profiles ON profiles.id = missions.responsable_id
                 WHERE missions.responsable_id IS NOT NULL
                 AND (
-                    (participations.state = 'En attente de validation' AND participations.created_at < (NOW() - INTERVAL '10 days'))
+                    (participations.state = 'En attente de validation' AND participations.created_at < (NOW() - INTERVAL '7 days'))
                     OR (participations.state = 'En cours de traitement' AND participations.created_at < (NOW() - INTERVAL '2 months'))
                 )
                 GROUP BY missions.responsable_id
