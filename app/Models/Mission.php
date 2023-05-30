@@ -126,7 +126,8 @@ class Mission extends Model
                 'id' => $this->structure->id,
                 'name' => $this->structure->name,
                 'response_time' => $this->structure->response_time,
-                'score' => $this->structure->score,
+                // 'score' => $this->structure->score, @TODO refactoring
+                'score' => 100,
                 'response_ratio' => $this->structure->response_ratio,
                 'reseau' => $this->structure->reseau ? [
                     'id' => $this->structure->reseau->id,

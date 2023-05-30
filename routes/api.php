@@ -103,7 +103,8 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('structures/{structure}/validate-waiting-participations', 'Api\StructureController@validateWaitingParticipations');
 
     Route::post('participations', 'Api\ParticipationController@store');
-    Route::put('participations/{participation}/cancel', 'Api\ParticipationController@cancel');
+    Route::put('participations/{participation}/cancel-by-benevole', 'Api\ParticipationController@cancelByBenevole');
+    Route::put('participations/{participation}/validate-by-benevole', 'Api\ParticipationController@validateByBenevole');
 
     Route::post('user/password', 'Api\UserController@updatePassword');
     Route::get('user/mission/{mission}/has-participation', 'Api\UserController@hasParticipation');
@@ -336,6 +337,15 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::get('administration/organisations-trending', 'Api\AdministrationController@organisationsTrending');
     Route::get('administration/topito-admins', 'Api\AdministrationController@topitoAdmins');
     Route::get('administration/topito-referents', 'Api\AdministrationController@topitoReferents');
+
+    // SUPPORT
+    Route::get('support/referents/overview', 'Api\SupportController@referentsOverview');
+    Route::get('support/responsables/overview', 'Api\SupportController@responsablesOverview');
+    Route::get('support/referents/waiting-actions', 'Api\SupportController@referentsWaitingActions');
+    Route::get('support/referents/activity-logs', 'Api\SupportController@referentsActivityLogs');
+    Route::get('support/responsables/participations-to-be-treated', 'Api\SupportController@responsablesParticipationsToBeTreated');
+    Route::get('support/responsables/missions-outdated', 'Api\SupportController@responsablesMissionsOutdated');
+    Route::post('support/scripts/generate-password-reset-link', 'Api\SupportController@generatePasswordResetLink');
 });
 
 // STATISTICS

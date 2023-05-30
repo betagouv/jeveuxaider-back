@@ -15,6 +15,7 @@ use App\Models\Profile;
 use App\Models\Temoignage;
 use App\Models\User;
 use App\Notifications\ParticipationBenevoleCanceled;
+use App\Notifications\ParticipationBenevoleValidated;
 use App\Notifications\ParticipationCreated;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -134,8 +135,12 @@ class ParticipationController extends Controller
         return $currentUser->declineParticipation($participation, $request->input('reason'), $request->input('content'));
     }
 
-    public function cancel(ParticipationCancelRequest $request, Participation $participation)
+    public function cancelByBenevole(ParticipationCancelRequest $request, Participation $participation)
     {
+        if ($participation->state == 'Annulée') {
+            abort(422, 'La participation a déjà été annulée.');
+        }
+
         $participation->load('conversation');
         $currentUser = User::find(Auth::guard('api')->user()->id);
 
@@ -172,6 +177,49 @@ class ParticipationController extends Controller
             ->log('updated');
 
         $participation->state = 'Annulée';
+        $participation->saveQuietly();
+
+        // Places left & Algolia
+        if ($participation->mission) {
+            $participation->mission->update();
+        }
+
+        return $participation;
+    }
+
+    public function validateByBenevole(Request $request, Participation $participation)
+    {
+        if ($participation->state == 'Validée') {
+            abort(422, 'La participation a déjà été validée.');
+        }
+
+        $participation->load('conversation');
+        $currentUser = User::find(Auth::guard('api')->user()->id);
+
+        if ($participation->conversation) {
+            $participation->conversation->messages()->create([
+                'from_id' => $currentUser->id,
+                'type' => 'contextual',
+                'content' => 'La participation a été validée par ' . $currentUser->profile->full_name,
+                'contextual_state' => 'Validée par le bénévole',
+            ]);
+        }
+
+        if($participation->mission->responsable) {
+            $participation->mission->responsable->notify(new ParticipationBenevoleValidated($participation));
+        }
+
+        activity()
+            ->causedBy($currentUser)
+            ->performedOn($participation)
+            ->withProperties([
+                    'attributes' => ['state' => 'Validée'],
+                    'old' => ['state' => $participation->state]
+                ])
+            ->event('updated')
+            ->log('updated');
+
+        $participation->state = 'Validée';
         $participation->saveQuietly();
 
         // Places left & Algolia

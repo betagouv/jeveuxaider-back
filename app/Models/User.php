@@ -261,4 +261,15 @@ class User extends Authenticatable
 
         return $participation->load(['conversation', 'conversation.latestMessage']);
     }
+
+    public function scopeOnline($query)
+    {
+        return $query->where("users.last_online_at", ">=" , Carbon::now()->subMinutes(10));
+    }
+
+    public function scopeInactive($query)
+    {
+        return  $query->where("users.last_online_at", "<=" , Carbon::now()->subMonth(1));
+    }
+
 }

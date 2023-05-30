@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -155,15 +156,16 @@ class Participation extends Model
     public function scopeNeedToBeTreated($query)
     {
         return $query->where(function($query){
-            $query
-                ->where('participations.state', 'En attente de validation')
-                ->where('participations.created_at', '<', Carbon::now()->subDays(7)->startOfDay());
+            $query->where(function($query){
+                $query->where('participations.state', 'En attente de validation')
+                    ->where('participations.created_at', '<', Carbon::now()->subDays(7)->startOfDay());
             })
             ->orWhere(function($query){
                 $query
                     ->where('participations.state', 'En cours de traitement')
                     ->where('participations.created_at', '<', Carbon::now()->subMonths(2)->startOfDay());
             });
+        });
     }
 
     public function deleteQuietly(array $options = [])
