@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Filters\FiltersParticipationNeedToBeTreated;
 use App\Filters\FiltersParticipationSearch;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\ParticipationCancelRequest;
@@ -29,6 +30,7 @@ class ParticipationController extends Controller
         return QueryBuilder::for(Participation::role($request->header('Context-Role'))->with('profile', 'mission'))
             ->allowedFilters(
                 AllowedFilter::custom('search', new FiltersParticipationSearch),
+                AllowedFilter::custom('need_to_be_treated', new FiltersParticipationNeedToBeTreated),
                 AllowedFilter::exact('mission.id'),
                 AllowedFilter::exact('mission.name'),
                 AllowedFilter::exact('mission.department'),

@@ -69,6 +69,10 @@ class UserActionController extends Controller
                     'value' => Participation::role($request->header('Context-Role'))->ofResponsable($user->profile->id)->where('state', 'En cours de traitement')->count(),
                 ];
                 $actions[] = [
+                    'type' => 'participations_need_to_be_treated',
+                    'value' => Participation::role($request->header('Context-Role'))->ofResponsable($user->profile->id)->needToBeTreated($user->profile->id)->count(),
+                ];
+                $actions[] = [
                     'type' => 'missions_outdated',
                     'value' => Mission::role($request->header('Context-Role'))->where('end_date', '<', Carbon::now())->where('state', 'Validée')->count(),
                 ];
