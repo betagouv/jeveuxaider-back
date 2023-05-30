@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Jobs\StructureCalculateScore;
 use App\Models\Message;
 use App\Models\Participation;
 use App\Models\Structure;
@@ -49,9 +50,11 @@ class MessageObserver
                     $participation->state = 'En cours de traitement';
                     $participation->saveQuietly(); // Quietly pour éviter la double notif : message + en cours de traitement
                     // RESPONSE RATIO
+                    // @todo: Only leave StructureCalculateScore
                     $structure = $participation->mission->structure;
                     $structure->setResponseRatio();
                     $structure->saveQuietly();
+                    StructureCalculateScore::dispatch($structure);
                 }
             }
         }

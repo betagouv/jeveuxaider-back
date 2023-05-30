@@ -29,9 +29,9 @@ class StructureCalculateScore implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($structureId)
+    public function __construct($structure)
     {
-        $this->structure = Structure::find($structureId);
+        $this->structure = $structure;
         $this->onQueue('default');
     }
 
@@ -70,6 +70,7 @@ class StructureCalculateScore implements ShouldQueue
             ]
         );
 
+        // ray('StructureCalculateScore');
         // ray($structureScore);
     }
 

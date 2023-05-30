@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Jobs\StructureCalculateScore;
 use App\Models\Conversation;
 use App\Models\Structure;
 
@@ -11,8 +12,10 @@ class ConversationObserver
     {
         // CALCULATE AVERAGE STRUCTURE RESPONSES WHEN RESPONSE TIME IS FILLED
         if ($conversation->wasChanged('response_time')) {
+            // @todo: Only leave StructureCalculateScore
             $conversation->load('conversable.mission.structure');
             $conversation->conversable->mission->structure->setResponseTime()->saveQuietly();
+            StructureCalculateScore::dispatch($conversation->conversable->mission->structure);
         }
     }
 }
