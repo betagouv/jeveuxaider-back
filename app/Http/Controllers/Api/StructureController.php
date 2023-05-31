@@ -90,9 +90,8 @@ class StructureController extends Controller
             abort(403);
         }
 
-        // @todo: remove scoreNew
         return $structure
-            ->load(['territoire', 'members.profile.tags', 'members.profile.user', 'domaines', 'reseaux', 'logo', 'illustrations', 'overrideImage1', 'overrideImage2', 'scoreNew'])
+            ->load(['territoire', 'members.profile.tags', 'members.profile.user', 'domaines', 'reseaux', 'logo', 'illustrations', 'overrideImage1', 'overrideImage2'])
             ->append(['missing_fields', 'completion_rate', 'permissions']);
     }
 
