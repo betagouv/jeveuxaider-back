@@ -97,6 +97,10 @@ class Sendinblue
     public static function formatAttributes(User $user, $withSMS = true)
     {
         $organisation = $user->structures->first();
+        if ($organisation) {
+            $organisation->loadCount(['missions']);
+        }
+
         $attributes = [
             'NOM' => $user->profile->last_name,
             'PRENOM' => $user->profile->first_name,
@@ -109,7 +113,7 @@ class Sendinblue
             'ORGA_ID' => $organisation ? $organisation->id : "",
             'ORGA_NAME' => $organisation ? $organisation->name : "",
             'ORGA_CODE_POSTAL' => $organisation ? $organisation->zip : "",
-            'ORGA_NB_MISSION' => $organisation ? $organisation->missions->count() : "",
+            'ORGA_NB_MISSION' => $organisation ? $organisation->missions_count : "",
             'REFERENT_DEPARTEMENT' => $user->departmentsAsReferent->first() ? $user->departmentsAsReferent->first()->number : "",
             'REFERENT_REGION' => $user->regionsAsReferent->first() ? $user->regionsAsReferent->first()->name : "",
             'IS_VISIBLE' => $user->profile->is_visible,
