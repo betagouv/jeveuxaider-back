@@ -17,7 +17,7 @@ class StructureCalculateScore implements ShouldQueue
     use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $structure;
-    protected $responseRatio;
+    protected $processedParticipationsRate;
     protected $responseTime;
     protected $lastParticipationsResponseRatio;
     protected $bonusPoints;
@@ -49,7 +49,7 @@ class StructureCalculateScore implements ShouldQueue
             return;
         }
 
-        $this->setResponseRatio();
+        $this->setProcessedParticipationsRate();
         $this->setResponseTime();
         $this->setLastParticipationsResponseRatio();
         $this->setBonusPoints();
@@ -62,7 +62,7 @@ class StructureCalculateScore implements ShouldQueue
                 'nb_last_participations' => $this->lastParticipationsResponseRatio['total'],
                 'nb_last_participations_with_response' => $this->lastParticipationsResponseRatio['with_response'],
                 'response_time' => $this->responseTime,
-                'response_ratio' => $this->responseRatio,
+                'processed_participations_rate' => $this->processedParticipationsRate,
                 'bonus_points' => $this->bonusPoints,
                 'reactivity_points' => $this->reactivityPoints,
                 'engagement_points' => $this->engagementPoints,
@@ -76,7 +76,7 @@ class StructureCalculateScore implements ShouldQueue
 
     private function getTotalPoints()
     {
-        if ($this->responseTime == null && $this->responseRatio == null) {
+        if ($this->responseTime == null && $this->processedParticipationsRate == null) {
             return 50;
         }
 
@@ -86,7 +86,7 @@ class StructureCalculateScore implements ShouldQueue
 
     private function setEngagementPoints()
     {
-        $this->engagementPoints = round($this->responseRatio * 0.3);
+        $this->engagementPoints = round($this->processedParticipationsRate * 0.3);
     }
 
     private function setReactivityPoints()
@@ -123,9 +123,9 @@ class StructureCalculateScore implements ShouldQueue
         }
     }
 
-    private function setResponseRatio()
+    private function setProcessedParticipationsRate()
     {
-        $this->responseRatio = null;
+        $this->processedParticipationsRate = null;
         $participationsCount = $this->structure->participations->count();
         if ($participationsCount == 0) {
             return;
@@ -134,7 +134,7 @@ class StructureCalculateScore implements ShouldQueue
             'state', ['En attente de validation', 'En cours de traitement']
         )->count();
 
-        $this->responseRatio = round(($participationsCount - $waitingParticipationsCount) / $participationsCount * 100);
+        $this->processedParticipationsRate = round(($participationsCount - $waitingParticipationsCount) / $participationsCount * 100);
     }
 
     private function setResponseTime()
