@@ -32,7 +32,7 @@ class StructureCalculateScore implements ShouldQueue
     public function __construct($structure)
     {
         $this->structure = $structure;
-        $this->onQueue('default');
+        $this->onQueue('rules');
     }
 
     /**
