@@ -365,6 +365,9 @@ class StructureController extends Controller
 
     public function score(Request $request, Structure $structure)
     {
+        // @todo: replace after cleanup
+        // return $structure->scoreNew;
+
         return [
             'score' => $structure->score,
             'engagement_points' => $structure->engagement_points,

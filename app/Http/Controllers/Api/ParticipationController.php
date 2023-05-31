@@ -184,6 +184,9 @@ class ParticipationController extends Controller
             $participation->mission->update();
         }
 
+        // Score
+        $participation->mission->structure->calculateScore();
+
         return $participation;
     }
 
@@ -226,6 +229,9 @@ class ParticipationController extends Controller
         if ($participation->mission) {
             $participation->mission->update();
         }
+
+        // Score
+        $participation->mission->structure->calculateScore();
 
         return $participation;
     }

@@ -48,10 +48,6 @@ class MessageObserver
 
                     $participation->state = 'En cours de traitement';
                     $participation->saveQuietly(); // Quietly pour éviter la double notif : message + en cours de traitement
-                    // RESPONSE RATIO
-                    $structure = $participation->mission->structure;
-                    $structure->setResponseRatio();
-                    $structure->saveQuietly();
                 }
             }
         }
