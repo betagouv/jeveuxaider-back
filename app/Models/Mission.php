@@ -126,8 +126,8 @@ class Mission extends Model
                 'id' => $this->structure->id,
                 'name' => $this->structure->name,
                 'response_time' => $this->structure->score->response_time,
-                'score' => round($this->structure->score->total_points),
-                'response_ratio' => round($this->structure->score->processed_participations_rate),
+                'score' => $this->structure->score->total_points,
+                'response_ratio' => $this->structure->score->processed_participations_rate,
                 'reseau' => $this->structure->reseau ? [
                     'id' => $this->structure->reseau->id,
                     'name' => $this->structure->reseau->name,

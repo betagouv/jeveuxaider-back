@@ -7,7 +7,6 @@ use App\Jobs\StructureCalculateScore;
 use App\Models\Media as ModelMedia;
 use App\Traits\HasMissingFields;
 use App\Traits\Notable;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
@@ -484,7 +483,7 @@ class Structure extends Model implements HasMedia
             'twitter' => $this->twitter,
             'instagram' => $this->instagram,
             'donation' => $this->donation,
-            'response_ratio' => round($this->score->processed_participations_rate),
+            'response_ratio' => $this->score->processed_participations_rate,
             'response_time' => $this->score->response_time,
             'created_at' => $this->created_at,
             'publics_beneficiaires' => is_array($this->publics_beneficiaires) ? array_map(function ($public) use ($publicsBeneficiaires) {
@@ -509,7 +508,7 @@ class Structure extends Model implements HasMedia
                 ];
             })->all() : null,
             'missions_available_count' => $this->missions_available_count,
-            'score' => round($this->score->total_points),
+            'score' => $this->score->total_points,
         ];
 
         if ($this->latitude && $this->longitude) {

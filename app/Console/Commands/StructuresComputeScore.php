@@ -41,9 +41,8 @@ class StructuresComputeScore extends Command
         $options = $this->options();
         $query = Structure::query();
         $structureIds = $this->argument('structureIds');
-        // @todo: rename scoreNew -> score après cleanup
         if (empty($options['all'])) {
-            $query->whereDoesntHave('scoreNew');
+            $query->whereDoesntHave('score');
         }
         if (!empty($structureIds)) {
             $query->whereIn('id', $structureIds);
