@@ -88,9 +88,9 @@ class StatisticsController extends Controller
             'places_left' => $places_left,
             'places_left_waiting' => $structure->missions()->whereIn('state', ['En attente de validation', 'En cours de traitement'])->sum('places_left'),
             'places_occupation_rate' => $places_left ? round((($places_offered - $places_left) / $places_offered) * 100) : 0,
-            'response_ratio' => $structure->response_ratio,
-            'response_time' => $structure->response_time,
-            'score' => $structure->score,
+            'response_ratio' => round($structure->score->processed_participations_rate),
+            'response_time' => $structure->score->response_time,
+            'score' => round($structure->score->total_points),
         ];
     }
 

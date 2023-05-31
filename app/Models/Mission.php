@@ -84,12 +84,12 @@ class Mission extends Model
 
     public function makeAllSearchableUsing(Builder $query)
     {
-        return $query->with(['structure', 'structure.reseaux', 'activity', 'template.activity', 'template.domaine', 'template.photo', 'illustrations', 'domaine', 'domaineSecondary', 'tags']);
+        return $query->with(['structure', 'structure.reseaux', 'activity', 'template.activity', 'template.domaine', 'template.photo', 'illustrations', 'domaine', 'domaineSecondary', 'tags', 'structure.score']);
     }
 
     public function toSearchableArray()
     {
-        $this->load(['structure', 'structure.reseaux:id,name', 'activity', 'template.activity', 'template.domaine', 'template.photo', 'illustrations', 'domaine', 'domaineSecondary', 'tags']);
+        $this->load(['structure', 'structure.reseaux:id,name', 'activity', 'template.activity', 'template.domaine', 'template.photo', 'illustrations', 'domaine', 'domaineSecondary', 'tags', 'structure.score']);
 
         $domaines = [];
         $domaine = $this->template_id ? $this->template->domaine : $this->domaine;
@@ -125,10 +125,9 @@ class Mission extends Model
             'structure' => $this->structure ? [
                 'id' => $this->structure->id,
                 'name' => $this->structure->name,
-                'response_time' => $this->structure->response_time,
-                // 'score' => $this->structure->score, @TODO refactoring
-                'score' => 100,
-                'response_ratio' => $this->structure->response_ratio,
+                'response_time' => $this->structure->score->response_time,
+                'score' => round($this->structure->score->total_points),
+                'response_ratio' => round($this->structure->score->processed_participations_rate),
                 'reseau' => $this->structure->reseau ? [
                     'id' => $this->structure->reseau->id,
                     'name' => $this->structure->reseau->name,

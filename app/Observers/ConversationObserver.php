@@ -9,12 +9,9 @@ class ConversationObserver
 {
     public function updated(Conversation $conversation)
     {
-        // CALCULATE AVERAGE STRUCTURE RESPONSES WHEN RESPONSE TIME IS FILLED
+        // Calculate average structure response time when response_time is filled
         if ($conversation->wasChanged('response_time')) {
-            // @todo: Only leave calculateScore
             $conversation->load('conversable.mission.structure');
-            $conversation->conversable->mission->structure->setResponseTime()->saveQuietly();
-
             $conversation->conversable->mission->structure->calculateScore();
         }
     }

@@ -3,9 +3,7 @@
 namespace App\Observers;
 
 use App\Jobs\SendinblueSyncUser;
-use App\Jobs\StructureCalculateScore;
 use App\Models\Participation;
-use App\Models\Structure;
 use App\Models\User;
 use App\Notifications\MissionAlmostFull;
 use App\Notifications\ParticipationBeingProcessed;
@@ -31,13 +29,8 @@ class ParticipationObserver
             }
         }
 
-        // RESPONSE RATIO
-        $structure = $participation->mission->structure;
-
-        // @todo: Only leave calculateScore
-        $structure->setResponseRatio();
-        $structure->saveQuietly();
-        $structure->calculateScore();
+        // Score - Take new participation into account
+        $participation->mission->structure->calculateScore();
 
         // Maj Sendinblue
         if (config('services.sendinblue.sync')) {
@@ -88,12 +81,10 @@ class ParticipationObserver
             }
         }
 
-        // SET STRUCTURE RESPONSE RATIO
+        // Update structure's score
         if ($oldState != $newState) {
             $participation->load(['conversation', 'mission.structure']);
-            if ($oldState == 'En attente de validation') {
-                // @todo: Only leave calculateScore
-                $participation->mission->structure->setResponseRatio()->saveQuietly();
+            if (in_array($oldState, ['En attente de validation', 'En cours de traitement'])) {
                 $participation->mission->structure->calculateScore();
             }
             if ($participation->conversation) {

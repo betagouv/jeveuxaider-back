@@ -81,12 +81,12 @@ class StructureCalculateScore implements ShouldQueue
         }
 
         $score = $this->engagementPoints + $this->reactivityPoints + $this->bonusPoints;
-        return $score <= 100 ? round($score) : 100;
+        return $score <= 100 ? $score : 100;
     }
 
     private function setEngagementPoints()
     {
-        $this->engagementPoints = round($this->processedParticipationsRate * 0.3);
+        $this->engagementPoints = $this->processedParticipationsRate * 0.3;
     }
 
     private function setReactivityPoints()
@@ -96,14 +96,14 @@ class StructureCalculateScore implements ShouldQueue
             return;
         }
 
-        $reactivityPoints = round(100 - (100 * ($this->responseTime / (60 * 60 * 24))) / 10);
+        $reactivityPoints = 100 - (100 * ($this->responseTime / (60 * 60 * 24))) / 10;
         $reactivityPoints = $reactivityPoints > 0 ? $reactivityPoints : 0;
         // Pondérer avec le ratio participations avec réponse / totales
         if ($this->lastParticipationsResponseRatio['total'] > 0) {
             $reactivityPoints = $reactivityPoints * ($this->lastParticipationsResponseRatio['with_response'] / $this->lastParticipationsResponseRatio['total']);
         }
 
-        $this->reactivityPoints = round($reactivityPoints * 0.7);
+        $this->reactivityPoints = $reactivityPoints * 0.7;
     }
 
     private function setBonusPoints()
@@ -116,10 +116,10 @@ class StructureCalculateScore implements ShouldQueue
 
         $avg = $avg - 2.5;
         if ($avg > 0) {
-            $this->bonusPoints = round($avg * 4, 1);
+            $this->bonusPoints = $avg * 4;
         }
         else {
-            $this->bonusPoints = round($avg * (10 / 1.5), 1);
+            $this->bonusPoints = $avg * (10 / 1.5);
         }
     }
 
@@ -134,7 +134,7 @@ class StructureCalculateScore implements ShouldQueue
             'state', ['En attente de validation', 'En cours de traitement']
         )->count();
 
-        $this->processedParticipationsRate = round(($participationsCount - $waitingParticipationsCount) / $participationsCount * 100);
+        $this->processedParticipationsRate = ($participationsCount - $waitingParticipationsCount) / $participationsCount * 100;
     }
 
     private function setResponseTime()

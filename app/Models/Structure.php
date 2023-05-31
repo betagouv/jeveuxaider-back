@@ -346,117 +346,6 @@ class Structure extends Model implements HasMedia
         return $mission;
     }
 
-    // @todo: delete
-    public function setResponseRatio()
-    {
-        $participationsCount = $this->participations->count();
-        if ($participationsCount == 0) {
-            return $this;
-        }
-
-        $waitingParticipationsCount = $this->participations->whereIn('state', ['En attente de validation', 'En cours de traitement'])->count();
-        $this->response_ratio = round(($participationsCount - $waitingParticipationsCount) / $participationsCount * 100);
-        return $this;
-    }
-
-    // @todo: delete
-    public function setResponseTime()
-    {
-        $avgResponseTime = $this->conversations()
-            ->where('conversable_type', 'App\Models\Participation')
-            ->latest('conversations.created_at')
-            ->take(30)
-            ->get()
-            ->avg('response_time');
-
-        if ($avgResponseTime) {
-            $this->response_time = intval($avgResponseTime);
-        }
-
-        return $this;
-    }
-
-    // @todo: delete
-    public function getEngagementPointsAttribute()
-    {
-        return round($this->response_ratio * 0.3);
-    }
-
-    // @todo: delete
-    public function getReactivityPointsAttribute()
-    {
-        $reactivityPoints = round(100 - (100 * ($this->response_time / (60 * 60 * 24))) / 10);
-        $reactivityPoints = $reactivityPoints > 0 ? $reactivityPoints : 0;
-
-        // Pondérer avec le ratio participations avec réponse / totales
-        if ($this->lastParticipationsResponseRatio['total'] > 0) {
-            $reactivityPoints = $reactivityPoints * ($this->lastParticipationsResponseRatio['with_response'] / $this->lastParticipationsResponseRatio['total']);
-        }
-
-        return round($reactivityPoints * 0.7);
-    }
-
-    // @todo: delete
-    public function getLastParticipationsResponseRatioAttribute()
-    {
-        $lastConversations = $this->conversations()
-            ->where('conversable_type', 'App\Models\Participation')
-            ->latest('conversations.created_at')
-            ->take(30)
-            ->pluck('conversations.id');
-
-        $lastConversationsWithResponses = $this->conversations()
-            ->whereIn('conversations.id', $lastConversations)
-            ->whereNotNull('response_time')
-            ->pluck('conversations.id');
-
-        return [
-            'with_response' => $lastConversationsWithResponses->count(),
-            'total' => $lastConversations->count()
-        ];
-    }
-
-    // @todo: delete
-    public function getAverageTestimonyGrade()
-    {
-        return Temoignage::ofStructure($this->id)->avg('grade');
-    }
-
-    // @todo: delete
-    public function getBonusPointsAttribute()
-    {
-        $avg = $this->getAverageTestimonyGrade();
-
-        // no testimonials, no bonus
-        if (!$avg) {
-            return 0;
-        }
-
-        $avg = $avg - 2.5;
-
-        if ($avg > 0) {
-            return round($avg * 4, 1);
-        }
-
-        if ($avg < 0) {
-            return round($avg * (10 / 1.5), 1);
-        }
-
-        return 0;
-    }
-
-    // @todo: delete
-    public function getScoreAttribute()
-    {
-        if ($this->response_time == null && $this->response_ratio == null) {
-            return 50;
-        }
-
-        $score = $this->engagement_points + $this->reactivity_points + $this->bonus_points;
-
-        return $score <= 100 ? round($score) : 100;
-    }
-
     public function logo()
     {
         return $this->morphOne(ModelMedia::class, 'model')->where('collection_name', 'structure__logo');
@@ -560,7 +449,7 @@ class Structure extends Model implements HasMedia
     // ALGOLIA
     public function toSearchableArray()
     {
-        $this->load(['reseaux', 'domaines', 'illustrations', 'overrideImage1']);
+        $this->load(['reseaux', 'domaines', 'illustrations', 'overrideImage1', 'score']);
         $this->loadCount(['missionsAvailable']);
 
         $publicsBeneficiaires = config('taxonomies.mission_publics_beneficiaires.terms');
@@ -595,8 +484,8 @@ class Structure extends Model implements HasMedia
             'twitter' => $this->twitter,
             'instagram' => $this->instagram,
             'donation' => $this->donation,
-            'response_ratio' => $this->response_ratio,
-            'response_time' => $this->response_time,
+            'response_ratio' => round($this->score->processed_participations_rate),
+            'response_time' => $this->score->response_time,
             'created_at' => $this->created_at,
             'publics_beneficiaires' => is_array($this->publics_beneficiaires) ? array_map(function ($public) use ($publicsBeneficiaires) {
                 return $publicsBeneficiaires[$public];
@@ -620,8 +509,7 @@ class Structure extends Model implements HasMedia
                 ];
             })->all() : null,
             'missions_available_count' => $this->missions_available_count,
-            // 'score' => $this->score, @TODO refactoring
-            'score' => 100
+            'score' => round($this->score->total_points),
         ];
 
         if ($this->latitude && $this->longitude) {
@@ -715,8 +603,7 @@ class Structure extends Model implements HasMedia
         ];
     }
 
-    // @todo: rename score après cleanup
-    public function scoreNew()
+    public function score()
     {
         return $this->belongsTo('App\Models\StructureScore', 'id', 'structure_id');
     }
