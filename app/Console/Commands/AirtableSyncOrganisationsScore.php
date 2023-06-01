@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Models\Structure;
 use App\Services\Airtable;
 use Illuminate\Console\Command;
+use Illuminate\Database\Eloquent\Builder;
 
 class AirtableSyncOrganisationsScore extends Command
 {
@@ -39,7 +40,9 @@ class AirtableSyncOrganisationsScore extends Command
      */
     public function handle()
     {
-        $query = Structure::with(['participations'])->where('response_time', '!=', null);
+        $query = Structure::with(['participations'])->whereHas('score', function (Builder $query) {
+            $query->where('response_time', '!=', null);
+        });
 
         $this->comment('Processed organisation '.$query->count());
 
@@ -49,6 +52,5 @@ class AirtableSyncOrganisationsScore extends Command
                 $this->comment('Processed organisation '.$organisation->id);
             }
         });
-        
     }
 }
