@@ -84,13 +84,11 @@ class Mission extends Model
 
     public function makeAllSearchableUsing(Builder $query)
     {
-        return $query->with(['structure', 'structure.reseaux', 'activity', 'template.activity', 'template.domaine', 'template.photo', 'illustrations', 'domaine', 'domaineSecondary', 'tags', 'structure.score']);
+        return $query->with(['structure', 'structure.reseaux', 'activity', 'template.activity', 'template.domaine', 'template.domaineSecondary', 'template.photo', 'illustrations', 'domaine', 'domaineSecondary', 'tags', 'structure.score']);
     }
 
     public function toSearchableArray()
     {
-        $this->load(['structure', 'structure.reseaux:id,name', 'activity', 'template.activity', 'template.domaine', 'template.photo', 'illustrations', 'domaine', 'domaineSecondary', 'tags', 'structure.score']);
-
         $domaines = [];
         $domaine = $this->template_id ? $this->template->domaine : $this->domaine;
         $domaineSecondary = $this->template_id ? $this->template->domaineSecondary : $this->domaineSecondary;

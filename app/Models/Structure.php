@@ -445,12 +445,13 @@ class Structure extends Model implements HasMedia
         );
     }
 
-    // ALGOLIA
+    public function makeAllSearchableUsing(Builder $query)
+    {
+        return $query->with(['reseaux', 'domaines', 'illustrations', 'overrideImage1', 'score'])->withCount(['missionsAvailable']);
+    }
+
     public function toSearchableArray()
     {
-        $this->load(['reseaux', 'domaines', 'illustrations', 'overrideImage1', 'score']);
-        $this->loadCount(['missionsAvailable']);
-
         $publicsBeneficiaires = config('taxonomies.mission_publics_beneficiaires.terms');
 
         $organisation = [
