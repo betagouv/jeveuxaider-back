@@ -1,4 +1,4 @@
-<?php $showSummaryActions = $structure->response_time || $structure->response_ratio; ?>
+<?php $showSummaryActions = $structure->score->response_time || $structure->score->processed_participations_rate; ?>
 @component('mail::message')
     @component('mail::components.headline')
         Bonjour {{ $notifiable->first_name }},
@@ -36,9 +36,9 @@
         @component('mail::components.paragraph')
             <p>JeVeuxAider.gouv.org vous permet de toujours prendre mieux soin de vos bénévoles !</p>
             <ul>
-                <li>⌚ En moyenne, vous avez répondu à vos bénévoles en {{ round($structure->response_time / 60 / 60) }}
+                <li>⌚ En moyenne, vous avez répondu à vos bénévoles en {{ round($structure->score->response_time / 60 / 60) }}
                     heure(s).</li>
-                <li>👍 Vous avez répondu à {{ $structure->response_ratio }}% de vos demandes.</li>
+                <li>👍 Vous avez répondu à {{ $structure->score->processed_participations_rate }}% de vos demandes.</li>
             </ul>
             <p>Gardez à l’esprit que les associations qui répondent vite sont valorisées ; et que les bénévoles privilégient les
                 missions pour lesquelles ils ont une réponse rapide !</p>
