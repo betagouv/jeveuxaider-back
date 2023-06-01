@@ -13,11 +13,12 @@ class TemoignageObserver
     public function created(Temoignage $temoignage)
     {
         $temoignage->participation->notificationTemoignage?->delete();
+        $temoignage->participation->mission->structure->calculateScore();
     }
 
     public function updated(Temoignage $temoignage)
     {
-        //
+        $temoignage->participation->mission->structure->calculateScore();
     }
 
     public function saving(Temoignage $temoignage)

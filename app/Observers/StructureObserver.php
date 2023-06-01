@@ -57,6 +57,9 @@ class StructureObserver
             SendinblueSyncUser::dispatch($structure->user);
         }
 
+        // Init Score
+        $structure->calculateScore();
+
         // Sync Airtable
         if (config('services.airtable.sync')) {
             AirtableSyncObject::dispatch($structure);
