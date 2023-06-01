@@ -1026,6 +1026,7 @@ return [
         "vocabulary" => "Règles",
         "terms" => [
             "mission_attach_tag" => "Ajouter un tag à la mission",
+            "mission_detach_tag" => "Retirer un tag à la mission",
         ]
     ],
 

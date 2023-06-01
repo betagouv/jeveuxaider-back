@@ -64,6 +64,7 @@ class BatchRuleExecuted extends Notification
 
         switch($this->rule->action_key){
             case 'mission_attach_tag':
+            case 'mission_detach_tag':
                 $term = Term::find($this->rule->action_value);
                 return "$term->name #$term->id";
         }

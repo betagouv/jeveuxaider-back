@@ -50,6 +50,8 @@ class RuleRequest extends FormRequest
         switch($datas['action_key']){
             case 'mission_attach_tag':
                 return Term::where('id', $value)->exists();
+            case 'mission_detach_tag':
+                return Term::where('id', $value)->exists();
         }
 
         return false;

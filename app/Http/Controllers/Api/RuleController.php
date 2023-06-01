@@ -6,6 +6,7 @@ use App\Filters\FiltersTitleBodySearch;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RuleRequest;
 use App\Jobs\RuleMissionAttachTag;
+use App\Jobs\RuleMissionDetachTag;
 use App\Models\Rule;
 use App\Models\User;
 use App\Notifications\BatchRuleExecuted;
@@ -80,12 +81,16 @@ class RuleController extends Controller
 
         $batch = Bus::batch(
             $rule->pendingItems()->map(function($item) use ($rule) {
-                return new RuleMissionAttachTag($rule, $item);
+                if($rule->action_key == 'mission_attach_tag') {
+                    return new RuleMissionAttachTag($rule, $item);
+                }
+                if($rule->action_key == 'mission_detach_tag') {
+                    return new RuleMissionDetachTag($rule, $item);
+                }
             })
         )
         ->onQueue('rules')
         ->then(function (Batch $batch) use ($rule, $user, $itemsCount) {
-            
             Notification::route('slack', config('services.slack.hook_url'))
                 ->notify(new BatchRuleExecuted($rule, $user, $itemsCount));
         })->catch(function (Batch $batch, Throwable $e) use ($rule, $user, $itemsCount) {

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Jobs\RuleMissionAttachTag;
+use App\Jobs\RuleMissionDetachTag;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
@@ -62,7 +63,10 @@ class Rule extends Model
     {
         if($this->action_key == 'mission_attach_tag') {
             RuleMissionAttachTag::dispatch($this, $model);
-         }
+        }
+        if($this->action_key == 'mission_detach_tag') {
+            RuleMissionDetachTag::dispatch($this, $model);
+        }
     }
 
     protected function appendReverseActionToQueryBuilder(Builder $queryBuilder)
@@ -70,6 +74,11 @@ class Rule extends Model
         switch ($this->action_key) {
             case 'mission_attach_tag':
                 $queryBuilder->whereDoesntHave('tags', function(Builder $query) {
+                    $query->where('id', $this->action_value);
+                });
+                break;
+            case 'mission_detach_tag':
+                $queryBuilder->whereHas('tags', function(Builder $query) {
                     $query->where('id', $this->action_value);
                 });
                 break;
