@@ -22,6 +22,7 @@ use App\Console\Commands\SendNotificationsStructureInDraft;
 use App\Console\Commands\SendNotificationTodoToModerateurs;
 use App\Console\Commands\SendNotificationTodoToReferents;
 use App\Console\Commands\SendNotificationResponsablesParticipationsNeedToBeTreated;
+use App\Console\Commands\SendNotificationsStructureWithoutMission;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
