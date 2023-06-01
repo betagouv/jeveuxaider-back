@@ -61,6 +61,9 @@ class StructureObserver
         if (config('services.airtable.sync')) {
             AirtableSyncObject::dispatch($structure);
         }
+
+        // Init Score
+        $structure->calculateScore();
     }
 
     public function updated(Structure $structure)
