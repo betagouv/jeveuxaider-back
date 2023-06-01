@@ -365,13 +365,7 @@ class StructureController extends Controller
 
     public function score(Request $request, Structure $structure)
     {
-        $response = $structure->score;
-
-        // @todo: delete après déploiement front
-        $response->score = round($response->total_points);
-        $response->response_ratio = round($response->processed_participations_rate);
-
-        return $response;
+        return $structure->score;
     }
 
     public function popular(Request $request)
