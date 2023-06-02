@@ -56,13 +56,11 @@ class Kernel extends ConsoleKernel
         // Responsables
         $schedule->command(SendNotificationsResponsablesSummaryDaily::class)->daily()->at('07:50');
         $schedule->command(SendNotificationsResponsablesSummaryMonthly::class)->monthlyOn(1)->at('08:00');
-        $schedule->command(SendNotificationTodoToResponsables::class)->days([1, 3, 5])->at('08:20');
         $schedule->command(SendNotificationsMissionOutdated::class)->weekdays()->daily()->at('08:30');
         $schedule->command(SendNotificationsMissionInDraft::class)->weekdays()->daily()->at('08:40');
         $schedule->command(SendNotificationsNoNewMission::class)->weekdays()->daily()->at('08:50');
         $schedule->command(SendNotificationsStructureWithoutMission::class)->daily()->at('09:10');
         $schedule->command(SendNotificationsStructureInDraft::class)->daily()->at('09:50');
-        // $schedule->command(SendNotificationTodoToResponsables::class)->days([1, 3, 5])->at('08:20');
         $schedule->command(SendNotificationResponsablesParticipationsNeedToBeTreated::class)->weeklyOn(1)->at('08:20');
         $schedule->command(SendNotificationsResponsablesSummaryDaily::class)->daily()->at('07:50');
         $schedule->command(SendNotificationsResponsablesSummaryMonthly::class)->monthlyOn(1)->at('08:00');
