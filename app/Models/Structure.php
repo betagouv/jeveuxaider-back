@@ -453,6 +453,7 @@ class Structure extends Model implements HasMedia
     public function toSearchableArray()
     {
         $publicsBeneficiaires = config('taxonomies.mission_publics_beneficiaires.terms');
+        $this->load(['reseaux', 'domaines', 'illustrations', 'overrideImage1', 'score'])->loadCount(['missionsAvailable']);
 
         $organisation = [
             'id' => $this->id,

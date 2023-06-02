@@ -84,11 +84,13 @@ class Mission extends Model
 
     public function makeAllSearchableUsing(Builder $query)
     {
-        return $query->with(['structure', 'structure.reseaux', 'activity', 'template.activity', 'template.domaine', 'template.domaineSecondary', 'template.photo', 'illustrations', 'domaine', 'domaineSecondary', 'tags', 'structure.score']);
+        return $query->with(['structure', 'structure.reseaux:id,name', 'activity', 'template.activity', 'template.domaine', 'template.domaineSecondary', 'template.photo', 'illustrations', 'domaine', 'domaineSecondary', 'tags', 'structure.score']);
     }
 
     public function toSearchableArray()
     {
+        $this->load(['structure', 'structure.reseaux:id,name', 'activity', 'template.activity', 'template.domaine', 'template.domaineSecondary', 'template.photo', 'illustrations', 'domaine', 'domaineSecondary', 'tags', 'structure.score']);
+
         $domaines = [];
         $domaine = $this->template_id ? $this->template->domaine : $this->domaine;
         $domaineSecondary = $this->template_id ? $this->template->domaineSecondary : $this->domaineSecondary;
@@ -173,7 +175,7 @@ class Mission extends Model
             'is_autonomy' => $this->is_autonomy,
             'autonomy_zips' => $this->is_autonomy && count($this->autonomy_zips) > 0 ? $this->autonomy_zips : null,
             'is_outdated' => isset($trueEndDate) && (Carbon::today())->gt($trueEndDate) ? true : false,
-            'tags' => $this->tags->pluck('name'),
+            'tags' => $this->tags->where('is_published', true)->pluck('name'),
             'is_registration_open' => $this->is_registration_open,
         ];
 
