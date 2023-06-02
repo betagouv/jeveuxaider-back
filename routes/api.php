@@ -71,6 +71,8 @@ Route::get('emailable/verify/{email}', 'Api\EmailableController@verify');
 
 Route::get('organisations/popular', 'Api\StructureController@popular');
 
+Route::get('structures/{structure}/score', 'Api\StructureController@score');
+
 Route::group(['middleware' => ['auth:api']], function () {
     Route::get('user', 'Api\UserController@me');
     Route::get('user/status', 'Api\UserController@status');
@@ -139,7 +141,6 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     // STRUCTURES
     Route::get('structures', 'Api\StructureController@index');
     Route::get('structures/{structure}', 'Api\StructureController@show');
-    Route::get('structures/{structure}/score', 'Api\StructureController@score');
     Route::post('structures/{structure}/missions', 'Api\StructureController@addMission');
     Route::delete('structures/{structure}/members/{user}', 'Api\StructureController@deleteMember');
 
