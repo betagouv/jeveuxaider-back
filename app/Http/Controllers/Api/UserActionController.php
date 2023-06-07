@@ -156,6 +156,7 @@ class UserActionController extends Controller
             $actions[] = [
                 'type' => 'profile_incomplete',
                 'value' => $user->profile->missing_fields,
+                'completion_rate' => $user->profile->completion_rate
             ];
         }
         $actions[] = [
