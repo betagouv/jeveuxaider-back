@@ -56,14 +56,12 @@ class MissionOutdatedSecondReminder extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject('Votre mission « '.$this->mission->name.' » a-t-elle pris fin ?')
-            ->greeting('Bonjour '.$notifiable->first_name.' 👋,')
-            ->line("L'une de vos missions est arrivée à échéance : la date de fin que vous avez renseignée est dépassée. Deux solutions s'offrent à vous :")
-            ->line('- Si votre mission se poursuit, il suffit de mettre à jour la date de fin')
-            ->line('- Si votre mission a pris fin, il faut la passer au statut « Terminé ».')
-            ->action('Mettre à jour ma mission', url(config('app.front_url').'/admin/missions/'.$this->mission->id))
-            ->line('Dans l\'absence d\'action de votre part, notre clôturerons automatiquement votre mission d\'ici 5 jours.')
-            ->line('En cas de besoin, vous pouvez répondre à ce mail pour échanger directement avec le support utilisateurs !')
+            ->subject('Votre mission va être clôturée')
+            ->markdown('emails.responsables.mission-outdated-second-reminder', [
+                'missionUrl' => url(config('app.front_url').'/admin/missions/'.$this->mission->id),
+                'mission' => $this->mission,
+                'notifiable' => $notifiable,
+            ])
             ->tag('app-responsable-relance-mission-passee-2');
     }
 
