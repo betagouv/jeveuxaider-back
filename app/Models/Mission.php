@@ -222,6 +222,11 @@ class Mission extends Model
         return $this->belongsTo('App\Models\Activity');
     }
 
+    public function activitySecondary()
+    {
+        return $this->belongsTo('App\Models\Activity');
+    }
+
     public function domaine()
     {
         return $this->belongsTo('App\Models\Domaine');
@@ -389,19 +394,23 @@ class Mission extends Model
         if ($value) {
             return $query
                 ->whereNotNull('activity_id')
+                ->orWhereNotNull('activity_secondary_id')
                 ->orWhereHas(
                     'template',
                     function (Builder $query) {
                         $query->whereNotNull('activity_id');
+                        $query->orWhereNotNull('activity_secondary_id');
                     }
                 );
         } else {
             return $query
                 ->whereNull('activity_id')
+                ->orWhereNull('activity_secondary_id')
                 ->orWhereHas(
                     'template',
                     function (Builder $query) {
                         $query->whereNull('activity_id');
+                        $query->orWhereNull('activity_secondary_id');
                     }
                 );
         }
@@ -429,10 +438,12 @@ class Mission extends Model
     {
         return $query
             ->where('activity_id', $activity_id)
+            ->orWhere('activity_secondary_id', $activity_id)
             ->orWhereHas(
                 'template',
                 function (Builder $query) use ($activity_id) {
                     $query->where('activity_id', $activity_id);
+                    $query->orWhere('activity_secondary_id', $activity_id);
                 }
             );
     }
@@ -663,22 +674,25 @@ class Mission extends Model
 
     public function format()
     {
-        $domaine = $this->template_id ? $this->template->domaine : $this->domaine;
-        $activity = $this->template && $this->template->activity_id ? $this->template->activity : $this->activity;
+        if ($this->template) {
+            $domaines = collect([$this->template->domaine, $this->template->domaineSecondary]);
+            $activities = collect([$this->template->activity, $this->template->activitySecondary]);
+        } else {
+            $domaines = collect([$this->domaine, $this->domaineSecondary]);
+            $activities = collect([$this->activity, $this->activitySecondary]);
+        }
+        $domaines = $domaines->filter()->map(fn($domaine) => ['id' => $domaine->id, 'name'=>$domaine->name]);
+        $activities = $activities->filter()->map(fn($activity) => ['id' => $activity->id, 'name'=>$activity->name]);
 
         return [
             'id' => $this->id,
             'name' => $this->name,
             'state' => $this->structure->state,
             'type' => $this->type,
-            'domaine' => $domaine ? [
-                'id' => $domaine->id,
-                'name' => $domaine->name,
-            ] : null,
-            'activity' => $activity ? [
-                'id' => $activity->id,
-                'name' => $activity->name,
-            ] : null,
+            'domaine' => $domaines->first(),
+            'domaines' => $domaines->all(),
+            'activity' => $activities->first(),
+            'activities' => $activities->all(),
             'start_date' => $this->start_date,
             'end_date' => $this->end_date,
             'commitment' => [
