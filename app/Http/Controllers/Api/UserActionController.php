@@ -158,6 +158,10 @@ class UserActionController extends Controller
                 'value' => $user->profile->missing_fields,
                 'completion_rate' => $user->profile->completion_rate
             ];
+            $actions[] = [
+                'type' => 'profile_without_activities',
+                'value' => $user->profile->activities->count() > 0 ? false : true,
+            ];
         }
         $actions[] = [
             'type' => 'search_missions',
