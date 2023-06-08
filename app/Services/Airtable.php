@@ -169,6 +169,7 @@ class Airtable
 
     private static function formatStructureAttributes(Structure $structure)
     {
+        $structure->load(['score']);
         $attributes = [
             'Id' => $structure->id,
             'Nom' => $structure->name,
