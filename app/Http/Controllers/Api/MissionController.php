@@ -113,7 +113,9 @@ class MissionController extends Controller
                 'structure.overrideImage1',
                 'structure.logo',
                 'activity:id,name',
+                'activitySecondary:id,name',
                 'template.activity:id,name',
+                'template.activitySecondary:id,name',
                 'structure.reseaux:id,name',
                 'tags'
             ])->withCount('temoignages')->where('id', $id)->first();

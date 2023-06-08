@@ -32,7 +32,7 @@ class MissionTemplateObserver
 
         $changes = $missionTemplate->getChanges();
 
-        if (isset($changes['title']) || isset($changes['subtitle']) || $missionTemplate->isDirty('activity_id') || $missionTemplate->isDirty('domaine_id') || $missionTemplate->isDirty('domaine_secondary_id')) {
+        if (isset($changes['title']) || isset($changes['subtitle']) || $missionTemplate->isDirty('activity_id') || $missionTemplate->isDirty('activity_secondary_id') || $missionTemplate->isDirty('domaine_id') || $missionTemplate->isDirty('domaine_secondary_id')) {
             $missionTemplate->missions()->with(['structure'])->searchable();
         }
 
