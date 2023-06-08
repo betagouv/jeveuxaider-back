@@ -9,6 +9,7 @@ use App\Jobs\RuleMissionAttachTag;
 use App\Jobs\RuleMissionDetachTag;
 use App\Models\Rule;
 use App\Models\User;
+use App\Models\Mission;
 use App\Notifications\BatchRuleExecuted;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,6 +19,7 @@ use Spatie\QueryBuilder\QueryBuilder;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Bus\Batch;
 use Illuminate\Support\Facades\Notification;
+use Spatie\QueryBuilder\AllowedInclude;
 use Throwable;
 
 class RuleController extends Controller
@@ -105,6 +107,34 @@ class RuleController extends Controller
         })->allowFailures()->dispatch();
 
         return $batch->id;
+    }
+
+    public function pendingItems(Request $request, Rule $rule)
+    {
+        $queryBuilder = $rule->pendingItemsQueryBuilder();
+
+        $result = QueryBuilder::for($queryBuilder)
+            ->with(['domaine', 'template', 'template.domaine', 'structure'])
+            ->allowedFilters([
+
+            ])
+            ->allowedIncludes([
+                'template.photo',
+                'illustrations',
+                AllowedInclude::count('participationsCount'),
+                'tags',
+            ])
+            ->defaultSort('-created_at')
+            ->allowedSorts([
+                'created_at',
+                'updated_at',
+                'places_left',
+            ])
+            ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
+
+        $result->append('has_places_left');
+
+        return $result;
     }
 
 }

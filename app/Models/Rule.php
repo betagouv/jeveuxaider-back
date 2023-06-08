@@ -87,7 +87,7 @@ class Rule extends Model
         return $queryBuilder;
     }
 
-    protected function pendingItemsQueryBuilder()
+    public function pendingItemsQueryBuilder()
     {
         $queryBuilder = $this->resolveQueryBuilder();
         return $this->appendReverseActionToQueryBuilder($queryBuilder);
@@ -129,7 +129,20 @@ class Rule extends Model
 
     protected function buildConditions($query, $conditions) {
         foreach ($conditions as $condition) {
-            $query->where($condition['name'], $condition['operand'], $condition['value'], $condition['operator'] ?? 'AND');
+            switch($condition['name']){
+                case 'missions.publics_beneficiaires':
+                case 'missions.publics_volontaires':
+                    if($condition['operand'] == '=') {
+                        $query->whereJsonContains($condition['name'], $condition['value']);
+                    }
+                    if($condition['operand'] == '!=') {
+                        $query->whereJsonDoesntContain($condition['name'], $condition['value']);
+                    }
+                    break;
+                default:
+                    $query->where($condition['name'], $condition['operand'], $condition['value'], $condition['operator'] ?? 'AND');
+                    break;
+            }
         }
     }
 

@@ -258,6 +258,7 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     // Rules
     Route::get('rules', 'Api\RuleController@index');
     Route::get('rules/{rule}', 'Api\RuleController@show');
+    Route::get('rules/{rule}/pending-items', 'Api\RuleController@pendingItems');
     Route::post('rules', 'Api\RuleController@store');
     Route::post('rules/{rule}/batch', 'Api\RuleController@batch');
     Route::put('rules/{rule}', 'Api\RuleController@update');
