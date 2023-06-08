@@ -23,7 +23,7 @@ class SendNotificationsMissionOutdated extends Command
      *
      * @var string
      */
-    protected $description = 'Send Notifications to Responsables when their mission is outdated since 5 days. Second reminder at 15 days.';
+    protected $description = 'Send Notifications to Responsables when their mission is outdated since 5 days. Second reminder at 20 days.';
 
     /**
      * Execute the console command.
@@ -53,8 +53,8 @@ class SendNotificationsMissionOutdated extends Command
     {
         $query = Mission::with(['responsable'])->where('state', 'Validée')
             ->whereBetween('end_date', [
-                Carbon::now()->subDays(15)->startOfDay(),
-                Carbon::now()->subDays(15)->endOfDay(),
+                Carbon::now()->subDays(20)->startOfDay(),
+                Carbon::now()->subDays(20)->endOfDay(),
             ]);
 
         foreach ($query->get() as $mission) {

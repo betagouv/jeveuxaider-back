@@ -21,7 +21,7 @@ class MissionsCloseOutdatedCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Automatically close outdated missions after 20 days.';
+    protected $description = 'Automatically close outdated missions after 1 month.';
 
     /**
      * Create a new command instance.
@@ -42,8 +42,8 @@ class MissionsCloseOutdatedCommand extends Command
     {
         $query = Mission::with(['responsable'])->where('state', 'Validée')
             ->whereBetween('end_date', [
-                Carbon::now()->subDays(20)->startOfDay(),
-                Carbon::now()->subDays(20)->endOfDay(),
+                Carbon::now()->subMonth()->startOfDay(),
+                Carbon::now()->subMonth()->endOfDay(),
             ]);
 
         $query->pluck('id')->each(fn ($id) => MissionCloseOutdatedJob::dispatch($id));
