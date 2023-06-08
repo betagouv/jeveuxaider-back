@@ -7,6 +7,7 @@ use App\Jobs\AirtableSyncObject;
 use App\Jobs\MissionGetQPV;
 use App\Jobs\RuleDispatcherByEvent;
 use App\Jobs\SendinblueSyncUser;
+use App\Models\Message;
 use App\Models\Mission;
 use App\Models\Participation;
 use App\Models\Profile;
@@ -132,17 +133,28 @@ class MissionObserver
                     // Notif OFF
                     $mission->participations->whereIn('state', ['En attente de validation', 'En cours de traitement'])
                         ->each(function ($participation) {
+                            $participation->state = 'Refusée';
+                            $participation->saveQuietly();
+
                             activity()
                                 ->performedOn($participation)
                                 ->withProperties([
-                                        'attributes' => ['state' => 'Annulée'],
+                                        'attributes' => ['state' => 'Refusée'],
                                         'old' => ['state' => $participation->state]
                                     ])
                                 ->event('updated')
                                 ->log('updated');
 
-                            $participation->state = 'Annulée';
-                            $participation->saveQuietly();
+                            $participation->load('conversation');
+                            if ($participation->conversation) {
+                                (new Message([
+                                    'conversation_id' => $participation->conversation->id,
+                                    'type' => 'contextual',
+                                    'content' => 'La participation a été déclinée',
+                                    'contextual_state' => 'Refusée',
+                                    'contextual_reason' => 'mission_terminated',
+                                ]))->saveQuietly();
+                            }
                         });
 
                     // Notifications temoignage.
