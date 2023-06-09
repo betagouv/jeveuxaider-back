@@ -104,6 +104,7 @@ class ParticipationController extends Controller
                 $user = $mission->responsable->user ?? $mission->structure->user;
                 $conversation = $currentUser->startConversation($user, $participation);
                 $currentUser->sendMessage($conversation->id, request('content'));
+                $currentUser->markConversationAsRead($participation->conversation);
             }
 
             if ($participation->profile) {

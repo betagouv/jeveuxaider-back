@@ -33,7 +33,7 @@ class MessageObserver
             // Si la participation est en attente de validation, et que le responsable envoie un message
             // la participation devient "En cours de traitement"
             if ($user && $participation->profile_id != $user->profile->id) {
-                if ($participation->state == 'En attente de validation') {
+                if ($participation->state == 'En attente de validation' && $message->type === 'chat') {
 
                     // Log (because saveQuietly)
                     activity()

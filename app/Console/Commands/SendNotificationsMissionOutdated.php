@@ -3,7 +3,8 @@
 namespace App\Console\Commands;
 
 use App\Models\Mission;
-use App\Notifications\MissionOutdated;
+use App\Notifications\MissionOutdatedFirstReminder;
+use App\Notifications\MissionOutdatedSecondReminder;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Notification;
@@ -22,7 +23,7 @@ class SendNotificationsMissionOutdated extends Command
      *
      * @var string
      */
-    protected $description = 'Send Notifications to Responsables when their mission is outdated since 15 days.';
+    protected $description = 'Send Notifications to Responsables when their mission is outdated since 5 days. Second reminder at 20 days.';
 
     /**
      * Execute the console command.
@@ -31,14 +32,33 @@ class SendNotificationsMissionOutdated extends Command
      */
     public function handle()
     {
+        $this->sendFirstReminder();
+        $this->sendSecondReminder();
+    }
+
+    private function sendFirstReminder()
+    {
         $query = Mission::with(['responsable'])->where('state', 'Validée')
-        ->whereBetween('end_date', [
-            Carbon::now()->subDays(15)->startOfDay(),
-            Carbon::now()->subDays(15)->endOfDay(),
-        ]);
+            ->whereBetween('end_date', [
+                Carbon::now()->subDays(5)->startOfDay(),
+                Carbon::now()->subDays(5)->endOfDay(),
+            ]);
 
         foreach ($query->get() as $mission) {
-            Notification::send($mission->responsable, new MissionOutdated($mission));
+            Notification::send($mission->responsable, new MissionOutdatedFirstReminder($mission));
+        }
+    }
+
+    private function sendSecondReminder()
+    {
+        $query = Mission::with(['responsable'])->where('state', 'Validée')
+            ->whereBetween('end_date', [
+                Carbon::now()->subDays(20)->startOfDay(),
+                Carbon::now()->subDays(20)->endOfDay(),
+            ]);
+
+        foreach ($query->get() as $mission) {
+            Notification::send($mission->responsable, new MissionOutdatedSecondReminder($mission));
         }
     }
 }
