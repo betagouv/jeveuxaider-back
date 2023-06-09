@@ -686,9 +686,9 @@ class Mission extends Model
             'state' => $this->structure->state,
             'type' => $this->type,
             'domaine' => $domaines->first(),
-            'domaines' => $domaines->all(),
+            'domaines' => $domaines->values(),
             'activity' => $activities->first(),
-            'activities' => $activities->all(),
+            'activities' => $activities->values(),
             'start_date' => $this->start_date,
             'end_date' => $this->end_date,
             'commitment' => [
