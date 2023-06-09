@@ -137,7 +137,7 @@
             <![CDATA[{{ $activityApiName }}]]>
         </activity>
 
-        <publicsBeneficiaires>
+        <audience>
             @if ($mission->publics_beneficiaires)
                 @foreach ($mission->publics_beneficiaires as $public_beneficiaire)
                     <value>
@@ -145,17 +145,7 @@
                     </value>
                 @endforeach
             @endif
-        </publicsBeneficiaires>
-
-        <publicsVolontaires>
-            @if ($mission->publics_volontaires)
-                @foreach ($mission->publics_volontaires as $public_volontaire)
-                    <value>
-                        <![CDATA[{{ $public_volontaire }}]]>
-                    </value>
-                @endforeach
-            @endif
-        </publicsVolontaires>
+        </audience>
 
         <openToMinors>
             @php
