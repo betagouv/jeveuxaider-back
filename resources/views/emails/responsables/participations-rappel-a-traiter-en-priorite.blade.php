@@ -13,11 +13,9 @@
             <li>{{ $inProgressCount }} participation{{ $inProgressCount > 1 ? 's' : '' }} en cours depuis plus de 2 mois</li>
         </ul>
     @endcomponent
-    @if ($totalCount > 20)
-        @component('mail::components.paragraph')
-            En publiant une mission sur JeVeuxAider.gouv.fr, vous vous engagez à répondre aux bénévoles dans un délai de 7 jours, et à valider ou refuser les participations sous 2 mois. Ces participations doivent être mises à jour au plus vite, sans quoi les bénévoles risquent de se désengager, et vous risquez de voir vos missions dépubliées.
-        @endcomponent
-    @endif
+    @component('mail::components.paragraph')
+        En publiant une mission sur JeVeuxAider.gouv.fr, vous vous engagez à répondre aux bénévoles dans un délai de 7 jours, et à valider ou refuser les participations sous 2 mois. Ces participations doivent être mises à jour au plus vite, sans quoi les bénévoles risquent de se désengager, et vous risquez de voir vos missions dépubliées.
+    @endcomponent
     @component('mail::button', ['url' => $url])
         Traiter les participations
     @endcomponent
