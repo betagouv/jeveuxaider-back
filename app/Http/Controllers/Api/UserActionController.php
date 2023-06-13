@@ -152,12 +152,18 @@ class UserActionController extends Controller
             'type' => 'messages_unread',
             'value' => $user->getUnreadConversationsCount(),
         ];
-        if ($user->context_role == 'volontaire') {
-            $actions[] = [
-                'type' => 'profile_incomplete',
-                'value' => $user->profile->missing_fields,
-            ];
-        }
+
+        $actions[] = [
+            'type' => 'profile_incomplete',
+            'value' => $user->profile->missing_fields,
+            'completion_rate' => $user->profile->completion_rate
+        ];
+
+        $actions[] = [
+            'type' => 'profile_without_activities',
+            'value' => $user->profile->activities->count() > 0 ? false : true,
+        ];
+
         $actions[] = [
             'type' => 'search_missions',
             'value' => true,

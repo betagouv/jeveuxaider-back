@@ -79,6 +79,8 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('user/unread-messages', 'Api\UserController@unreadMessages');
     Route::get('user/participations', 'Api\UserController@participations');
     Route::post('user/anonymize', 'Api\UserController@anonymize');
+    Route::post('user/visible', 'Api\UserController@visible');
+    Route::post('user/invisible', 'Api\UserController@invisible');
     Route::put('user', 'Api\UserController@update');
     Route::get('profiles/{profile}', 'Api\ProfileController@show');
     Route::put('profiles/{profile}', 'Api\ProfileController@update');

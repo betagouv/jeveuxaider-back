@@ -263,4 +263,26 @@ class UserController extends Controller
 
         return $roles;
     }
+
+    public function visible(Request $request)
+    {
+        $userId = Auth::guard('api')->user()->id;
+        $user = User::find($userId);
+        $user->profile->update([
+            'is_visible' => true
+        ]);
+
+        return $user;
+    }
+
+    public function invisible(Request $request)
+    {
+        $userId = Auth::guard('api')->user()->id;
+        $user = User::find($userId);
+        $user->profile->update([
+            'is_visible' => false
+        ]);
+
+        return $user;
+    }
 }

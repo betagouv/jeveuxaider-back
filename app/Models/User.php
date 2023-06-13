@@ -217,6 +217,8 @@ class User extends Authenticatable
         }
 
         return array_merge([
+            'participations_count' => Participation::where('profile_id', $this->profile->id)
+                ->count(),
             'new_participations_today' => Participation::where('profile_id', $this->profile->id)
                 ->whereIn('state', ['En attente de validation'])
                 ->whereDate('created_at', '>=', (Carbon::createMidnightDate()))
