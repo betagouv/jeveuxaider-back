@@ -44,6 +44,11 @@ class StructureController extends Controller
                 AllowedFilter::exact('reseaux.id'),
                 AllowedFilter::exact('reseaux.name'),
                 AllowedFilter::scope('ofReseau'),
+                AllowedFilter::callback('exclude', function (Builder $query, $value) {
+                    if(is_numeric($value)){
+                        $query->where('id', '!=', $value);
+                    }
+                })
             ])
             ->allowedIncludes([
                 'domaines',
