@@ -135,6 +135,7 @@ class MissionRequest extends FormRequest
             'is_snu_mig_compatible' => '',
             'snu_mig_places' => 'required_if:is_snu_mig_compatible,true',
             'activity_id' => '',
+            'activity_secondary_id' => '',
             'is_autonomy' => '',
             'autonomy_zips' => [
                 'required_if:is_autonomy,true',

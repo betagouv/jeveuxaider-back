@@ -84,25 +84,24 @@ class Mission extends Model
 
     public function makeAllSearchableUsing(Builder $query)
     {
-        return $query->with(['structure', 'structure.reseaux:id,name', 'activity', 'template.activity', 'template.domaine', 'template.domaineSecondary', 'template.photo', 'illustrations', 'domaine', 'domaineSecondary', 'tags', 'structure.score']);
+        return $query->with(['structure', 'structure.reseaux:id,name', 'activity', 'template.activity', 'template.domaine', 'template.domaineSecondary', 'template.photo', 'illustrations', 'domaine', 'domaineSecondary', 'tags', 'structure.score', 'activitySecondary', 'template.activitySecondary']);
     }
 
     public function toSearchableArray()
     {
-        $this->load(['structure', 'structure.reseaux:id,name', 'activity', 'template.activity', 'template.domaine', 'template.domaineSecondary', 'template.photo', 'illustrations', 'domaine', 'domaineSecondary', 'tags', 'structure.score']);
+        $this->load(['structure', 'structure.reseaux:id,name', 'activity', 'template.activity', 'template.domaine', 'template.domaineSecondary', 'template.photo', 'illustrations', 'domaine', 'domaineSecondary', 'tags', 'structure.score', 'activitySecondary', 'template.activitySecondary']);
 
-        $domaines = [];
-        $domaine = $this->template_id ? $this->template->domaine : $this->domaine;
-        $domaineSecondary = $this->template_id ? $this->template->domaineSecondary : $this->domaineSecondary;
 
-        if ($domaine) {
-            $domaines[] = $domaine->name;
+        if ($this->template) {
+            $domainesCollection = collect([$this->template->domaine, $this->template->domaineSecondary]);
+            $activities = collect([$this->template->activity, $this->template->activitySecondary]);
+        } else {
+            $domainesCollection = collect([$this->domaine, $this->domaineSecondary]);
+            $activities = collect([$this->activity, $this->activitySecondary]);
         }
-        if ($domaineSecondary) {
-            $domaines[] = $domaineSecondary->name;
-        }
-
-        $activity = $this->template_id ? $this->template->activity : $this->activity;
+        $domaines = $domainesCollection->filter()->map(fn($domaine) => ['id' => $domaine->id, 'name'=> $domaine->name]);
+        $domaineNames = $domainesCollection->filter()->map(fn($domaine) => $domaine->name);
+        $activities = $activities->filter()->map(fn($activity) => ['id' => $activity->id, 'name'=> $activity->name]);
         $publicsBeneficiaires = config('taxonomies.mission_publics_beneficiaires.terms');
 
         if ($this->end_date) {
@@ -143,17 +142,12 @@ class Mission extends Model
                 'subtitle' => $this->template->subtitle,
                 'photo' => $this->template_id ? $this->template->photo : null,
             ] : null,
-            'activity' => $activity ? [
-                'id' => $activity->id,
-                'name' => $activity->name,
-            ] : null,
-            'domaine_id' => $domaine ? $domaine->id : null,
-            'domaine_secondary_id' => $this->domaine_secondary_id,
-            'domaine' => $domaine ? [
-                'id' => $domaine->id,
-                'name' => $domaine->name,
-            ] : null,
-            'domaines' => $domaines,
+            'activity' => $activities->first(),
+            'activities' => $activities->values(),
+            'domaine_id' => $domaines->first() ? $domaines->first()['id'] : null,
+            'domaine_secondary_id' => $domaines->count() > 1 ? $domaines->last()['id'] : null,
+            'domaine' => $domaines->first(),
+            'domaines' => $domaineNames->values(),
             'provider' => 'reserve_civique',
             'publisher_name' => 'JeVeuxAider.gouv.fr',
             'post_date' => strtotime($this->created_at),
@@ -218,6 +212,11 @@ class Mission extends Model
     }
 
     public function activity()
+    {
+        return $this->belongsTo('App\Models\Activity');
+    }
+
+    public function activitySecondary()
     {
         return $this->belongsTo('App\Models\Activity');
     }
@@ -389,19 +388,23 @@ class Mission extends Model
         if ($value) {
             return $query
                 ->whereNotNull('activity_id')
+                ->orWhereNotNull('activity_secondary_id')
                 ->orWhereHas(
                     'template',
                     function (Builder $query) {
                         $query->whereNotNull('activity_id');
+                        $query->orWhereNotNull('activity_secondary_id');
                     }
                 );
         } else {
             return $query
                 ->whereNull('activity_id')
+                ->orWhereNull('activity_secondary_id')
                 ->orWhereHas(
                     'template',
                     function (Builder $query) {
                         $query->whereNull('activity_id');
+                        $query->orWhereNull('activity_secondary_id');
                     }
                 );
         }
@@ -429,10 +432,12 @@ class Mission extends Model
     {
         return $query
             ->where('activity_id', $activity_id)
+            ->orWhere('activity_secondary_id', $activity_id)
             ->orWhereHas(
                 'template',
                 function (Builder $query) use ($activity_id) {
                     $query->where('activity_id', $activity_id);
+                    $query->orWhere('activity_secondary_id', $activity_id);
                 }
             );
     }
@@ -663,22 +668,27 @@ class Mission extends Model
 
     public function format()
     {
-        $domaine = $this->template_id ? $this->template->domaine : $this->domaine;
-        $activity = $this->template && $this->template->activity_id ? $this->template->activity : $this->activity;
+        $this->loadMissing(['template']);
+
+        if ($this->template) {
+            $domaines = collect([$this->template->domaine, $this->template->domaineSecondary]);
+            $activities = collect([$this->template->activity, $this->template->activitySecondary]);
+        } else {
+            $domaines = collect([$this->domaine, $this->domaineSecondary]);
+            $activities = collect([$this->activity, $this->activitySecondary]);
+        }
+        $domaines = $domaines->filter()->map(fn($domaine) => ['id' => $domaine->id, 'name'=>$domaine->name]);
+        $activities = $activities->filter()->map(fn($activity) => ['id' => $activity->id, 'name'=>$activity->name]);
 
         return [
             'id' => $this->id,
             'name' => $this->name,
             'state' => $this->structure->state,
             'type' => $this->type,
-            'domaine' => $domaine ? [
-                'id' => $domaine->id,
-                'name' => $domaine->name,
-            ] : null,
-            'activity' => $activity ? [
-                'id' => $activity->id,
-                'name' => $activity->name,
-            ] : null,
+            'domaine' => $domaines->first(),
+            'domaines' => $domaines->values(),
+            'activity' => $activities->first(),
+            'activities' => $activities->values(),
             'start_date' => $this->start_date,
             'end_date' => $this->end_date,
             'commitment' => [
