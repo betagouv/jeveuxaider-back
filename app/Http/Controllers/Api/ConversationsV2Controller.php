@@ -100,7 +100,7 @@ class ConversationsV2Controller extends Controller
     {
         $currentUser = User::find(Auth::guard('api')->user()->id);
         $message = $currentUser->sendMessage($conversation->id, request('content'));
-        $message->load('from');
+        $message->load(['from', 'from.profile.avatar']);
 
         $currentUser->markConversationAsRead($conversation);
 
