@@ -668,7 +668,7 @@ class Mission extends Model
 
     public function format()
     {
-        $this->loadMissing(['template']);
+        $this->loadMissing(['template', 'template.domaine', 'template.domaineSecondary', 'domaine', 'domaineSecondary', 'structure.reseaux', 'responsable', 'activity', 'activitySecondary', 'template.activity', 'template.activitySecondary']);
 
         if ($this->template) {
             $domaines = collect([$this->template->domaine, $this->template->domaineSecondary]);
