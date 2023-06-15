@@ -42,7 +42,7 @@ class ConversationsV2Controller extends Controller
         )
             ->allowedFilters(
                 [
-                    // AllowedFilter::custom('search', new FiltersConversationSearch),
+                    AllowedFilter::custom('search', new FiltersConversationSearch), // @TODO mieux gérer la recherche en mode bénévole ou responsable
                     // AllowedFilter::custom('exclude', new FiltersConversationExclude),
                     // AllowedFilter::custom('status', new FiltersConversationStatus),
                     // AllowedFilter::exact('conversable_type'),
@@ -51,7 +51,9 @@ class ConversationsV2Controller extends Controller
                 ]
             )
             ->defaultSort('-updated_at')
-            ->paginate(config('query-builder.results_per_page'));
+            ->paginate(2)
+            // ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'))
+            ;
     }
 
     public function show(ConversationRequest $request, Conversation $conversation)
@@ -97,10 +99,10 @@ class ConversationsV2Controller extends Controller
             ->allowedFilters(
                 [
                     AllowedFilter::callback('after_message_id', function (Builder $query, $value) {
-                        $query->where('id', '>', $value);
+                        $query->where('messages.id', '>', $value);
                     }),
                     AllowedFilter::callback('before_message_id', function (Builder $query, $value) {
-                        $query->where('id', '<', $value);
+                        $query->where('messages.id', '<', $value);
                     }),
                 ]
             )
