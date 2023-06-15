@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Auth;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 use App\Http\Requests\MessageRequest;
+use Illuminate\Database\Eloquent\Builder;
 
 class ConversationsV2Controller extends Controller
 {
@@ -69,6 +70,7 @@ class ConversationsV2Controller extends Controller
                             // 'mission.domaine',
                             'mission.responsable',
                             'profile',
+                            'temoignage'
                         ],
                     ]
                 );
@@ -92,8 +94,20 @@ class ConversationsV2Controller extends Controller
     public function messages(ConversationRequest $request, Conversation $conversation)
     {
         return QueryBuilder::for(Message::where('conversation_id', $conversation->id)->with(['from', 'from.profile.avatar']))
+            ->allowedFilters(
+                [
+                    AllowedFilter::callback('after_message_id', function (Builder $query, $value) {
+                        $query->where('id', '>', $value);
+                    }),
+                    AllowedFilter::callback('before_message_id', function (Builder $query, $value) {
+                        $query->where('id', '<', $value);
+                    }),
+                ]
+            )
             ->defaultSort('-id')
-            ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
+            ->paginate(2)
+            // ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'))
+            ;
     }
 
     public function storeMessage(MessageRequest $request, Conversation $conversation)
