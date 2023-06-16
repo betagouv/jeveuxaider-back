@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\API;
 
 use App\Filters\FiltersConversationExclude;
+use App\Filters\FiltersConversationMissionsName;
+use App\Filters\FiltersConversationParticipationsState;
 use App\Filters\FiltersConversationSearch;
 use App\Filters\FiltersConversationType;
 use App\Filters\FiltersConversationStatus;
@@ -44,7 +46,9 @@ class ConversationsV2Controller extends Controller
             ->allowedFilters(
                 [
                     AllowedFilter::custom('search', new FiltersConversationSearch), // @TODO mieux gérer la recherche en mode bénévole ou responsable
-                    AllowedFilter::custom('type', new FiltersConversationType)
+                    AllowedFilter::custom('type', new FiltersConversationType),
+                    AllowedFilter::custom('participations_state', new FiltersConversationParticipationsState),
+                    AllowedFilter::custom('missions_name', new FiltersConversationMissionsName)
                     // AllowedFilter::custom('exclude', new FiltersConversationExclude),
                     // AllowedFilter::custom('status', new FiltersConversationStatus),
                     // AllowedFilter::exact('conversable_type'),
