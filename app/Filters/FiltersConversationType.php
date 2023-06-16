@@ -2,6 +2,7 @@
 
 namespace App\Filters;
 
+use App\Models\Participation;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Spatie\QueryBuilder\Filters\Filter;
@@ -46,17 +47,22 @@ class FiltersConversationType implements Filter
 
         if($value == 'participations_to_be_treated'){
             return $query
-                ->where('conversable_type', 'App\Models\Participation')
-                ->whereHas('conversable', function (Builder $query) {
-                    $query->where(function($query){
-                        $query->where('participations.state', 'En attente de validation')
-                            ->where('participations.created_at', '<', Carbon::now()->subDays(7)->startOfDay());
-                    })
-                    ->orWhere(function($query){
-                        $query
-                            ->where('participations.state', 'En cours de traitement')
-                            ->where('participations.created_at', '<', Carbon::now()->subMonths(2)->startOfDay());
-                    });
+                ->whereHasMorph('conversable', [Participation::class], function (Builder $query) {
+                    $query
+                        ->whereHas('mission', function (Builder $query) {
+                            $query->where('responsable_id', Auth::guard('api')->user()->profile->id);
+                        })
+                        ->where(function($query){
+                            $query->where(function($query){
+                                $query->where('state', 'En attente de validation')
+                                    ->where('created_at', '<', Carbon::now()->subDays(7)->startOfDay());
+                            })
+                            ->orWhere(function($query){
+                                $query
+                                    ->where('state', 'En cours de traitement')
+                                    ->where('created_at', '<', Carbon::now()->subMonths(2)->startOfDay());
+                            });
+                        });
                 });
         }
 
