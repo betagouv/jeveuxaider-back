@@ -24,15 +24,13 @@ class FiltersConversationType implements Filter
 
         if($value == 'unread'){
             return $query
-                ->whereHas('messages', function (Builder $query) {
-                    $query->where('from_id', '!=',  Auth::guard('api')->user()->id);
-                })
                 ->whereHas('users', function (Builder $query) {
                     $query
                         ->where(function($query){
                             $query->whereRaw('conversations_users.read_at < conversations.updated_at')
                                 ->orWhere('conversations_users.read_at', null);
                         })
+                        ->where('conversations_users.user_id', Auth::guard('api')->user()->id)
                         ->where('conversations_users.status', true);
                 });
         }
