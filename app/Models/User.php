@@ -198,11 +198,14 @@ class User extends Authenticatable
             ->whereHas('messages', function (Builder $query) {
                 $query->where('from_id', '!=', $this->id);
             })
-            ->where(function ($query) {
-                $query->whereRaw('conversations_users.read_at < conversations.updated_at')
-                    ->orWhere('conversations_users.read_at', null);
+            ->whereHas('users', function (Builder $query) {
+                $query
+                    ->where(function($query){
+                        $query->whereRaw('conversations_users.read_at < conversations.updated_at')
+                            ->orWhere('conversations_users.read_at', null);
+                    })
+                    ->where('conversations_users.status', true);
             })
-            ->where('conversations_users.status', true)
             ->count();
     }
 
