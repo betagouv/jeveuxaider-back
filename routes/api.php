@@ -119,7 +119,8 @@ Route::group(['middleware' => ['auth:api', 'is.not.banned']], function () {
     Route::get('conversations/{conversation}/messages', 'Api\ConversationsController@messages');
     Route::post('conversations/{conversation}/messages', 'Api\MessagesController@store');
     Route::get('conversations/{conversation}/benevole', 'Api\ConversationsController@benevole');
-    Route::post('conversations/{conversation}/setStatus', 'Api\ConversationsController@setStatus');
+    Route::post('conversations/{conversation}/archive', 'Api\ConversationsController@archive');
+    Route::post('conversations/{conversation}/unarchive', 'Api\ConversationsController@unarchive');
 
     // MESSAGES V2
     Route::get('conversationsv2', 'Api\ConversationsV2Controller@index');

@@ -106,9 +106,15 @@ class ConversationsController extends Controller
         return Profile::with(['user.structures:id,name', 'domaines'])->find($conversation->conversable->profile_id);
     }
 
-    public function setStatus(ConversationRequest $request, Conversation $conversation)
+    public function archive(ConversationRequest $request, Conversation $conversation)
     {
         $currentUser = User::find(Auth::guard('api')->user()->id);
-        $currentUser->setConversationStatus($conversation, request('status'));
+        $currentUser->setConversationStatus($conversation, false);
+    }
+
+    public function unarchive(ConversationRequest $request, Conversation $conversation)
+    {
+        $currentUser = User::find(Auth::guard('api')->user()->id);
+        $currentUser->setConversationStatus($conversation, true);
     }
 }
