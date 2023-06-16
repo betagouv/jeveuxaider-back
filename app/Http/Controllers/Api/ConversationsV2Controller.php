@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Filters\FiltersConversationExclude;
 use App\Filters\FiltersConversationSearch;
+use App\Filters\FiltersConversationType;
 use App\Filters\FiltersConversationStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ConversationRequest;
@@ -43,6 +44,7 @@ class ConversationsV2Controller extends Controller
             ->allowedFilters(
                 [
                     AllowedFilter::custom('search', new FiltersConversationSearch), // @TODO mieux gérer la recherche en mode bénévole ou responsable
+                    AllowedFilter::custom('type', new FiltersConversationType)
                     // AllowedFilter::custom('exclude', new FiltersConversationExclude),
                     // AllowedFilter::custom('status', new FiltersConversationStatus),
                     // AllowedFilter::exact('conversable_type'),
@@ -51,9 +53,9 @@ class ConversationsV2Controller extends Controller
                 ]
             )
             ->defaultSort('-updated_at')
-            ->paginate(2)
+            ->paginate(4)
             // ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'))
-            ;
+        ;
     }
 
     public function show(ConversationRequest $request, Conversation $conversation)
@@ -107,9 +109,8 @@ class ConversationsV2Controller extends Controller
                 ]
             )
             ->defaultSort('-id')
-            ->paginate(2)
-            // ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'))
-            ;
+            ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'))
+        ;
     }
 
     public function storeMessage(MessageRequest $request, Conversation $conversation)

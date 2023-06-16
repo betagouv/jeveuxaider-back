@@ -9,6 +9,7 @@ class FiltersConversationSearch implements Filter
 {
     public function __invoke(Builder $query, $value, string $property): Builder
     {
+
         return $query->whereHas('users', function (Builder $subquery) use ($value) {
             if (is_array($value)) {
                 $value = implode(',', $value);
