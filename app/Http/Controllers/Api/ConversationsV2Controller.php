@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\API;
 
 use App\Filters\FiltersConversationExclude;
-use App\Filters\FiltersConversationMissionsName;
-use App\Filters\FiltersConversationParticipationsState;
+use App\Filters\FiltersConversationMissionName;
+use App\Filters\FiltersConversationStructureName;
+use App\Filters\FiltersConversationParticipationState;
 use App\Filters\FiltersConversationSearch;
 use App\Filters\FiltersConversationType;
 use App\Filters\FiltersConversationStatus;
@@ -47,8 +48,9 @@ class ConversationsV2Controller extends Controller
                 [
                     AllowedFilter::custom('search', new FiltersConversationSearch), // @TODO mieux gérer la recherche en mode bénévole ou responsable
                     AllowedFilter::custom('type', new FiltersConversationType),
-                    AllowedFilter::custom('participations_state', new FiltersConversationParticipationsState),
-                    AllowedFilter::custom('missions_name', new FiltersConversationMissionsName)
+                    AllowedFilter::custom('participation_state', new FiltersConversationParticipationState),
+                    AllowedFilter::custom('mission_name', new FiltersConversationMissionName),
+                    AllowedFilter::custom('structure_name', new FiltersConversationStructureName)
                     // AllowedFilter::custom('exclude', new FiltersConversationExclude),
                     // AllowedFilter::custom('status', new FiltersConversationStatus),
                     // AllowedFilter::exact('conversable_type'),
@@ -57,8 +59,8 @@ class ConversationsV2Controller extends Controller
                 ]
             )
             ->defaultSort('-updated_at')
-            ->paginate(4)
-            // ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'))
+            // ->paginate(4)
+            ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'))
         ;
     }
 

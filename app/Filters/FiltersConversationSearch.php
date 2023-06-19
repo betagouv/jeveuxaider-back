@@ -15,7 +15,7 @@ class FiltersConversationSearch implements Filter
                 $value = implode(',', $value);
             }
             $subquery->whereHas('profile', function ($q) use ($value) {
-                $q->whereRaw("concat(first_name, ' ', last_name) ilike '%$value%' ");
+                $q->whereRaw("concat(first_name, ' ', last_name, ' ', email) ilike '%$value%' ");
             });
         });
     }
