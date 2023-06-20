@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Filters\FiltersTitleBodySearch;
+use App\Filters\FiltersNameSearch;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RuleRequest;
 use App\Jobs\RuleMissionAttachTag;
@@ -29,7 +29,7 @@ class RuleController extends Controller
         return QueryBuilder::for(Rule::class)
             ->allowedFilters([
                 AllowedFilter::exact('is_active'),
-                AllowedFilter::custom('search', new FiltersTitleBodySearch),
+                AllowedFilter::custom('search', new FiltersNameSearch),
             ])
             ->defaultSort('-updated_at')
             ->paginate(config('query-builder.results_per_page'));
