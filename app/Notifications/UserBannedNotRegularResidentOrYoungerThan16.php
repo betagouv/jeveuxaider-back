@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class UserBannedNotLegallyResidentOrYoungerThan16 extends Notification implements ShouldQueue
+class UserBannedNotRegularResidentOrYoungerThan16 extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -39,7 +39,7 @@ class UserBannedNotLegallyResidentOrYoungerThan16 extends Notification implement
     {
         return (new MailMessage)
             ->subject('Vous avez été automatiquement désinscrit de la plateforme JeVeuxAider.gouv.fr')
-            ->markdown('emails.benevoles.banned-not-legally-resident-or-less-than-16', [
+            ->markdown('emails.benevoles.banned-not-regular-resident-or-less-than-16', [
                 'notifiable' => $notifiable,
             ])
             ->tag('app-benevole-banni-ne-reside-pas-en-france-ou-moins-de-16-ans');
