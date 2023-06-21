@@ -269,6 +269,7 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     // USER
     Route::get('users/{user}/actions', 'Api\UserController@actions');
     Route::post('users/{user}/impersonate', 'Api\UserController@impersonate');
+    Route::post('users/{user}/ban', 'Api\UserController@ban');
 
     // STRUCTURES
     Route::delete('structures/{structure}', 'Api\StructureController@delete');

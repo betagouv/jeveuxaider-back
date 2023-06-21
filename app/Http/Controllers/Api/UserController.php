@@ -185,7 +185,9 @@ class UserController extends Controller
 
         $notification = new UserAnonymize($user);
         $user->notify($notification);
-        Sendinblue::deleteContact($user);
+        if (config('services.sendinblue.sync')) {
+            Sendinblue::deleteContact($user);
+        }
         $user->anonymize();
 
         return $user;
@@ -283,6 +285,13 @@ class UserController extends Controller
             'is_visible' => false
         ]);
 
+        return $user;
+    }
+
+    public function ban (Request $request, User $user)
+    {
+        $reason = $request->input('reason');
+        $user = $user->ban($reason);
         return $user;
     }
 }

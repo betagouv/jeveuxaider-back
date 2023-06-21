@@ -2,14 +2,21 @@
 
 namespace App\Models;
 
+use App\Jobs\ParticipationDeclineWhenUserIsBanned;
 use App\Notifications\ParticipationDeclined;
 use App\Notifications\ResetPassword;
+use App\Notifications\UserBannedNotLegallyResidentOrYoungerThan16;
+use App\Services\Sendinblue;
 use App\Traits\HasRoles;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
+use Illuminate\Support\Facades\Bus;
+use Illuminate\Bus\Batch;
+use Illuminate\Support\Facades\Auth;
+use Laravel\Passport\Passport;
 
 class User extends Authenticatable
 {
@@ -254,7 +261,11 @@ class User extends Authenticatable
             $participation->profile->notify(new ParticipationDeclined($participation, $message, $reason));
         }
 
+        $oldParticipationState = $participation->state;
         $participation->update(['state' => 'Refusée']);
+        if (in_array($oldParticipationState, ['En attente de validation', 'En cours de traitement'])) {
+            $participation->mission->structure->calculateScore();
+        }
 
         // Places left & Algolia
         if ($participation->mission) {
@@ -274,4 +285,32 @@ class User extends Authenticatable
         return  $query->where("users.last_online_at", "<=" , Carbon::now()->subMonth(1));
     }
 
+    public function ban($reason)
+    {
+        $this->is_blocked = true;
+        $this->is_blocked_reason = $reason;
+        $this->saveQuietly();
+
+        if (config('services.sendinblue.sync')) {
+            Sendinblue::deleteContact($this);
+        }
+
+        switch ($reason) {
+            case 'not_legally_resident_or_younger_than_16':
+                $this->notify(new UserBannedNotLegallyResidentOrYoungerThan16);
+
+                $participationIds = $this->profile->participations()
+                    ->whereNotIn('state', ['Refusée', 'Annulée'])
+                    ->get()
+                    ->pluck('id');
+                Bus::batch($participationIds->map(fn($id) => new ParticipationDeclineWhenUserIsBanned($id, $reason)))
+                    ->allowFailures()
+                    ->dispatch();
+                break;
+
+            default:
+                break;
+        }
+        return $this;
+    }
 }
