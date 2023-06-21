@@ -73,7 +73,7 @@ Route::get('organisations/popular', 'Api\StructureController@popular');
 
 Route::get('structures/{structure}/score', 'Api\StructureController@score');
 
-Route::group(['middleware' => ['auth:api']], function () {
+Route::group(['middleware' => ['auth:api', 'is.not.banned']], function () {
     Route::get('user', 'Api\UserController@me');
     Route::get('user/status', 'Api\UserController@status');
     Route::get('user/unread-messages', 'Api\UserController@unreadMessages');

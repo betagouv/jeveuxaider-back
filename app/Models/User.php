@@ -287,8 +287,8 @@ class User extends Authenticatable
 
     public function ban($reason)
     {
-        $this->is_blocked = true;
-        $this->is_blocked_reason = $reason;
+        $this->is_banned = true;
+        $this->is_banned_reason = $reason;
         $this->saveQuietly();
 
         if (config('services.sendinblue.sync')) {

@@ -14,8 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->boolean('is_blocked')->default(false);
-            $table->string('is_blocked_reason')->nullable();
+            $table->boolean('is_banned')->default(false);
+            $table->string('is_banned_reason')->nullable();
         });
     }
 
@@ -27,8 +27,8 @@ return new class extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('is_blocked');
-            $table->dropColumn('is_blocked_reason');
+            $table->dropColumn('is_banned');
+            $table->dropColumn('is_banned_reason');
         });
     }
 };
