@@ -294,4 +294,10 @@ class UserController extends Controller
         $user = $user->ban($reason);
         return $user;
     }
+
+    public function unban (Request $request, User $user)
+    {
+        $user = $user->unban();
+        return $user;
+    }
 }

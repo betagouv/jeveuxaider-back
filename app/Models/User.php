@@ -313,4 +313,12 @@ class User extends Authenticatable
         $this->saveQuietly();
         return $this;
     }
+
+    public function unban ()
+    {
+        $this->banned_at = NULL;
+        $this->banned_reason = NULL;
+        $this->saveQuietly();
+        return $this;
+    }
 }

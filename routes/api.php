@@ -270,6 +270,7 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::get('users/{user}/actions', 'Api\UserController@actions');
     Route::post('users/{user}/impersonate', 'Api\UserController@impersonate');
     Route::post('users/{user}/ban', 'Api\UserController@ban');
+    Route::post('users/{user}/unban', 'Api\UserController@unban');
 
     // STRUCTURES
     Route::delete('structures/{structure}', 'Api\StructureController@delete');
