@@ -5,7 +5,6 @@ namespace App\Listeners;
 use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Mail\Events\MessageSending;
-use Illuminate\Support\Facades\App;
 
 class MessageSendingListener
 {
@@ -19,11 +18,9 @@ class MessageSendingListener
                 $user = $event->data['notifiable']->user;
             }
 
-            if ($user && $user->anonymous_at) {
+            if ($user && ($user->anonymous_at || $user->banned_at)) {
                 return false;
             }
-
-            // @todo: si utilisateur est bloqué
         }
     }
 }

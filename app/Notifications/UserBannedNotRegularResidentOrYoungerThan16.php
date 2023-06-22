@@ -7,17 +7,8 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class UserBannedNotRegularResidentOrYoungerThan16 extends Notification implements ShouldQueue
+class UserBannedNotRegularResidentOrYoungerThan16 extends Notification
 {
-    use Queueable;
-
-    public function viaQueues()
-    {
-        return [
-            'mail' => 'emails',
-        ];
-    }
-
     /**
      * Get the notification's delivery channels.
      *

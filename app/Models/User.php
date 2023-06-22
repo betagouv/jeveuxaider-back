@@ -304,14 +304,13 @@ class User extends Authenticatable
                 break;
         }
 
-        $this->banned_at = Carbon::now();
-        $this->banned_reason = $reason;
-        $this->saveQuietly();
-
         if (config('services.sendinblue.sync')) {
             Sendinblue::deleteContact($this);
         }
 
+        $this->banned_at = Carbon::now();
+        $this->banned_reason = $reason;
+        $this->saveQuietly();
         return $this;
     }
 }
