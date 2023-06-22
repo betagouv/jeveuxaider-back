@@ -12,23 +12,22 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Laravel\Passport\Passport;
 
-class ValidateParticipation implements ShouldQueue
+class ParticipationDeclineWhenUserIsBanned implements ShouldQueue
 {
-    use Batchable,Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $participation;
-
-    protected $currentUserId;
+    protected $reason;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($participationId, $currentUserId)
+    public function __construct($participationId, $reason)
     {
         $this->participation = Participation::find($participationId);
-        $this->currentUserId = $currentUserId;
+        $this->reason = $reason;
     }
 
     /**
@@ -38,15 +37,23 @@ class ValidateParticipation implements ShouldQueue
      */
     public function handle()
     {
-        $user = User::find($this->currentUserId);
-        Passport::actingAs($user);
-
         if ($this->batch()->cancelled()) {
             return;
         }
 
+        if ($this->participation->conversation) {
+            $this->participation->conversation->messages()->create([
+                'type' => 'contextual',
+                'content' => 'La participation a été automatiquement déclinée par la plateforme',
+                'contextual_state' => 'Automatiquement déclinée par la plateforme',
+                'contextual_reason' => $this->reason,
+            ]);
+        }
+
         $oldParticipationState = $this->participation->state;
-        $this->participation->update(['state' => 'Validée']);
+        $this->participation->state = 'Refusée';
+        $this->participation->saveQuietly();
+
         if (in_array($oldParticipationState, ['En attente de validation', 'En cours de traitement'])) {
             $this->participation->mission->structure->calculateScore();
         }
@@ -55,5 +62,14 @@ class ValidateParticipation implements ShouldQueue
         if ($this->participation->mission) {
             $this->participation->mission->update();
         }
+
+        activity()
+            ->performedOn($this->participation)
+            ->withProperties([
+                'attributes' => ['state' => 'Refusée'],
+                'old' => ['state' => $oldParticipationState]
+            ])
+            ->event('updated')
+            ->log('updated');
     }
 }

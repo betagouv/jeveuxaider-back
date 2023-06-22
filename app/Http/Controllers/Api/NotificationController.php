@@ -79,6 +79,7 @@ use App\Notifications\StructureSwitchResponsable;
 use App\Notifications\StructureValidated;
 use App\Notifications\StructureWithoutMissionSecondReminder;
 use App\Notifications\UserAnonymize;
+use App\Notifications\UserBannedNotRegularResidentOrYoungerThan16;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
@@ -410,6 +411,9 @@ class NotificationController extends Controller
                 break;
             case 'responsable_missions_reactivated':
                 $notification = new ResponsableMissionsReactivated;
+                break;
+            case 'user_banned_not_regular_resident_or_younger_than_16':
+                $notification = new UserBannedNotRegularResidentOrYoungerThan16;
                 break;
             default:
                 return null;
