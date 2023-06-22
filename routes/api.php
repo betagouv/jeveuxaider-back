@@ -113,20 +113,13 @@ Route::group(['middleware' => ['auth:api', 'is.not.banned']], function () {
     Route::post('user/password', 'Api\UserController@updatePassword');
     Route::get('user/mission/{mission}/has-participation', 'Api\UserController@hasParticipation');
 
-    // MESSAGES
+    // MESSAGERIE
     Route::get('conversations', 'Api\ConversationsController@index');
     Route::get('conversations/{conversation}', 'Api\ConversationsController@show')->where('conversation', '[0-9]+');
     Route::get('conversations/{conversation}/messages', 'Api\ConversationsController@messages');
-    Route::post('conversations/{conversation}/messages', 'Api\MessagesController@store');
-    Route::get('conversations/{conversation}/benevole', 'Api\ConversationsController@benevole');
+    Route::post('conversations/{conversation}/messages', 'Api\ConversationsController@storeMessage');
     Route::post('conversations/{conversation}/archive', 'Api\ConversationsController@archive');
     Route::post('conversations/{conversation}/unarchive', 'Api\ConversationsController@unarchive');
-
-    // MESSAGES V2
-    Route::get('conversationsv2', 'Api\ConversationsV2Controller@index');
-    Route::get('conversationsv2/{conversation}', 'Api\ConversationsV2Controller@show')->where('conversation', '[0-9]+');
-    Route::get('conversationsv2/{conversation}/messages', 'Api\ConversationsV2Controller@messages');
-    Route::post('conversationsv2/{conversation}/messages', 'Api\ConversationsV2Controller@storeMessage');
 
     Route::post('invitations/{token}/resend', 'Api\InvitationController@resend');
     Route::delete('invitations/{token}/delete', 'Api\InvitationController@delete');
