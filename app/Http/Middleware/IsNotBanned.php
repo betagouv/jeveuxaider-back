@@ -17,7 +17,7 @@ class IsNotBanned
     public function handle($request, Closure $next)
     {
         $user = $request->user();
-        if ($user->is_banned) {
+        if ($user->banned_at) {
             return new Response(['message' => "Vous avez été désinscrit de la plateforme JeVeuxAider.gouv.fr car vous ne répondez pas aux conditions d’éligibilité."], 401);
         }
 

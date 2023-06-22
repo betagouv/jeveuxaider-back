@@ -287,14 +287,6 @@ class User extends Authenticatable
 
     public function ban($reason)
     {
-        $this->is_banned = true;
-        $this->is_banned_reason = $reason;
-        $this->saveQuietly();
-
-        if (config('services.sendinblue.sync')) {
-            Sendinblue::deleteContact($this);
-        }
-
         switch ($reason) {
             case 'not_regular_resident_or_younger_than_16':
                 $this->notify(new UserBannedNotRegularResidentOrYoungerThan16);
@@ -311,6 +303,15 @@ class User extends Authenticatable
             default:
                 break;
         }
+
+        $this->banned_at = Carbon::now();
+        $this->banned_reason = $reason;
+        $this->saveQuietly();
+
+        if (config('services.sendinblue.sync')) {
+            Sendinblue::deleteContact($this);
+        }
+
         return $this;
     }
 }
