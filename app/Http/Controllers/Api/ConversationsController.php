@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Filters\FiltersConversationMissionName;
+use App\Filters\FiltersConversationMissionZipCity;
 use App\Filters\FiltersConversationStructureName;
 use App\Filters\FiltersConversationParticipationState;
 use App\Filters\FiltersConversationSearch;
@@ -44,6 +45,7 @@ class ConversationsController extends Controller
                     AllowedFilter::custom('type', new FiltersConversationType),
                     AllowedFilter::custom('participation_state', new FiltersConversationParticipationState),
                     AllowedFilter::custom('mission_name', new FiltersConversationMissionName),
+                    AllowedFilter::custom('mission_zip_city', new FiltersConversationMissionZipCity),
                     AllowedFilter::custom('structure_name', new FiltersConversationStructureName)
                 ]
             )
