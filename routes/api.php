@@ -77,6 +77,7 @@ Route::group(['middleware' => ['auth:api', 'is.not.banned']], function () {
     Route::get('user', 'Api\UserController@me');
     Route::get('user/status', 'Api\UserController@status');
     Route::get('user/unread-messages', 'Api\UserController@unreadMessages');
+    Route::get('user/last-read-conversation', 'Api\UserController@lastReadConversation');
     Route::get('user/participations', 'Api\UserController@participations');
     Route::post('user/anonymize', 'Api\UserController@anonymize');
     Route::post('user/visible', 'Api\UserController@visible');

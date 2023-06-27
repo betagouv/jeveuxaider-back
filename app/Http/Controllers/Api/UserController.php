@@ -74,6 +74,13 @@ class UserController extends Controller
         return $user->getUnreadConversationsCount();
     }
 
+    public function lastReadConversation(Request $request)
+    {
+        $user = User::find(Auth::guard('api')->user()->id);
+
+        return $user->lastReadConversation();
+    }
+
     public function update(Request $request)
     {
         $user = $request->user();

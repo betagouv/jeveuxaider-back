@@ -207,6 +207,19 @@ class User extends Authenticatable
             ->count();
     }
 
+    public function lastReadConversation()
+    {
+        return $this->conversations()
+            ->whereHas('users', function (Builder $query) {
+                $query
+                    ->whereNotNull('conversations_users.read_at')
+                    ->where('conversations_users.user_id', $this->id)
+                    ->where('conversations_users.status', true);
+            })
+            ->orderByDesc('conversations_users.read_at')
+            ->first();
+    }
+
     public function getStatisticsAttribute()
     {
 
