@@ -6,7 +6,6 @@ use App\Jobs\ParticipationDeclineWhenUserIsBanned;
 use App\Notifications\ParticipationDeclined;
 use App\Notifications\ResetPassword;
 use App\Notifications\UserBannedNotRegularResident;
-use App\Notifications\UserBannedNotRegularResidentOrYoungerThan16;
 use App\Notifications\UserBannedYoungerThan16;
 use App\Services\Sendinblue;
 use App\Traits\HasRoles;
@@ -289,8 +288,6 @@ class User extends Authenticatable
         switch ($reason) {
             case 'not_regular_resident':
             case 'younger_than_16':
-            // @todo delete
-            case 'not_regular_resident_or_younger_than_16':
                 $participationIds = $this->profile->participations()
                     ->whereNotIn('state', ['Refusée', 'Annulée'])
                     ->get()
@@ -303,10 +300,6 @@ class User extends Authenticatable
                 }
                 elseif ($reason === 'younger_than_16') {
                     $this->notify(new UserBannedYoungerThan16);
-                }
-                // @todo delete
-                else {
-                    $this->notify(new UserBannedNotRegularResidentOrYoungerThan16);
                 }
                 break;
 
