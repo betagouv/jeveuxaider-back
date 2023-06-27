@@ -46,6 +46,7 @@ class PassportController extends Controller
             ['email' => request('email')],
             $attributes
         );
+
         $user->refresh();
 
         $notification = new RegisterUserVolontaire($user);
