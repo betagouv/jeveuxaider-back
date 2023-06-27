@@ -37,7 +37,6 @@ use App\Notifications\MissionSubmitted;
 use App\Notifications\MissionTemplateWaiting;
 use App\Notifications\MissionValidated;
 use App\Notifications\MissionWaitingValidation;
-use App\Notifications\ModerateurDailyTodo;
 use App\Notifications\NoNewMission;
 use App\Notifications\NoteCreated;
 use App\Notifications\NotificationTemoignageCreate;
@@ -61,7 +60,6 @@ use App\Notifications\RegisterUserVolontaireCej;
 use App\Notifications\RegisterUserVolontaireCejAdviser;
 use App\Notifications\ReseauNewLead;
 use App\Notifications\ResetPassword;
-use App\Notifications\ResponsableDailyTodo;
 use App\Notifications\ResponsableMissionsDeactivated;
 use App\Notifications\ResponsableMissionsReactivated;
 use App\Notifications\ResponsableParticipationAModeredEnPriorite;
@@ -79,12 +77,10 @@ use App\Notifications\StructureSwitchResponsable;
 use App\Notifications\StructureValidated;
 use App\Notifications\StructureWithoutMissionSecondReminder;
 use App\Notifications\UserAnonymize;
-use App\Notifications\UserBannedNotRegularResidentOrYoungerThan16;
+use App\Notifications\UserBannedNotRegularResident;
+use App\Notifications\UserBannedYoungerThan16;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Notification;
 
 class NotificationController extends Controller
 {
@@ -412,8 +408,11 @@ class NotificationController extends Controller
             case 'responsable_missions_reactivated':
                 $notification = new ResponsableMissionsReactivated;
                 break;
-            case 'user_banned_not_regular_resident_or_younger_than_16':
-                $notification = new UserBannedNotRegularResidentOrYoungerThan16;
+            case 'user_banned_not_regular_resident':
+                $notification = new UserBannedNotRegularResident;
+                break;
+            case 'user_banned_younger_than_16':
+                $notification = new UserBannedYoungerThan16;
                 break;
             default:
                 return null;

@@ -5,8 +5,7 @@ namespace App\Notifications;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-// @todo: delete
-class UserBannedNotRegularResidentOrYoungerThan16 extends Notification
+class UserBannedNotRegularResident extends Notification
 {
     /**
      * Get the notification's delivery channels.
@@ -29,10 +28,10 @@ class UserBannedNotRegularResidentOrYoungerThan16 extends Notification
     {
         return (new MailMessage)
             ->subject('Vous avez été automatiquement désinscrit de la plateforme JeVeuxAider.gouv.fr')
-            ->markdown('emails.benevoles.banned-not-regular-resident-or-less-than-16', [
+            ->markdown('emails.benevoles.banned-not-regular-resident', [
                 'notifiable' => $notifiable,
             ])
-            ->tag('app-benevole-banni-ne-reside-pas-en-france-ou-moins-de-16-ans');
+            ->tag('app-benevole-banni-ne-reside-pas-en-france');
     }
 
     /**

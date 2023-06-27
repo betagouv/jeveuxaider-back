@@ -5,7 +5,9 @@ namespace App\Models;
 use App\Jobs\ParticipationDeclineWhenUserIsBanned;
 use App\Notifications\ParticipationDeclined;
 use App\Notifications\ResetPassword;
+use App\Notifications\UserBannedNotRegularResident;
 use App\Notifications\UserBannedNotRegularResidentOrYoungerThan16;
+use App\Notifications\UserBannedYoungerThan16;
 use App\Services\Sendinblue;
 use App\Traits\HasRoles;
 use Carbon\Carbon;
@@ -14,9 +16,6 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Support\Facades\Bus;
-use Illuminate\Bus\Batch;
-use Illuminate\Support\Facades\Auth;
-use Laravel\Passport\Passport;
 
 class User extends Authenticatable
 {
@@ -288,9 +287,10 @@ class User extends Authenticatable
     public function ban($reason)
     {
         switch ($reason) {
+            case 'not_regular_resident':
+            case 'younger_than_16':
+            // @todo delete
             case 'not_regular_resident_or_younger_than_16':
-                $this->notify(new UserBannedNotRegularResidentOrYoungerThan16);
-
                 $participationIds = $this->profile->participations()
                     ->whereNotIn('state', ['Refusée', 'Annulée'])
                     ->get()
@@ -298,6 +298,16 @@ class User extends Authenticatable
                 Bus::batch($participationIds->map(fn($id) => new ParticipationDeclineWhenUserIsBanned($id, $reason)))
                     ->allowFailures()
                     ->dispatch();
+                if ($reason === 'not_regular_resident') {
+                    $this->notify(new UserBannedNotRegularResident);
+                }
+                elseif ($reason === 'younger_than_16') {
+                    $this->notify(new UserBannedYoungerThan16);
+                }
+                // @todo delete
+                else {
+                    $this->notify(new UserBannedNotRegularResidentOrYoungerThan16);
+                }
                 break;
 
             default:
