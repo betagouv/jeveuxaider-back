@@ -165,6 +165,11 @@ class UserActionController extends Controller
         ];
 
         $actions[] = [
+            'type' => 'has_not_agreed_benevole_terms',
+            'value' => !$user->has_agreed_benevole_terms_at,
+        ];
+
+        $actions[] = [
             'type' => 'search_missions',
             'value' => true,
         ];
