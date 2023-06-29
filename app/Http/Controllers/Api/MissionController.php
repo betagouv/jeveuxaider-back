@@ -51,6 +51,7 @@ class MissionController extends Controller
                 AllowedFilter::exact('department'),
                 AllowedFilter::exact('zip'),
                 AllowedFilter::exact('responsable.id'),
+                AllowedFilter::exact('responsable.email'),
                 AllowedFilter::exact('template.id'),
                 AllowedFilter::exact('structure.id'),
                 AllowedFilter::exact('structure.name'),
