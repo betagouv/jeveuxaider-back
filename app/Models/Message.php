@@ -29,6 +29,7 @@ class Message extends Model
     {
         return Attribute::make(
             get: fn ($value) => strip_tags($value),
+            set: fn ($value) => strip_tags($value),
         );
     }
 

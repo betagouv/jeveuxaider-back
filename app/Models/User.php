@@ -195,15 +195,29 @@ class User extends Authenticatable
     public function getUnreadConversationsCount()
     {
         return $this->conversations()
-            ->whereHas('messages', function (Builder $query) {
-                $query->where('from_id', '!=', $this->id);
+            ->whereHas('users', function (Builder $query) {
+                $query
+                    ->where(function($query){
+                        $query->whereRaw('conversations_users.read_at < conversations.updated_at')
+                            ->orWhere('conversations_users.read_at', null);
+                    })
+                    ->where('conversations_users.user_id', $this->id)
+                    ->where('conversations_users.status', true);
             })
-            ->where(function ($query) {
-                $query->whereRaw('conversations_users.read_at < conversations.updated_at')
-                    ->orWhere('conversations_users.read_at', null);
-            })
-            ->where('conversations_users.status', true)
             ->count();
+    }
+
+    public function lastReadConversation()
+    {
+        return $this->conversations()
+            ->whereHas('users', function (Builder $query) {
+                $query
+                    ->whereNotNull('conversations_users.read_at')
+                    ->where('conversations_users.user_id', $this->id)
+                    ->where('conversations_users.status', true);
+            })
+            ->orderByDesc('conversations_users.read_at')
+            ->first();
     }
 
     public function getStatisticsAttribute()

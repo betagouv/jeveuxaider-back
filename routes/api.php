@@ -77,6 +77,7 @@ Route::group(['middleware' => ['auth:api', 'is.not.banned']], function () {
     Route::get('user', 'Api\UserController@me');
     Route::get('user/status', 'Api\UserController@status');
     Route::get('user/unread-messages', 'Api\UserController@unreadMessages');
+    Route::get('user/last-read-conversation', 'Api\UserController@lastReadConversation');
     Route::get('user/participations', 'Api\UserController@participations');
     Route::post('user/anonymize', 'Api\UserController@anonymize');
     Route::post('user/visible', 'Api\UserController@visible');
@@ -113,13 +114,13 @@ Route::group(['middleware' => ['auth:api', 'is.not.banned']], function () {
     Route::post('user/password', 'Api\UserController@updatePassword');
     Route::get('user/mission/{mission}/has-participation', 'Api\UserController@hasParticipation');
 
-    // MESSAGES
+    // MESSAGERIE
     Route::get('conversations', 'Api\ConversationsController@index');
     Route::get('conversations/{conversation}', 'Api\ConversationsController@show')->where('conversation', '[0-9]+');
     Route::get('conversations/{conversation}/messages', 'Api\ConversationsController@messages');
-    Route::post('conversations/{conversation}/messages', 'Api\MessagesController@store');
-    Route::get('conversations/{conversation}/benevole', 'Api\ConversationsController@benevole');
-    Route::post('conversations/{conversation}/setStatus', 'Api\ConversationsController@setStatus');
+    Route::post('conversations/{conversation}/messages', 'Api\ConversationsController@storeMessage');
+    Route::post('conversations/{conversation}/archive', 'Api\ConversationsController@archive');
+    Route::post('conversations/{conversation}/unarchive', 'Api\ConversationsController@unarchive');
 
     Route::post('invitations/{token}/resend', 'Api\InvitationController@resend');
     Route::delete('invitations/{token}/delete', 'Api\InvitationController@delete');

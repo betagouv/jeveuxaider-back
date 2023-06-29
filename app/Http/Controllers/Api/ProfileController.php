@@ -61,7 +61,7 @@ class ProfileController extends Controller
 
     public function show(ProfileRequest $request, Profile $profile)
     {
-        $profile->load(['user', 'user.roles', 'user.territoires', 'user.structures', 'user.regionsAsReferent', 'user.departmentsAsReferent', 'user.reseaux', 'skills', 'domaines', 'avatar', 'activities', 'tags'])->loadCount(['participations', 'participationsValidated']);
+        $profile->load(['user', 'user.roles', 'user.territoires', 'user.structures', 'user.regionsAsReferent', 'user.departmentsAsReferent', 'user.reseaux', 'skills', 'domaines', 'activities', 'avatar', 'activities', 'tags'])->loadCount(['participations', 'participationsValidated']);
 
         foreach ($profile->user->roles as $key => $role) {
             if (isset($role['pivot']['rolable_type'])) {
