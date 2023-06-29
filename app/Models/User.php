@@ -213,8 +213,7 @@ class User extends Authenticatable
             ->whereHas('users', function (Builder $query) {
                 $query
                     ->whereNotNull('conversations_users.read_at')
-                    ->where('conversations_users.user_id', $this->id)
-                    ->where('conversations_users.status', true);
+                    ->where('conversations_users.user_id', $this->id);
             })
             ->orderByDesc('conversations_users.read_at')
             ->first();
