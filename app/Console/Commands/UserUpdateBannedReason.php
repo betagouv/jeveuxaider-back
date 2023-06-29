@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Message;
 use App\Models\User;
 use Illuminate\Console\Command;
 
@@ -41,6 +42,11 @@ class UserUpdateBannedReason extends Command
         $query = User::where('banned_reason', 'not_regular_resident_or_younger_than_16');
         if ($this->confirm('Update the field banned_reason from not_regular_resident_or_younger_than_16 to not_regular_resident ?')) {
             $query->update(['banned_reason' => 'not_regular_resident']);
+        }
+
+        $query = Message::where('contextual_reason', 'not_regular_resident_or_younger_than_16');
+        if ($this->confirm('Update the field contextual_reason in messages from not_regular_resident_or_younger_than_16 to not_regular_resident ?')) {
+            $query->update(['contextual_reason' => 'not_regular_resident']);
         }
     }
 }
