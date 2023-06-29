@@ -46,7 +46,10 @@ class ConversationsController extends Controller
                     AllowedFilter::custom('participation_state', new FiltersConversationParticipationState),
                     AllowedFilter::custom('mission_name', new FiltersConversationMissionName),
                     AllowedFilter::custom('mission_zip_city', new FiltersConversationMissionZipCity),
-                    AllowedFilter::custom('structure_name', new FiltersConversationStructureName)
+                    AllowedFilter::custom('structure_name', new FiltersConversationStructureName),
+                    AllowedFilter::exact('conversable_type'),
+                    AllowedFilter::exact('conversable_id'),
+                    AllowedFilter::scope('with_users')
                 ]
             )
             ->defaultSort('-updated_at')
