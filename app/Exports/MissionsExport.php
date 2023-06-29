@@ -38,6 +38,7 @@ class MissionsExport implements FromQuery, WithMapping, WithHeadings
                 AllowedFilter::exact('type'),
                 AllowedFilter::exact('id'),
                 AllowedFilter::exact('department'),
+                AllowedFilter::exact('zip'),
                 AllowedFilter::exact('responsable.id'),
                 AllowedFilter::exact('template.id'),
                 AllowedFilter::exact('structure.id'),
