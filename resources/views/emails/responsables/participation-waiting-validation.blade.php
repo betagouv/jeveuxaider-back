@@ -32,4 +32,11 @@
             motivé !
         </p>
     @endcomponent
+    @if($showInfos)
+        @component('mail::components.tips', ['title' => 'Voici ses coordonnées'])
+            <div id="benevole-full-name">{{ $benevole->full_name }}</div>
+            <div id="benevole-mobile">{{ $benevole->mobile }}</div>
+            <div id="benevole-email">{{ $benevole->email }}</div>
+        @endcomponent
+    @endif
 @endcomponent

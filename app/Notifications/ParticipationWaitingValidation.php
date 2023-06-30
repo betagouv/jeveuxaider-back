@@ -55,6 +55,8 @@ class ParticipationWaitingValidation extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
+        $showInfos = in_array($this->participation->mission->structure_id, [5374]) ? true : false;
+
         return (new MailMessage)
             ->subject('Vous avez une nouvelle demande de participation 👊')
             ->markdown('emails.responsables.participation-waiting-validation', [
@@ -62,7 +64,8 @@ class ParticipationWaitingValidation extends Notification implements ShouldQueue
                 'mission' => $this->participation->mission,
                 'structure' => $this->participation->mission->structure,
                 'benevole' => $this->participation->profile,
-                'notifiable' => $notifiable
+                'notifiable' => $notifiable,
+                'showInfos' => $showInfos
             ])
             ->tag('app-responsable-participation-en-attente-de-validation');
     }
