@@ -213,4 +213,8 @@
             href="https://www.youtube.com/watch?v=R-gEYk-06I4&ab_channel=JeVeuxAider-gouv-fr">regardez
             notre vidéo ›</a>
     @endcomponent
+    @component('mail::components.tips', ['title' => 'Quelques consignes pour bien débuter !'])
+        <p>Afin d’assurer une bonne utilisation de la plateforme par tous, nous vous invitons à prendre connaissance de notre charte de bon fonctionnement :</p>
+        <p>👉 <a class="link" href="{{ config('app.front_url') }}/profile/charte-bon-fonctionnement">C'est par ici !</a></p>
+    @endcomponent
 @endcomponent
