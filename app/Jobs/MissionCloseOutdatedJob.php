@@ -44,6 +44,7 @@ class MissionCloseOutdatedJob implements ShouldQueue
 
         if ($this->mission->state === 'Validée' && ($this->mission->end_date < Carbon::now())) {
             $this->mission->state = 'Terminée';
+            $this->mission->automatically_closed_at = Carbon::now();
             $this->mission->save();
         }
     }
