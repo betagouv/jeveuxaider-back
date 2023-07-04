@@ -7,9 +7,12 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\SlackMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class NoteCreated extends Notification
+class NoteCreated extends Notification implements ShouldQueue
 {
+    use Queueable;
+
     /**
      * The order instance.
      *
@@ -36,6 +39,13 @@ class NoteCreated extends Notification
     public function via($notifiable)
     {
         return isset($notifiable->id) ? ['mail'] : ['slack'];
+    }
+
+    public function viaQueues()
+    {
+        return [
+            'mail' => 'emails',
+        ];
     }
 
     /**
