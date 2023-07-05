@@ -77,6 +77,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+
+        Model::preventLazyLoading(!app()->isProduction());
+
         Structure::observe(StructureObserver::class);
         Mission::observe(MissionObserver::class);
         MissionTemplate::observe(MissionTemplateObserver::class);
@@ -97,8 +100,6 @@ class AppServiceProvider extends ServiceProvider
         Validator::extend('phone', function ($attribute, $value, $parameters) {
             return preg_match('/^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$/', $value);
         });
-
-        Model::preventLazyLoading(true);
 
         Mail::extend('sendinblue', function () {
             return (new SendinblueTransportFactory)->create(
