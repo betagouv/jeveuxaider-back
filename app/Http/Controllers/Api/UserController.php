@@ -17,6 +17,7 @@ use App\Services\Sendinblue;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -46,6 +47,34 @@ class UserController extends Controller
             'structure_missions_where_i_m_responsable_count' => Mission::where('responsable_id', $user->profile->id)->count(),
             'structure_participations_count' => Participation::ofResponsable($user->profile->id)->count(),
         ];
+    }
+    
+    public function notifications(Request $request)
+    {
+        $queryBuilder = DatabaseNotification::with('notifiable')
+            ->where('notifiable_type','App\Models\User')
+            ->where('notifiable_id', Auth::guard('api')->user()->id);
+
+        return QueryBuilder::for($queryBuilder)
+            ->defaultSort('-created_at')
+            ->paginate(config('query-builder.results_per_page'));
+
+    }
+
+    public function notificationsMarkAsRead(Request $request, DatabaseNotification $notification)
+    {
+        $notification->markAsRead();
+
+        return $notification;
+    }
+
+    public function notificationsMarkAllAsRead(Request $request)
+    {
+        $user = User::find(Auth::guard('api')->user()->id);
+
+        $user->unreadNotifications()->update(['read_at' => now()]);
+
+        return true;
     }
 
     public function participations(Request $request)

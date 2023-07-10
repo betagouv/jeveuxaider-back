@@ -5,12 +5,16 @@ namespace App\Notifications;
 use App\Models\Participation;
 use App\Models\Term;
 use App\Models\User;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\SlackMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Str;
+use Illuminate\Bus\Queueable;
 
-class BatchRuleExecuted extends Notification
+class BatchRuleExecuted extends Notification implements ShouldQueue
 {
+    use Queueable;
+
     public $rule;
     public $itemsCount;
     public $user;
@@ -58,6 +62,18 @@ class BatchRuleExecuted extends Notification
                     //->color('#BBBBBB')
                 ;
             });
+    }
+
+    /**
+     * Get the array representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return array
+     */
+    public function toArray($notifiable)
+    {
+        return [
+        ];
     }
 
     protected function getValue() {
