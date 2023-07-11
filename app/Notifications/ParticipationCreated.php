@@ -38,7 +38,7 @@ class ParticipationCreated extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['mail', 'database'];
     }
 
     public function viaQueues()
@@ -75,7 +75,11 @@ class ParticipationCreated extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
-            //
+            'participation_id' => $this->participation->state,
+            'participation_state' => $this->participation->state,
+            'conversation_id' => $this->participation->conversation->id,
+            'mission_id' => $this->participation->mission->name,
+            'mission_name' => $this->participation->mission->name,
         ];
     }
 }

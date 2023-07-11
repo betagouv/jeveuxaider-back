@@ -93,8 +93,8 @@ Route::group(['middleware' => ['auth:api', 'is.not.banned']], function () {
     Route::get('users/{user}/roles', 'Api\UserController@roles');
 
     Route::get('user/notifications', 'Api\UserController@notifications');
-    Route::get('user/notifications/mark-all-as-read', 'Api\UserController@notificationsMarkAllAsRead');
-    Route::get('user/notifications/{notification}/mark-as-read', 'Api\UserController@notificationsMarkAsRead');
+    // Route::post('user/notifications/mark-all-as-read', 'Api\UserController@notificationsMarkAllAsRead');
+    Route::post('user/notifications/{notification}/mark-as-read', 'Api\UserController@notificationsMarkAsRead');
 
 
     Route::get('medias', 'Api\MediaController@index');

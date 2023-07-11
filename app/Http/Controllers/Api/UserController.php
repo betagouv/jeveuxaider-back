@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\Validator;
 use Laravel\Passport\Token;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
+use Illuminate\Database\Eloquent\Builder;
 
 class UserController extends Controller
 {
@@ -48,14 +49,27 @@ class UserController extends Controller
             'structure_participations_count' => Participation::ofResponsable($user->profile->id)->count(),
         ];
     }
-    
+
     public function notifications(Request $request)
     {
+        $user = User::find(Auth::guard('api')->user()->id);
+
         $queryBuilder = DatabaseNotification::with('notifiable')
-            ->where('notifiable_type','App\Models\User')
-            ->where('notifiable_id', Auth::guard('api')->user()->id);
+            ->where(function(Builder $query) use ($user){
+                $query
+                    ->where('notifiable_type','App\Models\User')
+                    ->where('notifiable_id',  $user->id);
+            })
+            ->orWhere(function(Builder $query) use ($user){
+                $query
+                    ->where('notifiable_type','App\Models\Profile')
+                    ->where('notifiable_id', $user->profile->id);
+            });
 
         return QueryBuilder::for($queryBuilder)
+            ->allowedFilters([
+                AllowedFilter::scope('unread'),
+            ])
             ->defaultSort('-created_at')
             ->paginate(config('query-builder.results_per_page'));
 
@@ -65,7 +79,7 @@ class UserController extends Controller
     {
         $notification->markAsRead();
 
-        return $notification;
+        return $notification->fresh();
     }
 
     public function notificationsMarkAllAsRead(Request $request)
