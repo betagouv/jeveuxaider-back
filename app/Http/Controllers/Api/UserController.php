@@ -91,6 +91,13 @@ class UserController extends Controller
         return true;
     }
 
+    public function unreadNotifications(Request $request)
+    {
+        $user = User::find(Auth::guard('api')->user()->id);
+
+        return $user->getUnreadNotificationsCount();
+    }
+
     public function participations(Request $request)
     {
         $user = User::with(['profile'])->find(Auth::guard('api')->user()->id);
