@@ -79,6 +79,7 @@ class ParticipationCreated extends Notification implements ShouldQueue
             'conversation_id' => $this->participation?->conversation->id,
             'mission_id' => $this->participation->mission->name,
             'mission_name' => $this->participation->mission->name,
+            'structure_name' => $this->participation->mission->structure->name,
         ];
     }
 }
