@@ -95,7 +95,17 @@ class UserController extends Controller
     {
         $user = User::find(Auth::guard('api')->user()->id);
 
-        return $user->getUnreadNotificationsCount();
+        return DatabaseNotification::with('notifiable')
+            ->where(function(Builder $query) use ($user){
+                $query
+                    ->where('notifiable_type','App\Models\User')
+                    ->where('notifiable_id',  $user->id);
+            })
+            ->orWhere(function(Builder $query) use ($user){
+                $query
+                    ->where('notifiable_type','App\Models\Profile')
+                    ->where('notifiable_id', $user->profile->id);
+            })->unread()->count();
     }
 
     public function participations(Request $request)

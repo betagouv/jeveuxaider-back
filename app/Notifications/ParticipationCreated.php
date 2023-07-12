@@ -7,7 +7,6 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use Illuminate\Support\HtmlString;
 
 class ParticipationCreated extends Notification implements ShouldQueue
 {
@@ -75,9 +74,9 @@ class ParticipationCreated extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
-            'participation_id' => $this->participation->state,
+            'participation_id' => $this->participation->id,
             'participation_state' => $this->participation->state,
-            'conversation_id' => $this->participation->conversation->id,
+            'conversation_id' => $this->participation?->conversation->id,
             'mission_id' => $this->participation->mission->name,
             'mission_name' => $this->participation->mission->name,
         ];
