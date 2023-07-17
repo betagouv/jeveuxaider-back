@@ -174,6 +174,11 @@ class UserActionController extends Controller
             'value' => true,
         ];
 
+        $actions[] = [
+            'type' => 'has_agreed_benevole_terms',
+            'value' => $user->has_agreed_benevole_terms_at,
+        ];
+
         return $actions;
     }
 
