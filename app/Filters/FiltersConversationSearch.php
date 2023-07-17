@@ -32,7 +32,7 @@ class FiltersConversationSearch implements Filter
                     }
                     $query->whereHas('profile', function (Builder $query) use ($value) {
                         $query
-                            ->whereRaw("concat(first_name, ' ', last_name, ' ', email) ilike '%$value%' ")
+                            ->whereRaw("CONCAT(first_name, ' ', last_name, ' ', email) ILIKE ?", ['%' . $value . '%'])
                             ->where('user_id', '!=', Auth::guard('api')->user()->id);
                     });
                 });
