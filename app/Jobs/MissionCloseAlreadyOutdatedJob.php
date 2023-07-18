@@ -77,6 +77,11 @@ class MissionCloseAlreadyOutdatedJob implements ShouldQueue
                             'contextual_state' => 'Refusée',
                             'contextual_reason' => 'mission_terminated',
                         ]))->saveQuietly();
+
+                        $responsable = $participation->mission?->responsable?->user;
+                        if (!empty($responsable)) {
+                            $responsable->markConversationAsRead($participation->conversation);
+                        }
                     }
                 });
             if ($this->mission->end_date > Carbon::now()->subMonth(6)) {
