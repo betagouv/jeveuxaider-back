@@ -44,7 +44,7 @@ class DocumentSubmitted extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['mail', 'database'];
     }
 
     /**
@@ -71,7 +71,8 @@ class DocumentSubmitted extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
-            //
+            'ressource_id' => $this->document->id,
+            'ressource_title' => $this->document->title,
         ];
     }
 }

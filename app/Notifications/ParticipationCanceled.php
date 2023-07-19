@@ -44,7 +44,7 @@ class ParticipationCanceled extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['mail', 'database'];
     }
 
     /**
@@ -75,7 +75,13 @@ class ParticipationCanceled extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
-            //
+            'participation_id' => $this->participation->id,
+            'participation_state' => $this->participation->state,
+            'conversation_id' => $this->participation?->conversation->id,
+            'mission_id' => $this->participation->mission->id,
+            'mission_name' => $this->participation->mission->name,
+            'structure_id' => $this->participation->mission->structure->id,
+            'structure_name' => $this->participation->mission->structure->name,
         ];
     }
 }

@@ -43,7 +43,7 @@ class StructureSwitchResponsable extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['mail', 'database'];
     }
 
     /**
@@ -76,7 +76,12 @@ class StructureSwitchResponsable extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
-            //
+            'structure_id' => $this->structure->id,
+            'structure_name' => $this->structure->name,
+            'new_responsable_first_name' => $notifiable->first_name,
+            'new_responsable_last_name' => $notifiable->last_name,
+            'old_responsable_first_name' => $this->oldResponsable->first_name,
+            'old_responsable_last_name' => $this->oldResponsable->last_name,
         ];
     }
 }

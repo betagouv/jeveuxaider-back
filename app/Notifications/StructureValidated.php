@@ -37,7 +37,7 @@ class StructureValidated extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['mail', 'database'];
     }
 
     public function viaQueues()
@@ -74,7 +74,8 @@ class StructureValidated extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
-            //
+            'structure_id' => $this->structure->id,
+            'structure_name' => $this->structure->name,
         ];
     }
 }
