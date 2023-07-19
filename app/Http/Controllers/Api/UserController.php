@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Filters\FiltersNotificationSearch;
 use App\Filters\FiltersParticipationBenevoleSearch;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\UserRolesRequest;
@@ -17,12 +18,14 @@ use App\Services\Sendinblue;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Passport\Token;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
+use Illuminate\Database\Eloquent\Builder;
 
 class UserController extends Controller
 {
@@ -46,6 +49,80 @@ class UserController extends Controller
             'structure_missions_where_i_m_responsable_count' => Mission::where('responsable_id', $user->profile->id)->count(),
             'structure_participations_count' => Participation::ofResponsable($user->profile->id)->count(),
         ];
+    }
+
+    public function notifications(Request $request)
+    {
+        $user = User::find(Auth::guard('api')->user()->id);
+
+        $queryBuilder = DatabaseNotification::with('notifiable')
+            ->where(function(Builder $query) use ($user){
+                $query->where(function(Builder $query) use ($user){
+                    $query
+                        ->where('notifiable_type','App\Models\User')
+                        ->where('notifiable_id',  $user->id);
+                })
+                ->orWhere(function(Builder $query) use ($user){
+                    $query
+                        ->where('notifiable_type','App\Models\Profile')
+                        ->where('notifiable_id', $user->profile->id);
+                });
+            });
+
+        return QueryBuilder::for($queryBuilder)
+            ->allowedFilters([
+                AllowedFilter::scope('unread'),
+                AllowedFilter::custom('search', new FiltersNotificationSearch),
+            ])
+            ->defaultSort('-created_at')
+            ->paginate(config('query-builder.results_per_page'));
+
+    }
+
+    public function notificationsMarkAsRead(Request $request, DatabaseNotification $notification)
+    {
+        $notification->markAsRead();
+
+        return $notification->fresh();
+    }
+
+    public function notificationsMarkAllAsRead(Request $request)
+    {
+        $user = User::find(Auth::guard('api')->user()->id);
+
+        DatabaseNotification::where(function(Builder $query) use ($user){
+            $query->where(function(Builder $query) use ($user){
+                $query
+                    ->where('notifiable_type','App\Models\User')
+                    ->where('notifiable_id',  $user->id);
+            })
+            ->orWhere(function(Builder $query) use ($user){
+                $query
+                    ->where('notifiable_type','App\Models\Profile')
+                    ->where('notifiable_id', $user->profile->id);
+            });
+        })->update(['read_at' => now()]);
+
+        return true;
+    }
+
+    public function unreadNotifications(Request $request)
+    {
+        $user = User::find(Auth::guard('api')->user()->id);
+
+        return DatabaseNotification::with('notifiable')
+            ->where(function(Builder $query) use ($user){
+                $query->where(function(Builder $query) use ($user){
+                    $query
+                        ->where('notifiable_type','App\Models\User')
+                        ->where('notifiable_id',  $user->id);
+                })
+                ->orWhere(function(Builder $query) use ($user){
+                    $query
+                        ->where('notifiable_type','App\Models\Profile')
+                        ->where('notifiable_id', $user->profile->id);
+                });
+            })->unread()->count();
     }
 
     public function participations(Request $request)

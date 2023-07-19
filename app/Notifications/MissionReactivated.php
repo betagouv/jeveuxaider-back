@@ -44,7 +44,7 @@ class MissionReactivated extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['mail', 'database'];
     }
 
     /**
@@ -74,7 +74,9 @@ class MissionReactivated extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
-            //
+            'mission_id' => $this->mission->id,
+            'mission_name' => $this->mission->name,
+            'structure_id' => $this->mission->structure_id,
         ];
     }
 }

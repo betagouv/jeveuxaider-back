@@ -207,6 +207,11 @@ class User extends Authenticatable
             ->count();
     }
 
+    public function getUnreadNotificationsCount()
+    {
+        return $this->unreadNotifications()->count();
+    }
+
     public function lastReadConversation()
     {
         return $this->conversations()
