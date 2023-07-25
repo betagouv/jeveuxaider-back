@@ -51,11 +51,11 @@
         "beyondcode/laravel-dump-server": "^1.0",
         "filp/whoops": "^2.0",
         "friendsofphp/php-cs-fixer": "^3.6",
-        "fzaninotto/faker": "^1.4",
         "laracasts/generators": "dev-master",
         "laravel/pint": "^1.0",
         "nunomaduro/collision": "^7.0",
         "pestphp/pest": "^2.9",
+        "pestphp/pest-plugin-faker": "^2.0",
         "phpunit/phpunit": "^10.0"
     },
     "config": {
