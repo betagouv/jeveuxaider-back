@@ -29,5 +29,9 @@
         <env name="QUEUE_CONNECTION" value="sync"/>
         <env name="SESSION_DRIVER" value="array"/>
         <env name="TELESCOPE_ENABLED" value="false"/>
+        <env name="SENDINBLUE_SYNC" value="false"/>
+        <env name="AIRTABLE_SYNC" value="false"/>
+        <env name="API_ENGAGEMENT_KEY" value=""/>
+
     </php>
 </phpunit>

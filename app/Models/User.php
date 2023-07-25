@@ -15,10 +15,14 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Support\Facades\Bus;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, Notifiable, HasRoles;
+    use HasApiTokens;
+    use Notifiable;
+    use HasRoles;
+    use HasFactory;
 
     protected $fillable = [
         'name', 'email', 'password', 'context_role', 'contextable_type', 'contextable_id', 'utm_source', 'utm_campaign', 'utm_medium', 'has_agreed_responsable_terms_at', 'has_agreed_benevole_terms_at'
@@ -106,7 +110,7 @@ class User extends Authenticatable
 
     public function startConversation($user, $conversable)
     {
-        $conversation = new Conversation;
+        $conversation = new Conversation();
         $conversation->conversable()->associate($conversable);
         $conversation->save();
 
@@ -197,7 +201,7 @@ class User extends Authenticatable
         return $this->conversations()
             ->whereHas('users', function (Builder $query) {
                 $query
-                    ->where(function($query){
+                    ->where(function ($query) {
                         $query->whereRaw('conversations_users.read_at < conversations.updated_at')
                             ->orWhere('conversations_users.read_at', null);
                     })
@@ -229,7 +233,7 @@ class User extends Authenticatable
 
         $responsableStats = [];
 
-        if($this->hasRole('responsable')){
+        if($this->hasRole('responsable')) {
             $responsableStats = [
                 'missions_as_responsable_count' => Mission::where('responsable_id', $this->profile->id)
                     ->count(),
@@ -293,12 +297,12 @@ class User extends Authenticatable
 
     public function scopeOnline($query)
     {
-        return $query->where("users.last_online_at", ">=" , Carbon::now()->subMinutes(10));
+        return $query->where("users.last_online_at", ">=", Carbon::now()->subMinutes(10));
     }
 
     public function scopeInactive($query)
     {
-        return  $query->where("users.last_online_at", "<=" , Carbon::now()->subMonth(1));
+        return  $query->where("users.last_online_at", "<=", Carbon::now()->subMonth(1));
     }
 
     public function ban($reason)
@@ -310,14 +314,13 @@ class User extends Authenticatable
                     ->whereNotIn('state', ['Refusée', 'Annulée'])
                     ->get()
                     ->pluck('id');
-                Bus::batch($participationIds->map(fn($id) => new ParticipationDeclineWhenUserIsBanned($id, $reason)))
+                Bus::batch($participationIds->map(fn ($id) => new ParticipationDeclineWhenUserIsBanned($id, $reason)))
                     ->allowFailures()
                     ->dispatch();
                 if ($reason === 'not_regular_resident') {
-                    $this->notify(new UserBannedNotRegularResident);
-                }
-                elseif ($reason === 'younger_than_16') {
-                    $this->notify(new UserBannedYoungerThan16);
+                    $this->notify(new UserBannedNotRegularResident());
+                } elseif ($reason === 'younger_than_16') {
+                    $this->notify(new UserBannedYoungerThan16());
                 }
                 break;
 
@@ -335,10 +338,10 @@ class User extends Authenticatable
         return $this;
     }
 
-    public function unban ()
+    public function unban()
     {
-        $this->banned_at = NULL;
-        $this->banned_reason = NULL;
+        $this->banned_at = null;
+        $this->banned_reason = null;
         $this->saveQuietly();
         return $this;
     }

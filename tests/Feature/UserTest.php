@@ -2,6 +2,7 @@
 
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Laravel\Passport\Passport;
 
 use function Pest\Faker\fake;
 
@@ -29,4 +30,30 @@ it('can register as benevole', function () {
     expect($user)
         ->email->toBe($userData['email'])
         ->context_role->toBe('volontaire');
+});
+
+it('can edit your own profile', function () {
+
+    $user = Passport::actingAs(
+        User::factory()->create()
+    );
+
+    $newPhoneNumber = fake('fr_FR')->phoneNumber;
+    $newEmail = fake()->unique()->safeEmail();
+
+    $response = $this->put('/api/profiles/' . $user->profile->id, [
+        'mobile' => $newPhoneNumber,
+        'email' => $newEmail
+    ]);
+
+    $response->assertStatus(200);
+
+    $user->refresh();
+
+    expect($user->profile)
+        ->mobile->toBe($newPhoneNumber)
+        ->email->toBe($newEmail);
+    expect($user)
+        ->email->toBe($newEmail);
+
 });
