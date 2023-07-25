@@ -10,7 +10,7 @@ class Media extends SpatieMedia
 
     public function getUrlsAttribute()
     {
-        $mediaUrls = ['original' => $this->getOriginalUrlAttribute()];
+        $mediaUrls = ['original' => $this->getUrl()];
         foreach ($this->getConversionsNames() as $conversion) {
             $mediaUrls[$conversion] = $this->getSrcset($conversion) ?: $this->getUrl($conversion);
         }
