@@ -55,6 +55,7 @@
         "laracasts/generators": "dev-master",
         "laravel/pint": "^1.0",
         "nunomaduro/collision": "^7.0",
+        "pestphp/pest": "^2.9",
         "phpunit/phpunit": "^10.0"
     },
     "config": {

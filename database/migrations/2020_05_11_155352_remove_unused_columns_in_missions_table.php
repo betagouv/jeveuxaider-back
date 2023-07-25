@@ -14,14 +14,16 @@ class RemoveUnusedColumnsInMissionsTable extends Migration
     public function up()
     {
         Schema::table('missions', function (Blueprint $table) {
-            $table->dropColumn('domaines');
-            $table->dropColumn('periodes');
-            $table->dropColumn('frequence');
-            $table->dropColumn('planning');
-            $table->dropColumn('actions');
-            $table->dropColumn('justifications');
-            $table->dropColumn('contraintes');
-            $table->dropColumn('handicap');
+            $table->dropColumn([
+                'domaines',
+                'periodes',
+                'frequence',
+                'planning',
+                'actions',
+                'justifications',
+                'contraintes',
+                'handicap'
+            ]);
         });
     }
 
