@@ -6,7 +6,6 @@ jobs:
   tests:
     runs-on: ubuntu-latest
     env:
-      TESTING_DB_HOST: postgres
       TESTING_DB_DATABASE: postgres
       TESTING_DB_USERNAME: postgres
       TESTING_DB_PASSWORD: postgres
