@@ -37,4 +37,9 @@ jobs:
         run: composer install --no-interaction --prefer-dist --optimize-autoloader
 
       - name: Tests
+        env:
+          TESTING_DB_HOST: localhost
+          TESTING_DB_DATABASE: postgres
+          TESTING_DB_USERNAME: postgres
+          TESTING_DB_PASSWORD: postgres
         run: ./vendor/bin/pest
