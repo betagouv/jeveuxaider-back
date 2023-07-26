@@ -51,7 +51,7 @@ jobs:
       - name: Notify on Slack - Success
         if: ${{ success() }}
         env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         run: |
           curl -X POST -H 'Content-type: application/json' --data '
           {
@@ -96,7 +96,7 @@ jobs:
       - name: Notify on Slack - Failure
         if: ${{ failure() }}
         env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         run: |
           curl -X POST -H 'Content-type: application/json' --data '{
             "attachments": [
