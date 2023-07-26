@@ -75,7 +75,7 @@ jobs:
                                   },
                                   {
                                       "type": "mrkdwn",
-                                      "text": "*Commit*\n<https://github.com/betagouv/jeveuxaider-back/commit/e61fedf9c45c09eb47a716a4ae09269b493a536a|e6f1fed>"
+                                      "text": "*Commit*\n<https://github.com/${{ github.repository }}/commit/${{ github.sha }}|${{ GITHUB_SHA::7 }}">"
                                   }
                               ]
                           },
@@ -84,7 +84,7 @@ jobs:
                               "fields": [
                                   {
                                       "type": "mrkdwn",
-                                      "text": "*Github Actions*\n<https://github.com/betagouv/jeveuxaider-back/actions/runs/5670376792|View Tests>"
+                                      "text": "*Github Actions*\n<https://github.com/${{ github.repository }}/actions/runs/'"${GITHUB_RUN_ID}"'|View Tests>"
                                   }
                               ]
                           }
@@ -115,11 +115,11 @@ jobs:
                     "fields": [
                       {
                         "type": "mrkdwn",
-                        "text": "*Branch*\nprod"
+                        "text": "*Branch*\n'"${GITHUB_REF##*/}"'"
                       },
                       {
                         "type": "mrkdwn",
-                        "text": "*Commit*\n<https://github.com/betagouv/jeveuxaider-back/commit/e61fedf9c45c09eb47a716a4ae09269b493a536a|e6f1fed>"
+                        "text": "*Commit*\n<https://github.com/${{ github.repository }}/commit/${{ github.sha }}|${{ GITHUB_SHA::7 }}">"
                       }
                     ]
                   },
@@ -128,7 +128,7 @@ jobs:
                     "fields": [
                       {
                         "type": "mrkdwn",
-                        "text": "*Github Actions*\n<https://github.com/betagouv/jeveuxaider-back/actions/runs/5670376792|View Tests>"
+                        "text": "*Github Actions*\n<https://github.com/${{ github.repository }}/actions/runs/'"${GITHUB_RUN_ID}"'|View Tests>"
                       }
                     ]
                   }
