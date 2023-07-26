@@ -31,6 +31,9 @@ jobs:
       - name: Install Dependencies
         run: composer install --no-interaction --prefer-dist --optimize-autoloader
 
+      - name: Laravel Encryption key
+        run: php artisan key:generate
+
       - name: Laravel Passport Keys
         run: php artisan passport:keys
 
