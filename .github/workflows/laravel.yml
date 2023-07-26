@@ -6,6 +6,7 @@ jobs:
   tests:
     runs-on: ubuntu-latest
     env:
+      TESTING_DB_HOST: localhost
       TESTING_DB_DATABASE: postgres
       TESTING_DB_USERNAME: postgres
       TESTING_DB_PASSWORD: postgres
@@ -18,7 +19,7 @@ jobs:
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB: postgres
         ports:
-          - 5432/tcp
+          - 5432:5432
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 3
 
     steps:
@@ -37,3 +38,8 @@ jobs:
 
       - name: Tests
         run: ./vendor/bin/pest
+        env:
+          TESTING_DB_HOST: localhost
+          TESTING_DB_DATABASE: postgres
+          TESTING_DB_USERNAME: postgres
+          TESTING_DB_PASSWORD: postgres
