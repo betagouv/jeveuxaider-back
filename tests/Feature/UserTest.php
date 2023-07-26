@@ -46,7 +46,7 @@ it('can edit your own profile', function () {
         'email' => $newEmail
     ]);
 
-    $response->assertStatus(201);
+    $response->assertStatus(200);
 
     $user->refresh();
 
