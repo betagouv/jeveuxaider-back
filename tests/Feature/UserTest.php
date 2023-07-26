@@ -16,7 +16,7 @@ it('can register as benevole', function () {
         'first_name' => fake()->firstName,
         'last_name' => fake()->lastName,
         'mobile' => fake('fr_FR')->phoneNumber,
-        'birthday' => fake()->date(),
+        'birthday' => '1980-01-02',
         'zip' => fake('fr_FR')->postcode,
         'country' => 'FR',
     ];
