@@ -47,3 +47,25 @@ jobs:
           TESTING_DB_DATABASE: postgres
           TESTING_DB_USERNAME: postgres
           TESTING_DB_PASSWORD: postgres
+
+      - name: Notify on Slack - Success
+        if: ${{ success() }}
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_CHANNEL: general
+          SLACK_COLOR: good
+          SLACK_MESSAGE: 'Post Content :rocket:'
+          SLACK_TITLE: 'Tests succeeded for the Laravel app! :tada:'
+          SLACK_USERNAME: Github Actions
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+      - name: Notify on Slack - Failure
+        if: ${{ failure() }}
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_CHANNEL: general
+          SLACK_COLOR: danger
+          SLACK_MESSAGE: 'Post Content :rocket:'
+          SLACK_TITLE: 'Tests failed for the Laravel app! :cry:'
+          SLACK_USERNAME: Github Actions
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
