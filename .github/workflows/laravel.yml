@@ -71,7 +71,7 @@ jobs:
                               "fields": [
                                   {
                                       "type": "mrkdwn",
-                                      "text": "*Branch*\nprod"
+                                      "text": "*Branch*\n${GITHUB_REF##*/}"
                                   },
                                   {
                                       "type": "mrkdwn",
