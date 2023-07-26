@@ -43,9 +43,9 @@ class ApiEngagementExportMissions extends Command
     {
         $structuresNotInApi = [25, 7383, 5577]; // Bénénovat
         $missions = Mission::with([
-                'domaine', 'template', 'template.activity', 'activity', 'template.domaine',
-                'template.photo', 'structure', 'structure.reseaux', 'illustrations','structure.logo'
-            ])
+            'domaine', 'template', 'template.activity', 'activity', 'template.domaine',
+            'template.photo', 'structure', 'structure.reseaux', 'illustrations','structure.logo'
+        ])
             ->whereHas('structure', function (Builder $query) use ($structuresNotInApi) {
                 $query->where('state', 'Validée')
                     ->whereNotIn('id', $structuresNotInApi);
@@ -56,6 +56,8 @@ class ApiEngagementExportMissions extends Command
             ->get();
 
         $output = View::make('flux-api-engagement')->with(compact('missions'))->render();
+        // Remove SOH character as it triggers errors
+        $output = str_replace('', '\n', $output);
 
         Storage::disk('s3')->put('public/flux-api-engagement.xml', $output, 'public');
     }
