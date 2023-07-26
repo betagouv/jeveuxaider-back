@@ -84,7 +84,7 @@ jobs:
                               "fields": [
                                   {
                                       "type": "mrkdwn",
-                                      "text": "*Github Actions*\n<https://github.com/'"${GITHUB_REPOSITORY}"'/actions/runs/todo_id|View Tests>"
+                                      "text": "*Github Actions*\n<https://github.com/'"${GITHUB_REPOSITORY}"'/actions/runs/'"${GITHUB_RUN_ID}"'|View Tests>"
                                   }
                               ]
                           }
