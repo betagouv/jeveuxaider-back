@@ -50,22 +50,89 @@ jobs:
 
       - name: Notify on Slack - Success
         if: ${{ success() }}
-        uses: rtCamp/action-slack-notify@v2
         env:
-          SLACK_CHANNEL: general
-          SLACK_COLOR: good
-          SLACK_MESSAGE: 'Post Content :rocket:'
-          SLACK_TITLE: 'Tests succeeded for the Laravel app! :tada:'
-          SLACK_USERNAME: Github Actions
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
-
+        run: |
+          curl -X POST -H 'Content-type: application/json' --data '
+          {
+              "attachments": [
+                  {
+                      "color": "#16a34a",
+                      "blocks": [
+                          {
+                              "type": "section",
+                              "text": {
+                                  "type": "mrkdwn",
+                                  "text": "Great news, everyone! *JeVeuxAider Back* app successfully tested! :tada:"
+                              }
+                          },
+                          {
+                              "type": "section",
+                              "fields": [
+                                  {
+                                      "type": "mrkdwn",
+                                      "text": "*Branch*\nprod"
+                                  },
+                                  {
+                                      "type": "mrkdwn",
+                                      "text": "*Commit*\n<https://github.com/betagouv/jeveuxaider-back/commit/e61fedf9c45c09eb47a716a4ae09269b493a536a|e6f1fed>"
+                                  }
+                              ]
+                          },
+                          {
+                              "type": "section",
+                              "fields": [
+                                  {
+                                      "type": "mrkdwn",
+                                      "text": "*Github Actions*\n<https://github.com/betagouv/jeveuxaider-back/actions/runs/5670376792|View Tests>"
+                                  }
+                              ]
+                          }
+                      ]
+                  }
+              ]
+          }' $SLACK_WEBHOOK_URL
       - name: Notify on Slack - Failure
         if: ${{ failure() }}
-        uses: rtCamp/action-slack-notify@v2
         env:
-          SLACK_CHANNEL: general
-          SLACK_COLOR: danger
-          SLACK_MESSAGE: 'Post Content :rocket:'
-          SLACK_TITLE: 'Tests failed for the Laravel app! :cry:'
-          SLACK_USERNAME: Github Actions
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          curl -X POST -H 'Content-type: application/json' --data '
+          {
+              "attachments": [
+                  {
+                      "color": "#dc2626",
+                      "blocks": [
+                          {
+                              "type": "section",
+                              "text": {
+                                  "type": "mrkdwn",
+                                  "text": "Test results for *JeVeuxAider Back* app have failed. :disappointed: \nLet's regroup and address the issues. Keep up the great work team!"
+                              }
+                          },
+                          {
+                              "type": "section",
+                              "fields": [
+                                  {
+                                      "type": "mrkdwn",
+                                      "text": "*Branch*\nprod"
+                                  },
+                                  {
+                                      "type": "mrkdwn",
+                                      "text": "*Commit*\n<https://github.com/betagouv/jeveuxaider-back/commit/e61fedf9c45c09eb47a716a4ae09269b493a536a|e61fed>"
+                                  }
+                              ]
+                          },
+                          {
+                              "type": "section",
+                              "fields": [
+                                  {
+                                      "type": "mrkdwn",
+                                      "text": "*Github Actions*\n<https://github.com/betagouv/jeveuxaider-back/actions/runs/5670376792|View Tests>"
+                                  }
+                              ]
+                          }
+                      ]
+                  }
+              ]
+          }' $SLACK_WEBHOOK_URL
