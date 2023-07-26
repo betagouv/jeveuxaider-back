@@ -75,7 +75,7 @@ jobs:
                                   },
                                   {
                                       "type": "mrkdwn",
-                                      "text": "*Commit*\n<https://github.com/'"${github.repository}"'/commit/'"${github.sha}"'|'"${GITHUB_SHA::7}"'">"
+                                      "text": "*Commit*\n<https://github.com/todo/commit/todo|'"${GITHUB_SHA::7}"'">"
                                   }
                               ]
                           },
@@ -84,7 +84,7 @@ jobs:
                               "fields": [
                                   {
                                       "type": "mrkdwn",
-                                      "text": "*Github Actions*\n<https://github.com/'"${github.repository}"'/actions/runs/'"${GITHUB_RUN_ID}"'|View Tests>"
+                                      "text": "*Github Actions*\n<https://github.com/todo/actions/runs/'"${GITHUB_RUN_ID}"'|View Tests>"
                                   }
                               ]
                           }
@@ -119,7 +119,7 @@ jobs:
                       },
                       {
                         "type": "mrkdwn",
-                        "text": "*Commit*\n<https://github.com/'"${github.repository}"'/commit/'"${github.sha}"'|${GITHUB_SHA::7}">"
+                        "text": "*Commit*\n<https://github.com/todo/commit/todo|${GITHUB_SHA::7}">"
                       }
                     ]
                   },
@@ -128,7 +128,7 @@ jobs:
                     "fields": [
                       {
                         "type": "mrkdwn",
-                        "text": "*Github Actions*\n<https://github.com/'"${github.repository}"'/actions/runs/'"${GITHUB_RUN_ID}"'|View Tests>"
+                        "text": "*Github Actions*\n<https://github.com/todo/actions/runs/'"${GITHUB_RUN_ID}"'|View Tests>"
                       }
                     ]
                   }
