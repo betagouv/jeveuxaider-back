@@ -28,7 +28,6 @@ use Spatie\QueryBuilder\AllowedSort;
 use Spatie\QueryBuilder\QueryBuilder;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Database\Eloquent\Builder;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class StructureController extends Controller
@@ -37,7 +36,7 @@ class StructureController extends Controller
     {
         $results = QueryBuilder::for(Structure::role($request->header('Context-Role')))
             ->allowedFilters([
-                AllowedFilter::custom('search', new FiltersStructureSearch),
+                AllowedFilter::custom('search', new FiltersStructureSearch()),
                 AllowedFilter::exact('department'),
                 AllowedFilter::exact('state'),
                 AllowedFilter::exact('statut_juridique'),
@@ -45,7 +44,7 @@ class StructureController extends Controller
                 AllowedFilter::exact('reseaux.name'),
                 AllowedFilter::scope('ofReseau'),
                 AllowedFilter::callback('exclude', function (Builder $query, $value) {
-                    if(is_numeric($value)){
+                    if(is_numeric($value)) {
                         $query->where('id', '!=', $value);
                     }
                 })
@@ -386,6 +385,6 @@ class StructureController extends Controller
             GROUP BY structures.name
             ORDER BY COUNT(participations) DESC
             LIMIT 20
-        "));
+        ")->getValue(DB::connection()->getQueryGrammar()));
     }
 }
