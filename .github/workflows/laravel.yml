@@ -53,7 +53,7 @@ jobs:
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         run: |
-          curl -i -X POST -H 'Content-type: application/json' --data '
+          curl -o - -I -X POST -H 'Content-type: application/json' --data '
           {
               "attachments": [
                   {
@@ -98,7 +98,7 @@ jobs:
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         run: |
-          curl -i -X POST -H 'Content-type: application/json' --data '{
+          curl -o - -I -X POST -H 'Content-type: application/json' --data '{
             "attachments": [
               {
                 "color": "#dc2626",
