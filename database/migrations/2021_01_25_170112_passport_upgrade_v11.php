@@ -14,7 +14,7 @@ class PassportUpgradeV11 extends Migration
     public function up()
     {
         Schema::table('oauth_clients', function (Blueprint $table) {
-            $table->string('provider')->after('secret')->nullable();
+            // $table->string('provider')->after('secret')->nullable();
         });
     }
 

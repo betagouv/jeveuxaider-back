@@ -27,7 +27,6 @@ use Spatie\QueryBuilder\AllowedSort;
 use Spatie\QueryBuilder\QueryBuilder;
 use Illuminate\Bus\Batch;
 use Laravel\Passport\Passport;
-use Throwable;
 
 class ProfileController extends Controller
 {
@@ -41,15 +40,15 @@ class ProfileController extends Controller
                 'tags',
             ])
             ->allowedFilters(
-                AllowedFilter::custom('search', new FiltersProfileSearch),
+                AllowedFilter::custom('search', new FiltersProfileSearch()),
                 AllowedFilter::scope('user.role'),
-                AllowedFilter::custom('referent_department', new FiltersReferentDepartment),
-                AllowedFilter::custom('referent_region', new FiltersReferentRegion),
+                AllowedFilter::custom('referent_department', new FiltersReferentDepartment()),
+                AllowedFilter::custom('referent_region', new FiltersReferentRegion()),
                 AllowedFilter::exact('department'),
                 AllowedFilter::exact('zip'),
                 AllowedFilter::exact('is_visible'),
-                AllowedFilter::custom('min_participations', new FiltersProfileMinParticipations),
-                AllowedFilter::custom('tags', new FiltersTags)
+                AllowedFilter::custom('min_participations', new FiltersProfileMinParticipations()),
+                AllowedFilter::custom('tags', new FiltersTags())
             )
             ->defaultSort('-created_at')
             ->allowedSorts([
@@ -148,7 +147,7 @@ class ProfileController extends Controller
         return $profile;
     }
 
-    public function setMissionsIsActiveForResponsable (Request $request, Profile $profile)
+    public function setMissionsIsActiveForResponsable(Request $request, Profile $profile)
     {
         $currentUserId = Auth::guard('api')->user()->id;
         $currentUser = User::find($currentUserId);
@@ -158,11 +157,11 @@ class ProfileController extends Controller
             Mission::whereIn('id', $missionIds)->update(['is_active' => true]);
 
             $batch = Bus::batch(
-                $missionIds->map(fn($id) => new MissionSetSearchable($id))
+                $missionIds->map(fn ($id) => new MissionSetSearchable($id))
             )
                 ->then(function (Batch $batch) use ($currentUser, $profile, $missionIds) {
                     Passport::actingAs($currentUser);
-                    $profile->notify(new ResponsableMissionsReactivated);
+                    $profile->notify(new ResponsableMissionsReactivated());
                     activity()
                         ->causedBy($currentUser)
                         ->on($profile)
@@ -174,12 +173,11 @@ class ProfileController extends Controller
                 ->dispatch();
 
             return $batch->id;
-        }
-        else {
+        } else {
             $missionIds = Mission::ofResponsable($profile->id)->available()->get()->pluck('id');
             Mission::whereIn('id', $missionIds)->update(['is_active' => false]);
             Mission::whereIn('id', $missionIds)->unsearchable();
-            $profile->notify(new ResponsableMissionsDeactivated);
+            $profile->notify(new ResponsableMissionsDeactivated());
             activity()
                 ->causedBy($currentUser)
                 ->on($profile)

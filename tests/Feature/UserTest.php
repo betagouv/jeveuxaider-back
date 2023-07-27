@@ -1,50 +1,59 @@
 <?php
 
-namespace Tests\Feature;
-
-use App\Models\Profile;
-use App\Models\Structure;
 use App\Models\User;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Tests\TestCase;
+use Illuminate\Support\Facades\Hash;
+use Laravel\Passport\Passport;
 
-class UserTest extends TestCase
-{
-    use WithFaker, WithoutMiddleware, DatabaseTransactions;
+use function Pest\Faker\fake;
 
-    /** @test */
-    public function a_user_can_register()
-    {
-        $email = $this->faker->unique()->safeEmail;
+it('can register as benevole', function () {
+    $email = fake()->email;
 
-        $attributes = [
-            'name' => $this->faker->name,
-            'email' => $email,
-            'first_name' => 'Firstname',
-            'last_name' => 'Lastname',
-            'password' => $this->faker->password(8),
-        ];
+    $userData = [
+        'name' => $email,
+        'email' => $email,
+        'password' => Hash::make('password123'),
+        'first_name' => fake()->firstName,
+        'last_name' => fake()->lastName,
+        'mobile' => fake('fr_FR')->phoneNumber,
+        'birthday' => '1980-01-02',
+        'zip' => fake('fr_FR')->postcode,
+        'country' => 'FR',
+    ];
 
-        $response = $this->post('api/register', $attributes);
+    $response = $this->post('/api/register/volontaire', $userData);
 
-        $this->assertDatabaseHas('users', ['email' => $email]);
-        $response->assertStatus(201);
-    }
+    $response->assertStatus(201);
 
-    /** @test */
-    public function a_user_can_create_a_structure()
-    {
-        // $this->withoutExceptionHandling();
-        $user = factory(User::class)->create();
-        $profile = factory(Profile::class)->create();
-        $user->profile()->save($profile);
+    $user = User::latest()->first();
 
-        $attributes = factory(Structure::class)->raw();
-        $response = $this->actingAs($user)->post('api/structure', $attributes);
+    expect($user)
+        ->email->toBe($userData['email'])
+        ->context_role->toBe('volontaire');
+});
 
-        $this->assertDatabaseHas('structures', $attributes);
-        $response->assertStatus(201);
-    }
-}
+it('can edit your own profile', function () {
+
+    $user = Passport::actingAs(
+        User::factory()->create()
+    );
+
+    $newPhoneNumber = fake('fr_FR')->phoneNumber;
+    $newEmail = fake()->unique()->safeEmail();
+
+    $response = $this->put('/api/profiles/' . $user->profile->id, [
+        'mobile' => $newPhoneNumber,
+        'email' => $newEmail
+    ]);
+
+    $response->assertStatus(200);
+
+    $user->refresh();
+
+    expect($user->profile)
+        ->mobile->toBe($newPhoneNumber)
+        ->email->toBe($newEmail);
+    expect($user)
+        ->email->toBe($newEmail);
+
+});
