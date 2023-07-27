@@ -5,7 +5,6 @@ namespace App\Observers;
 use App\Models\Message;
 use App\Models\Participation;
 use App\Models\Structure;
-use App\Notifications\MessageCreated;
 use App\Notifications\MessageMissionCreated;
 use App\Notifications\MessageParticipationCreated;
 use App\Notifications\MessageStructureCreated;
@@ -40,9 +39,9 @@ class MessageObserver
                         ->causedBy($user)
                         ->performedOn($participation)
                         ->withProperties([
-                                'attributes' => ['state' => 'En cours de traitement'],
-                                'old' => ['state' => $participation->state]
-                            ])
+                            'attributes' => ['state' => 'En cours de traitement'],
+                            'old' => ['state' => $participation->state]
+                        ])
                         ->event('updated')
                         ->log('updated');
 
@@ -66,7 +65,7 @@ class MessageObserver
         // Éviter le flood
         if ($send) {
             if ($message->conversation->messages->where('type', 'chat')->count() > 1) {
-                $lastMessage = $message->conversation->messages->where('type', 'chat')->sortBy([['created_at', 'desc']])[1]; // 0 est le nouveau message
+                $lastMessage = $message->conversation->messages()->where('type', 'chat')->orderByDesc('created_at')->skip(1)->first(); // 0 est le nouveau message
                 if ($lastMessage->from_id == $message->from_id) {
                     // 1 heure entre deux emails de la même personne
                     $diffInMinutes = $message->created_at->diffInMinutes($lastMessage->created_at);
