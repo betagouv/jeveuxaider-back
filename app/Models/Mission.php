@@ -19,7 +19,12 @@ use Spatie\Tags\HasTags;
 
 class Mission extends Model
 {
-    use SoftDeletes, Searchable, HasTags, LogsActivity, HasSlug, Notable;
+    use SoftDeletes;
+    use Searchable;
+    use HasTags;
+    use LogsActivity;
+    use HasSlug;
+    use Notable;
 
     protected $table = 'missions';
 
@@ -99,9 +104,9 @@ class Mission extends Model
             $domainesCollection = collect([$this->domaine, $this->domaineSecondary]);
             $activities = collect([$this->activity, $this->activitySecondary]);
         }
-        $domaines = $domainesCollection->filter()->map(fn($domaine) => ['id' => $domaine->id, 'name'=> $domaine->name]);
-        $domaineNames = $domainesCollection->filter()->map(fn($domaine) => $domaine->name);
-        $activities = $activities->filter()->map(fn($activity) => ['id' => $activity->id, 'name'=> $activity->name]);
+        $domaines = $domainesCollection->filter()->map(fn ($domaine) => ['id' => $domaine->id, 'name'=> $domaine->name]);
+        $domaineNames = $domainesCollection->filter()->map(fn ($domaine) => $domaine->name);
+        $activities = $activities->filter()->map(fn ($activity) => ['id' => $activity->id, 'name'=> $activity->name]);
         $publicsBeneficiaires = config('taxonomies.mission_publics_beneficiaires.terms');
 
         if ($this->end_date) {
@@ -171,6 +176,7 @@ class Mission extends Model
             'is_outdated' => isset($trueEndDate) && (Carbon::today())->gt($trueEndDate) ? true : false,
             'tags' => $this->tags->where('is_published', true)->pluck('name'),
             'is_registration_open' => $this->is_registration_open,
+            'date_type' => $this->date_type,
         ];
 
         if ($this->is_autonomy) {
@@ -677,8 +683,8 @@ class Mission extends Model
             $domaines = collect([$this->domaine, $this->domaineSecondary]);
             $activities = collect([$this->activity, $this->activitySecondary]);
         }
-        $domaines = $domaines->filter()->map(fn($domaine) => ['id' => $domaine->id, 'name'=>$domaine->name]);
-        $activities = $activities->filter()->map(fn($activity) => ['id' => $activity->id, 'name'=>$activity->name]);
+        $domaines = $domaines->filter()->map(fn ($domaine) => ['id' => $domaine->id, 'name'=>$domaine->name]);
+        $activities = $activities->filter()->map(fn ($activity) => ['id' => $activity->id, 'name'=>$activity->name]);
 
         return [
             'id' => $this->id,
