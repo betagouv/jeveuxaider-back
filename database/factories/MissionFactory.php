@@ -35,6 +35,7 @@ class MissionFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
+                'structure_id' => Structure::factory()->validated(),
                 'state' => 'Validée',
             ];
         });

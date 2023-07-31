@@ -28,4 +28,13 @@ class StructureFactory extends Factory
             // téléphone public
         ];
     }
+
+    public function validated(): Factory
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'state' => 'Validée',
+            ];
+        });
+    }
 }
