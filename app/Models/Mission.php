@@ -178,6 +178,7 @@ class Mission extends Model
             'is_outdated' => isset($trueEndDate) && (Carbon::today())->gt($trueEndDate) ? true : false,
             'tags' => $this->tags->where('is_published', true)->pluck('name'),
             'is_registration_open' => $this->is_registration_open,
+            'date_type' => $this->date_type,
         ];
 
         if ($this->is_autonomy) {

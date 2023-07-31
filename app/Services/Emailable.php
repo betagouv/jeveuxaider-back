@@ -13,7 +13,7 @@ class Emailable
                 ['Content-Type' => 'application/json']
             )
                 ->withOptions($options)
-                ->$method("https://api.emailable.com/v1${path}");
+                ->$method("https://api.emailable.com/v1{$path}");
 
             return $response;
         } catch (\Exception $e) {

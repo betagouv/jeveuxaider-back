@@ -10,6 +10,7 @@ use App\Http\Requests\Api\StructureCreateRequest;
 use App\Http\Requests\Api\StructureDeleteRequest;
 use App\Http\Requests\Api\StructureUpdateRequest;
 use App\Http\Requests\StructureRequest;
+use App\Models\Activity;
 use App\Models\Mission;
 use App\Models\Participation;
 use App\Models\Profile;
@@ -99,6 +100,24 @@ class StructureController extends Controller
             ->append(['missing_fields', 'completion_rate', 'permissions']);
     }
 
+    public function activities(Request $request, Structure $structure)
+    {
+        $results = DB::select(
+            "
+                SELECT activities.id, activities.name, COUNT(*) FROM activities
+                LEFT JOIN missions ON missions.activity_id = activities.id OR missions.activity_secondary_id = activities.id
+                WHERE missions.structure_id = :structure
+                AND missions.state IN ('Validée', 'Terminée')
+                GROUP BY activities.id
+                ORDER BY COUNT(*) DESC
+            ", [
+                'structure' => $structure->id,
+            ]
+        );
+
+        return $results;
+    }
+
     public function associationSlugOrId(Request $request, $slugOrId)
     {
         $query = (is_numeric($slugOrId)) ? Structure::where('id', $slugOrId) : Structure::where('slug', $slugOrId);
@@ -108,7 +127,8 @@ class StructureController extends Controller
 
         if ($structure) {
             $structure->load(['domaines', 'logo', 'illustrations', 'overrideImage1', 'overrideImage2']);
-            $structure->append(['places_left']);
+            $structure->loadCount(['missionsAvailable', 'participations']);
+            $structure->append(['places_left', 'statistics']);
         }
 
         return $structure;

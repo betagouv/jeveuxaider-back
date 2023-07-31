@@ -19,7 +19,7 @@ class Sendinblue
             ]
         )
             ->withOptions($options)
-            ->$method("https://api.sendinblue.com/v3${path}");
+            ->$method("https://api.sendinblue.com/v3{$path}");
 
         return $response;
     }
