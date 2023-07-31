@@ -75,6 +75,11 @@ class Reseau extends Model implements HasMedia
         return $this->hasManyDeep(Mission::class, ['reseau_structure', Structure::class]);
     }
 
+    public function missionsAvailable()
+    {
+        return $this->hasManyDeep(Mission::class, ['reseau_structure', Structure::class])->where('missions.state', 'Validée')->where('missions.is_active', true);
+    }
+
     public function participations()
     {
         return $this->hasManyDeepFromRelations($this->missions(), (new Mission)->participations());
@@ -238,5 +243,13 @@ class Reseau extends Model implements HasMedia
     public function getPlacesLeftAttribute()
     {
         return Mission::available()->ofReseau($this->id)->sum('places_left');
+    }
+
+    public function getStatisticsAttribute()
+    {
+        return [
+            'missions_available_presentiel_count' => $this->missionsAvailable()->where('type', 'Mission en présentiel')->count(),
+            'missions_available_distance_count' => $this->missionsAvailable()->where('type', 'Mission à distance')->count()
+        ];
     }
 }

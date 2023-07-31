@@ -54,6 +54,7 @@ Route::get('territoires/{territoire}/available-cities', 'Api\TerritoireControlle
 Route::post('reseaux/lead', 'Api\ReseauController@lead');
 Route::get('reseaux/{reseau}', 'Api\ReseauController@show');
 Route::get('reseaux/{reseau}/structures', 'Api\ReseauController@structures');
+Route::get('reseaux/{reseau}/activities', 'Api\ReseauController@activities');
 
 Route::get('notification-temoignage/{token}', 'Api\NotificationTemoignageController@show');
 Route::get('participations/{participation}/temoignage', 'Api\ParticipationController@temoignage');
@@ -61,6 +62,7 @@ Route::get('participations/{participation}/temoignage', 'Api\ParticipationContro
 // Route::get('participation/{participation}/mission', 'Api\ParticipationController@mission');
 Route::post('temoignages', 'Api\TemoignageController@store');
 Route::get('temoignages/organisations/{structure}', 'Api\TemoignageController@forOrganisation');
+Route::get('temoignages/reseaux/{reseau}', 'Api\TemoignageController@forReseau');
 
 Route::get('settings/messages', 'Api\SettingController@messages');
 Route::get('settings/general', 'Api\SettingController@general');

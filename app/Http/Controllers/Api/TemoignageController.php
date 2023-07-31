@@ -7,6 +7,7 @@ use App\Filters\FiltersTemoignageSearch;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\TemoignageCreateRequest;
 use App\Http\Requests\Api\TemoignageUpdateRequest;
+use App\Models\Reseau;
 use App\Models\Structure;
 use App\Models\Temoignage;
 use Illuminate\Http\Request;
@@ -79,9 +80,17 @@ class TemoignageController extends Controller
     {
         return Temoignage::with([
             'participation.mission',
-            'participation.mission.structure',
+            'participation.mission.structure.logo',
             'participation.profile',
-            'participation.profile.avatar',
-        ])->where('grade', '>=', 4)->where('is_published', true)->ofStructure($structure->id)->get();
+        ])->where('grade', '>=', 4)->where('is_published', true)->ofStructure($structure->id)->inRandomOrder()->take(10)->get();
+    }
+
+    public function forReseau(Request $request, Reseau $reseau)
+    {
+        return Temoignage::with([
+            'participation.mission',
+            'participation.mission.structure.logo',
+            'participation.profile',
+        ])->where('grade', '>=', 4)->where('is_published', true)->ofReseau($reseau->id)->inRandomOrder()->take(10)->get();
     }
 }

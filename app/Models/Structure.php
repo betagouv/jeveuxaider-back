@@ -617,8 +617,8 @@ class Structure extends Model implements HasMedia
     public function getStatisticsAttribute()
     {
         return [
-            'missions_available_presentiel_count' => $this->missionsAvailable()->where('type','Mission en présentiel')->count(),
-            'missions_available_distance_count' => $this->missionsAvailable()->where('type','Mission à distance')->count()
+            'missions_available_presentiel_count' => $this->missionsAvailable()->where('type', 'Mission en présentiel')->count(),
+            'missions_available_distance_count' => $this->missionsAvailable()->where('type', 'Mission à distance')->count()
         ];
     }
 }
