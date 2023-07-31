@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -13,6 +14,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 class Participation extends Model
 {
     use LogsActivity;
+    use HasFactory;
 
     protected $table = 'participations';
 
@@ -29,7 +31,7 @@ class Participation extends Model
         'slots' => 'json',
     ];
 
-    const ACTIVE_STATUS = [
+    public const ACTIVE_STATUS = [
         'En attente de validation',
         'En cours de traitement',
         'Validée',
@@ -154,12 +156,12 @@ class Participation extends Model
 
     public function scopeNeedToBeTreated($query)
     {
-        return $query->where(function($query){
-            $query->where(function($query){
+        return $query->where(function ($query) {
+            $query->where(function ($query) {
                 $query->where('participations.state', 'En attente de validation')
                     ->where('participations.created_at', '<', Carbon::now()->subDays(7)->startOfDay());
             })
-            ->orWhere(function($query){
+            ->orWhere(function ($query) {
                 $query
                     ->where('participations.state', 'En cours de traitement')
                     ->where('participations.created_at', '<', Carbon::now()->subMonths(2)->startOfDay());

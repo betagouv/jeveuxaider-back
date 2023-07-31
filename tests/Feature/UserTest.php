@@ -1,5 +1,8 @@
 <?php
 
+use App\Models\Message;
+use App\Models\Mission;
+use App\Models\Participation;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Passport\Passport;
@@ -33,7 +36,6 @@ it('can register as benevole', function () {
 });
 
 it('can edit your own profile', function () {
-
     $user = Passport::actingAs(
         User::factory()->create()
     );
@@ -56,4 +58,92 @@ it('can edit your own profile', function () {
     expect($user)
         ->email->toBe($newEmail);
 
+});
+
+it('can not edit others profiles', function () {
+    Passport::actingAs(
+        User::factory()->create()
+    );
+
+    $otherUser = User::factory()->create();
+
+    $newEmail = fake()->unique()->safeEmail();
+
+    $response = $this->put('/api/profiles/' . $otherUser->profile->id, [
+        'email' => $newEmail
+    ]);
+
+    $response->assertStatus(403);
+});
+
+it('cannot participate to a mission which is not validated', function () {
+    $user = User::factory()->create();
+
+    Passport::actingAs($user);
+
+    $mission = Mission::factory()->create();
+
+    $response = $this->post('/api/participations', [
+        'mission_id' => $mission->id,
+        'profile_id' => $user->profile->id,
+        'content' => fake()->paragraph()
+    ]);
+
+    $response->assertStatus(422);
+
+    expect($user->profile->participations->count())->toBe(0);
+});
+
+it('can participate to a mission which is validated', function () {
+    $user = User::factory()->create();
+
+    Passport::actingAs($user);
+
+    $mission = Mission::factory()->validated()->create();
+
+    $response = $this->post('/api/participations', [
+        'mission_id' => $mission->id,
+        'profile_id' => $user->profile->id,
+        'content' => fake()->paragraph()
+    ]);
+
+    $response->assertStatus(201);
+
+    expect($user->profile->participations->count())->toBe(1);
+
+    return $user->profile->participations->last();
+});
+
+it('can write a message in his conversation', function () {
+
+    $participation = Participation::factory()->create();
+
+    Passport::actingAs($participation->profile->user);
+
+    $content = fake()->paragraph();
+
+    $response = $this->post('/api/conversations/' . $participation->conversation->id . '/messages', [
+        'content' => $content
+    ]);
+
+    $response->assertStatus(201);
+
+    $message = Message::latest('id')->first();
+
+    expect($message->content)->toBe($content);
+});
+
+it('cannot write a message in a conversation of other', function () {
+
+    $participation = Participation::factory()->create();
+
+    Passport::actingAs(User::factory()->create());
+
+    $content = fake()->paragraph();
+
+    $response = $this->post('/api/conversations/' . $participation->conversation->id . '/messages', [
+        'content' => $content
+    ]);
+
+    $response->assertStatus(403);
 });

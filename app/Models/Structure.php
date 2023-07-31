@@ -23,12 +23,22 @@ use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use Spatie\Tags\HasTags;
 use Staudenmeir\EloquentHasManyDeep\HasRelationships;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Structure extends Model implements HasMedia
 {
-    use SoftDeletes, LogsActivity, HasRelationships, HasTags, InteractsWithMedia, HasSlug, HasMissingFields, Searchable, Notable;
+    use SoftDeletes;
+    use LogsActivity;
+    use HasRelationships;
+    use HasTags;
+    use HasFactory;
+    use InteractsWithMedia;
+    use HasSlug;
+    use HasMissingFields;
+    use Searchable;
+    use Notable;
 
-    const CEU_TYPES = [
+    public const CEU_TYPES = [
         "SDIS (Service départemental d'Incendie et de Secours)",
         'Gendarmerie',
         'Police',

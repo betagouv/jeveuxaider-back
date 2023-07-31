@@ -42,7 +42,7 @@ class UserFactory extends Factory
                     'mobile' => fake('fr_FR')->phoneNumber,
                     'birthday' => '10/05/1990',
                     'zip' => fake('fr_FR')->postcode,
-                    'country' => 'FR'
+                    'description' => fake()->paragraph()
                 ]
             );
             $user->load('profile');
