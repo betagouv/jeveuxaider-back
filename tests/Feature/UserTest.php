@@ -147,3 +147,43 @@ it('cannot write a message in a conversation of other', function () {
 
     $response->assertStatus(403);
 });
+
+it('can cancel my participation and write message', function () {
+
+    $participation = Participation::factory()->create();
+    $places_left = $participation->mission->places_left;
+
+    Passport::actingAs($participation->profile->user);
+
+    $content = fake()->paragraph();
+
+    $response = $this->put('/api/participations/' . $participation->id . '/cancel-by-benevole', [
+        'reason' => 'not_available',
+        'content' => $content
+    ]);
+
+    $message = Message::latest('id')->first();
+
+    $participation->refresh();
+
+    expect($participation->state)->toBe("Annulée");
+    expect($message->content)->toBe($content);
+    expect($participation->mission->places_left)->toBe($places_left + 1);
+
+    $response->assertStatus(200);
+});
+
+it('can unsubscribe', function () {
+    $user = User::factory()->create();
+
+    Passport::actingAs($user);
+
+    $response = $this->post('/api/user/anonymize');
+
+    expect($user)
+        ->email->toBe($user->id . '@anonymized.fr')
+        ->profile->first_name->toBe('Anonyme')
+        ->profile->last_name->toBe('Anonyme');
+
+    $response->assertStatus(200);
+});
