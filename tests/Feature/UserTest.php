@@ -4,7 +4,6 @@ use App\Models\Message;
 use App\Models\Mission;
 use App\Models\Participation;
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
 use Laravel\Passport\Passport;
 
 use function Pest\Faker\fake;
@@ -13,9 +12,8 @@ it('can register as benevole', function () {
     $email = fake()->email;
 
     $userData = [
-        'name' => $email,
         'email' => $email,
-        'password' => Hash::make('password123'),
+        'password' => 'password123',
         'first_name' => fake()->firstName,
         'last_name' => fake()->lastName,
         'mobile' => fake('fr_FR')->phoneNumber,
@@ -110,8 +108,6 @@ it('can participate to a mission which is validated', function () {
     $response->assertStatus(201);
 
     expect($user->profile->participations->count())->toBe(1);
-
-    return $user->profile->participations->last();
 });
 
 it('can write a message in his conversation', function () {
