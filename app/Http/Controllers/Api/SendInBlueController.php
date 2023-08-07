@@ -8,14 +8,14 @@ class SendInBlueController extends Controller
 {
     public function store()
     {
-        $config = \SendinBlue\Client\Configuration::getDefaultConfiguration()->setApiKey('api-key', config('services.sendinblue.key'));
-        $config = \SendinBlue\Client\Configuration::getDefaultConfiguration()->setApiKey('partner-key', config('services.sendinblue.key'));
+        $config = \Brevo\Client\Configuration::getDefaultConfiguration()->setApiKey('api-key', config('services.sendinblue.key'));
+        $config = \Brevo\Client\Configuration::getDefaultConfiguration()->setApiKey('partner-key', config('services.sendinblue.key'));
 
-        $apiInstance = new \SendinBlue\Client\Api\ContactsApi(
+        $apiInstance = new \Brevo\Client\Api\ContactsApi(
             new \GuzzleHttp\Client(),
             $config
         );
-        $createContact = new \SendinBlue\Client\Model\CreateContact([
+        $createContact = new \Brevo\Client\Model\CreateContact([
             'email' => request('email'),
             'attributes' => [
                 'CODE_POSTAL' => request('zipcode') ? request('zipcode') : '',
