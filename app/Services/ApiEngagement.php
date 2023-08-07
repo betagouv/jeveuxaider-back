@@ -445,7 +445,7 @@ class ApiEngagement
             'description' => $mission['description'],
             'start_date' => $mission['startAt'] ?? null,
             'end_date' => $mission['endAt'] ?? null,
-            'full_address' => $mission['adresse'] ?? null,
+            'full_address' => $mission['address'] ?? null,
             'is_outdated' => isset($mission['endAt']) && $mission['endAt'] < Carbon::today() ? true : false, // Fallback to false for sorting purposes
             'is_registration_open' => true, // Fallback to true for sorting purposes
             'activity' => $this->formatActivity($mission),
