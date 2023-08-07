@@ -26,7 +26,7 @@ class TemoignageCreateRequest extends TemoignageRequest
         return [
             'participation_id' => 'required',
             'grade' => 'required',
-            'testimony' => '',
+            'testimony' => 'required',
             'is_published' => 'boolean',
         ];
     }
@@ -41,6 +41,7 @@ class TemoignageCreateRequest extends TemoignageRequest
         return [
             'participation_id' => "L'identifiant de participation est requis.",
             'grade' => 'La note est requise.',
+            'testimony' => 'Le témoignage est requis.',
         ];
     }
 }
