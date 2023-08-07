@@ -29,8 +29,8 @@ class ParticipationController extends Controller
     {
         return QueryBuilder::for(Participation::role($request->header('Context-Role'))->with('profile', 'mission'))
             ->allowedFilters(
-                AllowedFilter::custom('search', new FiltersParticipationSearch),
-                AllowedFilter::custom('need_to_be_treated', new FiltersParticipationNeedToBeTreated),
+                AllowedFilter::custom('search', new FiltersParticipationSearch()),
+                AllowedFilter::custom('need_to_be_treated', new FiltersParticipationNeedToBeTreated()),
                 AllowedFilter::exact('mission.id'),
                 AllowedFilter::exact('mission.name'),
                 AllowedFilter::exact('mission.department'),
@@ -48,7 +48,7 @@ class ParticipationController extends Controller
                 AllowedFilter::exact('mission.type'),
                 AllowedFilter::exact('id'),
                 AllowedFilter::callback('is_state_pending', function (Builder $query, $value) {
-                    if($value === true){
+                    if($value === true) {
                         $query->whereIn('state', ['En attente de validation', 'En cours de traitement']);
                     }
                 })
@@ -88,6 +88,10 @@ class ParticipationController extends Controller
         }
 
         $mission = Mission::find(request('mission_id'));
+
+        if($mission->state != 'Validée') {
+            abort(422, "Désolé, la mission n'est pas validée");
+        }
 
         if (!$mission->is_registration_open) {
             abort(422, 'Désolé, les inscriptions à cette mission sont fermées !');
@@ -166,16 +170,16 @@ class ParticipationController extends Controller
             $participation->mission->responsable->notify(new ParticipationBenevoleCanceled($participation, $request->input('content'), $request->input('reason')));
         }
 
-         // Log (because saveQuietly)
-         activity()
-            ->causedBy($currentUser)
-            ->performedOn($participation)
-            ->withProperties([
-                    'attributes' => ['state' => 'Annulée'],
-                    'old' => ['state' => $participation->state]
-                ])
-            ->event('updated')
-            ->log('updated');
+        // Log (because saveQuietly)
+        activity()
+           ->causedBy($currentUser)
+           ->performedOn($participation)
+           ->withProperties([
+               'attributes' => ['state' => 'Annulée'],
+               'old' => ['state' => $participation->state]
+           ])
+           ->event('updated')
+           ->log('updated');
 
         $participation->state = 'Annulée';
         $participation->saveQuietly();
@@ -217,9 +221,9 @@ class ParticipationController extends Controller
             ->causedBy($currentUser)
             ->performedOn($participation)
             ->withProperties([
-                    'attributes' => ['state' => 'Validée'],
-                    'old' => ['state' => $participation->state]
-                ])
+                'attributes' => ['state' => 'Validée'],
+                'old' => ['state' => $participation->state]
+            ])
             ->event('updated')
             ->log('updated');
 
