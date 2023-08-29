@@ -77,6 +77,7 @@ use App\Notifications\StructureSwitchResponsable;
 use App\Notifications\StructureValidated;
 use App\Notifications\StructureWithoutMissionSecondReminder;
 use App\Notifications\UserAnonymize;
+use App\Notifications\UserBannedInappropriateBehavior;
 use App\Notifications\UserBannedNotRegularResident;
 use App\Notifications\UserBannedYoungerThan16;
 use Illuminate\Http\Request;
@@ -90,7 +91,7 @@ class NotificationController extends Controller
         $userOrProfile = $this->getRecepientResolver($key, $user);
         $notification = $this->getNotification($key, $user);
 
-        if(isset($notification)){
+        if(isset($notification)) {
             return $notification->toMail($userOrProfile)->render();
         }
 
@@ -103,14 +104,15 @@ class NotificationController extends Controller
         $userOrProfile = $this->getRecepientResolver($key, $user);
         $notification = $this->getNotification($key, $user);
 
-        if(isset($notification)){
+        if(isset($notification)) {
             return $userOrProfile->notify($notification);
         }
 
         return abort(401, 'Notification introuvable');
     }
 
-    private function getRecepientResolver($key, $user) {
+    private function getRecepientResolver($key, $user)
+    {
 
         switch ($key) {
             case 'benevole_cej_no_participation':
@@ -132,7 +134,8 @@ class NotificationController extends Controller
         }
     }
 
-    private function getNotification($key, $user){
+    private function getNotification($key, $user)
+    {
 
         $structure = Structure::latest()->first();
         $mission = Mission::latest()->first();
@@ -260,47 +263,47 @@ class NotificationController extends Controller
                 $notification = new MessageCreated($message);
                 break;
             case 'benevole_message_participation':
-                $message = Message::whereHas('from.roles',function (Builder $query){
+                $message = Message::whereHas('from.roles', function (Builder $query) {
                     $query->where('roles.id', 2);
-                })->whereHas('conversation', function (Builder $query){
+                })->whereHas('conversation', function (Builder $query) {
                     $query->where('conversable_type', 'App\\Models\\Participation');
                 })->latest()->first();
                 $notification = new MessageParticipationCreated($message);
                 break;
             case 'responsable_message_participation':
-                $message = Message::whereDoesntHave('from.roles')->whereHas('conversation', function (Builder $query){
+                $message = Message::whereDoesntHave('from.roles')->whereHas('conversation', function (Builder $query) {
                     $query->where('conversable_type', 'App\\Models\\Participation');
                 })->latest()->first();
                 $notification = new MessageParticipationCreated($message);
                 break;
             case 'responsable_message_organisation':
-                $message = Message::whereHas('from.roles',function (Builder $query){
+                $message = Message::whereHas('from.roles', function (Builder $query) {
                     $query->where('roles.id', 3);
-                })->whereHas('conversation', function (Builder $query){
+                })->whereHas('conversation', function (Builder $query) {
                     $query->where('conversable_type', 'App\\Models\\Structure');
                 })->latest()->first();
                 $notification = new MessageStructureCreated($message);
                 break;
             case 'referent_message_organisation':
-                $message = Message::whereHas('from.roles',function (Builder $query){
+                $message = Message::whereHas('from.roles', function (Builder $query) {
                     $query->where('roles.id', '!=', 3);
-                })->whereHas('conversation', function (Builder $query){
+                })->whereHas('conversation', function (Builder $query) {
                     $query->where('conversable_type', 'App\\Models\\Structure');
                 })->latest()->first();
                 $notification = new MessageStructureCreated($message);
                 break;
             case 'responsable_message_mission':
-                $message = Message::whereHas('from.roles',function (Builder $query){
+                $message = Message::whereHas('from.roles', function (Builder $query) {
                     $query->where('roles.id', 3);
-                })->whereHas('conversation', function (Builder $query){
+                })->whereHas('conversation', function (Builder $query) {
                     $query->where('conversable_type', 'App\\Models\\Mission');
                 })->latest()->first();
                 $notification = new MessageMissionCreated($message);
                 break;
             case 'referent_message_mission':
-                $message = Message::whereHas('from.roles',function (Builder $query){
+                $message = Message::whereHas('from.roles', function (Builder $query) {
                     $query->where('roles.id', '!=', 3);
-                })->whereHas('conversation', function (Builder $query){
+                })->whereHas('conversation', function (Builder $query) {
                     $query->where('conversable_type', 'App\\Models\\Mission');
                 })->latest()->first();
                 $notification = new MessageMissionCreated($message);
@@ -360,7 +363,7 @@ class NotificationController extends Controller
                 $profile = Profile::select('id', 'email')
                     ->whereHas('user.structures')
                     ->whereHas('missions.participations')
-                    ->whereHas('user.roles', function (Builder $query){
+                    ->whereHas('user.roles', function (Builder $query) {
                         $query->where('roles.id', 2);
                     })
                     ->where('notification__responsable_frequency', 'summary')
@@ -372,7 +375,7 @@ class NotificationController extends Controller
                     ->where('notification__responsable_bilan', true)
                     ->whereHas('user.structures')
                     ->whereHas('user.structures.participations')
-                    ->whereHas('user.roles', function (Builder $query){
+                    ->whereHas('user.roles', function (Builder $query) {
                         $query->where('roles.id', 2);
                     })
                     ->latest()->first();
@@ -380,7 +383,7 @@ class NotificationController extends Controller
                 break;
             case 'referent_summary_daily':
                 $profile = Profile::select('id', 'email')
-                    ->whereHas('user.roles', function (Builder $query){
+                    ->whereHas('user.roles', function (Builder $query) {
                         $query->where('roles.id', 3);
                     })
                     ->where('notification__referent_frequency', 'summary')
@@ -389,7 +392,7 @@ class NotificationController extends Controller
                 break;
             case 'referent_summary_monthly':
                 $profile = Profile::select('id', 'email')
-                    ->whereHas('user.roles', function (Builder $query){
+                    ->whereHas('user.roles', function (Builder $query) {
                         $query->where('roles.id', 3);
                     })
                     ->where('notification__referent_bilan', true)
@@ -403,16 +406,19 @@ class NotificationController extends Controller
                 $notification = new MissionReactivated($mission);
                 break;
             case 'responsable_missions_deactivated':
-                $notification = new ResponsableMissionsDeactivated;
+                $notification = new ResponsableMissionsDeactivated();
                 break;
             case 'responsable_missions_reactivated':
-                $notification = new ResponsableMissionsReactivated;
+                $notification = new ResponsableMissionsReactivated();
                 break;
             case 'user_banned_not_regular_resident':
-                $notification = new UserBannedNotRegularResident;
+                $notification = new UserBannedNotRegularResident();
                 break;
             case 'user_banned_younger_than_16':
-                $notification = new UserBannedYoungerThan16;
+                $notification = new UserBannedYoungerThan16();
+                break;
+            case 'user_banned_inappropriate_behavior':
+                $notification = new UserBannedInappropriateBehavior();
                 break;
             default:
                 return null;
