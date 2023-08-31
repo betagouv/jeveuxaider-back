@@ -110,7 +110,7 @@ class UserController extends Controller
     {
         $user = User::find(Auth::guard('api')->user()->id);
 
-        return DatabaseNotification::with('notifiable')
+        $count = DatabaseNotification::with('notifiable')
             ->where(function(Builder $query) use ($user){
                 $query->where(function(Builder $query) use ($user){
                     $query
@@ -123,6 +123,10 @@ class UserController extends Controller
                         ->where('notifiable_id', $user->profile->id);
                 });
             })->unread()->count();
+
+        return [
+            'count' => $count
+        ];
     }
 
     public function participations(Request $request)
@@ -148,7 +152,9 @@ class UserController extends Controller
     {
         $user = User::find(Auth::guard('api')->user()->id);
 
-        return $user->getUnreadConversationsCount();
+        return [
+            'count' => $user->getUnreadConversationsCount()
+        ];
     }
 
     public function lastReadConversation(Request $request)

@@ -25,6 +25,7 @@ Route::get('missions/{mission}/similar', 'Api\MissionController@similar');
 Route::post('missions/similar-for-api', 'Api\MissionController@similarForApi');
 Route::get('associations/{slugOrId}', 'Api\StructureController@associationSlugOrId');
 Route::get('structures/{structure}/activities', 'Api\StructureController@activities');
+Route::get('reseaux/{reseau}/activities', 'Api\ReseauController@activities');
 
 Route::get('territoires/{name}/exist', 'Api\TerritoireController@exist');
 Route::get('structures/{rnaOrName}/exist', 'Api\StructureController@exist');
@@ -61,6 +62,7 @@ Route::get('participations/{participation}/temoignage', 'Api\ParticipationContro
 // Route::get('participation/{participation}/mission', 'Api\ParticipationController@mission');
 Route::post('temoignages', 'Api\TemoignageController@store');
 Route::get('temoignages/organisations/{structure}', 'Api\TemoignageController@forOrganisation');
+Route::get('temoignages/reseaux/{reseau}', 'Api\TemoignageController@forReseau');
 
 Route::get('settings/messages', 'Api\SettingController@messages');
 Route::get('settings/general', 'Api\SettingController@general');

@@ -17,6 +17,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
+use Illuminate\Support\Facades\DB;
 
 class ReseauController extends Controller
 {
@@ -65,7 +66,29 @@ class ReseauController extends Controller
                 },
             ])
             ->firstOrFail()
-            ->append(['participations_max']);
+            ->append(['places_left', 'statistics']);
+    }
+
+    public function activities(Request $request, Reseau $reseau)
+    {
+        $results = DB::select(
+            "
+                SELECT activities.id, activities.name, COUNT(*) FROM activities
+                LEFT JOIN missions ON missions.activity_id = activities.id OR missions.activity_secondary_id = activities.id
+                LEFT JOIN structures ON structures.id = missions.structure_id
+                LEFT JOIN reseau_structure ON reseau_structure.structure_id = missions.structure_id
+                LEFT JOIN reseaux ON reseaux.id = reseau_structure.reseau_id
+                WHERE reseaux.id = :reseau
+                AND missions.state IN ('Validée', 'Terminée')
+                AND structures.state IN ('Validée')
+                GROUP BY activities.id
+                ORDER BY COUNT(*) DESC
+            ", [
+                'reseau' => $reseau->id,
+            ]
+        );
+
+        return $results;
     }
 
     public function store(ReseauRequest $request)
