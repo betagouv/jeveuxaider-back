@@ -56,15 +56,15 @@ class UserController extends Controller
         $user = User::find(Auth::guard('api')->user()->id);
 
         $queryBuilder = DatabaseNotification::with('notifiable')
-            ->where(function(Builder $query) use ($user){
-                $query->where(function(Builder $query) use ($user){
+            ->where(function (Builder $query) use ($user) {
+                $query->where(function (Builder $query) use ($user) {
                     $query
-                        ->where('notifiable_type','App\Models\User')
-                        ->where('notifiable_id',  $user->id);
+                        ->where('notifiable_type', 'App\Models\User')
+                        ->where('notifiable_id', $user->id);
                 })
-                ->orWhere(function(Builder $query) use ($user){
+                ->orWhere(function (Builder $query) use ($user) {
                     $query
-                        ->where('notifiable_type','App\Models\Profile')
+                        ->where('notifiable_type', 'App\Models\Profile')
                         ->where('notifiable_id', $user->profile->id);
                 });
             });
@@ -72,7 +72,7 @@ class UserController extends Controller
         return QueryBuilder::for($queryBuilder)
             ->allowedFilters([
                 AllowedFilter::scope('unread'),
-                AllowedFilter::custom('search', new FiltersNotificationSearch),
+                AllowedFilter::custom('search', new FiltersNotificationSearch()),
             ])
             ->defaultSort('-created_at')
             ->paginate(config('query-builder.results_per_page'));
@@ -90,15 +90,15 @@ class UserController extends Controller
     {
         $user = User::find(Auth::guard('api')->user()->id);
 
-        DatabaseNotification::where(function(Builder $query) use ($user){
-            $query->where(function(Builder $query) use ($user){
+        DatabaseNotification::where(function (Builder $query) use ($user) {
+            $query->where(function (Builder $query) use ($user) {
                 $query
-                    ->where('notifiable_type','App\Models\User')
-                    ->where('notifiable_id',  $user->id);
+                    ->where('notifiable_type', 'App\Models\User')
+                    ->where('notifiable_id', $user->id);
             })
-            ->orWhere(function(Builder $query) use ($user){
+            ->orWhere(function (Builder $query) use ($user) {
                 $query
-                    ->where('notifiable_type','App\Models\Profile')
+                    ->where('notifiable_type', 'App\Models\Profile')
                     ->where('notifiable_id', $user->profile->id);
             });
         })->update(['read_at' => now()]);
@@ -111,15 +111,15 @@ class UserController extends Controller
         $user = User::find(Auth::guard('api')->user()->id);
 
         $count = DatabaseNotification::with('notifiable')
-            ->where(function(Builder $query) use ($user){
-                $query->where(function(Builder $query) use ($user){
+            ->where(function (Builder $query) use ($user) {
+                $query->where(function (Builder $query) use ($user) {
                     $query
-                        ->where('notifiable_type','App\Models\User')
-                        ->where('notifiable_id',  $user->id);
+                        ->where('notifiable_type', 'App\Models\User')
+                        ->where('notifiable_id', $user->id);
                 })
-                ->orWhere(function(Builder $query) use ($user){
+                ->orWhere(function (Builder $query) use ($user) {
                     $query
-                        ->where('notifiable_type','App\Models\Profile')
+                        ->where('notifiable_type', 'App\Models\Profile')
                         ->where('notifiable_id', $user->profile->id);
                 });
             })->unread()->count();
@@ -135,7 +135,7 @@ class UserController extends Controller
 
         return QueryBuilder::for(Participation::where('profile_id', $user->profile->id)->with('profile', 'mission'))
             ->allowedFilters(
-                AllowedFilter::custom('search', new FiltersParticipationBenevoleSearch),
+                AllowedFilter::custom('search', new FiltersParticipationBenevoleSearch()),
                 'state',
             )
             ->allowedIncludes([
@@ -263,9 +263,9 @@ class UserController extends Controller
                     ->causedBy($user)
                     ->performedOn($participation)
                     ->withProperties([
-                            'attributes' => ['state' => 'Annulée'],
-                            'old' => ['state' => $participation->state]
-                        ])
+                        'attributes' => ['state' => 'Annulée'],
+                        'old' => ['state' => $participation->state]
+                    ])
                     ->event('updated')
                     ->log('updated');
 
@@ -292,7 +292,7 @@ class UserController extends Controller
             ->with(['conversation'])
             ->first();
 
-        return $participation;
+        return ['participation' => $participation];
     }
 
     public function addRole(Request $request, User $user)
@@ -378,14 +378,14 @@ class UserController extends Controller
         return $user;
     }
 
-    public function ban (Request $request, User $user)
+    public function ban(Request $request, User $user)
     {
         $reason = $request->input('reason');
         $user = $user->ban($reason);
         return $user;
     }
 
-    public function unban (Request $request, User $user)
+    public function unban(Request $request, User $user)
     {
         $user = $user->unban();
         return $user;
