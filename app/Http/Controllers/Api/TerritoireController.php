@@ -9,7 +9,6 @@ use App\Http\Requests\Api\TerritoireUpdateRequest;
 use App\Http\Requests\TerritoireRequest;
 use App\Models\Mission;
 use App\Models\Participation;
-use App\Models\Profile;
 use App\Models\Territoire;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -25,7 +24,7 @@ class TerritoireController extends Controller
                 'state',
                 'type',
                 AllowedFilter::exact('is_published'),
-                AllowedFilter::custom('search', new FiltersTerritoireSearch),
+                AllowedFilter::custom('search', new FiltersTerritoireSearch()),
             ])
             ->allowedIncludes([
                 'banner',
@@ -38,7 +37,7 @@ class TerritoireController extends Controller
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
 
         if ($request->has('append')) {
-            $results->append($request->input('append'));
+            $results->append(explode(',', $request->input('append')));
         }
 
         return $results;

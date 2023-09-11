@@ -8,7 +8,6 @@ use App\Http\Requests\AddResponsableRequest;
 use App\Http\Requests\Api\ReseauUpdateRequest;
 use App\Http\Requests\ReseauRequest;
 use App\Models\Invitation;
-use App\Models\Profile;
 use App\Models\Reseau;
 use App\Models\Structure;
 use App\Models\User;
@@ -25,7 +24,7 @@ class ReseauController extends Controller
     {
         $results = QueryBuilder::for(Reseau::class)
             ->allowedFilters([
-                AllowedFilter::custom('search', new FiltersReseauSearch),
+                AllowedFilter::custom('search', new FiltersReseauSearch()),
                 AllowedFilter::exact('is_published'),
                 AllowedFilter::exact('id'),
                 'name',
@@ -35,7 +34,7 @@ class ReseauController extends Controller
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
 
         if ($request->has('append')) {
-            $results->append($request->input('append'));
+            $results->append(explode(',', $request->input('append')));
         }
 
         return $results;
@@ -83,7 +82,8 @@ class ReseauController extends Controller
                 AND structures.state IN ('Validée')
                 GROUP BY activities.id
                 ORDER BY COUNT(*) DESC
-            ", [
+            ",
+            [
                 'reseau' => $reseau->id,
             ]
         );
