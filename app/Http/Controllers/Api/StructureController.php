@@ -10,7 +10,6 @@ use App\Http\Requests\Api\StructureCreateRequest;
 use App\Http\Requests\Api\StructureDeleteRequest;
 use App\Http\Requests\Api\StructureUpdateRequest;
 use App\Http\Requests\StructureRequest;
-use App\Models\Activity;
 use App\Models\Mission;
 use App\Models\Participation;
 use App\Models\Profile;
@@ -110,7 +109,8 @@ class StructureController extends Controller
                 AND missions.state IN ('Validée', 'Terminée')
                 GROUP BY activities.id
                 ORDER BY COUNT(*) DESC
-            ", [
+            ",
+            [
                 'structure' => $structure->id,
             ]
         );
@@ -342,13 +342,15 @@ class StructureController extends Controller
             ->first();
 
         if ($structure === null) {
-            return false;
+            return ['structure' => null];
         }
 
         return [
-            'structure_id' => $structure->id,
-            'structure_name' => $structure->name,
-            'responsable_fullname' => $structure->members->first() ? $structure->members->first()->profile->full_name : null,
+            'structure' => [
+                'structure_id' => $structure->id,
+                'structure_name' => $structure->name,
+                'responsable_fullname' => $structure->members->first() ? $structure->members->first()->profile->full_name : null,
+            ]
         ];
     }
 
