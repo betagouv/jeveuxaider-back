@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Filters\FiltersProfileDepartment;
 use App\Filters\FiltersProfileMinParticipations;
 use App\Filters\FiltersProfileSearch;
 use App\Filters\FiltersReferentDepartment;
@@ -44,7 +45,7 @@ class ProfileController extends Controller
                 AllowedFilter::scope('user.role'),
                 AllowedFilter::custom('referent_department', new FiltersReferentDepartment()),
                 AllowedFilter::custom('referent_region', new FiltersReferentRegion()),
-                AllowedFilter::exact('department'),
+                AllowedFilter::custom('department', new FiltersProfileDepartment()),
                 AllowedFilter::exact('zip'),
                 AllowedFilter::exact('is_visible'),
                 AllowedFilter::custom('min_participations', new FiltersProfileMinParticipations()),
