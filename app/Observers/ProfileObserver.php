@@ -44,7 +44,11 @@ class ProfileObserver
 
         if (config('services.sendinblue.sync')) {
             if ($profile->user) {
-                SendinblueSyncUser::dispatch($profile->user);
+                if ($oldEmail != $newEmail) {
+                    SendinblueSyncUser::dispatch($profile->user, $oldEmail);
+                } else {
+                    SendinblueSyncUser::dispatch($profile->user);
+                }
             }
         }
 

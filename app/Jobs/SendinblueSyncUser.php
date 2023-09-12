@@ -15,15 +15,17 @@ class SendinblueSyncUser implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $user;
+    protected $oldEmail;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(User $user)
+    public function __construct(User $user, $oldEmail = null)
     {
         $this->user = $user;
+        $this->oldEmail = $oldEmail;
         $this->onQueue('sendinblue');
     }
 
@@ -34,6 +36,10 @@ class SendinblueSyncUser implements ShouldQueue
      */
     public function handle()
     {
-        Sendinblue::sync($this->user);
+        if($this->oldEmail){
+            Sendinblue::updateContactEmail($this->user, $this->oldEmail);
+        } else {
+            Sendinblue::sync($this->user);
+        }
     }
 }

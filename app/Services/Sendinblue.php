@@ -51,6 +51,19 @@ class Sendinblue
         );
     }
 
+    public static function updateContactEmail(User $user, $oldEmail)
+    {
+        return self::api(
+            'put',
+            "/contacts/$oldEmail",
+            [
+                'json' => [
+                    'attributes' => self::formatAttributes($user),
+                ],
+            ]
+        );
+    }
+
     public static function deleteContact(User $user)
     {
         return self::api(
@@ -102,6 +115,7 @@ class Sendinblue
         }
 
         $attributes = [
+            'EMAIL' => $user->profile->email,
             'NOM' => $user->profile->last_name,
             'PRENOM' => $user->profile->first_name,
             'DATE_DE_NAISSANCE' => $user->profile->birthday ? $user->profile->birthday->format('Y-m-d') : "",
