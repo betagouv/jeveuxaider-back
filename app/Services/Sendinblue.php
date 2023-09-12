@@ -77,17 +77,21 @@ class Sendinblue
         }
 
         if (!$response->successful()) {
-            if ($response['code'] == 'duplicate_parameter') {
-                switch ($response['message']) {
-                    case 'Unable to update contact, SMS is already associate with another Contact':
-                    case 'Unable to update contact, SMS is already associated with another Contact':
-                    case 'SMS is already associate with another Contact':
-                    case 'SMS is already associated with another Contact':
-                    case 'Unable to create contact, SMS is already associate with another Contact':
-                    case 'Unable to create contact, SMS is already associated with another Contact':
-                        self::sync($user, false);
-                        break;
-                }
+            switch ($response['code']) {
+                case 'invalid_parameter':
+                case 'duplicate_parameter':
+                    switch ($response['message']) {
+                        case 'Unable to update contact, SMS is already associate with another Contact':
+                        case 'Unable to update contact, SMS is already associated with another Contact':
+                        case 'SMS is already associate with another Contact':
+                        case 'SMS is already associated with another Contact':
+                        case 'Unable to create contact, SMS is already associate with another Contact':
+                        case 'Unable to create contact, SMS is already associated with another Contact':
+                        case 'Invalid phone number':
+                            self::sync($user, false);
+                            break;
+                    }
+                    break;
             }
         }
 
