@@ -212,6 +212,7 @@ class Airtable
             'Prénom' => $user->profile->first_name,
             'Nom' => $user->profile->last_name,
             'E-mail' => $user->profile->email,
+            'Numéro' => $user->profile->mobile,
             'Département' => $referentDepartments->first(),
             'Région' => $referentRegions->first(),
             'Rôle' => $roles,
