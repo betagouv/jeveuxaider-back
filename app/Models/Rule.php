@@ -130,6 +130,9 @@ class Rule extends Model
 
     protected function buildConditions($query, $conditions) {
         foreach ($conditions as $condition) {
+
+            $operator = $condition['operator'] == 'OR' ? 'orWhere' : 'where';
+
             switch($condition['name']){
                 case 'missions.publics_beneficiaires':
                 case 'missions.publics_volontaires':
@@ -152,6 +155,14 @@ class Rule extends Model
                     } else {
                         $query->ofReseau($condition['value']);
                     }
+                    break;
+                case 'missions.name':
+                    $query->$operator(function ($query) use ($condition){
+                        $query->where($condition['name'], $condition['operand'], $condition['value'])
+                            ->orWhereHas('template', function (Builder $query) use ($condition) {
+                                $query->where('title', $condition['operand'], $condition['value']);
+                            });
+                    });
                     break;
                 case 'missions.start_date':
                     $date = new Carbon($condition['value']);
