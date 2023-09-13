@@ -91,8 +91,6 @@ class Rule extends Model
     public function pendingItemsQueryBuilder()
     {
         $queryBuilder = $this->resolveQueryBuilder();
-
-        ray($queryBuilder->toRawSql());
         return $this->appendReverseActionToQueryBuilder($queryBuilder);
     }
 
