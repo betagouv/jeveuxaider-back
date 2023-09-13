@@ -76,6 +76,8 @@ Route::get('organisations/popular', 'Api\StructureController@popular');
 
 Route::get('structures/{structure}/score', 'Api\StructureController@score');
 
+Route::post('api-engagement/associations/search', 'Api\ApiEngagementController@searchAssociations');
+
 Route::group(['middleware' => ['auth:api', 'is.not.banned']], function () {
     Route::get('user', 'Api\UserController@me');
     Route::get('user/status', 'Api\UserController@status');
