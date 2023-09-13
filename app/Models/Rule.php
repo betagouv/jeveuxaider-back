@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Jobs\RuleMissionAttachTag;
 use App\Jobs\RuleMissionDetachTag;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
@@ -90,6 +91,8 @@ class Rule extends Model
     public function pendingItemsQueryBuilder()
     {
         $queryBuilder = $this->resolveQueryBuilder();
+
+        ray($queryBuilder->toRawSql());
         return $this->appendReverseActionToQueryBuilder($queryBuilder);
     }
 
@@ -110,12 +113,12 @@ class Rule extends Model
             foreach ($this->conditions as $index => $groupCondition) {
                 if ($index == 0) {
                     $queryBuilder->where(function ($query) use ($groupCondition) {
-                        $this->buildConditions($query, $groupCondition['conditions'], $groupCondition['operator']);
+                        $this->buildConditions($query, $groupCondition['conditions']);
                     });
                 } else {
                     $operator = $groupCondition['operator'] == 'OR' ? 'orWhere' : 'where';
                     $queryBuilder->$operator(function ($query) use ($groupCondition) {
-                        $this->buildConditions($query, $groupCondition['conditions'], $groupCondition['operator']);
+                        $this->buildConditions($query, $groupCondition['conditions']);
                     });
                 }
             }
@@ -133,14 +136,32 @@ class Rule extends Model
                 case 'missions.publics_beneficiaires':
                 case 'missions.publics_volontaires':
                     if($condition['operand'] == '=') {
-                        $query->whereJsonContains($condition['name'], $condition['value']);
+                        $query->whereJsonContains($condition['name'], $condition['value'], $condition['operator'] ?? 'AND' );
                     }
                     if($condition['operand'] == '!=') {
-                        $query->whereJsonDoesntContain($condition['name'], $condition['value']);
+                        $query->whereJsonDoesntContain($condition['name'], $condition['value'], $condition['operator'] ?? 'AND');
                     }
                     break;
                 case 'missions.reseau_id':
-                    $query->ofReseau($condition['value']);
+                    if($condition['operator'] == 'OR'){
+                        $query->orWhereHas(
+                            'structure',
+                            function (Builder $query) use ($condition) {
+                                $query->whereHas('reseaux', function (Builder $query) use ($condition) {
+                                    $query->where('reseaux.id', $condition['value']);
+                                });
+                            });
+                    } else {
+                        $query->ofReseau($condition['value']);
+                    }
+                    break;
+                case 'missions.start_date':
+                    $date = new Carbon($condition['value']);
+                    $query->where($condition['name'], $condition['operand'], $date->startOfDay(), $condition['operator'] ?? 'AND');
+                    break;
+                case 'missions.end_date':
+                    $date = new Carbon($condition['value']);
+                    $query->where($condition['name'], $condition['operand'], $date->endOfDay(), $condition['operator'] ?? 'AND');
                     break;
                 default:
                     $query->where($condition['name'], $condition['operand'], $condition['value'], $condition['operator'] ?? 'AND');
