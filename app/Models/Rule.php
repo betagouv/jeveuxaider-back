@@ -139,6 +139,9 @@ class Rule extends Model
                         $query->whereJsonDoesntContain($condition['name'], $condition['value']);
                     }
                     break;
+                case 'missions.reseau_id':
+                    $query->ofReseau($condition['value']);
+                    break;
                 default:
                     $query->where($condition['name'], $condition['operand'], $condition['value'], $condition['operator'] ?? 'AND');
                     break;
