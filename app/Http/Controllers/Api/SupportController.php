@@ -313,7 +313,7 @@ class SupportController extends Controller
         }
 
         $token = Password::createToken($user);
-        return config('app.front_url') . '/password-reset/' . $token . '?email=' . $user->email;
+        return config('app.front_url') . '/password-reset/' . $token . '?email=' . urlencode($user->email);
     }
 
 }
