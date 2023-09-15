@@ -106,8 +106,12 @@ class TerritoireController extends Controller
         return $territoire->responsables;
     }
 
-    public function availableCities(Request $request, Territoire $territoire)
+    public function availableCities(Request $request, $slugOrId)
     {
+        $territoire = (is_numeric($slugOrId))
+            ? Territoire::where('id', $slugOrId)->firstOrFail()
+            : Territoire::where('slug', $slugOrId)->firstOrFail();
+
         $cities = [];
         $missionsByCity = $territoire->promotedMissions(50)->groupBy('city');
 
