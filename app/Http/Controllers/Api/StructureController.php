@@ -240,14 +240,15 @@ class StructureController extends Controller
         ];
     }
 
-    public function waitingParticipations(Structure $structure)
-    {
-        if (Auth::guard('api')->user()->cannot('update', $structure)) {
-            abort(403, "Vous n'avez pas les droits nécéssaires pour réaliser cette action");
-        }
+    // @todo: Plus utilisé ?
+    // public function waitingParticipations(Structure $structure)
+    // {
+    //     if (Auth::guard('api')->user()->cannot('update', $structure)) {
+    //         abort(403, "Vous n'avez pas les droits nécéssaires pour réaliser cette action");
+    //     }
 
-        return Participation::ofStructure($structure->id)->ofResponsable(Auth::guard('api')->user()->profile->id)->where('state', 'En attente de validation')->count();
-    }
+    //     return Participation::ofStructure($structure->id)->ofResponsable(Auth::guard('api')->user()->profile->id)->where('state', 'En attente de validation')->count();
+    // }
 
     public function validateWaitingParticipations(Structure $structure)
     {

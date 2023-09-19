@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 
 class ApiEngagementController extends Controller
 {
-
     public function searchAssociations(Request $request)
     {
         $service = new ApiEngagement();
@@ -28,7 +27,9 @@ class ApiEngagementController extends Controller
 
         $mission = $service->getMyMission($id);
 
-        return $mission;
+        return [
+            'mission' => $mission
+        ];
     }
 
     public function outgoingTrafic(Request $request)
