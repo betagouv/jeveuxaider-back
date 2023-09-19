@@ -161,7 +161,9 @@ class UserController extends Controller
     {
         $user = User::find(Auth::guard('api')->user()->id);
 
-        return $user->lastReadConversation();
+        return [
+            'last_read_conversation' => $user->lastReadConversation()
+        ];
     }
 
     public function update(Request $request)
