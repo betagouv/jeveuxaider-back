@@ -397,7 +397,7 @@ class StructureController extends Controller
 
     public function popular(Request $request)
     {
-        return DB::select("
+        return ['organisations' => DB::select("
             SELECT COUNT(participations) as participations_count, structures.name
             FROM participations
             LEFT JOIN missions ON missions.id = participations.mission_id
@@ -408,6 +408,6 @@ class StructureController extends Controller
             GROUP BY structures.name
             ORDER BY COUNT(participations) DESC
             LIMIT 20
-        ");
+        ")];
     }
 }
