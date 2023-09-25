@@ -10,7 +10,6 @@ use App\Http\Requests\Api\StructureCreateRequest;
 use App\Http\Requests\Api\StructureDeleteRequest;
 use App\Http\Requests\Api\StructureUpdateRequest;
 use App\Http\Requests\StructureRequest;
-use App\Models\Activity;
 use App\Models\Mission;
 use App\Models\Participation;
 use App\Models\Profile;
@@ -67,7 +66,7 @@ class StructureController extends Controller
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
 
         if ($request->has('append')) {
-            $results->append($request->input('append'));
+            $results->append(explode(',', $request->input('append')));
         }
 
         return $results;
@@ -110,7 +109,8 @@ class StructureController extends Controller
                 AND missions.state IN ('Validée', 'Terminée')
                 GROUP BY activities.id
                 ORDER BY COUNT(*) DESC
-            ", [
+            ",
+            [
                 'structure' => $structure->id,
             ]
         );
@@ -240,14 +240,15 @@ class StructureController extends Controller
         ];
     }
 
-    public function waitingParticipations(Structure $structure)
-    {
-        if (Auth::guard('api')->user()->cannot('update', $structure)) {
-            abort(403, "Vous n'avez pas les droits nécéssaires pour réaliser cette action");
-        }
+    // @todo: Plus utilisé ?
+    // public function waitingParticipations(Structure $structure)
+    // {
+    //     if (Auth::guard('api')->user()->cannot('update', $structure)) {
+    //         abort(403, "Vous n'avez pas les droits nécéssaires pour réaliser cette action");
+    //     }
 
-        return Participation::ofStructure($structure->id)->ofResponsable(Auth::guard('api')->user()->profile->id)->where('state', 'En attente de validation')->count();
-    }
+    //     return Participation::ofStructure($structure->id)->ofResponsable(Auth::guard('api')->user()->profile->id)->where('state', 'En attente de validation')->count();
+    // }
 
     public function validateWaitingParticipations(Structure $structure)
     {
@@ -342,13 +343,15 @@ class StructureController extends Controller
             ->first();
 
         if ($structure === null) {
-            return false;
+            return ['structure' => null];
         }
 
         return [
-            'structure_id' => $structure->id,
-            'structure_name' => $structure->name,
-            'responsable_fullname' => $structure->members->first() ? $structure->members->first()->profile->full_name : null,
+            'structure' => [
+                'structure_id' => $structure->id,
+                'structure_name' => $structure->name,
+                'responsable_fullname' => $structure->members->first() ? $structure->members->first()->profile->full_name : null,
+            ]
         ];
     }
 
@@ -394,7 +397,7 @@ class StructureController extends Controller
 
     public function popular(Request $request)
     {
-        return DB::select("
+        return ['organisations' => DB::select("
             SELECT COUNT(participations) as participations_count, structures.name
             FROM participations
             LEFT JOIN missions ON missions.id = participations.mission_id
@@ -405,6 +408,6 @@ class StructureController extends Controller
             GROUP BY structures.name
             ORDER BY COUNT(participations) DESC
             LIMIT 20
-        ");
+        ")];
     }
 }

@@ -243,6 +243,8 @@ class ParticipationController extends Controller
 
     public function temoignage(Request $request, Participation $participation)
     {
-        return Temoignage::where('participation_id', $participation->id)->first();
+        return [
+            'temoignage' => Temoignage::where('participation_id', $participation->id)->first()
+        ];
     }
 }
