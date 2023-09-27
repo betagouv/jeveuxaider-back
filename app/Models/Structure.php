@@ -87,6 +87,8 @@ class Structure extends Model implements HasMedia
                 return ['name', 'zip', 'city', 'department', 'domaines'];
             case 'Organisation publique':
                 return ['name', 'zip', 'city', 'department', 'domaines', 'publics_beneficiaires'];
+            case 'Organisation privée':
+                return ['name', 'zip', 'city', 'department', 'domaines', 'publics_beneficiaires', 'description', 'siret'];
             default:
                 return ['name', 'zip', 'city', 'department', 'domaines', 'publics_beneficiaires', 'description'];
         }
