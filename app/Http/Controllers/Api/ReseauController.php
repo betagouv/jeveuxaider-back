@@ -51,19 +51,7 @@ class ReseauController extends Controller
 
         return Reseau::where('slug', $slugOrId)
             ->with(['domaines', 'logo', 'illustrations', 'overrideImage1', 'overrideImage2', 'illustrationsAntennes'])
-            ->withCount(['structures' => function ($query) {
-                $query->where('state', 'Validée');
-            }])
-            ->with([
-                'structures' => function ($query) {
-                    $query->where('state', 'Validée')
-                        ->withCount(['missions' => function ($query) {
-                            $query->where('state', 'Validée');
-                        }])
-                        ->orderBy('missions_count', 'DESC')
-                        ->limit(5);
-                },
-            ])
+            ->withCount(['missionsAvailable', 'participations'])
             ->firstOrFail()
             ->append(['places_left', 'statistics']);
     }
