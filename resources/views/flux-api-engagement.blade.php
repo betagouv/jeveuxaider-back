@@ -15,9 +15,9 @@
             <![CDATA[{{ $mission->description }}\n\nObjectifs: \n{{ $mission->objectif }}]]>
         </description>
         <applicationUrl>
-            <![CDATA[{{ config('app.front_url') }}/missions/{{ $mission->id }}/{{ $mission->slug }}]]>
+            <![CDATA[{{ config('app.front_url') }}/missions-benevolat/{{ $mission->id }}/{{ $mission->slug }}]]>
         </applicationUrl>
-         <organizationId>
+        <organizationId>
             <![CDATA[{{ $mission->structure->id }}]]>
         </organizationId>
         <organizationName>
@@ -124,7 +124,7 @@
         <domain>
             @php
                 $domainId = $mission->template ? $mission->template->domaine_id : $mission->domaine_id;
-                $domainApiName = (isset($domainId) && isset(config('taxonomies.api_engagement_domaines.terms')[$domainId])) ? config('taxonomies.api_engagement_domaines.terms')[$domainId] : "autre";
+                $domainApiName = isset($domainId) && isset(config('taxonomies.api_engagement_domaines.terms')[$domainId]) ? config('taxonomies.api_engagement_domaines.terms')[$domainId] : 'autre';
             @endphp
             <![CDATA[{{ $domainApiName }}]]>
         </domain>
@@ -132,7 +132,7 @@
         <activity>
             @php
                 $activityId = $mission->template ? $mission->template->activity_id : $mission->activity_id;
-                $activityApiName = (isset($activityId) && isset(config('taxonomies.api_engagement_activities.terms')[$activityId])) ? config('taxonomies.api_engagement_activities.terms')[$activityId] : null;
+                $activityApiName = isset($activityId) && isset(config('taxonomies.api_engagement_activities.terms')[$activityId]) ? config('taxonomies.api_engagement_activities.terms')[$activityId] : null;
             @endphp
             <![CDATA[{{ $activityApiName }}]]>
         </activity>
@@ -169,7 +169,7 @@
         </image>
         <schedule>
             @php
-                $schedule = isset($mission->commitment__duration) ? isset($mission->commitment__time_period) ? config('taxonomies.duration.terms')[$mission->commitment__duration] . ' par ' . config('taxonomies.time_period.terms')[$mission->commitment__time_period] : config('taxonomies.duration.terms')[$mission->commitment__duration] : null;
+                $schedule = isset($mission->commitment__duration) ? (isset($mission->commitment__time_period) ? config('taxonomies.duration.terms')[$mission->commitment__duration] . ' par ' . config('taxonomies.time_period.terms')[$mission->commitment__time_period] : config('taxonomies.duration.terms')[$mission->commitment__duration]) : null;
             @endphp
             <![CDATA[{{ $schedule }}]]>
         </schedule>
