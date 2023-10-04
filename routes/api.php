@@ -246,6 +246,14 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
 
     // Activity classifier
     Route::post('/activity-classifier', 'Api\ActivityClassifierController@sortedOptions');
+
+    // MESSAGES TEMPLATES
+    Route::get('message-templates', 'Api\MessageTemplateController@index');
+    Route::post('message-templates', 'Api\MessageTemplateController@store');
+    Route::put('message-templates/{messageTemplate}', 'Api\MessageTemplateController@update');
+    Route::post('message-templates/{messageTemplate}/duplicate', 'Api\MessageTemplateController@duplicate');
+    Route::delete('message-templates/{messageTemplate}', 'Api\MessageTemplateController@delete');
+
 });
 
 // ONLY ADMIN
