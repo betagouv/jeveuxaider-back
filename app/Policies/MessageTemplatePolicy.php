@@ -20,7 +20,7 @@ class MessageTemplatePolicy
 
     public function view(User $user, MessageTemplate $messageTemplate)
     {
-        if(MessageTemplate::ofUser($user->id)->where('id', $messageTemplate->id)->count() > 0) {
+        if (MessageTemplate::role(request()->header('Context-Role'))->where('id', $messageTemplate->id)->count() > 0) {
             return true;
         }
 
@@ -39,7 +39,7 @@ class MessageTemplatePolicy
 
     public function update(User $user, MessageTemplate $messageTemplate)
     {
-        if(MessageTemplate::ofUser($user->id)->where('id', $messageTemplate->id)->count() > 0) {
+        if (MessageTemplate::role(request()->header('Context-Role'))->where('id', $messageTemplate->id)->count() > 0) {
             return true;
         }
 
@@ -48,7 +48,7 @@ class MessageTemplatePolicy
 
     public function duplicate(User $user, MessageTemplate $messageTemplate)
     {
-        if(MessageTemplate::ofUser($user->id)->where('id', $messageTemplate->id)->count() > 0) {
+        if (MessageTemplate::role(request()->header('Context-Role'))->where('id', $messageTemplate->id)->count() > 0) {
             return true;
         }
 
