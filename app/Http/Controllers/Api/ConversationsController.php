@@ -13,6 +13,7 @@ use App\Http\Requests\ConversationRequest;
 use App\Models\Conversation;
 use App\Models\Message;
 use App\Models\Participation;
+use App\Models\Mission;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Http\Request;
@@ -73,6 +74,10 @@ class ConversationsController extends Controller
                             'mission.responsable',
                             'profile',
                             'temoignage'
+                        ],
+                        Mission::class => [
+                            'structure:id,name',
+                            'responsable',
                         ],
                     ]
                 );
