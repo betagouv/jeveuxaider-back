@@ -7,6 +7,9 @@ use App\Jobs\UsersSetHardBouncedAt;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Http;
+use Propaganistas\LaravelPhone\Exceptions\NumberParseException;
+use Propaganistas\LaravelPhone\PhoneNumber;
+use Illuminate\Support\Facades\Log;
 
 class Sendinblue
 {
@@ -182,5 +185,41 @@ class Sendinblue
                 UserSetHardBouncedAt::dispatch($contact['email'], $contact['blockedAt']);
             }
         }
+    }
+
+    public static function sendSmsMessage(String $sender, String $recipient, String $content, String $tag = '')
+    {
+        try {
+            $formattedRecipient = (new PhoneNumber($recipient, 'FR'))->formatE164();
+        } catch (NumberParseException $exeption) {
+            return Log::warning('Error parsing phone', [
+                'number' => $exeption->getNumber(),
+                'message' => $exeption->getMessage(),
+            ]);
+        }
+
+        $payload = [
+            'sender' => $sender,
+            'recipient' => $formattedRecipient,
+            'content' => $content,
+            'unicodeEnabled' => true,
+        ];
+
+        if (!empty($tag)) {
+            $payload['tag'] = $tag;
+        }
+
+        $response = self::api(
+            'post',
+            '/transactionalSMS/sms',
+            [
+                'json' => $payload,
+            ]
+        );
+
+        return [
+            'statusCode' => $response->getStatusCode(),
+            'data' => $response->json()
+        ];
     }
 }
