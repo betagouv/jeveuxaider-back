@@ -11,7 +11,6 @@ use App\Models\Message;
 use App\Models\Mission;
 use App\Models\Participation;
 use App\Models\Profile;
-use App\Models\Rule;
 use App\Notifications\MissionBeingProcessed;
 use App\Notifications\MissionDeactivated;
 use App\Notifications\MissionReactivated;
@@ -20,6 +19,7 @@ use App\Notifications\MissionSubmitted;
 use App\Notifications\MissionValidated;
 use App\Notifications\MissionWaitingValidation;
 use Illuminate\Database\Eloquent\Builder;
+use Carbon\Carbon;
 
 class MissionObserver
 {
@@ -87,7 +87,7 @@ class MissionObserver
         $mission->load(['structure', 'responsable']);
 
         // STATUT BROUILLON -> EN ATTENTE DE VALIDATION
-        if($oldState == 'Brouillon' && $newState == 'En attente de validation'){
+        if($oldState == 'Brouillon' && $newState == 'En attente de validation') {
             if ($mission->responsable) {
                 $mission->responsable->notify(new MissionWaitingValidation($mission));
             }
@@ -139,9 +139,9 @@ class MissionObserver
                             activity()
                                 ->performedOn($participation)
                                 ->withProperties([
-                                        'attributes' => ['state' => 'Refusée'],
-                                        'old' => ['state' => $participation->state]
-                                    ])
+                                    'attributes' => ['state' => 'Refusée'],
+                                    'old' => ['state' => $participation->state]
+                                ])
                                 ->event('updated')
                                 ->log('updated');
 
@@ -182,6 +182,12 @@ class MissionObserver
 
             foreach ($conversationsQuery->get() as $conversation) {
                 $conversation->users()->syncWithoutDetaching([$newResponsable->id]);
+                $participation = $conversation->conversable;
+                if ($participation && !in_array($participation->state, ['En attente de validation', 'En cours de traitement'])) {
+                    $newResponsable->conversations()->updateExistingPivot($conversation->id, [
+                        'read_at' => Carbon::now(),
+                    ]);
+                }
             }
         }
 
