@@ -7,17 +7,20 @@ use App\Notifications\Messages\SmsMessage;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Notification;
+use App\Models\Message;
 
 class ResponsableHasReplied extends Notification implements ShouldQueue
 {
     use Queueable;
 
+    public $message;
+
     /**
      * Create a new notification instance.
      */
-    public function __construct()
+    public function __construct(Message $message)
     {
-        //
+        $this->message = $message;
     }
 
     /**
@@ -35,10 +38,12 @@ class ResponsableHasReplied extends Notification implements ShouldQueue
      */
     public function toSms($notifiable)
     {
+        $url = preg_replace("(^https?://)", "", url(config('app.front_url') . '/m/' . $this->message->conversation->id));
+
         return (new SmsMessage())
                 ->from('JeVeuxAider')
                 ->to($notifiable->profile->mobile)
-                ->line("Vous avez reçu une réponse de la part de [...]");
+                ->line("Nouveau message de {$this->message->from->profile->first_name} à propos de votre mission de bénévolat. Répondez au plus vite sur {$url}");
     }
 
     /**

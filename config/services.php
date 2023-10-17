@@ -84,4 +84,9 @@ return [
         'password' => env('QPV_PASSWORD'),
         'sync' => env('QPV_SYNC'),
     ],
+
+    'sms' => [
+        'enable' => env('SMS_ENABLE', false),
+        'reroute' => env('SMS_REROUTE', null)
+    ]
 ];

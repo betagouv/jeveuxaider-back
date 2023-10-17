@@ -202,7 +202,7 @@ class Sendinblue
             'sender' => $sender,
             'recipient' => $formattedRecipient,
             'content' => $content,
-            'unicodeEnabled' => true,
+            'unicodeEnabled' => false // Augmente le nb de crédits nécessaires si true
         ];
 
         if (!empty($tag)) {
