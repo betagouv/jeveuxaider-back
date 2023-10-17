@@ -6,6 +6,7 @@ use App\Models\Mission;
 use App\Models\Participation;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Laravel\Passport\Passport;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Participation>
@@ -31,6 +32,7 @@ class ParticipationFactory extends Factory
     {
         return $this->afterCreating(function (Participation $participation) {
             $currentUser = $participation->profile->user;
+            Passport::actingAs($currentUser);
 
             $conversation = $currentUser->startConversation($participation->mission->responsable->user, $participation);
             $currentUser->sendMessage($conversation->id, fake()->paragraph());
