@@ -11,7 +11,7 @@ class SmsMessage
     protected string $from;
     protected array $lines;
     protected string $tag;
-    protected string $reroute;
+    protected $reroute;
 
     /**
      * SmsMessage constructor.
@@ -28,6 +28,12 @@ class SmsMessage
     public function line($line = ''): self
     {
         $this->lines[] = $line;
+        return $this;
+    }
+
+    public function tag($tag): self
+    {
+        $this->tag = $tag;
         return $this;
     }
 

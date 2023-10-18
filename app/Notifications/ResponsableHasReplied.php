@@ -43,7 +43,8 @@ class ResponsableHasReplied extends Notification implements ShouldQueue
         return (new SmsMessage())
                 ->from('JeVeuxAider')
                 ->to($notifiable->profile->mobile)
-                ->line("Nouveau message de {$this->message->from->profile->first_name} à propos de votre mission de bénévolat. Répondez au plus vite sur {$url}");
+                ->line("Nouveau message de {$this->message->from->profile->first_name} à propos de votre mission de bénévolat. Répondez au plus vite sur {$url}")
+                ->tag('app-responsable-a-repondu');
     }
 
     /**
