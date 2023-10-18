@@ -38,7 +38,7 @@ class ResponsableHasReplied extends Notification implements ShouldQueue
      */
     public function toSms($notifiable)
     {
-        $url = preg_replace("(^https?://)", "", url(config('app.front_url') . '/m/' . $this->message->conversation->id));
+        $url = preg_replace("(^https?://(w?)*\.?)", "", url(config('app.front_url') . '/m/' . $this->message->conversation->id));
 
         return (new SmsMessage())
                 ->from('JeVeuxAider')
