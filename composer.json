@@ -28,7 +28,7 @@
         "league/flysystem-aws-s3-v3": "^3.0",
         "maatwebsite/excel": "^3.1",
         "mockery/mockery": "^1.5",
-        "predis/predis": "^1.1",
+        "predis/predis": "^2.2",
         "propaganistas/laravel-phone": "^5.0",
         "s-ichikawa/laravel-sendgrid-driver": "^2.0",
         "spatie/geocoder": "^3.5",
