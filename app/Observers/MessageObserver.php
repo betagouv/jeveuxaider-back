@@ -8,6 +8,7 @@ use App\Models\Structure;
 use App\Notifications\MessageMissionCreated;
 use App\Notifications\MessageParticipationCreated;
 use App\Notifications\MessageStructureCreated;
+use App\Notifications\ResponsableHasReplied;
 use Illuminate\Support\Facades\Auth;
 
 class MessageObserver
@@ -112,5 +113,20 @@ class MessageObserver
                 $toUser->notify(new MessageMissionCreated($message));
             }
         }
+
+        // Notification SMS si première réponse d'un reponsable
+        // if ($conversable::class == Participation::class) {
+        //     $conversable->loadMissing(['profile', 'profile.user']);
+        //     if ($user->id !== $conversable->profile->user->id) {
+        //         $messagesFromResponsablesCount = $message->conversation->messages()
+        //             ->where('from_id', '<>', $conversable->profile->user->id)
+        //             ->where('type', 'chat')
+        //             ->count();
+
+        //         if ($messagesFromResponsablesCount === 1) {
+        //             $conversable->profile->user->notify(new ResponsableHasReplied($message));
+        //         }
+        //     }
+        // }
     }
 }
