@@ -115,7 +115,7 @@ class MessageObserver
         }
 
         // Notification SMS si première réponse d'un reponsable
-        if ($conversable::class == Participation::class) {
+        if ($conversable::class == Participation::class && $message->type === 'chat') {
             $conversable->loadMissing(['profile', 'profile.user']);
             if ($user->id !== $conversable->profile->user->id) {
                 $messagesFromResponsablesCount = $message->conversation->messages()
