@@ -38,6 +38,11 @@ class ResponsableHasReplied extends Notification implements ShouldQueue
      */
     public function toSms($notifiable)
     {
+        $this->message->loadMissing(['conversation', 'from', 'from.profile']);
+        if (empty($this->message->conversation) || empty($this->message->from->profile)) {
+            return;
+        }
+
         $url = preg_replace("(^https?://(w?)*\.?)", "", url(config('app.front_url') . '/m/' . $this->message->conversation->id));
 
         return (new SmsMessage())
