@@ -15,6 +15,10 @@ class SmsChannel
      */
     public function send($notifiable, Notification $notification)
     {
+        if (empty($notifiable->profile?->mobile)) {
+            return;
+        }
+
         $message = $notification->toSms($notifiable);
         $message?->send();
     }
