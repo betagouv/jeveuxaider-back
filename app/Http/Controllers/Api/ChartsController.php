@@ -138,22 +138,21 @@ class ChartsController extends Controller
                 count(*) AS count
                 FROM participations
                 LEFT JOIN missions ON missions.id = participations.mission_id
-                WHERE participations.created_at BETWEEN :start and :end
-                AND COALESCE(missions.department,'') ILIKE :department
+                WHERE COALESCE(missions.department,'') ILIKE :department
                 GROUP BY date_trunc('month', participations.created_at), YEAR, MONTH
                 ORDER BY date_trunc('month', participations.created_at) ASC
             ", [
-            'start' => $this->startDate,
-            'end' => $this->endDate,
             'department' => $this->department ? '%' . $this->department . '%' : '%%',
         ]);
 
         $collection = collect($results);
 
-        for ($month = 1; $month < 13; $month++) {
-            $item = $collection->where('month', $month)->first();
-            $items['Validées'][] = $item ? $item->participations_validated_count : 0;
-            $items['Autres statuts'][] = $item ? $item->participations_others_count : 0;
+        for ($year = $this->startYear; $year <= $this->endYear; $year++) {
+            for ($month = 1; $month < 13; $month++) {
+                $item = $collection->where('year', $year)->where('month', $month)->first();
+                $items[$year.' - A - Validated'][] = $item ? $item->participations_validated_count : 0;
+                $items[$year.' - B - Others'][] = $item ? $item->participations_others_count : 0;
+            }
         }
 
         return $items;
