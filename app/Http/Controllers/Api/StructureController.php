@@ -106,6 +106,7 @@ class StructureController extends Controller
                 SELECT activities.id, activities.name, COUNT(*) FROM activities
                 LEFT JOIN missions ON missions.activity_id = activities.id OR missions.activity_secondary_id = activities.id
                 WHERE missions.structure_id = :structure
+                AND missions.deleted_at IS NULL
                 AND missions.state IN ('Validée', 'Terminée')
                 GROUP BY activities.id
                 ORDER BY COUNT(*) DESC

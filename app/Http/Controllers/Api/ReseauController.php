@@ -66,6 +66,7 @@ class ReseauController extends Controller
                 LEFT JOIN reseau_structure ON reseau_structure.structure_id = missions.structure_id
                 LEFT JOIN reseaux ON reseaux.id = reseau_structure.reseau_id
                 WHERE reseaux.id = :reseau
+                AND missions.deleted_at IS NULL
                 AND missions.state IN ('Validée', 'Terminée')
                 AND structures.state IN ('Validée')
                 GROUP BY activities.id
