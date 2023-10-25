@@ -173,6 +173,15 @@
             @endphp
             <![CDATA[{{ $schedule }}]]>
         </schedule>
+        <tags>
+            @if ($mission->tags)
+                @foreach ($mission->tags as $tag)
+                    <value>
+                        <![CDATA[{{ $tag->name }}]]>
+                    </value>
+                @endforeach
+            @endif
+        </tags>
     </mission>
 @endforeach
 </source>
