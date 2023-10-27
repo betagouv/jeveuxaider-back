@@ -20,6 +20,7 @@ class DocumentController extends Controller
         return QueryBuilder::for(Document::role($request->header('Context-Role')))
             ->allowedFilters([
                 AllowedFilter::exact('is_published'),
+                AllowedFilter::exact('type'),
                 AllowedFilter::custom('search', new FiltersTitleBodySearch),
             ])
             ->allowedIncludes(['file'])
