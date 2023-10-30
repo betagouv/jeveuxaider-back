@@ -38,17 +38,32 @@ class ResponsableHasReplied extends Notification implements ShouldQueue
      */
     public function toSms($notifiable)
     {
-        $this->message->loadMissing(['conversation', 'from', 'from.profile']);
+        $this->message->loadMissing(['conversation', 'from', 'from.profile', 'conversation.conversable.mission.structure']);
         if (empty($this->message->conversation) || empty($this->message->from->profile)) {
             return;
         }
 
+        $smsMaxLength = 160;
         $url = preg_replace("(^https?://(w?)*\.?)", "", url(config('app.front_url') . '/m/' . $this->message->conversation->id));
+        $organisationName = $this->message->conversation->conversable->mission->structure->name;
+
+        $content = "Nouveau message de {$this->message->from->profile->first_name} (" . $organisationName .
+            ") à propos de votre mission de bénévolat. Répondez sans plus attendre sur {$url}";
+
+        if (mb_strlen($content) > $smsMaxLength) {
+            $organisationNameTruncatedLength = mb_strlen($organisationName) - (mb_strlen($content) - ($smsMaxLength - 3));
+            if ($organisationNameTruncatedLength > 0) {
+                $organisationNameTruncated = mb_strcut($organisationName, 0, $organisationNameTruncatedLength);
+                $content = str_replace($organisationName, $organisationNameTruncated . '[…]', $content);
+            } else {
+                $content = str_replace("(" . $organisationName . ") ", "", $content);
+            }
+        }
 
         return (new SmsMessage())
                 ->from('JeVeuxAider')
                 ->to($notifiable->profile->mobile)
-                ->line("Nouveau message de {$this->message->from->profile->first_name} à propos de votre mission de bénévolat. Répondez au plus vite sur {$url}")
+                ->line($content)
                 ->tag('app-responsable-a-repondu');
     }
 
