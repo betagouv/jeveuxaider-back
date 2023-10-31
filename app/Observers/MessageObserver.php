@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\Message;
+use App\Models\Mission;
 use App\Models\Participation;
 use App\Models\Structure;
 use App\Notifications\MessageMissionCreated;
