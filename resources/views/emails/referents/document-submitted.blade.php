@@ -7,7 +7,7 @@
     @endcomponent
     @if (!empty($document->description))
         @component('mail::components.card-message', [
-            'title' => 'Caroline',
+            'title' => 'Caroline & Sophie',
             'subtitle' => 'Support JVA',
         ])
             {{ $document->description }}
