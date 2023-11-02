@@ -24,6 +24,8 @@ Route::get('missions/{mission}', 'Api\MissionController@show');
 Route::get('missions/{mission}/similar', 'Api\MissionController@similar');
 Route::post('missions/similar-for-api', 'Api\MissionController@similarForApi');
 Route::get('associations/{slugOrId}', 'Api\StructureController@associationSlugOrId');
+Route::get('structures/{structure}/activities', 'Api\StructureController@activities');
+Route::get('reseaux/{reseau}/activities', 'Api\ReseauController@activities');
 
 Route::get('territoires/{name}/exist', 'Api\TerritoireController@exist');
 Route::get('structures/{rnaOrName}/exist', 'Api\StructureController@exist');
@@ -60,6 +62,7 @@ Route::get('participations/{participation}/temoignage', 'Api\ParticipationContro
 // Route::get('participation/{participation}/mission', 'Api\ParticipationController@mission');
 Route::post('temoignages', 'Api\TemoignageController@store');
 Route::get('temoignages/organisations/{structure}', 'Api\TemoignageController@forOrganisation');
+Route::get('temoignages/reseaux/{reseau}', 'Api\TemoignageController@forReseau');
 
 Route::get('settings/messages', 'Api\SettingController@messages');
 Route::get('settings/general', 'Api\SettingController@general');
@@ -71,21 +74,34 @@ Route::get('emailable/verify/{email}', 'Api\EmailableController@verify');
 
 Route::get('organisations/popular', 'Api\StructureController@popular');
 
-Route::group(['middleware' => ['auth:api']], function () {
+Route::get('structures/{structure}/score', 'Api\StructureController@score');
+
+Route::post('api-engagement/associations/search', 'Api\ApiEngagementController@searchAssociations');
+
+Route::group(['middleware' => ['auth:api', 'is.not.banned']], function () {
     Route::get('user', 'Api\UserController@me');
     Route::get('user/status', 'Api\UserController@status');
     Route::get('user/unread-messages', 'Api\UserController@unreadMessages');
+    Route::get('user/last-read-conversation', 'Api\UserController@lastReadConversation');
     Route::get('user/participations', 'Api\UserController@participations');
     Route::post('user/anonymize', 'Api\UserController@anonymize');
+    Route::post('user/visible', 'Api\UserController@visible');
+    Route::post('user/invisible', 'Api\UserController@invisible');
     Route::put('user', 'Api\UserController@update');
     Route::get('profiles/{profile}', 'Api\ProfileController@show');
     Route::put('profiles/{profile}', 'Api\ProfileController@update');
     Route::put('profiles/{profile}/activity/{activity}/attach', 'Api\ProfileController@attachActivity');
     Route::put('profiles/{profile}/activity/{activity}/detach', 'Api\ProfileController@detachActivity');
 
-    Route::get('user/actions', 'Api\ActionController@index');
-    Route::get('user/actions/benevole', 'Api\ActionController@benevole');
+    Route::get('user/actions', 'Api\UserActionController@index');
+    Route::get('user/actions/benevole', 'Api\UserActionController@benevole');
     Route::get('users/{user}/roles', 'Api\UserController@roles');
+
+    Route::get('user/notifications', 'Api\UserController@notifications');
+    Route::post('user/notifications/mark-all-as-read', 'Api\UserController@notificationsMarkAllAsRead');
+    Route::post('user/notifications/{notification}/mark-as-read', 'Api\UserController@notificationsMarkAsRead');
+    Route::get('user/unread-notifications', 'Api\UserController@unreadNotifications');
+
 
     Route::get('medias', 'Api\MediaController@index');
     Route::post('medias/{modelType}/{modelId}/{collectionName}', 'Api\MediaController@store');
@@ -99,22 +115,23 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('structures/{structure}/ask-to-unregister', 'Api\StructureController@askToUnregister');
     Route::get('structures/{structure}/responsables', 'Api\StructureController@responsables');
 
-    Route::post('structures/{structure}/waiting-participations', 'Api\StructureController@waitingParticipations');
+    // Route::post('structures/{structure}/waiting-participations', 'Api\StructureController@waitingParticipations'); Plus utilisé ?
     Route::post('structures/{structure}/validate-waiting-participations', 'Api\StructureController@validateWaitingParticipations');
 
     Route::post('participations', 'Api\ParticipationController@store');
-    Route::put('participations/{participation}/cancel', 'Api\ParticipationController@cancel');
+    Route::put('participations/{participation}/cancel-by-benevole', 'Api\ParticipationController@cancelByBenevole');
+    Route::put('participations/{participation}/validate-by-benevole', 'Api\ParticipationController@validateByBenevole');
 
     Route::post('user/password', 'Api\UserController@updatePassword');
     Route::get('user/mission/{mission}/has-participation', 'Api\UserController@hasParticipation');
 
-    // MESSAGES
+    // MESSAGERIE
     Route::get('conversations', 'Api\ConversationsController@index');
     Route::get('conversations/{conversation}', 'Api\ConversationsController@show')->where('conversation', '[0-9]+');
     Route::get('conversations/{conversation}/messages', 'Api\ConversationsController@messages');
-    Route::post('conversations/{conversation}/messages', 'Api\MessagesController@store');
-    Route::get('conversations/{conversation}/benevole', 'Api\ConversationsController@benevole');
-    Route::post('conversations/{conversation}/setStatus', 'Api\ConversationsController@setStatus');
+    Route::post('conversations/{conversation}/messages', 'Api\ConversationsController@storeMessage');
+    Route::post('conversations/{conversation}/archive', 'Api\ConversationsController@archive');
+    Route::post('conversations/{conversation}/unarchive', 'Api\ConversationsController@unarchive');
 
     Route::post('invitations/{token}/resend', 'Api\InvitationController@resend');
     Route::delete('invitations/{token}/delete', 'Api\InvitationController@delete');
@@ -138,7 +155,6 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     // STRUCTURES
     Route::get('structures', 'Api\StructureController@index');
     Route::get('structures/{structure}', 'Api\StructureController@show');
-    Route::get('structures/{structure}/score', 'Api\StructureController@score');
     Route::post('structures/{structure}/missions', 'Api\StructureController@addMission');
     Route::delete('structures/{structure}/members/{user}', 'Api\StructureController@deleteMember');
 
@@ -177,6 +193,7 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::get('statistics/organisations/{structure}', 'Api\StatisticsController@organisations');
     Route::get('statistics/missions/{mission}', 'Api\StatisticsController@missions');
     Route::get('statistics/reseaux/{reseau}', 'Api\StatisticsController@reseaux');
+    Route::get('statistics/profiles/{profile}', 'Api\StatisticsController@profiles');
 
     // DOCUMENTS
     Route::get('documents', 'Api\DocumentController@index');
@@ -210,7 +227,7 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::get('reseaux', 'Api\ReseauController@index');
 
     // SNU
-    Route::get('user/snu-actions', 'Api\ActionController@snuWaitingActions');
+    Route::get('user/snu-actions', 'Api\UserActionController@snuWaitingActions');
 
     // ACTIVITIES
     Route::get('activities', 'Api\ActivityController@index');
@@ -225,9 +242,18 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
 
     // BATCH
     Route::get('/batch/{batchId}', 'Api\BatchController@show');
+    Route::post('/batch/{batchId}/cancel', 'Api\BatchController@cancel');
 
     // Activity classifier
     Route::post('/activity-classifier', 'Api\ActivityClassifierController@sortedOptions');
+
+    // MESSAGES TEMPLATES
+    Route::get('message-templates', 'Api\MessageTemplateController@index');
+    Route::post('message-templates', 'Api\MessageTemplateController@store');
+    Route::put('message-templates/{messageTemplate}', 'Api\MessageTemplateController@update');
+    Route::post('message-templates/{messageTemplate}/duplicate', 'Api\MessageTemplateController@duplicate');
+    Route::delete('message-templates/{messageTemplate}', 'Api\MessageTemplateController@delete');
+
 });
 
 // ONLY ADMIN
@@ -251,9 +277,20 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::post('documents/{document}/notify', 'Api\DocumentController@notify');
     Route::delete('documents/{document}', 'Api\DocumentController@delete');
 
+    // Rules
+    Route::get('rules', 'Api\RuleController@index');
+    Route::get('rules/{rule}', 'Api\RuleController@show');
+    Route::get('rules/{rule}/pending-items', 'Api\RuleController@pendingItems');
+    Route::post('rules', 'Api\RuleController@store');
+    Route::post('rules/{rule}/batch', 'Api\RuleController@batch');
+    Route::put('rules/{rule}', 'Api\RuleController@update');
+    Route::delete('rules/{rule}', 'Api\RuleController@delete');
+
     // USER
     Route::get('users/{user}/actions', 'Api\UserController@actions');
     Route::post('users/{user}/impersonate', 'Api\UserController@impersonate');
+    Route::post('users/{user}/ban', 'Api\UserController@ban');
+    Route::post('users/{user}/unban', 'Api\UserController@unban');
 
     // STRUCTURES
     Route::delete('structures/{structure}', 'Api\StructureController@delete');
@@ -317,6 +354,24 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     // ROLES
     Route::post('users/{user}/roles', 'Api\UserController@addRole');
     Route::delete('users/{user}/roles/{role}', 'Api\UserController@deleteRole');
+
+    Route::post('profiles/{profile}/setMissionsIsActive', 'Api\ProfileController@setMissionsIsActiveForResponsable');
+
+    // ADMINISTRATION
+    Route::get('administration/goals', 'Api\AdministrationController@goals');
+    Route::get('administration/missions-trending', 'Api\AdministrationController@missionsTrending');
+    Route::get('administration/organisations-trending', 'Api\AdministrationController@organisationsTrending');
+    Route::get('administration/topito-admins', 'Api\AdministrationController@topitoAdmins');
+    Route::get('administration/topito-referents', 'Api\AdministrationController@topitoReferents');
+
+    // SUPPORT
+    Route::get('support/referents/overview', 'Api\SupportController@referentsOverview');
+    Route::get('support/responsables/overview', 'Api\SupportController@responsablesOverview');
+    Route::get('support/referents/waiting-actions', 'Api\SupportController@referentsWaitingActions');
+    Route::get('support/referents/activity-logs', 'Api\SupportController@referentsActivityLogs');
+    Route::get('support/responsables/participations-to-be-treated', 'Api\SupportController@responsablesParticipationsToBeTreated');
+    Route::get('support/responsables/missions-outdated', 'Api\SupportController@responsablesMissionsOutdated');
+    Route::post('support/scripts/generate-password-reset-link', 'Api\SupportController@generatePasswordResetLink');
 });
 
 // STATISTICS

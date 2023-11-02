@@ -3,10 +3,10 @@
 namespace App\Models;
 
 use App\Helpers\Utils;
+use App\Jobs\StructureCalculateScore;
 use App\Models\Media as ModelMedia;
 use App\Traits\HasMissingFields;
 use App\Traits\Notable;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
@@ -23,12 +23,22 @@ use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use Spatie\Tags\HasTags;
 use Staudenmeir\EloquentHasManyDeep\HasRelationships;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Structure extends Model implements HasMedia
 {
-    use SoftDeletes, LogsActivity, HasRelationships, HasTags, InteractsWithMedia, HasSlug, HasMissingFields, Searchable, Notable;
+    use SoftDeletes;
+    use LogsActivity;
+    use HasRelationships;
+    use HasTags;
+    use HasFactory;
+    use InteractsWithMedia;
+    use HasSlug;
+    use HasMissingFields;
+    use Searchable;
+    use Notable;
 
-    const CEU_TYPES = [
+    public const CEU_TYPES = [
         "SDIS (Service départemental d'Incendie et de Secours)",
         'Gendarmerie',
         'Police',
@@ -77,6 +87,8 @@ class Structure extends Model implements HasMedia
                 return ['name', 'zip', 'city', 'department', 'domaines'];
             case 'Organisation publique':
                 return ['name', 'zip', 'city', 'department', 'domaines', 'publics_beneficiaires'];
+            case 'Organisation privée':
+                return ['name', 'zip', 'city', 'department', 'domaines', 'publics_beneficiaires', 'description', 'siret'];
             default:
                 return ['name', 'zip', 'city', 'department', 'domaines', 'publics_beneficiaires', 'description'];
         }
@@ -110,13 +122,13 @@ class Structure extends Model implements HasMedia
                 break;
             case 'referent':
                 return $query
-                    ->whereNotNull('department')
-                    ->where('department', $user->departmentsAsReferent->first()->number);
+                    ->whereNotNull('structures.department')
+                    ->where('structures.department', $user->departmentsAsReferent->first()->number);
                 break;
             case 'referent_regional':
                 return $query
-                    ->whereNotNull('department')
-                    ->whereIn('department', config('taxonomies.regions.departments')[$user->regionsAsReferent->first()->name]);
+                    ->whereNotNull('structures.department')
+                    ->whereIn('structures.department', config('taxonomies.regions.departments')[$user->regionsAsReferent->first()->name]);
                 break;
             case 'tete_de_reseau':
                 return $query->ofReseau($user->contextable_id);
@@ -287,7 +299,7 @@ class Structure extends Model implements HasMedia
 
     public function missionsAvailable()
     {
-        return $this->hasMany('App\Models\Mission')->where('state', 'Validée');
+        return $this->hasMany('App\Models\Mission')->where('state', 'Validée')->where('is_active', true);
     }
 
     public function participations()
@@ -343,109 +355,6 @@ class Structure extends Model implements HasMedia
         $mission = $this->missions()->create($values);
 
         return $mission;
-    }
-
-    public function setResponseRatio()
-    {
-        $participationsCount = $this->participations->count();
-        if ($participationsCount == 0) {
-            return $this;
-        }
-
-        $waitingParticipationsCount = $this->participations->whereIn('state', ['En attente de validation', 'En cours de traitement'])->count();
-        $this->response_ratio = round(($participationsCount - $waitingParticipationsCount) / $participationsCount * 100);
-        return $this;
-    }
-
-    public function setResponseTime()
-    {
-        $avgResponseTime = $this->conversations()
-            ->where('conversable_type', 'App\Models\Participation')
-            ->latest('conversations.created_at')
-            ->take(30)
-            ->get()
-            ->avg('response_time');
-
-        if ($avgResponseTime) {
-            $this->response_time = intval($avgResponseTime);
-        }
-
-        return $this;
-    }
-
-    public function getEngagementPointsAttribute()
-    {
-        return round($this->response_ratio * 0.3);
-    }
-
-    public function getReactivityPointsAttribute()
-    {
-        $reactivityPoints = round(100 - (100 * ($this->response_time / (60 * 60 * 24))) / 10);
-        $reactivityPoints = $reactivityPoints > 0 ? $reactivityPoints : 0;
-
-        // Pondérer avec le ratio participations avec réponse / totales
-        if ($this->lastParticipationsResponseRatio['total'] > 0) {
-            $reactivityPoints = $reactivityPoints * ($this->lastParticipationsResponseRatio['with_response'] / $this->lastParticipationsResponseRatio['total']);
-        }
-
-        return round($reactivityPoints * 0.7);
-    }
-
-    public function getLastParticipationsResponseRatioAttribute()
-    {
-        $lastConversations = $this->conversations()
-            ->where('conversable_type', 'App\Models\Participation')
-            ->latest('conversations.created_at')
-            ->take(30)
-            ->pluck('conversations.id');
-
-        $lastConversationsWithResponses = $this->conversations()
-            ->whereIn('conversations.id', $lastConversations)
-            ->whereNotNull('response_time')
-            ->pluck('conversations.id');
-
-        return [
-            'with_response' => $lastConversationsWithResponses->count(),
-            'total' => $lastConversations->count()
-        ];
-    }
-
-    public function getAverageTestimonyGrade()
-    {
-        return Temoignage::ofStructure($this->id)->avg('grade');
-    }
-
-    public function getBonusPointsAttribute()
-    {
-        $avg = $this->getAverageTestimonyGrade();
-
-        // no testimonials, no bonus
-        if (!$avg) {
-            return 0;
-        }
-
-        $avg = $avg - 2.5;
-
-        if ($avg > 0) {
-            return round($avg * 4, 1);
-        }
-
-        if ($avg < 0) {
-            return round($avg * (10 / 1.5), 1);
-        }
-
-        return 0;
-    }
-
-    public function getScoreAttribute()
-    {
-        if ($this->response_time == null && $this->response_ratio == null) {
-            return 50;
-        }
-
-        $score = $this->engagement_points + $this->reactivity_points + $this->bonus_points;
-
-        return $score <= 100 ? round($score) : 100;
     }
 
     public function logo()
@@ -539,8 +448,8 @@ class Structure extends Model implements HasMedia
     {
         return Attribute::make(
             get: function () {
-                $activitiesThroughMissions = Mission::ofStructure($this->id)->where('state', 'Validée')->whereHas('activity')->get()->map(fn ($mission) => $mission->activity_id)->toArray();
-                $activitiesThroughTemplates = Mission::ofStructure($this->id)->where('state', 'Validée')->whereHas('template.activity')->get()->map(fn ($mission) => $mission->template->activity_id)->toArray();
+                $activitiesThroughMissions = Mission::ofStructure($this->id)->where('state', 'Validée')->where('is_active', true)->whereHas('activity')->get()->map(fn ($mission) => $mission->activity_id)->toArray();
+                $activitiesThroughTemplates = Mission::ofStructure($this->id)->where('state', 'Validée')->where('is_active', true)->whereHas('template.activity')->get()->map(fn ($mission) => $mission->template->activity_id)->toArray();
                 $activitiesMergedIds = array_unique(array_merge($activitiesThroughMissions, $activitiesThroughTemplates));
 
                 return Activity::whereIn('id', $activitiesMergedIds)->get();
@@ -548,13 +457,15 @@ class Structure extends Model implements HasMedia
         );
     }
 
-    // ALGOLIA
+    public function makeAllSearchableUsing(Builder $query)
+    {
+        return $query->with(['reseaux', 'domaines', 'illustrations', 'overrideImage1', 'score'])->withCount(['missionsAvailable']);
+    }
+
     public function toSearchableArray()
     {
-        $this->load(['reseaux', 'domaines', 'illustrations', 'overrideImage1']);
-        $this->loadCount(['missionsAvailable']);
-
         $publicsBeneficiaires = config('taxonomies.mission_publics_beneficiaires.terms');
+        $this->load(['reseaux', 'domaines', 'illustrations', 'overrideImage1', 'score'])->loadCount(['missionsAvailable']);
 
         $organisation = [
             'id' => $this->id,
@@ -586,8 +497,8 @@ class Structure extends Model implements HasMedia
             'twitter' => $this->twitter,
             'instagram' => $this->instagram,
             'donation' => $this->donation,
-            'response_ratio' => $this->response_ratio,
-            'response_time' => $this->response_time,
+            'response_ratio' => $this->score->processed_participations_rate,
+            'response_time' => $this->score->response_time,
             'created_at' => $this->created_at,
             'publics_beneficiaires' => is_array($this->publics_beneficiaires) ? array_map(function ($public) use ($publicsBeneficiaires) {
                 return $publicsBeneficiaires[$public];
@@ -611,7 +522,7 @@ class Structure extends Model implements HasMedia
                 ];
             })->all() : null,
             'missions_available_count' => $this->missions_available_count,
-            'score' => $this->score
+            'score' => $this->score->total_points,
         ];
 
         if ($this->latitude && $this->longitude) {
@@ -702,6 +613,24 @@ class Structure extends Model implements HasMedia
         return [
             'canUpdate' =>  Auth::guard('api')->user() ? Auth::guard('api')->user()->can('update', $this) : false,
             'canChangeState' =>  Auth::guard('api')->user() ? Auth::guard('api')->user()->can('changeState', $this) : false,
+        ];
+    }
+
+    public function score()
+    {
+        return $this->belongsTo('App\Models\StructureScore', 'id', 'structure_id');
+    }
+
+    public function calculateScore()
+    {
+        StructureCalculateScore::dispatch($this);
+    }
+
+    public function getStatisticsAttribute()
+    {
+        return [
+            'missions_available_presentiel_count' => $this->missionsAvailable()->where('type','Mission en présentiel')->count(),
+            'missions_available_distance_count' => $this->missionsAvailable()->where('type','Mission à distance')->count()
         ];
     }
 }

@@ -57,6 +57,9 @@ class StructureObserver
             SendinblueSyncUser::dispatch($structure->user);
         }
 
+        // Init Score
+        $structure->calculateScore();
+
         // Sync Airtable
         if (config('services.airtable.sync')) {
             AirtableSyncObject::dispatch($structure);
@@ -73,22 +76,25 @@ class StructureObserver
         $firstMember = $structure->members->first();
         $responsable = $firstMember ? $firstMember->profile : null;
 
+        // STATUT BROUILLON -> EN ATTENTE DE VALIDATION
+        if($oldState == 'Brouillon' && $newState == 'En attente de validation'){
+            if ($structure->user->profile) {
+                $notification = new StructureWaitingValidation($structure);
+                $structure->user->notify($notification);
+            }
+            if ($structure->department) {
+                Profile::where('notification__referent_frequency', 'realtime')
+                ->whereHas('user.departmentsAsReferent', function (Builder $query) use ($structure) {
+                    $query->where('number', $structure->department);
+                })->get()->map(function ($profile) use ($structure) {
+                    $profile->notify(new StructureSubmitted($structure));
+                });
+            }
+        }
+
+        // AUTRES CHANGEMENTS DE STATUT
         if ($oldState != $newState) {
             switch ($newState) {
-                case 'En attente de validation':
-                    if ($structure->user->profile) {
-                        $notification = new StructureWaitingValidation($structure);
-                        $structure->user->notify($notification);
-                    }
-                    if ($structure->department) {
-                        Profile::where('notification__referent_frequency', 'realtime')
-                        ->whereHas('user.departmentsAsReferent', function (Builder $query) use ($structure) {
-                            $query->where('number', $structure->department);
-                        })->get()->map(function ($profile) use ($structure) {
-                            $profile->notify(new StructureSubmitted($structure));
-                        });
-                    }
-                    break;
                 case 'En cours de traitement':
                     if ($responsable) {
                         $responsable->notify(new StructureBeingProcessed($structure));
@@ -161,7 +167,7 @@ class StructureObserver
 
             // ALGOLIA - Missions reliées
             if ($newState == 'Validée') {
-                $structure->missions->where('state', 'Validée')->searchable();
+                $structure->missions->where('state', 'Validée')->where('is_active', true)->searchable();
             } else {
                 $structure->missions->unsearchable();
             }

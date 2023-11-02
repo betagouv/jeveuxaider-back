@@ -32,4 +32,10 @@
             motivé !
         </p>
     @endcomponent
+    @if($showInfos)
+        @component('mail::components.space', ['height' => 24])
+        @endcomponent
+        <p>Voici ses coordonnées :</p>
+        <p>{{ $benevole->full_name }}<br>{{ $benevole->mobile }}<br>{{ $benevole->email }}</p>
+    @endif
 @endcomponent

@@ -44,7 +44,7 @@ class DocumentSubmitted extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['mail', 'database'];
     }
 
     /**
@@ -57,9 +57,12 @@ class DocumentSubmitted extends Notification implements ShouldQueue
     {
         return (new MailMessage)
             ->subject('Une nouvelle ressource est accessible dans votre espace')
-            ->greeting('Bonjour '.$notifiable->first_name.',')
-            ->line('La ressource « '.$this->document->title.' » vient d\'être uploadée dans votre tableau de bord.')
-            ->action('Accéder à mes ressources', url(config('app.front_url').'/admin/ressources'));
+            ->markdown('emails.referents.document-submitted', [
+                'url' => url(config('app.front_url').'/admin/ressources'),
+                'document' => $this->document,
+                'notifiable' => $notifiable,
+            ])
+            ->tag('app-document-submitted');
     }
 
     /**
@@ -71,7 +74,8 @@ class DocumentSubmitted extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
-            //
+            'ressource_id' => $this->document->id,
+            'ressource_title' => $this->document->title,
         ];
     }
 }

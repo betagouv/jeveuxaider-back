@@ -132,6 +132,7 @@ class Airtable
             'Id' => $mission->id,
             'Title' => $mission->name,
             'Statut' => $mission->state,
+            'Mission active ?' => $mission->is_active,
             'Code Postal' => $mission->zip,
             'Département' => $mission->department,
             'Adresse' => $mission->address,
@@ -162,12 +163,13 @@ class Airtable
             'Crée le' => Carbon::create($mission->created_at)->format('m-d-Y'),
             'Modifiée le' => Carbon::create($mission->updated_at)->format('m-d-Y'),
         ];
-        
+
         return $attributes;
     }
 
     private static function formatStructureAttributes(Structure $structure)
     {
+        $structure->load(['score']);
         $attributes = [
             'Id' => $structure->id,
             'Nom' => $structure->name,
@@ -175,9 +177,9 @@ class Airtable
             'Département' => $structure->department,
             'Statut Juridique' => $structure->statut_juridique,
             'Bénévoles recherchés' => $structure->places_left,
-            'Taux de réponse' => $structure->response_ratio / 100,
-            'Temps de réponse' => $structure->response_time / (60 * 60 * 24),
-            'Score de réactivité' => $structure->score,
+            'Taux de réponse' => $structure->score ? $structure->score->processed_participations_rate / 100 : 0,
+            'Temps de réponse' => $structure->score ? $structure->score->response_time / (60 * 60 * 24) : 0,
+            'Score de réactivité' => $structure->score ? $structure->score->total_points : 50,
             'Missions en ligne' => $structure->missions()->available()->count(),
             'URL' => config('app.front_url').$structure->full_url,
             'Crée le' => Carbon::create($structure->created_at)->format('m-d-Y'),
@@ -210,6 +212,7 @@ class Airtable
             'Prénom' => $user->profile->first_name,
             'Nom' => $user->profile->last_name,
             'E-mail' => $user->profile->email,
+            'Numéro' => $user->profile->mobile,
             'Département' => $referentDepartments->first(),
             'Région' => $referentRegions->first(),
             'Rôle' => $roles,

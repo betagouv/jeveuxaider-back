@@ -42,12 +42,14 @@ class ValidateParticipation implements ShouldQueue
         Passport::actingAs($user);
 
         if ($this->batch()->cancelled()) {
-            // Determine if the batch has been cancelled...
-
             return;
         }
 
+        $oldParticipationState = $this->participation->state;
         $this->participation->update(['state' => 'Validée']);
+        if (in_array($oldParticipationState, ['En attente de validation', 'En cours de traitement'])) {
+            $this->participation->mission->structure->calculateScore();
+        }
 
         // Places left & Algolia
         if ($this->participation->mission) {

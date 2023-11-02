@@ -28,18 +28,9 @@ class TermObserver
     public function updated(Term $term)
     {
         $changes = $term->getChanges();
-
         if($term->vocabulary->slug == 'missions') {
-            if (isset($changes['name'])) {
-                Mission::with(['structure'])->whereHas('tags', function (Builder $query) use ($term) {
-                        $query->where('id', $term->id);
-                    })
-                    ->get()
-                    ->map(function ($mission) {
-                        if ($mission->shouldBeSearchable()) {
-                            $mission->searchable();
-                        }
-                    });
+            if (isset($changes['name']) || isset($changes['is_published'])) {
+                $term->missions()->with(['structure'])->searchable();
             }
         }
     }

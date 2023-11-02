@@ -3,18 +3,14 @@
 namespace App\Notifications;
 
 use Illuminate\Auth\Notifications\ResetPassword as ResetPasswordNotification;
-use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 
 class ResetPassword extends ResetPasswordNotification
 {
-    use Queueable;
 
-    public function viaQueues()
+    public function via($notifiable)
     {
-        return [
-            'mail' => 'emails',
-        ];
+        return ['database', 'mail'];
     }
 
     /**
@@ -25,7 +21,7 @@ class ResetPassword extends ResetPasswordNotification
      */
     public function toMail($notifiable)
     {
-        $link = config('app.front_url').'/password-reset/'.$this->token.'?email='.$notifiable->getEmailForPasswordReset();
+        $link = config('app.front_url').'/password-reset/'.$this->token.'?email='.urlencode($notifiable->getEmailForPasswordReset());
 
         return (new MailMessage)
             ->subject('Réinitialiser mon mot de passe')
@@ -34,5 +30,13 @@ class ResetPassword extends ResetPasswordNotification
             ->action('Réinitialiser mon mot de passe', $link)
             ->line('Ce lien de réinitialisation de mot de passe expirera dans 3 heures.')
             ->line('Si vous n\'avez pas demandé de réinitialisation de mot de passe, aucune autre action n\'est requise.');
+    }
+
+    public function toArray($notifiable)
+    {
+
+        return [
+            //
+        ];
     }
 }

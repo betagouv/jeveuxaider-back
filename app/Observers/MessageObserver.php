@@ -5,10 +5,10 @@ namespace App\Observers;
 use App\Models\Message;
 use App\Models\Participation;
 use App\Models\Structure;
-use App\Notifications\MessageCreated;
 use App\Notifications\MessageMissionCreated;
 use App\Notifications\MessageParticipationCreated;
 use App\Notifications\MessageStructureCreated;
+use App\Notifications\ResponsableHasReplied;
 use Illuminate\Support\Facades\Auth;
 
 class MessageObserver
@@ -33,25 +33,21 @@ class MessageObserver
             // Si la participation est en attente de validation, et que le responsable envoie un message
             // la participation devient "En cours de traitement"
             if ($user && $participation->profile_id != $user->profile->id) {
-                if ($participation->state == 'En attente de validation') {
+                if ($participation->state == 'En attente de validation' && $message->type === 'chat') {
 
                     // Log (because saveQuietly)
                     activity()
                         ->causedBy($user)
                         ->performedOn($participation)
                         ->withProperties([
-                                'attributes' => ['state' => 'En cours de traitement'],
-                                'old' => ['state' => $participation->state]
-                            ])
+                            'attributes' => ['state' => 'En cours de traitement'],
+                            'old' => ['state' => $participation->state]
+                        ])
                         ->event('updated')
                         ->log('updated');
 
                     $participation->state = 'En cours de traitement';
                     $participation->saveQuietly(); // Quietly pour éviter la double notif : message + en cours de traitement
-                    // RESPONSE RATIO
-                    $structure = $participation->mission->structure;
-                    $structure->setResponseRatio();
-                    $structure->saveQuietly();
                 }
             }
         }
@@ -70,7 +66,7 @@ class MessageObserver
         // Éviter le flood
         if ($send) {
             if ($message->conversation->messages->where('type', 'chat')->count() > 1) {
-                $lastMessage = $message->conversation->messages->where('type', 'chat')->sortBy([['created_at', 'desc']])[1]; // 0 est le nouveau message
+                $lastMessage = $message->conversation->messages()->where('type', 'chat')->orderByDesc('created_at')->skip(1)->first(); // 0 est le nouveau message
                 if ($lastMessage->from_id == $message->from_id) {
                     // 1 heure entre deux emails de la même personne
                     $diffInMinutes = $message->created_at->diffInMinutes($lastMessage->created_at);
@@ -115,6 +111,21 @@ class MessageObserver
             }
             if ($conversable::class == Mission::class) {
                 $toUser->notify(new MessageMissionCreated($message));
+            }
+        }
+
+        // Notification SMS si première réponse d'un reponsable
+        if ($conversable::class == Participation::class && $message->type === 'chat') {
+            $conversable->loadMissing(['profile', 'profile.user']);
+            if ($user->id !== $conversable->profile->user->id) {
+                $messagesFromResponsablesCount = $message->conversation->messages()
+                    ->where('from_id', '<>', $conversable->profile->user->id)
+                    ->where('type', 'chat')
+                    ->count();
+
+                if ($messagesFromResponsablesCount === 1) {
+                    $conversable->profile->user->notify(new ResponsableHasReplied($message));
+                }
             }
         }
     }

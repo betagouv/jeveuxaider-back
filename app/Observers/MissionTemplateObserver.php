@@ -32,12 +32,8 @@ class MissionTemplateObserver
 
         $changes = $missionTemplate->getChanges();
 
-        if (isset($changes['title']) || isset($changes['subtitle']) || $missionTemplate->isDirty('activity_id') || $missionTemplate->isDirty('domaine_id') || $missionTemplate->isDirty('domaine_secondary_id')) {
-            Mission::with(['structure'])->where('template_id', $missionTemplate->id)->get()->map(function ($mission) {
-                if ($mission->shouldBeSearchable()) {
-                    $mission->searchable();
-                }
-            });
+        if (isset($changes['title']) || isset($changes['subtitle']) || $missionTemplate->isDirty('activity_id') || $missionTemplate->isDirty('activity_secondary_id') || $missionTemplate->isDirty('domaine_id') || $missionTemplate->isDirty('domaine_secondary_id')) {
+            $missionTemplate->missions()->with(['structure'])->searchable();
         }
 
         if ($missionTemplate->reseau_id && $missionTemplate->published && ! $missionTemplate->isDirty('state')) {

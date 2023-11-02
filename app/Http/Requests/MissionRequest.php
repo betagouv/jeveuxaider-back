@@ -132,10 +132,11 @@ class MissionRequest extends FormRequest
             'skills' => '',
             'commitment__duration' => '',
             'commitment__time_period' => '',
-            'is_priority' => '',
+            'is_motivation_required' => '',
             'is_snu_mig_compatible' => '',
             'snu_mig_places' => 'required_if:is_snu_mig_compatible,true',
             'activity_id' => '',
+            'activity_secondary_id' => '',
             'is_autonomy' => '',
             'autonomy_zips' => [
                 'required_if:is_autonomy,true',
@@ -180,6 +181,7 @@ class MissionRequest extends FormRequest
                 },
             ],
             'is_registration_open' => '',
+            'is_active' => '',
         ];
     }
 

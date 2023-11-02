@@ -12,6 +12,8 @@ class ChartsController extends Controller
 {
     public $startDate;
     public $endDate;
+    public $startYear;
+    public $endYear;
     public $department;
 
     public function __construct(Request $request)
@@ -19,16 +21,15 @@ class ChartsController extends Controller
         $this->startYear = 2020;
         $this->endYear = date('Y');
 
-        if($request->input('startDate')){
-            $this->startDate =  Carbon::createFromFormat('Y-m-d',  $request->input('startDate'))->hour(0)->minute(0)->second(0);
+        if($request->input('startDate')) {
+            $this->startDate =  Carbon::createFromFormat('Y-m-d', $request->input('startDate'))->hour(0)->minute(0)->second(0);
         }
-        if($request->input('endDate')){
-            $this->endDate =  Carbon::createFromFormat('Y-m-d',  $request->input('endDate'))->hour(23)->minute(59)->second(59);
+        if($request->input('endDate')) {
+            $this->endDate =  Carbon::createFromFormat('Y-m-d', $request->input('endDate'))->hour(23)->minute(59)->second(59);
         }
-        if($request->header('Context-Role') == 'referent'){
+        if($request->header('Context-Role') == 'referent') {
             $this->department = Auth::guard('api')->user()->departmentsAsReferent->first()->number;
-        }
-        else if($request->input('department')){
+        } elseif($request->input('department')) {
             $this->department = $request->input('department');
         }
     }
@@ -49,7 +50,7 @@ class ChartsController extends Controller
                 GROUP BY date_trunc('month', structures.created_at), year, month
                 ORDER BY date_trunc('month', structures.created_at) ASC
             ", [
-            'department' => $this->department ? '%'.$this->department.'%' : '%%',
+            'department' => $this->department ? '%' . $this->department . '%' : '%%',
         ]);
 
         $collection = collect($results);
@@ -79,7 +80,7 @@ class ChartsController extends Controller
                 GROUP BY date_trunc('month', missions.created_at), year, month
                 ORDER BY date_trunc('month', missions.created_at) ASC
             ", [
-            'department' => $this->department ? '%'.$this->department.'%' : '%%',
+            'department' => $this->department ? '%' . $this->department . '%' : '%%',
         ]);
 
         $collection = collect($results);
@@ -109,7 +110,7 @@ class ChartsController extends Controller
                 GROUP BY date_trunc('month', participations.created_at), year, month
                 ORDER BY date_trunc('month', participations.created_at) ASC
             ", [
-            'department' => $this->department ? '%'.$this->department.'%' : '%%',
+            'department' => $this->department ? '%' . $this->department . '%' : '%%',
         ]);
 
         $collection = collect($results);
@@ -137,22 +138,21 @@ class ChartsController extends Controller
                 count(*) AS count
                 FROM participations
                 LEFT JOIN missions ON missions.id = participations.mission_id
-                WHERE participations.created_at BETWEEN :start and :end
-                AND COALESCE(missions.department,'') ILIKE :department
+                WHERE COALESCE(missions.department,'') ILIKE :department
                 GROUP BY date_trunc('month', participations.created_at), YEAR, MONTH
                 ORDER BY date_trunc('month', participations.created_at) ASC
             ", [
-            'start' => $this->startDate,
-            'end' => $this->endDate,
-            'department' => $this->department ? '%'.$this->department.'%' : '%%',
+            'department' => $this->department ? '%' . $this->department . '%' : '%%',
         ]);
 
         $collection = collect($results);
 
-        for ($month = 1; $month < 13; $month++) {
-            $item = $collection->where('month', $month)->first();
-            $items['Validées'][] = $item ? $item->participations_validated_count : 0;
-            $items['Autres statuts'][] = $item ? $item->participations_others_count : 0;
+        for ($year = $this->startYear; $year <= $this->endYear; $year++) {
+            for ($month = 1; $month < 13; $month++) {
+                $item = $collection->where('year', $year)->where('month', $month)->first();
+                $items[$year.' - A - Validated'][] = $item ? $item->participations_validated_count : 0;
+                $items[$year.' - B - Others'][] = $item ? $item->participations_others_count : 0;
+            }
         }
 
         return $items;
@@ -172,7 +172,7 @@ class ChartsController extends Controller
                 GROUP BY date_trunc('month', profiles.created_at), year, month
                 ORDER BY date_trunc('month', profiles.created_at) ASC
             ", [
-            'department' => $this->department ? $this->department.'%' : '%%',
+            'department' => $this->department ? $this->department . '%' : '%%',
         ]);
 
         $collection = collect($results);

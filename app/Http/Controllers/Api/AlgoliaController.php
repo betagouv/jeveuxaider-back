@@ -34,7 +34,10 @@ class AlgoliaController extends Controller
                 'facetFilters' => $request->input('facetFilters') ?? '',
                 'filters' => $request->input('filters') ?? '',
                 'numericFilters' => $request->input('numericFilters') ?? '',
-                'aroundLatLngViaIP' => $request->input('aroundLatLngViaIP') ?? false
+                'aroundLatLngViaIP' => $request->input('aroundLatLngViaIP') ?? false,
+                'typoTolerance' => $request->input('typoTolerance') ?? true,
+                'minWordSizefor1Typo' => $request->input('minWordSizefor1Typo') ?? 5,
+                'minWordSizefor2Typos' => $request->input('minWordSizefor2Typos') ?? 10
             ]);
 
         $results = $query

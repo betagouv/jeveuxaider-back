@@ -23,7 +23,7 @@ class ActivityController extends Controller
                 'type',
                 AllowedFilter::exact('domaines.id'),
                 AllowedFilter::exact('is_published'),
-                AllowedFilter::custom('search', new FiltersActivitySearch),
+                AllowedFilter::custom('search', new FiltersActivitySearch()),
             ])
             ->allowedIncludes([
                 'banner',
@@ -33,7 +33,7 @@ class ActivityController extends Controller
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
 
         if ($request->has('append')) {
-            $results->append($request->input('append'));
+            $results->append(explode(',', $request->input('append')));
         }
 
         return $results;

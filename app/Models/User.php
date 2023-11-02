@@ -2,21 +2,31 @@
 
 namespace App\Models;
 
+use App\Jobs\ParticipationDeclineWhenUserIsBanned;
 use App\Notifications\ParticipationDeclined;
 use App\Notifications\ResetPassword;
+use App\Notifications\UserBannedInappropriateBehavior;
+use App\Notifications\UserBannedNotRegularResident;
+use App\Notifications\UserBannedYoungerThan16;
+use App\Services\Sendinblue;
 use App\Traits\HasRoles;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
+use Illuminate\Support\Facades\Bus;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, Notifiable, HasRoles;
+    use HasApiTokens;
+    use Notifiable;
+    use HasRoles;
+    use HasFactory;
 
     protected $fillable = [
-        'name', 'email', 'password', 'context_role', 'contextable_type', 'contextable_id', 'utm_source', 'utm_campaign', 'utm_medium', 'has_agreed_responsable_terms_at',
+        'name', 'email', 'password', 'context_role', 'contextable_type', 'contextable_id', 'utm_source', 'utm_campaign', 'utm_medium', 'has_agreed_responsable_terms_at', 'has_agreed_benevole_terms_at'
     ];
 
     protected $hidden = [
@@ -101,7 +111,7 @@ class User extends Authenticatable
 
     public function startConversation($user, $conversable)
     {
-        $conversation = new Conversation;
+        $conversation = new Conversation();
         $conversation->conversable()->associate($conversable);
         $conversation->save();
 
@@ -187,56 +197,62 @@ class User extends Authenticatable
         $this->saveQuietly();
     }
 
-    // public static function getUnreadConversations($id)
-    // {
-    //     return User::find($id)->conversations()
-    //         ->whereHas('messages')
-    //         ->where(function ($query) {
-    //             $query->whereRaw('conversations_users.read_at < conversations.updated_at')
-    //                 ->orWhere('conversations_users.read_at', null);
-    //         })
-    //         ->where('conversations_users.status', true)
-    //         ->pluck('conversations.id')
-    //         ->toArray();
-    // }
-
     public function getUnreadConversationsCount()
     {
         return $this->conversations()
-            ->whereHas('messages', function (Builder $query) {
-                $query->where('from_id', '!=', $this->id);
+            ->whereHas('users', function (Builder $query) {
+                $query
+                    ->where(function ($query) {
+                        $query->whereRaw('conversations_users.read_at < conversations.updated_at')
+                            ->orWhere('conversations_users.read_at', null);
+                    })
+                    ->where('conversations_users.user_id', $this->id)
+                    ->where('conversations_users.status', true);
             })
-            ->where(function ($query) {
-                $query->whereRaw('conversations_users.read_at < conversations.updated_at')
-                    ->orWhere('conversations_users.read_at', null);
-            })
-            ->where('conversations_users.status', true)
             ->count();
     }
 
-    // public static function getNbParticipationsOver($pid)
-    // {
-    //     return Profile::find($pid)->participations->whereIn('state', ['Validée', 'Terminée'])->count();
-    // }
+    public function getUnreadNotificationsCount()
+    {
+        return $this->unreadNotifications()->count();
+    }
 
-    // public static function getNbTodayParticipationsOnPendingValidation($pid)
-    // {
-    //     $result = Profile::find($pid)->participations()->whereIn('state', ['En attente de validation'])
-    //         ->whereDate('created_at', '>=', (Carbon::createMidnightDate()))
-    //         ->count();
-    //     return $result;
-    // }
+    public function lastReadConversation()
+    {
+        return $this->conversations()
+            ->whereHas('users', function (Builder $query) {
+                $query
+                    ->whereNotNull('conversations_users.read_at')
+                    ->where('conversations_users.user_id', $this->id);
+            })
+            ->orderByDesc('conversations_users.read_at')
+            ->first();
+    }
 
     public function getStatisticsAttribute()
     {
-        return [
+
+        $responsableStats = [];
+
+        if($this->hasRole('responsable')) {
+            $responsableStats = [
+                'missions_as_responsable_count' => Mission::where('responsable_id', $this->profile->id)
+                    ->count(),
+                'participations_need_to_be_treated_count' => Participation::ofResponsable($this->profile->id)->needToBeTreated()
+                    ->count(),
+                'missions_inactive_count' => $this->profile->missionsInactive->count()
+            ];
+        }
+
+        return array_merge([
+            'participations_count' => Participation::where('profile_id', $this->profile->id)
+                ->count(),
             'new_participations_today' => Participation::where('profile_id', $this->profile->id)
                 ->whereIn('state', ['En attente de validation'])
                 ->whereDate('created_at', '>=', (Carbon::createMidnightDate()))
                 ->count(),
-            'missions_as_responsable_count' => Mission::where('responsable_id', $this->profile->id)
-                ->count(),
-        ];
+
+        ], $responsableStats);
     }
 
     public function activitiesLogs()
@@ -266,7 +282,11 @@ class User extends Authenticatable
             $participation->profile->notify(new ParticipationDeclined($participation, $message, $reason));
         }
 
+        $oldParticipationState = $participation->state;
         $participation->update(['state' => 'Refusée']);
+        if (in_array($oldParticipationState, ['En attente de validation', 'En cours de traitement'])) {
+            $participation->mission->structure->calculateScore();
+        }
 
         // Places left & Algolia
         if ($participation->mission) {
@@ -274,5 +294,59 @@ class User extends Authenticatable
         }
 
         return $participation->load(['conversation', 'conversation.latestMessage']);
+    }
+
+    public function scopeOnline($query)
+    {
+        return $query->where("users.last_online_at", ">=", Carbon::now()->subMinutes(10));
+    }
+
+    public function scopeInactive($query)
+    {
+        return  $query->where("users.last_online_at", "<=", Carbon::now()->subMonth(1));
+    }
+
+    public function ban($reason)
+    {
+        switch ($reason) {
+            case 'not_regular_resident':
+            case 'younger_than_16':
+            case 'inappropriate_behavior':
+                $participationIds = $this->profile->participations()
+                    ->whereNotIn('state', ['Refusée', 'Annulée'])
+                    ->get()
+                    ->pluck('id');
+                Bus::batch($participationIds->map(fn ($id) => new ParticipationDeclineWhenUserIsBanned($id, $reason)))
+                    ->allowFailures()
+                    ->dispatch();
+                if ($reason === 'not_regular_resident') {
+                    $this->notify(new UserBannedNotRegularResident());
+                } elseif ($reason === 'younger_than_16') {
+                    $this->notify(new UserBannedYoungerThan16());
+                } elseif ($reason === 'inappropriate_behavior') {
+                    $this->notify(new UserBannedInappropriateBehavior());
+                }
+                break;
+
+            default:
+                break;
+        }
+
+        if (config('services.sendinblue.sync')) {
+            Sendinblue::deleteContact($this);
+        }
+
+        $this->banned_at = Carbon::now();
+        $this->banned_reason = $reason;
+        $this->saveQuietly();
+        return $this;
+    }
+
+    public function unban()
+    {
+        $this->banned_at = null;
+        $this->banned_reason = null;
+        $this->saveQuietly();
+        return $this;
     }
 }

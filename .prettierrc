@@ -1,5 +1,11 @@
 {
-  "tabWidth": 2,
-  "semi": false,
-  "singleQuote": true
+    "tabWidth": 2,
+    "semi": false,
+    "singleQuote": true,
+    "overrides": [
+        {
+            "files": ["*.json", ".prettierrc"],
+            "options": { "tabWidth": 4 }
+        }
+    ]
 }

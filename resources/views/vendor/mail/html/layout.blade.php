@@ -54,10 +54,7 @@
                                 style="width: 88% !important; min-width: 88%; max-width: 88%;">
                                 <tr>
                                     <td align="center" valign="top">
-                                        <span style="color: #585858; font-size: 22px; line-height: 32px;">À
-                                            bientôt <br>
-                                            L’équipe de <a href="https://www.jeveuxaider.gouv.fr/"
-                                                style="color: #1a1a1a; font-size: 22px; line-height: 32px; text-decoration: none; font-weight: 600">JeVeuxAider.gouv.fr</a></span>
+                                        {{ $signature ?? '' }}
                                         @component('mail::components.space', ['height' => 28])
                                         @endcomponent
                                     </td>

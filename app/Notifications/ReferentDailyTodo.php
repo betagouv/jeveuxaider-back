@@ -5,8 +5,9 @@ namespace App\Notifications;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class ReferentDailyTodo extends Notification
+class ReferentDailyTodo extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -34,6 +35,13 @@ class ReferentDailyTodo extends Notification
     public function via($notifiable)
     {
         return ['mail'];
+    }
+
+    public function viaQueues()
+    {
+        return [
+            'mail' => 'emails',
+        ];
     }
 
     /**

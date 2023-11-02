@@ -14,8 +14,7 @@ class DeletePhoneMobileFromStructureTable extends Migration
     public function up()
     {
         Schema::table('structures', function (Blueprint $table) {
-            $table->dropColumn('phone');
-            $table->dropColumn('mobile');
+            $table->dropColumn(['phone', 'mobile']);
         });
     }
 

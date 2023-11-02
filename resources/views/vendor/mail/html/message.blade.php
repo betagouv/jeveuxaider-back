@@ -10,7 +10,17 @@
     {{ $slot }}
     @component('mail::components.space', ['height' => 33])@endcomponent
 
-    {{-- Footer --}}
+    {{-- Signture --}}
+    @slot('signature')
+        @if(isset($signature))
+            {{ $signature }}
+        @else
+            @component('mail::signature')
+            @endcomponent
+        @endif
+    @endslot
+
+    {{-- Sub Footer --}}
     @slot('subfooter')
         @component('mail::subfooter')
         @endcomponent
@@ -18,8 +28,12 @@
 
     {{-- Footer --}}
     @slot('footer')
-        @component('mail::footer', ['url' => config('app.front_url')])
-        @endcomponent
+        @if(isset($footer))
+            {{ $footer }}
+        @else
+            @component('mail::footer', ['url' => config('app.front_url')])
+            @endcomponent
+        @endif
     @endslot
 
     {{-- Subcopy --}}

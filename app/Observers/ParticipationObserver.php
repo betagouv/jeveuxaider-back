@@ -4,7 +4,6 @@ namespace App\Observers;
 
 use App\Jobs\SendinblueSyncUser;
 use App\Models\Participation;
-use App\Models\Structure;
 use App\Models\User;
 use App\Notifications\MissionAlmostFull;
 use App\Notifications\ParticipationBeingProcessed;
@@ -30,10 +29,8 @@ class ParticipationObserver
             }
         }
 
-        // RESPONSE RATIO
-        $structure = $participation->mission->structure;
-        $structure->setResponseRatio();
-        $structure->saveQuietly();
+        // Score - Take new participation into account
+        $participation->mission->structure->calculateScore();
 
         // Maj Sendinblue
         if (config('services.sendinblue.sync')) {
@@ -59,11 +56,6 @@ class ParticipationObserver
 
         if ($oldState != $newState) {
             switch ($newState) {
-                case 'En attente de validation':
-                    if ($participation->mission->responsable && !$currentUser->isAdmin()) {
-                        $participation->mission->responsable->notify(new ParticipationWaitingValidation($participation));
-                    }
-                    break;
                 case 'En cours de traitement':
                     if ($participation->profile && !$currentUser->isAdmin()) {
                         $participation->profile->notify(new ParticipationBeingProcessed($participation));
@@ -89,10 +81,11 @@ class ParticipationObserver
             }
         }
 
-        // SET STRUCTURE RESPONSE RATIO
+        // Update structure's score
         if ($oldState != $newState) {
-            if ($oldState == 'En attente de validation') {
-                $participation->mission->structure->setResponseRatio()->saveQuietly();
+            $participation->load(['conversation', 'mission.structure']);
+            if (in_array($oldState, ['En attente de validation', 'En cours de traitement'])) {
+                $participation->mission->structure->calculateScore();
             }
             if ($participation->conversation) {
                 if ($newState != 'Refusée') {

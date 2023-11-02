@@ -5,16 +5,21 @@ namespace App\Observers;
 use App\Jobs\AirtableDeleteObject;
 use App\Jobs\AirtableSyncObject;
 use App\Jobs\MissionGetQPV;
+use App\Jobs\RuleDispatcherByEvent;
 use App\Jobs\SendinblueSyncUser;
+use App\Models\Message;
 use App\Models\Mission;
 use App\Models\Participation;
 use App\Models\Profile;
 use App\Notifications\MissionBeingProcessed;
+use App\Notifications\MissionDeactivated;
+use App\Notifications\MissionReactivated;
 use App\Notifications\MissionSignaled;
 use App\Notifications\MissionSubmitted;
 use App\Notifications\MissionValidated;
 use App\Notifications\MissionWaitingValidation;
 use Illuminate\Database\Eloquent\Builder;
+use Carbon\Carbon;
 
 class MissionObserver
 {
@@ -81,6 +86,22 @@ class MissionObserver
 
         $mission->load(['structure', 'responsable']);
 
+        // STATUT BROUILLON -> EN ATTENTE DE VALIDATION
+        if($oldState == 'Brouillon' && $newState == 'En attente de validation') {
+            if ($mission->responsable) {
+                $mission->responsable->notify(new MissionWaitingValidation($mission));
+            }
+            if ($mission->department) {
+                Profile::where('notification__referent_frequency', 'realtime')
+                ->whereHas('user.departmentsAsReferent', function (Builder $query) use ($mission) {
+                    $query->where('number', $mission->department);
+                })->get()->map(function ($profile) use ($mission) {
+                    $profile->notify(new MissionSubmitted($mission));
+                });
+            }
+        }
+
+        // AUTRES CHANGEMENTS DE STATUT
         if ($oldState != $newState) {
             switch ($newState) {
                 case 'Validée':
@@ -88,58 +109,56 @@ class MissionObserver
                         $mission->responsable->notify(new MissionValidated($mission));
                     }
                     break;
-                case 'En attente de validation':
-                    if ($mission->responsable) {
-                        $mission->responsable->notify(new MissionWaitingValidation($mission));
-                    }
-                    if ($mission->department) {
-                        Profile::where('notification__referent_frequency', 'realtime')
-                        ->whereHas('user.departmentsAsReferent', function (Builder $query) use ($mission) {
-                            $query->where('number', $mission->department);
-                        })->get()->map(function ($profile) use ($mission) {
-                            $profile->notify(new MissionSubmitted($mission));
-                        });
-                    }
-                    break;
                 case 'Signalée':
                     if ($mission->responsable) {
                         $mission->responsable->notify(new MissionSignaled($mission));
-                        // Notif ON
-                        foreach ($mission->participations->whereIn('state', ['En attente de validation', 'En cours de traitement']) as $participation) {
-                            $participation->update(['state' => 'Annulée']);
-                        }
-                        // Notif OFF
-                        $mission->participations()->update(['state' => 'Annulée']);
                     }
+                    // @TODO: Job CancelMissionParticipations (avec contexte mission signalée)
+                    // Notif ON
+                    $mission->participations->whereIn('state', ['En attente de validation', 'En cours de traitement'])
+                        ->each(function ($participation) {
+                            $participation->update(['state' => 'Annulée']);
+                        });
+                    // Notif OFF
+                    $mission->participations()->update(['state' => 'Annulée']);
                     break;
                 case 'Annulée':
-                    if ($mission->responsable) {
-                        foreach (Participation::where('mission_id', $mission->id)->whereIn('state', ['En attente de validation', 'En cours de traitement']) as $participation) {
+                    // @TODO: Job CancelMissionParticipations (avec contexte mission annulée)
+                    $mission->participations->whereIn('state', ['En attente de validation', 'En cours de traitement'])
+                        ->each(function ($participation) {
                             $participation->update(['state' => 'Annulée']);
-                        }
-                    }
+                        });
                     break;
                 case 'Terminée':
-                    if ($mission->responsable) {
-                        // Notif OFF
-                        $mission->participations->whereIn('state', ['En attente de validation', 'En cours de traitement'])
-                            ->each(function ($participation) {
-                                activity()
-                                    ->performedOn($participation)
-                                    ->withProperties([
-                                            'attributes' => ['state' => 'Annulée'],
-                                            'old' => ['state' => $participation->state]
-                                        ])
-                                    ->event('updated')
-                                    ->log('updated');
+                    // Notif OFF
+                    $mission->participations->whereIn('state', ['En attente de validation', 'En cours de traitement'])
+                        ->each(function ($participation) {
+                            $participation->state = 'Refusée';
+                            $participation->saveQuietly();
 
-                                $participation->state = 'Annulée';
-                                $participation->saveQuietly();
-                            });
+                            activity()
+                                ->performedOn($participation)
+                                ->withProperties([
+                                    'attributes' => ['state' => 'Refusée'],
+                                    'old' => ['state' => $participation->state]
+                                ])
+                                ->event('updated')
+                                ->log('updated');
 
-                        // Notifications temoignage.
-                        $mission->sendNotificationsTemoignages();
-                    }
+                            $participation->load('conversation');
+                            if ($participation->conversation) {
+                                (new Message([
+                                    'conversation_id' => $participation->conversation->id,
+                                    'type' => 'contextual',
+                                    'content' => 'La participation a été déclinée',
+                                    'contextual_state' => 'Refusée',
+                                    'contextual_reason' => 'mission_terminated',
+                                ]))->saveQuietly();
+                            }
+                        });
+
+                    // Notifications temoignage.
+                    $mission->sendNotificationsTemoignages();
                     break;
                 case 'En cours de traitement':
                     if ($mission->responsable) {
@@ -163,6 +182,12 @@ class MissionObserver
 
             foreach ($conversationsQuery->get() as $conversation) {
                 $conversation->users()->syncWithoutDetaching([$newResponsable->id]);
+                $participation = $conversation->conversable;
+                if ($participation && !in_array($participation->state, ['En attente de validation', 'En cours de traitement'])) {
+                    $newResponsable->conversations()->updateExistingPivot($conversation->id, [
+                        'read_at' => Carbon::now(),
+                    ]);
+                }
             }
         }
 
@@ -175,6 +200,16 @@ class MissionObserver
         // Sync QPV
         if (config('services.qpv.sync')) {
             MissionGetQPV::dispatch($mission);
+        }
+
+        RuleDispatcherByEvent::dispatch('mission_updated', $mission);
+
+        if ($mission->getOriginal('is_active') != $mission->is_active) {
+            if ($mission->is_active) {
+                $mission->responsable->notify(new MissionReactivated($mission));
+            } else {
+                $mission->responsable->notify(new MissionDeactivated($mission));
+            }
         }
     }
 

@@ -34,7 +34,7 @@ class OrganisationsCollectiviteForceFields extends Command
     public function __construct()
     {
         parent::__construct();
-        $this->domaines = Domaine::all();
+        // $this->domaines = Domaine::all(); @TODO ne pas le faire dans le construct
         $this->publics = config('taxonomies.mission_publics_beneficiaires.terms');
     }
 
@@ -46,7 +46,7 @@ class OrganisationsCollectiviteForceFields extends Command
     public function handle()
     {
         $query = Structure::withTrashed()->where('statut_juridique', 'Collectivité');
-        $this->info('Ce script va forcer les champs domaines et publics bénéficiaires pour les '.$query->count().' organisations de type Collectivité');
+        $this->info('Ce script va forcer les champs domaines et publics bénéficiaires pour les ' . $query->count() . ' organisations de type Collectivité');
 
         if ($this->confirm('Continuer ?')) {
             $bar = $this->output->createProgressBar($query->count());

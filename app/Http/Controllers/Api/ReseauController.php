@@ -8,7 +8,6 @@ use App\Http\Requests\AddResponsableRequest;
 use App\Http\Requests\Api\ReseauUpdateRequest;
 use App\Http\Requests\ReseauRequest;
 use App\Models\Invitation;
-use App\Models\Profile;
 use App\Models\Reseau;
 use App\Models\Structure;
 use App\Models\User;
@@ -17,6 +16,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
+use Illuminate\Support\Facades\DB;
 
 class ReseauController extends Controller
 {
@@ -24,7 +24,7 @@ class ReseauController extends Controller
     {
         $results = QueryBuilder::for(Reseau::class)
             ->allowedFilters([
-                AllowedFilter::custom('search', new FiltersReseauSearch),
+                AllowedFilter::custom('search', new FiltersReseauSearch()),
                 AllowedFilter::exact('is_published'),
                 AllowedFilter::exact('id'),
                 'name',
@@ -34,7 +34,7 @@ class ReseauController extends Controller
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
 
         if ($request->has('append')) {
-            $results->append($request->input('append'));
+            $results->append(explode(',', $request->input('append')));
         }
 
         return $results;
@@ -51,21 +51,33 @@ class ReseauController extends Controller
 
         return Reseau::where('slug', $slugOrId)
             ->with(['domaines', 'logo', 'illustrations', 'overrideImage1', 'overrideImage2', 'illustrationsAntennes'])
-            ->withCount(['structures' => function ($query) {
-                $query->where('state', 'Validée');
-            }])
-            ->with([
-                'structures' => function ($query) {
-                    $query->where('state', 'Validée')
-                        ->withCount(['missions' => function ($query) {
-                            $query->where('state', 'Validée');
-                        }])
-                        ->orderBy('missions_count', 'DESC')
-                        ->limit(5);
-                },
-            ])
+            ->withCount(['missionsAvailable', 'participations'])
             ->firstOrFail()
-            ->append(['participations_max']);
+            ->append(['places_left', 'statistics']);
+    }
+
+    public function activities(Request $request, Reseau $reseau)
+    {
+        $results = DB::select(
+            "
+                SELECT activities.id, activities.name, COUNT(*) FROM activities
+                LEFT JOIN missions ON missions.activity_id = activities.id OR missions.activity_secondary_id = activities.id
+                LEFT JOIN structures ON structures.id = missions.structure_id
+                LEFT JOIN reseau_structure ON reseau_structure.structure_id = missions.structure_id
+                LEFT JOIN reseaux ON reseaux.id = reseau_structure.reseau_id
+                WHERE reseaux.id = :reseau
+                AND missions.deleted_at IS NULL
+                AND missions.state IN ('Validée', 'Terminée')
+                AND structures.state IN ('Validée')
+                GROUP BY activities.id
+                ORDER BY COUNT(*) DESC
+            ",
+            [
+                'reseau' => $reseau->id,
+            ]
+        );
+
+        return $results;
     }
 
     public function store(ReseauRequest $request)

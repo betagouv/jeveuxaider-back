@@ -23,7 +23,7 @@ class DomaineController extends Controller
         $results = QueryBuilder::for(Domaine::class)
             ->allowedFilters([
                 AllowedFilter::exact('published'),
-                AllowedFilter::custom('search', new FiltersDomaineSearch),
+                AllowedFilter::custom('search', new FiltersDomaineSearch()),
             ])
             ->allowedIncludes([
                 'banner',
@@ -33,7 +33,7 @@ class DomaineController extends Controller
             ->paginate(config('query-builder.results_per_page'));
 
         if ($request->has('append')) {
-            $results->append($request->input('append'));
+            $results->append(explode(',', $request->input('append')));
         }
 
         return $results;

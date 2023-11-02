@@ -7,6 +7,9 @@ use App\Jobs\UsersSetHardBouncedAt;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Http;
+use Propaganistas\LaravelPhone\Exceptions\NumberParseException;
+use Propaganistas\LaravelPhone\PhoneNumber;
+use Illuminate\Support\Facades\Log;
 
 class Sendinblue
 {
@@ -19,7 +22,7 @@ class Sendinblue
             ]
         )
             ->withOptions($options)
-            ->$method("https://api.sendinblue.com/v3${path}");
+            ->$method("https://api.sendinblue.com/v3{$path}");
 
         return $response;
     }
@@ -51,6 +54,19 @@ class Sendinblue
         );
     }
 
+    public static function updateContactEmail(User $user, $oldEmail)
+    {
+        return self::api(
+            'put',
+            "/contacts/$oldEmail",
+            [
+                'json' => [
+                    'attributes' => self::formatAttributes($user),
+                ],
+            ]
+        );
+    }
+
     public static function deleteContact(User $user)
     {
         return self::api(
@@ -62,7 +78,7 @@ class Sendinblue
     public static function sync(User $user, $withSMS = true)
     {
         // Don't sync if anonymous
-        if (str_contains($user->email, '@anonymized.fr')) {
+        if ($user->anonymous_at) {
             return;
         }
 
@@ -77,17 +93,21 @@ class Sendinblue
         }
 
         if (!$response->successful()) {
-            if ($response['code'] == 'duplicate_parameter') {
-                switch ($response['message']) {
-                    case 'Unable to update contact, SMS is already associate with another Contact':
-                    case 'Unable to update contact, SMS is already associated with another Contact':
-                    case 'SMS is already associate with another Contact':
-                    case 'SMS is already associated with another Contact':
-                    case 'Unable to create contact, SMS is already associate with another Contact':
-                    case 'Unable to create contact, SMS is already associated with another Contact':
-                        self::sync($user, false);
-                        break;
-                }
+            switch ($response['code']) {
+                case 'invalid_parameter':
+                case 'duplicate_parameter':
+                    switch ($response['message']) {
+                        case 'Unable to update contact, SMS is already associate with another Contact':
+                        case 'Unable to update contact, SMS is already associated with another Contact':
+                        case 'SMS is already associate with another Contact':
+                        case 'SMS is already associated with another Contact':
+                        case 'Unable to create contact, SMS is already associate with another Contact':
+                        case 'Unable to create contact, SMS is already associated with another Contact':
+                        case 'Invalid phone number':
+                            self::sync($user, false);
+                            break;
+                    }
+                    break;
             }
         }
 
@@ -97,7 +117,12 @@ class Sendinblue
     public static function formatAttributes(User $user, $withSMS = true)
     {
         $organisation = $user->structures->first();
+        if ($organisation) {
+            $organisation->loadCount(['missions']);
+        }
+
         $attributes = [
+            'EMAIL' => $user->profile->email,
             'NOM' => $user->profile->last_name,
             'PRENOM' => $user->profile->first_name,
             'DATE_DE_NAISSANCE' => $user->profile->birthday ? $user->profile->birthday->format('Y-m-d') : "",
@@ -109,7 +134,7 @@ class Sendinblue
             'ORGA_ID' => $organisation ? $organisation->id : "",
             'ORGA_NAME' => $organisation ? $organisation->name : "",
             'ORGA_CODE_POSTAL' => $organisation ? $organisation->zip : "",
-            'ORGA_NB_MISSION' => $organisation ? $organisation->missions->count() : "",
+            'ORGA_NB_MISSION' => $organisation ? $organisation->missions_count : "",
             'REFERENT_DEPARTEMENT' => $user->departmentsAsReferent->first() ? $user->departmentsAsReferent->first()->number : "",
             'REFERENT_REGION' => $user->regionsAsReferent->first() ? $user->regionsAsReferent->first()->name : "",
             'IS_VISIBLE' => $user->profile->is_visible,
@@ -160,5 +185,41 @@ class Sendinblue
                 UserSetHardBouncedAt::dispatch($contact['email'], $contact['blockedAt']);
             }
         }
+    }
+
+    public static function sendSmsMessage(String $sender, String $recipient, String $content, String $tag = '')
+    {
+        try {
+            $formattedRecipient = (new PhoneNumber($recipient, 'FR'))->formatE164();
+        } catch (NumberParseException $exeption) {
+            return Log::warning('Error parsing phone', [
+                'number' => $exeption->getNumber(),
+                'message' => $exeption->getMessage(),
+            ]);
+        }
+
+        $payload = [
+            'sender' => $sender,
+            'recipient' => $formattedRecipient,
+            'content' => $content,
+            'unicodeEnabled' => false // Augmente le nb de crédits nécessaires si true
+        ];
+
+        if (!empty($tag)) {
+            $payload['tag'] = $tag;
+        }
+
+        $response = self::api(
+            'post',
+            '/transactionalSMS/sms',
+            [
+                'json' => $payload,
+            ]
+        );
+
+        return [
+            'statusCode' => $response->getStatusCode(),
+            'data' => $response->json()
+        ];
     }
 }

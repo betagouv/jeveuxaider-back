@@ -9,6 +9,7 @@ use App\Console\Commands\ApiEngagementSyncMissions;
 use App\Console\Commands\SendNotificationsBenevoleCejNoParticipation;
 use App\Console\Commands\SendNotificationsBenevoleCejOneYearAfter;
 use App\Console\Commands\SendNotificationsBenevoleCejSixMonthsAfter;
+use App\Console\Commands\SendNotificationsBenevoleWhenParticipationShouldBeDone;
 use App\Console\Commands\SendNotificationsMissionInDraft;
 use App\Console\Commands\SendNotificationsMissionOutdated;
 use App\Console\Commands\SendNotificationsNoNewMission;
@@ -20,7 +21,9 @@ use App\Console\Commands\SendNotificationsReferentsSummaryMonthly;
 use App\Console\Commands\SendNotificationsStructureInDraft;
 use App\Console\Commands\SendNotificationTodoToModerateurs;
 use App\Console\Commands\SendNotificationTodoToReferents;
-use App\Console\Commands\SendNotificationTodoToResponsables;
+use App\Console\Commands\SendNotificationResponsablesParticipationsNeedToBeTreated;
+use App\Console\Commands\SendNotificationsStructureWithoutMission;
+use App\Console\Commands\MissionsCloseOutdatedCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -49,15 +52,17 @@ class Kernel extends ConsoleKernel
         $schedule->command(SendNotificationsBenevoleCejNoParticipation::class)->daily()->at('10:10');
         $schedule->command(SendNotificationsBenevoleCejSixMonthsAfter::class)->daily()->at('10:20');
         $schedule->command(SendNotificationsBenevoleCejOneYearAfter::class)->daily()->at('10:30');
+        $schedule->command(SendNotificationsBenevoleWhenParticipationShouldBeDone::class)->daily()->at('18:00');
 
         // Responsables
-        $schedule->command(SendNotificationsMissionOutdated::class)->weekdays()->daily()->at('08:30');
-        $schedule->command(SendNotificationsMissionInDraft::class)->weekdays()->daily()->at('08:40');
-        $schedule->command(SendNotificationsNoNewMission::class)->weekdays()->daily()->at('08:50');
-        $schedule->command(SendNotificationsStructureInDraft::class)->daily()->at('09:50');
-        $schedule->command(SendNotificationTodoToResponsables::class)->days([1, 3, 5])->at('08:20');
         $schedule->command(SendNotificationsResponsablesSummaryDaily::class)->daily()->at('07:50');
         $schedule->command(SendNotificationsResponsablesSummaryMonthly::class)->monthlyOn(1)->at('08:00');
+        $schedule->command(SendNotificationsMissionOutdated::class)->daily()->at('08:30');
+        $schedule->command(SendNotificationsMissionInDraft::class)->daily()->at('08:40');
+        $schedule->command(SendNotificationsNoNewMission::class)->daily()->at('08:50');
+        $schedule->command(SendNotificationsStructureWithoutMission::class)->daily()->at('09:10');
+        $schedule->command(SendNotificationsStructureInDraft::class)->daily()->at('09:50');
+        $schedule->command(SendNotificationResponsablesParticipationsNeedToBeTreated::class)->weeklyOn(1)->at('08:20');
 
         // Référents
         $schedule->command(SendNotificationTodoToReferents::class)->weekdays()->daily()->at('08:00');
@@ -82,6 +87,9 @@ class Kernel extends ConsoleKernel
 
         // Clear completed batches
         $schedule->command('queue:prune-batches')->daily();
+
+        // Close outdated missions
+        $schedule->command(MissionsCloseOutdatedCommand::class)->daily()->at('09:30');
     }
 
     /**

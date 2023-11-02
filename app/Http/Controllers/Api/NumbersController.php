@@ -10,6 +10,7 @@ use App\Models\Participation;
 use App\Models\Profile;
 use App\Models\Reseau;
 use App\Models\Structure;
+use App\Models\StructureScore;
 use App\Models\Territoire;
 use App\Services\ApiEngagement;
 use Carbon\Carbon;
@@ -345,18 +346,22 @@ class NumbersController extends Controller
             'organisations_validated_count' => $organisationsValidatedCount,
             'organisations_conversion_rate' => $organisationsCount ? round(($organisationsValidatedCount / $organisationsCount) * 100) : 0,
             'organisations_response_time_avg' => round(
-                Structure::role($request->header('Context-Role'))->whereIn('state', ['Validée'])->when(
-                    $this->department, function ($query) {
-                        $query->where('department', $this->department);
-                    }
-                )->whereBetween('created_at', [$this->startDate, $this->endDate])->avg('response_time')
+                StructureScore::whereHas('structure', function(Builder $query) use ($request) {
+                    $query->role($request->header('Context-Role'))->whereIn('state', ['Validée'])->when(
+                        $this->department, function ($query) {
+                            $query->where('department', $this->department);
+                        }
+                    )->whereBetween('created_at', [$this->startDate, $this->endDate]);
+                })->avg('response_time')
             ),
             'organisations_response_ratio_avg' => round(
-                Structure::role($request->header('Context-Role'))->whereIn('state', ['Validée'])->when(
-                    $this->department, function ($query) {
-                        $query->where('department', $this->department);
-                    }
-                )->whereBetween('created_at', [$this->startDate, $this->endDate])->avg('response_ratio')
+                StructureScore::whereHas('structure', function(Builder $query) use ($request) {
+                    $query->role($request->header('Context-Role'))->whereIn('state', ['Validée'])->when(
+                        $this->department, function ($query) {
+                            $query->where('department', $this->department);
+                        }
+                    )->whereBetween('created_at', [$this->startDate, $this->endDate]);
+                })->avg('processed_participations_rate')
             ),
         ];
     }
@@ -809,7 +814,6 @@ class NumbersController extends Controller
                 AND missions.deleted_at IS NULL
                 AND COALESCE(missions.department,'') ILIKE :department
                 AND participations.created_at BETWEEN :start and :end
-                AND participations.state IN ('Validée')
                 AND activities.name IS NOT NULL
                 GROUP BY activities.name,activities.id
                 ORDER BY count DESC
@@ -907,7 +911,6 @@ class NumbersController extends Controller
                 LEFT JOIN domaines ON domaines.id = mission_templates.domaine_id OR domaines.id = missions.domaine_id OR domaines.id = missions.domaine_secondary_id OR domaines.id = mission_templates.domaine_secondary_id
                 WHERE missions.deleted_at IS NULL
                 AND participations.created_at BETWEEN :start and :end
-                AND participations.state IN ('Validée')
                 AND COALESCE(missions.department,'') ILIKE :department
                 GROUP BY domaines.name, domaines.id
                 ORDER BY count DESC

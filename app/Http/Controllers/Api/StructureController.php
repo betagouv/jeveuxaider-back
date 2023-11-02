@@ -28,7 +28,6 @@ use Spatie\QueryBuilder\AllowedSort;
 use Spatie\QueryBuilder\QueryBuilder;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Database\Eloquent\Builder;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class StructureController extends Controller
@@ -37,13 +36,18 @@ class StructureController extends Controller
     {
         $results = QueryBuilder::for(Structure::role($request->header('Context-Role')))
             ->allowedFilters([
-                AllowedFilter::custom('search', new FiltersStructureSearch),
+                AllowedFilter::custom('search', new FiltersStructureSearch()),
                 AllowedFilter::exact('department'),
                 AllowedFilter::exact('state'),
                 AllowedFilter::exact('statut_juridique'),
                 AllowedFilter::exact('reseaux.id'),
                 AllowedFilter::exact('reseaux.name'),
                 AllowedFilter::scope('ofReseau'),
+                AllowedFilter::callback('exclude', function (Builder $query, $value) {
+                    if(is_numeric($value)) {
+                        $query->where('id', '!=', $value);
+                    }
+                })
             ])
             ->allowedIncludes([
                 'domaines',
@@ -62,7 +66,7 @@ class StructureController extends Controller
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
 
         if ($request->has('append')) {
-            $results->append($request->input('append'));
+            $results->append(explode(',', $request->input('append')));
         }
 
         return $results;
@@ -95,6 +99,26 @@ class StructureController extends Controller
             ->append(['missing_fields', 'completion_rate', 'permissions']);
     }
 
+    public function activities(Request $request, Structure $structure)
+    {
+        $results = DB::select(
+            "
+                SELECT activities.id, activities.name, COUNT(*) FROM activities
+                LEFT JOIN missions ON missions.activity_id = activities.id OR missions.activity_secondary_id = activities.id
+                WHERE missions.structure_id = :structure
+                AND missions.deleted_at IS NULL
+                AND missions.state IN ('Validée', 'Terminée')
+                GROUP BY activities.id
+                ORDER BY COUNT(*) DESC
+            ",
+            [
+                'structure' => $structure->id,
+            ]
+        );
+
+        return $results;
+    }
+
     public function associationSlugOrId(Request $request, $slugOrId)
     {
         $query = (is_numeric($slugOrId)) ? Structure::where('id', $slugOrId) : Structure::where('slug', $slugOrId);
@@ -104,7 +128,8 @@ class StructureController extends Controller
 
         if ($structure) {
             $structure->load(['domaines', 'logo', 'illustrations', 'overrideImage1', 'overrideImage2']);
-            $structure->append(['places_left']);
+            $structure->loadCount(['missionsAvailable', 'participations']);
+            $structure->append(['places_left', 'statistics']);
         }
 
         return $structure;
@@ -216,14 +241,15 @@ class StructureController extends Controller
         ];
     }
 
-    public function waitingParticipations(Structure $structure)
-    {
-        if (Auth::guard('api')->user()->cannot('update', $structure)) {
-            abort(403, "Vous n'avez pas les droits nécéssaires pour réaliser cette action");
-        }
+    // @todo: Plus utilisé ?
+    // public function waitingParticipations(Structure $structure)
+    // {
+    //     if (Auth::guard('api')->user()->cannot('update', $structure)) {
+    //         abort(403, "Vous n'avez pas les droits nécéssaires pour réaliser cette action");
+    //     }
 
-        return Participation::ofStructure($structure->id)->ofResponsable(Auth::guard('api')->user()->profile->id)->where('state', 'En attente de validation')->count();
-    }
+    //     return Participation::ofStructure($structure->id)->ofResponsable(Auth::guard('api')->user()->profile->id)->where('state', 'En attente de validation')->count();
+    // }
 
     public function validateWaitingParticipations(Structure $structure)
     {
@@ -318,13 +344,15 @@ class StructureController extends Controller
             ->first();
 
         if ($structure === null) {
-            return false;
+            return ['structure' => null];
         }
 
         return [
-            'structure_id' => $structure->id,
-            'structure_name' => $structure->name,
-            'responsable_fullname' => $structure->members->first() ? $structure->members->first()->profile->full_name : null,
+            'structure' => [
+                'structure_id' => $structure->id,
+                'structure_name' => $structure->name,
+                'responsable_fullname' => $structure->members->first() ? $structure->members->first()->profile->full_name : null,
+            ]
         ];
     }
 
@@ -347,7 +375,7 @@ class StructureController extends Controller
     {
         return $structure->members()->with(['profile' => function ($query) {
             $query->withCount('missions');
-        }])->get();
+        }, 'profile.tags'])->get();
     }
 
     public function addResponsable(AddResponsableRequest $request, Structure $structure)
@@ -365,24 +393,12 @@ class StructureController extends Controller
 
     public function score(Request $request, Structure $structure)
     {
-        return [
-            'score' => $structure->score,
-            'engagement_points' => $structure->engagement_points,
-            'reactivity_points' => $structure->reactivity_points,
-            'bonus_points' => $structure->bonus_points,
-
-            'response_ratio' => $structure->response_ratio,
-            'response_time' => $structure->response_time,
-
-            'nb_last_participations' => $structure->lastParticipationsResponseRatio['total'],
-            'nb_last_participations_with_response' => $structure->lastParticipationsResponseRatio['with_response'],
-            'average_testimony_grade' => round($structure->getAverageTestimonyGrade(), 1)
-        ];
+        return $structure->score;
     }
 
     public function popular(Request $request)
     {
-        return DB::select(DB::raw("
+        return ['organisations' => DB::select("
             SELECT COUNT(participations) as participations_count, structures.name
             FROM participations
             LEFT JOIN missions ON missions.id = participations.mission_id
@@ -393,6 +409,6 @@ class StructureController extends Controller
             GROUP BY structures.name
             ORDER BY COUNT(participations) DESC
             LIMIT 20
-        "));
+        ")];
     }
 }

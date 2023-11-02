@@ -191,9 +191,12 @@ class Profile extends Model implements HasMedia
                             $query->whereIn('structure_id', $structures_id);
                         });
                     }
-                )->orWhereHas('structures', function (Builder $query) use ($structures_id) {
-                    $query->whereIn('id', $structures_id);
-                });
+                )
+                // A VOIR SI TOUJOURS DACTUALITE
+                // ->orWhereHas('user.structures', function (Builder $query) use ($structures_id) {
+                //     $query->whereIn('id', $structures_id);
+                // })
+                ;
                 break;
             default:
                 abort(403, 'This action is not authorized');
@@ -242,6 +245,11 @@ class Profile extends Model implements HasMedia
     public function missions()
     {
         return $this->hasMany('App\Models\Mission', 'responsable_id');
+    }
+
+    public function missionsInactive()
+    {
+        return $this->hasMany('App\Models\Mission', 'responsable_id')->where('is_active', false);
     }
 
     // Todo : supprimer cette fonction après migration des rôles

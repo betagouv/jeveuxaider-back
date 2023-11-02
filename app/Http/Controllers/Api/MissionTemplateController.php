@@ -22,13 +22,13 @@ class MissionTemplateController extends Controller
         $results = QueryBuilder::for(MissionTemplate::role($request->header('Context-Role')))
             ->allowedFilters(
                 'state',
-                AllowedFilter::custom('search', new FiltersTitleBodySearch),
+                AllowedFilter::custom('search', new FiltersTitleBodySearch()),
                 AllowedFilter::exact('domaine.id'),
                 AllowedFilter::exact('published'),
                 AllowedFilter::scope('of_reseau'),
                 AllowedFilter::scope('with_reseau'),
                 AllowedFilter::exact('reseau.name'),
-                AllowedFilter::callback('with_reseaux', new FiltersTemplatesWithReseau)
+                AllowedFilter::callback('with_reseaux', new FiltersTemplatesWithReseau())
             )
             ->allowedIncludes(['photo', 'domaine', 'reseau', 'missions', 'tags'])
             ->defaultSort('-updated_at')
@@ -36,7 +36,7 @@ class MissionTemplateController extends Controller
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
 
         if ($request->has('append')) {
-            $results->append($request->input('append'));
+            $results->append(explode(',', $request->input('append')));
         }
 
         return $results;
@@ -72,12 +72,14 @@ class MissionTemplateController extends Controller
             'missions_count' => Mission::where('template_id', $missionTemplate->id)->count(),
             'missions_available_count' => Mission::available()->where('template_id', $missionTemplate->id)->count(),
             'participations_count' => Participation::whereHas(
-                'mission', function (Builder $query) use ($missionTemplate) {
+                'mission',
+                function (Builder $query) use ($missionTemplate) {
                     $query->where('template_id', $missionTemplate->id);
                 }
             )->count(),
             'participations_validated_count' => Participation::where('state', 'Validée')->whereHas(
-                'mission', function (Builder $query) use ($missionTemplate) {
+                'mission',
+                function (Builder $query) use ($missionTemplate) {
                     $query->where('template_id', $missionTemplate->id);
                 }
             )->count(),

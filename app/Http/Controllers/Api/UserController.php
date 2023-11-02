@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Filters\FiltersParticipationSearch;
+use App\Filters\FiltersNotificationSearch;
+use App\Filters\FiltersParticipationBenevoleSearch;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\UserRolesRequest;
 use App\Models\ActivityLog;
@@ -17,12 +18,14 @@ use App\Services\Sendinblue;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Passport\Token;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
+use Illuminate\Database\Eloquent\Builder;
 
 class UserController extends Controller
 {
@@ -48,19 +51,98 @@ class UserController extends Controller
         ];
     }
 
+    public function notifications(Request $request)
+    {
+        $user = User::find(Auth::guard('api')->user()->id);
+
+        $queryBuilder = DatabaseNotification::with('notifiable')
+            ->where(function (Builder $query) use ($user) {
+                $query->where(function (Builder $query) use ($user) {
+                    $query
+                        ->where('notifiable_type', 'App\Models\User')
+                        ->where('notifiable_id', $user->id);
+                })
+                ->orWhere(function (Builder $query) use ($user) {
+                    $query
+                        ->where('notifiable_type', 'App\Models\Profile')
+                        ->where('notifiable_id', $user->profile->id);
+                });
+            });
+
+        return QueryBuilder::for($queryBuilder)
+            ->allowedFilters([
+                AllowedFilter::scope('unread'),
+                AllowedFilter::custom('search', new FiltersNotificationSearch()),
+            ])
+            ->defaultSort('-created_at')
+            ->paginate(config('query-builder.results_per_page'));
+
+    }
+
+    public function notificationsMarkAsRead(Request $request, DatabaseNotification $notification)
+    {
+        $notification->markAsRead();
+
+        return $notification->fresh();
+    }
+
+    public function notificationsMarkAllAsRead(Request $request)
+    {
+        $user = User::find(Auth::guard('api')->user()->id);
+
+        DatabaseNotification::where(function (Builder $query) use ($user) {
+            $query->where(function (Builder $query) use ($user) {
+                $query
+                    ->where('notifiable_type', 'App\Models\User')
+                    ->where('notifiable_id', $user->id);
+            })
+            ->orWhere(function (Builder $query) use ($user) {
+                $query
+                    ->where('notifiable_type', 'App\Models\Profile')
+                    ->where('notifiable_id', $user->profile->id);
+            });
+        })->update(['read_at' => now()]);
+
+        return true;
+    }
+
+    public function unreadNotifications(Request $request)
+    {
+        $user = User::find(Auth::guard('api')->user()->id);
+
+        $count = DatabaseNotification::with('notifiable')
+            ->where(function (Builder $query) use ($user) {
+                $query->where(function (Builder $query) use ($user) {
+                    $query
+                        ->where('notifiable_type', 'App\Models\User')
+                        ->where('notifiable_id', $user->id);
+                })
+                ->orWhere(function (Builder $query) use ($user) {
+                    $query
+                        ->where('notifiable_type', 'App\Models\Profile')
+                        ->where('notifiable_id', $user->profile->id);
+                });
+            })->unread()->count();
+
+        return [
+            'count' => $count
+        ];
+    }
+
     public function participations(Request $request)
     {
         $user = User::with(['profile'])->find(Auth::guard('api')->user()->id);
 
         return QueryBuilder::for(Participation::where('profile_id', $user->profile->id)->with('profile', 'mission'))
             ->allowedFilters(
-                AllowedFilter::custom('search', new FiltersParticipationSearch),
+                AllowedFilter::custom('search', new FiltersParticipationBenevoleSearch()),
                 'state',
             )
             ->allowedIncludes([
                 'conversation.latestMessage',
                 'mission.responsable.avatar',
                 'mission.structure',
+                'temoignage'
             ])
             ->defaultSort('-created_at')
             ->paginate(config('query-builder.results_per_page'));
@@ -70,7 +152,18 @@ class UserController extends Controller
     {
         $user = User::find(Auth::guard('api')->user()->id);
 
-        return $user->getUnreadConversationsCount();
+        return [
+            'count' => $user->getUnreadConversationsCount()
+        ];
+    }
+
+    public function lastReadConversation(Request $request)
+    {
+        $user = User::find(Auth::guard('api')->user()->id);
+
+        return [
+            'last_read_conversation' => $user->lastReadConversation()
+        ];
     }
 
     public function update(Request $request)
@@ -172,9 +265,9 @@ class UserController extends Controller
                     ->causedBy($user)
                     ->performedOn($participation)
                     ->withProperties([
-                            'attributes' => ['state' => 'Annulée'],
-                            'old' => ['state' => $participation->state]
-                        ])
+                        'attributes' => ['state' => 'Annulée'],
+                        'old' => ['state' => $participation->state]
+                    ])
                     ->event('updated')
                     ->log('updated');
 
@@ -184,7 +277,9 @@ class UserController extends Controller
 
         $notification = new UserAnonymize($user);
         $user->notify($notification);
-        Sendinblue::deleteContact($user);
+        if (config('services.sendinblue.sync')) {
+            Sendinblue::deleteContact($user);
+        }
         $user->anonymize();
 
         return $user;
@@ -199,7 +294,7 @@ class UserController extends Controller
             ->with(['conversation'])
             ->first();
 
-        return $participation;
+        return ['participation' => $participation];
     }
 
     public function addRole(Request $request, User $user)
@@ -261,5 +356,40 @@ class UserController extends Controller
         }
 
         return $roles;
+    }
+
+    public function visible(Request $request)
+    {
+        $userId = Auth::guard('api')->user()->id;
+        $user = User::find($userId);
+        $user->profile->update([
+            'is_visible' => true
+        ]);
+
+        return $user;
+    }
+
+    public function invisible(Request $request)
+    {
+        $userId = Auth::guard('api')->user()->id;
+        $user = User::find($userId);
+        $user->profile->update([
+            'is_visible' => false
+        ]);
+
+        return $user;
+    }
+
+    public function ban(Request $request, User $user)
+    {
+        $reason = $request->input('reason');
+        $user = $user->ban($reason);
+        return $user;
+    }
+
+    public function unban(Request $request, User $user)
+    {
+        $user = $user->unban();
+        return $user;
     }
 }

@@ -49,7 +49,9 @@ class MissionController extends Controller
                 AllowedFilter::exact('type'),
                 AllowedFilter::exact('id'),
                 AllowedFilter::exact('department'),
+                AllowedFilter::exact('zip'),
                 AllowedFilter::exact('responsable.id'),
+                AllowedFilter::exact('responsable.email'),
                 AllowedFilter::exact('template.id'),
                 AllowedFilter::exact('structure.id'),
                 AllowedFilter::exact('structure.name'),
@@ -72,8 +74,9 @@ class MissionController extends Controller
                 AllowedFilter::custom('is_template', new FiltersMissionIsTemplate),
                 AllowedFilter::exact('is_autonomy'),
                 AllowedFilter::custom('tags', new FiltersTags),
-                AllowedFilter::custom('no_tags', new FiltersDoesntHaveTags)
-
+                AllowedFilter::custom('no_tags', new FiltersDoesntHaveTags),
+                AllowedFilter::exact('is_active'),
+                AllowedFilter::scope('ofResponsable'),
             ])
             ->allowedIncludes([
                 'template.photo',
@@ -112,7 +115,9 @@ class MissionController extends Controller
                 'structure.overrideImage1',
                 'structure.logo',
                 'activity:id,name',
+                'activitySecondary:id,name',
                 'template.activity:id,name',
+                'template.activitySecondary:id,name',
                 'structure.reseaux:id,name',
                 'tags'
             ])->withCount('temoignages')->where('id', $id)->first();

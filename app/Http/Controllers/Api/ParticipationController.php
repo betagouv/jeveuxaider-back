@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Filters\FiltersParticipationNeedToBeTreated;
 use App\Filters\FiltersParticipationSearch;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\ParticipationCancelRequest;
@@ -14,6 +15,7 @@ use App\Models\Profile;
 use App\Models\Temoignage;
 use App\Models\User;
 use App\Notifications\ParticipationBenevoleCanceled;
+use App\Notifications\ParticipationBenevoleValidated;
 use App\Notifications\ParticipationCreated;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -27,7 +29,8 @@ class ParticipationController extends Controller
     {
         return QueryBuilder::for(Participation::role($request->header('Context-Role'))->with('profile', 'mission'))
             ->allowedFilters(
-                AllowedFilter::custom('search', new FiltersParticipationSearch),
+                AllowedFilter::custom('search', new FiltersParticipationSearch()),
+                AllowedFilter::custom('need_to_be_treated', new FiltersParticipationNeedToBeTreated()),
                 AllowedFilter::exact('mission.id'),
                 AllowedFilter::exact('mission.name'),
                 AllowedFilter::exact('mission.department'),
@@ -45,7 +48,7 @@ class ParticipationController extends Controller
                 AllowedFilter::exact('mission.type'),
                 AllowedFilter::exact('id'),
                 AllowedFilter::callback('is_state_pending', function (Builder $query, $value) {
-                    if($value === true){
+                    if($value === true) {
                         $query->whereIn('state', ['En attente de validation', 'En cours de traitement']);
                     }
                 })
@@ -86,6 +89,18 @@ class ParticipationController extends Controller
 
         $mission = Mission::find(request('mission_id'));
 
+        if($mission->state != 'Validée') {
+            abort(422, "Désolé, la mission n'est pas validée");
+        }
+
+        if (!$mission->is_registration_open) {
+            abort(422, 'Désolé, les inscriptions à cette mission sont fermées !');
+        }
+
+        if (!$mission->is_active) {
+            abort(422, 'Désolé, cette mission est désactivée !');
+        }
+
         if ($mission && $mission->has_places_left) {
             $participation = Participation::create($request->validated());
             if (request('content')) {
@@ -93,6 +108,7 @@ class ParticipationController extends Controller
                 $user = $mission->responsable->user ?? $mission->structure->user;
                 $conversation = $currentUser->startConversation($user, $participation);
                 $currentUser->sendMessage($conversation->id, request('content'));
+                $currentUser->markConversationAsRead($participation->conversation);
             }
 
             if ($participation->profile) {
@@ -124,8 +140,12 @@ class ParticipationController extends Controller
         return $currentUser->declineParticipation($participation, $request->input('reason'), $request->input('content'));
     }
 
-    public function cancel(ParticipationCancelRequest $request, Participation $participation)
+    public function cancelByBenevole(ParticipationCancelRequest $request, Participation $participation)
     {
+        if ($participation->state == 'Annulée') {
+            abort(422, 'La participation a déjà été annulée.');
+        }
+
         $participation->load('conversation');
         $currentUser = User::find(Auth::guard('api')->user()->id);
 
@@ -150,16 +170,16 @@ class ParticipationController extends Controller
             $participation->mission->responsable->notify(new ParticipationBenevoleCanceled($participation, $request->input('content'), $request->input('reason')));
         }
 
-         // Log (because saveQuietly)
-         activity()
-            ->causedBy($currentUser)
-            ->performedOn($participation)
-            ->withProperties([
-                    'attributes' => ['state' => 'Annulée'],
-                    'old' => ['state' => $participation->state]
-                ])
-            ->event('updated')
-            ->log('updated');
+        // Log (because saveQuietly)
+        activity()
+           ->causedBy($currentUser)
+           ->performedOn($participation)
+           ->withProperties([
+               'attributes' => ['state' => 'Annulée'],
+               'old' => ['state' => $participation->state]
+           ])
+           ->event('updated')
+           ->log('updated');
 
         $participation->state = 'Annulée';
         $participation->saveQuietly();
@@ -169,11 +189,62 @@ class ParticipationController extends Controller
             $participation->mission->update();
         }
 
+        // Score
+        $participation->mission->structure->calculateScore();
+
+        return $participation;
+    }
+
+    public function validateByBenevole(Request $request, Participation $participation)
+    {
+        if ($participation->state == 'Validée') {
+            abort(422, 'La participation a déjà été validée.');
+        }
+
+        $participation->load('conversation');
+        $currentUser = User::find(Auth::guard('api')->user()->id);
+
+        if ($participation->conversation) {
+            $participation->conversation->messages()->create([
+                'from_id' => $currentUser->id,
+                'type' => 'contextual',
+                'content' => 'La participation a été validée par ' . $currentUser->profile->full_name,
+                'contextual_state' => 'Validée par le bénévole',
+            ]);
+        }
+
+        if($participation->mission->responsable) {
+            $participation->mission->responsable->notify(new ParticipationBenevoleValidated($participation));
+        }
+
+        activity()
+            ->causedBy($currentUser)
+            ->performedOn($participation)
+            ->withProperties([
+                'attributes' => ['state' => 'Validée'],
+                'old' => ['state' => $participation->state]
+            ])
+            ->event('updated')
+            ->log('updated');
+
+        $participation->state = 'Validée';
+        $participation->saveQuietly();
+
+        // Places left & Algolia
+        if ($participation->mission) {
+            $participation->mission->update();
+        }
+
+        // Score
+        $participation->mission->structure->calculateScore();
+
         return $participation;
     }
 
     public function temoignage(Request $request, Participation $participation)
     {
-        return Temoignage::where('participation_id', $participation->id)->first();
+        return [
+            'temoignage' => Temoignage::where('participation_id', $participation->id)->first()
+        ];
     }
 }

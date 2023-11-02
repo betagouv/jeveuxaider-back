@@ -7,9 +7,12 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\SlackMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class NoteCreated extends Notification
+class NoteCreated extends Notification implements ShouldQueue
 {
+    use Queueable;
+
     /**
      * The order instance.
      *
@@ -38,6 +41,13 @@ class NoteCreated extends Notification
         return isset($notifiable->id) ? ['mail'] : ['slack'];
     }
 
+    public function viaQueues()
+    {
+        return [
+            'mail' => 'emails',
+        ];
+    }
+
     /**
      * Get the mail representation of the notification.
      *
@@ -63,11 +73,16 @@ class NoteCreated extends Notification
         $from = config('app.env') != 'production' ? '['.config('app.env').'] JeVeuxAider.gouv.fr' : 'JeVeuxAider.gouv.fr';
         $url = url(config('app.front_url') . $this->generateFrontUrl());
 
+        $content = '*'.$note->user->profile->full_name . '* a ajoutée une note à *<'.$url.'|'.$notable->name.'>*';
+        if ($note->context) {
+            $content .= "\n*Contexte:* " . $note->context;
+        }
+
         return (new SlackMessage)
             ->from($from)
             ->success()
-            ->to('#produit-logs')
-            ->content('*'.$note->user->profile->full_name . '* a ajoutée une note à *<'.$url.'|'.$notable->name.'>*')
+            ->to('#' . config('services.slack.log_channel'))
+            ->content($content)
             ->attachment(function ($attachment) use ($note) {
                 $attachment
                     ->color('#BBBBBB')

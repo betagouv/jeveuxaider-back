@@ -23,6 +23,9 @@ class FiltersActivityLogsType implements Filter
                 case 'utilisateurs':
                     $query->where('subject_type', 'App\Models\Profile');
                     break;
+                case 'rules':
+                    $query->where('subject_type', 'App\Models\Rule');
+                    break;
             }
         });
     }

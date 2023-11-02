@@ -9,13 +9,27 @@ use Illuminate\Http\Request;
 
 class ApiEngagementController extends Controller
 {
+    public function searchAssociations(Request $request)
+    {
+        $service = new ApiEngagement();
+
+        $response = $service->findAssociation([
+            'name' => $request->input('name')
+        ]);
+
+        return $response->json();
+
+    }
+
     public function myMission(Request $request, int $id)
     {
         $service = new ApiEngagement();
 
         $mission = $service->getMyMission($id);
 
-        return $mission;
+        return [
+            'mission' => $mission
+        ];
     }
 
     public function outgoingTrafic(Request $request)

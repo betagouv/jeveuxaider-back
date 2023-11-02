@@ -1,0 +1,138 @@
+name: Tests
+
+on: ['push', 'pull_request']
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 3
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.2
+          tools: composer:v2
+          coverage: xdebug
+
+      - name: Install Dependencies
+        run: composer install --no-interaction --prefer-dist --optimize-autoloader
+
+      - name: Copy .env
+        run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+
+      - name: Laravel Encryption key
+        run: php artisan key:generate
+
+      - name: Laravel Passport Keys
+        run: php artisan passport:keys
+
+      - name: Tests
+        run: ./vendor/bin/pest
+        env:
+          TESTING_DB_HOST: localhost
+          TESTING_DB_DATABASE: postgres
+          TESTING_DB_USERNAME: postgres
+          TESTING_DB_PASSWORD: postgres
+
+      - name: Notify on Slack - Success
+        if: ${{ success() }}
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          curl -v -X POST -H 'Content-type: application/json' --data '
+          {
+              "attachments": [
+                  {
+                      "color": "#16a34a",
+                      "blocks": [
+                          {
+                              "type": "section",
+                              "text": {
+                                  "type": "mrkdwn",
+                                  "text": "Great news, everyone! *JeVeuxAider Back* app successfully tested! :tada:"
+                              }
+                          },
+                          {
+                              "type": "section",
+                              "fields": [
+                                  {
+                                      "type": "mrkdwn",
+                                      "text": "*Branch*\n'"${GITHUB_REF##*/}"'"
+                                  },
+                                  {
+                                      "type": "mrkdwn",
+                                      "text": "*Commit*\n<https://github.com/'"${GITHUB_REPOSITORY}"'/commit/'"${GITHUB_SHA}"'|'"${GITHUB_SHA::7}"'>"
+                                  }
+                              ]
+                          },
+                          {
+                              "type": "section",
+                              "fields": [
+                                  {
+                                      "type": "mrkdwn",
+                                      "text": "*Github Actions*\n<https://github.com/'"${GITHUB_REPOSITORY}"'/actions/runs/'"${GITHUB_RUN_ID}"'|View Tests>"
+                                  }
+                              ]
+                          }
+                      ]
+                  }
+              ]
+          }' $SLACK_WEBHOOK_URL
+
+      - name: Notify on Slack - Failure
+        if: ${{ failure() }}
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          curl -v -X POST -H 'Content-type: application/json' --data '{
+            "attachments": [
+              {
+                "color": "#dc2626",
+                "blocks": [
+                  {
+                    "type": "section",
+                    "text": {
+                      "type": "mrkdwn",
+                      "text": "Test results for *JeVeuxAider Back* app have failed. :disappointed: \nLet'\''s regroup and address the issues. Keep up the great work team!"
+                    }
+                  },
+                  {
+                        "type": "section",
+                        "fields": [
+                            {
+                                "type": "mrkdwn",
+                                "text": "*Branch*\n'"${GITHUB_REF##*/}"'"
+                            },
+                            {
+                                "type": "mrkdwn",
+                                "text": "*Commit*\n<https://github.com/'"${GITHUB_REPOSITORY}"'/commit/'"${GITHUB_SHA}"'|'"${GITHUB_SHA::7}"'>"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "section",
+                        "fields": [
+                            {
+                                "type": "mrkdwn",
+                                "text": "*Github Actions*\n<https://github.com/'"${GITHUB_REPOSITORY}"'/actions/runs/'"${GITHUB_RUN_ID}"'|View Tests>"
+                            }
+                        ]
+                    }
+                ]
+              }
+            ]
+          }' $SLACK_WEBHOOK_URL
