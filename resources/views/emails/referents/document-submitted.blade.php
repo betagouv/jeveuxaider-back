@@ -1,13 +1,13 @@
 @component('mail::message')
     @component('mail::components.headline')
-        {{ $notifiable->first_name }},
+        Bonjour {{ $notifiable->first_name }},
     @endcomponent
     @component('mail::components.paragraph')
         La ressource « <strong>{{ $document->title }}</strong> » vient d'être uploadée dans votre tableau de bord.
     @endcomponent
     @if (!empty($document->description))
         @component('mail::components.card-message', [
-            'title' => 'Caroline',
+            'title' => 'Caroline & Sophie',
             'subtitle' => 'Support JVA',
         ])
             {{ $document->description }}

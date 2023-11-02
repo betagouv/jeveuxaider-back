@@ -16,7 +16,6 @@
         "doctrine/dbal": "^3.0",
         "getbrevo/brevo-php": "^1.0",
         "guzzlehttp/guzzle": "^7.2",
-        "itsgoingd/clockwork": "^5.0",
         "laravel/framework": "^10.0",
         "laravel/horizon": "^5.0",
         "laravel/passport": "^11.0",

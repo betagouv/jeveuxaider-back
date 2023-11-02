@@ -38,6 +38,7 @@ class Mission extends Model
         'publics_beneficiaires' => 'array',
         'publics_volontaires' => 'array',
         'is_priority' => 'boolean',
+        'is_motivation_required' => 'boolean',
         'is_snu_mig_compatible' => 'boolean',
         'start_date' => 'datetime:Y-m-d\TH:i',
         'end_date' => 'datetime:Y-m-d\TH:i',
