@@ -55,6 +55,7 @@ class DomaineController extends Controller
             : Domaine::where('slug', $slugOrId)->firstOrFail();
 
         return [
+            'places_left' => $domaine->places_left,
             'structures_count' => Structure::ofDomaine($domaine->id)->count(),
             'participations_count' => Participation::ofDomaine($domaine->id)->count(),
             'volontaires_count' => Profile::ofDomaine($domaine->id)->count(),
