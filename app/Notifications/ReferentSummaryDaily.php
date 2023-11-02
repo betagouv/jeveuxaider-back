@@ -2,14 +2,13 @@
 
 namespace App\Notifications;
 
-use App\Helpers\Utils;
 use App\Models\Message;
 use App\Models\Mission;
 use App\Models\Note;
-use App\Models\Participation;
 use App\Models\Profile;
 use App\Models\Structure;
 use App\Models\User;
+use App\Traits\TransactionalEmail;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -20,6 +19,7 @@ use Illuminate\Database\Eloquent\Builder;
 class ReferentSummaryDaily extends Notification implements ShouldQueue
 {
     use Queueable;
+    use TransactionalEmail;
 
     public $profile;
     public $user;
@@ -31,6 +31,10 @@ class ReferentSummaryDaily extends Notification implements ShouldQueue
     public $structuresWaitingCount;
     public $missionsWaitingCount;
     public $conversationsUnreadCount;
+    public $startDate;
+    public $endDate;
+    public $tag;
+
 
     /**
      * Create a new notification instance.
@@ -46,20 +50,22 @@ class ReferentSummaryDaily extends Notification implements ShouldQueue
         $this->user = User::find($this->profile->user_id);
         $this->department = $this->user->departmentsAsReferent->first();
 
-        $this->newMessagesCount = Message::whereHas('conversation', function (Builder $query){
-            $query->whereHas('users', function (Builder $query){
+        $this->newMessagesCount = Message::whereHas('conversation', function (Builder $query) {
+            $query->whereHas('users', function (Builder $query) {
                 $query->where('users.id', $this->user->id);
             });
         })->whereBetween('created_at', [$this->startDate, $this->endDate])->count();
         $this->newMissionsCount = Mission::department($this->department->number)->whereBetween('created_at', [$this->startDate, $this->endDate])->count();
         $this->newStructuresCount = Structure::department($this->department->number)->whereBetween('created_at', [$this->startDate, $this->endDate])->count();
-        $this->newNotesCount = Note::whereHas('notable', function(Builder $query){
+        $this->newNotesCount = Note::whereHas('notable', function (Builder $query) {
             $query->department($this->department->number);
         })->whereBetween('created_at', [$this->startDate, $this->endDate])->count();
 
         $this->missionsWaitingCount = Mission::department($this->department->number)->whereIn('state', ['En attente de validation', 'En cours de traitement'])->count();
         $this->structuresWaitingCount = Structure::department($this->department->number)->whereIn('state', ['En attente de validation', 'En cours de traitement'])->count();
         $this->conversationsUnreadCount = $this->user->getUnreadConversationsCount();
+
+        $this->tag = 'app-referent-bilan-quotidien';
     }
 
     public function shouldSend($notifiable, $channel)
@@ -93,13 +99,13 @@ class ReferentSummaryDaily extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $mailMessage = (new MailMessage)
+        $mailMessage = (new MailMessage())
             ->subject($this->profile->first_name . ', on vous passe le relais !')
-            ->tag('app-referent-bilan-quotidien')
+            ->tag($this->tag)
             ->markdown('emails.bilans.referent-summary-daily', [
                 'notifiable' => $notifiable,
                 'department' => $this->department,
-                'url' => url(config('app.front_url') . '/dashboard'),
+                'url' => $this->trackedUrl('/dashboard'),
                 'variables' => [
                     'newMessagesCount' => $this->newMessagesCount,
                     'newMissionsCount' => $this->newMissionsCount,

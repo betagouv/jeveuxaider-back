@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Traits\TransactionalEmail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
@@ -10,10 +11,11 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 class ReferentDailyTodo extends Notification implements ShouldQueue
 {
     use Queueable;
+    use TransactionalEmail;
 
     public $missions;
-
     public $structures;
+    public $tag;
 
     /**
      * Create a new notification instance.
@@ -24,6 +26,7 @@ class ReferentDailyTodo extends Notification implements ShouldQueue
     {
         $this->missions = $missions;
         $this->structures = $structures;
+        $this->tag = 'app-referent-daily-todo';
     }
 
     /**
@@ -52,17 +55,17 @@ class ReferentDailyTodo extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
+        return (new MailMessage())
             ->subject('Ça bouge dans votre département !')
             ->markdown('emails.bilans.referent-daily-todo', [
                 'notifiable' => $notifiable,
-                'url' => url(config('app.front_url') . '/dashboard'),
+                'url' => $this->trackedUrl('/dashboard'),
                 'variables' => [
                     'newMissionsCount' => count($this->missions),
                     'newStructuresCount' => count($this->structures),
                 ],
             ])
-            ->tag('app-referent-daily-todo');
+            ->tag($this->tag);
     }
 
     /**

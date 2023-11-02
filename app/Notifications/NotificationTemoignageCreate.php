@@ -3,6 +3,7 @@
 namespace App\Notifications;
 
 use App\Models\NotificationTemoignage;
+use App\Traits\TransactionalEmail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -11,6 +12,7 @@ use Illuminate\Notifications\Notification;
 class NotificationTemoignageCreate extends Notification implements ShouldQueue
 {
     use Queueable;
+    use TransactionalEmail;
 
     /**
      * The order instance.
@@ -30,6 +32,8 @@ class NotificationTemoignageCreate extends Notification implements ShouldQueue
 
     public $structure;
 
+    public $tag;
+
     /**
      * Create a new notification instance.
      *
@@ -41,6 +45,7 @@ class NotificationTemoignageCreate extends Notification implements ShouldQueue
         $this->participation = $this->notificationTemoignage->participation;
         $this->mission = $this->participation->mission;
         $this->structure = $this->mission->structure;
+        $this->tag = 'app-benevole-mission-over-temoignage';
     }
 
     public function viaQueues()
@@ -69,15 +74,15 @@ class NotificationTemoignageCreate extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
+        return (new MailMessage())
             ->subject($notifiable->profile->first_name . ', comment s’est passée votre mission ?')
             ->markdown('emails.benevoles.mission-over', [
-                'url' => url(config('app.front_url') . '/temoignages/' . $this->notificationTemoignage->token),
+                'url' => $this->trackedUrl('/temoignages/' . $this->notificationTemoignage->token),
                 'mission' => $this->mission,
                 'organisation' =>  $this->structure,
                 'notifiable' => $notifiable
             ])
-            ->tag('app-benevole-mission-over-temoignage');
+            ->tag($this->tag);
     }
 
     /**

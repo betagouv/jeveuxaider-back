@@ -2,7 +2,7 @@
 
 namespace App\Notifications;
 
-use App\Models\Mission;
+use App\Traits\TransactionalEmail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -11,6 +11,14 @@ use Illuminate\Notifications\Notification;
 class ResponsableMissionsDeactivated extends Notification implements ShouldQueue
 {
     use Queueable;
+    use TransactionalEmail;
+
+    public $tag;
+
+    public function __construct()
+    {
+        $this->tag = 'app-responsable-missions-desactivees';
+    }
 
     public function viaQueues()
     {
@@ -38,15 +46,15 @@ class ResponsableMissionsDeactivated extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $dashboardParticipationsUrl = url(config('app.front_url')."/admin/participations?filter[is_state_pending]=true&filter[ofResponsable]=".$notifiable->id);
+        $dashboardParticipationsUrl = "/admin/participations?filter[is_state_pending]=true&filter[ofResponsable]=" . $notifiable->id;
 
-        return (new MailMessage)
+        return (new MailMessage())
             ->subject('Vos missions ont été désactivées')
             ->markdown('emails.responsables.missions-deactivated', [
                 'notifiable' => $notifiable,
-                'dashboardParticipationsUrl' => $dashboardParticipationsUrl
+                'dashboardParticipationsUrl' => $this->trackedUrl($dashboardParticipationsUrl)
             ])
-            ->tag('app-responsable-missions-desactivees');
+            ->tag($this->tag);
     }
 
     /**

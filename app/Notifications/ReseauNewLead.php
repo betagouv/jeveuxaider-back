@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Traits\TransactionalEmail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -10,8 +11,10 @@ use Illuminate\Notifications\Notification;
 class ReseauNewLead extends Notification implements ShouldQueue
 {
     use Queueable;
+    use TransactionalEmail;
 
     public $form;
+    public $tag;
 
     /**
      * Create a new notification instance.
@@ -21,6 +24,7 @@ class ReseauNewLead extends Notification implements ShouldQueue
     public function __construct($form)
     {
         $this->form = $form;
+        $this->tag = 'app-nouveau-lead-reseau';
     }
 
     /**
@@ -49,8 +53,9 @@ class ReseauNewLead extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
+        return (new MailMessage())
             ->subject('Nouveau Lead Tête de réseau !')
-            ->markdown('emails.reseauNewLead', ['form' => $this->form]);
+            ->markdown('emails.reseauNewLead', ['form' => $this->form])
+            ->tag($this->tag);
     }
 }

@@ -21,7 +21,6 @@ use App\Notifications\BenevoleCejSixMonthsAfter;
 use App\Notifications\DocumentSubmitted;
 use App\Notifications\ExportReady;
 use App\Notifications\InvitationSent;
-use App\Notifications\MessageCreated;
 use App\Notifications\MessageMissionCreated;
 use App\Notifications\MessageParticipationCreated;
 use App\Notifications\MessageStructureCreated;
@@ -257,10 +256,6 @@ class NotificationController extends Controller
             case 'invitation_sent':
                 $inviation = Invitation::latest()->first();
                 $notification = new InvitationSent($inviation);
-                break;
-            case 'new_message':
-                $message = Message::whereHas('from')->whereHas('conversation.conversable')->latest()->first();
-                $notification = new MessageCreated($message);
                 break;
             case 'benevole_message_participation':
                 $message = Message::whereHas('from.roles', function (Builder $query) {

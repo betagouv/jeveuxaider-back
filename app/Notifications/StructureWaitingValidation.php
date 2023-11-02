@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Traits\TransactionalEmail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -10,8 +11,10 @@ use Illuminate\Notifications\Notification;
 class StructureWaitingValidation extends Notification implements ShouldQueue
 {
     use Queueable;
+    use TransactionalEmail;
 
     public $structure;
+    public $tag;
 
     /**
      * Create a new notification instance.
@@ -21,6 +24,7 @@ class StructureWaitingValidation extends Notification implements ShouldQueue
     public function __construct($structure)
     {
         $this->structure = $structure;
+        $this->tag = 'app-responsable-organisation-en-attente-de-validation';
     }
 
     public function viaQueues()
@@ -49,14 +53,15 @@ class StructureWaitingValidation extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
+        return (new MailMessage())
             ->subject('Plus que quelques étapes avant de commencer à recruter des bénévoles !')
             ->markdown('emails.responsables.structure-waiting-validation', [
-                'url' => url(config('app.front_url').'/admin/organisations/'.$this->structure->id.'/missions/add'),
+                'url' => $this->trackedUrl('/admin/organisations/' . $this->structure->id . '/missions/add'),
+                'urlCharte' => $this->trackedUrl('/charte-reserve-civique'),
                 'structure' => $this->structure,
                 'notifiable' => $notifiable
             ])
-            ->tag('app-responsable-organisation-en-attente-de-validation');
+            ->tag($this->tag);
     }
 
     /**

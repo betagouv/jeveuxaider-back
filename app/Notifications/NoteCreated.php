@@ -3,6 +3,7 @@
 namespace App\Notifications;
 
 use App\Models\Note;
+use App\Traits\TransactionalEmail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\SlackMessage;
@@ -12,6 +13,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 class NoteCreated extends Notification implements ShouldQueue
 {
     use Queueable;
+    use TransactionalEmail;
 
     /**
      * The order instance.
@@ -19,6 +21,8 @@ class NoteCreated extends Notification implements ShouldQueue
      * @var Note
      */
     public $note;
+
+    public $tag;
 
     /**
      * Create a new notification instance.
@@ -28,6 +32,7 @@ class NoteCreated extends Notification implements ShouldQueue
     public function __construct(Note $note)
     {
         $this->note = $note;
+        $this->tag = 'app-note-creee';
     }
 
     /**
@@ -56,29 +61,30 @@ class NoteCreated extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
+        return (new MailMessage())
             ->subject('Nouvelle note postée par ' . $this->note->user->profile->full_name)
             ->markdown('emails.notes.created', [
-                'url' => url(config('app.front_url') . $this->generateFrontUrl()),
+                'url' => $this->trackedUrl($this->generateFrontUrl()),
                 'note' => $this->note,
                 'notable' =>  $this->note->notable,
                 'notifiable' => $notifiable
-            ]);
+            ])
+            ->tag($this->tag);
     }
 
     public function toSlack($notifiable)
     {
         $note = $this->note;
         $notable = $this->note->notable;
-        $from = config('app.env') != 'production' ? '['.config('app.env').'] JeVeuxAider.gouv.fr' : 'JeVeuxAider.gouv.fr';
+        $from = config('app.env') != 'production' ? '[' . config('app.env') . '] JeVeuxAider.gouv.fr' : 'JeVeuxAider.gouv.fr';
         $url = url(config('app.front_url') . $this->generateFrontUrl());
 
-        $content = '*'.$note->user->profile->full_name . '* a ajoutée une note à *<'.$url.'|'.$notable->name.'>*';
+        $content = '*' . $note->user->profile->full_name . '* a ajoutée une note à *<' . $url . '|' . $notable->name . '>*';
         if ($note->context) {
             $content .= "\n*Contexte:* " . $note->context;
         }
 
-        return (new SlackMessage)
+        return (new SlackMessage())
             ->from($from)
             ->success()
             ->to('#' . config('services.slack.log_channel'))
@@ -105,7 +111,7 @@ class NoteCreated extends Notification implements ShouldQueue
 
     protected function generateFrontUrl()
     {
-        switch($this->note->notable_type){
+        switch($this->note->notable_type) {
             case 'App\Models\Structure':
                 return '/admin/organisations/' . $this->note->notable_id . '#notes';
             case 'App\Models\Mission':

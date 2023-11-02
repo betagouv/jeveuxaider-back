@@ -2,15 +2,16 @@
 
 namespace App\Notifications;
 
+use App\Traits\TransactionalEmail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use Illuminate\Support\HtmlString;
 
 class RegisterUserVolontaire extends Notification implements ShouldQueue
 {
     use Queueable;
+    use TransactionalEmail;
 
     /**
      * Create a new notification instance.
@@ -19,7 +20,7 @@ class RegisterUserVolontaire extends Notification implements ShouldQueue
      */
     public function __construct()
     {
-        //
+        $this->tag = 'app-benevole-inscription';
     }
 
     /**
@@ -48,13 +49,19 @@ class RegisterUserVolontaire extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
-            ->subject('💪 Une dernière étape pour s’engager '. $notifiable->profile->first_name .' !')
+        return (new MailMessage())
+            ->subject('💪 Une dernière étape pour s’engager ' . $notifiable->profile->first_name . ' !')
             ->markdown('emails.benevoles.inscription', [
-                'url' => url(config('app.front_url') . '/missions-benevolat'),
+                'url' => $this->trackedUrl('/missions-benevolat'),
+                'urlDomains' => [
+                    'sport' => $this->trackedUrl('/missions-benevolat?domaines=Sport pour tous'),
+                    'collecte' => $this->trackedUrl('/missions-benevolat?activities.name=Collecte de produits'),
+                    'mentorat' => $this->trackedUrl('/missions-benevolat?activities.name=Mentorat %26 Parrainage'),
+                    'nature' => $this->trackedUrl('/missions-benevolat?domaines=Protection de la nature'),
+                ],
                 'notifiable' => $notifiable
             ])
-            ->tag('app-benevole-inscription');
+            ->tag($this->tag);
     }
 
     /**

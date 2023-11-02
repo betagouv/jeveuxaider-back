@@ -3,6 +3,7 @@
 namespace App\Notifications;
 
 use App\Models\Participation;
+use App\Traits\TransactionalEmail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -11,6 +12,7 @@ use Illuminate\Notifications\Notification;
 class ParticipationBeingProcessed extends Notification implements ShouldQueue
 {
     use Queueable;
+    use TransactionalEmail;
 
     /**
      * The order instance.
@@ -18,6 +20,8 @@ class ParticipationBeingProcessed extends Notification implements ShouldQueue
      * @var Participation
      */
     public $participation;
+
+    public $tag;
 
     /**
      * Create a new notification instance.
@@ -27,6 +31,7 @@ class ParticipationBeingProcessed extends Notification implements ShouldQueue
     public function __construct(Participation $participation)
     {
         $this->participation = $participation;
+        $this->tag = 'app-benevole-participation-being-processed';
     }
 
     public function viaQueues()
@@ -55,13 +60,16 @@ class ParticipationBeingProcessed extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
+        $url = $this->participation->conversation ? '/messages/' . $this->participation->conversation->id : '/messages';
+
+        return (new MailMessage())
             ->subject('⏳ Votre demande de participation est en cours de traitement')
             ->markdown('emails.benevoles.participation-being-processed', [
-                'url' => $this->participation->conversation ? url(config('app.front_url') . '/messages/'.$this->participation->conversation->id) : url(config('app.front_url') . '/messages'),                'mission' => $this->participation->mission,
+                'url' => $this->trackedUrl($url),
+                'mission' => $this->participation->mission,
                 'notifiable' => $notifiable
             ])
-            ->tag('app-benevole-participation-being-processed');
+            ->tag($this->tag);
     }
 
     /**

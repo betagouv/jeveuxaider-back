@@ -21,7 +21,7 @@
                                     <td align="left" valign="top">
                                         @component('mail::components.space', ['height' => 35])
                                         @endcomponent
-                                        <a href="{{ config('app.front_url') }}/missions-benevolat?domaines=Sport%20pour%20tous"
+                                        <a href="{{ $urlDomains['sport'] }}"
                                             style="display: block; max-width: 100%;">
                                             <img src="{{ config('app.front_url') }}/images/mail/activites-participez-vie-club-sportif.jpg"
                                                 alt="img" width="100%" border="0"
@@ -34,7 +34,7 @@
                                             POUR TOUS</span>
                                         @component('mail::components.space', ['height' => 12])
                                         @endcomponent
-                                        <a href="{{ config('app.front_url') }}/missions-benevolat?domaines=Sport%20pour%20tous"
+                                        <a href="{{ $urlDomains['sport'] }}"
                                             style="display: block; max-width: 100%; text-decoration: none;">
                                             <span
                                                 style="color: #101010; font-size: 22px; line-height: 30px; font-weight: 400; letter-spacing: 0px;">Participez
@@ -43,7 +43,7 @@
                                         @component('mail::components.space', ['height' => 8])
                                         @endcomponent
                                         <a class="link"
-                                            href="{{ config('app.front_url') }}/missions-benevolat?domaines=Sport%20pour%20tous">Voir
+                                            href="{{ $urlDomains['sport'] }}">Voir
                                             les missions ›</a>
                                         @component('mail::components.space', ['height' => 8])
                                         @endcomponent
@@ -60,7 +60,7 @@
                                     <td align="left" valign="top">
                                         @component('mail::components.space', ['height' => 35])
                                         @endcomponent
-                                        <a href="{{ config('app.front_url') }}/missions-benevolat?activity.name=Collecte%20de%20produits"
+                                        <a href="{{ $urlDomains['collecte'] }}"
                                             style="display: block; max-width: 100%;">
                                             <img src="{{ config('app.front_url') }}/images/mail/activites-collectes-produits.jpg"
                                                 alt="img" width="100%" border="0"
@@ -73,7 +73,7 @@
                                             ET INSERTION</span>
                                         @component('mail::components.space', ['height' => 12])
                                         @endcomponent
-                                        <a href="{{ config('app.front_url') }}/missions-benevolat?activity.name=Collecte%20de%20produits"
+                                        <a href="{{ $urlDomains['collecte'] }}"
                                             style="display: block; max-width: 100%; text-decoration: none;">
                                             <span
                                                 style="color: #101010; font-size: 22px; line-height: 30px; font-weight: 400; letter-spacing: 0px;">Collectez
@@ -82,7 +82,7 @@
                                         @component('mail::components.space', ['height' => 8])
                                         @endcomponent
                                         <a class="link"
-                                            href="{{ config('app.front_url') }}/missions-benevolat?activity.name=Collecte%20de%20produits">Voir
+                                            href="{{ $urlDomains['collecte'] }}">Voir
                                             les missions ›</a>
                                         @component('mail::components.space', ['height' => 8])
                                         @endcomponent
@@ -115,7 +115,7 @@
                                     <td align="left" valign="top">
                                         @component('mail::components.space', ['height' => 35])
                                         @endcomponent
-                                        <a href="{{ config('app.front_url') }}/missions-benevolat?activity.name=Mentorat%20%26%20Parrainage"
+                                        <a href="{{ $urlDomains['mentorat'] }}"
                                             style="display: block; max-width: 100%;">
                                             <img src="{{ config('app.front_url') }}/images/mail/activites-devenir-mentor.jpg"
                                                 alt="img" width="100%" border="0"
@@ -128,7 +128,7 @@
                                             POUR TOUS</span>
                                         @component('mail::components.space', ['height' => 12])
                                         @endcomponent
-                                        <a href="{{ config('app.front_url') }}/missions-benevolat?activity.name=Mentorat%20%26%20Parrainage"
+                                        <a href="{{ $urlDomains['mentorat'] }}"
                                             style="display: block; max-width: 100%; text-decoration: none;">
                                             <span
                                                 style="color: #101010; font-size: 22px; line-height: 30px; font-weight: 400; letter-spacing: 0px;">Devenez
@@ -137,7 +137,7 @@
                                         @component('mail::components.space', ['height' => 8])
                                         @endcomponent
                                         <a class="link"
-                                            href="{{ config('app.front_url') }}/missions-benevolat?activity.name=Mentorat%20%26%20Parrainage">Voir
+                                            href="{{ $urlDomains['mentorat'] }}">Voir
                                             les missions ›</a>
                                         @component('mail::components.space', ['height' => 8])
                                         @endcomponent
@@ -154,7 +154,7 @@
                                     <td align="left" valign="top">
                                         @component('mail::components.space', ['height' => 35])
                                         @endcomponent
-                                        <a href="{{ config('app.front_url') }}/missions-benevolat?domaines=Protection%20de%20la nature"
+                                        <a href="{{ $urlDomains['nature'] }}"
                                             style="display: block; max-width: 100%;">
                                             <img src="{{ config('app.front_url') }}/images/mail/activites-protection-nature.jpg"
                                                 alt="img" width="100%" border="0"
@@ -167,7 +167,7 @@
                                             DE LA NATURE</span>
                                         @component('mail::components.space', ['height' => 12])
                                         @endcomponent
-                                        <a href="{{ config('app.front_url') }}/missions-benevolat?domaines=Protection%20de%20la nature"
+                                        <a href="{{ $urlDomains['nature'] }}"
                                             style="display: block; max-width: 100%; text-decoration: none;">
                                             <span
                                                 style="color: #101010; font-size: 22px; line-height: 30px; font-weight: 400; letter-spacing: 0px;">Contribuez
@@ -176,7 +176,7 @@
                                         @component('mail::components.space', ['height' => 8])
                                         @endcomponent
                                         <a class="link"
-                                            href="{{ config('app.front_url') }}/missions-benevolat?domaines=Protection%20de%20la nature">Voir
+                                            href="{{ $urlDomains['nature'] }}">Voir
                                             les missions ›</a>
                                         @component('mail::components.space', ['height' => 8])
                                         @endcomponent

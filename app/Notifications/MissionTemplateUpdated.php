@@ -3,6 +3,7 @@
 namespace App\Notifications;
 
 use App\Models\MissionTemplate;
+use App\Traits\TransactionalEmail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -12,6 +13,7 @@ use Illuminate\Support\HtmlString;
 class MissionTemplateUpdated extends Notification implements ShouldQueue
 {
     use Queueable;
+    use TransactionalEmail;
 
     public function viaQueues()
     {
@@ -26,6 +28,8 @@ class MissionTemplateUpdated extends Notification implements ShouldQueue
 
     public $changes;
 
+    public $tag;
+
     /**
      * Create a new notification instance.
      *
@@ -36,6 +40,7 @@ class MissionTemplateUpdated extends Notification implements ShouldQueue
         $this->missionTemplate = $missionTemplate;
         $this->oldMissionTemplate = $oldMissionTemplate;
         $this->changes = $changes;
+        $this->tag = 'app-maj-modele-mission';
     }
 
     /**
@@ -57,10 +62,10 @@ class MissionTemplateUpdated extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $message = (new MailMessage)
-            ->subject($this->missionTemplate->reseau->name.' : Un modèle de mission a été modifié après validation')
+        $message = (new MailMessage())
+            ->subject($this->missionTemplate->reseau->name . ' : Un modèle de mission a été modifié après validation')
             ->greeting('Bonjour,')
-            ->line('Le réseau **'.$this->missionTemplate->reseau->name.'** a modifié son modèle de mission : **'.$this->missionTemplate->title.'**');
+            ->line('Le réseau **' . $this->missionTemplate->reseau->name . '** a modifié son modèle de mission : **' . $this->missionTemplate->title . '**');
 
         if (isset($this->changes['title'])) {
             $message->line('#### Titre (avant / après)');
@@ -86,7 +91,9 @@ class MissionTemplateUpdated extends Notification implements ShouldQueue
             $message->line(new HtmlString($this->changes['objectif']));
         }
 
-        $message->action('Modérer le modèle de mission', url(config('app.front_url').'/admin/contenus/modeles-mission/'.$this->missionTemplate->id.'/edit'));
+        $message
+            ->action('Modérer le modèle de mission', $this->trackedUrl('/admin/contenus/modeles-mission/' . $this->missionTemplate->id . '/edit'))
+            ->tag($this->tag);
 
         return $message;
     }

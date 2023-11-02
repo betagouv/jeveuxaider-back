@@ -7,9 +7,7 @@
         départemental prendra prochainement contact avec vous.
     @endcomponent
     @component('mail::components.paragraph')
-        En attendant, vous pouvez vérifier que votre mission est conforme aux critères de publication définis dans le cadre de
-        notre <a class="link" href="https://www.jeveuxaider.gouv.fr/charte-reserve-civique">Charte de la Réserve Civique ›</a>
-        et la modifier si besoin.
+        En attendant, vous pouvez vérifier que votre mission est conforme aux critères de publication définis dans le cadre de notre <a class="link" href="{{ $urlCharte }}">Charte de la Réserve Civique ›</a> et la modifier si besoin.
     @endcomponent
     @component('mail::components.paragraph', ['title' => 'Petit rappel de la mission'])
         {{ $mission->name }}

@@ -4,7 +4,7 @@
     @endcomponent
     @component('mail::components.paragraph')
         Cette mission ne répond malheureusement pas à nos critères de publication définis dans le cadre de notre <a
-            class="link" href="https://www.jeveuxaider.gouv.fr/charte-reserve-civique">Charte de la Réserve Civique ›</a>
+            class="link" href="{{ $urlCharte }}">Charte de la Réserve Civique ›</a>
     @endcomponent
     @component('mail::components.paragraph')
         Par conséquent, les bénévoles ne peuvent pas s’y inscrire. De plus, si certains s’étaient déjà inscrits, ils ont été

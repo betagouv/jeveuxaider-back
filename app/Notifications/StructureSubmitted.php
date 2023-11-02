@@ -3,6 +3,7 @@
 namespace App\Notifications;
 
 use App\Models\Structure;
+use App\Traits\TransactionalEmail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -11,6 +12,7 @@ use Illuminate\Notifications\Notification;
 class StructureSubmitted extends Notification implements ShouldQueue
 {
     use Queueable;
+    use TransactionalEmail;
 
     /**
      * The order instance.
@@ -18,6 +20,7 @@ class StructureSubmitted extends Notification implements ShouldQueue
      * @var Structure
      */
     public $structure;
+    public $tag;
 
     /**
      * Create a new notification instance.
@@ -27,6 +30,7 @@ class StructureSubmitted extends Notification implements ShouldQueue
     public function __construct(Structure $structure)
     {
         $this->structure = $structure;
+        $this->tag = 'app-referent-organisation-en-attente-de-validation';
     }
 
     public function viaQueues()
@@ -55,14 +59,14 @@ class StructureSubmitted extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
-            ->subject($notifiable->first_name. ', une nouvelle organisation vient de s’inscrire sur JeVeuxAider.gouv.fr !')
+        return (new MailMessage())
+            ->subject($notifiable->first_name . ', une nouvelle organisation vient de s’inscrire sur JeVeuxAider.gouv.fr !')
             ->markdown('emails.referents.structure-submitted', [
-                'url' => url(config('app.front_url').'/admin/organisations?filter[state]=En attente de validation'),
+                'url' => $this->trackedUrl('/admin/organisations?filter[state]=En attente de validation'),
                 'structure' => $this->structure,
                 'notifiable' => $notifiable
             ])
-            ->tag('app-referent-organisation-en-attente-de-validation');
+            ->tag($this->tag);
     }
 
     /**

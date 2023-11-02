@@ -5,7 +5,7 @@
     @component('mail::components.paragraph')
         <strong>{{ $structure->name }}</strong> a dû être dépubliée de notre plateforme car elle ne répond malheureusement pas à
         nos critères définis dans le cadre de notre <a class="link"
-            href="https://www.jeveuxaider.gouv.fr/charte-reserve-civique">Charte de la Réserve
+            href="{{ $urlCharte }}">Charte de la Réserve
             Civique ›</a>
     @endcomponent
     @component('mail::components.paragraph', ['title' => 'Qu’est-ce que cela signifie ?'])

@@ -3,6 +3,7 @@
 namespace App\Notifications;
 
 use App\Models\Mission;
+use App\Traits\TransactionalEmail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -11,6 +12,7 @@ use Illuminate\Notifications\Notification;
 class MissionOutdatedSecondReminder extends Notification implements ShouldQueue
 {
     use Queueable;
+    use TransactionalEmail;
 
     /**
      * The order instance.
@@ -18,6 +20,8 @@ class MissionOutdatedSecondReminder extends Notification implements ShouldQueue
      * @var Mission
      */
     public $mission;
+
+    public $tag;
 
     /**
      * Create a new notification instance.
@@ -27,6 +31,7 @@ class MissionOutdatedSecondReminder extends Notification implements ShouldQueue
     public function __construct(Mission $mission)
     {
         $this->mission = $mission;
+        $this->tag = 'app-responsable-relance-mission-passee-2';
     }
 
     public function viaQueues()
@@ -55,14 +60,14 @@ class MissionOutdatedSecondReminder extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
+        return (new MailMessage())
             ->subject('Votre mission va être clôturée')
             ->markdown('emails.responsables.mission-outdated-second-reminder', [
-                'missionUrl' => url(config('app.front_url').'/admin/missions/'.$this->mission->id),
+                'missionUrl' => $this->trackedUrl('/admin/missions/' . $this->mission->id),
                 'mission' => $this->mission,
                 'notifiable' => $notifiable,
             ])
-            ->tag('app-responsable-relance-mission-passee-2');
+            ->tag($this->tag);
     }
 
     /**

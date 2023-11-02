@@ -2,11 +2,25 @@
 
 namespace App\Notifications;
 
+use App\Traits\TransactionalEmail;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
 class UserBannedInappropriateBehavior extends Notification
 {
+    use TransactionalEmail;
+
+    public $tag;
+    /**
+     * Create a new notification instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->tag = 'app-benevole-banni-comportement-inadapte';
+    }
+
     /**
      * Get the notification's delivery channels.
      *
@@ -31,7 +45,7 @@ class UserBannedInappropriateBehavior extends Notification
             ->markdown('emails.benevoles.banned-inappropriate-behavior', [
                 'notifiable' => $notifiable,
             ])
-            ->tag('app-benevole-banni-comportement-inadapte');
+            ->tag($this->tag);
     }
 
     /**

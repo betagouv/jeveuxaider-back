@@ -3,6 +3,7 @@
 namespace App\Notifications;
 
 use App\Models\Message;
+use App\Traits\TransactionalEmail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -11,8 +12,10 @@ use Illuminate\Notifications\Notification;
 class MessageMissionCreated extends Notification implements ShouldQueue
 {
     use Queueable;
+    use TransactionalEmail;
 
     public $message;
+    public $tag;
 
     /**
      * Create a new notification instance.
@@ -52,14 +55,21 @@ class MessageMissionCreated extends Notification implements ShouldQueue
     {
         $mission = $this->message->conversation->conversable;
         $structure = $mission->structure;
+        $url = $this->message->conversation ? '/messages/' . $this->message->conversation->id : '/messages';
         $isFromResponsable = $structure->members->contains('id', $notifiable->id) ? false : true;
-        $subject = $isFromResponsable ? 'Le responsable de '. $structure->name .' vous a répondu !' : $this->message->from->profile->full_name . ' souhaite en savoir plus sur votre mission';
-        $tag = $isFromResponsable ? 'app-referent-nouveau-message-mission' : 'app-responsable-nouveau-message-mission';
 
-        return (new MailMessage)
+        if ($isFromResponsable) {
+            $subject = 'Le responsable de ' . $structure->name . ' vous a répondu !';
+            $this->tag = 'app-referent-nouveau-message-mission';
+        } else {
+            $subject = $this->message->from->profile->full_name . ' souhaite en savoir plus sur votre mission';
+            $this->tag = 'app-responsable-nouveau-message-mission';
+        }
+
+        return (new MailMessage())
             ->subject($subject)
             ->markdown('emails.benevoles.message-mission', [
-                'url' => $this->message->conversation ? url(config('app.front_url') . '/messages/'.$this->message->conversation->id) :  url(config('app.front_url') . '/messages'),
+                'url' => $this->trackedUrl($url),
                 'message' => $this->message,
                 'mission' => $mission,
                 'structure' => $structure,
@@ -67,7 +77,7 @@ class MessageMissionCreated extends Notification implements ShouldQueue
                 'notifiable' => $notifiable,
                 'isFromResponsable' => $isFromResponsable
             ])
-            ->tag($tag);
+            ->tag($this->tag);
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace App\Notifications;
 
 use App\Models\Structure;
+use App\Traits\TransactionalEmail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -11,10 +12,11 @@ use Illuminate\Notifications\Notification;
 class StructureInDraft extends Notification implements ShouldQueue
 {
     use Queueable;
+    use TransactionalEmail;
 
     public $structure;
-
     public $template;
+    public $tag;
 
     /**
      * Create a new notification instance.
@@ -25,6 +27,7 @@ class StructureInDraft extends Notification implements ShouldQueue
     {
         $this->structure = $structure;
         $this->template = $template;
+        $this->tag = 'app-responsable-organisation-en-brouillon';
     }
 
     public function viaQueues()
@@ -53,15 +56,15 @@ class StructureInDraft extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
-            ->subject($notifiable->profile->first_name.', recrutez des bénévoles en 2 minutes')
+        return (new MailMessage())
+            ->subject($notifiable->profile->first_name . ', recrutez des bénévoles en 2 minutes')
             ->markdown('emails.responsables.structure-in-draft', [
-                'url' => url(config('app.front_url').'/admin/organisations/'.$this->structure->id.'/edit'),
+                'url' => $this->trackedUrl('/admin/organisations/' . $this->structure->id . '/edit'),
                 'template' => $this->template,
                 'structure' => $this->structure,
                 'notifiable' => $notifiable
             ])
-            ->tag('app-responsable-organisation-en-brouillon');
+            ->tag($this->tag);
     }
 
     /**

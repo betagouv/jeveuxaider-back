@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Traits\TransactionalEmail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -10,10 +11,12 @@ use Illuminate\Notifications\Notification;
 class ResponsableParticipationAModeredEnPriorite extends Notification implements ShouldQueue
 {
     use Queueable;
+    use TransactionalEmail;
 
     public $totalCount;
     public $waitingCount;
     public $inProgressCount;
+    public $tag;
 
     /**
      * Create a new notification instance.
@@ -25,6 +28,7 @@ class ResponsableParticipationAModeredEnPriorite extends Notification implements
         $this->totalCount = $totalCount;
         $this->waitingCount = $waitingCount;
         $this->inProgressCount = $inProgressCount;
+        $this->tag = 'app-responsable-rappel-participations-a-traiter-en-priorite';
     }
 
     public function viaQueues()
@@ -54,20 +58,20 @@ class ResponsableParticipationAModeredEnPriorite extends Notification implements
     public function toMail($notifiable)
     {
 
-        return (new MailMessage)
+        return (new MailMessage())
             ->when($this->totalCount == 1, function (MailMessage $mailMessage) use ($notifiable) {
                 return $mailMessage->subject("Vous avez une participation à traiter en priorité ! 🙌");
             }, function ($mailMessage) use ($notifiable) {
                 return $mailMessage->subject("Vous avez " . $this->totalCount . " participations à traiter en priorité ! 🙌");
             })
             ->markdown('emails.responsables.participations-rappel-a-traiter-en-priorite', [
-                'url' => url(config('app.front_url').'/admin/participations?filter%5Bneed_to_be_treated%5D=true'),
+                'url' => $this->trackedUrl('/admin/participations?filter[need_to_be_treated]=true'),
                 'totalCount' =>  $this->totalCount,
                 'waitingCount' =>  $this->waitingCount,
                 'inProgressCount' =>  $this->inProgressCount,
                 'notifiable' => $notifiable
             ])
-            ->tag('app-responsable-rappel-participations-a-traiter-en-priorite');
+            ->tag($this->tag);
     }
 
     /**

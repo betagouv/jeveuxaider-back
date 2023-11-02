@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Traits\TransactionalEmail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -10,8 +11,10 @@ use Illuminate\Notifications\Notification;
 class ResponsableDailyTodo extends Notification implements ShouldQueue
 {
     use Queueable;
+    use TransactionalEmail;
 
     public $participations;
+    public $tag;
 
     /**
      * Create a new notification instance.
@@ -21,6 +24,7 @@ class ResponsableDailyTodo extends Notification implements ShouldQueue
     public function __construct($participations)
     {
         $this->participations = $participations;
+        $this->tag = 'app-responsable-rappel-participations-en-attente-de-validation';
     }
 
     public function viaQueues()
@@ -51,18 +55,18 @@ class ResponsableDailyTodo extends Notification implements ShouldQueue
     {
         $participationsCount = count($this->participations);
 
-        return (new MailMessage)
+        return (new MailMessage())
             ->when($participationsCount == 1, function (MailMessage $mailMessage) use ($notifiable) {
                 return $mailMessage->subject("Vous avez une participation à traiter en priorité ! 🙌");
             }, function ($mailMessage) use ($notifiable, $participationsCount) {
                 return $mailMessage->subject("Vous avez des participations à traiter en priorité ! 🙌");
             })
             ->markdown('emails.responsables.participations-rappel-waiting-validation', [
-                'url' => url(config('app.front_url').'/admin/participations?filter%5Bstate%5D=En%20attente%20de%20validation'),
+                'url' => $this->trackedUrl('/admin/participations?filter[state]=En attente de validation'),
                 'participationsCount' => $participationsCount,
                 'notifiable' => $notifiable
             ])
-            ->tag('app-responsable-rappel-participations-en-attente-de-validation');
+            ->tag($this->tag);
     }
 
     /**

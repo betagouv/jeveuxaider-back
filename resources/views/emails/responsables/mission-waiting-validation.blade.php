@@ -4,8 +4,7 @@
     @endcomponent
     @component('mail::components.paragraph')
         Nous devons la valider pour qu’elle soit publiée sur la plateforme. Nous allons vérifier qu’elle correspond bien au
-        cadre défini par notre <a class="link" href="https://www.jeveuxaider.gouv.fr/charte-reserve-civique">Charte de la
-            Réserve Civique ›</a>
+        cadre défini par notre <a class="link" href="{{ $urlCharte }}">Charte de la Réserve Civique ›</a>
     @endcomponent
     @component('mail::components.paragraph', ['title' => 'Bon à savoir'])
         Votre mission sera examinée par le référent JeVeuxAider.gouv.fr de votre département et cela peut prendre jusqu’à 7

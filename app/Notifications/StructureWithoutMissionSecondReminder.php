@@ -3,6 +3,7 @@
 namespace App\Notifications;
 
 use App\Models\Structure;
+use App\Traits\TransactionalEmail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -11,10 +12,11 @@ use Illuminate\Notifications\Notification;
 class StructureWithoutMissionSecondReminder extends Notification implements ShouldQueue
 {
     use Queueable;
+    use TransactionalEmail;
 
     public $structure;
-
     public $template;
+    public $tag;
 
     /**
      * Create a new notification instance.
@@ -24,6 +26,7 @@ class StructureWithoutMissionSecondReminder extends Notification implements Shou
     public function __construct(Structure $structure)
     {
         $this->structure = $structure;
+        $this->tag = 'app-responsable-publication-mission-relance';
     }
 
     public function viaQueues()
@@ -52,14 +55,14 @@ class StructureWithoutMissionSecondReminder extends Notification implements Shou
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
+        return (new MailMessage())
             ->subject('Les bénévoles n’attendent plus que vous !')
             ->markdown('emails.responsables.structure-without-mission-second-reminder', [
-                'url' => url(config('app.front_url').'/admin/organisations/'.$this->structure->id.'/missions/add'),
+                'url' => $this->trackedUrl('/admin/organisations/' . $this->structure->id . '/missions/add'),
                 'structure' => $this->structure,
                 'notifiable' => $notifiable
             ])
-            ->tag('app-responsable-publication-mission-relance');
+            ->tag($this->tag);
     }
 
     /**

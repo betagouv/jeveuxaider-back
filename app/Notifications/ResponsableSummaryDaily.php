@@ -2,13 +2,11 @@
 
 namespace App\Notifications;
 
-use App\Helpers\Utils;
 use App\Models\Message;
-use App\Models\Mission;
 use App\Models\Participation;
 use App\Models\Profile;
 use App\Models\User;
-use Carbon\Carbon;
+use App\Traits\TransactionalEmail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -18,6 +16,7 @@ use Illuminate\Database\Eloquent\Builder;
 class ResponsableSummaryDaily extends Notification implements ShouldQueue
 {
     use Queueable;
+    use TransactionalEmail;
 
     public $structure;
     public $profile;
@@ -27,6 +26,7 @@ class ResponsableSummaryDaily extends Notification implements ShouldQueue
     public $participationsWaitingCount;
     public $participationsProcessingCount;
     public $conversationsUnreadCount;
+    public $tag;
 
     /**
      * Create a new notification instance.
@@ -35,19 +35,21 @@ class ResponsableSummaryDaily extends Notification implements ShouldQueue
      */
     public function __construct($responsableId)
     {
-        $yesterday = date("Y-m-d", strtotime( '-1 days' ) );
+        $yesterday = date("Y-m-d", strtotime('-1 days'));
 
         $this->profile = Profile::find($responsableId);
         $this->user = User::find($this->profile->user_id);
         $this->structure = $this->user->structures->first();
-        $this->newMessagesCount = Message::whereHas('conversation', function (Builder $query){
-            $query->whereHas('users', function (Builder $query){
+        $this->newMessagesCount = Message::whereHas('conversation', function (Builder $query) {
+            $query->whereHas('users', function (Builder $query) {
                 $query->where('users.id', $this->user->id);
             });
         })->whereDate('created_at', $yesterday)->count();
         $this->newParticipationsCount = Participation::ofResponsable($responsableId)->whereDate('created_at', $yesterday)->count();
         $this->participationsWaitingCount = Participation::ofResponsable($responsableId)->whereIn('state', ['En attente de validation', 'En cours de traitement'])->count();
         $this->conversationsUnreadCount =  $this->user->getUnreadConversationsCount();
+
+        $this->tag = 'app-responsable-bilan-quotidien';
     }
 
     public function viaQueues()
@@ -76,12 +78,12 @@ class ResponsableSummaryDaily extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $mailMessage = (new MailMessage)
+        $mailMessage = (new MailMessage())
             ->subject($this->profile->first_name . ', découvrez l’activité du jour sur JeVeuxAider.gouv.fr !')
-            ->tag('app-responsable-bilan-quotidien')
+            ->tag($this->tag)
             ->markdown('emails.bilans.responsable-summary-daily', [
                 'notifiable' => $notifiable,
-                'url' => url(config('app.front_url') . '/dashboard'),
+                'url' => $this->trackedUrl('/dashboard'),
                 'structure' => $this->structure,
                 'variables' => [
                     'newParticipationsCount' => $this->newParticipationsCount,

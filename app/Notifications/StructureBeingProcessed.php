@@ -3,6 +3,7 @@
 namespace App\Notifications;
 
 use App\Models\Structure;
+use App\Traits\TransactionalEmail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -11,6 +12,7 @@ use Illuminate\Notifications\Notification;
 class StructureBeingProcessed extends Notification implements ShouldQueue
 {
     use Queueable;
+    use TransactionalEmail;
 
     /**
      * The order instance.
@@ -18,6 +20,8 @@ class StructureBeingProcessed extends Notification implements ShouldQueue
      * @var Structure
      */
     public $structure;
+
+    public $tag;
 
     /**
      * Create a new notification instance.
@@ -27,6 +31,7 @@ class StructureBeingProcessed extends Notification implements ShouldQueue
     public function __construct(Structure $structure)
     {
         $this->structure = $structure;
+        $this->tag = 'app-responsable-organisation-en-cours-de-traitement';
     }
 
     public function viaQueues()
@@ -55,13 +60,13 @@ class StructureBeingProcessed extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
+        return (new MailMessage())
             ->subject('Votre demande d’inscription est en cours d’analyse')
             ->markdown('emails.responsables.structure-being-processed', [
                 'structure' => $this->structure,
                 'notifiable' => $notifiable
             ])
-            ->tag('app-responsable-organisation-en-cours-de-traitement');
+            ->tag($this->tag);
     }
 
     /**

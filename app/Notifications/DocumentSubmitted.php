@@ -3,6 +3,7 @@
 namespace App\Notifications;
 
 use App\Models\Document;
+use App\Traits\TransactionalEmail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -11,6 +12,7 @@ use Illuminate\Notifications\Notification;
 class DocumentSubmitted extends Notification implements ShouldQueue
 {
     use Queueable;
+    use TransactionalEmail;
 
     /**
      * The order instance.
@@ -18,6 +20,8 @@ class DocumentSubmitted extends Notification implements ShouldQueue
      * @var Document
      */
     public $document;
+
+    public $tag;
 
     /**
      * Create a new notification instance.
@@ -27,6 +31,7 @@ class DocumentSubmitted extends Notification implements ShouldQueue
     public function __construct(Document $document)
     {
         $this->document = $document;
+        $this->tag = 'app-document-submitted';
     }
 
     public function viaQueues()
@@ -55,14 +60,14 @@ class DocumentSubmitted extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
+        return (new MailMessage())
             ->subject('Une nouvelle ressource est accessible dans votre espace')
             ->markdown('emails.referents.document-submitted', [
-                'url' => url(config('app.front_url').'/admin/ressources'),
+                'url' => $this->trackedUrl('/admin/ressources'),
                 'document' => $this->document,
                 'notifiable' => $notifiable,
             ])
-            ->tag('app-document-submitted');
+            ->tag($this->tag);
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace App\Notifications;
 
 use App\Models\Participation;
+use App\Traits\TransactionalEmail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -11,6 +12,7 @@ use Illuminate\Notifications\Notification;
 class ParticipationShouldBeDone extends Notification implements ShouldQueue
 {
     use Queueable;
+    use TransactionalEmail;
 
     /**
      * The order instance.
@@ -18,6 +20,8 @@ class ParticipationShouldBeDone extends Notification implements ShouldQueue
      * @var Participation
      */
     public $participation;
+
+    public $tag;
 
     /**
      * Create a new notification instance.
@@ -27,6 +31,7 @@ class ParticipationShouldBeDone extends Notification implements ShouldQueue
     public function __construct(Participation $participation)
     {
         $this->participation = $participation;
+        $this->tag = 'app-benevole-participation-should-be-done';
     }
 
     /**
@@ -58,13 +63,13 @@ class ParticipationShouldBeDone extends Notification implements ShouldQueue
         return (new MailMessage())
             ->subject('Avez-vous réalisé votre mission ?')
             ->markdown('emails.benevoles.participation-should-be-done', [
-                'url' => url(config('app.front_url') . '/messages/' . $this->participation->conversation->id),
+                'url' => $this->trackedUrl('/messages/' . $this->participation->conversation->id),
                 'mission' => $this->participation->mission,
                 'responsable' => $this->participation->mission->responsable,
                 'organisation' => $this->participation->mission->structure,
                 'benevole' => $notifiable
             ])
-            ->tag('app-benevole-participation-should-be-done');
+            ->tag($this->tag);
     }
 
     /**

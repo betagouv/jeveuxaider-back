@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Traits\TransactionalEmail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -10,6 +11,7 @@ use Illuminate\Notifications\Notification;
 class UserAnonymize extends Notification implements ShouldQueue
 {
     use Queueable;
+    use TransactionalEmail;
 
     /**
      * Create a new notification instance.
@@ -18,7 +20,7 @@ class UserAnonymize extends Notification implements ShouldQueue
      */
     public function __construct()
     {
-        //
+        $this->tag = 'app-user-anonymisation';
     }
 
     /**
@@ -47,11 +49,12 @@ class UserAnonymize extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
+        return (new MailMessage())
             ->subject('Suppression de votre compte sur JeVeuxAider.gouv.fr')
             ->greeting('Bonjour,')
             ->line('Votre compte sur JeVeuxAider.gouv.fr a bien été supprimé.')
-            ->line('Cette action est irréversible : pour utiliser la plateforme à nouveau, vous devrez recréer un compte.');
+            ->line('Cette action est irréversible : pour utiliser la plateforme à nouveau, vous devrez recréer un compte.')
+            ->tag($this->tag);
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Traits\TransactionalEmail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -11,6 +12,7 @@ use Illuminate\Support\HtmlString;
 class BenevoleCejOneYearAfter extends Notification implements ShouldQueue
 {
     use Queueable;
+    use TransactionalEmail;
 
     /**
      * Create a new notification instance.
@@ -19,7 +21,7 @@ class BenevoleCejOneYearAfter extends Notification implements ShouldQueue
      */
     public function __construct()
     {
-        //
+        $this->tag = 'app-cej-un-an-apres';
     }
 
     /**
@@ -48,12 +50,13 @@ class BenevoleCejOneYearAfter extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
-            ->subject($notifiable->first_name.', êtes-vous toujours en Contrat d’Engagement Jeune ?')
-            ->greeting('Bonjour '.$notifiable->first_name.',')
-            ->line(new HtmlString('Lors de votre inscription sur <a href="'.url(config('app.front_url')).'">JeVeuxAider.gouv.fr</a>, vous nous avez indiqué être accompagné dans le cadre du Contrat d’Engagement Jeune.'))
+        return (new MailMessage())
+            ->subject($notifiable->first_name . ', êtes-vous toujours en Contrat d’Engagement Jeune ?')
+            ->greeting('Bonjour ' . $notifiable->first_name . ',')
+            ->line(new HtmlString('Lors de votre inscription sur <a href="' . $this->trackedUrl('') . '">JeVeuxAider.gouv.fr</a>, vous nous avez indiqué être accompagné dans le cadre du Contrat d’Engagement Jeune.'))
             ->line('Si vous n’êtes plus accompagné dans le cadre de ce dispositif, nous vous invitons à mettre à jour votre profil. Promis, cela ne prend que 2 minutes !')
-            ->action('Mettre à jour mon profil', url(config('app.front_url').'/profile/edit'));
+            ->action('Mettre à jour mon profil', $this->trackedUrl('/profile/edit'))
+            ->tag($this->tag);
     }
 
     /**

@@ -2,22 +2,21 @@
 
 namespace App\Notifications;
 
-use App\Helpers\Utils;
-use App\Models\Message;
 use App\Models\Mission;
 use App\Models\Participation;
 use App\Models\Profile;
 use App\Models\User;
+use App\Traits\TransactionalEmail;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use Illuminate\Database\Eloquent\Builder;
 
 class ResponsableSummaryMonthly extends Notification implements ShouldQueue
 {
     use Queueable;
+    use TransactionalEmail;
 
     public $startDate;
     public $endDate;
@@ -27,6 +26,7 @@ class ResponsableSummaryMonthly extends Notification implements ShouldQueue
     public $newMissionsCount;
     public $missionsOnlineCount;
     public $newParticipationsCount;
+    public $tag;
 
     /**
      * Create a new notification instance.
@@ -45,6 +45,7 @@ class ResponsableSummaryMonthly extends Notification implements ShouldQueue
         $this->newMissionsCount = Mission::ofStructure($this->structure->id)->whereBetween('created_at', [$this->startDate, $this->endDate])->count();
         $this->missionsOnlineCount = Mission::ofStructure($this->structure->id)->available()->count();
         $this->newParticipationsCount = Participation::ofStructure($this->structure->id)->whereBetween('created_at', [$this->startDate, $this->endDate])->count();
+        $this->tag = 'app-responsable-bilan-mensuel';
     }
 
     public function viaQueues()
@@ -73,12 +74,12 @@ class ResponsableSummaryMonthly extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $mailMessage = (new MailMessage)
+        $mailMessage = (new MailMessage())
             ->subject($this->profile->first_name . ', découvrez votre résumé mensuel d’activité sur JeVeuxaider.gouv.fr !')
-            ->tag('app-responsable-bilan-mensuel')
+            ->tag($this->tag)
             ->markdown('emails.bilans.responsable-summary-monthly', [
                 'notifiable' => $notifiable,
-                'url' => url(config('app.front_url') . '/dashboard'),
+                'url' => $this->trackedUrl('/dashboard'),
                 'structure' => $this->structure,
                 'variables' => [
                     'newMissionsCount' => $this->newMissionsCount,

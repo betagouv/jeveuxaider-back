@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Traits\TransactionalEmail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -11,8 +12,10 @@ use Illuminate\Support\HtmlString;
 class StructureCollectivityValidated extends Notification implements ShouldQueue
 {
     use Queueable;
+    use TransactionalEmail;
 
     public $structure;
+    public $tag;
 
     /**
      * Create a new notification instance.
@@ -22,6 +25,7 @@ class StructureCollectivityValidated extends Notification implements ShouldQueue
     public function __construct($structure)
     {
         $this->structure = $structure;
+        $this->tag = 'app-responsable-collectivite-validee';
     }
 
     /**
@@ -50,10 +54,10 @@ class StructureCollectivityValidated extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $mailMessage = (new MailMessage)
+        $mailMessage = (new MailMessage())
             ->subject('Prenez rendez-vous avec nous pour découvrir la plateforme 🙂')
-            ->greeting('Bonjour '.$notifiable->first_name.',')
-            ->line(new HtmlString('Vous venez de rejoindre la plateforme <a href='.url(config('app.url')).">JeVeuxAider.gouv.fr</a> proposée par la Réserve Civique : bienvenue ! Toute l'équipe est ravie de vous compter parmi les 1300 collectivités membres."))
+            ->greeting('Bonjour ' . $notifiable->first_name . ',')
+            ->line(new HtmlString('Vous venez de rejoindre la plateforme <a href="' . $this->trackedUrl('') . '">JeVeuxAider.gouv.fr</a> proposée par la Réserve Civique : bienvenue ! Toute l\'équipe est ravie de vous compter parmi les 1300 collectivités membres."'))
             ->line(new HtmlString("Pour faire connaissance, nous vous invitons à prévoir avec nous un premier rdv ici 👉&nbsp;&nbsp; <a href='https://calendly.com/maiwelle-mezi'>https://calendly.com/maiwelle-mezi</a>."))
             ->line('Au programme :')
             ->line(new HtmlString('- 💻&nbsp;&nbsp; On vous présente la plateforme et son fonctionnement.'))
@@ -61,9 +65,9 @@ class StructureCollectivityValidated extends Notification implements ShouldQueue
             ->line(new HtmlString('- 🔑&nbsp;&nbsp; On vous donne toutes les clés pour faire de votre expérience un succès !'))
             ->line(new HtmlString("D'ici là, on vous invite à lire notre feuille de route en cliquant ici 👉&nbsp;&nbsp; <br><a href='https://jeveuxaider.notion.site/JeVeuxAider-gouv-fr-pour-les-communes-86488dc20b56452e8be00b7ccc9934ce'>https://jeveuxaider.notion.site/JeVeuxAider-gouv-fr-pour-les-communes-86488dc20b56452e8be00b7ccc9934ce</a>"))
             ->line('Vous pourrez ensuite poster vos premières missions et vous familiariser avec la plateforme !')
-            ->line(new HtmlString('<a href='.url(config('app.front_url')).">JeVeuxAider.gouv.fr</a> a pour mission de faciliter vos recrutements de bénévoles et de faire grandir l'engagement en France. Merci pour votre confiance !"))
+            ->line(new HtmlString('<a href="' . $this->trackedUrl('') . '">JeVeuxAider.gouv.fr</a> a pour mission de faciliter vos recrutements de bénévoles et de faire grandir l\'engagement en France. Merci pour votre confiance !"'))
             ->salutation(new HtmlString('À très vite,<br><br>Maiwelle Mezi<br>🚀&nbsp;&nbsp; Chargée de déploiement au sein de jeveuxaider.gouv.fr'))
-            ->tag('app-responsable-collectivite-validee');
+            ->tag($this->tag);
 
         return $mailMessage;
     }

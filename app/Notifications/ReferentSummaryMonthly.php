@@ -2,13 +2,12 @@
 
 namespace App\Notifications;
 
-use App\Helpers\Utils;
-use App\Models\Message;
 use App\Models\Mission;
 use App\Models\Participation;
 use App\Models\Profile;
 use App\Models\Structure;
 use App\Models\User;
+use App\Traits\TransactionalEmail;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -19,6 +18,7 @@ use Illuminate\Database\Eloquent\Builder;
 class ReferentSummaryMonthly extends Notification implements ShouldQueue
 {
     use Queueable;
+    use TransactionalEmail;
 
     public $startDate;
     public $endDate;
@@ -33,6 +33,8 @@ class ReferentSummaryMonthly extends Notification implements ShouldQueue
     public $structuresActivesCount;
     public $missionsOnlineCount;
     public $placesLeftCount;
+
+    public $tag;
 
     /**
      * Create a new notification instance.
@@ -52,11 +54,12 @@ class ReferentSummaryMonthly extends Notification implements ShouldQueue
         $this->newMissionsCount = Structure::department($this->department->number)->whereBetween('created_at', [$this->startDate, $this->endDate])->count();
         $this->newParticipationsCount = Participation::department($this->department->number)->whereBetween('created_at', [$this->startDate, $this->endDate])->count();
         $this->newBenevolesCount = Profile::department($this->department->number)->whereBetween('created_at', [$this->startDate, $this->endDate])->count();
-        $this->structuresActivesCount = Structure::where('state', 'Validée')->whereHas('missions', function(Builder $query){
+        $this->structuresActivesCount = Structure::where('state', 'Validée')->whereHas('missions', function (Builder $query) {
             $query->available();
         })->department($this->department->number)->count();
         $this->missionsOnlineCount = Mission::department($this->department->number)->available()->count();
         $this->placesLeftCount = Mission::department($this->department->number)->available()->sum('places_left');
+        $this->tag = 'app-referent-bilan-mensuel';
     }
 
     public function viaQueues()
@@ -85,12 +88,12 @@ class ReferentSummaryMonthly extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $mailMessage = (new MailMessage)
+        $mailMessage = (new MailMessage())
             ->subject($this->profile->first_name . ', découvrez le résumé mensuel de l’activité sur JeVeuxaider.gouv.fr !')
-            ->tag('app-referent-bilan-mensuel')
+            ->tag($this->tag)
             ->markdown('emails.bilans.referent-summary-monthly', [
                 'notifiable' => $notifiable,
-                'url' => url(config('app.front_url') . '/admin/statistics'),
+                'url' => $this->trackedUrl('/admin/statistics'),
                 'department' => $this->department,
                 'variables' => [
                     'newStructuresCount' => $this->newStructuresCount,

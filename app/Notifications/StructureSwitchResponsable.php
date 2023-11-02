@@ -2,9 +2,9 @@
 
 namespace App\Notifications;
 
-use App\Models\Mission;
 use App\Models\Profile;
 use App\Models\Structure;
+use App\Traits\TransactionalEmail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -13,9 +13,11 @@ use Illuminate\Notifications\Notification;
 class StructureSwitchResponsable extends Notification implements ShouldQueue
 {
     use Queueable;
+    use TransactionalEmail;
 
     public $oldResponsable;
     public $structure;
+    public $tag;
 
     /**
      * Create a new notification instance.
@@ -26,6 +28,7 @@ class StructureSwitchResponsable extends Notification implements ShouldQueue
     {
         $this->structure = $structure;
         $this->oldResponsable = $oldResponsable;
+        $this->tag = 'app-organisation-switch-responsable';
     }
 
     public function viaQueues()
@@ -55,14 +58,15 @@ class StructureSwitchResponsable extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
 
-        $message = (new MailMessage)
+        $message = (new MailMessage())
             ->subject($this->oldResponsable->full_name . ' vous a confié la gestion de nouvelles missions')
-            ->greeting('Bonjour '.$notifiable->first_name.',')
+            ->greeting('Bonjour ' . $notifiable->first_name . ',')
             ->line($this->oldResponsable->full_name . ", qui assure également la gestion de l’organisation " . $this->structure->name . " sur JeVeuxAider.gouv.fr, s’est désinscrit de notre plateforme.")
             ->line("Dans ce cadre, il a indiqué que vous étiez le nouveau responsable des missions dont il assurait la gestion.")
             ->line("Vous serez automatiquement notifié des nouvelles propositions de participation sur les missions concernées.")
             ->line("Si vous souhaitez désigner un autre responsable de mission, il vous suffit d’éditer les missions concernées et désigner le responsable souhaité.")
-            ->action('Accéder à mes missions', url(config('app.front_url') . '/admin/missions'));
+            ->action('Accéder à mes missions', $this->trackedUrl('/admin/missions'))
+            ->tag($this->tag);
 
         return $message;
     }

@@ -3,6 +3,7 @@
 namespace App\Notifications;
 
 use App\Models\Territoire;
+use App\Traits\TransactionalEmail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -12,6 +13,7 @@ use Illuminate\Notifications\Notification;
 class TerritoireWaitingValidation extends Notification implements ShouldQueue
 {
     use Queueable;
+    use TransactionalEmail;
 
     /**
      * The order instance.
@@ -19,6 +21,8 @@ class TerritoireWaitingValidation extends Notification implements ShouldQueue
      * @var Territoire
      */
     public $territoire;
+
+    public $tag;
 
     /**
      * Create a new notification instance.
@@ -28,6 +32,7 @@ class TerritoireWaitingValidation extends Notification implements ShouldQueue
     public function __construct(Territoire $territoire)
     {
         $this->territoire = $territoire;
+        $this->tag = 'app-territoire-en-attente-de-validation';
     }
 
     public function viaQueues()
@@ -56,12 +61,13 @@ class TerritoireWaitingValidation extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
-            ->subject('La collectivité "'.$this->territoire->name.'" vient de s\'inscrire. Elle est en attente de validation.')
+        return (new MailMessage())
+            ->subject('La collectivité "' . $this->territoire->name . '" vient de s\'inscrire. Elle est en attente de validation.')
             ->greeting('Bonjour,')
-            ->line('La collectivité "'.$this->territoire->name.'" a rejoint JeVeuxAider.gouv.fr !')
+            ->line('La collectivité "' . $this->territoire->name . '" a rejoint JeVeuxAider.gouv.fr !')
             ->line('Elle est en attente de validation par un modérateur.')
-            ->action('Voir la collectivité', url(config('app.front_url').'/admin/territoires/'.$this->territoire->id));
+            ->action('Voir la collectivité', $this->trackedUrl('/admin/territoires/' . $this->territoire->id))
+            ->tag($this->tag);
     }
 
     /**
@@ -74,13 +80,13 @@ class TerritoireWaitingValidation extends Notification implements ShouldQueue
     {
         $territoire = $this->territoire;
 
-        return (new SlackMessage)
+        return (new SlackMessage())
                     ->from('JeVeuxAider.gouv.fr')
                     ->success()
                     ->to('#déploiement-collectivités-acquisition')
                     ->content('Une nouvelle collectivité vient de s\'inscrire! Elle est en attente de validation.')
                     ->attachment(function ($attachment) use ($territoire) {
-                        $attachment->title($territoire->name, url(config('app.front_url').'/admin/territoires/'.$territoire->id));
+                        $attachment->title($territoire->name, url(config('app.front_url') . '/admin/territoires/' . $territoire->id));
                     });
     }
 

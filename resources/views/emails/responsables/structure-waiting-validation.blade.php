@@ -6,7 +6,7 @@
         L’inscription de <strong>{{ $structure->name }}</strong> sur notre plateforme est en attente. Un référent départemental
         de
         JeVeuxAider.gouv.fr va étudier votre organisation pour valider qu’elle correspond bien aux critères définis dans le
-        cadre de notre <a class="link" href="https://www.jeveuxaider.gouv.fr/charte-reserve-civique">Charte de la Réserve
+        cadre de notre <a class="link" href="{{ $urlCharte }}">Charte de la Réserve
             Civique ›</a>
     @endcomponent
     @component('mail::components.paragraph', ['title' => 'Bon à savoir'])

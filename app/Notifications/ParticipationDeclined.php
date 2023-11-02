@@ -3,6 +3,7 @@
 namespace App\Notifications;
 
 use App\Models\Participation;
+use App\Traits\TransactionalEmail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -11,6 +12,7 @@ use Illuminate\Notifications\Notification;
 class ParticipationDeclined extends Notification implements ShouldQueue
 {
     use Queueable;
+    use TransactionalEmail;
 
     /**
      * The order instance.
@@ -20,17 +22,19 @@ class ParticipationDeclined extends Notification implements ShouldQueue
     public $participation;
     public $message;
     public $reason;
+    public $tag;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(Participation $participation,$message, $reason)
+    public function __construct(Participation $participation, $message, $reason)
     {
         $this->participation = $participation;
         $this->message = $message;
         $this->reason = $reason;
+        $this->tag = 'app-benevole-participation-declinee';
     }
 
     public function viaQueues()
@@ -59,18 +63,21 @@ class ParticipationDeclined extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
+        $url = $this->participation->conversation ? '/messages/' . $this->participation->conversation->id : '/messages';
+
+        return (new MailMessage())
             ->subject('Quel dommage… votre participation vient d’être déclinée')
             ->markdown('emails.benevoles.participation-declined', [
-                'url' => $this->participation->conversation ? url(config('app.front_url') . '/messages/'.$this->participation->conversation->id) : url(config('app.front_url') . '/messages'),                'mission' => $this->participation->mission,
-                'urlCTA' => url(config('app.front_url') . '/missions-benevolat'),
+                'url' => $this->trackedUrl($url),
+                'urlSearch' => $this->trackedUrl('/missions-benevolat'),
+                'mission' => $this->participation->mission,
                 'structure' => $this->participation->mission->structure,
                 'responsable' => $this->participation->mission->responsable,
                 'message' => $this->message,
                 'reason' => $this->reason && $this->reason != 'other' ? config('taxonomies.participation_declined_reasons.terms')[$this->reason] : null,
                 'notifiable' => $notifiable
             ])
-            ->tag('app-benevole-participation-declinee');
+            ->tag($this->tag);
     }
 
     /**

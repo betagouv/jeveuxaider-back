@@ -3,6 +3,7 @@
 namespace App\Notifications;
 
 use App\Models\Message;
+use App\Traits\TransactionalEmail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -11,8 +12,10 @@ use Illuminate\Notifications\Notification;
 class MessageStructureCreated extends Notification implements ShouldQueue
 {
     use Queueable;
+    use TransactionalEmail;
 
     public $message;
+    public $tag;
 
     /**
      * Create a new notification instance.
@@ -51,21 +54,28 @@ class MessageStructureCreated extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         $structure = $this->message->conversation->conversable;
+        $url = $this->message->conversation ? '/messages/' . $this->message->conversation->id : '/messages';
         $isFromResponsable = $structure->members->contains('id', $notifiable->id) ? false : true;
-        $subject = $isFromResponsable ? 'Le responsable de '. $structure->name .' vous a répondu !' : $this->message->from->profile->full_name . ' souhaite en savoir plus sur votre organisation';
-        $tag = $isFromResponsable ? 'app-referent-nouveau-message-organisation' : 'app-responsable-nouveau-message-organisation';
 
-        return (new MailMessage)
+        if ($isFromResponsable) {
+            $subject = 'Le responsable de ' . $structure->name . ' vous a répondu !';
+            $this->tag = 'app-referent-nouveau-message-organisation';
+        } else {
+            $subject = $this->message->from->profile->full_name . ' souhaite en savoir plus sur votre organisation';
+            $this->tag = 'app-responsable-nouveau-message-organisation';
+        }
+
+        return (new MailMessage())
             ->subject($subject)
             ->markdown('emails.benevoles.message-structure', [
-                'url' => $this->message->conversation ? url(config('app.front_url') . '/messages/'.$this->message->conversation->id) :  url(config('app.front_url') . '/messages'),
+                'url' => $this->trackedUrl($url),
                 'message' => $this->message,
                 'structure' => $structure,
                 'from' => $this->message->from->profile,
                 'notifiable' => $notifiable,
                 'isFromResponsable' => $isFromResponsable
             ])
-            ->tag($tag);
+            ->tag($this->tag);
     }
 
     /**

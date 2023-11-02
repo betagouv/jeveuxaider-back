@@ -3,6 +3,7 @@
 namespace App\Notifications;
 
 use App\Models\Participation;
+use App\Traits\TransactionalEmail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -11,6 +12,7 @@ use Illuminate\Notifications\Notification;
 class ParticipationCanceled extends Notification implements ShouldQueue
 {
     use Queueable;
+    use TransactionalEmail;
 
     /**
      * The order instance.
@@ -18,6 +20,8 @@ class ParticipationCanceled extends Notification implements ShouldQueue
      * @var Participation
      */
     public $participation;
+
+    public $tag;
 
     /**
      * Create a new notification instance.
@@ -27,6 +31,7 @@ class ParticipationCanceled extends Notification implements ShouldQueue
     public function __construct(Participation $participation)
     {
         $this->participation = $participation;
+        $this->tag = 'app-benevole-participation-canceled';
     }
 
     public function viaQueues()
@@ -55,15 +60,18 @@ class ParticipationCanceled extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
+        $url = $this->participation->conversation ? '/messages/' . $this->participation->conversation->id : '/messages';
+
+        return (new MailMessage())
             ->subject('😔 Oh non… La mission de ' . $this->participation->mission->structure->name . ' a été annulée')
             ->markdown('emails.benevoles.participation-canceled', [
-                'url' => $this->participation->conversation ? url(config('app.front_url') . '/messages/'.$this->participation->conversation->id) : url(config('app.front_url') . '/messages'),                'mission' => $this->participation->mission,
-                'urlCTA' => url(config('app.front_url') . '/missions-benevolat'),
+                'url' => $this->trackedUrl($url),
+                'urlSearch' => $this->trackedUrl('/missions-benevolat'),
+                'mission' => $this->participation->mission,
                 'structure' => $this->participation->mission->structure,
                 'notifiable' => $notifiable
             ])
-            ->tag('app-benevole-participation-canceled');
+            ->tag($this->tag);
     }
 
     /**

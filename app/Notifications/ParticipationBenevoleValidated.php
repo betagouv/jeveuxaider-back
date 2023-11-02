@@ -3,6 +3,7 @@
 namespace App\Notifications;
 
 use App\Models\Participation;
+use App\Traits\TransactionalEmail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -11,8 +12,10 @@ use Illuminate\Notifications\Notification;
 class ParticipationBenevoleValidated extends Notification implements ShouldQueue
 {
     use Queueable;
+    use TransactionalEmail;
 
     public $participation;
+    public $tag;
 
     /**
      * Create a new notification instance.
@@ -22,6 +25,7 @@ class ParticipationBenevoleValidated extends Notification implements ShouldQueue
     public function __construct(Participation $participation)
     {
         $this->participation = $participation;
+        $this->tag = 'app-responsable-participation-validee-par-benevole';
     }
 
     public function viaQueues()
@@ -50,17 +54,17 @@ class ParticipationBenevoleValidated extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
+        $url = $this->participation->conversation ? '/messages/' . $this->participation->conversation->id : '/messages';
+
+        return (new MailMessage())
             ->subject('Nouvelle participation validée ✔️')
             ->markdown('emails.responsables.participation-validated-by-benevole', [
-                'url' => $this->participation->conversation ?
-                    url(config('app.front_url') . '/messages/' . $this->participation->conversation->id) :
-                    url(config('app.front_url') . '/messages'),
+                'url' => $this->trackedUrl($url),
                 'mission' => $this->participation->mission,
                 'benevole' => $this->participation->profile,
                 'notifiable' => $notifiable
             ])
-            ->tag('app-responsable-participation-validee-par-benevole');
+            ->tag($this->tag);
     }
 
     /**

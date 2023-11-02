@@ -3,6 +3,7 @@
 namespace App\Notifications;
 
 use App\Models\Mission;
+use App\Traits\TransactionalEmail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -11,6 +12,7 @@ use Illuminate\Notifications\Notification;
 class MissionSubmitted extends Notification implements ShouldQueue
 {
     use Queueable;
+    use TransactionalEmail;
 
     /**
      * The order instance.
@@ -18,6 +20,8 @@ class MissionSubmitted extends Notification implements ShouldQueue
      * @var Mission
      */
     public $mission;
+
+    public $tag;
 
     /**
      * Create a new notification instance.
@@ -27,6 +31,7 @@ class MissionSubmitted extends Notification implements ShouldQueue
     public function __construct(Mission $mission)
     {
         $this->mission = $mission;
+        $this->tag = 'app-referent-mission-en-attente-de-validation';
     }
 
     public function viaQueues()
@@ -55,14 +60,14 @@ class MissionSubmitted extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
+        return (new MailMessage())
             ->subject($notifiable->first_name . ', vous avez une nouvelle mission à modérer')
             ->markdown('emails.referents.mission-submitted', [
-                'url' => url(config('app.front_url').'/admin/missions/'.$this->mission->id),
+                'url' => $this->trackedUrl('/admin/missions/' . $this->mission->id),
                 'mission' => $this->mission,
                 'notifiable' => $notifiable
             ])
-            ->tag('app-referent-mission-en-attente-de-validation');
+            ->tag($this->tag);
     }
 
     /**

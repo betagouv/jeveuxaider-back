@@ -2,7 +2,7 @@
 
 namespace App\Notifications;
 
-use App\Models\Mission;
+use App\Traits\TransactionalEmail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -11,6 +11,14 @@ use Illuminate\Notifications\Notification;
 class ResponsableMissionsReactivated extends Notification implements ShouldQueue
 {
     use Queueable;
+    use TransactionalEmail;
+
+    public $tag;
+
+    public function __construct()
+    {
+        $this->tag = 'app-responsable-missions-reactivees';
+    }
 
     public function viaQueues()
     {
@@ -38,12 +46,12 @@ class ResponsableMissionsReactivated extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
+        return (new MailMessage())
             ->subject('Vos missions sont de nouveau actives 👏🏻')
             ->markdown('emails.responsables.missions-reactivated', [
                 'notifiable' => $notifiable,
             ])
-            ->tag('app-responsable-missions-reactivees');
+            ->tag($this->tag);
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace App\Notifications;
 
 use App\Models\Mission;
+use App\Traits\TransactionalEmail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -11,6 +12,7 @@ use Illuminate\Notifications\Notification;
 class MissionDeactivated extends Notification implements ShouldQueue
 {
     use Queueable;
+    use TransactionalEmail;
 
     /**
      * The order instance.
@@ -18,6 +20,8 @@ class MissionDeactivated extends Notification implements ShouldQueue
      * @var Mission
      */
     public $mission;
+
+    public $tag;
 
     /**
      * Create a new notification instance.
@@ -27,6 +31,7 @@ class MissionDeactivated extends Notification implements ShouldQueue
     public function __construct(Mission $mission)
     {
         $this->mission = $mission;
+        $this->tag = 'app-responsable-mission-desactivee';
     }
 
     public function viaQueues()
@@ -55,17 +60,17 @@ class MissionDeactivated extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $dashboardParticipationsUrl = url(config('app.front_url')."/admin/participations?filter[mission.id]=".$this->mission->id."&context_name=".$this->mission->name."&filter[is_state_pending]=true");
+        $dashboardParticipationsUrl = $this->trackedUrl("/admin/participations?filter[mission.id]=" . $this->mission->id . "&context_name=" . $this->mission->name . "&filter[is_state_pending]=true");
 
-        return (new MailMessage)
+        return (new MailMessage())
             ->subject('Votre mission a été désactivée')
             ->markdown('emails.responsables.mission-deactivated', [
-                'missionUrl' => url(config('app.front_url').$this->mission->full_url),
+                'missionUrl' => $this->trackedUrl($this->mission->full_url),
                 'mission' => $this->mission,
                 'notifiable' => $notifiable,
                 'dashboardParticipationsUrl' => $dashboardParticipationsUrl
             ])
-            ->tag('app-responsable-mission-desactivee');
+            ->tag($this->tag);
     }
 
     /**

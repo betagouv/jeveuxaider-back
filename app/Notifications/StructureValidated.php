@@ -3,6 +3,7 @@
 namespace App\Notifications;
 
 use App\Models\Structure;
+use App\Traits\TransactionalEmail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -11,6 +12,7 @@ use Illuminate\Notifications\Notification;
 class StructureValidated extends Notification implements ShouldQueue
 {
     use Queueable;
+    use TransactionalEmail;
 
     /**
      * The order instance.
@@ -18,6 +20,8 @@ class StructureValidated extends Notification implements ShouldQueue
      * @var Structure
      */
     public $structure;
+
+    public $tag;
 
     /**
      * Create a new notification instance.
@@ -27,6 +31,7 @@ class StructureValidated extends Notification implements ShouldQueue
     public function __construct(Structure $structure)
     {
         $this->structure = $structure;
+        $this->tag = 'app-responsable-organisation-validee';
     }
 
     /**
@@ -55,14 +60,14 @@ class StructureValidated extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
+        return (new MailMessage())
             ->subject('Vos missions sont désormais visibles par les bénévoles')
             ->markdown('emails.responsables.structure-validated', [
-                'url' => url(config('app.front_url').'/admin/organisations/'.$this->structure->id.'/missions/add'),
+                'url' => $this->trackedUrl('/admin/organisations/' . $this->structure->id . '/missions/add'),
                 'structure' => $this->structure,
                 'notifiable' => $notifiable
             ])
-            ->tag('app-responsable-organisation-validee');
+            ->tag($this->tag);
     }
 
     /**

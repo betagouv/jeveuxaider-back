@@ -3,6 +3,7 @@
 namespace App\Notifications;
 
 use App\Models\Participation;
+use App\Traits\TransactionalEmail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -11,6 +12,7 @@ use Illuminate\Notifications\Notification;
 class ParticipationWaitingValidation extends Notification implements ShouldQueue
 {
     use Queueable;
+    use TransactionalEmail;
 
     /**
      * The order instance.
@@ -18,6 +20,8 @@ class ParticipationWaitingValidation extends Notification implements ShouldQueue
      * @var Participation
      */
     public $participation;
+
+    public $tag;
 
     /**
      * Create a new notification instance.
@@ -27,6 +31,7 @@ class ParticipationWaitingValidation extends Notification implements ShouldQueue
     public function __construct(Participation $participation)
     {
         $this->participation = $participation;
+        $this->tag = 'app-responsable-participation-en-attente-de-validation';
     }
 
     /**
@@ -56,18 +61,19 @@ class ParticipationWaitingValidation extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         $showInfos = in_array($this->participation->mission->structure_id, [5374]) ? true : false;
+        $url = $this->participation->conversation ? '/messages/' . $this->participation->conversation->id : '/messages';
 
-        return (new MailMessage)
+        return (new MailMessage())
             ->subject('Vous avez une nouvelle demande de participation 👊')
             ->markdown('emails.responsables.participation-waiting-validation', [
-                'url' => $this->participation->conversation ? url(config('app.front_url') . '/messages/'.$this->participation->conversation->id) : url(config('app.front_url') . '/messages'),
+                'url' => $this->trackedUrl($url),
                 'mission' => $this->participation->mission,
                 'structure' => $this->participation->mission->structure,
                 'benevole' => $this->participation->profile,
                 'notifiable' => $notifiable,
                 'showInfos' => $showInfos
             ])
-            ->tag('app-responsable-participation-en-attente-de-validation');
+            ->tag($this->tag);
     }
 
     /**
