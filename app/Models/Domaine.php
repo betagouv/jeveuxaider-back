@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Media as ModelMedia;
+use App\Traits\HasMetatags;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia;
@@ -13,7 +14,7 @@ use Spatie\Sluggable\SlugOptions;
 
 class Domaine extends Model implements HasMedia
 {
-    use InteractsWithMedia, HasSlug;
+    use InteractsWithMedia, HasSlug, HasMetatags;
 
     protected $table = 'domaines';
 
@@ -23,6 +24,7 @@ class Domaine extends Model implements HasMedia
 
     protected $casts = [
         'published' => 'boolean',
+        'faq' => 'json',
     ];
 
     protected $attributes = [

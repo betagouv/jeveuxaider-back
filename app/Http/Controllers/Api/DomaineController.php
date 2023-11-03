@@ -45,7 +45,7 @@ class DomaineController extends Controller
             ? Domaine::where('id', $slugOrId)->firstOrFail()
             : Domaine::where('slug', $slugOrId)->firstOrFail();
 
-        return $domaine->load(['banner', 'illustrations', 'illustrationsOrganisation', 'illustrationsMission', 'logosPartenaires', 'logosPartenairesActifs']);
+        return $domaine->load(['banner', 'illustrations', 'illustrationsOrganisation', 'illustrationsMission', 'logosPartenaires', 'logosPartenairesActifs', 'metatags']);
     }
 
     public function statistics($slugOrId)
@@ -55,7 +55,7 @@ class DomaineController extends Controller
             : Domaine::where('slug', $slugOrId)->firstOrFail();
 
         return [
-            'places_left' => $domaine->places_left,
+            'places_left_count' => $domaine->places_left,
             'structures_count' => Structure::ofDomaine($domaine->id)->count(),
             'participations_count' => Participation::ofDomaine($domaine->id)->count(),
             'volontaires_count' => Profile::ofDomaine($domaine->id)->count(),
