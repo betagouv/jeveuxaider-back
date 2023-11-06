@@ -10,10 +10,6 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        Schema::table('collectivities', function (Blueprint $table) {
-            $table->index(['structure_id']);
-        });
-
         Schema::table('conversations', function (Blueprint $table) {
             $table->index(['conversable_id', 'conversable_type']);
         });
@@ -66,10 +62,6 @@ return new class () extends Migration {
             $table->index(['mission_id']);
         });
 
-        Schema::table('profiles', function (Blueprint $table) {
-            $table->index(['collectivity_id']);
-        });
-
         Schema::table('social_accounts', function (Blueprint $table) {
             $table->index(['user_id']);
         });
@@ -101,10 +93,6 @@ return new class () extends Migration {
      */
     public function down(): void
     {
-        Schema::table('collectivities', function (Blueprint $table) {
-            $table->dropIndex(['structure_id']);
-        });
-
         Schema::table('conversations', function (Blueprint $table) {
             $table->dropIndex(['conversable_id', 'conversable_type']);
         });
@@ -155,10 +143,6 @@ return new class () extends Migration {
 
         Schema::table('participations', function (Blueprint $table) {
             $table->dropIndex(['mission_id']);
-        });
-
-        Schema::table('profiles', function (Blueprint $table) {
-            $table->dropIndex(['collectivity_id']);
         });
 
         Schema::table('social_accounts', function (Blueprint $table) {
