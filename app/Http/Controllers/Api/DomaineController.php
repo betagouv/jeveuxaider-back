@@ -56,9 +56,8 @@ class DomaineController extends Controller
 
         return [
             'places_left_count' => $domaine->places_left,
-            'structures_count' => Structure::ofDomaine($domaine->id)->count(),
-            'participations_count' => Participation::ofDomaine($domaine->id)->count(),
-            'volontaires_count' => Profile::ofDomaine($domaine->id)->count(),
+            // 'structures_count' => Structure::ofDomaine($domaine->id)->count(),
+            // 'volontaires_count' => Profile::ofDomaine($domaine->id)->count(),
             'missions_count' => Mission::ofDomaine($domaine->id)->count(),
             'missions_available_count' => Mission::ofDomaine($domaine->id)->available()->count(),
             'participations_count' => Participation::ofDomaine($domaine->id)->count(),
