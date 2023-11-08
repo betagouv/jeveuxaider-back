@@ -745,4 +745,18 @@ class Mission extends Model
             'updated_at' => $this->updated_at,
         ];
     }
+
+    public function setStartDateAttribute($value)
+    {
+        $this->attributes['start_date'] = \Carbon\Carbon::parse($value)
+            ->timezone('Europe/Paris')
+            ->toDateTimeString();
+    }
+
+    public function setEndDateAttribute($value)
+    {
+        $this->attributes['end_date'] = \Carbon\Carbon::parse($value)
+            ->timezone('Europe/Paris')
+            ->toDateTimeString();
+    }
 }
