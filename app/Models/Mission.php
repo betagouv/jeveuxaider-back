@@ -748,15 +748,23 @@ class Mission extends Model
 
     public function setStartDateAttribute($value)
     {
-        $this->attributes['start_date'] = \Carbon\Carbon::parse($value)
-            ->timezone('Europe/Paris')
-            ->toDateTimeString();
+        if(!$value){
+            $this->attributes['start_date'] = null;
+        } else {
+            $this->attributes['start_date'] = \Carbon\Carbon::parse($value)
+                ->timezone('Europe/Paris')
+                ->toDateTimeString();
+        }
     }
 
     public function setEndDateAttribute($value)
     {
-        $this->attributes['end_date'] = \Carbon\Carbon::parse($value)
-            ->timezone('Europe/Paris')
-            ->toDateTimeString();
+        if(!$value){
+            $this->attributes['end_date'] = null;
+        } else {
+            $this->attributes['end_date'] = \Carbon\Carbon::parse($value)
+                ->timezone('Europe/Paris')
+                ->toDateTimeString();
+        }
     }
 }
