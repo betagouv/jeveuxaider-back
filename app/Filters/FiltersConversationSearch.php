@@ -11,6 +11,9 @@ class FiltersConversationSearch implements Filter
 {
     public function __invoke(Builder $query, $value, string $property): Builder
     {
+        if (mb_strlen($value) < 3) {
+            return $query;
+        }
 
         return $query
             // ->whereHas('messages', function (Builder $query) use ($value) {
@@ -25,7 +28,7 @@ class FiltersConversationSearch implements Filter
             //         })
             //     ;
             // })
-            ->where(function (Builder $query) use ($value){
+            ->where(function (Builder $query) use ($value) {
                 $query->whereHas('users', function (Builder $query) use ($value) {
                     if (is_array($value)) {
                         $value = implode(',', $value);
