@@ -148,12 +148,34 @@ class Rule extends Model
                         $query->orWhereHas(
                             'structure',
                             function (Builder $query) use ($condition) {
-                                $query->whereHas('reseaux', function (Builder $query) use ($condition) {
-                                    $query->where('reseaux.id', $condition['value']);
-                                });
-                            });
+                                if($condition['operand'] == '='){
+                                    $query->whereHas('reseaux', function (Builder $query) use ($condition) {
+                                        $query->where('reseaux.id', $condition['value']);
+                                    });
+                                }
+                                if($condition['operand'] == '!='){
+                                    $query->whereDoesntHave('reseaux', function (Builder $query) use ($condition) {
+                                        $query->where('reseaux.id', $condition['value']);
+                                    });
+                                }
+                            },
+                        );
                     } else {
-                        $query->ofReseau($condition['value']);
+                        $query->whereHas(
+                            'structure',
+                            function (Builder $query) use ($condition) {
+                                if($condition['operand'] == '='){
+                                    $query->whereHas('reseaux', function (Builder $query) use ($condition) {
+                                        $query->where('reseaux.id', $condition['value']);
+                                    });
+                                }
+                                if($condition['operand'] == '!='){
+                                    $query->whereDoesntHave('reseaux', function (Builder $query) use ($condition) {
+                                        $query->where('reseaux.id', $condition['value']);
+                                    });
+                                }
+                            },
+                        );
                     }
                     break;
                 case 'missions.name':
