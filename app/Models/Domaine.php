@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Media as ModelMedia;
+use App\Traits\HasMetatags;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia;
@@ -13,7 +14,7 @@ use Spatie\Sluggable\SlugOptions;
 
 class Domaine extends Model implements HasMedia
 {
-    use InteractsWithMedia, HasSlug;
+    use InteractsWithMedia, HasSlug, HasMetatags;
 
     protected $table = 'domaines';
 
@@ -23,6 +24,7 @@ class Domaine extends Model implements HasMedia
 
     protected $casts = [
         'published' => 'boolean',
+        'faq' => 'json',
     ];
 
     protected $attributes = [
@@ -57,13 +59,13 @@ class Domaine extends Model implements HasMedia
             ->format(Manipulations::FORMAT_WEBP)
             ->performOnCollections('domaine__banner');
         $this->addMediaConversion('large')
-            ->fit(Manipulations::FIT_CROP, 1600, 600)
+            ->fit(Manipulations::FIT_CROP, 1680, 1400)
             ->nonQueued()
             ->withResponsiveImages()
             ->format(Manipulations::FORMAT_WEBP)
             ->performOnCollections('domaine__banner');
         $this->addMediaConversion('formPreview')
-            ->fit(Manipulations::FIT_CROP, 470, 224)
+            ->fit(Manipulations::FIT_CROP, 600, 500)
             ->nonQueued()
             ->format(Manipulations::FORMAT_WEBP)
             ->performOnCollections('domaine__banner');
