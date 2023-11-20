@@ -23,6 +23,7 @@ class DomaineRequest extends FormRequest
             'published' => 'boolean',
             'description' => 'nullable',
             'title' => 'required',
+            'faq' => ''
         ];
     }
 }

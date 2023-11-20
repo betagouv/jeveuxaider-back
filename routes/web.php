@@ -10,9 +10,6 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('phpmyinfo', function () {
-    phpinfo();
-})->name('phpmyinfo');
 
 Route::group(['middleware' => ['has.api.key']], function () {
     Route::get('api/api-engagement/missions', 'Api\EngagementController@missions');

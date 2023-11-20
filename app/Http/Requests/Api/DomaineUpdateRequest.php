@@ -23,6 +23,7 @@ class DomaineUpdateRequest extends DomaineRequest
                 'min:3',
                 'max:255',
             ],
+            'faq' => '',
             'published' => 'boolean',
             'description' => 'nullable',
             'title' => 'required',
