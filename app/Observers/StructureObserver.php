@@ -10,7 +10,6 @@ use App\Models\Mission;
 use App\Models\Profile;
 use App\Models\Structure;
 use App\Models\Territoire;
-use App\Models\User;
 use App\Notifications\StructureWaitingValidation;
 use App\Notifications\StructureAssociationValidated;
 use App\Notifications\StructureBeingProcessed;
@@ -77,7 +76,7 @@ class StructureObserver
         $responsable = $firstMember ? $firstMember->profile : null;
 
         // STATUT BROUILLON -> EN ATTENTE DE VALIDATION
-        if($oldState == 'Brouillon' && $newState == 'En attente de validation'){
+        if($oldState == 'Brouillon' && $newState == 'En attente de validation') {
             if ($structure->user->profile) {
                 $notification = new StructureWaitingValidation($structure);
                 $structure->user->notify($notification);
@@ -109,7 +108,7 @@ class StructureObserver
                             $responsable->notify(new StructureAssociationValidated($structure));
                         }
                     }
-                    // Update all missions linked to template to 'Validée' status
+                    // Validate all missions linked to a template
                     $structure->missions()->whereNotNull('template_id')->where('state', 'En attente de validation')->get()->map(function ($mission) {
                         $mission->update(['state' => 'Validée']);
                     });
@@ -191,8 +190,8 @@ class StructureObserver
 
         // MAJ SENDINBLUE
         if (config('services.sendinblue.sync')) {
-            if ($structure->isDirty('name')) {
-                $structure->members->each(function ($user, $key) {
+            if ($structure->isDirty(['name', 'zip', 'state'])) {
+                $structure->members->each(function ($user) {
                     SendinblueSyncUser::dispatch($user);
                 });
             }
