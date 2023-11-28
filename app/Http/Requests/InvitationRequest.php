@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Invitation;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -14,8 +15,7 @@ class InvitationRequest extends FormRequest
      */
     public function authorize()
     {
-        // @TODO: RESTRICTION ADMIN OU RESPONSABLE DANS SA PROPRE STRUCTURE
-        return true;
+        return $this->user()->can('create', [Invitation::class, $this]);
     }
 
     /**

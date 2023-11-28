@@ -16,10 +16,6 @@ class Invitation extends Model
         'last_sent_at' => 'datetime',
     ];
 
-    // protected $with = ['invitable'];
-
-    // protected $appends = ['is_registered'];
-
     public function setEmailAttribute($value)
     {
         $this->attributes['email'] = mb_strtolower($value);
@@ -80,13 +76,6 @@ class Invitation extends Model
     public function accept()
     {
         $user = User::whereEmail($this->email)->first();
-
-        // Commenter car sinon pose problème pour le resetContextRole + ça va être accepté par la suite
-        // if (in_array($this->role, ['responsable_organisation'])) {
-        //     if ($profile->structures->count() > 0) {
-        //         return;
-        //     }
-        // }
 
         if ($user) {
             // RESPONSABLE ORGANISATION
