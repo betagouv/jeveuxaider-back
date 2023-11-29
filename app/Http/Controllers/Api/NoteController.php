@@ -3,12 +3,13 @@
 namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\NoteCreateRequest;
 use App\Models\Note;
 use App\Models\Structure;
 use App\Models\Mission;
 use Spatie\QueryBuilder\QueryBuilder;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\NoteCreateRequest;
+use App\Http\Requests\Api\NoteUpdateRequest;
 use Spatie\QueryBuilder\AllowedFilter;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -64,10 +65,10 @@ class NoteController extends Controller
         return $note;
     }
 
-    public function update(Request $request, Note $note)
+    public function update(NoteUpdateRequest $request, Note $note)
     {
 
-        $note->update($request->all());
+        $note->update($request->validated());
 
         activity('note')
             ->event('updated')
@@ -79,6 +80,9 @@ class NoteController extends Controller
 
     public function delete(Request $request, Note $note)
     {
+
+        $this->authorize('delete', $note);
+
         $note->delete();
 
         return true;

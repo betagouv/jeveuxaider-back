@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class Note extends Model
 {
@@ -14,6 +15,14 @@ class Note extends Model
     protected $guarded = ['id', 'created_at'];
 
     protected $appends = ['permissions'];
+
+    protected function content(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => strip_tags($value),
+            set: fn ($value) => strip_tags($value),
+        );
+    }
 
     public function user()
     {
