@@ -22,7 +22,7 @@ class ProfilePolicy
         if ($user->id == $profile->user_id) {
             return true;
         }
-        
+
         if(Profile::role(request()->header('Context-Role'))->where('id', $profile->id)->count() > 0) {
             return true;
         }
