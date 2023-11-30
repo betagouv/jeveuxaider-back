@@ -39,7 +39,7 @@ class ProfileFaker implements ShouldQueue
      */
     public function handle()
     {
-        if (!in_array(config('app.env'), ['local', 'preprod'])) {
+        if (!in_array(config('app.env'), ['local', 'staging'])) {
             return;
         }
 

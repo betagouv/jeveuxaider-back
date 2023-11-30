@@ -40,7 +40,7 @@ class ProfilesAnonymize extends Command
      */
     public function handle()
     {
-        if (!in_array(config('app.env'), ['local', 'preprod'])) {
+        if (!in_array(config('app.env'), ['local', 'staging'])) {
             $this->error('This script can only be executed on testing environments');
             return;
         }
