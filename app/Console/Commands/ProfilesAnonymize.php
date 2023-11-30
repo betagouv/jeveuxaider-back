@@ -57,7 +57,7 @@ class ProfilesAnonymize extends Command
             $bar->start();
 
             foreach ($query->cursor() as $profile) {
-                ProfileFaker::dispatch($profile);
+                ProfileFaker::dispatchSync($profile);
                 $bar->advance();
             }
 
