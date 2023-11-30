@@ -14,6 +14,7 @@
         "anourvalar/eloquent-serialize": "^1.1",
         "axlon/laravel-postal-code-validation": "^3.0",
         "doctrine/dbal": "^3.0",
+        "fakerphp/faker": "^1.23",
         "getbrevo/brevo-php": "^1.0",
         "guzzlehttp/guzzle": "^7.2",
         "itsgoingd/clockwork": "^5.1",
