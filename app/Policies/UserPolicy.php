@@ -9,6 +9,15 @@ class UserPolicy
 {
     use HandlesAuthorization;
 
+    public function update(User $currentUser, User $user)
+    {
+        if ($currentUser->id == $user->id) {
+            return true;
+        }
+
+        return false;
+    }
+
     public function exportReseaux(User $user)
     {
         if (request()->header('Context-Role') === 'admin' && $user->isAdmin()) {

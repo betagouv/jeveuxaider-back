@@ -26,7 +26,7 @@ class User extends Authenticatable
     use HasFactory;
 
     protected $fillable = [
-        'name', 'email', 'password', 'context_role', 'contextable_type', 'contextable_id', 'utm_source', 'utm_campaign', 'utm_medium', 'has_agreed_responsable_terms_at', 'has_agreed_benevole_terms_at'
+        'name', 'email', 'password', 'utm_source', 'utm_campaign', 'utm_medium', 'has_agreed_responsable_terms_at', 'has_agreed_benevole_terms_at'
     ];
 
     protected $hidden = [
@@ -348,5 +348,55 @@ class User extends Authenticatable
         $this->banned_reason = null;
         $this->saveQuietly();
         return $this;
+    }
+
+    public function canSwitchToRole($role)
+    {
+        if (! $this->roles()->pluck('name')->contains($role['context_role'])) {
+            return false;
+        }
+
+        if ($role['context_role'] === 'admin' && empty($role['contextable_type']) && empty($role['contextable_id'])) {
+            return true;
+        }
+
+        switch ($role['context_role']) {
+            case 'responsable':
+                $roleId = 2;
+                $rolableType = 'App\Models\Structure';
+                break;
+            case 'responsable_territoire':
+                $roleId = 6;
+                $rolableType = 'App\Models\Territoire';
+                break;
+            case 'referent':
+                $roleId = 3;
+                $rolableType = 'App\Models\Department';
+                break;
+            case 'referent_regional':
+                $roleId = 4;
+                $rolableType = 'App\Models\Region';
+                break;
+            case 'tete_de_reseau':
+                $roleId = 5;
+                $rolableType = 'App\Models\Reseau';
+                break;
+            default:
+                $roleId = null;
+                $rolableType = null;
+                break;
+        }
+
+        if (!$roleId || !$rolableType) {
+            return false;
+        }
+
+        $role = $this->roles()
+            ->where('role_id', $roleId)
+            ->where('rolable_type', $rolableType)
+            ->where('rolable_id', $role['contextable_id'])
+            ->first();
+
+        return (bool) $role;
     }
 }

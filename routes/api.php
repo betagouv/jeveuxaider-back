@@ -88,6 +88,7 @@ Route::group(['middleware' => ['auth:api', 'is.not.banned']], function () {
     Route::post('user/visible', 'Api\UserController@visible');
     Route::post('user/invisible', 'Api\UserController@invisible');
     Route::put('user', 'Api\UserController@update');
+    Route::put('user/switch-role', 'Api\UserController@switchRole');
     Route::get('profiles/{profile}', 'Api\ProfileController@show');
     Route::put('profiles/{profile}', 'Api\ProfileController@update');
     Route::put('profiles/{profile}/activity/{activity}/attach', 'Api\ProfileController@attachActivity');
