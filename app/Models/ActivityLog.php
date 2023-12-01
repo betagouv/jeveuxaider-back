@@ -15,9 +15,13 @@ class ActivityLog extends SpatieActivity
     protected static function booted()
     {
         static::addGlobalScope('exclude_not_used', function (Builder $builder) {
-            $builder->whereNotIn('subject_type', [
-                'App\Models\Collectivity',
-            ]);;
+            $builder->where(function (Builder $query) {
+                $query
+                    ->whereNotIn('subject_type', [
+                        'App\Models\Collectivity',
+                    ])
+                    ->orWhereNull('subject_type');
+            });
         });
     }
 

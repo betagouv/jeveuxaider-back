@@ -13,10 +13,7 @@ use App\Models\Rule;
 use App\Models\Structure;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\AllowedFilter;
-use Spatie\QueryBuilder\AllowedInclude;
 use Spatie\QueryBuilder\QueryBuilder;
-use Illuminate\Database\Eloquent\Builder;
-use Spatie\QueryBuilder\Includes\IncludeInterface;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class ActivityLogController extends Controller
@@ -24,16 +21,16 @@ class ActivityLogController extends Controller
     public function index(Request $request)
     {
         return QueryBuilder::for(ActivityLog::with([
-                'subject' => function (MorphTo $morphTo) {
-                    $morphTo->morphWith([
-                        Participation::class => ['mission'],
-                        Structure::class => [],
-                        Mission::class => [],
-                        Profile::class => [],
-                        Rule::class => [],
-                    ]);
-                }
-            ]))
+            'subject' => function (MorphTo $morphTo) {
+                $morphTo->morphWith([
+                    Participation::class => ['mission'],
+                    Structure::class => [],
+                    Mission::class => [],
+                    Profile::class => [],
+                    Rule::class => [],
+                ]);
+            }
+        ]))
             ->allowedIncludes([
                 'causer',
                 'causer.profile',
@@ -45,8 +42,8 @@ class ActivityLogController extends Controller
                 'description',
                 AllowedFilter::exact('subject_id'),
                 AllowedFilter::exact('causer_id'),
-                AllowedFilter::custom('search', new FiltersActivityLogsSearch),
-                AllowedFilter::custom('type', new FiltersActivityLogsType),
+                AllowedFilter::custom('search', new FiltersActivityLogsSearch()),
+                AllowedFilter::custom('type', new FiltersActivityLogsType()),
             ])
             ->defaultSort('-id')
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
@@ -63,7 +60,7 @@ class ActivityLogController extends Controller
         return ActivityLog::with('causer.profile')
             ->where('subject_id', $structure->id)
             ->where('subject_type', 'App\Models\Structure')
-            ->where('properties->attributes->state','<>', '')
+            ->where('properties->attributes->state', '<>', '')
             ->orderBy('created_at')
             ->get();
     }
@@ -73,7 +70,7 @@ class ActivityLogController extends Controller
         return ActivityLog::with('causer.profile')
             ->where('subject_id', $mission->id)
             ->where('subject_type', 'App\Models\Mission')
-            ->where('properties->attributes->state','<>', '')
+            ->where('properties->attributes->state', '<>', '')
             ->orderBy('created_at')
             ->get();
     }
@@ -83,7 +80,7 @@ class ActivityLogController extends Controller
         return ActivityLog::with('causer.profile')
             ->where('subject_id', $participation->id)
             ->where('subject_type', 'App\Models\Participation')
-            ->where('properties->attributes->state','<>', '')
+            ->where('properties->attributes->state', '<>', '')
             ->orderBy('created_at')
             ->get();
     }

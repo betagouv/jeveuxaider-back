@@ -5,6 +5,8 @@ namespace App\Exports;
 use App\Filters\FiltersParticipationNeedToBeTreated;
 use App\Filters\FiltersParticipationSearch;
 use App\Models\Participation;
+use App\Models\User;
+use App\Notifications\UserHasExportedDatas;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromQuery;
@@ -13,10 +15,16 @@ use Maatwebsite\Excel\Concerns\WithMapping;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
+use Maatwebsite\Excel\Concerns\RegistersEventListeners;
+use Maatwebsite\Excel\Concerns\WithEvents;
+use Maatwebsite\Excel\Events\AfterSheet;
 
-class ParticipationsExport implements FromQuery, WithMapping, WithHeadings
+class ParticipationsExport implements FromQuery, WithMapping, WithHeadings, WithEvents
 {
     use Exportable;
+    use RegistersEventListeners;
 
     private $request;
 
@@ -25,21 +33,40 @@ class ParticipationsExport implements FromQuery, WithMapping, WithHeadings
         $this->request = $request;
     }
 
+    public static function afterSheet(AfterSheet $event)
+    {
+        $nbRows = $event->sheet->getHighestRow() > 0 ? $event->sheet->getHighestRow() - 1 : 0;
+
+        activity('export')
+            ->event('exported')
+            ->withProperties([
+                'type' => 'participations',
+                'items_count' => $nbRows,
+                'filter' => request()->input('filter')
+            ])
+            ->log("exported");
+
+        $currentUser = User::find(Auth::guard('api')->user()->id);
+
+        Notification::route('slack', config('services.slack.hook_url'))
+            ->notify(new UserHasExportedDatas($currentUser, 'participations', $nbRows));
+    }
+
     public function query()
     {
 
         $contextRole = $this->request->header('Context-Role');
 
         $queryBuilder = Participation::role($contextRole)
-            ->when($contextRole != 'admin', function($q){
+            ->when($contextRole != 'admin', function ($q) {
                 $q->whereIn('state', ['Validée', 'En attente de validation', 'En cours de traitement']);
             })
             ->with(['profile', 'mission']);
 
         return QueryBuilder::for($queryBuilder)
             ->allowedFilters(
-                AllowedFilter::custom('search', new FiltersParticipationSearch),
-                AllowedFilter::custom('need_to_be_treated', new FiltersParticipationNeedToBeTreated),
+                AllowedFilter::custom('search', new FiltersParticipationSearch()),
+                AllowedFilter::custom('need_to_be_treated', new FiltersParticipationNeedToBeTreated()),
                 AllowedFilter::exact('mission.id'),
                 AllowedFilter::exact('mission.name'),
                 AllowedFilter::exact('mission.department'),
@@ -57,7 +84,7 @@ class ParticipationsExport implements FromQuery, WithMapping, WithHeadings
                 AllowedFilter::exact('mission.type'),
                 AllowedFilter::exact('id'),
                 AllowedFilter::callback('is_state_pending', function (Builder $query, $value) {
-                    if($value === true){
+                    if($value === true) {
                         $query->whereIn('state', ['En attente de validation', 'En cours de traitement']);
                     }
                 })

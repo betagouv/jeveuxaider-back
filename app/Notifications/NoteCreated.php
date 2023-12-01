@@ -79,7 +79,7 @@ class NoteCreated extends Notification implements ShouldQueue
         $from = config('app.env') != 'production' ? '[' . config('app.env') . '] JeVeuxAider.gouv.fr' : 'JeVeuxAider.gouv.fr';
         $url = url(config('app.front_url') . $this->generateFrontUrl());
 
-        $content = '*' . $note->user->profile->full_name . '* a ajoutée une note à *<' . $url . '|' . $notable->name . '>*';
+        $content = '*' . $note->user->profile->full_name . '* a ajouté une note à *<' . $url . '|' . $notable->name . '>*';
         if ($note->context) {
             $content .= "\n*Contexte:* " . $note->context;
         }

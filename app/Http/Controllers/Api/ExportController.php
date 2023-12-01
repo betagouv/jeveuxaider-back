@@ -58,7 +58,7 @@ class ExportController extends Controller
 
         $fileName = 'territoires-' . Str::random(8) . '.csv';
 
-        return Excel::download(new TerritoiresExport(), $fileName);
+        return Excel::download(new TerritoiresExport($request), $fileName);
     }
 
     public function reseaux(Request $request)
