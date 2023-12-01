@@ -214,7 +214,6 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::get('activity-logs/participation/{participation}/states', 'Api\ActivityLogController@participationStatesChanges');
 
     // TERRITOIRES
-    Route::post('territoires', 'Api\TerritoireController@store');
     Route::put('territoires/{territoire}', 'Api\TerritoireController@update');
     Route::get('territoires/{territoire}/statistics', 'Api\TerritoireController@statistics');
     Route::delete('territoires/{territoire}/responsables/{responsable}', 'Api\TerritoireController@deleteResponsable');
@@ -327,6 +326,7 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::put('temoignages/{temoignage}/unpublish', 'Api\TemoignageController@unpublish');
 
     // TERRITOIRES
+    Route::post('territoires', 'Api\TerritoireController@store');
     Route::delete('territoires/{territoire}', 'Api\TerritoireController@delete');
 
     // Metatags

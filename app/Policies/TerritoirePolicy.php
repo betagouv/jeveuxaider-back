@@ -24,7 +24,7 @@ class TerritoirePolicy
 
     public function create(User $user)
     {
-        return true;
+        return false;
     }
 
     public function update(User $user, Territoire $territoire)

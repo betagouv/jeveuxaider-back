@@ -2,14 +2,14 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Territoire;
 use Illuminate\Foundation\Http\FormRequest;
 
 class TerritoireRequest extends FormRequest
 {
     public function authorize()
     {
-        // @TODO: territoire policy
-        return true;
+        return $this->user()->can('create', Territoire::class);
     }
 
     public function rules()

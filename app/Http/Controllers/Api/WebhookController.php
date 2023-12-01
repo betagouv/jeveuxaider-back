@@ -24,6 +24,7 @@ class WebhookController extends Controller
         }
 
         $payload = $validator->validated();
+
         switch ($payload['event']) {
             case 'hard_bounce':
                 Sendinblue::onHardBounce($payload);

@@ -64,15 +64,14 @@ class TerritoireController extends Controller
 
     public function store(TerritoireRequest $request)
     {
-        $territoire = Territoire::create($request->all());
+        $territoire = Territoire::create($request->validated());
 
         return $territoire;
     }
 
     public function update(TerritoireUpdateRequest $request, Territoire $territoire)
     {
-        $request = $request->validated();
-        $territoire->update($request);
+        $territoire->update($request->validated());
 
         return $territoire;
     }

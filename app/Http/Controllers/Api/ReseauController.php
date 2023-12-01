@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Notification;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class ReseauController extends Controller
 {
@@ -137,10 +138,29 @@ class ReseauController extends Controller
 
     public function lead(Request $request)
     {
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'name' => 'required',
+                'description' => 'required',
+                'first_name' => 'required',
+                'last_name' => 'required',
+                'phone' => 'required',
+                'email' => 'required|email',
+                'nb_antennes' => 'required|numeric',
+                'nb_employees' => 'required|numeric',
+                'nb_volunteers' => 'required|numeric',
+            ]
+        );
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
         Notification::route('mail', [
             'nivine.katanji@beta.gouv.fr' => 'Nivine',
             'joe.achkar@beta.gouv.fr' => 'Joe',
-        ])->notify(new ReseauNewLead($request->all()));
+        ])->notify(new ReseauNewLead($validator->validated()));
 
         return true;
     }
