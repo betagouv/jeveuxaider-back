@@ -18,7 +18,7 @@ class FranceConnectController extends Controller
     {
         $query = [
             'scope' => 'openid given_name family_name preferred_username birthdate email',
-            'redirect_uri' => config('app.front_url').'/login',
+            'redirect_uri' => config('app.front_url') . '/login',
             'response_type' => 'code',
             'client_id' => config('services.franceconnect.client_id'),
             'state' => Str::uuid()->toString(),
@@ -26,16 +26,16 @@ class FranceConnectController extends Controller
             'acr_values' => 'eidas1',
         ];
 
-        return config('services.franceconnect.url').'/api/v1/authorize?'.http_build_query($query);
+        return config('services.franceconnect.url') . '/api/v1/authorize?' . http_build_query($query);
     }
 
     public function oauthLoginCallback(Request $request)
     {
         $response = Http::asForm()->post(
-            config('services.franceconnect.url').'/api/v1/token',
+            config('services.franceconnect.url') . '/api/v1/token',
             [
                 'grant_type' => 'authorization_code',
-                'redirect_uri' => config('app.front_url').'/login',
+                'redirect_uri' => config('app.front_url') . '/login',
                 'client_id' => config('services.franceconnect.client_id'),
                 'client_secret' => config('services.franceconnect.client_secret'),
                 'code' => $request->query('code'),
@@ -46,7 +46,7 @@ class FranceConnectController extends Controller
             return response()->json(['message' => 'France Connect connexion failed. No access token'], 401);
         }
         // Request user data
-        $franceConnectUser = Http::withToken($response['access_token'])->get(config('services.franceconnect.url').'/api/v1/userinfo');
+        $franceConnectUser = Http::withToken($response['access_token'])->get(config('services.franceconnect.url') . '/api/v1/userinfo');
 
         $user = User::where('email', mb_strtolower($franceConnectUser['email']))->first();
         if (! $user) {
@@ -63,7 +63,7 @@ class FranceConnectController extends Controller
 
     private function register($franceConnectUser)
     {
-        $user = User::create([
+        $user = User::forceCreate([
             'name' => $franceConnectUser['email'],
             'email' => $franceConnectUser['email'],
             'context_role' => 'volontaire',
