@@ -170,20 +170,50 @@ class UserController extends Controller
     {
         $user = $request->user();
 
-        $messages = [
-            'email.required' => 'Un email est requis',
-            'email.unique' => 'Cet email est déjà pris',
-        ];
-
         $validator = Validator::make($request->all(), [
-            'email' => ['required', 'email', 'unique:users,email,' . $user->id],
-        ], $messages);
+            'has_agreed_benevole_terms_at' => ['date'],
+            'has_agreed_responsable_terms_at' => ['date'],
+        ]);
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 400);
         }
 
-        $user->update($request->all());
+        $user->update($validator->validated());
+
+        $user->load('profile', 'profile.media', 'profile.skills', 'profile.domaines', 'roles');
+        $user->append(['statistics']);
+        $this->loadRoles($user);
+
+        return $user;
+    }
+
+    public function switchRole(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'context_role' => [
+                'required',
+                'in:admin,referent,referent_regional,responsable,responsable_territoire,tete_de_reseau'
+            ],
+            'contextable_type' => 'required_if:context_role,referent,referent_regional,responsable,responsable_territoire,tete_de_reseau',
+            'contextable_id' => 'required_if:context_role,referent,referent_regional,responsable,responsable_territoire,tete_de_reseau',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 400);
+        }
+
+        $inputs = $validator->safe()->getIterator();
+        $user = $request->user();
+
+        if (! $user->canSwitchToRole($inputs)) {
+            return abort(403);
+        }
+
+        $user->context_role = $inputs['context_role'];
+        $user->contextable_type = $inputs['contextable_type'];
+        $user->contextable_id = $inputs['contextable_id'];
+        $user->save();
 
         $user->load('profile', 'profile.media', 'profile.skills', 'profile.domaines', 'roles');
         $user->append(['statistics']);
