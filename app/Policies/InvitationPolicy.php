@@ -44,6 +44,10 @@ class InvitationPolicy
             return $user->reseaux()->whereId($request->input('invitable_id'))->exists();
         }
 
+        if ($request->input('role') == 'responsable_antenne') {
+            return $user->reseaux()->whereId($request->input('invitable_id'))->exists();
+        }
+
         return false;
     }
 
