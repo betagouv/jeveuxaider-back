@@ -27,7 +27,7 @@ class PassportController extends Controller
 
     public function registerVolontaire(RegisterVolontaireRequest $request)
     {
-        $user = User::create(
+        $user = User::forceCreate(
             [
                 'name' => request('email'),
                 'email' => request('email'),
@@ -63,7 +63,7 @@ class PassportController extends Controller
 
     public function registerResponsable(RegisterResponsableWithStructureRequest $request)
     {
-        $user = User::create(
+        $user = User::forceCreate(
             [
                 'name' => request('email'),
                 'email' => request('email'),
@@ -98,10 +98,9 @@ class PassportController extends Controller
 
         $structure = Structure::create($structureAttributes);
 
-        $user->update([
-            'contextable_type' => 'structure',
-            'contextable_id' => $structure->id,
-        ]);
+        $user->contextable_type = 'structure';
+        $user->contextable_id = $structure->id;
+        $user->save();
 
         // MAPPING DOMAINES ACTIONS API ENGAGEMENT
         // if ($request->has('structure_api') && $request->input('structure_api')) {
@@ -136,8 +135,8 @@ class PassportController extends Controller
         $user = Auth::guard('api')->user();
         $socialAccount = SocialAccount::where(['user_id' => $user->id, 'provider' => 'franceconnect'])->first();
         if ($socialAccount) {
-            $franceConnectLogoutUrl = config('services.franceconnect.url').'/api/v1/logout?'
-                .http_build_query(
+            $franceConnectLogoutUrl = config('services.franceconnect.url') . '/api/v1/logout?'
+                . http_build_query(
                     [
                         'id_token_hint' => $socialAccount->data['id_token'],
                         'state' => 'franceconnect',
