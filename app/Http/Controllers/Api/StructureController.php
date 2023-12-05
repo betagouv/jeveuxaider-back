@@ -411,4 +411,11 @@ class StructureController extends Controller
             LIMIT 20
         ")];
     }
+
+    public function invitations(Request $request, Structure $structure)
+    {
+        $this->authorize('viewInvitations', $structure);
+
+        return $structure->invitations()->with('user.profile')->orderBy('id')->get();
+    }
 }

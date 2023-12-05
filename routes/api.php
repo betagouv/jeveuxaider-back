@@ -157,6 +157,7 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::get('structures', 'Api\StructureController@index');
     Route::get('structures/{structure}', 'Api\StructureController@show');
     Route::post('structures/{structure}/missions', 'Api\StructureController@addMission');
+    Route::get('structures/{structure}/invitations', 'Api\StructureController@invitations');
     Route::delete('structures/{structure}/members/{user}', 'Api\StructureController@deleteMember');
 
     // INVITATIONS
@@ -217,6 +218,7 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     // TERRITOIRES
     Route::put('territoires/{territoire}', 'Api\TerritoireController@update');
     Route::get('territoires/{territoire}/statistics', 'Api\TerritoireController@statistics');
+    Route::get('territoires/{territoire}/invitations', 'Api\TerritoireController@invitations');
     Route::delete('territoires/{territoire}/responsables/{responsable}', 'Api\TerritoireController@deleteResponsable');
 
     // TEMOIGNAGES
@@ -234,6 +236,8 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
 
     // RESEAUX
     Route::put('reseaux/{reseau}', 'Api\ReseauController@update');
+    Route::get('reseaux/{reseau}/invitations-responsables', 'Api\ReseauController@invitationsResponsables');
+    Route::get('reseaux/{reseau}/invitations-antennes', 'Api\ReseauController@invitationsAntennes');
     Route::delete('reseaux/{reseau}/responsables/{responsable}', 'Api\ReseauController@deleteResponsable');
 
     // BULK OPERATIONS

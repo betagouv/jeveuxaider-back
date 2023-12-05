@@ -23,7 +23,7 @@ class InvitationController extends Controller
 {
     public function index(Request $request)
     {
-        return QueryBuilder::for(Invitation::class)
+        return QueryBuilder::for(Invitation::role($request->header('Context-Role')))
             ->allowedFilters(
                 'role',
                 AllowedFilter::scope('of_reseau'),
@@ -32,6 +32,7 @@ class InvitationController extends Controller
                 AllowedFilter::scope('of_structure'),
                 // AllowedFilter::custom('search', new FiltersInvitationSearch),
             )
+            ->allowedIncludes('user.profile')
             ->defaultSort('-created_at')
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
     }
@@ -91,6 +92,8 @@ class InvitationController extends Controller
     {
         $invitation = Invitation::whereToken($token)->first();
 
+       $this->authorize('resend', $invitation);
+
         if (! $invitation) {
             abort(422, "L'invitation n'est plus disponible");
         }
@@ -126,6 +129,8 @@ class InvitationController extends Controller
     public function delete(string $token)
     {
         $invitation = Invitation::whereToken($token)->first();
+
+        $this->authorize('delete', $invitation);
 
         if (! $invitation) {
             abort(422, "L'invitation n'est plus disponible");

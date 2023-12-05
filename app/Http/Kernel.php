@@ -42,6 +42,7 @@ class Kernel extends HttpKernel
         'api' => [
             'throttle:120,1',
             'bindings',
+            \App\Http\Middleware\ForceJsonResponse::class,
             \App\Http\Middleware\LastOnlineAt::class,
         ],
     ];

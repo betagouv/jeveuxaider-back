@@ -25,4 +25,9 @@ class ReseauPolicy
 
         return false;
     }
+
+    public function viewInvitations(User $user, Reseau $reseau)
+    {
+        return $user->reseaux()->where('id', $reseau->id)->exists();
+    }
 }

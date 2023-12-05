@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 
 class Invitation extends Model
 {
@@ -42,6 +43,34 @@ class Invitation extends Model
             ->where('invitable_type', 'App\Models\Reseau')
             ->where('invitable_id', $reseau_id)
             ->where('role', 'responsable_reseau');
+    }
+
+    public function scopeRole($query, $contextRole)
+    {
+        switch ($contextRole) {
+            case 'admin':
+                return $query;
+                break;
+            case 'responsable':
+                return $query->ofStructure(Auth::guard('api')->user()->contextable_id);
+                break;
+            case 'responsable_territoire':
+                return $query->ofTerritoire(Auth::guard('api')->user()->contextable_id);
+                break;
+            case 'referent':
+                return $query->whereNull('id');
+                break;
+            case 'referent_regional':
+                // Missions qui sont dans ma région
+                return $query->whereNull('id');
+                break;
+            case 'tete_de_reseau':
+                return $query->ofReseauAndRoleAntenne(Auth::guard('api')->user()->contextable_id);
+                break;
+            default:
+                // Securite
+                return $query->whereNull('id');
+        }
     }
 
     public function scopeOfReseauAndRoleAntenne($query, $reseau_id)

@@ -172,7 +172,16 @@ class ReseauController extends Controller
 
     public function invitationsResponsables(Request $request, Reseau $reseau)
     {
-        return $reseau->invitationsResponsables()->orderBy('id')->get();
+        $this->authorize('viewInvitations', $reseau);
+
+        return $reseau->invitationsResponsables()->with('user.profile')->orderBy('id')->get();
+    }
+
+    public function invitationsAntennes(Request $request, Reseau $reseau)
+    {
+        $this->authorize('viewInvitations', $reseau);
+
+        return $reseau->invitationsAntennes()->with('user.profile')->orderBy('id')->get();
     }
 
     public function addResponsable(AddResponsableRequest $request, Reseau $reseau)

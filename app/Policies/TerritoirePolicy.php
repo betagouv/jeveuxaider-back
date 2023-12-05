@@ -29,12 +29,7 @@ class TerritoirePolicy
 
     public function update(User $user, Territoire $territoire)
     {
-        $ids = $user->territoires()->pluck('id')->toArray();
-        if (in_array($territoire->id, $ids)) {
-            return true;
-        }
-
-        return false;
+        return $user->territoires()->where('id', $territoire->id)->exists();
     }
 
     public function delete(User $user, Territoire $territoire)
@@ -42,16 +37,21 @@ class TerritoirePolicy
         return false;
     }
 
-    public function viewStats(User $user, Territoire $territoire)
+    // public function viewStats(User $user, Territoire $territoire)
+    // {
+    //     if ($territoire->state !== 'validated') {
+    //         return false;
+    //     }
+
+    //     if ($user->territoires()->where('id', $territoire->id)->count() > 1) {
+    //         return true;
+    //     }
+
+    //     return true;
+    // }
+
+    public function viewInvitations(User $user, Territoire $territoire)
     {
-        if ($territoire->state !== 'validated') {
-            return false;
-        }
-
-        if ($user->territoires()->where('territoire_id', $territoire->id)->count() > 1) {
-            return true;
-        }
-
-        return true;
+        return $user->territoires()->where('id', $territoire->id)->exists();
     }
 }

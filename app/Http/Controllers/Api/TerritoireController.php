@@ -142,4 +142,11 @@ class TerritoireController extends Controller
             'responsable_fullname' => $territoire->responsables->first() ? $territoire->responsables->first()->full_name : null,
         ];
     }
+
+    public function invitations(Request $request, Territoire $territoire)
+    {
+        $this->authorize('viewInvitations', $territoire);
+
+        return $territoire->invitations()->with('user.profile')->orderBy('id')->get();
+    }
 }

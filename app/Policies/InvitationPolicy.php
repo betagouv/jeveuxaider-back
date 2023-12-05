@@ -51,9 +51,27 @@ class InvitationPolicy
         return false;
     }
 
+    public function resend(User $user, Invitation $invitation)
+    {
+
+        if($user->id === $invitation->user_id) {
+            return true;
+        }
+
+        if (Invitation::role(request()->header('Context-Role'))->where('id', $invitation->id)->exists()) {
+            return true;
+        }
+
+        return false;
+    }
+
     public function update(User $user, Invitation $invitation)
     {
         if($user->id === $invitation->user_id) {
+            return true;
+        }
+
+        if (Invitation::role(request()->header('Context-Role'))->where('id', $invitation->id)->exists()) {
             return true;
         }
 
@@ -62,8 +80,11 @@ class InvitationPolicy
 
     public function delete(User $user, Invitation $invitation)
     {
-
         if($user->id === $invitation->user_id) {
+            return true;
+        }
+
+        if (Invitation::role(request()->header('Context-Role'))->where('id', $invitation->id)->exists()) {
             return true;
         }
 

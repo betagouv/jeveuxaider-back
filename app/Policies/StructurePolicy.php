@@ -92,4 +92,13 @@ class StructurePolicy
 
         return false;
     }
+
+    public function viewInvitations(User $user, Structure $structure)
+    {
+        if(request()->header('Context-Role') === 'tete_de_reseau') {
+            return Structure::role(request()->header('Context-Role'))->whereId($structure->id)->exists();
+        }
+
+        return $user->structures()->whereId($structure->id)->exists();
+    }
 }
