@@ -161,7 +161,6 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::delete('structures/{structure}/members/{user}', 'Api\StructureController@deleteMember');
 
     // INVITATIONS
-    Route::get('invitations', 'Api\InvitationController@index');
     Route::post('invitations', 'Api\InvitationController@store');
 
     // MISSIONS
@@ -333,6 +332,9 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     // TERRITOIRES
     Route::post('territoires', 'Api\TerritoireController@store');
     Route::delete('territoires/{territoire}', 'Api\TerritoireController@delete');
+
+    // INVITATIONS
+    Route::get('invitations', 'Api\InvitationController@index');
 
     // Metatags
     Route::post('{modelType}/{modelId}/metatags', 'Api\MetatagsController@store');
