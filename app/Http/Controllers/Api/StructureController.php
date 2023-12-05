@@ -124,7 +124,7 @@ class StructureController extends Controller
         $query = (is_numeric($slugOrId)) ? Structure::where('id', $slugOrId) : Structure::where('slug', $slugOrId);
         $structure = $query->where('state', 'Validée')
             ->where('statut_juridique', 'Association')
-            ->first();
+            ->firstOrFail();
 
         if ($structure) {
             $structure->load(['domaines', 'logo', 'illustrations', 'overrideImage1', 'overrideImage2']);
