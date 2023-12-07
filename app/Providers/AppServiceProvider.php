@@ -4,7 +4,6 @@ namespace App\Providers;
 
 use Algolia\AlgoliaSearch\Config\SearchConfig;
 use Algolia\AlgoliaSearch\SearchClient;
-use App\Models\ActivityLog;
 use App\Models\Conversation;
 use App\Models\Invitation;
 use App\Models\Message;
@@ -20,7 +19,6 @@ use App\Models\Temoignage;
 use App\Models\Term;
 use App\Models\Territoire;
 use App\Models\User;
-use App\Observers\ActivityLogObserver;
 use App\Observers\ConversationObserver;
 use App\Observers\InvitationObserver;
 use App\Observers\MessageObserver;
@@ -86,7 +84,6 @@ class AppServiceProvider extends ServiceProvider
         Participation::observe(ParticipationObserver::class);
         Profile::observe(ProfileObserver::class);
         User::observe(UserObserver::class);
-        ActivityLog::observe(ActivityLogObserver::class);
         Message::observe(MessageObserver::class);
         Conversation::observe(ConversationObserver::class);
         Invitation::observe(InvitationObserver::class);
@@ -102,7 +99,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Mail::extend('sendinblue', function () {
-            return (new SendinblueTransportFactory)->create(
+            return (new SendinblueTransportFactory())->create(
                 new Dsn(
                     'sendinblue+api',
                     'default',

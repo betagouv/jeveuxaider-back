@@ -23,7 +23,7 @@ class ActivityLogController extends Controller
         return QueryBuilder::for(ActivityLog::with([
             'subject' => function (MorphTo $morphTo) {
                 $morphTo->morphWith([
-                    Participation::class => ['mission'],
+                    Participation::class => ['mission', 'profile'],
                     Structure::class => [],
                     Mission::class => [],
                     Profile::class => [],
