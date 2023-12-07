@@ -134,11 +134,11 @@ class MissionObserver
                     $mission->participations->whereIn('state', ['En attente de validation', 'En cours de traitement'])
                         ->each(function ($participation) {
                             activity()
-                            ->performedOn($participation)
-                            ->withProperties([
-                                'attributes' => ['state' => 'Refusée'],
-                                'old' => ['state' => $participation->state]
-                            ])
+                                ->performedOn($participation)
+                                ->withProperties([
+                                    'attributes' => ['state' => 'Refusée'],
+                                    'old' => ['state' => $participation->state]
+                                ])
                                 ->event('updated')
                                 ->log('updated');
 
