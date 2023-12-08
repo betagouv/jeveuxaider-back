@@ -139,7 +139,7 @@ class MissionObserver
                                     'attributes' => ['state' => 'Refusée'],
                                     'old' => ['state' => $participation->state]
                                 ])
-                                ->event('updated')
+                                ->event('updated - auto closed')
                                 ->log('updated');
 
                             $participation->state = 'Refusée';
