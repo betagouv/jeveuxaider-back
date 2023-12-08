@@ -110,6 +110,16 @@ class MissionRequest extends FormRequest
             'dates_infos' => '',
             'state' => [
                 function ($attribute, $value, $fail) {
+                    $datas = $this->validator->getData();
+
+                    // Creation
+                    if (!$this->mission) {
+                        if ($value === 'Validée' && (empty($datas['template_id']) || empty($datas['template']))) {
+                            $fail('Une erreur est survenue.');
+                        }
+                    }
+
+                    // Edit
                     if ($this->mission && $this->mission->state !== $value) { // State will  change
                         if ($value == 'Validée' && $this->mission->structure->state != 'Validée') {
                             $fail('Vous devez valider l\'organisation au préalable.');
