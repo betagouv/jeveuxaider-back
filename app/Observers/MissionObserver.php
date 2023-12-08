@@ -133,17 +133,17 @@ class MissionObserver
                     // Notif OFF
                     $mission->participations->whereIn('state', ['En attente de validation', 'En cours de traitement'])
                         ->each(function ($participation) {
-                            $participation->state = 'Refusée';
-                            $participation->saveQuietly();
-
                             activity()
                                 ->performedOn($participation)
                                 ->withProperties([
                                     'attributes' => ['state' => 'Refusée'],
                                     'old' => ['state' => $participation->state]
                                 ])
-                                ->event('updated')
+                                ->event('updated - auto closed')
                                 ->log('updated');
+
+                            $participation->state = 'Refusée';
+                            $participation->saveQuietly();
 
                             $participation->load('conversation');
                             if ($participation->conversation) {

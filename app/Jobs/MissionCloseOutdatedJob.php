@@ -10,10 +10,15 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Bus\Batchable;
+use Spatie\Activitylog\Facades\CauserResolver;
 
 class MissionCloseOutdatedJob implements ShouldQueue
 {
-    use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Batchable;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     protected $mission;
 
@@ -43,6 +48,7 @@ class MissionCloseOutdatedJob implements ShouldQueue
         }
 
         if ($this->mission->state === 'Validée' && ($this->mission->end_date < Carbon::now())) {
+            CauserResolver::setCauser(null);
             $this->mission->state = 'Terminée';
             $this->mission->automatically_closed_at = Carbon::now();
             $this->mission->save();
