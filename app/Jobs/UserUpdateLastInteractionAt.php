@@ -36,8 +36,12 @@ class UserUpdateLastInteractionAt implements ShouldQueue
      */
     public function handle()
     {
-        if (!$this->payload['email'] || !$this->payload['date']) {
+        if (!$this->payload || !isset($this->payload['email'])) {
             return;
+        }
+
+        if (!isset($this->payload['date'])) {
+            $this->payload['date'] = now();
         }
 
         $user = User::where('email', $this->payload['email'])->first();
