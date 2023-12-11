@@ -16,8 +16,7 @@ class UserUpdateLastInteractionAt implements ShouldQueue
     use Queueable;
     use SerializesModels;
 
-    protected $email;
-    protected $date;
+    protected $payload;
 
     /**
      * Create a new job instance.
@@ -26,8 +25,7 @@ class UserUpdateLastInteractionAt implements ShouldQueue
      */
     public function __construct($payload)
     {
-        $this->email = $payload['email'];
-        $this->date = $payload['date'];
+        $this->payload = $payload;
         $this->onQueue('webhooks');
     }
 
@@ -38,13 +36,17 @@ class UserUpdateLastInteractionAt implements ShouldQueue
      */
     public function handle()
     {
-        $user = User::where('email', $this->email)->first();
+        if (!$this->payload['email'] || !$this->payload['date']) {
+            return;
+        }
+
+        $user = User::where('email', $this->payload['email'])->first();
 
         if (empty($user)) {
             return;
         }
 
-        $user->last_interaction_at = $this->date;
+        $user->last_interaction_at = $this->payload['date'];
         $user->saveQuietly();
     }
 }
