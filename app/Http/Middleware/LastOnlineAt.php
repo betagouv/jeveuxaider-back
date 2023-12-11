@@ -17,9 +17,13 @@ class LastOnlineAt
         if (! $request->headers->has('Impersonating')) {
             $last_online = new Carbon(auth()->user()->last_online_at);
             if (! auth()->user()->last_online_at || ($last_online->diffInMinutes(now()) > 5)) {
+                $now = now();
                 DB::table('users')
                 ->where('id', auth()->user()->id)
-                ->update(['last_online_at' => now()]);
+                ->update([
+                    'last_online_at' => $now,
+                    'last_interaction_at' => $now,
+                ]);
             }
         }
 

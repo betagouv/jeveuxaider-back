@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Jobs\UserSetHardBouncedAt;
 use App\Jobs\UsersSetHardBouncedAt;
+use App\Jobs\UserUpdateLastInteractionAt;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Http;
@@ -157,6 +158,11 @@ class Sendinblue
     public static function onHardBounce($payload)
     {
         UserSetHardBouncedAt::dispatch($payload['email'], Carbon::now());
+    }
+
+    public static function onLinkClick($payload)
+    {
+        UserUpdateLastInteractionAt::dispatch($payload);
     }
 
     public static function syncHardBouncedUsers()

@@ -14,8 +14,9 @@ class WebhookController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'event' => 'required|in:hard_bounce',
-                'email' => 'required|email'
+                'event' => 'required|in:hard_bounce,click',
+                'email' => 'required|email',
+                'date' => ''
             ]
         );
 
@@ -28,6 +29,9 @@ class WebhookController extends Controller
         switch ($payload['event']) {
             case 'hard_bounce':
                 Sendinblue::onHardBounce($payload);
+                break;
+            case 'click':
+                Sendinblue::onLinkClick($payload);
                 break;
             default:
                 break;
