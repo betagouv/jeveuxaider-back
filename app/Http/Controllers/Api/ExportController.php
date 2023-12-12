@@ -23,9 +23,9 @@ class ExportController extends Controller
 
         $this->authorize('exportStructures', $currentUser);
 
-        $fileName = 'organisations-' . Str::random(8) . '.csv';
+        $fileName = 'organisations-' . Str::random(8) . '.xlsx';
 
-        return Excel::download(new StructuresExport($request), $fileName);
+        return Excel::download(new StructuresExport($request), $fileName, \Maatwebsite\Excel\Excel::XLSX);
     }
 
     public function missions(Request $request)
@@ -34,9 +34,9 @@ class ExportController extends Controller
 
         $this->authorize('exportMissions', $currentUser);
 
-        $fileName = 'missions-' . Str::random(8) . '.csv';
+        $fileName = 'missions-' . Str::random(8) . '.xlsx';
 
-        return Excel::download(new MissionsExport($request), $fileName);
+        return Excel::download(new MissionsExport($request), $fileName, \Maatwebsite\Excel\Excel::XLSX);
     }
 
     public function participations(Request $request)
@@ -45,9 +45,9 @@ class ExportController extends Controller
 
         $this->authorize('exportParticipations', $currentUser);
 
-        $fileName = 'participations-' . Str::random(8) . '.csv';
+        $fileName = 'participations-' . Str::random(8) . '.xlsx';
 
-        return Excel::download(new ParticipationsExport($request), $fileName);
+        return Excel::download(new ParticipationsExport($request), $fileName, \Maatwebsite\Excel\Excel::XLSX);
     }
 
     public function territoires(Request $request)
@@ -56,9 +56,9 @@ class ExportController extends Controller
 
         $this->authorize('exportTerritoires', $currentUser);
 
-        $fileName = 'territoires-' . Str::random(8) . '.csv';
+        $fileName = 'territoires-' . Str::random(8) . '.xlsx';
 
-        return Excel::download(new TerritoiresExport($request), $fileName);
+        return Excel::download(new TerritoiresExport($request), $fileName, \Maatwebsite\Excel\Excel::XLSX);
     }
 
     public function reseaux(Request $request)
@@ -67,9 +67,9 @@ class ExportController extends Controller
 
         $this->authorize('exportReseaux', $currentUser);
 
-        $fileName = 'reseaux-' . Str::random(8) . '.csv';
+        $fileName = 'reseaux-' . Str::random(8) . '.xlsx';
 
-        return Excel::download(new ReseauxExport($request), $fileName);
+        return Excel::download(new ReseauxExport($request), $fileName, \Maatwebsite\Excel\Excel::XLSX);
     }
 
     public function profiles(Request $request)
@@ -78,8 +78,8 @@ class ExportController extends Controller
 
         $this->authorize('exportProfiles', $currentUser);
 
-        $fileName = 'profiles-' . Str::random(8) . '.csv';
+        $fileName = 'profiles-' . Str::random(8) . '.xlsx';
 
-        return Excel::download(new ProfilesExport($request), $fileName);
+        return Excel::download(new ProfilesExport($request), $fileName, \Maatwebsite\Excel\Excel::XLSX);
     }
 }
