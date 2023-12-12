@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\MissionTemplate;
 use App\Models\Structure;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -136,7 +137,30 @@ class MissionRequest extends FormRequest
             'type' => '',
             'domaine_id' => 'required_without:template_id',
             'domaine_secondary_id' => '',
-            'template_id' => '',
+            'template_id' => [
+                function ($attribute, $value, $fail) {
+                    // Creation
+                    if (!$this->mission) {
+                        $template = MissionTemplate::find($value);
+
+                        if(empty($template)) {
+                            $fail('Modèle inexistant.');
+                            return;
+                        }
+
+                        if($template->state !== 'validated' || !$template->published) {
+                            $fail('Modèle non attribuable.');
+                        }
+                    }
+
+                    // Edit
+                    else {
+                        if ($this->mission->template_id !== $value) {
+                            $fail("Impossible de changer le modèle d'une mission.");
+                        }
+                    }
+                }
+            ],
             'thumbnail' => '',
             'tags' => '',
             'skills' => '',
