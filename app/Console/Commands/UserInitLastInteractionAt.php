@@ -43,6 +43,11 @@ class UserInitLastInteractionAt extends Command
             User::whereNull('last_interaction_at')
                 ->whereNotNull('last_online_at')
                 ->update(['last_interaction_at' => DB::raw('last_online_at')]);
+
+            User::whereNull('last_interaction_at')
+                ->whereNull('last_online_at')
+                ->whereNotNull('created_at')
+                ->update(['last_interaction_at' => DB::raw('created_at')]);
         }
     }
 }
