@@ -73,6 +73,7 @@ use App\Notifications\StructureWithoutMissionFirstReminder;
 use App\Notifications\StructureSignaled;
 use App\Notifications\StructureSubmitted;
 use App\Notifications\StructureSwitchResponsable;
+use App\Notifications\StructureUnsubscribed;
 use App\Notifications\StructureValidated;
 use App\Notifications\StructureWithoutMissionSecondReminder;
 use App\Notifications\UserAnonymize;
@@ -216,6 +217,9 @@ class NotificationController extends Controller
                 break;
             case 'responsable_association_validated':
                 $notification = new StructureAssociationValidated($structure);
+                break;
+            case 'responsable_structure_unsubscribed':
+                $notification = new StructureUnsubscribed($structure);
                 break;
             case 'responsable_collectivite_validated':
                 $notification = new StructureCollectivityValidated($structure);

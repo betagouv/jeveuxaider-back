@@ -136,11 +136,12 @@ class StructureObserver
                     $members = $structure->members;
                     $structure->members()->detach();
 
-                    foreach ($members as $user) {
+                    $members->each(function ($user) use ($structure) {
                         if ($user->context_role == 'responsable' && $user->contextable_id == $structure->id) {
                             $user->resetContextRole();
                         }
-                    }
+                        $user->notify(new \App\Notifications\StructureUnsubscribed($structure));
+                    });
 
                     if ($structure->missions) {
                         foreach ($structure->missions->where('state', 'En attente de validation') as $mission) {
