@@ -25,7 +25,7 @@ class StructurePolicy
         }
 
         if (request()->header('Context-Role') == 'referent') {
-            return $structure->has('missions', function(Builder $query) use ($user){
+            return $structure->has('missions', function (Builder $query) use ($user) {
                 $query
                     ->whereNotNull('department')
                     ->where('department', $user->departmentsAsReferent->first()->number);
@@ -33,7 +33,7 @@ class StructurePolicy
         }
 
         if (request()->header('Context-Role') == 'referent_regional') {
-            return $structure->has('missions', function(Builder $query) use ($user){
+            return $structure->has('missions', function (Builder $query) use ($user) {
                 $query
                     ->whereNotNull('department')
                     ->whereIn(
@@ -84,7 +84,8 @@ class StructurePolicy
         return false;
     }
 
-    public function changeState(User $user, Structure $structure) {
+    public function changeState(User $user, Structure $structure)
+    {
 
         if(Structure::role(request()->header('Context-Role'))->where('id', $structure->id)->count() > 0) {
             return true;
@@ -99,6 +100,11 @@ class StructurePolicy
             return Structure::role(request()->header('Context-Role'))->whereId($structure->id)->exists();
         }
 
+        return $user->structures()->whereId($structure->id)->exists();
+    }
+
+    public function manageTags(User $user, Structure $structure)
+    {
         return $user->structures()->whereId($structure->id)->exists();
     }
 }

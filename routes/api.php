@@ -116,6 +116,11 @@ Route::group(['middleware' => ['auth:api', 'is.not.banned']], function () {
     Route::post('structures/{structure}/ask-to-unregister', 'Api\StructureController@askToUnregister');
     Route::get('structures/{structure}/responsables', 'Api\StructureController@responsables');
 
+    Route::get('structures/{structure}/tags', 'Api\StructureTagController@index');
+    Route::post('structures/{structure}/tags', 'Api\StructureTagController@store');
+    Route::put('structures/{structure}/tags/{structureTag}', 'Api\StructureTagController@update');
+    Route::delete('structures/{structure}/tags/{structureTag}', 'Api\StructureTagController@delete');
+
     // Route::post('structures/{structure}/waiting-participations', 'Api\StructureController@waitingParticipations'); Plus utilisé ?
     Route::post('structures/{structure}/validate-waiting-participations', 'Api\StructureController@validateWaitingParticipations');
 

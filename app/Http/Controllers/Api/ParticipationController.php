@@ -58,6 +58,7 @@ class ParticipationController extends Controller
                 'profile.avatar',
                 'mission.responsable',
                 'mission.structure',
+                'tags'
             ])
             ->defaultSort('-created_at')
             ->paginate(config('query-builder.results_per_page'));
