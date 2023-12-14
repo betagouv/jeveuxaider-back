@@ -100,8 +100,8 @@
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
         ],
         "pre-install-cmd": [
-            "if [ -n \"$OAUTH_PUBLIC_KEY\" ] ; then echo \"$OAUTH_PUBLIC_KEY\" | base64 -d > storage/oauth-public.key ; fi",
-            "if [ -n \"$OAUTH_PRIVATE_KEY\" ] ; then echo \"$OAUTH_PRIVATE_KEY\" | base64 -d > storage/oauth-private.key ; fi"
+            "[ -n \"$OAUTH_PUBLIC_KEY\" ] && echo \"$OAUTH_PUBLIC_KEY\" > storage/oauth-public.key",
+            "[ -n \"$OAUTH_PRIVATE_KEY\" ] && echo \"$OAUTH_PRIVATE_KEY\" > storage/oauth-private.key"
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
