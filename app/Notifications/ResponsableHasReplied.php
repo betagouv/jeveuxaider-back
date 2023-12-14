@@ -54,7 +54,7 @@ class ResponsableHasReplied extends Notification implements ShouldQueue
             $organisationNameTruncatedLength = mb_strlen($organisationName) - (mb_strlen($content) - ($smsMaxLength - 3));
             if ($organisationNameTruncatedLength > 0) {
                 $organisationNameTruncated = mb_strcut($organisationName, 0, $organisationNameTruncatedLength);
-                $content = str_replace($organisationName, $organisationNameTruncated . '[…]', $content);
+                $content = str_replace($organisationName, $organisationNameTruncated . '...', $content);
             } else {
                 $content = str_replace("(" . $organisationName . ") ", "", $content);
             }
