@@ -6,7 +6,6 @@ use App\Filters\FiltersNameSearch;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StructureTagRequest;
 use App\Models\Structure;
-use App\Models\Term;
 use App\Models\StructureTag;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -30,7 +29,7 @@ class StructureTagController extends Controller
             'user_id' => Auth::guard('api')->user()->id
         ]);
 
-        $structureTag = Term::create($attributes);
+        $structureTag = StructureTag::create($attributes);
 
         return $structureTag;
     }
@@ -44,7 +43,7 @@ class StructureTagController extends Controller
         return $structureTag;
     }
 
-    public function delete(Request $request, Structure $structure, Term $structureTag)
+    public function delete(Request $request, Structure $structure, StructureTag $structureTag)
     {
         $this->authorize('manageTags', $structure);
 
