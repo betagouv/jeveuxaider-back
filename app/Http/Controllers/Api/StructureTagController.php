@@ -19,12 +19,7 @@ class StructureTagController extends Controller
     {
         $this->authorize('manageTags', $structure);
 
-        return QueryBuilder::for(StructureTag::where('structure_id', $structure->id))
-            ->allowedFilters([
-                AllowedFilter::custom('search', new FiltersNameSearch()),
-            ])
-            ->defaultSort('-updated_at')
-            ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
+        return StructureTag::where('structure_id', $structure->id)->get();
     }
 
     public function store(StructureTagRequest $request, Structure $structure)

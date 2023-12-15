@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\Models\Participation;
+use App\Models\StructureTag;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -19,7 +20,7 @@ class ParticipationPolicy
 
     public function view(User $user, Participation $participation)
     {
-        if(Participation::role(request()->header('Context-Role'))->where('id', $participation->id)->count() > 0) {
+        if (Participation::role(request()->header('Context-Role'))->where('id', $participation->id)->count() > 0) {
             return true;
         }
 
@@ -54,7 +55,7 @@ class ParticipationPolicy
             return false;
         }
 
-        if(Participation::role(request()->header('Context-Role'))->where('id', $participation->id)->count() > 0) {
+        if (Participation::role(request()->header('Context-Role'))->where('id', $participation->id)->count() > 0) {
             return true;
         }
 
@@ -64,6 +65,19 @@ class ParticipationPolicy
     public function delete()
     {
         if (in_array(request()->header('Context-Role'), ['admin'])) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function manageTags(User $user, Participation $participation, StructureTag $structureTag)
+    {
+        if (Participation::role(request()->header('Context-Role'))
+            ->where('id', $participation->id)
+            ->whereHas('mission.structure_id', $structureTag->structure_id)
+            ->exists()
+        ) {
             return true;
         }
 

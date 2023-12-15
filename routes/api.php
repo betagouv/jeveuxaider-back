@@ -183,6 +183,8 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::get('participations/{participation}', 'Api\ParticipationController@show');
     Route::put('participations/{participation}', 'Api\ParticipationController@update');
     Route::put('participations/{participation}/decline', 'Api\ParticipationController@decline');
+    Route::post('participations/{participation}/tags/{structureTag}/attach', 'Api\ParticipationController@attachStructureTag');
+    Route::post('participations/{participation}/tags/{structureTag}/detach', 'Api\ParticipationController@detachStructureTag');
 
     // NOTIFICATIONS BENEVOLES
     Route::get('notifications-benevoles', 'Api\NotificationBenevoleController@index');

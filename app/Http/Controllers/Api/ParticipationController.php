@@ -12,6 +12,8 @@ use App\Http\Requests\Api\ParticipationUpdateRequest;
 use App\Models\Mission;
 use App\Models\Participation;
 use App\Models\Profile;
+use App\Models\Structure;
+use App\Models\StructureTag;
 use App\Models\Temoignage;
 use App\Models\User;
 use App\Notifications\ParticipationBenevoleCanceled;
@@ -66,7 +68,18 @@ class ParticipationController extends Controller
 
     public function show(Request $request, Participation $participation)
     {
-        $participation = $participation->load(['mission', 'profile', 'conversation', 'conversation.latestMessage', 'mission.responsable', 'mission.responsable.user', 'profile.skills', 'profile.domaines', 'profile.avatar']);
+        $participation->load([
+            'mission',
+            'profile',
+            'conversation',
+            'conversation.latestMessage',
+            'mission.responsable',
+            'mission.responsable.user',
+            'profile.skills',
+            'profile.domaines',
+            'profile.avatar',
+            'tags'
+        ]);
 
         return $participation;
     }
@@ -247,5 +260,23 @@ class ParticipationController extends Controller
         return [
             'temoignage' => Temoignage::where('participation_id', $participation->id)->first()
         ];
+    }
+
+    public function attachStructureTag(Request $request, Participation $participation, StructureTag $structureTag)
+    {
+        $this->authorize('manageTags', $participation);
+
+        $participation->tags()->attach($structureTag);
+
+        return $participation->load('tags');
+    }
+
+    public function detachStructureTag(Request $request, Participation $participation, StructureTag $structureTag)
+    {
+        $this->authorize('manageTags', $participation);
+
+        $participation->tags()->detach($structureTag);
+
+        return $participation->load('tags');
     }
 }
