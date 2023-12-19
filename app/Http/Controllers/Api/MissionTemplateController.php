@@ -28,6 +28,7 @@ class MissionTemplateController extends Controller
                 AllowedFilter::scope('of_reseau'),
                 AllowedFilter::scope('with_reseau'),
                 AllowedFilter::exact('reseau.name'),
+                AllowedFilter::exact('reseau.id'),
                 AllowedFilter::callback('with_reseaux', new FiltersTemplatesWithReseau())
             )
             ->allowedIncludes(['photo', 'domaine', 'reseau', 'missions', 'tags'])
@@ -44,7 +45,7 @@ class MissionTemplateController extends Controller
 
     public function store(MissionTemplateCreateRequest $request)
     {
-        if (! $request->validated()) {
+        if (!$request->validated()) {
             return $request->validated();
         }
 
