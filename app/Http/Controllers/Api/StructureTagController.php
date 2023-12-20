@@ -26,7 +26,7 @@ class StructureTagController extends Controller
         $this->authorize('manageTags', $structure);
 
         $attributes =  array_merge($request->validated(), [
-            'user_id' => Auth::guard('api')->user()->id
+            'structure_id' => $structure->id
         ]);
 
         $structureTag = StructureTag::create($attributes);
