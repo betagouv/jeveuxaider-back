@@ -15,7 +15,7 @@ class StructureTagController extends Controller
     {
         $this->authorize('manageTags', $structure);
 
-        return StructureTag::where('structure_id', $structure->id)->orderBy('name')->get();
+        return StructureTag::where('structure_id', $structure->id)->orWhere('is_generic', true)->orderBy('name')->get();
     }
 
     public function store(StructureTagRequest $request, Structure $structure)
@@ -35,6 +35,10 @@ class StructureTagController extends Controller
     {
         $this->authorize('manageTags', $structure);
 
+        if($structureTag->is_generic) {
+            abort('422', "Cette étiquette ne peut pas être modifiée.");
+        }
+
         $structureTag = $structureTag->update($request->validated());
 
         return $structureTag;
@@ -43,6 +47,10 @@ class StructureTagController extends Controller
     public function delete(Request $request, Structure $structure, StructureTag $structureTag)
     {
         $this->authorize('manageTags', $structure);
+
+        if($structureTag->is_generic) {
+            abort('422', "Cette étiquette ne peut pas être supprimée.");
+        }
 
         $relatedEntities = StructureTaggable::where('structure_tag_id', $structureTag->id)->count();
 

@@ -8,10 +8,10 @@ class StructureTag extends Model
 {
     protected $table = 'structures_tags';
 
-    protected $guarded = ['id'];
+    protected $fillable = ['name', 'structure_id', 'is_generic'];
 
     protected $casts = [
-        //
+        'is_generic' => 'boolean',
     ];
 
     public function structure()

@@ -25,7 +25,6 @@ class StructureTagRequest extends FormRequest
     {
         $rules = [
             'name' => 'required',
-            'type' => 'required|in:participation',
         ];
 
         return $rules;
@@ -40,7 +39,6 @@ class StructureTagRequest extends FormRequest
     {
         return [
             'name.required' => 'Un nom est requis',
-            'type.required' => 'Un type est requis',
         ];
     }
 }

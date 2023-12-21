@@ -12,10 +12,10 @@ return new class () extends Migration {
     {
         Schema::create('structures_tags', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('structure_id')->index();
+            $table->unsignedBigInteger('structure_id')->index()->nullable();
             $table->foreign('structure_id')->references('id')->on('structures')->onDelete('cascade');
             $table->string('name');
-            $table->string('type');
+            $table->boolean('is_generic')->default(false);
             $table->timestamps();
         });
 
