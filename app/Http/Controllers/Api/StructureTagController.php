@@ -2,15 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Filters\FiltersNameSearch;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StructureTagRequest;
 use App\Models\Structure;
 use App\Models\StructureTag;
+use App\Models\StructureTaggable;
 use Illuminate\Http\Request;
-use Spatie\QueryBuilder\AllowedFilter;
-use Spatie\QueryBuilder\QueryBuilder;
-use Illuminate\Support\Facades\Auth;
 
 class StructureTagController extends Controller
 {
@@ -18,7 +15,7 @@ class StructureTagController extends Controller
     {
         $this->authorize('manageTags', $structure);
 
-        return StructureTag::where('structure_id', $structure->id)->get();
+        return StructureTag::where('structure_id', $structure->id)->orderBy('name')->get();
     }
 
     public function store(StructureTagRequest $request, Structure $structure)
@@ -46,6 +43,12 @@ class StructureTagController extends Controller
     public function delete(Request $request, Structure $structure, StructureTag $structureTag)
     {
         $this->authorize('manageTags', $structure);
+
+        $relatedEntities = StructureTaggable::where('structure_tag_id', $structureTag->id)->count();
+
+        if ($relatedEntities) {
+            abort('422', "Cette étiquette est reliée à {$relatedEntities} entité(s). Elle ne peut pas être supprimée.");
+        }
 
         return (string) $structureTag->delete();
     }
