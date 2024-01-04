@@ -71,15 +71,26 @@ class ParticipationPolicy
         return false;
     }
 
-    public function manageTags(User $user, Participation $participation, StructureTag $structureTag)
+    public function attachStructureTag(User $user, Participation $participation, StructureTag $structureTag)
     {
         if (Participation::role(request()->header('Context-Role'))
             ->where('id', $participation->id)
-            ->whereHas('mission.structure_id', $structureTag->structure_id)
             ->exists()
         ) {
-            return true;
+            return $structureTag->structure_id === $participation->mission->structure_id || $structureTag->is_generic;
         }
+
+        return false;
+    }
+
+    public function detachStructureTag(User $user, Participation $participation, StructureTag $structureTag)
+    {
+        if (Participation::role(request()->header('Context-Role'))
+        ->where('id', $participation->id)
+        ->exists()
+    ) {
+        return $structureTag->structure_id === $participation->mission->structure_id || $structureTag->is_generic;
+    }
 
         return false;
     }

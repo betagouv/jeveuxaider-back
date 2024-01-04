@@ -264,7 +264,7 @@ class ParticipationController extends Controller
 
     public function attachStructureTag(Request $request, Participation $participation, StructureTag $structureTag)
     {
-        $this->authorize('manageTags', $participation);
+        $this->authorize('attachStructureTag', [$participation, $structureTag]);
 
         $participation->tags()->attach($structureTag);
 
@@ -273,7 +273,7 @@ class ParticipationController extends Controller
 
     public function detachStructureTag(Request $request, Participation $participation, StructureTag $structureTag)
     {
-        $this->authorize('manageTags', $participation);
+        $this->authorize('detachStructureTag', [$participation, $structureTag]);
 
         $participation->tags()->detach($structureTag);
 
