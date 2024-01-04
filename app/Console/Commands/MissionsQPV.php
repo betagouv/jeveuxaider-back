@@ -46,7 +46,6 @@ class MissionsQPV extends Command
 
         $query->chunk(50, function ($missions) {
             foreach ($missions as $mission) {
-                
                 $isQPV = ApiQPV::isQPV($mission->address, $mission->zip, $mission->city);
                 if($isQPV === true) {
                     $this->comment("IS QPV : #$mission->id  $mission->address $mission->zip, $mission->city");
@@ -55,7 +54,6 @@ class MissionsQPV extends Command
                 } else {
                     $this->comment("no QPV : #$mission->id $mission->address $mission->zip, $mission->city");
                 }
-                 
             }
             $this->comment("Processed 50 missions");
         });
