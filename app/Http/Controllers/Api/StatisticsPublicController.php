@@ -988,6 +988,28 @@ class StatisticsPublicController extends Controller
         return $results;
     }
 
+    public function utilisateursByActivities(Request $request)
+    {
+        $results = DB::select(
+            "
+                SELECT activities.name, activities.id, COUNT(*) AS count
+                FROM profiles
+                LEFT JOIN activity_profile ON activity_profile.profile_id = profiles.id
+                LEFT JOIN activities ON activities.id = activity_profile.activity_id
+                WHERE profiles.created_at BETWEEN :start and :end
+                AND COALESCE(profiles.zip,'') ILIKE :department
+                GROUP BY activities.name, activities.id
+                ORDER BY count DESC
+            ", [
+                'department' => $this->department ? $this->department.'%' : '%%',
+                'start' => $this->startDate,
+                'end' => $this->endDate,
+            ]
+        );
+
+        return $results;
+    }
+
     public function participationsCanceledByBenevoles(Request $request)
     {
         return [
