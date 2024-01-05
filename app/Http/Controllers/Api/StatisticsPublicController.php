@@ -811,7 +811,6 @@ class StatisticsPublicController extends Controller
                 AND activities.name IS NOT NULL
                 GROUP BY activities.name,activities.id
                 ORDER BY count DESC
-                LIMIT 5
             ", [
                 'department' => $this->department ? '%'.$this->department.'%' : '%%',
                 'start' => $this->startDate,
@@ -884,7 +883,6 @@ class StatisticsPublicController extends Controller
                 AND activities.name IS NOT NULL
                 GROUP BY activities.name, activities.id
                 ORDER BY count DESC
-                LIMIT 5
             ", [
                 'department' => $this->department ? '%'.$this->department.'%' : '%%',
                 'start' => $this->startDate,
@@ -1249,7 +1247,6 @@ class StatisticsPublicController extends Controller
                 AND activities.name IS NOT NULL
                 GROUP BY activities.name, activities.id
                 ORDER BY count DESC
-                LIMIT 5
             ", [
                 'department' => $this->department ? '%'.$this->department.'%' : '%%',
             ]
