@@ -19,6 +19,6 @@ return [
         'append' => 'append',
     ],
 
-    'results_per_page' => 15,
+    'results_per_page' => 24,
 
 ];

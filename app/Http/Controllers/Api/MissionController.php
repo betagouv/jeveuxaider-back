@@ -33,8 +33,8 @@ class MissionController extends Controller
         return  QueryBuilder::for(Mission::where('is_priority', true))
             ->with(['domaine', 'template', 'template.domaine', 'template.photo', 'illustrations', 'structure'])
             ->allowedFilters([
-                AllowedFilter::custom('search', new FiltersMissionSearch),
-                AllowedFilter::custom('available', new FiltersMissionPriorityAvailable),
+                AllowedFilter::custom('search', new FiltersMissionSearch()),
+                AllowedFilter::custom('available', new FiltersMissionPriorityAvailable()),
             ])
             ->defaultSort('-created_at')
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
@@ -65,18 +65,19 @@ class MissionController extends Controller
                 AllowedFilter::scope('hasActivity'),
                 AllowedFilter::scope('hasTemplate'),
                 AllowedFilter::scope('hasCreneaux'),
-                AllowedFilter::custom('place', new FiltersMissionPlacesLeft),
-                AllowedFilter::custom('date', new FiltersMissionDate),
-                AllowedFilter::custom('publics_volontaires', new FiltersMissionPublicsVolontaires),
-                AllowedFilter::custom('publics_beneficiaires', new FiltersMissionPublicsBeneficiaires),
-                AllowedFilter::custom('search', new FiltersMissionSearch),
+                AllowedFilter::custom('place', new FiltersMissionPlacesLeft()),
+                AllowedFilter::custom('date', new FiltersMissionDate()),
+                AllowedFilter::custom('publics_volontaires', new FiltersMissionPublicsVolontaires()),
+                AllowedFilter::custom('publics_beneficiaires', new FiltersMissionPublicsBeneficiaires()),
+                AllowedFilter::custom('search', new FiltersMissionSearch()),
                 AllowedFilter::scope('available'),
-                AllowedFilter::custom('is_template', new FiltersMissionIsTemplate),
+                AllowedFilter::custom('is_template', new FiltersMissionIsTemplate()),
                 AllowedFilter::exact('is_autonomy'),
-                AllowedFilter::custom('tags', new FiltersTags),
-                AllowedFilter::custom('no_tags', new FiltersDoesntHaveTags),
+                AllowedFilter::custom('tags', new FiltersTags()),
+                AllowedFilter::custom('no_tags', new FiltersDoesntHaveTags()),
                 AllowedFilter::exact('is_active'),
                 AllowedFilter::scope('ofResponsable'),
+                AllowedFilter::exact('is_registration_open'),
             ])
             ->allowedIncludes([
                 'template.photo',
@@ -239,7 +240,7 @@ class MissionController extends Controller
             ])
             ->allowedFilters(
                 'zip',
-                AllowedFilter::custom('disponibilities', new FiltersDisponibility),
+                AllowedFilter::custom('disponibilities', new FiltersDisponibility()),
                 AllowedFilter::scope('minimum_commitment')
                 // AllowedFilter::custom('zips', new FiltersProfileZips),
                 // AllowedFilter::custom('domaine', new FiltersProfileTag),
