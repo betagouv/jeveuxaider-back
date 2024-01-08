@@ -15,7 +15,7 @@ class StructureTagController extends Controller
     {
         $this->authorize('manageTags', $structure);
 
-        return StructureTag::where('structure_id', $structure->id)->orWhere('is_generic', true)->orderBy('name')->get();
+        return StructureTag::where('structure_id', $structure->id)->orderBy('name')->get();
     }
 
     public function store(StructureTagRequest $request, Structure $structure)
