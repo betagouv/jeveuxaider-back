@@ -24,7 +24,10 @@ class StructureTagRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'name' => 'required',
+            'name' => [
+                'required',
+                'unique:structures_tags,name,NULL,id,structure_id,' . $this->route('structure')->id,
+            ]
         ];
 
         return $rules;
@@ -39,6 +42,7 @@ class StructureTagRequest extends FormRequest
     {
         return [
             'name.required' => 'Un nom est requis',
+            'name.unique' => 'Ce tag existe déjà',
         ];
     }
 }
