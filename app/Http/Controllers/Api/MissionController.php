@@ -12,6 +12,7 @@ use App\Filters\FiltersMissionPublicsBeneficiaires;
 use App\Filters\FiltersMissionPublicsVolontaires;
 use App\Filters\FiltersMissionSearch;
 use App\Filters\FiltersTags;
+use App\Filters\FiltersMissionZip;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\MissionDeleteRequest;
 use App\Http\Requests\Api\MissionDuplicateRequest;
@@ -49,7 +50,7 @@ class MissionController extends Controller
                 AllowedFilter::exact('type'),
                 AllowedFilter::exact('id'),
                 AllowedFilter::exact('department'),
-                AllowedFilter::exact('zip'),
+                AllowedFilter::custom('zip', new FiltersMissionZip()),
                 AllowedFilter::exact('responsable.id'),
                 AllowedFilter::exact('responsable.email'),
                 AllowedFilter::exact('template.id'),
