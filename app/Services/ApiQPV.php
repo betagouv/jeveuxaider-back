@@ -12,7 +12,7 @@ class ApiQPV
             return;
         }
 
-        if( $address == $city) { // Adresse non précise
+        if( $address == $city ) { // Adresse non précise
             return false;
         }
 
@@ -22,13 +22,14 @@ class ApiQPV
         ])->get('https://wsa.sig.ville.gouv.fr/service/georeferenceur.json', [
             'type_quartier' => 'QP',
             'type_adresse' => 'MIXTE',
-            'adresse[code_postal]' => $postal_code, 
-            'adresse[nom_commune]' => $city, 
+            'adresse[code_postal]' => $postal_code,
+            'adresse[nom_commune]' => $city,
             'adresse[nom_voie]' => $address,
         ]);
 
-        if($response->ok() && $response->json()['code_reponse'] == 'OUI') {
-            return true;
+        if($response->ok()) {
+            $jsonResponse = $response->json();
+            return isset($jsonResponse['code_reponse']) && $jsonResponse['code_reponse'] == 'OUI';
         }
 
         return false;

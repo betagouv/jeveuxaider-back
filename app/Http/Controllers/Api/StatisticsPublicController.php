@@ -811,7 +811,6 @@ class StatisticsPublicController extends Controller
                 AND activities.name IS NOT NULL
                 GROUP BY activities.name,activities.id
                 ORDER BY count DESC
-                LIMIT 5
             ", [
                 'department' => $this->department ? '%'.$this->department.'%' : '%%',
                 'start' => $this->startDate,
@@ -884,7 +883,6 @@ class StatisticsPublicController extends Controller
                 AND activities.name IS NOT NULL
                 GROUP BY activities.name, activities.id
                 ORDER BY count DESC
-                LIMIT 5
             ", [
                 'department' => $this->department ? '%'.$this->department.'%' : '%%',
                 'start' => $this->startDate,
@@ -977,6 +975,28 @@ class StatisticsPublicController extends Controller
                 WHERE profiles.created_at BETWEEN :start and :end
                 AND COALESCE(profiles.zip,'') ILIKE :department
                 GROUP BY domaines.name, domaines.id
+                ORDER BY count DESC
+            ", [
+                'department' => $this->department ? $this->department.'%' : '%%',
+                'start' => $this->startDate,
+                'end' => $this->endDate,
+            ]
+        );
+
+        return $results;
+    }
+
+    public function utilisateursByActivities(Request $request)
+    {
+        $results = DB::select(
+            "
+                SELECT activities.name, activities.id, COUNT(*) AS count
+                FROM profiles
+                LEFT JOIN activity_profile ON activity_profile.profile_id = profiles.id
+                LEFT JOIN activities ON activities.id = activity_profile.activity_id
+                WHERE profiles.created_at BETWEEN :start and :end
+                AND COALESCE(profiles.zip,'') ILIKE :department
+                GROUP BY activities.name, activities.id
                 ORDER BY count DESC
             ", [
                 'department' => $this->department ? $this->department.'%' : '%%',
@@ -1227,7 +1247,6 @@ class StatisticsPublicController extends Controller
                 AND activities.name IS NOT NULL
                 GROUP BY activities.name, activities.id
                 ORDER BY count DESC
-                LIMIT 5
             ", [
                 'department' => $this->department ? '%'.$this->department.'%' : '%%',
             ]

@@ -244,6 +244,14 @@ class MissionObserver
             $mission->load('structure');
             $mission->department = $mission->structure->department;
         }
+
+        if ($mission->is_autonomy === true) {
+            $mission->address = null;
+            $mission->zip = null;
+            $mission->city = null;
+            $mission->latitude = null;
+            $mission->longitude = null;
+        }
     }
 
     /**

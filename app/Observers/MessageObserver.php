@@ -20,6 +20,11 @@ class MessageObserver
 
         // Quand un nouveau message dans la conversation
         $conversable = $message->conversation->conversable;
+
+        if(!$conversable){
+            return;
+        }
+
         if ($conversable::class == Participation::class) {
             $participation = $conversable;
             // On vérifie que ce n'est pas le bénévole (= le créateur de la conversation)

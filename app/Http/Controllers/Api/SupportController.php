@@ -22,10 +22,10 @@ class SupportController extends Controller
         $this->startDate = Carbon::now()->subDays(14);
         $this->endDate = Carbon::now();
 
-        if($request->input('startDate')){
+        if($request->input('startDate')) {
             $this->startDate = Carbon::createFromFormat('Y-m-d', $request->input('startDate'))->hour(0)->minute(0)->second(0);
         }
-        if($request->input('endDate')){
+        if($request->input('endDate')) {
             $this->endDate = Carbon::createFromFormat('Y-m-d', $request->input('endDate'))->hour(23)->minute(59)->second(59);
         }
     }
@@ -41,7 +41,7 @@ class SupportController extends Controller
             'structures_in_progress_count' => Structure::whereIn('state', ['En cours de traitement'])->count(),
             'missions_need_to_be_treated_count' => Mission::whereIn('state', ['En attente de validation', 'En cours de traitement'])->count(),
             'missions_waiting_count' => Mission::whereIn('state', ['En attente de validation'])->count(),
-            'missions_in_progress_count' =>Mission::whereIn('state', ['En cours de traitement'])->count(),
+            'missions_in_progress_count' => Mission::whereIn('state', ['En cours de traitement'])->count(),
         ];
     }
 
@@ -101,26 +101,26 @@ class SupportController extends Controller
                     ->whereNull('missions.deleted_at');
             })
             ->where('roles.id', 3)
-            ->when($tagValue, function($query) use ($tagValue){
+            ->when($tagValue, function ($query) use ($tagValue) {
                 $query->join('termables', function ($join) use ($tagValue) {
                     $join->on('termables.termable_id', '=', 'profiles.id')
                         ->where('termables.term_id', $tagValue)
                         ->where('termables.termable_type', '=', 'App\Models\Profile');
                 });
             })
-            ->when($searchValue, function($query) use ($searchValue){
+            ->when($searchValue, function ($query) use ($searchValue) {
                 $query->whereRaw("CONCAT(profiles.first_name, ' ', profiles.last_name, ' ', profiles.email) ILIKE ?", ['%' . $searchValue . '%']);
             })
-            ->when($inactiveValue, function($query) {
-                $query->where("users.last_online_at", "<=" , Carbon::now()->subMonth(1));
+            ->when($inactiveValue, function ($query) {
+                $query->where("users.last_online_at", "<=", Carbon::now()->subMonth(1));
             })
-            ->when($onlineValue, function($query) {
-                $query->where("users.last_online_at", ">=" , Carbon::now()->subMinutes(10));
+            ->when($onlineValue, function ($query) {
+                $query->where("users.last_online_at", ">=", Carbon::now()->subMinutes(10));
             })
-            ->when($departmentValue, function($query) use ($departmentValue){
+            ->when($departmentValue, function ($query) use ($departmentValue) {
                 $query->where('departments.number', $departmentValue);
             })
-            ->groupBy('departments.number','profiles.id', 'profiles.first_name', 'profiles.last_name', 'profiles.email', 'users.last_online_at')
+            ->groupBy('departments.number', 'profiles.id', 'profiles.first_name', 'profiles.last_name', 'profiles.email', 'users.last_online_at')
             ->orderByRaw($orderBy)
             ->paginate(20);
 
@@ -159,19 +159,19 @@ class SupportController extends Controller
                     ->where('activity_log.causer_type', '=', 'App\Models\User');
             })
             ->where('roles.id', 3)
-            ->when($searchValue, function($query) use ($searchValue){
+            ->when($searchValue, function ($query) use ($searchValue) {
                 $query->whereRaw("CONCAT(profiles.first_name, ' ', profiles.last_name, ' ', profiles.email) ILIKE ?", ['%' . $searchValue . '%']);
             })
-            ->when($inactiveValue, function($query) {
-                $query->where("users.last_online_at", "<=" , Carbon::now()->subMonth(1));
+            ->when($inactiveValue, function ($query) {
+                $query->where("users.last_online_at", "<=", Carbon::now()->subMonth(1));
             })
-            ->when($onlineValue, function($query) {
-                $query->where("users.last_online_at", ">=" , Carbon::now()->subMinutes(10));
+            ->when($onlineValue, function ($query) {
+                $query->where("users.last_online_at", ">=", Carbon::now()->subMinutes(10));
             })
-            ->when($departmentValue, function($query) use ($departmentValue){
+            ->when($departmentValue, function ($query) use ($departmentValue) {
                 $query->where('departments.number', $departmentValue);
             })
-            ->groupBy('departments.number','profiles.id', 'profiles.first_name', 'profiles.last_name', 'profiles.email', 'users.last_online_at')
+            ->groupBy('departments.number', 'profiles.id', 'profiles.first_name', 'profiles.last_name', 'profiles.email', 'users.last_online_at')
             ->orderByRaw($orderBy)
             ->paginate(20);
 
@@ -184,7 +184,7 @@ class SupportController extends Controller
         $orderBy = $request->input('sort') ? $request->input('sort') . ' DESC' : 'participations_total_count DESC';
         $searchValue = $request->input('search') ?? null;
         $inactiveValue = $request->input('inactive') ?? null;
-        $organisationValue = $request->input('organisation') ?? null;
+        $organisationValue = $request->input('organisation_id') ?? null;
         $onlineValue = $request->input('online') ?? null;
 
         $results = DB::table('profiles')
@@ -219,27 +219,27 @@ class SupportController extends Controller
                     ->whereIn('participations.state', ['En attente de validation', 'En cours de traitement']);
             })
             ->where('roles.id', 2)
-            ->where(function($query){
-                $query->where(function($query){
+            ->where(function ($query) {
+                $query->where(function ($query) {
                     $query->where('participations.state', 'En attente de validation')
                         ->where('participations.created_at', '<', Carbon::now()->subDays(7)->startOfDay());
                 })
-                ->orWhere(function($query){
+                ->orWhere(function ($query) {
                     $query
                         ->where('participations.state', 'En cours de traitement')
                         ->where('participations.created_at', '<', Carbon::now()->subMonths(2)->startOfDay());
                 });
             })
-            ->when($searchValue, function($query) use ($searchValue){
+            ->when($searchValue, function ($query) use ($searchValue) {
                 $query->whereRaw("CONCAT(profiles.first_name, ' ', profiles.last_name, ' ', profiles.email) ILIKE ?", ['%' . $searchValue . '%']);
             })
-            ->when($inactiveValue, function($query) {
-                $query->where("users.last_online_at", "<=" , Carbon::now()->subMonth(1));
+            ->when($inactiveValue, function ($query) {
+                $query->where("users.last_online_at", "<=", Carbon::now()->subMonth(1));
             })
-            ->when($onlineValue, function($query) {
-                $query->where("users.last_online_at", ">=" , Carbon::now()->subMinutes(10));
+            ->when($onlineValue, function ($query) {
+                $query->where("users.last_online_at", ">=", Carbon::now()->subMinutes(10));
             })
-            ->when($organisationValue, function($query) use ($organisationValue){
+            ->when($organisationValue, function ($query) use ($organisationValue) {
                 $query->where('structures.id', '=', $organisationValue);
             })
             ->groupBy('profiles.id', 'profiles.first_name', 'profiles.last_name', 'profiles.email', 'users.last_online_at', 'structures.name', 'structures.id')
@@ -254,7 +254,7 @@ class SupportController extends Controller
         $orderBy = $request->input('sort') ? $request->input('sort') . ' DESC' : 'missions_total_count DESC';
         $searchValue = $request->input('search') ?? null;
         $inactiveValue = $request->input('inactive') ?? null;
-        $organisationValue = $request->input('organisation') ?? null;
+        $organisationValue = $request->input('organisation_id') ?? null;
         $onlineValue = $request->input('online') ?? null;
 
         $results = DB::table('profiles')
@@ -284,16 +284,16 @@ class SupportController extends Controller
                     ->whereNull('missions.deleted_at');
             })
             ->where('roles.id', 2)
-            ->when($searchValue, function($query) use ($searchValue){
+            ->when($searchValue, function ($query) use ($searchValue) {
                 $query->whereRaw("CONCAT(profiles.first_name, ' ', profiles.last_name, ' ', profiles.email) ILIKE ?", ['%' . $searchValue . '%']);
             })
-            ->when($inactiveValue, function($query) {
-                $query->where("users.last_online_at", "<=" , Carbon::now()->subMonth(1));
+            ->when($inactiveValue, function ($query) {
+                $query->where("users.last_online_at", "<=", Carbon::now()->subMonth(1));
             })
-            ->when($onlineValue, function($query) {
-                $query->where("users.last_online_at", ">=" , Carbon::now()->subMinutes(10));
+            ->when($onlineValue, function ($query) {
+                $query->where("users.last_online_at", ">=", Carbon::now()->subMinutes(10));
             })
-            ->when($organisationValue, function($query) use ($organisationValue){
+            ->when($organisationValue, function ($query) use ($organisationValue) {
                 $query->where('structures.id', '=', $organisationValue);
             })
             ->groupBy('profiles.id', 'profiles.first_name', 'profiles.last_name', 'profiles.email', 'users.last_online_at', 'structures.name', 'structures.id')

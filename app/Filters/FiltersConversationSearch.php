@@ -11,6 +11,10 @@ class FiltersConversationSearch implements Filter
 {
     public function __invoke(Builder $query, $value, string $property): Builder
     {
+        if (is_array($value)) {
+            $value = implode(',', $value);
+        }
+
         if (mb_strlen($value) < 3) {
             return $query;
         }
@@ -30,9 +34,6 @@ class FiltersConversationSearch implements Filter
             // })
             ->where(function (Builder $query) use ($value) {
                 $query->whereHas('users', function (Builder $query) use ($value) {
-                    if (is_array($value)) {
-                        $value = implode(',', $value);
-                    }
                     $query->whereHas('profile', function (Builder $query) use ($value) {
                         $query
                             ->whereRaw("CONCAT(first_name, ' ', last_name, ' ', email) ILIKE ?", ['%' . $value . '%'])
