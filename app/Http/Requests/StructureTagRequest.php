@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StructureTagRequest extends FormRequest
 {
@@ -26,7 +27,9 @@ class StructureTagRequest extends FormRequest
         $rules = [
             'name' => [
                 'required',
-                'unique:structures_tags,name,NULL,id,structure_id,' . $this->route('structure')->id,
+                Rule::unique('structures_tags', 'name')
+                    ->where('structure_id', $this->route('structure')->id)
+                    ->ignore($this->route('structureTag')?->id ?? 0),
             ]
         ];
 
