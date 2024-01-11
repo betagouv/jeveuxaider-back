@@ -1516,6 +1516,7 @@ class NumbersController extends Controller
                 AND COALESCE(missions.department,'') ILIKE :department
                 AND missions.deleted_at IS NULL
                 AND missions.is_registration_open = true
+                AND missions.is_active = true
                 AND reseaux.name IS NOT NULL
                 GROUP BY reseaux.name, reseaux.id
                 ORDER BY count DESC
@@ -1541,6 +1542,7 @@ class NumbersController extends Controller
                 AND COALESCE(missions.department,'') ILIKE :department
                 AND missions.deleted_at IS NULL
                 AND missions.is_registration_open = true
+                AND missions.is_active = true
                 AND structures.name IS NOT NULL
                 GROUP BY structures.name, structures.id
                 ORDER BY count DESC
@@ -1564,6 +1566,7 @@ class NumbersController extends Controller
                 LEFT JOIN mission_templates ON mission_templates.id = missions.template_id
                 WHERE structures.deleted_at IS NULL
                 AND missions.is_registration_open = true
+                AND missions.is_active = true
                 AND structures.state = 'Validée'
                 AND COALESCE(missions.department,'') ILIKE :department
                 AND missions.deleted_at IS NULL
@@ -1588,9 +1591,10 @@ class NumbersController extends Controller
                 FROM missions
                 LEFT JOIN structures ON structures.id = missions.structure_id
                 LEFT JOIN mission_templates ON mission_templates.id = missions.template_id
-                LEFT JOIN domaines ON domaines.id = mission_templates.domaine_id OR domaines.id = missions.domaine_id OR domaines.id = missions.domaine_secondary_id
+                LEFT JOIN domaines ON domaines.id = mission_templates.domaine_id OR domaines.id = mission_templates.domaine_secondary_id OR domaines.id = missions.domaine_id OR domaines.id = missions.domaine_secondary_id
                 WHERE missions.deleted_at IS NULL
                 AND missions.is_registration_open = true
+                AND missions.is_active = true
                 AND COALESCE(missions.department,'') ILIKE :department
                 AND domaines.name IS NOT NULL
                 AND structures.deleted_at IS NULL
@@ -1614,9 +1618,10 @@ class NumbersController extends Controller
                 FROM missions
                 LEFT JOIN structures ON structures.id = missions.structure_id
                 LEFT JOIN mission_templates ON mission_templates.id = missions.template_id
-                LEFT JOIN activities ON activities.id = mission_templates.activity_id OR activities.id = missions.activity_id
+                LEFT JOIN activities ON activities.id = mission_templates.activity_id OR activities.id = missions.activity_id OR activities.id = mission_templates.activity_secondary_id OR activities.id = missions.activity_secondary_id
                 WHERE missions.deleted_at IS NULL
                 AND missions.is_registration_open = true
+                AND missions.is_active = true
                 AND COALESCE(missions.department,'') ILIKE :department
                 AND activities.name IS NOT NULL
                 AND structures.deleted_at IS NULL
