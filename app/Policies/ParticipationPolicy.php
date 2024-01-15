@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\Models\Participation;
+use App\Models\StructureTag;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -19,7 +20,7 @@ class ParticipationPolicy
 
     public function view(User $user, Participation $participation)
     {
-        if(Participation::role(request()->header('Context-Role'))->where('id', $participation->id)->count() > 0) {
+        if (Participation::role(request()->header('Context-Role'))->where('id', $participation->id)->count() > 0) {
             return true;
         }
 
@@ -54,7 +55,7 @@ class ParticipationPolicy
             return false;
         }
 
-        if(Participation::role(request()->header('Context-Role'))->where('id', $participation->id)->count() > 0) {
+        if (Participation::role(request()->header('Context-Role'))->where('id', $participation->id)->count() > 0) {
             return true;
         }
 
@@ -70,12 +71,27 @@ class ParticipationPolicy
         return false;
     }
 
-    // public function massValidation()
-    // {
-    //     if (in_array(request()->header('Context-Role'), ['responsable'])) {
-    //         return true;
-    //     }
+    public function attachStructureTag(User $user, Participation $participation, StructureTag $structureTag)
+    {
+        if (Participation::role(request()->header('Context-Role'))
+            ->where('id', $participation->id)
+            ->exists()
+        ) {
+            return $structureTag->structure_id === $participation->mission->structure_id || $structureTag->is_generic;
+        }
 
-    //     return false;
-    // }
+        return false;
+    }
+
+    public function detachStructureTag(User $user, Participation $participation, StructureTag $structureTag)
+    {
+        if (Participation::role(request()->header('Context-Role'))
+        ->where('id', $participation->id)
+        ->exists()
+    ) {
+        return $structureTag->structure_id === $participation->mission->structure_id || $structureTag->is_generic;
+    }
+
+        return false;
+    }
 }

@@ -6,6 +6,7 @@ use App\Filters\FiltersConversationMissionName;
 use App\Filters\FiltersConversationMissionZipCity;
 use App\Filters\FiltersConversationStructureName;
 use App\Filters\FiltersConversationParticipationState;
+use App\Filters\FiltersConversationParticipationTags;
 use App\Filters\FiltersConversationSearch;
 use App\Filters\FiltersConversationType;
 use App\Http\Controllers\Controller;
@@ -34,6 +35,7 @@ class ConversationsController extends Controller
                         [
                             Participation::class => [
                                 'mission.structure:id,name',
+                                'tags'
                             ],
                         ]
                     );
@@ -42,12 +44,13 @@ class ConversationsController extends Controller
         )
             ->allowedFilters(
                 [
-                    AllowedFilter::custom('search', new FiltersConversationSearch),
-                    AllowedFilter::custom('type', new FiltersConversationType),
-                    AllowedFilter::custom('participation_state', new FiltersConversationParticipationState),
-                    AllowedFilter::custom('mission_name', new FiltersConversationMissionName),
-                    AllowedFilter::custom('mission_zip_city', new FiltersConversationMissionZipCity),
-                    AllowedFilter::custom('structure_name', new FiltersConversationStructureName),
+                    AllowedFilter::custom('search', new FiltersConversationSearch()),
+                    AllowedFilter::custom('type', new FiltersConversationType()),
+                    AllowedFilter::custom('participation_state', new FiltersConversationParticipationState()),
+                    AllowedFilter::custom('mission_name', new FiltersConversationMissionName()),
+                    AllowedFilter::custom('mission_zip_city', new FiltersConversationMissionZipCity()),
+                    AllowedFilter::custom('structure_name', new FiltersConversationStructureName()),
+                    AllowedFilter::custom('tags', new FiltersConversationParticipationTags()),
                     AllowedFilter::exact('conversable_type'),
                     AllowedFilter::exact('conversable_id'),
                     AllowedFilter::scope('with_users')
@@ -73,7 +76,8 @@ class ConversationsController extends Controller
                             'mission.structure:id,name',
                             'mission.responsable',
                             'profile',
-                            'temoignage'
+                            'temoignage',
+                            'tags'
                         ],
                         Mission::class => [
                             'structure:id,name',
