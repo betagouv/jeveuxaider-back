@@ -355,6 +355,7 @@ class Mission extends Model
         return $query
             ->where('missions.state', 'Validée')
             ->where('missions.is_active', true)
+            ->where('missions.is_registration_open', true)
             ->whereHas('structure', function (Builder $query) {
                 $query->where('structures.state', 'Validée');
             });
