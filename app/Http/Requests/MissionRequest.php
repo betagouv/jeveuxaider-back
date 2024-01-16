@@ -176,7 +176,7 @@ class MissionRequest extends FormRequest
                 'required_if:is_autonomy,true',
                 function ($attribute, $autonomy_zips, $fail) {
                     $datas = $this->validator->getData();
-                    if (!empty($autonomy_zips) && !empty($datas['department'])) {
+                    if ($datas['is_autonomy'] && !empty($autonomy_zips) && !empty($datas['department'])) {
                         $department = $datas['department'];
                         foreach ($autonomy_zips as $item) {
                             if (substr($item['zip'], 0, strlen($department)) != $department) {
