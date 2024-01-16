@@ -21,7 +21,11 @@ use Spatie\Tags\HasTags;
 
 class Profile extends Model implements HasMedia
 {
-    use Notifiable, InteractsWithMedia, HasTags, LogsActivity, HasMissingFields;
+    use Notifiable;
+    use InteractsWithMedia;
+    use HasTags;
+    use LogsActivity;
+    use HasMissingFields;
 
     protected $table = 'profiles';
 
@@ -134,7 +138,7 @@ class Profile extends Model implements HasMedia
                 $departement = Auth::guard('api')->user()->departmentsAsReferent->first()->number;
 
                 return $query
-                    ->where('zip', 'LIKE', $departement.'%')
+                    ->where('zip', 'LIKE', $departement . '%')
                     ->orWhereHas(
                         'missions',
                         function (Builder $query) use ($departement) {
@@ -176,7 +180,7 @@ class Profile extends Model implements HasMedia
                     ->orWhere(
                         function (Builder $query) use ($departements) {
                             foreach ($departements as $departement) {
-                                $query->orWhere('zip', 'LIKE', $departement.'%');
+                                $query->orWhere('zip', 'LIKE', $departement . '%');
                             }
                         }
                     );
@@ -218,7 +222,7 @@ class Profile extends Model implements HasMedia
                 ->orWhere('zip', 'LIKE', '206%');
         }
 
-        return $query->where('zip', 'LIKE', $value.'%');
+        return $query->where('zip', 'LIKE', $value . '%');
     }
 
     public function scopeOfDomaine($query, $domain_id)
@@ -247,9 +251,9 @@ class Profile extends Model implements HasMedia
         return $this->hasMany('App\Models\Mission', 'responsable_id');
     }
 
-    public function missionsInactive()
+    public function missionsOffline()
     {
-        return $this->hasMany('App\Models\Mission', 'responsable_id')->where('is_active', false);
+        return $this->hasMany('App\Models\Mission', 'responsable_id')->where('is_online', false);
     }
 
     // Todo : supprimer cette fonction après migration des rôles

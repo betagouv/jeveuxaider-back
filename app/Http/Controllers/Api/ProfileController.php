@@ -119,7 +119,7 @@ class ProfileController extends Controller
     {
         $profile = Profile::where('email', 'ILIKE', request('email'))->first();
 
-        if (! $profile) {
+        if (!$profile) {
             return null;
         }
 
@@ -153,9 +153,9 @@ class ProfileController extends Controller
         $currentUserId = Auth::guard('api')->user()->id;
         $currentUser = User::find($currentUserId);
 
-        if ($request->input('is_active')) {
-            $missionIds = Mission::ofResponsable($profile->id)->where('is_active', false)->get()->pluck('id');
-            Mission::whereIn('id', $missionIds)->update(['is_active' => true]);
+        if ($request->input('is_online')) {
+            $missionIds = Mission::ofResponsable($profile->id)->where('is_online', false)->get()->pluck('id');
+            Mission::whereIn('id', $missionIds)->update(['is_online' => true]);
 
             $batch = Bus::batch(
                 $missionIds->map(fn ($id) => new MissionSetSearchable($id))
@@ -176,7 +176,7 @@ class ProfileController extends Controller
             return $batch->id;
         } else {
             $missionIds = Mission::ofResponsable($profile->id)->available()->get()->pluck('id');
-            Mission::whereIn('id', $missionIds)->update(['is_active' => false]);
+            Mission::whereIn('id', $missionIds)->update(['is_online' => false]);
             Mission::whereIn('id', $missionIds)->unsearchable();
             $profile->notify(new ResponsableMissionsDeactivated());
             activity()

@@ -50,7 +50,7 @@ class Mission extends Model
         'dates' => 'json',
         'prerequisites' => 'array',
         'is_registration_open' => 'boolean',
-        'is_active' => 'boolean',
+        'is_online' => 'boolean',
     ];
 
     protected $attributes = [
@@ -77,7 +77,7 @@ class Mission extends Model
             return false;
         }
         // Attention  bien mettre à jour la query côté API Engagement aussi ( Api\EngagementController@feed )
-        return $this->structure->state == 'Validée' && $this->state == 'Validée' && $this->is_active ? true : false;
+        return $this->structure->state == 'Validée' && $this->state == 'Validée' && $this->is_online ? true : false;
     }
 
     public function searchableAs()
@@ -107,9 +107,9 @@ class Mission extends Model
             $domainesCollection = collect([$this->domaine, $this->domaineSecondary]);
             $activities = collect([$this->activity, $this->activitySecondary]);
         }
-        $domaines = $domainesCollection->filter()->map(fn ($domaine) => ['id' => $domaine->id, 'name'=> $domaine->name]);
+        $domaines = $domainesCollection->filter()->map(fn ($domaine) => ['id' => $domaine->id, 'name' => $domaine->name]);
         $domaineNames = $domainesCollection->filter()->map(fn ($domaine) => $domaine->name);
-        $activities = $activities->filter()->map(fn ($activity) => ['id' => $activity->id, 'name'=> $activity->name]);
+        $activities = $activities->filter()->map(fn ($activity) => ['id' => $activity->id, 'name' => $activity->name]);
         $publicsBeneficiaires = config('taxonomies.mission_publics_beneficiaires.terms');
 
         if ($this->end_date) {
@@ -354,7 +354,7 @@ class Mission extends Model
     {
         return $query
             ->where('missions.state', 'Validée')
-            ->where('missions.is_active', true)
+            ->where('missions.is_online', true)
             ->where('missions.is_registration_open', true)
             ->whereHas('structure', function (Builder $query) {
                 $query->where('structures.state', 'Validée');
@@ -687,8 +687,8 @@ class Mission extends Model
             $domaines = collect([$this->domaine, $this->domaineSecondary]);
             $activities = collect([$this->activity, $this->activitySecondary]);
         }
-        $domaines = $domaines->filter()->map(fn ($domaine) => ['id' => $domaine->id, 'name'=>$domaine->name]);
-        $activities = $activities->filter()->map(fn ($activity) => ['id' => $activity->id, 'name'=>$activity->name]);
+        $domaines = $domaines->filter()->map(fn ($domaine) => ['id' => $domaine->id, 'name' => $domaine->name]);
+        $activities = $activities->filter()->map(fn ($activity) => ['id' => $activity->id, 'name' => $activity->name]);
 
         return [
             'id' => $this->id,
@@ -749,7 +749,7 @@ class Mission extends Model
 
     public function setStartDateAttribute($value)
     {
-        if(!$value){
+        if(!$value) {
             $this->attributes['start_date'] = null;
         } else {
             $this->attributes['start_date'] = \Carbon\Carbon::parse($value)
@@ -760,7 +760,7 @@ class Mission extends Model
 
     public function setEndDateAttribute($value)
     {
-        if(!$value){
+        if(!$value) {
             $this->attributes['end_date'] = null;
         } else {
             $this->attributes['end_date'] = \Carbon\Carbon::parse($value)

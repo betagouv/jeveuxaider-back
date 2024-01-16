@@ -91,7 +91,7 @@ class MissionsExport implements FromQuery, WithMapping, WithHeadings, WithEvents
                 AllowedFilter::exact('is_autonomy'),
                 AllowedFilter::custom('tags', new FiltersTags()),
                 AllowedFilter::custom('no_tags', new FiltersDoesntHaveTags()),
-                AllowedFilter::exact('is_active'),
+                AllowedFilter::exact('is_online'),
                 AllowedFilter::scope('ofResponsable'),
             ])
             ->defaultSort('-created_at')
