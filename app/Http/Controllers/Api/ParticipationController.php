@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Filters\FiltersParticipationNeedToBeTreated;
 use App\Filters\FiltersParticipationSearch;
+use App\Filters\FiltersTags;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\ParticipationCancelRequest;
 use App\Http\Requests\Api\ParticipationCreateRequest;
@@ -12,7 +13,6 @@ use App\Http\Requests\Api\ParticipationUpdateRequest;
 use App\Models\Mission;
 use App\Models\Participation;
 use App\Models\Profile;
-use App\Models\Structure;
 use App\Models\StructureTag;
 use App\Models\Temoignage;
 use App\Models\User;
@@ -46,6 +46,7 @@ class ParticipationController extends Controller
                 AllowedFilter::scope('ofDomaine'),
                 AllowedFilter::scope('ofResponsable'),
                 AllowedFilter::exact('state'),
+                AllowedFilter::custom('tags', new FiltersTags()),
                 AllowedFilter::exact('mission.zip'),
                 AllowedFilter::exact('mission.type'),
                 AllowedFilter::exact('id'),
