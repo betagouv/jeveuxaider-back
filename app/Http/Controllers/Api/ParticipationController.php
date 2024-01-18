@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\Auth;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filters\FiltersParticipationMissionZip;
 
 class ParticipationController extends Controller
 {
@@ -47,7 +48,7 @@ class ParticipationController extends Controller
                 AllowedFilter::scope('ofResponsable'),
                 AllowedFilter::exact('state'),
                 AllowedFilter::custom('tags', new FiltersTags()),
-                AllowedFilter::exact('mission.zip'),
+                AllowedFilter::custom('mission.zip', new FiltersParticipationMissionZip()),
                 AllowedFilter::exact('mission.type'),
                 AllowedFilter::exact('id'),
                 AllowedFilter::callback('is_state_pending', function (Builder $query, $value) {
