@@ -93,7 +93,7 @@ class MissionRequest extends FormRequest
                 'requiredIf:type,Mission en présentiel',
                 function ($attribute, $department, $fail) {
                     $datas = $this->validator->getData();
-                    if (empty($datas['is_autonomy']) && !empty($datas['zip'])) {
+                    if ((!isset($datas['is_autonomy']) || empty($datas['is_autonomy'])) && !empty($datas['zip'])) {
                         $zip = str_replace(' ', '', $datas['zip']);
 
                         if (substr($zip, 0, strlen($department)) != $department) {
