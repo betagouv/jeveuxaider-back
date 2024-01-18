@@ -93,7 +93,7 @@ class MissionRequest extends FormRequest
                 'requiredIf:type,Mission en présentiel',
                 function ($attribute, $department, $fail) {
                     $datas = $this->validator->getData();
-                    if ((!isset($datas['is_autonomy']) || empty($datas['is_autonomy'])) && !empty($datas['zip'])) {
+                    if (empty($datas['is_autonomy']) && !empty($datas['zip'])) {
                         $zip = str_replace(' ', '', $datas['zip']);
 
                         if (substr($zip, 0, strlen($department)) != $department) {
@@ -176,7 +176,7 @@ class MissionRequest extends FormRequest
                 'required_if:is_autonomy,true',
                 function ($attribute, $autonomy_zips, $fail) {
                     $datas = $this->validator->getData();
-                    if ($datas['is_autonomy'] && !empty($autonomy_zips) && !empty($datas['department'])) {
+                    if (!empty($datas['is_autonomy']) && !empty($autonomy_zips) && !empty($datas['department'])) {
                         $department = $datas['department'];
                         foreach ($autonomy_zips as $item) {
                             if (substr($item['zip'], 0, strlen($department)) != $department) {
