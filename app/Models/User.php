@@ -240,7 +240,7 @@ class User extends Authenticatable
                     ->count(),
                 'participations_need_to_be_treated_count' => Participation::ofResponsable($this->profile->id)->needToBeTreated()
                     ->count(),
-                'missions_offline_count' => $this->profile->missionsOffline->count()
+                'missions_offline_count' => $this->profile->missionsValidatedAndOffline->count()
             ];
         }
 

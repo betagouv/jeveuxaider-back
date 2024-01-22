@@ -152,9 +152,8 @@ class ProfileController extends Controller
     {
         $currentUserId = Auth::guard('api')->user()->id;
         $currentUser = User::find($currentUserId);
-
         if ($request->input('is_online')) {
-            $missionIds = Mission::ofResponsable($profile->id)->where('is_online', false)->get()->pluck('id');
+            $missionIds = Profile::find($profile->id)->missionsValidatedAndOffline()->get()->pluck('id');
             Mission::whereIn('id', $missionIds)->update(['is_online' => true]);
 
             $batch = Bus::batch(
@@ -175,7 +174,7 @@ class ProfileController extends Controller
 
             return $batch->id;
         } else {
-            $missionIds = Mission::ofResponsable($profile->id)->available()->get()->pluck('id');
+            $missionIds = Mission::ofResponsable($profile->id)->where('is_online', true)->where('state', 'Validée')->get()->pluck('id');
             Mission::whereIn('id', $missionIds)->update(['is_online' => false]);
             Mission::whereIn('id', $missionIds)->unsearchable();
             $profile->notify(new ResponsableMissionsDeactivated());

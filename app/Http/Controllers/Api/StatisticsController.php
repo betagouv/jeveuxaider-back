@@ -141,7 +141,7 @@ class StatisticsController extends Controller
     {
         return [
             'missions_available' => $profile->missions()->available()->count(),
-            'missions_offline' => $profile->missionsOffline()->count(),
+            'missions_offline' => $profile->missionsValidatedAndOffline()->count(),
         ];
     }
 }

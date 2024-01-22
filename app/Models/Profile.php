@@ -251,9 +251,11 @@ class Profile extends Model implements HasMedia
         return $this->hasMany('App\Models\Mission', 'responsable_id');
     }
 
-    public function missionsOffline()
+    public function missionsValidatedAndOffline()
     {
-        return $this->hasMany('App\Models\Mission', 'responsable_id')->where('is_online', false);
+        return $this->hasMany('App\Models\Mission', 'responsable_id')
+            ->where('is_online', false)
+            ->where('state', 'Validée');
     }
 
     // Todo : supprimer cette fonction après migration des rôles
