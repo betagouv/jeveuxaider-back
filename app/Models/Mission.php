@@ -93,12 +93,12 @@ class Mission extends Model
 
     public function makeAllSearchableUsing(Builder $query)
     {
-        return $query->with(['structure', 'structure.reseaux:id,name', 'activity', 'template.activity', 'template.domaine', 'template.domaineSecondary', 'template.photo', 'illustrations', 'domaine', 'domaineSecondary', 'tags', 'structure.score', 'activitySecondary', 'template.activitySecondary']);
+        return $query->with(['structure','structure.logo', 'structure.reseaux:id,name', 'activity', 'template.activity', 'template.domaine', 'template.domaineSecondary', 'template.photo', 'illustrations', 'domaine', 'domaineSecondary', 'tags', 'structure.score', 'activitySecondary', 'template.activitySecondary']);
     }
 
     public function toSearchableArray()
     {
-        $this->load(['structure', 'structure.reseaux:id,name', 'activity', 'template.activity', 'template.domaine', 'template.domaineSecondary', 'template.photo', 'illustrations', 'domaine', 'domaineSecondary', 'tags', 'structure.score', 'activitySecondary', 'template.activitySecondary']);
+        $this->load(['structure', 'structure.logo', 'structure.reseaux:id,name', 'activity', 'template.activity', 'template.domaine', 'template.domaineSecondary', 'template.photo', 'illustrations', 'domaine', 'domaineSecondary', 'tags', 'structure.score', 'activitySecondary', 'template.activitySecondary']);
 
 
         if ($this->template) {
@@ -136,6 +136,7 @@ class Mission extends Model
                 'response_time' => $this->structure->score->response_time,
                 'score' => $this->structure->score->total_points,
                 'response_ratio' => $this->structure->score->processed_participations_rate,
+                'logo' => $this->structure->logo,
                 'reseau' => $this->structure->reseau ? [
                     'id' => $this->structure->reseau->id,
                     'name' => $this->structure->reseau->name,
