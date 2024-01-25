@@ -184,7 +184,7 @@ class Mission extends Model
             'tags' => $this->tags->where('is_published', true)->pluck('name'),
             'is_registration_open' => $this->is_registration_open,
             'date_type' => $this->date_type,
-            'creneaux' => $this->dates ? collect($this->dates)->map(
+            'dates' => $this->dates ? collect($this->dates)->map(
                 function ($item) {
                     return array_merge($item, ['timestamp' => strtotime($item['date'])]);
                 }
