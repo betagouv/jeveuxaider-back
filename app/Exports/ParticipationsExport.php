@@ -14,7 +14,6 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
 use Maatwebsite\Excel\Concerns\RegistersEventListeners;
@@ -83,11 +82,6 @@ class ParticipationsExport implements FromQuery, WithMapping, WithHeadings, With
                 AllowedFilter::exact('mission.zip'),
                 AllowedFilter::exact('mission.type'),
                 AllowedFilter::exact('id'),
-                AllowedFilter::callback('is_state_pending', function (Builder $query, $value) {
-                    if($value === true) {
-                        $query->whereIn('state', ['En attente de validation', 'En cours de traitement']);
-                    }
-                })
             )
             ->defaultSort('-created_at');
     }
@@ -128,12 +122,12 @@ class ParticipationsExport implements FromQuery, WithMapping, WithHeadings, With
             $participation->mission ? $participation->mission->start_date : '',
             $participation->mission ? $participation->mission->end_date : '',
             $participation->profile_id,
-            $participation->profile && ! $hidden ? $participation->profile->first_name : '',
-            $participation->profile && ! $hidden ? $participation->profile->last_name : '',
-            $participation->profile && ! $hidden ? $participation->profile->mobile : '',
-            $participation->profile && ! $hidden ? $participation->profile->email : '',
-            $participation->profile && ! $hidden ? $participation->profile->zip : '',
-            $participation->profile && ! $hidden ? $participation->profile->birthday : '',
+            $participation->profile && !$hidden ? $participation->profile->first_name : '',
+            $participation->profile && !$hidden ? $participation->profile->last_name : '',
+            $participation->profile && !$hidden ? $participation->profile->mobile : '',
+            $participation->profile && !$hidden ? $participation->profile->email : '',
+            $participation->profile && !$hidden ? $participation->profile->zip : '',
+            $participation->profile && !$hidden ? $participation->profile->birthday : '',
             $participation->date,
             $participation->slots,
             $participation->created_at,

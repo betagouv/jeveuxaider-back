@@ -60,7 +60,7 @@ class MissionDeactivated extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $dashboardParticipationsUrl = $this->trackedUrl("/admin/participations?filter[mission.id]=" . $this->mission->id . "&context_name=" . $this->mission->name . "&filter[is_state_pending]=true");
+        $dashboardParticipationsUrl = $this->trackedUrl("/admin/participations?filter[mission.id]=" . $this->mission->id . "&context_name=" . $this->mission->name . "&filter[state]=En+cours+de+traitement,En+attente+de+validation");
 
         return (new MailMessage())
             ->subject('Votre mission a été désactivée')
