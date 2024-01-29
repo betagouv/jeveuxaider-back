@@ -34,6 +34,7 @@ class EngagementController extends Controller
 
         $missionsQueryBuilder = Mission::where('state', 'Validée')
             ->where('is_active', true)
+            ->where('is_registration_open', true)
             ->whereHas('structure', function (Builder $query) {
                 $query->where('state', 'Validée')
                       ->whereNotIn('id', [25, 7383, 5577]);
@@ -59,12 +60,12 @@ class EngagementController extends Controller
                 AllowedFilter::scope('ofActivity'),
                 AllowedFilter::scope('hasActivity'),
                 AllowedFilter::scope('hasTemplate'),
-                AllowedFilter::custom('place', new FiltersMissionPlacesLeft),
-                AllowedFilter::custom('date', new FiltersMissionDate),
-                AllowedFilter::custom('publics_volontaires', new FiltersMissionPublicsVolontaires),
-                AllowedFilter::custom('search', new FiltersMissionSearch),
+                AllowedFilter::custom('place', new FiltersMissionPlacesLeft()),
+                AllowedFilter::custom('date', new FiltersMissionDate()),
+                AllowedFilter::custom('publics_volontaires', new FiltersMissionPublicsVolontaires()),
+                AllowedFilter::custom('search', new FiltersMissionSearch()),
                 AllowedFilter::scope('available'),
-                AllowedFilter::custom('is_template', new FiltersMissionIsTemplate),
+                AllowedFilter::custom('is_template', new FiltersMissionIsTemplate()),
                 AllowedFilter::exact('is_autonomy'),
             ])
             ->defaultSort('-id')
@@ -107,7 +108,7 @@ class EngagementController extends Controller
                 AllowedFilter::exact('department'),
                 'state',
                 'statut_juridique',
-                AllowedFilter::custom('search', new FiltersStructureSearch),
+                AllowedFilter::custom('search', new FiltersStructureSearch()),
             ])
             ->defaultSort('-id')
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
