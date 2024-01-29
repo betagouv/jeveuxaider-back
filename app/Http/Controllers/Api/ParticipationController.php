@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Filters\FiltersParticipationNeedToBeTreated;
 use App\Filters\FiltersParticipationSearch;
+use App\Filters\FiltersTags;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\ParticipationCancelRequest;
 use App\Http\Requests\Api\ParticipationCreateRequest;
@@ -12,6 +13,7 @@ use App\Http\Requests\Api\ParticipationUpdateRequest;
 use App\Models\Mission;
 use App\Models\Participation;
 use App\Models\Profile;
+use App\Models\StructureTag;
 use App\Models\Temoignage;
 use App\Models\User;
 use App\Notifications\ParticipationBenevoleCanceled;
@@ -22,6 +24,7 @@ use Illuminate\Support\Facades\Auth;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filters\FiltersParticipationMissionZip;
 
 class ParticipationController extends Controller
 {
@@ -44,7 +47,8 @@ class ParticipationController extends Controller
                 AllowedFilter::scope('ofDomaine'),
                 AllowedFilter::scope('ofResponsable'),
                 AllowedFilter::exact('state'),
-                AllowedFilter::exact('mission.zip'),
+                AllowedFilter::custom('tags', new FiltersTags()),
+                AllowedFilter::custom('mission.zip', new FiltersParticipationMissionZip()),
                 AllowedFilter::exact('mission.type'),
                 AllowedFilter::exact('id'),
                 AllowedFilter::callback('is_state_pending', function (Builder $query, $value) {
@@ -58,6 +62,7 @@ class ParticipationController extends Controller
                 'profile.avatar',
                 'mission.responsable',
                 'mission.structure',
+                'tags'
             ])
             ->defaultSort('-created_at')
             ->paginate(config('query-builder.results_per_page'));
@@ -65,7 +70,18 @@ class ParticipationController extends Controller
 
     public function show(Request $request, Participation $participation)
     {
-        $participation = $participation->load(['mission', 'profile', 'conversation', 'conversation.latestMessage', 'mission.responsable', 'mission.responsable.user', 'profile.skills', 'profile.domaines', 'profile.avatar']);
+        $participation->load([
+            'mission',
+            'profile',
+            'conversation',
+            'conversation.latestMessage',
+            'mission.responsable',
+            'mission.responsable.user',
+            'profile.skills',
+            'profile.domaines',
+            'profile.avatar',
+            'tags'
+        ]);
 
         return $participation;
     }
@@ -246,5 +262,23 @@ class ParticipationController extends Controller
         return [
             'temoignage' => Temoignage::where('participation_id', $participation->id)->first()
         ];
+    }
+
+    public function attachStructureTag(Request $request, Participation $participation, StructureTag $structureTag)
+    {
+        $this->authorize('attachStructureTag', [$participation, $structureTag]);
+
+        $participation->tags()->attach($structureTag);
+
+        return $participation->load('tags');
+    }
+
+    public function detachStructureTag(Request $request, Participation $participation, StructureTag $structureTag)
+    {
+        $this->authorize('detachStructureTag', [$participation, $structureTag]);
+
+        $participation->tags()->detach($structureTag);
+
+        return $participation->load('tags');
     }
 }

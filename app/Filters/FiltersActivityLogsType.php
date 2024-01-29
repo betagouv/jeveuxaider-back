@@ -26,6 +26,9 @@ class FiltersActivityLogsType implements Filter
                 case 'rules':
                     $query->where('subject_type', 'App\Models\Rule');
                     break;
+                case 'tags':
+                    $query->where('subject_type', 'App\Models\StructureTag');
+                    break;
             }
         });
     }

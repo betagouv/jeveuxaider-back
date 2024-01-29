@@ -116,6 +116,11 @@ Route::group(['middleware' => ['auth:api', 'is.not.banned']], function () {
     Route::post('structures/{structure}/ask-to-unregister', 'Api\StructureController@askToUnregister');
     Route::get('structures/{structure}/responsables', 'Api\StructureController@responsables');
 
+    Route::get('structures/{structure}/tags', 'Api\StructureTagController@index');
+    Route::post('structures/{structure}/tags', 'Api\StructureTagController@store');
+    Route::put('structures/{structure}/tags/{structureTag}', 'Api\StructureTagController@update');
+    Route::delete('structures/{structure}/tags/{structureTag}', 'Api\StructureTagController@delete');
+
     // Route::post('structures/{structure}/waiting-participations', 'Api\StructureController@waitingParticipations'); Plus utilisé ?
     Route::post('structures/{structure}/validate-waiting-participations', 'Api\StructureController@validateWaitingParticipations');
 
@@ -178,6 +183,8 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::get('participations/{participation}', 'Api\ParticipationController@show');
     Route::put('participations/{participation}', 'Api\ParticipationController@update');
     Route::put('participations/{participation}/decline', 'Api\ParticipationController@decline');
+    Route::post('participations/{participation}/tags/{structureTag}/attach', 'Api\ParticipationController@attachStructureTag');
+    Route::post('participations/{participation}/tags/{structureTag}/detach', 'Api\ParticipationController@detachStructureTag');
 
     // NOTIFICATIONS BENEVOLES
     Route::get('notifications-benevoles', 'Api\NotificationBenevoleController@index');

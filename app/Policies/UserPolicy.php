@@ -67,12 +67,15 @@ class UserPolicy
 
     public function exportParticipations(User $user)
     {
-
         if (request()->header('Context-Role') === 'tete_de_reseau' && $user->hasRole('tete_de_reseau')) {
             return true;
         }
 
         if (request()->header('Context-Role') === 'responsable' && $user->hasRole('responsable')) {
+            return true;
+        }
+
+        if (request()->header('Context-Role') === 'referent' && $user->hasRole('referent') && $user->profile->can_export_profiles) {
             return true;
         }
 

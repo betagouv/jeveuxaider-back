@@ -60,6 +60,11 @@ class Participation extends Model
         return $this->morphOne('App\Models\Conversation', 'conversable');
     }
 
+    public function tags()
+    {
+        return $this->morphToMany(StructureTag::class, 'taggable', 'structures_taggables');
+    }
+
     public function scopeRole($query, $contextRole)
     {
         switch ($contextRole) {
