@@ -190,7 +190,7 @@ class Mission extends Model
                 }
             )->all() : null,
             'has_end_date' => !!$this->end_date,
-            'end_date_no_creneaux' => $this->dates ? null : $this->end_date
+            'end_date_no_creneaux' => $this->dates ? null : strtotime($this->end_date)
         ];
 
         if ($this->is_autonomy) {
