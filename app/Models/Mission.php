@@ -108,9 +108,9 @@ class Mission extends Model
             $domainesCollection = collect([$this->domaine, $this->domaineSecondary]);
             $activities = collect([$this->activity, $this->activitySecondary]);
         }
-        $domaines = $domainesCollection->filter()->map(fn ($domaine) => ['id' => $domaine->id, 'name'=> $domaine->name]);
+        $domaines = $domainesCollection->filter()->map(fn ($domaine) => ['id' => $domaine->id, 'name' => $domaine->name]);
         $domaineNames = $domainesCollection->filter()->map(fn ($domaine) => $domaine->name);
-        $activities = $activities->filter()->map(fn ($activity) => ['id' => $activity->id, 'name'=> $activity->name]);
+        $activities = $activities->filter()->map(fn ($activity) => ['id' => $activity->id, 'name' => $activity->name]);
         $publicsBeneficiaires = config('taxonomies.mission_publics_beneficiaires.terms');
 
         if ($this->end_date) {
@@ -190,7 +190,7 @@ class Mission extends Model
                 }
             )->all() : null,
             'has_end_date' => !!$this->end_date,
-            'has_creneaux' => !!$this->dates
+            'end_date_no_creneaux' => $this->dates ? null : $this->end_date
         ];
 
         if ($this->is_autonomy) {
@@ -698,8 +698,8 @@ class Mission extends Model
             $domaines = collect([$this->domaine, $this->domaineSecondary]);
             $activities = collect([$this->activity, $this->activitySecondary]);
         }
-        $domaines = $domaines->filter()->map(fn ($domaine) => ['id' => $domaine->id, 'name'=>$domaine->name]);
-        $activities = $activities->filter()->map(fn ($activity) => ['id' => $activity->id, 'name'=>$activity->name]);
+        $domaines = $domaines->filter()->map(fn ($domaine) => ['id' => $domaine->id, 'name' => $domaine->name]);
+        $activities = $activities->filter()->map(fn ($activity) => ['id' => $activity->id, 'name' => $activity->name]);
 
         return [
             'id' => $this->id,
@@ -760,7 +760,7 @@ class Mission extends Model
 
     public function setStartDateAttribute($value)
     {
-        if(!$value){
+        if(!$value) {
             $this->attributes['start_date'] = null;
         } else {
             $this->attributes['start_date'] = \Carbon\Carbon::parse($value)
@@ -771,7 +771,7 @@ class Mission extends Model
 
     public function setEndDateAttribute($value)
     {
-        if(!$value){
+        if(!$value) {
             $this->attributes['end_date'] = null;
         } else {
             $this->attributes['end_date'] = \Carbon\Carbon::parse($value)
