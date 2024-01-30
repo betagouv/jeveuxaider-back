@@ -113,8 +113,8 @@ class ParticipationController extends Controller
             abort(422, 'Désolé, les inscriptions à cette mission sont fermées !');
         }
 
-        if (!$mission->is_active) {
-            abort(422, 'Désolé, cette mission est désactivée !');
+        if (!$mission->is_online) {
+            abort(422, 'Désolé, cette mission est hors ligne !');
         }
 
         if ($mission && $mission->has_places_left) {

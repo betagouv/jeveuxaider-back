@@ -21,10 +21,10 @@ class Airtable
             )
             ->withToken(config('services.airtable.key'))
             ->withOptions($options)
-            ->$method('https://api.airtable.com/v0/'.config('services.airtable.base').$path);
+            ->$method('https://api.airtable.com/v0/' . config('services.airtable.base') . $path);
 
-            if (! $response->successful()) {
-                throw new \Exception('Invalid response from Airtable ('.$response->status().') : '.$response->body());
+            if (!$response->successful()) {
+                throw new \Exception('Invalid response from Airtable (' . $response->status() . ') : ' . $response->body());
             }
 
             return $response;
@@ -53,7 +53,7 @@ class Airtable
     {
         $fields = self::formatUserAttributes($user);
 
-        if (! $user->hasRole(['referent', 'referent_regional'])) {
+        if (!$user->hasRole(['referent', 'referent_regional'])) {
             return self::deleteObject('user', $user);
         }
 
@@ -71,7 +71,7 @@ class Airtable
         if ($objectAirtableId) {
             return self::api(
                 'delete',
-                self::getAirtablePath($type).'/'.$objectAirtableId,
+                self::getAirtablePath($type) . '/' . $objectAirtableId,
             );
         }
     }
@@ -80,7 +80,7 @@ class Airtable
     {
         $objectAirtableId = self::getAirtableId($type, $fields['Id']);
 
-        if (! $objectAirtableId) {
+        if (!$objectAirtableId) {
             return self::createObject($type, $fields);
         } else {
             return self::updateObject($type, $objectAirtableId, $fields);
@@ -90,10 +90,12 @@ class Airtable
     private static function getAirtableId($type, int $id)
     {
         $recordsAirtable = Http::withToken(config('services.airtable.key'))
-            ->get('https://api.airtable.com/v0/'.config('services.airtable.base').self::getAirtablePath($type),
-            [
-                'filterByFormula' => '{Id} = '.$id,
-            ]);
+            ->get(
+                'https://api.airtable.com/v0/' . config('services.airtable.base') . self::getAirtablePath($type),
+                [
+                    'filterByFormula' => '{Id} = ' . $id,
+                ]
+            );
 
         return count($recordsAirtable['records']) > 0 ? $recordsAirtable['records'][0]['id'] : false;
     }
@@ -115,7 +117,7 @@ class Airtable
     {
         return self::api(
             'patch',
-            self::getAirtablePath($type).'/'.$objectAirtableId,
+            self::getAirtablePath($type) . '/' . $objectAirtableId,
             [
                 'json' => [
                     'fields' => $fields,
@@ -132,7 +134,7 @@ class Airtable
             'Id' => $mission->id,
             'Title' => $mission->name,
             'Statut' => $mission->state,
-            'Mission active ?' => $mission->is_active,
+            'Mission en ligne ?' => $mission->is_online,
             'Code Postal' => $mission->zip,
             'Département' => $mission->department,
             'Adresse' => $mission->address,
@@ -149,7 +151,7 @@ class Airtable
             'Modèle de mission Id' => $mission->template ? $mission->template->id : null,
             'Activité Id' => $activity ? $activity->id : null,
             'Activité Titre' => $activity ? $activity->name : null,
-            'URL' => config('app.front_url').$mission->full_url,
+            'URL' => config('app.front_url') . $mission->full_url,
             'Description' => $mission->objectif,
             'Précision' => $mission->description,
             'Quelques mots' => $mission->information,
@@ -181,7 +183,7 @@ class Airtable
             'Temps de réponse' => $structure->score ? $structure->score->response_time / (60 * 60 * 24) : 0,
             'Score de réactivité' => $structure->score ? $structure->score->total_points : 50,
             'Missions en ligne' => $structure->missions()->available()->count(),
-            'URL' => config('app.front_url').$structure->full_url,
+            'URL' => config('app.front_url') . $structure->full_url,
             'Crée le' => Carbon::create($structure->created_at)->format('m-d-Y'),
             'Modifiée le' => Carbon::create($structure->updated_at)->format('m-d-Y'),
         ];
@@ -216,7 +218,7 @@ class Airtable
             'Département' => $referentDepartments->first(),
             'Région' => $referentRegions->first(),
             'Rôle' => $roles,
-            'URL' => config('app.front_url').'/admin/utilisateurs/'.$user->profile->id,
+            'URL' => config('app.front_url') . '/admin/utilisateurs/' . $user->profile->id,
             'Tag' => $user->profile->tags->count() > 0 ? $user->profile->tags->first()['name'] : null,
             'Crée le' => Carbon::create($user->profile->created_at)->format('m-d-Y'),
             'Modifié le' => Carbon::create($user->profile->updated_at)->format('m-d-Y'),

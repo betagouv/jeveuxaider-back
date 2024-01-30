@@ -52,8 +52,8 @@ class ApiEngagementExportMissions extends Command
                     ->whereNotIn('id', $structuresNotInApi);
             })
             ->where('state', 'Validée')
-            ->where('is_active', true)
             ->where('is_registration_open', true)
+            ->where('is_online', true)
             ->where('places_left', '>', 0)
             ->get();
 
