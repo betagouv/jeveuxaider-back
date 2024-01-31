@@ -134,7 +134,7 @@ class Airtable
             'Id' => $mission->id,
             'Title' => $mission->name,
             'Statut' => $mission->state,
-            'Mission en ligne' => $mission->is_online,
+            'En ligne' => $mission->is_online,
             'Code Postal' => $mission->zip,
             'Département' => $mission->department,
             'Adresse' => $mission->address,
