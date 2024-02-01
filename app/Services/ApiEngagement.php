@@ -443,8 +443,8 @@ class ApiEngagement
             ],
             'post_date' => strtotime($mission['postedAt']),
             'description' => $mission['description'],
-            'start_date' => $mission['startAt'] ?? null,
-            'end_date' => $mission['endAt'] ?? null,
+            'start_date' => $mission['startAt'] ? strtotime($mission['startAt']) : null,
+            'end_date' => $mission['endAt'] ? strtotime($mission['endAt']) : null,
             'full_address' => $mission['address'] ?? null,
             'is_outdated' => isset($mission['endAt']) && $mission['endAt'] < Carbon::today() ? true : false, // Fallback to false for sorting purposes
             'is_registration_open' => true, // Fallback to true for sorting purposes
