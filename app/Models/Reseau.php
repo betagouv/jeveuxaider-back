@@ -77,12 +77,12 @@ class Reseau extends Model implements HasMedia
 
     public function missionsAvailable()
     {
-        return $this->hasManyDeep(Mission::class, ['reseau_structure', Structure::class])->where('missions.state', 'Validée')->where('missions.is_active', true);
+        return $this->hasManyDeep(Mission::class, ['reseau_structure', Structure::class])->where('missions.state', 'Validée')->where('missions.is_online', true);
     }
 
     public function participations()
     {
-        return $this->hasManyDeepFromRelations($this->missions(), (new Mission)->participations());
+        return $this->hasManyDeepFromRelations($this->missions(), (new Mission())->participations());
     }
 
     public function getStatisticsAttribute()

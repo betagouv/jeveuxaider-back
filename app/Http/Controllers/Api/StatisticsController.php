@@ -137,11 +137,11 @@ class StatisticsController extends Controller
         ];
     }
 
-    public function profiles (Request $request, Profile $profile)
+    public function profiles(Request $request, Profile $profile)
     {
         return [
             'missions_available' => $profile->missions()->available()->count(),
-            'missions_inactive' => $profile->missionsInactive()->count(),
+            'missions_offline' => $profile->missionsValidatedAndOffline()->count(),
         ];
     }
 }

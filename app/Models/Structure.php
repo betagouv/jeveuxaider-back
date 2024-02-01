@@ -299,7 +299,7 @@ class Structure extends Model implements HasMedia
 
     public function missionsAvailable()
     {
-        return $this->hasMany('App\Models\Mission')->where('state', 'Validée')->where('is_active', true);
+        return $this->hasMany('App\Models\Mission')->where('state', 'Validée')->where('is_online', true);
     }
 
     public function participations()
@@ -448,8 +448,8 @@ class Structure extends Model implements HasMedia
     {
         return Attribute::make(
             get: function () {
-                $activitiesThroughMissions = Mission::ofStructure($this->id)->where('state', 'Validée')->where('is_active', true)->whereHas('activity')->get()->map(fn ($mission) => $mission->activity_id)->toArray();
-                $activitiesThroughTemplates = Mission::ofStructure($this->id)->where('state', 'Validée')->where('is_active', true)->whereHas('template.activity')->get()->map(fn ($mission) => $mission->template->activity_id)->toArray();
+                $activitiesThroughMissions = Mission::ofStructure($this->id)->where('state', 'Validée')->where('is_online', true)->whereHas('activity')->get()->map(fn ($mission) => $mission->activity_id)->toArray();
+                $activitiesThroughTemplates = Mission::ofStructure($this->id)->where('state', 'Validée')->where('is_online', true)->whereHas('template.activity')->get()->map(fn ($mission) => $mission->template->activity_id)->toArray();
                 $activitiesMergedIds = array_unique(array_merge($activitiesThroughMissions, $activitiesThroughTemplates));
 
                 return Activity::whereIn('id', $activitiesMergedIds)->get();
@@ -629,8 +629,8 @@ class Structure extends Model implements HasMedia
     public function getStatisticsAttribute()
     {
         return [
-            'missions_available_presentiel_count' => $this->missionsAvailable()->where('type','Mission en présentiel')->count(),
-            'missions_available_distance_count' => $this->missionsAvailable()->where('type','Mission à distance')->count()
+            'missions_available_presentiel_count' => $this->missionsAvailable()->where('type', 'Mission en présentiel')->count(),
+            'missions_available_distance_count' => $this->missionsAvailable()->where('type', 'Mission à distance')->count()
         ];
     }
 }

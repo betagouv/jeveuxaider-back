@@ -50,7 +50,7 @@ class Mission extends Model
         'dates' => 'json',
         'prerequisites' => 'array',
         'is_registration_open' => 'boolean',
-        'is_active' => 'boolean',
+        'is_online' => 'boolean',
     ];
 
     protected $attributes = [
@@ -78,7 +78,7 @@ class Mission extends Model
         }
 
         // Attention  bien mettre à jour la query côté API Engagement aussi ( Api\EngagementController@feed )
-        return $this->structure->state == 'Validée' && $this->state == 'Validée' && $this->is_active ? true : false;
+        return $this->structure->state == 'Validée' && $this->state == 'Validée' && $this->is_online ? true : false;
     }
 
     public function searchableAs()
@@ -365,7 +365,7 @@ class Mission extends Model
     {
         return $query
             ->where('missions.state', 'Validée')
-            ->where('missions.is_active', true)
+            ->where('missions.is_online', true)
             ->where('missions.is_registration_open', true)
             ->whereHas('structure', function (Builder $query) {
                 $query->where('structures.state', 'Validée');
