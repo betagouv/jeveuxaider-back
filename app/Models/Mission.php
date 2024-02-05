@@ -189,6 +189,7 @@ class Mission extends Model
                     return array_merge($item, ['timestamp' => strtotime($item['date'])]);
                 }
             )->all() : null,
+            'has_creneaux' => !!$this->dates,
             'has_end_date' => !!$this->end_date,
             'end_date_no_creneaux' => $this->dates ? null : strtotime($this->end_date)
         ];
