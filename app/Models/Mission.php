@@ -171,6 +171,7 @@ class Mission extends Model
             'commitment__total' => $this->commitment__total,
             'commitment__time_period' => $this->commitment__time_period,
             'commitment__duration' => $this->commitment__duration,
+            'commitment' => $this->commitment,
             'publics_beneficiaires' => array_map(
                 function ($public) use ($publicsBeneficiaires) {
                     return $publicsBeneficiaires[$public];
@@ -677,6 +678,14 @@ class Mission extends Model
             get: fn ($value) => $this->template_id ?
                 strip_tags($this->template->description, '<p><b><strong><ul><ol><li><i>') :
                 strip_tags($value, '<p><b><strong><ul><ol><li><i>'),
+        );
+    }
+
+    public function getCommitmentAttribute()
+    {
+        return Utils::getCommitmentLabel(
+            $this->commitment__duration,
+            $this->commitment__time_period
         );
     }
 

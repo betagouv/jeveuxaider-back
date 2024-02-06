@@ -84,6 +84,36 @@ class Utils
         return $hours * $multiplier;
     }
 
+    public static function getCommitmentLabel($duration, $time_period = null)
+    {
+        if(!$time_period) {
+            switch ($duration) {
+                case '1_hour':
+                case '2_hours':
+                case 'half_day':
+                   return 'few_hours';
+                default:
+                    return 'few_days';
+            }
+        }
+
+        switch ($time_period) {
+            // No more day, only week and month
+            case 'week':
+                if($duration == '1_hour' || $duration == '2_hours' || $duration == 'half_day') {
+                    return 'few_hours_a_week';
+                }
+                return 'few_days_a_week';
+            case 'month':
+                if($duration == '1_hour' || $duration == '2_hours' || $duration == 'half_day') {
+                    return 'few_hours_a_month';
+                }
+                return 'few_days_a_month';
+        }
+
+        return null;
+    }
+
     public static function formatDate($date, $format = 'd F Y', $fromFormat = 'Y-m-d H:i:s')
     {
         return Carbon::createFromFormat($fromFormat, $date)->translatedFormat($format);
