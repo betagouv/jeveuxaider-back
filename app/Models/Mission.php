@@ -76,6 +76,7 @@ class Mission extends Model
         if (!$this->structure) {
             return false;
         }
+
         // Attention  bien mettre à jour la query côté API Engagement aussi ( Api\EngagementController@feed )
         return $this->structure->state == 'Validée' && $this->state == 'Validée' && $this->is_online ? true : false;
     }
@@ -92,12 +93,12 @@ class Mission extends Model
 
     public function makeAllSearchableUsing(Builder $query)
     {
-        return $query->with(['structure', 'structure.reseaux:id,name', 'activity', 'template.activity', 'template.domaine', 'template.domaineSecondary', 'template.photo', 'illustrations', 'domaine', 'domaineSecondary', 'tags', 'structure.score', 'activitySecondary', 'template.activitySecondary']);
+        return $query->with(['structure','structure.logo', 'structure.reseaux:id,name', 'activity', 'template.activity', 'template.domaine', 'template.domaineSecondary', 'template.photo', 'illustrations', 'domaine', 'domaineSecondary', 'tags', 'structure.score', 'activitySecondary', 'template.activitySecondary']);
     }
 
     public function toSearchableArray()
     {
-        $this->load(['structure', 'structure.reseaux:id,name', 'activity', 'template.activity', 'template.domaine', 'template.domaineSecondary', 'template.photo', 'illustrations', 'domaine', 'domaineSecondary', 'tags', 'structure.score', 'activitySecondary', 'template.activitySecondary']);
+        $this->load(['structure', 'structure.logo', 'structure.reseaux:id,name', 'activity', 'template.activity', 'template.domaine', 'template.domaineSecondary', 'template.photo', 'illustrations', 'domaine', 'domaineSecondary', 'tags', 'structure.score', 'activitySecondary', 'template.activitySecondary']);
 
 
         if ($this->template) {
@@ -135,6 +136,7 @@ class Mission extends Model
                 'response_time' => $this->structure->score->response_time,
                 'score' => $this->structure->score->total_points,
                 'response_ratio' => $this->structure->score->processed_participations_rate,
+                'logo' => $this->structure->logo,
                 'reseau' => $this->structure->reseau ? [
                     'id' => $this->structure->reseau->id,
                     'name' => $this->structure->reseau->name,
@@ -167,6 +169,9 @@ class Mission extends Model
             'is_snu_mig_compatible' => $this->is_snu_mig_compatible,
             'snu_mig_places' => $this->snu_mig_places,
             'commitment__total' => $this->commitment__total,
+            'commitment__time_period' => $this->commitment__time_period,
+            'commitment__duration' => $this->commitment__duration,
+            'commitment' => $this->commitment,
             'publics_beneficiaires' => array_map(
                 function ($public) use ($publicsBeneficiaires) {
                     return $publicsBeneficiaires[$public];
@@ -180,6 +185,14 @@ class Mission extends Model
             'tags' => $this->tags->where('is_published', true)->pluck('name'),
             'is_registration_open' => $this->is_registration_open,
             'date_type' => $this->date_type,
+            'dates' => $this->dates ? collect($this->dates)->map(
+                function ($item) {
+                    return array_merge($item, ['timestamp' => strtotime($item['date'])]);
+                }
+            )->all() : null,
+            'has_creneaux' => !!$this->dates,
+            'has_end_date' => !!$this->end_date,
+            'end_date_no_creneaux' => $this->dates ? null : strtotime($this->end_date)
         ];
 
         if ($this->is_autonomy) {
@@ -665,6 +678,14 @@ class Mission extends Model
             get: fn ($value) => $this->template_id ?
                 strip_tags($this->template->description, '<p><b><strong><ul><ol><li><i>') :
                 strip_tags($value, '<p><b><strong><ul><ol><li><i>'),
+        );
+    }
+
+    public function getCommitmentAttribute()
+    {
+        return Utils::getCommitmentLabel(
+            $this->commitment__duration,
+            $this->commitment__time_period
         );
     }
 
