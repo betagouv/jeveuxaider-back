@@ -133,7 +133,7 @@ class Territoire extends Model implements HasMedia
 
     public function responsables()
     {
-        return $this->morphToMany(User::class, 'rolable', 'rolables');
+        return $this->morphToMany(User::class, 'rolable', 'rolables')->withPivot('fonction');
     }
 
     public function invitations()
