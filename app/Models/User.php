@@ -104,6 +104,11 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\Message', 'from_id');
     }
 
+    public function archivedDatas()
+    {
+        return $this->hasOne('App\Models\UserArchivedDatas');
+    }
+
     public function conversations()
     {
         return $this->belongsToMany('App\Models\Conversation', 'conversations_users');
@@ -159,6 +164,35 @@ class User extends Authenticatable
         $this->profile->save();
 
         return $this;
+    }
+
+    public function archiveDatas()
+    {
+        $this->archived_at = Carbon::now();
+
+        $this->archivedDatas()->create([
+            'user_id' => $this->id,
+            'email' => $this->email,
+            'datas' => [
+                'first_name' => $this->profile->first_name,
+                'last_name' => $this->profile->last_name,
+                'birthday' => $this->profile->birthday,
+                'phone' => $this->profile->phone,
+                'mobile' => $this->profile->mobile,
+            ],
+        ]);
+
+        $this->save();
+
+        //$this->anonymize();
+    }
+
+    public function unarchiveDatas()
+    {
+        $this->archived_at = null;
+        $this->archivedDatas()->delete();
+
+        $this->save();
     }
 
     public function resetContextRole()

@@ -422,4 +422,18 @@ class UserController extends Controller
         $user = $user->unban();
         return $user;
     }
+
+    public function archive(Request $request, User $user)
+    {
+        $user->archiveDatas();
+
+        return $user;
+    }
+
+    public function unarchive(Request $request, User $user)
+    {
+        $user->unarchiveDatas();
+
+        return $user;
+    }
 }
