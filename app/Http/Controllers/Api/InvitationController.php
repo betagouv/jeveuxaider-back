@@ -18,22 +18,35 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
+use Illuminate\Database\Eloquent\Builder;
 
 class InvitationController extends Controller
 {
     public function index(Request $request)
     {
-        return QueryBuilder::for(Invitation::role($request->header('Context-Role')))
+        return QueryBuilder::for(Invitation::role($request->header('Context-Role'))->with('invitable'))
             ->allowedFilters(
                 'role',
-                AllowedFilter::scope('of_reseau'),
-                AllowedFilter::scope('of_reseau_and_role_antenne'),
-                AllowedFilter::scope('of_territoire'),
-                AllowedFilter::scope('of_structure'),
-                // AllowedFilter::custom('search', new FiltersInvitationSearch),
+                AllowedFilter::callback('reseau.id', function (Builder $query, $value) {
+                    $query->ofReseau($value);
+                }),
+                AllowedFilter::callback('structure.id', function (Builder $query, $value) {
+                    $query->ofStructure($value);
+                }),
+                AllowedFilter::callback('department', function (Builder $query, $value) {
+                    $query->where('properties->referent_departemental', $value);
+                }),
+                AllowedFilter::callback('search', function (Builder $query, $value) {
+                    $query->where('email', 'ilike', '%'.$value.'%');
+                }),
             )
             ->allowedIncludes('user.profile')
             ->defaultSort('-created_at')
+            ->allowedSorts([
+                'created_at',
+                'updated_at',
+                'last_sent_at',
+            ])
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
     }
 
