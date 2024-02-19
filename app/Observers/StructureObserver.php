@@ -150,7 +150,7 @@ class StructureObserver
                     });
 
                     if ($structure->missions) {
-                        foreach ($structure->missions->where('state', 'En attente de validation') as $mission) {
+                        foreach ($structure->missions->whereIn('state', ['En attente de validation', 'En cours de traitement']) as $mission) {
                             $mission->update(['state' => 'Annulée']);
                         }
 
