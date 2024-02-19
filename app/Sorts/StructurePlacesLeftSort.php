@@ -20,6 +20,7 @@ class StructurePlacesLeftSort implements Sort
             ->whereNull('missions.deleted_at')
             ->where('structures.state', 'Validée')
             ->where('missions.state', 'Validée')
+            ->where('missions.is_registration_open', true)
             ->groupBy('structures.id')
             ->orderBy('places_left', $direction);
     }
