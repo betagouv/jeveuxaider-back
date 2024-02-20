@@ -26,6 +26,7 @@
         "lcobucci/jwt": "^4.1",
         "league/flysystem-aws-s3-v3": "^3.0",
         "maatwebsite/excel": "^3.1",
+        "maize-tech/laravel-encryptable": "^3.2",
         "mockery/mockery": "^1.5",
         "predis/predis": "^2.2",
         "propaganistas/laravel-phone": "^5.0",

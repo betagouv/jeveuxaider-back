@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Maize\Encryptable\Encryptable;
 
 class UserArchivedDatas extends Model
 {
@@ -15,7 +16,8 @@ class UserArchivedDatas extends Model
     protected $hidden = [ ];
 
     protected $casts = [
-        'datas' => 'array',
+        'email' => Encryptable::class,
+        'datas' => Encryptable::class,
     ];
 
     public function user()

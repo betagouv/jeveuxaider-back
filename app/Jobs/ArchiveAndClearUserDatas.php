@@ -31,19 +31,19 @@ class ArchiveAndClearUserDatas implements ShouldQueue
     public function handle(): void
     {
 
-        $payload = JWT::encode([
+        $payload = [
             'email' => $this->user->email,
             'first_name' => $this->user->profile->first_name,
             'last_name' => $this->user->profile->last_name,
             'birthday' => $this->user->profile->birthday,
             'phone' => $this->user->profile->phone,
             'mobile' => $this->user->profile->mobile,
-        ], config('app.jwt_key'), 'HS256');
+        ];
 
         $this->user->archivedDatas()->create([
             'user_id' => $this->user->id,
-            'email' => Hash::make($this->user->email),
-            'datas' => $payload,
+            'email' => $this->user->email,
+            'datas' => serialize($payload),
         ]);
 
         $this->clearUserAttributes();
