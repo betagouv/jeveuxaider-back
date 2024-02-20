@@ -26,9 +26,6 @@ class EventServiceProvider extends ServiceProvider
         MessageSending::class => [
             MessageSendingListener::class,
         ],
-        UserArchivedDatas::class => [
-            UserCloseAccountListener::class,
-        ],
         // StructureUnsubscribed::class => [
         //     StructureDetachMembers::class,
         //     StructureCancelAndTerminateMissions::class,

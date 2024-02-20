@@ -170,29 +170,6 @@ class User extends Authenticatable
         return $this;
     }
 
-    public function archiveDatas()
-    {
-
-        $this->archived_at = Carbon::now();
-
-        $payload = JWT::encode([
-            'email' => $this->email,
-            'first_name' => $this->profile->first_name,
-            'last_name' => $this->profile->last_name,
-            'birthday' => $this->profile->birthday,
-            'phone' => $this->profile->phone,
-            'mobile' => $this->profile->mobile,
-        ], config('app.jwt_key'), 'HS256');
-
-        $this->archivedDatas()->create([
-            'user_id' => $this->id,
-            'email' => Hash::make($this->email),
-            'datas' => $payload,
-        ]);
-
-        $this->save();
-    }
-
     public function unarchiveDatas()
     {
         $this->archived_at = null;

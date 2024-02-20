@@ -7,6 +7,10 @@ use App\Filters\FiltersNotificationSearch;
 use App\Filters\FiltersParticipationBenevoleSearch;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\UserRolesRequest;
+use App\Jobs\ArchiveAndClearUserDatas;
+use App\Jobs\SendinblueDeleteUser;
+use App\Jobs\UnarchiveAndRestoreUserDatas;
+use App\Jobs\UserCancelWaitingParticipations;
 use App\Models\ActivityLog;
 use App\Models\Department;
 use App\Models\Mission;
@@ -27,6 +31,7 @@ use Laravel\Passport\Token;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Bus;
 
 class UserController extends Controller
 {
@@ -426,21 +431,15 @@ class UserController extends Controller
 
     public function archive(Request $request, User $user)
     {
-
         if ($user->archivedDatas) {
             abort(401, "Les données de l'utilisateur ne peuvent pas être archivées");
         }
 
-        // if user last interaction is more than 3 years ago, we can archive
-        // if ($user->last_interaction_at && $user->last_interaction_at->diffInYears(Carbon::now()) < 3) {
-        //     abort(401, "Les données de l'utilisateur ne peuvent pas être archivées");
-        // }
+        UserCancelWaitingParticipations::dispatch($user);
+        SendinblueDeleteUser::dispatch($user);
+        ArchiveAndClearUserDatas::dispatchSync($user);
 
-        $user->archiveDatas();
-
-        UserArchivedDatas::dispatch($user);
-
-        return $user;
+        return $user->fresh();
     }
 
     public function unarchive(Request $request, User $user)
@@ -449,8 +448,8 @@ class UserController extends Controller
             abort(401, "Les données de l'utilisateur ne sont pas archivées");
         }
 
-        $user->unarchiveDatas();
+        UnarchiveAndRestoreUserDatas::dispatchSync($user);
 
-        return $user;
+        return $user->fresh();
     }
 }
