@@ -21,7 +21,7 @@ return new class extends Migration
             $table->unsignedInteger('user_id')->unique();
             $table->foreign('user_id')->references('id')->on('users');
             $table->string('email');
-            $table->json('datas');
+            $table->text('datas');
             $table->timestamps();
         });
     }

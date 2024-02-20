@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Events\UserArchivedDatas;
 use App\Filters\FiltersNotificationSearch;
 use App\Filters\FiltersParticipationBenevoleSearch;
 use App\Http\Controllers\Controller;
@@ -425,13 +426,29 @@ class UserController extends Controller
 
     public function archive(Request $request, User $user)
     {
+
+        if ($user->archivedDatas) {
+            abort(401, "Les données de l'utilisateur ne peuvent pas être archivées");
+        }
+
+        // if user last interaction is more than 3 years ago, we can archive
+        // if ($user->last_interaction_at && $user->last_interaction_at->diffInYears(Carbon::now()) < 3) {
+        //     abort(401, "Les données de l'utilisateur ne peuvent pas être archivées");
+        // }
+
         $user->archiveDatas();
+
+        UserArchivedDatas::dispatch($user);
 
         return $user;
     }
 
     public function unarchive(Request $request, User $user)
     {
+        if (!$user->archivedDatas) {
+            abort(401, "Les données de l'utilisateur ne sont pas archivées");
+        }
+
         $user->unarchiveDatas();
 
         return $user;

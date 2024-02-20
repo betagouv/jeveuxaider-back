@@ -2,7 +2,10 @@
 
 namespace App\Providers;
 
+use App\Events\UserArchivedDatas;
+use App\Jobs\UserCancelWaitingParticipations;
 use App\Listeners\MessageSendingListener;
+use App\Listeners\UserCloseAccountListener;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -22,6 +25,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         MessageSending::class => [
             MessageSendingListener::class,
+        ],
+        UserArchivedDatas::class => [
+            UserCloseAccountListener::class,
         ],
         // StructureUnsubscribed::class => [
         //     StructureDetachMembers::class,

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\UserArchivedDatas;
 use App\Jobs\ParticipationDeclineWhenUserIsBanned;
 use App\Notifications\ParticipationDeclined;
 use App\Notifications\ResetPassword;
@@ -17,7 +18,10 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Hash;
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 class User extends Authenticatable
 {
     use HasApiTokens;
@@ -168,31 +172,48 @@ class User extends Authenticatable
 
     public function archiveDatas()
     {
+
         $this->archived_at = Carbon::now();
+
+        $payload = JWT::encode([
+            'email' => $this->email,
+            'first_name' => $this->profile->first_name,
+            'last_name' => $this->profile->last_name,
+            'birthday' => $this->profile->birthday,
+            'phone' => $this->profile->phone,
+            'mobile' => $this->profile->mobile,
+        ], config('app.jwt_key'), 'HS256');
 
         $this->archivedDatas()->create([
             'user_id' => $this->id,
-            'email' => $this->email,
-            'datas' => [
-                'first_name' => $this->profile->first_name,
-                'last_name' => $this->profile->last_name,
-                'birthday' => $this->profile->birthday,
-                'phone' => $this->profile->phone,
-                'mobile' => $this->profile->mobile,
-            ],
+            'email' => Hash::make($this->email),
+            'datas' => $payload,
         ]);
 
         $this->save();
-
-        //$this->anonymize();
     }
 
     public function unarchiveDatas()
     {
         $this->archived_at = null;
+
+        $payload = JWT::decode($this->archivedDatas->datas, new Key(config('app.jwt_key'), 'HS256'));
+
+        $this->anonymous_at =  null;
+        $this->name =  $payload->email;
+        $this->email = $payload->email;
+        $this->profile->email = $payload->email;
+        $this->profile->first_name = $payload->first_name;
+        $this->profile->last_name = $payload->last_name;
+        $this->profile->phone = $payload->phone;
+        $this->profile->mobile = $payload->mobile;
+        $this->profile->birthday = $payload->birthday;
+
+        $this->saveQuietly();
+        $this->profile->saveQuietly();
+
         $this->archivedDatas()->delete();
 
-        $this->save();
     }
 
     public function resetContextRole()
