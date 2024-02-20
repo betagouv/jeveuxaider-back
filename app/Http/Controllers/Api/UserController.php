@@ -10,6 +10,7 @@ use App\Http\Requests\Api\UserRolesRequest;
 use App\Jobs\ArchiveAndClearUserDatas;
 use App\Jobs\SendinblueDeleteUser;
 use App\Jobs\UnarchiveAndRestoreUserDatas;
+use App\Jobs\UnsubscribeAndAnonymizeUserDatas;
 use App\Jobs\UserCancelWaitingParticipations;
 use App\Models\ActivityLog;
 use App\Models\Department;
@@ -283,42 +284,16 @@ class UserController extends Controller
 
     public function anonymize(Request $request)
     {
-
         $user = $request->user();
-
-        // Annulation de ses participations en cours de modération
-        $user->profile->participations()->with(['conversation'])->whereIn('state', ['En attente de validation', 'En cours de traitement'])
-            ->each(function ($participation) use ($user) {
-                $participation->conversation->messages()->create([
-                    'from_id' => $user->id,
-                    'type' => 'contextual',
-                    'content' => 'La participation a été annulée',
-                    'contextual_state' => 'Désinscription',
-                    'contextual_reason' => 'user_unsubscribed',
-                ]);
-
-                activity()
-                    ->causedBy($user)
-                    ->performedOn($participation)
-                    ->withProperties([
-                        'attributes' => ['state' => 'Annulée'],
-                        'old' => ['state' => $participation->state]
-                    ])
-                    ->event('updated')
-                    ->log('updated');
-
-                $participation->state = 'Annulée';
-                $participation->saveQuietly();
-            });
 
         $notification = new UserAnonymize($user);
         $user->notify($notification);
-        if (config('services.sendinblue.sync')) {
-            Sendinblue::deleteContact($user);
-        }
-        $user->anonymize();
 
-        return $user;
+        UserCancelWaitingParticipations::dispatch($user, 'user_unsubscribed');
+        SendinblueDeleteUser::dispatch($user);
+        UnsubscribeAndAnonymizeUserDatas::dispatchSync($user);
+
+        return $user->fresh();
     }
 
     public function hasParticipation(Mission $mission, Request $request)
@@ -435,7 +410,7 @@ class UserController extends Controller
             abort(401, "Les données de l'utilisateur ne peuvent pas être archivées");
         }
 
-        UserCancelWaitingParticipations::dispatch($user);
+        UserCancelWaitingParticipations::dispatch($user, 'user_archived');
         SendinblueDeleteUser::dispatch($user);
         ArchiveAndClearUserDatas::dispatchSync($user);
 

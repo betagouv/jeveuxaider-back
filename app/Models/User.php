@@ -152,47 +152,6 @@ class User extends Authenticatable
         ]);
     }
 
-    public function anonymize()
-    {
-        $email = $this->id . '@anonymized.fr';
-        $this->anonymous_at = Carbon::now();
-        $this->name = $email;
-        $this->email = $email;
-        $this->profile->email = $email;
-        $this->profile->first_name = 'Anonyme';
-        $this->profile->last_name = 'Anonyme';
-        $this->profile->phone = null;
-        $this->profile->mobile = null;
-        $this->profile->birthday = null;
-        $this->save();
-        $this->profile->save();
-
-        return $this;
-    }
-
-    public function unarchiveDatas()
-    {
-        $this->archived_at = null;
-
-        $payload = JWT::decode($this->archivedDatas->datas, new Key(config('app.jwt_key'), 'HS256'));
-
-        $this->anonymous_at =  null;
-        $this->name =  $payload->email;
-        $this->email = $payload->email;
-        $this->profile->email = $payload->email;
-        $this->profile->first_name = $payload->first_name;
-        $this->profile->last_name = $payload->last_name;
-        $this->profile->phone = $payload->phone;
-        $this->profile->mobile = $payload->mobile;
-        $this->profile->birthday = $payload->birthday;
-
-        $this->saveQuietly();
-        $this->profile->saveQuietly();
-
-        $this->archivedDatas()->delete();
-
-    }
-
     public function resetContextRole()
     {
         if ($this->roles()->count() > 0) {

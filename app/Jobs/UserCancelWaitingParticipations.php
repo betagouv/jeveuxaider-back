@@ -16,7 +16,7 @@ class UserCancelWaitingParticipations implements ShouldQueue
     /**
      * Create a new job instance.
      */
-    public function __construct(public User $user)
+    public function __construct(public User $user, public string $reason = 'user_archived')
     {
 
     }
@@ -27,15 +27,16 @@ class UserCancelWaitingParticipations implements ShouldQueue
     public function handle(): void
     {
         $user = $this->user;
+        $reason = $this->reason;
 
         $user->profile->participations()->with(['conversation'])->whereIn('state', ['En attente de validation', 'En cours de traitement'])
-            ->each(function ($participation) use ($user) {
+            ->each(function ($participation) use ($user, $reason) {
                 $participation->conversation->messages()->create([
                     'from_id' => $user->id,
                     'type' => 'contextual',
                     'content' => 'La participation a été annulée',
-                    'contextual_state' => 'Désinscription',
-                    'contextual_reason' => 'user_unsubscribed',
+                    'contextual_state' => 'Annulée',
+                    'contextual_reason' => $reason,
                 ]);
 
                 activity()
