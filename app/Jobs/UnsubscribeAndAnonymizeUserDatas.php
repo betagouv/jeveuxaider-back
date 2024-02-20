@@ -42,7 +42,7 @@ class UnsubscribeAndAnonymizeUserDatas implements ShouldQueue
         $this->user->profile->mobile = null;
         $this->user->profile->birthday = null;
 
-        $this->user->save();
-        $this->user->profile->save();
+        $this->user->saveQuietly();
+        $this->user->profile->saveQuietly();
     }
 }
