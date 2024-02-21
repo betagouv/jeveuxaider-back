@@ -98,6 +98,10 @@ class StructureObserver
                     if ($responsable) {
                         $responsable->notify(new StructureBeingProcessed($structure));
                     }
+                    Mission::where('structure_id', $structure->id)->update(['is_online' => false]);
+                    break;
+                case 'En attente de validation':
+                    Mission::where('structure_id', $structure->id)->update(['is_online' => false]);
                     break;
                 case 'Validée':
                     if ($responsable) {
@@ -110,8 +114,9 @@ class StructureObserver
                     }
                     // Validate all missions linked to a template
                     $structure->missions()->whereNotNull('template_id')->where('state', 'En attente de validation')->get()->map(function ($mission) {
-                        $mission->update(['state' => 'Validée']);
+                        $mission->update(['state' => 'Validée', 'is_online' => true]);
                     });
+                    Mission::where('structure_id', $structure->id)->where('state', 'Validée')->update(['is_online' => true]);
                     break;
                 case 'Signalée':
                     if ($responsable) {
@@ -131,6 +136,7 @@ class StructureObserver
                             ]);
                         }
                     }
+                    Mission::where('structure_id', $structure->id)->update(['is_online' => false]);
                     break;
                 case 'Désinscrite':
                     $members = $structure->members;
@@ -144,7 +150,7 @@ class StructureObserver
                     });
 
                     if ($structure->missions) {
-                        foreach ($structure->missions->where('state', 'En attente de validation') as $mission) {
+                        foreach ($structure->missions->whereIn('state', ['En attente de validation', 'En cours de traitement']) as $mission) {
                             $mission->update(['state' => 'Annulée']);
                         }
 
@@ -162,12 +168,13 @@ class StructureObserver
                                 $mission->update(['state' => 'Annulée']);
                             });
                     }
+                    Mission::where('structure_id', $structure->id)->update(['is_online' => false]);
                     break;
             }
 
             // ALGOLIA - Missions reliées
             if ($newState == 'Validée') {
-                $structure->missions->where('state', 'Validée')->where('is_active', true)->searchable();
+                $structure->missions->where('state', 'Validée')->where('is_online', true)->searchable();
             } else {
                 $structure->missions->unsearchable();
             }

@@ -240,7 +240,7 @@ class User extends Authenticatable
                     ->count(),
                 'participations_need_to_be_treated_count' => Participation::ofResponsable($this->profile->id)->needToBeTreated()
                     ->count(),
-                'missions_inactive_count' => $this->profile->missionsInactive->count()
+                'missions_offline_count' => $this->profile->missionsValidatedAndOffline->count()
             ];
         }
 
@@ -352,7 +352,7 @@ class User extends Authenticatable
 
     public function canSwitchToRole($role)
     {
-        if (! $this->roles()->pluck('name')->contains($role['context_role'])) {
+        if (!$this->roles()->pluck('name')->contains($role['context_role'])) {
             return false;
         }
 

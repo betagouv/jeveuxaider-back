@@ -50,6 +50,7 @@ use App\Notifications\ParticipationShouldBeDone;
 use App\Notifications\ParticipationValidated;
 use App\Notifications\ParticipationValidatedCejAdviser;
 use App\Notifications\ParticipationWaitingValidation;
+use App\Notifications\ParticipationWillStart;
 use App\Notifications\ReferentDailyTodo;
 use App\Notifications\ReferentSummaryDaily;
 use App\Notifications\ReferentSummaryMonthly;
@@ -128,6 +129,7 @@ class NotificationController extends Controller
             case 'referent_organisation_created':
             case 'structure_switch_responsable':
             case 'benevole_participation_should_be_done':
+            case 'benevole_participation_will_start':
                 return $user->profile;
             default:
                 return $user;
@@ -162,6 +164,9 @@ class NotificationController extends Controller
                 break;
             case 'benevole_participation_should_be_done':
                 $notification = new ParticipationShouldBeDone($participation);
+                break;
+            case 'benevole_participation_will_start':
+                $notification = new ParticipationWillStart($participation);
                 break;
             case 'benevole_participation_validated':
                 $notification = new ParticipationValidated($participation);

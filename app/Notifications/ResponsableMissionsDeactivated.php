@@ -49,7 +49,7 @@ class ResponsableMissionsDeactivated extends Notification implements ShouldQueue
         $dashboardParticipationsUrl = "/admin/participations?filter[state]=En+cours+de+traitement,En+attente+de+validation&filter[ofResponsable]=" . $notifiable->id;
 
         return (new MailMessage())
-            ->subject('Vos missions ont été désactivées')
+            ->subject('Vos missions ont été mises hors ligne')
             ->markdown('emails.responsables.missions-deactivated', [
                 'notifiable' => $notifiable,
                 'dashboardParticipationsUrl' => $this->trackedUrl($dashboardParticipationsUrl)

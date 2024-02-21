@@ -50,7 +50,7 @@ class Mission extends Model
         'dates' => 'json',
         'prerequisites' => 'array',
         'is_registration_open' => 'boolean',
-        'is_active' => 'boolean',
+        'is_online' => 'boolean',
     ];
 
     protected $attributes = [
@@ -76,8 +76,9 @@ class Mission extends Model
         if (!$this->structure) {
             return false;
         }
+
         // Attention  bien mettre à jour la query côté API Engagement aussi ( Api\EngagementController@feed )
-        return $this->structure->state == 'Validée' && $this->state == 'Validée' && $this->is_active ? true : false;
+        return $this->structure->state == 'Validée' && $this->state == 'Validée' && $this->is_online ? true : false;
     }
 
     public function searchableAs()
@@ -92,12 +93,12 @@ class Mission extends Model
 
     public function makeAllSearchableUsing(Builder $query)
     {
-        return $query->with(['structure', 'structure.reseaux:id,name', 'activity', 'template.activity', 'template.domaine', 'template.domaineSecondary', 'template.photo', 'illustrations', 'domaine', 'domaineSecondary', 'tags', 'structure.score', 'activitySecondary', 'template.activitySecondary']);
+        return $query->with(['structure','structure.logo', 'structure.reseaux:id,name', 'activity', 'template.activity', 'template.domaine', 'template.domaineSecondary', 'template.photo', 'illustrations', 'domaine', 'domaineSecondary', 'tags', 'structure.score', 'activitySecondary', 'template.activitySecondary']);
     }
 
     public function toSearchableArray()
     {
-        $this->load(['structure', 'structure.reseaux:id,name', 'activity', 'template.activity', 'template.domaine', 'template.domaineSecondary', 'template.photo', 'illustrations', 'domaine', 'domaineSecondary', 'tags', 'structure.score', 'activitySecondary', 'template.activitySecondary']);
+        $this->load(['structure', 'structure.logo', 'structure.reseaux:id,name', 'activity', 'template.activity', 'template.domaine', 'template.domaineSecondary', 'template.photo', 'illustrations', 'domaine', 'domaineSecondary', 'tags', 'structure.score', 'activitySecondary', 'template.activitySecondary']);
 
 
         if ($this->template) {
@@ -107,9 +108,9 @@ class Mission extends Model
             $domainesCollection = collect([$this->domaine, $this->domaineSecondary]);
             $activities = collect([$this->activity, $this->activitySecondary]);
         }
-        $domaines = $domainesCollection->filter()->map(fn ($domaine) => ['id' => $domaine->id, 'name'=> $domaine->name]);
+        $domaines = $domainesCollection->filter()->map(fn ($domaine) => ['id' => $domaine->id, 'name' => $domaine->name]);
         $domaineNames = $domainesCollection->filter()->map(fn ($domaine) => $domaine->name);
-        $activities = $activities->filter()->map(fn ($activity) => ['id' => $activity->id, 'name'=> $activity->name]);
+        $activities = $activities->filter()->map(fn ($activity) => ['id' => $activity->id, 'name' => $activity->name]);
         $publicsBeneficiaires = config('taxonomies.mission_publics_beneficiaires.terms');
 
         if ($this->end_date) {
@@ -135,6 +136,7 @@ class Mission extends Model
                 'response_time' => $this->structure->score->response_time,
                 'score' => $this->structure->score->total_points,
                 'response_ratio' => $this->structure->score->processed_participations_rate,
+                'logo' => $this->structure->logo,
                 'reseau' => $this->structure->reseau ? [
                     'id' => $this->structure->reseau->id,
                     'name' => $this->structure->reseau->name,
@@ -167,6 +169,9 @@ class Mission extends Model
             'is_snu_mig_compatible' => $this->is_snu_mig_compatible,
             'snu_mig_places' => $this->snu_mig_places,
             'commitment__total' => $this->commitment__total,
+            'commitment__time_period' => $this->commitment__time_period,
+            'commitment__duration' => $this->commitment__duration,
+            'commitment' => $this->commitment,
             'publics_beneficiaires' => array_map(
                 function ($public) use ($publicsBeneficiaires) {
                     return $publicsBeneficiaires[$public];
@@ -180,6 +185,14 @@ class Mission extends Model
             'tags' => $this->tags->where('is_published', true)->pluck('name'),
             'is_registration_open' => $this->is_registration_open,
             'date_type' => $this->date_type,
+            'dates' => $this->dates ? collect($this->dates)->map(
+                function ($item) {
+                    return array_merge($item, ['timestamp' => strtotime($item['date'])]);
+                }
+            )->all() : null,
+            'has_creneaux' => !!$this->dates,
+            'has_end_date' => !!$this->end_date,
+            'end_date_no_creneaux' => $this->dates ? null : strtotime($this->end_date)
         ];
 
         if ($this->is_autonomy) {
@@ -354,7 +367,7 @@ class Mission extends Model
     {
         return $query
             ->where('missions.state', 'Validée')
-            ->where('missions.is_active', true)
+            ->where('missions.is_online', true)
             ->where('missions.is_registration_open', true)
             ->whereHas('structure', function (Builder $query) {
                 $query->where('structures.state', 'Validée');
@@ -668,6 +681,14 @@ class Mission extends Model
         );
     }
 
+    public function getCommitmentAttribute()
+    {
+        return Utils::getCommitmentLabel(
+            $this->commitment__duration,
+            $this->commitment__time_period
+        );
+    }
+
     public function setCommitmentTotal()
     {
         $this->commitment__total = Utils::calculateCommitmentTotal(
@@ -687,8 +708,8 @@ class Mission extends Model
             $domaines = collect([$this->domaine, $this->domaineSecondary]);
             $activities = collect([$this->activity, $this->activitySecondary]);
         }
-        $domaines = $domaines->filter()->map(fn ($domaine) => ['id' => $domaine->id, 'name'=>$domaine->name]);
-        $activities = $activities->filter()->map(fn ($activity) => ['id' => $activity->id, 'name'=>$activity->name]);
+        $domaines = $domaines->filter()->map(fn ($domaine) => ['id' => $domaine->id, 'name' => $domaine->name]);
+        $activities = $activities->filter()->map(fn ($activity) => ['id' => $activity->id, 'name' => $activity->name]);
 
         return [
             'id' => $this->id,
@@ -749,7 +770,7 @@ class Mission extends Model
 
     public function setStartDateAttribute($value)
     {
-        if(!$value){
+        if(!$value) {
             $this->attributes['start_date'] = null;
         } else {
             $this->attributes['start_date'] = \Carbon\Carbon::parse($value)
@@ -760,7 +781,7 @@ class Mission extends Model
 
     public function setEndDateAttribute($value)
     {
-        if(!$value){
+        if(!$value) {
             $this->attributes['end_date'] = null;
         } else {
             $this->attributes['end_date'] = \Carbon\Carbon::parse($value)

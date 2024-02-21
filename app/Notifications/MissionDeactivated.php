@@ -63,7 +63,7 @@ class MissionDeactivated extends Notification implements ShouldQueue
         $dashboardParticipationsUrl = $this->trackedUrl("/admin/participations?filter[mission.id]=" . $this->mission->id . "&context_name=" . $this->mission->name . "&filter[state]=En+cours+de+traitement,En+attente+de+validation");
 
         return (new MailMessage())
-            ->subject('Votre mission a été désactivée')
+            ->subject('Votre mission a été mise hors ligne')
             ->markdown('emails.responsables.mission-deactivated', [
                 'missionUrl' => $this->trackedUrl($this->mission->full_url),
                 'mission' => $this->mission,

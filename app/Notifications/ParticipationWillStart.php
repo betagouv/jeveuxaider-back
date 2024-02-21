@@ -2,14 +2,14 @@
 
 namespace App\Notifications;
 
-use App\Models\Mission;
+use App\Models\Participation;
 use App\Traits\TransactionalEmail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class MissionReactivated extends Notification implements ShouldQueue
+class ParticipationWillStart extends Notification implements ShouldQueue
 {
     use Queueable;
     use TransactionalEmail;
@@ -17,9 +17,9 @@ class MissionReactivated extends Notification implements ShouldQueue
     /**
      * The order instance.
      *
-     * @var Mission
+     * @var Participation
      */
-    public $mission;
+    public $participation;
 
     public $tag;
 
@@ -28,17 +28,10 @@ class MissionReactivated extends Notification implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(Mission $mission)
+    public function __construct(Participation $participation)
     {
-        $this->mission = $mission;
-        $this->tag = 'app-responsable-mission-reactivee';
-    }
-
-    public function viaQueues()
-    {
-        return [
-            'mail' => 'emails',
-        ];
+        $this->participation = $participation;
+        $this->tag = 'app-benevole-participation-will-start';
     }
 
     /**
@@ -49,7 +42,14 @@ class MissionReactivated extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return ['mail', 'database'];
+        return ['mail'];
+    }
+
+    public function viaQueues()
+    {
+        return [
+            'mail' => 'emails',
+        ];
     }
 
     /**
@@ -61,11 +61,13 @@ class MissionReactivated extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage())
-            ->subject('Votre mission est de nouveau en ligne 👏🏻')
-            ->markdown('emails.responsables.mission-reactivated', [
-                'missionUrl' => $this->trackedUrl($this->mission->full_url),
-                'mission' => $this->mission,
-                'notifiable' => $notifiable,
+            ->subject('Votre mission commence très prochainement 👟')
+            ->markdown('emails.benevoles.participation-will-start', [
+                'url' => $this->trackedUrl('/messages/' . $this->participation->conversation->id),
+                'mission' => $this->participation->mission,
+                'responsable' => $this->participation->mission->responsable,
+                'organisation' => $this->participation->mission->structure,
+                'benevole' => $notifiable
             ])
             ->tag($this->tag);
     }
@@ -79,9 +81,7 @@ class MissionReactivated extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
-            'mission_id' => $this->mission->id,
-            'mission_name' => $this->mission->name,
-            'structure_id' => $this->mission->structure_id,
+            //
         ];
     }
 }

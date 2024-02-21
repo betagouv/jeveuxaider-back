@@ -20,6 +20,7 @@ use App\Notifications\MissionValidated;
 use App\Notifications\MissionWaitingValidation;
 use Illuminate\Database\Eloquent\Builder;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class MissionObserver
 {
@@ -81,6 +82,8 @@ class MissionObserver
      */
     public function updated(Mission $mission)
     {
+        $user = Auth::guard('api')->user();
+
         $oldState = $mission->getOriginal('state');
         $newState = $mission->state;
 
@@ -204,8 +207,9 @@ class MissionObserver
 
         RuleDispatcherByEvent::dispatch('mission_updated', $mission);
 
-        if ($mission->getOriginal('is_active') != $mission->is_active) {
-            if ($mission->is_active) {
+        // Le statut n'a pas changé, mais la mission a été mise en ligne ou hors ligne
+        if ($mission->isClean('state') && $mission->isDirty('is_online')) {
+            if ($mission->is_online) {
                 $mission->responsable->notify(new MissionReactivated($mission));
             } else {
                 $mission->responsable->notify(new MissionDeactivated($mission));
@@ -251,6 +255,20 @@ class MissionObserver
             $mission->city = null;
             $mission->latitude = null;
             $mission->longitude = null;
+        }
+
+        if($mission->isDirty('state')) {
+            if($mission->state == 'Validée') {
+                $mission->is_online = true;
+            } elseif($mission->state == 'Terminée') {
+                $mission->is_online = $mission->is_online;
+            } else {
+                $mission->is_online = false;
+            }
+        }
+
+        if(!$mission->structure->state == 'Validée') {
+            $mission->is_online = false;
         }
     }
 

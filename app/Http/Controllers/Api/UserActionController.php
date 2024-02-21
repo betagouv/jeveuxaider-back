@@ -54,7 +54,7 @@ class UserActionController extends Controller
             case 'responsable':
                 $actions[] = [
                     'type' => 'mission_new',
-                    'value' => Structure::role($request->header('Context-Role'))->where('state', 'Validée')->count() && ! Mission::role($request->header('Context-Role'))->count() ? true : false,
+                    'value' => Structure::role($request->header('Context-Role'))->where('state', 'Validée')->count() && !Mission::role($request->header('Context-Role'))->count() ? true : false,
                 ];
                 $actions[] = [
                     'type' => 'messages_unread',
@@ -174,10 +174,10 @@ class UserActionController extends Controller
             'value' => true,
         ];
 
-        $actions[] = [
-            'type' => 'has_agreed_benevole_terms',
-            'value' => $user->has_agreed_benevole_terms_at,
-        ];
+        // $actions[] = [
+        //     'type' => 'has_agreed_benevole_terms',
+        //     'value' => $user->has_agreed_benevole_terms_at,
+        // ];
 
         return $actions;
     }
@@ -189,13 +189,13 @@ class UserActionController extends Controller
         $snuService = new Snu();
         $email = $user->email;
 
-        if (! $settings->snu_mig_active) {
+        if (!$settings->snu_mig_active) {
             return [];
         }
 
         $tokenJva = $snuService->getTokenJvaByEmail($email);
 
-        if(!$tokenJva){
+        if(!$tokenJva) {
             return [];
         }
 
@@ -206,49 +206,49 @@ class UserActionController extends Controller
                 $actions[] = [
                     'type' => 'snu_application_waiting_validation',
                     'value' => $items['waitingValidation'],
-                    'href' => config('app.snu_api_url').'/jeveuxaider/signin?token_jva='.$tokenJva,
+                    'href' => config('app.snu_api_url') . '/jeveuxaider/signin?token_jva=' . $tokenJva,
                 ];
             }
             if (isset($items['applicationWaitingValidation'])) {
                 $actions[] = [
                     'type' => 'snu_application_waiting_validation',
                     'value' => $items['applicationWaitingValidation'],
-                    'href' => config('app.snu_api_url').'/jeveuxaider/signin?token_jva='.$tokenJva,
+                    'href' => config('app.snu_api_url') . '/jeveuxaider/signin?token_jva=' . $tokenJva,
                 ];
             }
             if (isset($items['contractToBeSigned'])) {
                 $actions[] = [
                     'type' => 'snu_contract_to_be_signed',
                     'value' => $items['contractToBeSigned'],
-                    'href' => config('app.snu_api_url').'/jeveuxaider/signin?token_jva='.$tokenJva,
+                    'href' => config('app.snu_api_url') . '/jeveuxaider/signin?token_jva=' . $tokenJva,
                 ];
             }
             if (isset($items['contractToBeFilled'])) {
                 $actions[] = [
                     'type' => 'snu_contract_to_be_filled',
                     'value' => $items['contractToBeFilled'],
-                    'href' => config('app.snu_api_url').'/jeveuxaider/signin?token_jva='.$tokenJva,
+                    'href' => config('app.snu_api_url') . '/jeveuxaider/signin?token_jva=' . $tokenJva,
                 ];
             }
             if (isset($items['missionWaitingCorrection'])) {
                 $actions[] = [
                     'type' => 'snu_mission_waiting_correction',
                     'value' => $items['missionWaitingCorrection'],
-                    'href' => config('app.snu_api_url').'/jeveuxaider/signin?token_jva='.$tokenJva,
+                    'href' => config('app.snu_api_url') . '/jeveuxaider/signin?token_jva=' . $tokenJva,
                 ];
             }
             if (isset($items['missionInProgress'])) {
                 $actions[] = [
                     'type' => 'snu_mission_in_progress',
                     'value' => $items['missionInProgress'],
-                    'href' => config('app.snu_api_url').'/jeveuxaider/signin?token_jva='.$tokenJva,
+                    'href' => config('app.snu_api_url') . '/jeveuxaider/signin?token_jva=' . $tokenJva,
                 ];
             }
             if (isset($items['volunteerToHost'])) {
                 $actions[] = [
                     'type' => 'snu_volunteer_to_host',
                     'value' => $items['volunteerToHost'],
-                    'href' => config('app.snu_api_url').'/jeveuxaider/signin?token_jva='.$tokenJva,
+                    'href' => config('app.snu_api_url') . '/jeveuxaider/signin?token_jva=' . $tokenJva,
                 ];
             }
         }

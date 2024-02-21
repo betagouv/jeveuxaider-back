@@ -27,17 +27,16 @@ class NumbersController extends Controller
 
     public function __construct(Request $request)
     {
-        if($request->input('startDate')){
+        if($request->input('startDate')) {
             $this->startDate = Carbon::createFromFormat('Y-m-d', $request->input('startDate'))->hour(0)->minute(0)->second(0);
         }
-        if($request->input('endDate')){
+        if($request->input('endDate')) {
             $this->endDate = Carbon::createFromFormat('Y-m-d', $request->input('endDate'))->hour(23)->minute(59)->second(59);
         }
 
-        if($request->header('Context-Role') == 'referent'){
+        if($request->header('Context-Role') == 'referent') {
             $this->department = Auth::guard('api')->user()->departmentsAsReferent->first()->number;
-        }
-        else if($request->input('department')){
+        } elseif($request->input('department')) {
             $this->department = $request->input('department');
         }
     }
@@ -46,22 +45,26 @@ class NumbersController extends Controller
     {
         return [
             'organisations' => Structure::whereIn('state', ['Validée'])->whereBetween('created_at', [$this->startDate, $this->endDate])->when(
-                $this->department, function ($query) {
+                $this->department,
+                function ($query) {
                     $query->where('department', $this->department);
                 }
             )->count(),
             'missions' => Mission::whereIn('state', ['Validée', 'Terminée'])->whereBetween('created_at', [$this->startDate, $this->endDate])->when(
-                $this->department, function ($query) {
+                $this->department,
+                function ($query) {
                     $query->where('department', $this->department);
                 }
             )->count(),
             'participations' => Participation::whereIn('state', ['Validée'])->whereBetween('created_at', [$this->startDate, $this->endDate])->when(
-                $this->department, function ($query) {
+                $this->department,
+                function ($query) {
                     $query->department($this->department);
                 }
             )->count(),
             'utilisateurs' => Profile::whereBetween('created_at', [$this->startDate, $this->endDate])->when(
-                $this->department, function ($query) {
+                $this->department,
+                function ($query) {
                     $query->department($this->department);
                 }
             )->count(),
@@ -72,7 +75,8 @@ class NumbersController extends Controller
     {
         $missionsAvailable = Mission::role($request->header('Context-Role'))
             ->when(
-                $this->department, function ($query) {
+                $this->department,
+                function ($query) {
                     $query->where('department', $this->department);
                 }
             )
@@ -81,18 +85,21 @@ class NumbersController extends Controller
 
         return [
             'organisations' => Structure::when(
-                $this->department, function ($query) {
+                $this->department,
+                function ($query) {
                     $query->where('department', $this->department);
                 }
             )->count(),
             'organisations_actives' => $missionsAvailable->pluck('structure_id')->unique()->count(),
             'reseaux' => Reseau::where('is_published', true)->when(
-                $this->department, function ($query) {
+                $this->department,
+                function ($query) {
                     $query->where('department', $this->department);
                 }
             )->count(),
             'territoires' => Territoire::where('is_published', true)->when(
-                $this->department, function ($query) {
+                $this->department,
+                function ($query) {
                     $query->where('department', $this->department);
                 }
             )->count(),
@@ -103,7 +110,8 @@ class NumbersController extends Controller
     {
         $missionsCount = Mission::role($request->header('Context-Role'))
         ->when(
-            $this->department, function ($query) {
+            $this->department,
+            function ($query) {
                 $query->where('department', $this->department);
             }
         )
@@ -112,7 +120,8 @@ class NumbersController extends Controller
 
         $missionsValidatedOverCount = Mission::role($request->header('Context-Role'))->whereIn('state', ['Validée', 'Terminée'])
         ->when(
-            $this->department, function ($query) {
+            $this->department,
+            function ($query) {
                 $query->where('department', $this->department);
             }
         )
@@ -122,7 +131,8 @@ class NumbersController extends Controller
             'missions_available' => $missionsCount,
             'missions_validated_and_over' => $missionsValidatedOverCount,
             'missions_snu' => Mission::role($request->header('Context-Role'))->where('is_snu_mig_compatible', true)->whereIn('state', ['Validée', 'Terminée'])->when(
-                $this->department, function ($query) {
+                $this->department,
+                function ($query) {
                     $query->where('department', $this->department);
                 }
             )
@@ -134,7 +144,8 @@ class NumbersController extends Controller
     {
         $missionsAvailable = Mission::role($request->header('Context-Role'))
             ->when(
-                $this->department, function ($query) {
+                $this->department,
+                function ($query) {
                     $query->where('department', $this->department);
                 }
             )
@@ -154,20 +165,23 @@ class NumbersController extends Controller
     public function overviewParticipations(Request $request)
     {
         $participationsCount = Participation::role($request->header('Context-Role'))->when(
-            $this->department, function ($query) {
+            $this->department,
+            function ($query) {
                 $query->department($this->department);
             }
         )
         ->count();
 
         $participationsValidatedCount = Participation::role($request->header('Context-Role'))->where('state', 'Validée')->when(
-            $this->department, function ($query) {
+            $this->department,
+            function ($query) {
                 $query->department($this->department);
             }
         )->count();
 
         $participationsInProgressCount = Participation::role($request->header('Context-Role'))->whereIn('state', ['En attente de validation', 'En cours de traitement'])->when(
-            $this->department, function ($query) {
+            $this->department,
+            function ($query) {
                 $query->department($this->department);
             }
         )->count();
@@ -184,26 +198,31 @@ class NumbersController extends Controller
     {
         return [
             'utilisateurs' => Profile::role($request->header('Context-Role'))->when(
-                $this->department, function ($query) {
+                $this->department,
+                function ($query) {
                     $query->where('department', $this->department);
                 }
             )->count(),
             'benevoles' => Profile::role($request->header('Context-Role'))->when(
-                $this->department, function ($query) {
+                $this->department,
+                function ($query) {
                     $query->where('department', $this->department);
                 }
             )->whereHas(
-                'user', function (Builder $query) {
+                'user',
+                function (Builder $query) {
                     $query->where('context_role', 'volontaire');
                 }
             )->count(),
             'benevoles_actifs' => Profile::role($request->header('Context-Role'))->has('participations')->when(
-                $this->department, function ($query) {
+                $this->department,
+                function ($query) {
                     $query->where('department', $this->department);
                 }
             )->count(),
             'benevoles_visibles_marketplace' => Profile::role($request->header('Context-Role'))->where('is_visible', true)->when(
-                $this->department, function ($query) {
+                $this->department,
+                function ($query) {
                     $query->department($this->department);
                 }
             )->count(),
@@ -330,13 +349,15 @@ class NumbersController extends Controller
     public function globalOrganisations(Request $request)
     {
         $organisationsCount = Structure::role($request->header('Context-Role'))->when(
-            $this->department, function ($query) {
+            $this->department,
+            function ($query) {
                 $query->where('department', $this->department);
             }
         )->whereBetween('created_at', [$this->startDate, $this->endDate])->count();
 
         $organisationsValidatedCount = Structure::role($request->header('Context-Role'))->whereIn('state', ['Validée'])->when(
-            $this->department, function ($query) {
+            $this->department,
+            function ($query) {
                 $query->where('department', $this->department);
             }
         )->whereBetween('created_at', [$this->startDate, $this->endDate])->count();
@@ -346,18 +367,20 @@ class NumbersController extends Controller
             'organisations_validated_count' => $organisationsValidatedCount,
             'organisations_conversion_rate' => $organisationsCount ? round(($organisationsValidatedCount / $organisationsCount) * 100) : 0,
             'organisations_response_time_avg' => round(
-                StructureScore::whereHas('structure', function(Builder $query) use ($request) {
+                StructureScore::whereHas('structure', function (Builder $query) use ($request) {
                     $query->role($request->header('Context-Role'))->whereIn('state', ['Validée'])->when(
-                        $this->department, function ($query) {
+                        $this->department,
+                        function ($query) {
                             $query->where('department', $this->department);
                         }
                     )->whereBetween('created_at', [$this->startDate, $this->endDate]);
                 })->avg('response_time')
             ),
             'organisations_response_ratio_avg' => round(
-                StructureScore::whereHas('structure', function(Builder $query) use ($request) {
+                StructureScore::whereHas('structure', function (Builder $query) use ($request) {
                     $query->role($request->header('Context-Role'))->whereIn('state', ['Validée'])->when(
-                        $this->department, function ($query) {
+                        $this->department,
+                        function ($query) {
                             $query->where('department', $this->department);
                         }
                     )->whereBetween('created_at', [$this->startDate, $this->endDate]);
@@ -370,32 +393,38 @@ class NumbersController extends Controller
     {
         return [
             'draft' => Structure::role($request->header('Context-Role'))->where('state', 'Brouillon')->when(
-                $this->department, function ($query) {
+                $this->department,
+                function ($query) {
                     $query->where('department', $this->department);
                 }
             )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
             'waiting' => Structure::role($request->header('Context-Role'))->where('state', 'En attente de validation')->when(
-                $this->department, function ($query) {
+                $this->department,
+                function ($query) {
                     $query->where('department', $this->department);
                 }
             )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
             'in_progress' => Structure::role($request->header('Context-Role'))->where('state', 'En cours de traitement')->when(
-                $this->department, function ($query) {
+                $this->department,
+                function ($query) {
                     $query->where('department', $this->department);
                 }
             )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
             'validated' => Structure::role($request->header('Context-Role'))->where('state', 'Validée')->when(
-                $this->department, function ($query) {
+                $this->department,
+                function ($query) {
                     $query->where('department', $this->department);
                 }
             )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
             'signaled' => Structure::role($request->header('Context-Role'))->where('state', 'Signalée')->when(
-                $this->department, function ($query) {
+                $this->department,
+                function ($query) {
                     $query->where('department', $this->department);
                 }
             )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
             'unsubscribed' => Structure::role($request->header('Context-Role'))->where('state', 'Désinscrite')->when(
-                $this->department, function ($query) {
+                $this->department,
+                function ($query) {
                     $query->where('department', $this->department);
                 }
             )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
@@ -406,22 +435,26 @@ class NumbersController extends Controller
     {
         return [
             'associations' => Structure::role($request->header('Context-Role'))->where('state', 'Validée')->where('statut_juridique', 'Association')->when(
-                $this->department, function ($query) {
+                $this->department,
+                function ($query) {
                     $query->where('department', $this->department);
                 }
             )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
             'collectivites' => Structure::role($request->header('Context-Role'))->where('state', 'Validée')->where('statut_juridique', 'Collectivité')->when(
-                $this->department, function ($query) {
+                $this->department,
+                function ($query) {
                     $query->where('department', $this->department);
                 }
             )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
             'organisations_publiques' => Structure::role($request->header('Context-Role'))->where('state', 'Validée')->where('statut_juridique', 'Organisation publique')->when(
-                $this->department, function ($query) {
+                $this->department,
+                function ($query) {
                     $query->where('department', $this->department);
                 }
             )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
             'organisations_privees' => Structure::role($request->header('Context-Role'))->where('state', 'Validée')->where('statut_juridique', 'Organisation privée')->when(
-                $this->department, function ($query) {
+                $this->department,
+                function ($query) {
                     $query->where('department', $this->department);
                 }
             )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
@@ -442,8 +475,9 @@ class NumbersController extends Controller
                 GROUP BY reseaux.name, reseaux.id
                 ORDER BY count DESC
                 LIMIT 5
-            ", [
-                'department' => $this->department ? '%'.$this->department.'%' : '%%',
+            ",
+            [
+                'department' => $this->department ? '%' . $this->department . '%' : '%%',
                 'start' => $this->startDate,
                 'end' => $this->endDate,
             ]
@@ -472,8 +506,9 @@ class NumbersController extends Controller
                 GROUP BY reseaux.name, reseaux.id
                 ORDER BY count DESC
                 LIMIT 5
-            ", [
-                'department' => $this->department ? '%'.$this->department.'%' : '%%',
+            ",
+            [
+                'department' => $this->department ? '%' . $this->department . '%' : '%%',
                 'start' => $this->startDate,
                 'end' => $this->endDate,
             ]
@@ -499,8 +534,9 @@ class NumbersController extends Controller
                 GROUP BY reseaux.name, reseaux.id
                 ORDER BY count DESC
                 LIMIT 5
-            ", [
-                'department' => $this->department ? '%'.$this->department.'%' : '%%',
+            ",
+            [
+                'department' => $this->department ? '%' . $this->department . '%' : '%%',
                 'start' => $this->startDate,
                 'end' => $this->endDate,
             ]
@@ -513,7 +549,8 @@ class NumbersController extends Controller
     {
         $missionsCount = Mission::role($request->header('Context-Role'))
         ->when(
-            $this->department, function ($query) {
+            $this->department,
+            function ($query) {
                 $query->where('department', $this->department);
             }
         )
@@ -521,7 +558,8 @@ class NumbersController extends Controller
 
         $missionsValidatedOverCount = Mission::role($request->header('Context-Role'))->whereIn('state', ['Validée', 'Terminée'])
         ->when(
-            $this->department, function ($query) {
+            $this->department,
+            function ($query) {
                 $query->where('department', $this->department);
             }
         )
@@ -532,19 +570,22 @@ class NumbersController extends Controller
             'missions_validated_and_over' => $missionsValidatedOverCount,
             // 'missions_conversion_rate' => $missionsCount ? round(($missionsValidatedOverCount / $missionsCount) * 100) : 0,
             'missions_participations_max_sum' => Mission::role($request->header('Context-Role'))->whereIn('state', ['Validée', 'Terminée'])->when(
-                $this->department, function ($query) {
+                $this->department,
+                function ($query) {
                     $query->where('department', $this->department);
                 }
             )
             ->whereBetween('created_at', [$this->startDate, $this->endDate])->sum('participations_max'),
             'missions_snu' => Mission::role($request->header('Context-Role'))->where('is_snu_mig_compatible', true)->whereIn('state', ['Validée', 'Terminée'])->when(
-                $this->department, function ($query) {
+                $this->department,
+                function ($query) {
                     $query->where('department', $this->department);
                 }
             )
             ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
             'missions_snu_participations_max_sum' => Mission::role($request->header('Context-Role'))->whereIn('state', ['Validée', 'Terminée'])->where('is_snu_mig_compatible', true)->when(
-                $this->department, function ($query) {
+                $this->department,
+                function ($query) {
                     $query->where('department', $this->department);
                 }
             )
@@ -555,20 +596,23 @@ class NumbersController extends Controller
     public function globalParticipations(Request $request)
     {
         $participationsCount = Participation::role($request->header('Context-Role'))->when(
-            $this->department, function ($query) {
+            $this->department,
+            function ($query) {
                 $query->department($this->department);
             }
         )
         ->whereBetween('created_at', [$this->startDate, $this->endDate])->count();
 
         $participationsValidatedCount = Participation::role($request->header('Context-Role'))->where('state', 'Validée')->when(
-            $this->department, function ($query) {
+            $this->department,
+            function ($query) {
                 $query->department($this->department);
             }
         )->whereBetween('created_at', [$this->startDate, $this->endDate])->count();
 
         $participationsInProgressCount = Participation::role($request->header('Context-Role'))->whereIn('state', ['En attente de validation', 'En cours de traitement'])->when(
-            $this->department, function ($query) {
+            $this->department,
+            function ($query) {
                 $query->department($this->department);
             }
         )->whereBetween('created_at', [$this->startDate, $this->endDate])->count();
@@ -585,7 +629,8 @@ class NumbersController extends Controller
     {
         $missionsAvailable = Mission::role($request->header('Context-Role'))
             ->when(
-                $this->department, function ($query) {
+                $this->department,
+                function ($query) {
                     $query->where('department', $this->department);
                 }
             )
@@ -606,13 +651,15 @@ class NumbersController extends Controller
     public function globalUtilisateurs(Request $request)
     {
         $usersWithParticipations = Profile::role($request->header('Context-Role'))->when(
-            $this->department, function ($query) {
+            $this->department,
+            function ($query) {
                 $query->department($this->department);
             }
         )
             ->whereBetween('created_at', [$this->startDate, $this->endDate])->has('participations')->count();
         $participationsCount = Participation::role($request->header('Context-Role'))->when(
-            $this->department, function ($query) {
+            $this->department,
+            function ($query) {
                 $query->department($this->department);
             }
         )
@@ -620,32 +667,38 @@ class NumbersController extends Controller
 
         return [
             'utilisateurs' => Profile::role($request->header('Context-Role'))->when(
-                $this->department, function ($query) {
+                $this->department,
+                function ($query) {
                     $query->department($this->department);
                 }
             )
             ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
             'benevoles' => Profile::role($request->header('Context-Role'))->whereHas(
-                'user', function (Builder $query) {
+                'user',
+                function (Builder $query) {
                     $query->where('context_role', 'volontaire');
                 }
             )->when(
-                $this->department, function ($query) {
+                $this->department,
+                function ($query) {
                     $query->department($this->department);
                 }
             )
             ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
             'benevoles_actifs' => $usersWithParticipations,
             'benevoles_visibles_marketplace' => Profile::role($request->header('Context-Role'))->where('is_visible', true)->when(
-                $this->department, function ($query) {
+                $this->department,
+                function ($query) {
                     $query->department($this->department);
                 }
             )
             ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
             'benevoles_notifications_martketplace' => NotificationBenevole::when(
-                $this->department, function ($query) {
+                $this->department,
+                function ($query) {
                     $query->whereHas(
-                        'profile', function (Builder $query) {
+                        'profile',
+                        function (Builder $query) {
                             $query->department($this->department);
                         }
                     );
@@ -661,31 +714,36 @@ class NumbersController extends Controller
     {
         return [
             'waiting' => Participation::role($request->header('Context-Role'))->where('state', 'En attente de validation')->when(
-                $this->department, function ($query) {
+                $this->department,
+                function ($query) {
                     $query->department($this->department);
                 }
             )
             ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
             'in_progress' => Participation::role($request->header('Context-Role'))->where('state', 'En cours de traitement')->when(
-                $this->department, function ($query) {
+                $this->department,
+                function ($query) {
                     $query->department($this->department);
                 }
             )
             ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
             'validated' => Participation::role($request->header('Context-Role'))->where('state', 'Validée')->when(
-                $this->department, function ($query) {
+                $this->department,
+                function ($query) {
                     $query->department($this->department);
                 }
             )
             ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
             'refused' => Participation::role($request->header('Context-Role'))->where('state', 'Refusée')->when(
-                $this->department, function ($query) {
+                $this->department,
+                function ($query) {
                     $query->department($this->department);
                 }
             )
             ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
             'canceled' => Participation::role($request->header('Context-Role'))->where('state', 'Annulée')->when(
-                $this->department, function ($query) {
+                $this->department,
+                function ($query) {
                     $query->department($this->department);
                 }
             )
@@ -697,43 +755,50 @@ class NumbersController extends Controller
     {
         return [
             'draft' => Mission::role($request->header('Context-Role'))->where('state', 'Brouillon')->when(
-                $this->department, function ($query) {
+                $this->department,
+                function ($query) {
                     $query->where('department', $this->department);
                 }
             )
             ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
             'waiting' => Mission::role($request->header('Context-Role'))->where('state', 'En attente de validation')->when(
-                $this->department, function ($query) {
+                $this->department,
+                function ($query) {
                     $query->where('department', $this->department);
                 }
             )
             ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
             'in_progress' => Mission::role($request->header('Context-Role'))->where('state', 'En cours de traitement')->when(
-                $this->department, function ($query) {
+                $this->department,
+                function ($query) {
                     $query->where('department', $this->department);
                 }
             )
             ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
             'validated' => Mission::role($request->header('Context-Role'))->where('state', 'Validée')->when(
-                $this->department, function ($query) {
+                $this->department,
+                function ($query) {
                     $query->where('department', $this->department);
                 }
             )
             ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
             'finished' => Mission::role($request->header('Context-Role'))->where('state', 'Terminée')->when(
-                $this->department, function ($query) {
+                $this->department,
+                function ($query) {
                     $query->where('department', $this->department);
                 }
             )
             ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
             'canceled' => Mission::role($request->header('Context-Role'))->where('state', 'Annulée')->when(
-                $this->department, function ($query) {
+                $this->department,
+                function ($query) {
                     $query->where('department', $this->department);
                 }
             )
             ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
             'signaled' => Mission::role($request->header('Context-Role'))->where('state', 'Signalée')->when(
-                $this->department, function ($query) {
+                $this->department,
+                function ($query) {
                     $query->where('department', $this->department);
                 }
             )
@@ -745,13 +810,15 @@ class NumbersController extends Controller
     {
         return [
             'presentiels' => Mission::role($request->header('Context-Role'))->whereIn('state', ['Validée', 'Terminée'])->where('type', 'Mission en présentiel')->when(
-                $this->department, function ($query) {
+                $this->department,
+                function ($query) {
                     $query->where('department', $this->department);
                 }
             )
             ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
             'distances' => Mission::role($request->header('Context-Role'))->whereIn('state', ['Validée', 'Terminée'])->where('type', 'Mission à distance')->when(
-                $this->department, function ($query) {
+                $this->department,
+                function ($query) {
                     $query->where('department', $this->department);
                 }
             )
@@ -763,13 +830,15 @@ class NumbersController extends Controller
     {
         return [
             'with_template' => Mission::role($request->header('Context-Role'))->whereIn('state', ['Validée', 'Terminée'])->whereNotNull('template_id')->when(
-                $this->department, function ($query) {
+                $this->department,
+                function ($query) {
                     $query->where('department', $this->department);
                 }
             )
             ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
             'without_template' => Mission::role($request->header('Context-Role'))->whereIn('state', ['Validée', 'Terminée'])->whereNull('template_id')->when(
-                $this->department, function ($query) {
+                $this->department,
+                function ($query) {
                     $query->where('department', $this->department);
                 }
             )
@@ -792,8 +861,9 @@ class NumbersController extends Controller
                 GROUP BY structures.name, structures.id
                 ORDER BY count DESC
                 LIMIT 5
-            ", [
-                'department' => $this->department ? '%'.$this->department.'%' : '%%',
+            ",
+            [
+                'department' => $this->department ? '%' . $this->department . '%' : '%%',
                 'start' => $this->startDate,
                 'end' => $this->endDate,
             ]
@@ -817,8 +887,9 @@ class NumbersController extends Controller
                 AND activities.name IS NOT NULL
                 GROUP BY activities.name,activities.id
                 ORDER BY count DESC
-            ", [
-                'department' => $this->department ? '%'.$this->department.'%' : '%%',
+            ",
+            [
+                'department' => $this->department ? '%' . $this->department . '%' : '%%',
                 'start' => $this->startDate,
                 'end' => $this->endDate,
             ]
@@ -842,8 +913,9 @@ class NumbersController extends Controller
                 GROUP BY mission_templates.title
                 ORDER BY count DESC
                 LIMIT 5
-            ", [
-                'department' => $this->department ? '%'.$this->department.'%' : '%%',
+            ",
+            [
+                'department' => $this->department ? '%' . $this->department . '%' : '%%',
                 'start' => $this->startDate,
                 'end' => $this->endDate,
             ]
@@ -865,8 +937,9 @@ class NumbersController extends Controller
                 GROUP BY missions.id
                 ORDER BY count DESC
                 LIMIT 5
-            ", [
-                'department' => $this->department ? '%'.$this->department.'%' : '%%',
+            ",
+            [
+                'department' => $this->department ? '%' . $this->department . '%' : '%%',
                 'start' => $this->startDate,
                 'end' => $this->endDate,
             ]
@@ -890,8 +963,9 @@ class NumbersController extends Controller
                 GROUP BY structures.id, structures.name
                 ORDER BY count DESC
                 LIMIT 5
-            ", [
-                'department' => $this->department ? '%'.$this->department.'%' : '%%',
+            ",
+            [
+                'department' => $this->department ? '%' . $this->department . '%' : '%%',
                 'start' => $this->startDate,
                 'end' => $this->endDate,
             ]
@@ -913,8 +987,9 @@ class NumbersController extends Controller
                 AND COALESCE(missions.department,'') ILIKE :department
                 GROUP BY domaines.name, domaines.id
                 ORDER BY count DESC
-            ", [
-                'department' => $this->department ? '%'.$this->department.'%' : '%%',
+            ",
+            [
+                'department' => $this->department ? '%' . $this->department . '%' : '%%',
                 'start' => $this->startDate,
                 'end' => $this->endDate,
             ]
@@ -937,8 +1012,9 @@ class NumbersController extends Controller
                 AND activities.name IS NOT NULL
                 GROUP BY activities.name, activities.id
                 ORDER BY count DESC
-            ", [
-                'department' => $this->department ? '%'.$this->department.'%' : '%%',
+            ",
+            [
+                'department' => $this->department ? '%' . $this->department . '%' : '%%',
                 'start' => $this->startDate,
                 'end' => $this->endDate,
             ]
@@ -961,8 +1037,9 @@ class NumbersController extends Controller
                 AND missions.created_at BETWEEN :start and :end
                 GROUP BY domaines.name, domaines.id
                 ORDER BY count DESC
-            ", [
-                'department' => $this->department ? '%'.$this->department.'%' : '%%',
+            ",
+            [
+                'department' => $this->department ? '%' . $this->department . '%' : '%%',
                 'start' => $this->startDate,
                 'end' => $this->endDate,
             ]
@@ -986,8 +1063,9 @@ class NumbersController extends Controller
                 GROUP BY mission_templates.title, mission_templates.id
                 ORDER BY count DESC
                 LIMIT 5
-            ", [
-                'department' => $this->department ? '%'.$this->department.'%' : '%%',
+            ",
+            [
+                'department' => $this->department ? '%' . $this->department . '%' : '%%',
                 'start' => $this->startDate,
                 'end' => $this->endDate,
             ]
@@ -1009,8 +1087,9 @@ class NumbersController extends Controller
                 AND structures.created_at BETWEEN :start and :end
                 GROUP BY domaines.name, domaines.id
                 ORDER BY count DESC
-            ", [
-                'department' => $this->department ? '%'.$this->department.'%' : '%%',
+            ",
+            [
+                'department' => $this->department ? '%' . $this->department . '%' : '%%',
                 'start' => $this->startDate,
                 'end' => $this->endDate,
             ]
@@ -1030,8 +1109,9 @@ class NumbersController extends Controller
                 AND COALESCE(profiles.zip,'') ILIKE :department
                 GROUP BY domaines.name, domaines.id
                 ORDER BY count DESC
-            ", [
-                'department' => $this->department ? $this->department.'%' : '%%',
+            ",
+            [
+                'department' => $this->department ? $this->department . '%' : '%%',
                 'start' => $this->startDate,
                 'end' => $this->endDate,
             ]
@@ -1052,8 +1132,9 @@ class NumbersController extends Controller
                 AND COALESCE(profiles.zip,'') ILIKE :department
                 GROUP BY activities.name, activities.id
                 ORDER BY count DESC
-            ", [
-                'department' => $this->department ? $this->department.'%' : '%%',
+            ",
+            [
+                'department' => $this->department ? $this->department . '%' : '%%',
                 'start' => $this->startDate,
                 'end' => $this->endDate,
             ]
@@ -1092,7 +1173,7 @@ class NumbersController extends Controller
                     GROUP BY age_range
                     ORDER BY age_range;
             ", [
-            'department' => $this->department ? $this->department.'%' : '%%',
+            'department' => $this->department ? $this->department . '%' : '%%',
             'start' => $this->startDate,
             'end' => $this->endDate,
         ]);
@@ -1104,13 +1185,15 @@ class NumbersController extends Controller
     {
         return [
             'with_participations' => Profile::role($request->header('Context-Role'))->when(
-                $this->department, function ($query) {
+                $this->department,
+                function ($query) {
                     $query->where('department', $this->department);
                 }
             )
             ->whereBetween('created_at', [$this->startDate, $this->endDate])->has('participations')->count(),
             'without_participations' => Profile::role($request->header('Context-Role'))->when(
-                $this->department, function ($query) {
+                $this->department,
+                function ($query) {
                     $query->where('department', $this->department);
                 }
             )
@@ -1130,7 +1213,8 @@ class NumbersController extends Controller
             ->where('missions.end_date', '<', date('Y-m-d'))
             ->where('missions.state', 'Validée')
             ->when(
-                $this->department, function ($query) {
+                $this->department,
+                function ($query) {
                     $query->where('missions.department', $this->department);
                 }
             )
@@ -1160,8 +1244,9 @@ class NumbersController extends Controller
             GROUP BY structures.name, structures.id
             ORDER BY count DESC
             LIMIT 100
-        ", [
-                'department' => $this->department ? '%'.$this->department.'%' : '%%',
+        ",
+            [
+                'department' => $this->department ? '%' . $this->department . '%' : '%%',
                 'start' => $this->startDate,
                 'end' => $this->endDate,
             ]
@@ -1187,8 +1272,9 @@ class NumbersController extends Controller
             GROUP BY structures.name, structures.id
             ORDER BY count DESC
             LIMIT 100
-        ", [
-                'department' => $this->department ? '%'.$this->department.'%' : '%%',
+        ",
+            [
+                'department' => $this->department ? '%' . $this->department . '%' : '%%',
                 'start' => $this->startDate,
                 'end' => $this->endDate,
             ]
@@ -1214,8 +1300,9 @@ class NumbersController extends Controller
             GROUP BY structures.name, structures.id
             ORDER BY count DESC
             LIMIT 100
-        ", [
-                'department' => $this->department ? '%'.$this->department.'%' : '%%',
+        ",
+            [
+                'department' => $this->department ? '%' . $this->department . '%' : '%%',
                 'start' => $this->startDate,
                 'end' => $this->endDate,
             ]
@@ -1241,8 +1328,9 @@ class NumbersController extends Controller
             GROUP BY structures.name, structures.id
             ORDER BY count DESC
             LIMIT 100
-        ", [
-                'department' => $this->department ? '%'.$this->department.'%' : '%%',
+        ",
+            [
+                'department' => $this->department ? '%' . $this->department . '%' : '%%',
                 'start' => $this->startDate,
                 'end' => $this->endDate,
             ]
@@ -1262,7 +1350,8 @@ class NumbersController extends Controller
             ->where('structures.state', 'En attente de validation')
             ->where('territoires.type', 'department')
             ->when(
-                $this->department, function ($query) {
+                $this->department,
+                function ($query) {
                     $query->where('structures.department', $this->department);
                 }
             )
@@ -1286,7 +1375,8 @@ class NumbersController extends Controller
             ->where('structures.state', 'En cours de traitement')
             ->where('territoires.type', 'department')
             ->when(
-                $this->department, function ($query) {
+                $this->department,
+                function ($query) {
                     $query->where('structures.department', $this->department);
                 }
             )
@@ -1310,7 +1400,8 @@ class NumbersController extends Controller
             ->where('missions.state', 'En attente de validation')
             ->where('territoires.type', 'department')
             ->when(
-                $this->department, function ($query) {
+                $this->department,
+                function ($query) {
                     $query->where('missions.department', $this->department);
                 }
             )
@@ -1334,7 +1425,8 @@ class NumbersController extends Controller
             ->where('missions.state', 'En cours de traitement')
             ->where('territoires.type', 'department')
             ->when(
-                $this->department, function ($query) {
+                $this->department,
+                function ($query) {
                     $query->where('missions.department', $this->department);
                 }
             )
@@ -1360,7 +1452,8 @@ class NumbersController extends Controller
             ->where('missions.end_date', '<', date('Y-m-d'))
             ->where('missions.state', 'Validée')
             ->when(
-                $this->department, function ($query) {
+                $this->department,
+                function ($query) {
                     $query->where('missions.department', $this->department);
                 }
             )
@@ -1377,36 +1470,44 @@ class NumbersController extends Controller
     {
         return [
             'no_response' => Message::role($request->header('Context-Role'))->where('contextual_state', 'Annulée par bénévole')->where('contextual_reason', 'no_response')->when(
-                $this->department, function ($query) {
+                $this->department,
+                function ($query) {
                     $query->whereHas(
-                        'conversation.conversable', function (Builder $query) {
+                        'conversation.conversable',
+                        function (Builder $query) {
                             $query->department($this->department);
                         }
                     );
                 }
             )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
             'requirements_not_fulfilled' => Message::role($request->header('Context-Role'))->where('contextual_state', 'Annulée par bénévole')->where('contextual_reason', 'requirements_not_fulfilled')->when(
-                $this->department, function ($query) {
+                $this->department,
+                function ($query) {
                     $query->whereHas(
-                        'conversation.conversable', function (Builder $query) {
+                        'conversation.conversable',
+                        function (Builder $query) {
                             $query->department($this->department);
                         }
                     );
                 }
             )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
             'not_available' => Message::role($request->header('Context-Role'))->where('contextual_state', 'Annulée par bénévole')->where('contextual_reason', 'not_available')->when(
-                $this->department, function ($query) {
+                $this->department,
+                function ($query) {
                     $query->whereHas(
-                        'conversation.conversable', function (Builder $query) {
+                        'conversation.conversable',
+                        function (Builder $query) {
                             $query->department($this->department);
                         }
                     );
                 }
             )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
             'other' => Message::role($request->header('Context-Role'))->where('contextual_state', 'Annulée par bénévole')->where('contextual_reason', 'other')->when(
-                $this->department, function ($query) {
+                $this->department,
+                function ($query) {
                     $query->whereHas(
-                        'conversation.conversable', function (Builder $query) {
+                        'conversation.conversable',
+                        function (Builder $query) {
                             $query->department($this->department);
                         }
                     );
@@ -1419,45 +1520,55 @@ class NumbersController extends Controller
     {
         return [
             'no_response' => Message::role($request->header('Context-Role'))->where('contextual_state', 'Refusée')->where('contextual_reason', 'no_response')->when(
-                $this->department, function ($query) {
+                $this->department,
+                function ($query) {
                     $query->whereHas(
-                        'conversation.conversable', function (Builder $query) {
+                        'conversation.conversable',
+                        function (Builder $query) {
                             $query->department($this->department);
                         }
                     );
                 }
             )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
             'requirements_not_fulfilled' => Message::role($request->header('Context-Role'))->where('contextual_state', 'Refusée')->where('contextual_reason', 'requirements_not_fulfilled')->when(
-                $this->department, function ($query) {
+                $this->department,
+                function ($query) {
                     $query->whereHas(
-                        'conversation.conversable', function (Builder $query) {
+                        'conversation.conversable',
+                        function (Builder $query) {
                             $query->department($this->department);
                         }
                     );
                 }
             )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
             'mission_terminated' => Message::role($request->header('Context-Role'))->where('contextual_state', 'Refusée')->where('contextual_reason', 'mission_terminated')->when(
-                $this->department, function ($query) {
+                $this->department,
+                function ($query) {
                     $query->whereHas(
-                        'conversation.conversable', function (Builder $query) {
+                        'conversation.conversable',
+                        function (Builder $query) {
                             $query->department($this->department);
                         }
                     );
                 }
             )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
             'change_mind' => Message::role($request->header('Context-Role'))->where('contextual_state', 'Refusée')->where('contextual_reason', 'change_mind')->when(
-                $this->department, function ($query) {
+                $this->department,
+                function ($query) {
                     $query->whereHas(
-                        'conversation.conversable', function (Builder $query) {
+                        'conversation.conversable',
+                        function (Builder $query) {
                             $query->department($this->department);
                         }
                     );
                 }
             )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
             'other' => Message::role($request->header('Context-Role'))->where('contextual_state', 'Refusée')->where('contextual_reason', 'other')->when(
-                $this->department, function ($query) {
+                $this->department,
+                function ($query) {
                     $query->whereHas(
-                        'conversation.conversable', function (Builder $query) {
+                        'conversation.conversable',
+                        function (Builder $query) {
                             $query->department($this->department);
                         }
                     );
@@ -1491,8 +1602,9 @@ class NumbersController extends Controller
                 ORDER BY participations.profile_id, participations.id ASC
             ) MyTable
             GROUP BY delay
-            ", [
-                'department' => $this->department ? $this->department.'%' : '%%',
+            ",
+            [
+                'department' => $this->department ? $this->department . '%' : '%%',
                 'start' => $this->startDate,
                 'end' => $this->endDate,
             ]
@@ -1516,13 +1628,14 @@ class NumbersController extends Controller
                 AND COALESCE(missions.department,'') ILIKE :department
                 AND missions.deleted_at IS NULL
                 AND missions.is_registration_open = true
-                AND missions.is_active = true
+                AND missions.is_online = true
                 AND reseaux.name IS NOT NULL
                 GROUP BY reseaux.name, reseaux.id
                 ORDER BY count DESC
                 LIMIT 5
-            ", [
-                'department' => $this->department ? '%'.$this->department.'%' : '%%',
+            ",
+            [
+                'department' => $this->department ? '%' . $this->department . '%' : '%%',
             ]
         );
 
@@ -1542,13 +1655,14 @@ class NumbersController extends Controller
                 AND COALESCE(missions.department,'') ILIKE :department
                 AND missions.deleted_at IS NULL
                 AND missions.is_registration_open = true
-                AND missions.is_active = true
+                AND missions.is_online = true
                 AND structures.name IS NOT NULL
                 GROUP BY structures.name, structures.id
                 ORDER BY count DESC
                 LIMIT 5
-            ", [
-                'department' => $this->department ? '%'.$this->department.'%' : '%%',
+            ",
+            [
+                'department' => $this->department ? '%' . $this->department . '%' : '%%',
             ]
         );
 
@@ -1566,7 +1680,7 @@ class NumbersController extends Controller
                 LEFT JOIN mission_templates ON mission_templates.id = missions.template_id
                 WHERE structures.deleted_at IS NULL
                 AND missions.is_registration_open = true
-                AND missions.is_active = true
+                AND missions.is_online = true
                 AND structures.state = 'Validée'
                 AND COALESCE(missions.department,'') ILIKE :department
                 AND missions.deleted_at IS NULL
@@ -1574,8 +1688,9 @@ class NumbersController extends Controller
                 GROUP BY missions.name, missions.id, mission_templates.title
                 ORDER BY count DESC
                 LIMIT 5
-            ", [
-                'department' => $this->department ? '%'.$this->department.'%' : '%%',
+            ",
+            [
+                'department' => $this->department ? '%' . $this->department . '%' : '%%',
             ]
         );
 
@@ -1594,15 +1709,16 @@ class NumbersController extends Controller
                 LEFT JOIN domaines ON domaines.id = mission_templates.domaine_id OR domaines.id = mission_templates.domaine_secondary_id OR domaines.id = missions.domaine_id OR domaines.id = missions.domaine_secondary_id
                 WHERE missions.deleted_at IS NULL
                 AND missions.is_registration_open = true
-                AND missions.is_active = true
+                AND missions.is_online = true
                 AND COALESCE(missions.department,'') ILIKE :department
                 AND domaines.name IS NOT NULL
                 AND structures.deleted_at IS NULL
                 AND structures.state = 'Validée'
                 GROUP BY domaines.name, domaines.id
                 ORDER BY count DESC
-            ", [
-                'department' => $this->department ? '%'.$this->department.'%' : '%%',
+            ",
+            [
+                'department' => $this->department ? '%' . $this->department . '%' : '%%',
             ]
         );
 
@@ -1621,15 +1737,16 @@ class NumbersController extends Controller
                 LEFT JOIN activities ON activities.id = mission_templates.activity_id OR activities.id = missions.activity_id OR activities.id = mission_templates.activity_secondary_id OR activities.id = missions.activity_secondary_id
                 WHERE missions.deleted_at IS NULL
                 AND missions.is_registration_open = true
-                AND missions.is_active = true
+                AND missions.is_online = true
                 AND COALESCE(missions.department,'') ILIKE :department
                 AND activities.name IS NOT NULL
                 AND structures.deleted_at IS NULL
                 AND structures.state = 'Validée'
                 GROUP BY activities.name, activities.id
                 ORDER BY count DESC
-            ", [
-                'department' => $this->department ? '%'.$this->department.'%' : '%%',
+            ",
+            [
+                'department' => $this->department ? '%' . $this->department . '%' : '%%',
             ]
         );
 
@@ -1655,14 +1772,15 @@ class NumbersController extends Controller
             AND COALESCE(structures.department,'') ILIKE :department
             GROUP BY date_trunc('month', structures.created_at), year, month
             ORDER BY date_trunc('month', structures.created_at) DESC
-            ", [
-                'department' => $this->department ? '%'.$this->department.'%' : '%%',
+            ",
+            [
+                'department' => $this->department ? '%' . $this->department . '%' : '%%',
             ]
         );
 
         foreach ($results as $index => $item) {
             if (isset($results[$index + 12])) {
-                if($results[$index + 12]->structures_validated){
+                if($results[$index + 12]->structures_validated) {
                     $results[$index]->structures_validated_variation = (($item->structures_validated - $results[$index + 12]->structures_validated) / $results[$index + 12]->structures_validated) * 100;
                 }
             }
@@ -1689,14 +1807,15 @@ class NumbersController extends Controller
             AND COALESCE(structures.department,'') ILIKE :department
             GROUP BY date_trunc('year', structures.created_at), year
             ORDER BY date_trunc('year', structures.created_at) DESC
-            ", [
-                'department' => $this->department ? '%'.$this->department.'%' : '%%',
+            ",
+            [
+                'department' => $this->department ? '%' . $this->department . '%' : '%%',
             ]
         );
 
         foreach ($results as $index => $item) {
             if (isset($results[$index + 1])) {
-                if($results[$index + 1]->structures_validated){
+                if($results[$index + 1]->structures_validated) {
                     $results[$index]->structures_validated_variation = (($item->structures_validated - $results[$index + 1]->structures_validated) / $results[$index + 1]->structures_validated) * 100;
                 }
             }
@@ -1726,14 +1845,15 @@ class NumbersController extends Controller
             AND COALESCE(missions.department,'') ILIKE :department
             GROUP BY date_trunc('month', missions.created_at), year, month
             ORDER BY date_trunc('month', missions.created_at) DESC
-            ", [
-                'department' => $this->department ? '%'.$this->department.'%' : '%%',
+            ",
+            [
+                'department' => $this->department ? '%' . $this->department . '%' : '%%',
             ]
         );
 
         foreach ($results as $index => $item) {
             if (isset($results[$index + 12])) {
-                if($results[$index + 12]->missions_posted){
+                if($results[$index + 12]->missions_posted) {
                     $results[$index]->missions_posted_variation = (($item->missions_posted - $results[$index + 12]->missions_posted) / $results[$index + 12]->missions_posted) * 100;
                 }
             }
@@ -1762,14 +1882,15 @@ class NumbersController extends Controller
             AND COALESCE(missions.department,'') ILIKE :department
             GROUP BY date_trunc('year', missions.created_at), year
             ORDER BY date_trunc('year', missions.created_at) DESC
-            ", [
-                'department' => $this->department ? '%'.$this->department.'%' : '%%',
+            ",
+            [
+                'department' => $this->department ? '%' . $this->department . '%' : '%%',
             ]
         );
 
         foreach ($results as $index => $item) {
             if (isset($results[$index + 1])) {
-                if($results[$index + 1]->missions_posted){
+                if($results[$index + 1]->missions_posted) {
                     $results[$index]->missions_posted_variation = (($item->missions_posted - $results[$index + 1]->missions_posted) / $results[$index + 1]->missions_posted) * 100;
                 }
             }
@@ -1797,8 +1918,9 @@ class NumbersController extends Controller
             AND COALESCE(missions.department,'') ILIKE :department
             GROUP BY date_trunc('month', participations.created_at), year, month
             ORDER BY date_trunc('month', participations.created_at) DESC
-            ", [
-                'department' => $this->department ? '%'.$this->department.'%' : '%%',
+            ",
+            [
+                'department' => $this->department ? '%' . $this->department . '%' : '%%',
             ]
         );
 
@@ -1838,8 +1960,9 @@ class NumbersController extends Controller
             AND COALESCE(missions.department,'') ILIKE :department
             GROUP BY date_trunc('year', participations.created_at), year
             ORDER BY date_trunc('year', participations.created_at) DESC
-            ", [
-                'department' => $this->department ? '%'.$this->department.'%' : '%%',
+            ",
+            [
+                'department' => $this->department ? '%' . $this->department . '%' : '%%',
             ]
         );
 
@@ -1863,7 +1986,7 @@ class NumbersController extends Controller
     public function usersByMonth(Request $request)
     {
         // Users department is 20 for Corse
-        if (  $this->department && in_array($this->department, ['2A', '2B'])) {
+        if ($this->department && in_array($this->department, ['2A', '2B'])) {
             $this->department = '20';
         }
 
@@ -1877,14 +2000,15 @@ class NumbersController extends Controller
             WHERE COALESCE(profiles.department,'') ILIKE :department
             GROUP BY date_trunc('month', profiles.created_at), year, month
             ORDER BY date_trunc('month', profiles.created_at) DESC
-            ", [
-                'department' => $this->department ? '%'.$this->department.'%' : '%%',
+            ",
+            [
+                'department' => $this->department ? '%' . $this->department . '%' : '%%',
             ]
         );
 
         foreach ($results as $index => $item) {
             if (isset($results[$index + 12])) {
-                if($results[$index + 12]->profiles_total){
+                if($results[$index + 12]->profiles_total) {
                     $results[$index]->profiles_total_variation = (($item->profiles_total - $results[$index + 12]->profiles_total) / $results[$index + 12]->profiles_total) * 100;
                 }
             }
@@ -1895,8 +2019,8 @@ class NumbersController extends Controller
 
     public function usersByYear(Request $request)
     {
-       // Users department is 20 for Corse
-       if (  $this->department && in_array($this->department, ['2A', '2B'])) {
+        // Users department is 20 for Corse
+        if ($this->department && in_array($this->department, ['2A', '2B'])) {
             $this->department = '20';
         }
 
@@ -1909,14 +2033,15 @@ class NumbersController extends Controller
             WHERE COALESCE(profiles.department,'') ILIKE :department
             GROUP BY date_trunc('year', profiles.created_at), year
             ORDER BY date_trunc('year', profiles.created_at) DESC
-            ", [
-                'department' => $this->department ? '%'.$this->department.'%' : '%%',
+            ",
+            [
+                'department' => $this->department ? '%' . $this->department . '%' : '%%',
             ]
         );
 
         foreach ($results as $index => $item) {
             if (isset($results[$index + 1])) {
-                if($results[$index + 1]->profiles_total){
+                if($results[$index + 1]->profiles_total) {
                     $results[$index]->profiles_total_variation = (($item->profiles_total - $results[$index + 1]->profiles_total) / $results[$index + 1]->profiles_total) * 100;
                 }
             }
