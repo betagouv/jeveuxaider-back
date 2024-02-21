@@ -44,6 +44,7 @@ class ArchiveAndClearUserDatas implements ShouldQueue
             'user_id' => $this->user->id,
             'email' => $this->user->email,
             'datas' => serialize($payload),
+            'code' => random_int(100000, 999999),
         ]);
 
         $this->clearUserAttributes();

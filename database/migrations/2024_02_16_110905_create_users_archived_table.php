@@ -20,8 +20,9 @@ return new class extends Migration
             $table->id();
             $table->unsignedInteger('user_id')->unique();
             $table->foreign('user_id')->references('id')->on('users');
-            $table->string('email');
-            $table->text('datas');
+            $table->text('email');
+            $table->longText('datas');
+            $table->string('code');
             $table->timestamps();
         });
     }

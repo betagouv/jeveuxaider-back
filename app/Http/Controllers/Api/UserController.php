@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Events\UserArchivedDatas;
+use App\Models\UserArchivedDatas;
 use App\Filters\FiltersNotificationSearch;
 use App\Filters\FiltersParticipationBenevoleSearch;
 use App\Http\Controllers\Controller;
@@ -19,8 +19,8 @@ use App\Models\Participation;
 use App\Models\Region;
 use App\Models\Role;
 use App\Models\User;
+use App\Notifications\SendCodeUnarchiveUserDatas;
 use App\Notifications\UserAnonymize;
-use App\Services\Sendinblue;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -32,7 +32,8 @@ use Laravel\Passport\Token;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\Bus;
+use Illuminate\Support\Facades\Notification;
+use Maize\Encryptable\Encryption;
 
 class UserController extends Controller
 {
@@ -426,5 +427,47 @@ class UserController extends Controller
         UnarchiveAndRestoreUserDatas::dispatchSync($user);
 
         return $user->fresh();
+    }
+
+    public function checkUserArchiveExist(Request $request)
+    {
+        if($request->input('email')){
+            $encryptedEmail = Encryption::php()->encrypt($request->input('email'));
+            return response()->json(['exist' => UserArchivedDatas::where('email', $encryptedEmail)->exists()], 200);
+        }
+
+        return response()->json(['exist' => false], 200);
+    }
+
+    public function sendUserArchiveCode(Request $request)
+    {
+        if($request->input('email')){
+            $encryptedEmail = Encryption::php()->encrypt($request->input('email'));
+            $userArchiveDatas = UserArchivedDatas::where('email', $encryptedEmail)->first();
+            if($userArchiveDatas){
+                $userArchiveDatas->generateNewCode();
+                Notification::route('mail', [$request->input('email')])
+                    ->route('slack', config('services.slack.webhook_url'))
+                    ->notify(new SendCodeUnarchiveUserDatas($userArchiveDatas->fresh()));
+                return response()->json(['sent' => true], 200);
+            }
+        }
+
+        return response()->json(['sent' => false], 200);
+    }
+
+    public function validateUserArchiveCode(Request $request)
+    {
+        if($request->input('code') && $request->input('email')){
+            $encryptedEmail = Encryption::php()->encrypt($request->input('email'));
+            $encryptedCode = Encryption::php()->encrypt($request->input('code'));
+            $userArchiveDatas = UserArchivedDatas::where('email', $encryptedEmail)->where('code', $encryptedCode)->first();
+            if($userArchiveDatas){
+                UnarchiveAndRestoreUserDatas::dispatchSync($userArchiveDatas->user);
+                return response()->json(['unarchive' => true], 200);
+            }
+        }
+
+        return response()->json(['unarchive' => false], 200);
     }
 }

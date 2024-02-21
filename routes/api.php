@@ -78,6 +78,10 @@ Route::get('structures/{structure}/score', 'Api\StructureController@score');
 
 Route::post('api-engagement/associations/search', 'Api\ApiEngagementController@searchAssociations');
 
+Route::post('user/archive/exist', 'Api\UserController@checkUserArchiveExist');
+Route::post('user/archive/send-code', 'Api\UserController@sendUserArchiveCode');
+Route::post('user/archive/validate-code', 'Api\UserController@validateUserArchiveCode');
+
 Route::group(['middleware' => ['auth:api', 'is.not.banned']], function () {
     Route::get('user', 'Api\UserController@me');
     Route::get('user/status', 'Api\UserController@status');
