@@ -447,20 +447,20 @@ class UserController extends Controller
             if($userArchiveDatas){
                 $userArchiveDatas->generateNewCode();
                 Notification::route('mail', [$request->input('email')])
-                    ->route('slack', config('services.slack.webhook_url'))
+                    ->route('slack', config('services.slack.hook_url'))
                     ->notify(new SendCodeUnarchiveUserDatas($userArchiveDatas->fresh()));
                 return response()->json(['sent' => true], 200);
             }
         }
 
-        return response()->json(['sent' => false], 200);
+        return response()->json(['message' => "Le mail est incorrect"], 422);
     }
 
     public function validateUserArchiveCode(Request $request)
     {
         if($request->input('code') && $request->input('email')){
             $encryptedEmail = Encryption::php()->encrypt($request->input('email'));
-            $encryptedCode = Encryption::php()->encrypt($request->input('code'));
+            $encryptedCode = Encryption::php()->encrypt(intval($request->input('code')));
             $userArchiveDatas = UserArchivedDatas::where('email', $encryptedEmail)->where('code', $encryptedCode)->first();
             if($userArchiveDatas){
                 UnarchiveAndRestoreUserDatas::dispatchSync($userArchiveDatas->user);
@@ -468,6 +468,6 @@ class UserController extends Controller
             }
         }
 
-        return response()->json(['unarchive' => false], 200);
+        return response()->json(['message' => "Le code est incorrect"], 422);
     }
 }

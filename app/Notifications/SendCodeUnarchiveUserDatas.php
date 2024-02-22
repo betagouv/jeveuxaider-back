@@ -14,6 +14,7 @@ class SendCodeUnarchiveUserDatas extends Notification
 {
     use Queueable;
 
+    private string $email;
     private string $code;
     private string $tag;
 
@@ -22,6 +23,7 @@ class SendCodeUnarchiveUserDatas extends Notification
      */
     public function __construct(public UserArchivedDatas $userArchivedDatas)
     {
+        $this->email = Encryption::php()->decrypt($this->userArchivedDatas->email);
         $this->code = Encryption::php()->decrypt($this->userArchivedDatas->code);
         $this->tag = 'app-user-activation-code';
     }
@@ -57,7 +59,7 @@ class SendCodeUnarchiveUserDatas extends Notification
             ->from($from)
             ->success()
             ->to('#' . config('services.slack.log_channel'))
-            ->content('*' . $notifiable . '* a reçu un code d\'activation')
+            ->content('*' . $this->email . '* a reçu un code d\'activation')
             ->attachment(function ($attachment) {
                 $attachment
                     ->color('#BBBBBB')
