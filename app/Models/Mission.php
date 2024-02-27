@@ -385,17 +385,17 @@ class Mission extends Model
             ->whereIn('department', config('taxonomies.regions.departments')[$value]);
     }
 
-    public function scopeOfDomaine($query, $domain_id)
+    public function scopeOfDomaine($query, ...$values)
     {
         return $query
-            ->where('domaine_id', $domain_id)
-            ->orWhere('domaine_secondary_id', $domain_id)
+            ->whereIn('domaine_id', $values)
+            ->orWhereIn('domaine_secondary_id', $values)
             ->orWhereHas(
                 'template',
-                function (Builder $query) use ($domain_id) {
+                function (Builder $query) use ($values) {
                     $query
-                        ->where('domaine_id', $domain_id)
-                        ->orWhere('domaine_secondary_id', $domain_id);
+                        ->whereIn('domaine_id', $values)
+                        ->orWhereIn('domaine_secondary_id', $values);
                 }
             );
     }
@@ -451,16 +451,16 @@ class Mission extends Model
         }
     }
 
-    public function scopeOfActivity($query, $activity_id)
+    public function scopeOfActivity($query, ...$values)
     {
         return $query
-            ->where('activity_id', $activity_id)
-            ->orWhere('activity_secondary_id', $activity_id)
+            ->whereIn('activity_id', $values)
+            ->orWhereIn('activity_secondary_id', $values)
             ->orWhereHas(
                 'template',
-                function (Builder $query) use ($activity_id) {
-                    $query->where('activity_id', $activity_id);
-                    $query->orWhere('activity_secondary_id', $activity_id);
+                function (Builder $query) use ($values) {
+                    $query->whereIn('activity_id', $values);
+                    $query->orWhereIn('activity_secondary_id', $values);
                 }
             );
     }

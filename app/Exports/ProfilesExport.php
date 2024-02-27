@@ -2,7 +2,6 @@
 
 namespace App\Exports;
 
-use App\Filters\FiltersProfileDepartment;
 use App\Filters\FiltersProfileMinParticipations;
 use App\Filters\FiltersProfileSearch;
 use App\Models\Profile;
@@ -65,7 +64,7 @@ class ProfilesExport implements FromQuery, WithMapping, WithHeadings, WithEvents
         return QueryBuilder::for($queryBuilder)
             ->allowedFilters(
                 AllowedFilter::custom('search', new FiltersProfileSearch()),
-                AllowedFilter::custom('department', new FiltersProfileDepartment()),
+                AllowedFilter::scope('department'),
                 AllowedFilter::scope('user.role'),
                 AllowedFilter::exact('zip'),
                 AllowedFilter::exact('is_visible'),

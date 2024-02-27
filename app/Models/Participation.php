@@ -136,19 +136,19 @@ class Participation extends Model
             });
     }
 
-    public function scopeOfDomaine($query, $domain_id)
+    public function scopeOfDomaine($query, ...$values)
     {
         return $query
-            ->whereHas('mission', function (Builder $query) use ($domain_id) {
-                $query->ofDomaine($domain_id);
+            ->whereHas('mission', function (Builder $query) use ($values) {
+                $query->ofDomaine(...$values);
             });
     }
 
-    public function scopeOfActivity($query, $activity_id)
+    public function scopeOfActivity($query, ...$values)
     {
         return $query
-            ->whereHas('mission', function (Builder $query) use ($activity_id) {
-                $query->ofActivity($activity_id);
+            ->whereHas('mission', function (Builder $query) use ($values) {
+                $query->ofActivity(...$values);
             });
     }
 
