@@ -402,15 +402,16 @@ class ApiEngagement
         $domaine = $this->formatDomain($mission);
         $departmentNumber = $this->getDepartmentNumber($mission);
         $departmentName = $this->getDepartmentName($departmentNumber, $mission);
+        $id = isset($mission['id']) ? $mission['id'] : $mission['_id'];
 
         return [
             'provider' => 'api_engagement',
-            'objectID' => 'ApiEngagement/' . $mission['id'],
+            'objectID' => 'ApiEngagement/' . $id,
             'publisher_name' => $mission['publisherName'],
             'publisher_logo' => $mission['publisherLogo'],
             'publisher_url' => $mission['publisherUrl'] ?? null,
             'application_url' => $mission['applicationUrl'],
-            'id' => $mission['id'],
+            'id' => $id,
             'name' => $mission['title'],
             'city' => $mission['city'] ?? null,
             'department' => $departmentNumber ?? null,
