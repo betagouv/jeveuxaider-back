@@ -405,12 +405,12 @@ class ApiEngagement
 
         return [
             'provider' => 'api_engagement',
-            'objectID' => 'ApiEngagement/' . $mission['_id'],
+            'objectID' => 'ApiEngagement/' . $mission['id'],
             'publisher_name' => $mission['publisherName'],
             'publisher_logo' => $mission['publisherLogo'],
             'publisher_url' => $mission['publisherUrl'] ?? null,
             'application_url' => $mission['applicationUrl'],
-            'id' => $mission['_id'],
+            'id' => $mission['id'],
             'name' => $mission['title'],
             'city' => $mission['city'] ?? null,
             'department' => $departmentNumber ?? null,
