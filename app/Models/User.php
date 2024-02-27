@@ -297,6 +297,16 @@ class User extends Authenticatable
         return  $query->where("users.last_online_at", "<=", Carbon::now()->subMonth(1));
     }
 
+    public function scopeIsActive($query)
+    {
+        return  $query
+            ->where("users.last_interaction_at", ">=", Carbon::now()->subYear(3))
+            ->whereNull('users.archived_at')
+            ->whereNull('users.anonymous_at')
+            ->whereNull('users.banned_at')
+        ;
+    }
+
     public function ban($reason)
     {
         switch ($reason) {

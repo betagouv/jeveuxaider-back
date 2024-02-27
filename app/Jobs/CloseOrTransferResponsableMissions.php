@@ -31,7 +31,6 @@ class CloseOrTransferResponsableMissions implements ShouldQueue
      */
     public function handle(): void
     {
-
         $organisation = $this->user->structures->first();
 
         if(!$organisation) {
@@ -39,15 +38,17 @@ class CloseOrTransferResponsableMissions implements ShouldQueue
         }
 
         if ($organisation->members->count() > 1) {
-            $newResponsable = $organisation->members->where('id', '!=', $this->user->id)->first();
-            $organisation->missions->where('responsable_id', $this->user->profile->id)->each(function ($mission) use ($newResponsable) {
-                $mission->responsable_id = $newResponsable->profile->id;
-                $mission->save();
-            });
+            $newResponsable = $organisation->members()->where('id', '!=', $this->user->id)->isActive()->first();
+            if($newResponsable) {
+                $organisation->missions->where('responsable_id', $this->user->profile->id)->each(function ($mission) use ($newResponsable) {
+                    $mission->responsable_id = $newResponsable->profile->id;
+                    $mission->save();
+                });
+            }
         } else {
+            // View StructureObserver for more details
             $organisation->state = 'Désinscrite';
             $organisation->save();
         }
-
     }
 }
