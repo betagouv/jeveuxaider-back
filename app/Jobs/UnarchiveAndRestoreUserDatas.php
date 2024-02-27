@@ -32,6 +32,11 @@ class UnarchiveAndRestoreUserDatas implements ShouldQueue
      */
     public function handle(): void
     {
+
+        if (!$this->user->archivedDatas) {
+            throw new \Exception('Les données ne sont pas archivées pour ' . $this->user->id);
+        }
+
         $this->user->archived_at = null;
 
         $datas = Encryption::php()->decrypt($this->user->archivedDatas->datas);

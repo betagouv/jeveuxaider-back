@@ -8,6 +8,7 @@ use App\Filters\FiltersParticipationBenevoleSearch;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\UserRolesRequest;
 use App\Jobs\ArchiveAndClearUserDatas;
+use App\Jobs\CloseOrTransferResponsableMissions;
 use App\Jobs\SendinblueDeleteUser;
 use App\Jobs\UnarchiveAndRestoreUserDatas;
 use App\Jobs\UnsubscribeAndAnonymizeUserDatas;
@@ -413,6 +414,7 @@ class UserController extends Controller
 
         UserCancelWaitingParticipations::dispatch($user, 'user_archived');
         SendinblueDeleteUser::dispatch($user);
+        CloseOrTransferResponsableMissions::dispatchIf($user->hasRole('responsable'), $user);
         ArchiveAndClearUserDatas::dispatchSync($user);
 
         return $user->fresh();

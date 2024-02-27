@@ -30,6 +30,13 @@ class ArchiveAndClearUserDatas implements ShouldQueue
      */
     public function handle(): void
     {
+        if (!env('ENCRYPTION_KEY') || empty(env('ENCRYPTION_KEY'))) {
+            throw new \Exception('ENCRYPTION_KEY not found in .env file');
+        }
+
+        if ($this->user->archivedDatas) {
+            throw new \Exception('Les données ne peuvent pas être archivées pour ' . $this->user->id);
+        }
 
         $payload = [
             'email' => $this->user->email,
