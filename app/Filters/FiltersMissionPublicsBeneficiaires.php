@@ -10,7 +10,13 @@ class FiltersMissionPublicsBeneficiaires implements Filter
     public function __invoke(Builder $query, $value, string $property): Builder
     {
         return $query->where(function ($query) use ($value) {
-            $query->whereJsonContains('publics_beneficiaires', $value);
+            if (is_array($value)) {
+                foreach ($value as $v) {
+                    $query->orWhereJsonContains('publics_beneficiaires', $v);
+                }
+            } else {
+                $query->whereJsonContains('publics_beneficiaires', $value);
+            }
         });
     }
 }
