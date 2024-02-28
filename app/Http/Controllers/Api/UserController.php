@@ -412,10 +412,7 @@ class UserController extends Controller
             abort(401, "Les données de l'utilisateur ne peuvent pas être archivées");
         }
 
-        UserCancelWaitingParticipations::dispatch($user, 'user_archived');
-        SendinblueDeleteUser::dispatch($user);
-        CloseOrTransferResponsableMissions::dispatchIf($user->hasRole('responsable'), $user);
-        ArchiveAndClearUserDatas::dispatchSync($user);
+        $user->archive();
 
         return $user->fresh();
     }
@@ -426,7 +423,7 @@ class UserController extends Controller
             abort(401, "Les données de l'utilisateur ne sont pas archivées");
         }
 
-        UnarchiveAndRestoreUserDatas::dispatchSync($user);
+        $user->unarchive();
 
         return $user->fresh();
     }

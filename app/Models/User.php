@@ -2,8 +2,12 @@
 
 namespace App\Models;
 
-use App\Events\UserArchivedDatas;
+use App\Jobs\ArchiveAndClearUserDatas;
+use App\Jobs\CloseOrTransferResponsableMissions;
 use App\Jobs\ParticipationDeclineWhenUserIsBanned;
+use App\Jobs\SendinblueDeleteUser;
+use App\Jobs\UnarchiveAndRestoreUserDatas;
+use App\Jobs\UserCancelWaitingParticipations;
 use App\Notifications\ParticipationDeclined;
 use App\Notifications\ResetPassword;
 use App\Notifications\UserBannedInappropriateBehavior;
@@ -399,5 +403,18 @@ class User extends Authenticatable
             ->first();
 
         return (bool) $role;
+    }
+
+    public function archive()
+    {
+        UserCancelWaitingParticipations::dispatch($this, 'user_archived');
+        SendinblueDeleteUser::dispatch($this);
+        CloseOrTransferResponsableMissions::dispatchIf($this->hasRole('responsable'), $this);
+        ArchiveAndClearUserDatas::dispatchSync($this);
+    }
+
+    public function unarchive()
+    {
+        UnarchiveAndRestoreUserDatas::dispatchSync($this);
     }
 }
