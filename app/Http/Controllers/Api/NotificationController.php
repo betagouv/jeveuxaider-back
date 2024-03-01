@@ -19,6 +19,7 @@ use App\Models\UserArchivedDatas;
 use App\Notifications\BenevoleCejNoParticipation;
 use App\Notifications\BenevoleCejOneYearAfter;
 use App\Notifications\BenevoleCejSixMonthsAfter;
+use App\Notifications\BenevoleWillBeArchived;
 use App\Notifications\DocumentSubmitted;
 use App\Notifications\ExportReady;
 use App\Notifications\InvitationSent;
@@ -65,6 +66,7 @@ use App\Notifications\ResponsableMissionsReactivated;
 use App\Notifications\ResponsableParticipationAModeredEnPriorite;
 use App\Notifications\ResponsableSummaryDaily;
 use App\Notifications\ResponsableSummaryMonthly;
+use App\Notifications\ResponsableWillBeArchived;
 use App\Notifications\SendCodeUnarchiveUserDatas;
 use App\Notifications\StructureAskUnregister;
 use App\Notifications\StructureAssociationValidated;
@@ -427,6 +429,12 @@ class NotificationController extends Controller
                 break;
             case 'user_banned_inappropriate_behavior':
                 $notification = new UserBannedInappropriateBehavior();
+                break;
+            case 'benevole_will_be_archived':
+                $notification = new BenevoleWillBeArchived();
+                break;
+            case 'responsable_will_be_archived':
+                $notification = new ResponsableWillBeArchived($structure);
                 break;
             default:
                 return null;
