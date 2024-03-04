@@ -4,10 +4,10 @@ namespace App\Observers;
 
 use App\Jobs\AirtableDeleteObject;
 use App\Jobs\AirtableSyncObject;
+use App\Jobs\DeclineWaitingParticipationsFromMission;
 use App\Jobs\MissionGetQPV;
 use App\Jobs\RuleDispatcherByEvent;
 use App\Jobs\SendinblueSyncUser;
-use App\Models\Message;
 use App\Models\Mission;
 use App\Models\Participation;
 use App\Models\Profile;
@@ -116,7 +116,7 @@ class MissionObserver
                     if ($mission->responsable) {
                         $mission->responsable->notify(new MissionSignaled($mission));
                     }
-                    // @TODO: Job CancelMissionParticipations (avec contexte mission signalée)
+                    // @TODO: Job CancelWaitingParticipationsFromMission (avec contexte mission signalée)
                     // Notif ON
                     $mission->participations->whereIn('state', ['En attente de validation', 'En cours de traitement'])
                         ->each(function ($participation) {
@@ -126,41 +126,14 @@ class MissionObserver
                     $mission->participations()->update(['state' => 'Annulée']);
                     break;
                 case 'Annulée':
-                    // @TODO: Job CancelMissionParticipations (avec contexte mission annulée)
+                    // @TODO: Job CancelWaitingParticipationsFromMission (avec contexte mission annulée)
                     $mission->participations->whereIn('state', ['En attente de validation', 'En cours de traitement'])
                         ->each(function ($participation) {
                             $participation->update(['state' => 'Annulée']);
                         });
                     break;
                 case 'Terminée':
-                    // Notif OFF
-                    $mission->participations->whereIn('state', ['En attente de validation', 'En cours de traitement'])
-                        ->each(function ($participation) {
-                            activity()
-                                ->performedOn($participation)
-                                ->withProperties([
-                                    'attributes' => ['state' => 'Refusée'],
-                                    'old' => ['state' => $participation->state]
-                                ])
-                                ->event('updated - auto closed')
-                                ->log('updated');
-
-                            $participation->state = 'Refusée';
-                            $participation->saveQuietly();
-
-                            $participation->load('conversation');
-                            if ($participation->conversation) {
-                                (new Message([
-                                    'conversation_id' => $participation->conversation->id,
-                                    'type' => 'contextual',
-                                    'content' => 'La participation a été déclinée',
-                                    'contextual_state' => 'Refusée',
-                                    'contextual_reason' => 'mission_terminated',
-                                ]))->saveQuietly();
-                            }
-                        });
-
-                    // Notifications temoignage.
+                    DeclineWaitingParticipationsFromMission::dispatch($mission, 'mission_terminated');
                     $mission->sendNotificationsTemoignages();
                     break;
                 case 'En cours de traitement':
