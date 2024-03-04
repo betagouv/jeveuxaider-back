@@ -6,10 +6,13 @@ use App\Models\Structure;
 use App\Traits\TransactionalEmail;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class ResponsableWillBeArchived extends Notification
+class ResponsableWillBeArchived extends Notification implements ShouldQueue
 {
     use TransactionalEmail;
+    use Queueable;
 
     public $tag;
     public $structure;

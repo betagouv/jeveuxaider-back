@@ -5,10 +5,13 @@ namespace App\Notifications;
 use App\Traits\TransactionalEmail;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class BenevoleWillBeArchived extends Notification
+class BenevoleWillBeArchived extends Notification implements ShouldQueue
 {
     use TransactionalEmail;
+    use Queueable;
 
     public $tag;
     /**
@@ -44,7 +47,6 @@ class BenevoleWillBeArchived extends Notification
             ->subject('On ne va pas se quitter comme ça 😢')
             ->markdown('emails.benevoles.will-be-archived', [
                 'notifiable' => $notifiable,
-                // @todo: confirmer le lien du CTA
                 'url' => $this->trackedUrl('/')
             ])
             ->tag($this->tag);
