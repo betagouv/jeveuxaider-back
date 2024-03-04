@@ -35,6 +35,13 @@ class BenevoleWillBeArchived extends Notification implements ShouldQueue
         return ['mail'];
     }
 
+    public function viaQueues()
+    {
+        return [
+            'mail' => 'emails',
+        ];
+    }
+
     /**
      * Get the mail representation of the notification.
      *

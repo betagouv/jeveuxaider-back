@@ -22,10 +22,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Facades\Hash;
-use Firebase\JWT\JWT;
-use Firebase\JWT\Key;
+
 class User extends Authenticatable
 {
     use HasApiTokens;
@@ -304,11 +301,19 @@ class User extends Authenticatable
     public function scopeIsActive($query)
     {
         return  $query
-            ->where("users.last_interaction_at", ">=", Carbon::now()->subYear(3))
+            ->where("users.last_interaction_at", ">=", Carbon::now()->subYears(3))
             ->whereNull('users.archived_at')
             ->whereNull('users.anonymous_at')
             ->whereNull('users.banned_at')
         ;
+    }
+
+    public function scopeCanBeEmailed($query)
+    {
+        return $query->whereNull('users.archived_at')
+            ->whereNull('users.anonymous_at')
+            ->whereNull('users.banned_at')
+            ->whereNull('users.hard_bounced_at');
     }
 
     public function ban($reason)

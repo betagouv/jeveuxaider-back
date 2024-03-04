@@ -28,6 +28,13 @@ class ResponsableWillBeArchived extends Notification implements ShouldQueue
         $this->tag = 'app-responsable-archivage';
     }
 
+    public function viaQueues()
+    {
+        return [
+            'mail' => 'emails',
+        ];
+    }
+
     /**
      * Get the notification's delivery channels.
      *
