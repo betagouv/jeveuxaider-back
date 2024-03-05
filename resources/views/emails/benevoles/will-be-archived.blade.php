@@ -5,7 +5,7 @@
     @component('mail::components.paragraph')
         <p>Bonjour,</p>
         <p>
-            Cela va faire presque 3 ans que vous n'êtes plus actif sur la plateforme <a class="link" href="https://www.jeveuxaider.gouv.fr/">JeVeuxAider.gouv.fr</a>. Si vous ne revenez pas sur la plateforme d'ici quelques jours, votre compte sera supprimé. Et ça, ça nous rend triste.
+            Cela va faire presque 3 ans que vous n'êtes plus actif sur la plateforme <a class="link" href="https://www.jeveuxaider.gouv.fr?utm_source=transactionnel&utm_campaign=app-benevole-archivage">JeVeuxAider.gouv.fr</a>. Si vous ne revenez pas sur la plateforme d'ici quelques jours, votre compte sera supprimé. Et ça, ça nous rend triste.
         </p>
         <p>
             D'autant plus que des associations, des collectivités territoriales et des acteurs publics ont toujours besoin de votre aide.
