@@ -305,8 +305,8 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::post('users/{user}/impersonate', 'Api\UserController@impersonate');
     Route::post('users/{user}/ban', 'Api\UserController@ban');
     Route::post('users/{user}/unban', 'Api\UserController@unban');
-    Route::post('users/{user}/archive', 'Api\UserController@archive');
-    Route::post('users/{user}/unarchive', 'Api\UserController@unarchive');
+    // Route::post('users/{user}/archive', 'Api\UserController@archive');
+    // Route::post('users/{user}/unarchive', 'Api\UserController@unarchive');
 
     // STRUCTURES
     Route::delete('structures/{structure}', 'Api\StructureController@delete');
