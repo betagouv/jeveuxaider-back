@@ -48,10 +48,12 @@ use App\Notifications\ParticipationBenevoleValidated;
 use App\Notifications\ParticipationCanceled;
 use App\Notifications\ParticipationCreated;
 use App\Notifications\ParticipationDeclined;
+use App\Notifications\ParticipationDeclinedFromMissionTerminated;
 use App\Notifications\ParticipationShouldBeDone;
 use App\Notifications\ParticipationValidated;
 use App\Notifications\ParticipationValidatedCejAdviser;
 use App\Notifications\ParticipationWaitingValidation;
+use App\Notifications\ParticipationWillStart;
 use App\Notifications\ReferentDailyTodo;
 use App\Notifications\ReferentSummaryDaily;
 use App\Notifications\ReferentSummaryMonthly;
@@ -132,6 +134,7 @@ class NotificationController extends Controller
             case 'referent_organisation_created':
             case 'structure_switch_responsable':
             case 'benevole_participation_should_be_done':
+            case 'benevole_participation_will_start':
                 return $user->profile;
             default:
                 return $user;
@@ -167,6 +170,9 @@ class NotificationController extends Controller
             case 'benevole_participation_should_be_done':
                 $notification = new ParticipationShouldBeDone($participation);
                 break;
+            case 'benevole_participation_will_start':
+                $notification = new ParticipationWillStart($participation);
+                break;
             case 'benevole_participation_validated':
                 $notification = new ParticipationValidated($participation);
                 break;
@@ -185,6 +191,9 @@ class NotificationController extends Controller
                 break;
             case 'benevole_participation_refused':
                 $notification = new ParticipationDeclined($participation, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer maximus neque nec nulla ullamcorper auctor. Aliquam in leo massa. Etiam luctus luctus volutpat. Curabitur interdum sem a urna finibus, ut porttitor ipsum elementum. Aliquam erat volutpat. Integer ultrices, metus id sagittis scelerisque, lectus ex feugiat massa, at laoreet ante enim ac ipsum.', 'requirements_not_fulfilled');
+                break;
+            case 'benevole_participation_declined_mission_terminated':
+                $notification = new ParticipationDeclinedFromMissionTerminated($participation);
                 break;
             case 'responsable_mission_created':
                 $notification = new MissionWaitingValidation($mission);

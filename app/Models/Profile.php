@@ -208,21 +208,29 @@ class Profile extends Model implements HasMedia
         }
     }
 
-    public function scopeDepartment($query, $value)
+    public function scopeDepartment($query, ...$values)
     {
-        if ($value == '2A') {
-            return $query
-                ->where('zip', 'LIKE', '200%')
+        if (in_array('2A', $values)) {
+            $query
+                ->orWhere('zip', 'LIKE', '200%')
                 ->orWhere('zip', 'LIKE', '201%');
+
+            $values = array_filter($values, fn ($v) => $v != '2A');
         }
 
-        if ($value == '2B') {
-            return $query
-                ->where('zip', 'LIKE', '202%')
+        if (in_array('2B', $values)) {
+            $query
+                ->orWhere('zip', 'LIKE', '202%')
                 ->orWhere('zip', 'LIKE', '206%');
+
+            $values = array_filter($values, fn ($v) => $v != '2B');
         }
 
-        return $query->where('zip', 'LIKE', $value . '%');
+        foreach ($values as $value) {
+            $query->orWhere('zip', 'LIKE', $value . '%');
+        }
+
+        return $query;
     }
 
     public function scopeOfDomaine($query, $domain_id)

@@ -24,6 +24,7 @@ use App\Console\Commands\SendNotificationTodoToReferents;
 use App\Console\Commands\SendNotificationResponsablesParticipationsNeedToBeTreated;
 use App\Console\Commands\SendNotificationsStructureWithoutMission;
 use App\Console\Commands\MissionsCloseOutdatedCommand;
+use App\Console\Commands\SendNotificationsBenevoleWhenParticipationWillStart;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -48,6 +49,7 @@ class Kernel extends ConsoleKernel
     {
         // Notifications
         // $schedule->command(SendNotificationTodoToModerateurs::class)->weekdays()->daily()->at('08:00');
+        $schedule->command(SendNotificationsBenevoleWhenParticipationWillStart::class)->daily()->at('10:00');
         $schedule->command(SendNotificationsRegisterUserVolontaireCej::class)->daily()->at('10:00');
         $schedule->command(SendNotificationsBenevoleCejNoParticipation::class)->daily()->at('10:10');
         $schedule->command(SendNotificationsBenevoleCejSixMonthsAfter::class)->daily()->at('10:20');
@@ -99,7 +101,7 @@ class Kernel extends ConsoleKernel
      */
     protected function commands()
     {
-        $this->load(__DIR__.'/Commands');
+        $this->load(__DIR__ . '/Commands');
 
         require base_path('routes/console.php');
     }

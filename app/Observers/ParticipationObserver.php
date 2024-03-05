@@ -54,6 +54,8 @@ class ParticipationObserver
         $newState = $participation->state;
         $currentUser = User::find(Auth::guard('api')->user()->id);
 
+        $participation->load(['profile']);
+
         if ($oldState != $newState) {
             switch ($newState) {
                 case 'En cours de traitement':
