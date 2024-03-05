@@ -308,12 +308,17 @@ class User extends Authenticatable
         ;
     }
 
-    public function scopeCanBeEmailed($query)
+    public function scopeCanReceiveNotifications($query)
     {
         return $query->whereNull('users.archived_at')
             ->whereNull('users.anonymous_at')
             ->whereNull('users.banned_at')
             ->whereNull('users.hard_bounced_at');
+    }
+
+    public function canBeNotified()
+    {
+        return !$this->archived_at && !$this->anonymous_at && !$this->banned_at && !$this->hard_bounced_at;
     }
 
     public function ban($reason)

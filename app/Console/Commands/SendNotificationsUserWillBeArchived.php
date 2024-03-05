@@ -44,8 +44,7 @@ class SendNotificationsUserWillBeArchived extends Command
     {
         // 7 jours avant le passage du script qui archive les utilisateurs.
         $date = Carbon::now()->subYears(3)->addDays(7);
-        $query = User::where('last_interaction_at', "<", $date)
-            ->canBeEmailed();
+        $query = User::canReceiveNotifications()->where('last_interaction_at', "<", $date);
 
         if ($this->confirm($query->count() . ' users will get a notification')) {
             $start = now();
