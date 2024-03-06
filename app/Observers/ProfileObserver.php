@@ -25,6 +25,8 @@ class ProfileObserver
                 SendinblueSyncUser::dispatch($profile->user);
             }
         }
+
+        $profile->geolocalise();
     }
 
     /**
@@ -35,6 +37,7 @@ class ProfileObserver
      */
     public function updated(Profile $profile)
     {
+
         $oldEmail = $profile->getOriginal('email');
         $newEmail = $profile->email;
 
@@ -61,6 +64,10 @@ class ProfileObserver
             if ($profile->user->hasRole(['referent', 'referent_regional'])) {
                 AirtableSyncObject::dispatch($profile->user);
             }
+        }
+
+        if($profile->isDirty('zip')) {
+            $profile->geolocalise();
         }
     }
 
