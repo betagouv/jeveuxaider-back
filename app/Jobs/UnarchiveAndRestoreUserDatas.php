@@ -49,6 +49,7 @@ class UnarchiveAndRestoreUserDatas implements ShouldQueue
         $this->user->profile->phone = $payload['phone'];
         $this->user->profile->mobile = $payload['mobile'];
         $this->user->profile->birthday = $payload['birthday'];
+        $this->user->last_interaction_at = now();
 
         $this->user->saveQuietly();
         $this->user->profile->save();
