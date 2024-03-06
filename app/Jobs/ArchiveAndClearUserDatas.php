@@ -4,18 +4,18 @@ namespace App\Jobs;
 
 use App\Models\User;
 use Carbon\Carbon;
-use Firebase\JWT\JWT;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Hash;
 
 class ArchiveAndClearUserDatas implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     /**
      * Create a new job instance.
@@ -36,6 +36,10 @@ class ArchiveAndClearUserDatas implements ShouldQueue
 
         if ($this->user->archivedDatas) {
             throw new \Exception('Les données ne peuvent pas être archivées pour ' . $this->user->id);
+        }
+
+        if (User::where('id', $this->user->id)->isActive()->exists()) {
+            throw new \Exception('l\'utilisateur ' . $this->user->id . ' est actif et ne peut donc pas être archivé');
         }
 
         $payload = [
