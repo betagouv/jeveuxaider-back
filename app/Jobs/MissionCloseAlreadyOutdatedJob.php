@@ -9,12 +9,14 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Bus\Batchable;
 use App\Models\Message;
 
 class MissionCloseAlreadyOutdatedJob implements ShouldQueue
 {
-    use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     protected $mission;
 
@@ -36,9 +38,6 @@ class MissionCloseAlreadyOutdatedJob implements ShouldQueue
      */
     public function handle()
     {
-        if ($this->batch()?->cancelled()) {
-            return;
-        }
         if (!$this->mission) {
             return;
         }
@@ -62,9 +61,9 @@ class MissionCloseAlreadyOutdatedJob implements ShouldQueue
                     activity()
                         ->performedOn($participation)
                         ->withProperties([
-                                'attributes' => ['state' => 'Refusée'],
-                                'old' => ['state' => $participation->state]
-                            ])
+                            'attributes' => ['state' => 'Refusée'],
+                            'old' => ['state' => $participation->state]
+                        ])
                         ->event('updated')
                         ->log('updated');
 
