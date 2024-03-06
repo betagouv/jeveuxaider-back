@@ -9,12 +9,10 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Bus\Batchable;
 use Spatie\Activitylog\Facades\CauserResolver;
 
 class MissionCloseOutdatedJob implements ShouldQueue
 {
-    use Batchable;
     use Dispatchable;
     use InteractsWithQueue;
     use Queueable;
@@ -40,9 +38,6 @@ class MissionCloseOutdatedJob implements ShouldQueue
      */
     public function handle()
     {
-        if ($this->batch()?->cancelled()) {
-            return;
-        }
         if (!$this->mission) {
             return;
         }

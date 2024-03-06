@@ -2,7 +2,6 @@
 
 namespace App\Jobs;
 
-use App\Models\Structure;
 use App\Models\StructureScore;
 use App\Models\Temoignage;
 use Illuminate\Bus\Queueable;
@@ -10,11 +9,13 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Bus\Batchable;
 
 class StructureCalculateScore implements ShouldQueue
 {
-    use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     protected $structure;
     protected $processedParticipationsRate;
@@ -42,9 +43,6 @@ class StructureCalculateScore implements ShouldQueue
      */
     public function handle()
     {
-        if ($this->batch()?->cancelled()) {
-            return;
-        }
         if (!$this->structure) {
             return;
         }
@@ -117,8 +115,7 @@ class StructureCalculateScore implements ShouldQueue
         $avg = $avg - 2.5;
         if ($avg > 0) {
             $this->bonusPoints = $avg * 4;
-        }
-        else {
+        } else {
             $this->bonusPoints = $avg * (10 / 1.5);
         }
     }
@@ -131,7 +128,8 @@ class StructureCalculateScore implements ShouldQueue
             return;
         }
         $waitingParticipationsCount = $this->structure->participations->whereIn(
-            'state', ['En attente de validation', 'En cours de traitement']
+            'state',
+            ['En attente de validation', 'En cours de traitement']
         )->count();
 
         $this->processedParticipationsRate = ($participationsCount - $waitingParticipationsCount) / $participationsCount * 100;
