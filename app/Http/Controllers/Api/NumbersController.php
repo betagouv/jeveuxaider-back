@@ -707,6 +707,19 @@ class NumbersController extends Controller
             ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
             'utilisateurs_with_participations' => $usersWithParticipations,
             'participations_avg' => $usersWithParticipations ? round($participationsCount / $usersWithParticipations, 1) : 0,
+            'utilisateurs_archived' => Profile::role($request->header('Context-Role'))->when(
+                $this->department,
+                function ($query) {
+                    $query->department($this->department);
+                }
+            )
+            ->whereHas(
+                'user',
+                function (Builder $query) {
+                    $query->whereBetween('archived_at', [$this->startDate, $this->endDate]);
+                }
+            )
+            ->count(),
         ];
     }
 

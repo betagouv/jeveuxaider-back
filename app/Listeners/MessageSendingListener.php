@@ -8,17 +8,17 @@ use Illuminate\Mail\Events\MessageSending;
 
 class MessageSendingListener
 {
-    public function handle( MessageSending $event )
+    public function handle(MessageSending $event)
     {
         if (isset($event->data['notifiable'])) {
-            if ($event->data['notifiable'] instanceof User) {
-                $user = $event->data['notifiable'];
-            }
-            elseif ($event->data['notifiable'] instanceof Profile) {
-                $user = $event->data['notifiable']->user;
+            $notifiable = $event->data['notifiable'];
+            if ($notifiable instanceof User) {
+                $user = $notifiable;
+            } elseif ($notifiable instanceof Profile) {
+                $user = $notifiable->user;
             }
 
-            if ($user && ($user->anonymous_at || $user->banned_at)) {
+            if ($user && !$user->canBeNotified()) {
                 return false;
             }
         }
