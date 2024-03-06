@@ -28,13 +28,35 @@ class CorrectActivityLogForAutoClosedMissions extends Command
      */
     public function handle()
     {
+        $this->cleanMissionsCauser();
+        $this->cleanParticipationsCauser();
+    }
+
+    private function cleanMissionsCauser()
+    {
         $query = DB::table('activity_log AS al')
             ->whereNotNull(DB::raw("al.properties->'attributes'->>'automatically_closed_at'"))
             ->where(DB::raw("al.properties->'attributes'->>'state'"), '=', 'Terminée')
             ->where('subject_type', 'like', '%Mission')
             ->whereNotNull('al.causer_id');
 
-        $this->info($query->count() . ' logs will be updated');
+        $this->info('Missions: ' . $query->count() . ' logs will be updated');
+
+        if ($this->confirm('Do you wish to continue ?')) {
+            $query->update([
+                'causer_id' => null,
+                'causer_type' => null
+            ]);
+        }
+    }
+
+    private function cleanParticipationsCauser()
+    {
+        $query = DB::table('activity_log AS al')
+            ->where('event', 'updated - auto closed')
+            ->whereNotNull('al.causer_id');
+
+        $this->info('Participations: ' . $query->count() . ' logs will be updated');
 
         if ($this->confirm('Do you wish to continue ?')) {
             $query->update([
