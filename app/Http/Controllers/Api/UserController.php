@@ -7,8 +7,6 @@ use App\Filters\FiltersNotificationSearch;
 use App\Filters\FiltersParticipationBenevoleSearch;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\UserRolesRequest;
-use App\Jobs\ArchiveAndClearUserDatas;
-use App\Jobs\CloseOrTransferResponsableMissions;
 use App\Jobs\SendinblueDeleteUser;
 use App\Jobs\UnarchiveAndRestoreUserDatas;
 use App\Jobs\UnsubscribeAndAnonymizeUserDatas;
@@ -215,7 +213,7 @@ class UserController extends Controller
         $inputs = $validator->safe()->getIterator();
         $user = $request->user();
 
-        if (! $user->canSwitchToRole($inputs)) {
+        if (!$user->canSwitchToRole($inputs)) {
             return abort(403);
         }
 
@@ -406,31 +404,31 @@ class UserController extends Controller
         return $user;
     }
 
-    public function archive(Request $request, User $user)
-    {
-        if ($user->archivedDatas) {
-            abort(401, "Les données de l'utilisateur ne peuvent pas être archivées");
-        }
+    // public function archive(Request $request, User $user)
+    // {
+    //     if ($user->archivedDatas) {
+    //         abort(401, "Les données de l'utilisateur ne peuvent pas être archivées");
+    //     }
 
-        $user->archive();
+    //     $user->archive();
 
-        return $user->fresh();
-    }
+    //     return $user->fresh();
+    // }
 
-    public function unarchive(Request $request, User $user)
-    {
-        if (!$user->archivedDatas) {
-            abort(401, "Les données de l'utilisateur ne sont pas archivées");
-        }
+    // public function unarchive(Request $request, User $user)
+    // {
+    //     if (!$user->archivedDatas) {
+    //         abort(401, "Les données de l'utilisateur ne sont pas archivées");
+    //     }
 
-        $user->unarchive();
+    //     $user->unarchive();
 
-        return $user->fresh();
-    }
+    //     return $user->fresh();
+    // }
 
     public function checkUserArchiveExist(Request $request)
     {
-        if($request->input('email')){
+        if($request->input('email')) {
             $encryptedEmail = Encryption::php()->encrypt($request->input('email'));
             return response()->json(['exist' => UserArchivedDatas::where('email', $encryptedEmail)->exists()], 200);
         }
@@ -440,10 +438,10 @@ class UserController extends Controller
 
     public function sendUserArchiveCode(Request $request)
     {
-        if($request->input('email')){
+        if($request->input('email')) {
             $encryptedEmail = Encryption::php()->encrypt($request->input('email'));
             $userArchiveDatas = UserArchivedDatas::where('email', $encryptedEmail)->first();
-            if($userArchiveDatas){
+            if($userArchiveDatas) {
                 $userArchiveDatas->generateNewCode();
                 Notification::route('mail', [$request->input('email')])
                     ->route('slack', config('services.slack.hook_url'))
@@ -457,11 +455,11 @@ class UserController extends Controller
 
     public function validateUserArchiveCode(Request $request)
     {
-        if($request->input('code') && $request->input('email')){
+        if($request->input('code') && $request->input('email')) {
             $encryptedEmail = Encryption::php()->encrypt($request->input('email'));
             $encryptedCode = Encryption::php()->encrypt(intval($request->input('code')));
             $userArchiveDatas = UserArchivedDatas::where('email', $encryptedEmail)->where('code', $encryptedCode)->first();
-            if($userArchiveDatas){
+            if($userArchiveDatas) {
                 UnarchiveAndRestoreUserDatas::dispatchSync($userArchiveDatas->user);
                 return response()->json(['unarchive' => true], 200);
             }
