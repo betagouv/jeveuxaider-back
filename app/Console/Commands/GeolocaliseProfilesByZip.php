@@ -45,7 +45,8 @@ class GeolocaliseProfilesByZip extends Command
 
         if ($this->confirm($zipCodes->count() . ' zips will be geolocalised. Do you wish to continue?')) {
             $zipCodes->each(function ($zip) {
-               JobsGeolocaliseProfilesByZip::dispatch($zip);
+                $this->info('Geolocalising ' . $zip);
+                JobsGeolocaliseProfilesByZip::dispatch($zip);
             });
         }
     }
