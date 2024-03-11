@@ -42,6 +42,8 @@ class Profile extends Model implements HasMedia
         'notification__responsable_bilan' => 'boolean',
         'notification__referent_bilan' => 'boolean',
         'missing_fields' => 'array',
+        'latitude' => 'float',
+        'longitude' => 'float',
     ];
 
     protected $appends = ['short_name', 'full_name'];
