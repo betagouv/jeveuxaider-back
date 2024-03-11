@@ -295,17 +295,34 @@ class User extends Authenticatable
 
     public function scopeInactive($query)
     {
-        return  $query->where("users.last_online_at", "<=", Carbon::now()->subMonth(1));
+        return $query->where("users.last_online_at", "<=", Carbon::now()->subMonth(1));
     }
 
     public function scopeIsActive($query)
     {
-        return  $query
+        return $query
             ->where("users.last_interaction_at", ">=", Carbon::now()->subYears(3))
+            ->doesntHave('archivedDatas')
             ->whereNull('users.archived_at')
             ->whereNull('users.anonymous_at')
             ->whereNull('users.banned_at')
         ;
+    }
+
+    public function scopeShouldBeArchived($query)
+    {
+        return $query
+            ->where("users.last_interaction_at", "<", Carbon::now()->subYears(3))
+            ->doesntHave('archivedDatas')
+            ->whereNull('users.archived_at')
+            ->whereNull('users.anonymous_at')
+            ->whereNull('users.banned_at')
+        ;
+    }
+
+    public function canBeArchived()
+    {
+        return ($this->last_interaction_at < Carbon::now()->subYears(3)) && !$this->archivedDatas && !$this->archived_at && !$this->anonymous_at && !$this->banned_at;
     }
 
     public function scopeCanReceiveNotifications($query)
@@ -417,6 +434,10 @@ class User extends Authenticatable
 
     public function archive()
     {
+        if (!$this->canBeArchived()) {
+            return;
+        }
+
         UserCancelWaitingParticipations::dispatch($this, 'user_archived');
         SendinblueDeleteUser::dispatch($this);
         CloseOrTransferResponsableMissions::dispatchIf($this->hasRole('responsable'), $this);

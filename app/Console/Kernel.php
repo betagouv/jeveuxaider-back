@@ -6,6 +6,7 @@ use App\Console\Commands\AirtableSyncOrganisationsScore;
 use App\Console\Commands\AlgoliaMissionUpdateFieldOutdated;
 use App\Console\Commands\ApiEngagementExportMissions;
 use App\Console\Commands\ApiEngagementSyncMissions;
+use App\Console\Commands\ArchiveNonActiveUsers;
 use App\Console\Commands\SendNotificationsBenevoleCejNoParticipation;
 use App\Console\Commands\SendNotificationsBenevoleCejOneYearAfter;
 use App\Console\Commands\SendNotificationsBenevoleCejSixMonthsAfter;
@@ -94,6 +95,9 @@ class Kernel extends ConsoleKernel
 
         // Close outdated missions
         $schedule->command(MissionsCloseOutdatedCommand::class)->daily()->at('09:30');
+
+        // Archive non active users
+        $schedule->command(ArchiveNonActiveUsers::class)->daily()->at('03:00');
     }
 
     /**
