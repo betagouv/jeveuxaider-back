@@ -15,9 +15,11 @@ use App\Models\Participation;
 use App\Models\Profile;
 use App\Models\Structure;
 use App\Models\User;
+use App\Models\UserArchivedDatas;
 use App\Notifications\BenevoleCejNoParticipation;
 use App\Notifications\BenevoleCejOneYearAfter;
 use App\Notifications\BenevoleCejSixMonthsAfter;
+use App\Notifications\BenevoleWillBeArchived;
 use App\Notifications\DocumentSubmitted;
 use App\Notifications\ExportReady;
 use App\Notifications\InvitationSent;
@@ -66,6 +68,8 @@ use App\Notifications\ResponsableMissionsReactivated;
 use App\Notifications\ResponsableParticipationAModeredEnPriorite;
 use App\Notifications\ResponsableSummaryDaily;
 use App\Notifications\ResponsableSummaryMonthly;
+use App\Notifications\ResponsableWillBeArchived;
+use App\Notifications\SendCodeUnarchiveUserDatas;
 use App\Notifications\StructureAskUnregister;
 use App\Notifications\StructureAssociationValidated;
 use App\Notifications\StructureBeingProcessed;
@@ -244,6 +248,13 @@ class NotificationController extends Controller
                 break;
             case 'responsable_organisation_without_mission_second_reminder':
                 $notification = new StructureWithoutMissionSecondReminder($structure);
+                break;
+            case 'user_unarchive_code':
+                $userArchivedDatas = new UserArchivedDatas();
+                $userArchivedDatas->email = 'test@test.fr';
+                $userArchivedDatas->code = random_int(100000, 999999);
+                $userArchivedDatas->datas = 'test@test.fr';
+                $notification = new SendCodeUnarchiveUserDatas($userArchivedDatas);
                 break;
             case 'admin_reseau_new_lead':
                 $form = [
@@ -427,6 +438,12 @@ class NotificationController extends Controller
                 break;
             case 'user_banned_inappropriate_behavior':
                 $notification = new UserBannedInappropriateBehavior();
+                break;
+            case 'benevole_will_be_archived':
+                $notification = new BenevoleWillBeArchived();
+                break;
+            case 'responsable_will_be_archived':
+                $notification = new ResponsableWillBeArchived($structure);
                 break;
             default:
                 return null;

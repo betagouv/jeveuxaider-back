@@ -2,7 +2,12 @@
 
 namespace App\Models;
 
+use App\Jobs\ArchiveAndClearUserDatas;
+use App\Jobs\CloseOrTransferResponsableMissions;
 use App\Jobs\ParticipationDeclineWhenUserIsBanned;
+use App\Jobs\SendinblueDeleteUser;
+use App\Jobs\UnarchiveAndRestoreUserDatas;
+use App\Jobs\UserCancelWaitingParticipations;
 use App\Notifications\ParticipationDeclined;
 use App\Notifications\ResetPassword;
 use App\Notifications\UserBannedInappropriateBehavior;
@@ -104,6 +109,11 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\Message', 'from_id');
     }
 
+    public function archivedDatas()
+    {
+        return $this->hasOne('App\Models\UserArchivedDatas');
+    }
+
     public function conversations()
     {
         return $this->belongsToMany('App\Models\Conversation', 'conversations_users');
@@ -141,24 +151,6 @@ class User extends Authenticatable
             'conversation_id' => $conversation_id,
             'type' => 'chat',
         ]);
-    }
-
-    public function anonymize()
-    {
-        $email = $this->id . '@anonymized.fr';
-        $this->anonymous_at = Carbon::now();
-        $this->name = $email;
-        $this->email = $email;
-        $this->profile->email = $email;
-        $this->profile->first_name = 'Anonyme';
-        $this->profile->last_name = 'Anonyme';
-        $this->profile->phone = null;
-        $this->profile->mobile = null;
-        $this->profile->birthday = null;
-        $this->save();
-        $this->profile->save();
-
-        return $this;
     }
 
     public function resetContextRole()
@@ -306,6 +298,29 @@ class User extends Authenticatable
         return  $query->where("users.last_online_at", "<=", Carbon::now()->subMonth(1));
     }
 
+    public function scopeIsActive($query)
+    {
+        return  $query
+            ->where("users.last_interaction_at", ">=", Carbon::now()->subYears(3))
+            ->whereNull('users.archived_at')
+            ->whereNull('users.anonymous_at')
+            ->whereNull('users.banned_at')
+        ;
+    }
+
+    public function scopeCanReceiveNotifications($query)
+    {
+        return $query->whereNull('users.archived_at')
+            ->whereNull('users.anonymous_at')
+            ->whereNull('users.banned_at')
+            ->whereNull('users.hard_bounced_at');
+    }
+
+    public function canBeNotified()
+    {
+        return !$this->archived_at && !$this->anonymous_at && !$this->banned_at && !$this->hard_bounced_at;
+    }
+
     public function ban($reason)
     {
         switch ($reason) {
@@ -398,5 +413,18 @@ class User extends Authenticatable
             ->first();
 
         return (bool) $role;
+    }
+
+    public function archive()
+    {
+        UserCancelWaitingParticipations::dispatch($this, 'user_archived');
+        SendinblueDeleteUser::dispatch($this);
+        CloseOrTransferResponsableMissions::dispatchIf($this->hasRole('responsable'), $this);
+        ArchiveAndClearUserDatas::dispatchSync($this);
+    }
+
+    public function unarchive()
+    {
+        UnarchiveAndRestoreUserDatas::dispatchSync($this);
     }
 }

@@ -176,10 +176,12 @@ it('can unsubscribe', function () {
 
     $response = $this->post('/api/user/anonymize');
 
+    $user->refresh();
+    
     expect($user)
         ->email->toBe($user->id . '@anonymized.fr')
-        ->profile->first_name->toBe('Anonyme')
-        ->profile->last_name->toBe('Anonyme');
+        ->profile->first_name->toBe('Utilisateur')
+        ->profile->last_name->toBe('Désinscrit');
 
     $response->assertStatus(200);
 });

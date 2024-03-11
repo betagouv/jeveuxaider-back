@@ -2,10 +2,17 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\UserArchivedDatas;
 use App\Filters\FiltersNotificationSearch;
 use App\Filters\FiltersParticipationBenevoleSearch;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\UserRolesRequest;
+use App\Jobs\ArchiveAndClearUserDatas;
+use App\Jobs\CloseOrTransferResponsableMissions;
+use App\Jobs\SendinblueDeleteUser;
+use App\Jobs\UnarchiveAndRestoreUserDatas;
+use App\Jobs\UnsubscribeAndAnonymizeUserDatas;
+use App\Jobs\UserCancelWaitingParticipations;
 use App\Models\ActivityLog;
 use App\Models\Department;
 use App\Models\Mission;
@@ -13,8 +20,8 @@ use App\Models\Participation;
 use App\Models\Region;
 use App\Models\Role;
 use App\Models\User;
+use App\Notifications\SendCodeUnarchiveUserDatas;
 use App\Notifications\UserAnonymize;
-use App\Services\Sendinblue;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -26,6 +33,8 @@ use Laravel\Passport\Token;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Notification;
+use Maize\Encryptable\Encryption;
 
 class UserController extends Controller
 {
@@ -277,42 +286,16 @@ class UserController extends Controller
 
     public function anonymize(Request $request)
     {
-
         $user = $request->user();
-
-        // Annulation de ses participations en cours de modération
-        $user->profile->participations()->with(['conversation'])->whereIn('state', ['En attente de validation', 'En cours de traitement'])
-            ->each(function ($participation) use ($user) {
-                $participation->conversation->messages()->create([
-                    'from_id' => $user->id,
-                    'type' => 'contextual',
-                    'content' => 'La participation a été annulée',
-                    'contextual_state' => 'Désinscription',
-                    'contextual_reason' => 'user_unsubscribed',
-                ]);
-
-                activity()
-                    ->causedBy($user)
-                    ->performedOn($participation)
-                    ->withProperties([
-                        'attributes' => ['state' => 'Annulée'],
-                        'old' => ['state' => $participation->state]
-                    ])
-                    ->event('updated')
-                    ->log('updated');
-
-                $participation->state = 'Annulée';
-                $participation->saveQuietly();
-            });
 
         $notification = new UserAnonymize($user);
         $user->notify($notification);
-        if (config('services.sendinblue.sync')) {
-            Sendinblue::deleteContact($user);
-        }
-        $user->anonymize();
 
-        return $user;
+        UserCancelWaitingParticipations::dispatch($user, 'user_unsubscribed');
+        SendinblueDeleteUser::dispatch($user);
+        UnsubscribeAndAnonymizeUserDatas::dispatchSync($user);
+
+        return $user->fresh();
     }
 
     public function hasParticipation(Mission $mission, Request $request)
@@ -421,5 +404,69 @@ class UserController extends Controller
     {
         $user = $user->unban();
         return $user;
+    }
+
+    public function archive(Request $request, User $user)
+    {
+        if ($user->archivedDatas) {
+            abort(401, "Les données de l'utilisateur ne peuvent pas être archivées");
+        }
+
+        $user->archive();
+
+        return $user->fresh();
+    }
+
+    public function unarchive(Request $request, User $user)
+    {
+        if (!$user->archivedDatas) {
+            abort(401, "Les données de l'utilisateur ne sont pas archivées");
+        }
+
+        $user->unarchive();
+
+        return $user->fresh();
+    }
+
+    public function checkUserArchiveExist(Request $request)
+    {
+        if($request->input('email')){
+            $encryptedEmail = Encryption::php()->encrypt($request->input('email'));
+            return response()->json(['exist' => UserArchivedDatas::where('email', $encryptedEmail)->exists()], 200);
+        }
+
+        return response()->json(['exist' => false], 200);
+    }
+
+    public function sendUserArchiveCode(Request $request)
+    {
+        if($request->input('email')){
+            $encryptedEmail = Encryption::php()->encrypt($request->input('email'));
+            $userArchiveDatas = UserArchivedDatas::where('email', $encryptedEmail)->first();
+            if($userArchiveDatas){
+                $userArchiveDatas->generateNewCode();
+                Notification::route('mail', [$request->input('email')])
+                    ->route('slack', config('services.slack.hook_url'))
+                    ->notify(new SendCodeUnarchiveUserDatas($userArchiveDatas->fresh()));
+                return response()->json(['sent' => true], 200);
+            }
+        }
+
+        return response()->json(['message' => "Le mail est incorrect"], 422);
+    }
+
+    public function validateUserArchiveCode(Request $request)
+    {
+        if($request->input('code') && $request->input('email')){
+            $encryptedEmail = Encryption::php()->encrypt($request->input('email'));
+            $encryptedCode = Encryption::php()->encrypt(intval($request->input('code')));
+            $userArchiveDatas = UserArchivedDatas::where('email', $encryptedEmail)->where('code', $encryptedCode)->first();
+            if($userArchiveDatas){
+                UnarchiveAndRestoreUserDatas::dispatchSync($userArchiveDatas->user);
+                return response()->json(['unarchive' => true], 200);
+            }
+        }
+
+        return response()->json(['message' => "Le code est incorrect"], 422);
     }
 }
