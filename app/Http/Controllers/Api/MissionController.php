@@ -220,7 +220,7 @@ class MissionController extends Controller
 
         $profilesQueryBuilder = Profile::where('is_visible', true)
             ->whereHas('user', function (Builder $query) {
-                $query->whereNull('anonymous_at')->whereNull('banned_at');
+                $query->canReceiveNotifications();
             })
             ->ofDomaine($domaineId)
             ->whereDoesntHave('participations', function (Builder $query) use ($mission) {
