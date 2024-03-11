@@ -49,7 +49,7 @@ class ProfileFaker implements ShouldQueue
 
         $firstname = $this->faker->firstName;
         $lastname = $this->faker->lastName;
-        $email = Str::transliterate(mb_strtolower($firstname . '-' . $lastname)) . '-' . $this->profile->id . '@fake.test';
+        $email = Str::slug($firstname . '-' . $lastname) . '-' . $this->profile->id . '@fake.test';
 
         $this->profile->timestamps = false;
         $this->profile->user->timestamps = false;
