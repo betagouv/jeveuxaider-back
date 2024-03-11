@@ -168,7 +168,7 @@ return [
         'production' => [
             'supervisor-1' => [
                 'connection' => 'redis',
-                'queue' => ['emails', 'rules', 'sendinblue', 'airtable', 'webhooks', 'default'],
+                'queue' => ['default', 'emails', 'rules', 'sendinblue', 'airtable', 'webhooks', 'low-tasks'],
                 'balance' => 'simple',
                 'processes' => 10,
                 'tries' => 3,
@@ -187,7 +187,7 @@ return [
         'staging' => [
             'supervisor-1' => [
                 'connection' => 'redis',
-                'queue' => ['emails', 'rules', 'sendinblue', 'airtable', 'webhooks', 'default'],
+                'queue' => ['default', 'emails', 'rules', 'sendinblue', 'airtable', 'webhooks', 'low-tasks'],
                 'balance' => 'simple',
                 'processes' => 10,
                 'tries' => 3,
@@ -205,7 +205,7 @@ return [
         'local' => [
             'supervisor-1' => [
                 'connection' => 'redis',
-                'queue' => ['emails', 'rules', 'sendinblue', 'airtable', 'webhooks', 'default'],
+                'queue' => ['default', 'emails', 'rules', 'sendinblue', 'airtable', 'webhooks', 'low-tasks'],
                 'balance' => 'simple',
                 'processes' => 10,
                 'tries' => 3,

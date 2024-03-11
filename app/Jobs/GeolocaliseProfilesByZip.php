@@ -22,7 +22,7 @@ class GeolocaliseProfilesByZip implements ShouldQueue
      */
     public function __construct(public string $zip)
     {
-
+        $this->onQueue('low-tasks');
     }
 
     /**
