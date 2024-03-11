@@ -360,6 +360,6 @@ class Profile extends Model implements HasMedia
             return;
         }
 
-        GeolocaliseProfileByZip::dispatch($this, $this->zip);
+        GeolocaliseProfileByZip::dispatchSync($this, $this->zip);
     }
 }
