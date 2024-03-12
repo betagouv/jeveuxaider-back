@@ -3,18 +3,20 @@
 namespace App\Jobs;
 
 use App\Models\Participation;
-use App\Models\User;
 use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Laravel\Passport\Passport;
 
 class ParticipationDeclineWhenUserIsBanned implements ShouldQueue
 {
-    use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Batchable;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     protected $participation;
     protected $reason;
@@ -28,6 +30,7 @@ class ParticipationDeclineWhenUserIsBanned implements ShouldQueue
     {
         $this->participation = Participation::find($participationId);
         $this->reason = $reason;
+        $this->onQueue('high-tasks');
     }
 
     /**

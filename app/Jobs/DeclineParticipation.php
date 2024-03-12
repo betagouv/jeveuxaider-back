@@ -14,7 +14,11 @@ use Laravel\Passport\Passport;
 
 class DeclineParticipation implements ShouldQueue
 {
-    use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Batchable;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     protected $participation;
     protected $currentUserId;
@@ -32,6 +36,7 @@ class DeclineParticipation implements ShouldQueue
         $this->currentUserId = $currentUserId;
         $this->reason = $reason;
         $this->message = $message;
+        $this->onQueue('high-tasks');
     }
 
     /**

@@ -14,7 +14,11 @@ use Laravel\Passport\Passport;
 
 class ValidateParticipation implements ShouldQueue
 {
-    use Batchable,Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Batchable;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     protected $participation;
 
@@ -29,6 +33,7 @@ class ValidateParticipation implements ShouldQueue
     {
         $this->participation = Participation::find($participationId);
         $this->currentUserId = $currentUserId;
+        $this->onQueue('high-tasks');
     }
 
     /**

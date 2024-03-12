@@ -2,7 +2,6 @@
 
 namespace App\Jobs;
 
-use App\Models\User;
 use App\Services\Sendinblue;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -12,7 +11,10 @@ use Illuminate\Queue\SerializesModels;
 
 class UsersSetHardBouncedAt implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     protected $offset;
     protected $limit;
@@ -26,6 +28,7 @@ class UsersSetHardBouncedAt implements ShouldQueue
     {
         $this->offset = $offset;
         $this->limit = $limit;
+        $this->onQueue('low-tasks');
     }
 
     /**

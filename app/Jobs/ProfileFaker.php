@@ -30,6 +30,7 @@ class ProfileFaker implements ShouldQueue
     {
         $this->profile = $profile;
         $this->faker = Factory::create('fr_FR');
+        $this->onQueue('low-tasks');
     }
 
     /**

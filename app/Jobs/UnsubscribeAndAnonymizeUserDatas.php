@@ -4,25 +4,25 @@ namespace App\Jobs;
 
 use App\Models\User;
 use Carbon\Carbon;
-use Firebase\JWT\JWT;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Hash;
 
 class UnsubscribeAndAnonymizeUserDatas implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     /**
      * Create a new job instance.
      */
     public function __construct(public User $user)
     {
-        //
+        $this->onQueue('high-tasks');
     }
 
     /**

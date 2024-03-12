@@ -21,7 +21,7 @@ class CancelWaitingParticipationsFromMission implements ShouldQueue
      */
     public function __construct(public Mission $mission, public string $reason = 'mission_canceled')
     {
-
+        $this->onQueue('low-tasks');
     }
 
     /**
