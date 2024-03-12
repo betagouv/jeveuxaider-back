@@ -52,20 +52,20 @@ class ParticipationObserver
     {
         $oldState = $participation->getOriginal('state');
         $newState = $participation->state;
-        $currentUser = User::find(Auth::guard('api')->user()->id);
+        $currentUser = User::find(Auth::guard('api')->user()?->id);
 
-        $participation->load(['profile']);
+        $participation->loadMissing(['profile']);
 
         if ($oldState != $newState) {
             switch ($newState) {
                 case 'En cours de traitement':
-                    if ($participation->profile && !$currentUser->isAdmin()) {
+                    if ($participation->profile && $currentUser && !$currentUser->isAdmin()) {
                         $participation->profile->notify(new ParticipationBeingProcessed($participation));
                     }
                     break;
                 case 'Validée':
                     if ($participation->profile) {
-                        if (!$currentUser->isAdmin()) {
+                        if ($currentUser && !$currentUser->isAdmin()) {
                             $participation->profile->notify(new ParticipationValidated($participation));
                         }
 
@@ -76,7 +76,7 @@ class ParticipationObserver
                     }
                     break;
                 case 'Annulée':
-                    if ($participation->profile && !$currentUser->isAdmin()) {
+                    if ($participation->profile && $currentUser && !$currentUser->isAdmin()) {
                         $participation->profile->notify(new ParticipationCanceled($participation));
                     }
                     break;
@@ -85,7 +85,7 @@ class ParticipationObserver
 
         // Update structure's score
         if ($oldState != $newState) {
-            $participation->load(['conversation', 'mission.structure']);
+            $participation->loadMissing(['conversation', 'mission.structure']);
             if (in_array($oldState, ['En attente de validation', 'En cours de traitement'])) {
                 $participation->mission->structure->calculateScore();
             }
@@ -96,7 +96,7 @@ class ParticipationObserver
                         'type' => 'contextual',
                         'contextual_state' => $newState,
                     ]);
-                    $currentUser->markConversationAsRead($participation->conversation);
+                    $currentUser?->markConversationAsRead($participation->conversation);
                 }
                 $participation->conversation->setResponseTime();
                 $participation->conversation->timestamps = false;
