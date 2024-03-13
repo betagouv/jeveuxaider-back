@@ -16,7 +16,7 @@ class ArchiveNonActiveUsers extends Command
     *
     * @var string
     */
-    protected $signature = 'archive-non-active-users {--limit=1} {--debug}';
+    protected $signature = 'archive-non-active-users {--debug} {--maxId=}';
 
     /**
      * The console command description.
@@ -44,6 +44,11 @@ class ArchiveNonActiveUsers extends Command
     {
         $options = $this->options();
 
+        if (empty($options['maxId'])) {
+            $this->error('Mandatory option: --maxId');
+            return;
+        }
+
         // @todo: tester
         // @todo: trouver un moyen de limit pour pouvoir tester un petit nombre en prod,
         // limit() avec get() et on enleve chunk/cursor ?
@@ -57,13 +62,15 @@ class ArchiveNonActiveUsers extends Command
         //     ArchiveAndClearUserDatas::dispatch($user);
         // });
 
-        $users = User::shouldBeArchived()->orderBy('id')->limit($options['limit'])->get();
+        $query = User::shouldBeArchived()
+            ->orderBy('id')
+            ->where('id', '<=', $options['maxId']);
 
-        if ($this->confirm($users->count() . ' utilisateurs vont être archivés. Continuer ?')) {
+        if ($this->confirm($query->count() . ' utilisateurs vont être archivés. Continuer ?')) {
             $start = now();
             $executionTime = 0;
 
-            foreach($users as $user) {
+            foreach($query->cursor() as $user) {
                 $user->loadMissing('roles');
 
                 if ($options['debug']) {
