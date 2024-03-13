@@ -57,22 +57,27 @@ class ArchiveNonActiveUsers extends Command
         //     ArchiveAndClearUserDatas::dispatch($user);
         // });
 
-        $users = User::shouldBeArchived()->orderBy('id')->limit($options['limit'])->get();
+        $query = User::shouldBeArchived()->orderBy('id')->limit($options['limit'])->get();
 
-        $start = now();
-        $executionTime = 0;
+        if ($this->confirm($query->count() . ' utilisateurs vont être archivés. Continuer ?')) {
+            // $start = now();
+            // $executionTime = 0;
 
-        foreach($users as $user) {
-            $user->loadMissing('roles');
-            UserCancelWaitingParticipations::dispatch($user, 'user_archived');
-            SendinblueDeleteUser::dispatch($user);
-            CloseOrTransferResponsableMissions::dispatchIf($user->hasRole('responsable'), $user);
-            ArchiveAndClearUserDatas::dispatch($user);
+            foreach($query->get() as $user) {
+                $user->loadMissing('roles');
 
-            $time = $start->diffInSeconds(now());
-            if ($executionTime !== $time && ($time - $executionTime) % 5 === 0) {
-                $this->comment("Processing... ($time seconds)");
-                $executionTime = $time;
+                $this->comment($user->id . " - " . $user->email);
+
+                UserCancelWaitingParticipations::dispatch($user, 'user_archived');
+                SendinblueDeleteUser::dispatch($user);
+                CloseOrTransferResponsableMissions::dispatchIf($user->hasRole('responsable'), $user);
+                ArchiveAndClearUserDatas::dispatch($user);
+
+                // $time = $start->diffInSeconds(now());
+                // if ($executionTime !== $time && ($time - $executionTime) % 5 === 0) {
+                //     $this->comment("Processing... ($time seconds)");
+                //     $executionTime = $time;
+                // }
             }
         }
     }
