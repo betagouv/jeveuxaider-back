@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Helpers\Utils;
+use App\Jobs\GeolocaliseProfileByZip;
 use App\Models\Media as ModelMedia;
 use App\Traits\HasMissingFields;
 use Carbon\Carbon;
@@ -41,6 +42,8 @@ class Profile extends Model implements HasMedia
         'notification__responsable_bilan' => 'boolean',
         'notification__referent_bilan' => 'boolean',
         'missing_fields' => 'array',
+        'latitude' => 'float',
+        'longitude' => 'float',
     ];
 
     protected $appends = ['short_name', 'full_name'];
@@ -349,5 +352,14 @@ class Profile extends Model implements HasMedia
         return Attribute::make(
             get: fn ($value) => strip_tags($value),
         );
+    }
+
+    public function geolocalise(): void
+    {
+        if(!$this->zip) {
+            return;
+        }
+
+        GeolocaliseProfileByZip::dispatchSync($this, $this->zip);
     }
 }

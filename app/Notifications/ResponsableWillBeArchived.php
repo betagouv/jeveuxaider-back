@@ -31,7 +31,7 @@ class ResponsableWillBeArchived extends Notification implements ShouldQueue
     public function viaQueues()
     {
         return [
-            'mail' => 'emails-low',
+            'mail' => 'low-tasks',
         ];
     }
 
