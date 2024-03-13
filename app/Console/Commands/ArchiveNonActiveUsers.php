@@ -16,7 +16,7 @@ class ArchiveNonActiveUsers extends Command
     *
     * @var string
     */
-    protected $signature = 'archive-non-active-users {--limit=1}';
+    protected $signature = 'archive-non-active-users {--limit=1} {--debug}';
 
     /**
      * The console command description.
@@ -60,24 +60,26 @@ class ArchiveNonActiveUsers extends Command
         $users = User::shouldBeArchived()->orderBy('id')->limit($options['limit'])->get();
 
         if ($this->confirm($users->count() . ' utilisateurs vont être archivés. Continuer ?')) {
-            // $start = now();
-            // $executionTime = 0;
+            $start = now();
+            $executionTime = 0;
 
             foreach($users as $user) {
                 $user->loadMissing('roles');
 
-                $this->comment($user->id . " - " . $user->email);
+                if ($options['debug']) {
+                    $this->comment($user->id . " - " . $user->email);
+                }
 
                 UserCancelWaitingParticipations::dispatch($user, 'user_archived');
                 SendinblueDeleteUser::dispatch($user);
                 CloseOrTransferResponsableMissions::dispatchIf($user->hasRole('responsable'), $user);
                 ArchiveAndClearUserDatas::dispatch($user);
 
-                // $time = $start->diffInSeconds(now());
-                // if ($executionTime !== $time && ($time - $executionTime) % 5 === 0) {
-                //     $this->comment("Processing... ($time seconds)");
-                //     $executionTime = $time;
-                // }
+                $time = $start->diffInSeconds(now());
+                if ($executionTime !== $time && ($time - $executionTime) % 5 === 0) {
+                    $this->comment("Processing... ($time seconds)");
+                    $executionTime = $time;
+                }
             }
         }
     }
