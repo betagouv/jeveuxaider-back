@@ -43,24 +43,10 @@ class ArchiveNonActiveUsers extends Command
     public function handle()
     {
         $options = $this->options();
-
         if (empty($options['maxId'])) {
             $this->error('Mandatory option: --maxId');
             return;
         }
-
-        // @todo: tester
-        // @todo: trouver un moyen de limit pour pouvoir tester un petit nombre en prod,
-        // limit() avec get() et on enleve chunk/cursor ?
-
-        // $query = User::shouldBeArchived()->orderBy('id');
-        // $query->cursor()->each(function (User $user) {
-        //     $user->loadMissing('roles');
-        //     UserCancelWaitingParticipations::dispatch($user, 'user_archived');
-        //     SendinblueDeleteUser::dispatch($user);
-        //     CloseOrTransferResponsableMissions::dispatchIf($user->hasRole('responsable'), $user);
-        //     ArchiveAndClearUserDatas::dispatch($user);
-        // });
 
         $query = User::shouldBeArchived()
             ->orderBy('id')
@@ -89,5 +75,16 @@ class ArchiveNonActiveUsers extends Command
                 }
             }
         }
+
+        // @todo: script auto avec kernel
+
+        // $query = User::shouldBeArchived()->orderBy('id');
+        // $query->cursor()->each(function (User $user) {
+        //     $user->loadMissing('roles');
+        //     UserCancelWaitingParticipations::dispatch($user, 'user_archived');
+        //     SendinblueDeleteUser::dispatch($user);
+        //     CloseOrTransferResponsableMissions::dispatchIf($user->hasRole('responsable'), $user);
+        //     ArchiveAndClearUserDatas::dispatch($user);
+        // });
     }
 }
