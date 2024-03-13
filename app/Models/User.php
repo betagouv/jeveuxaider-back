@@ -320,10 +320,10 @@ class User extends Authenticatable
         ;
     }
 
-    public function canBeArchived()
-    {
-        return ($this->last_interaction_at < Carbon::now()->subYears(3)) && !$this->archivedDatas && !$this->archived_at && !$this->anonymous_at && !$this->banned_at;
-    }
+    // public function canBeArchived()
+    // {
+    //     return ($this->last_interaction_at < Carbon::now()->subYears(3)) && !$this->archivedDatas && !$this->archived_at && !$this->anonymous_at && !$this->banned_at;
+    // }
 
     public function scopeCanReceiveNotifications($query)
     {
@@ -432,20 +432,20 @@ class User extends Authenticatable
         return (bool) $role;
     }
 
-    public function archive()
-    {
-        if (!$this->canBeArchived()) {
-            return;
-        }
+    // public function archive()
+    // {
+    //     if (!$this->canBeArchived()) {
+    //         return;
+    //     }
 
-        UserCancelWaitingParticipations::dispatch($this, 'user_archived');
-        SendinblueDeleteUser::dispatch($this);
-        CloseOrTransferResponsableMissions::dispatchIf($this->hasRole('responsable'), $this);
-        ArchiveAndClearUserDatas::dispatchSync($this);
-    }
+    //     UserCancelWaitingParticipations::dispatch($this, 'user_archived');
+    //     SendinblueDeleteUser::dispatch($this);
+    //     CloseOrTransferResponsableMissions::dispatchIf($this->hasRole('responsable'), $this);
+    //     ArchiveAndClearUserDatas::dispatchSync($this);
+    // }
 
-    public function unarchive()
-    {
-        UnarchiveAndRestoreUserDatas::dispatchSync($this);
-    }
+    // public function unarchive()
+    // {
+    //     UnarchiveAndRestoreUserDatas::dispatchSync($this);
+    // }
 }

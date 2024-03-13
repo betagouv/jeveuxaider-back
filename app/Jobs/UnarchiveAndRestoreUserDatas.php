@@ -22,7 +22,7 @@ class UnarchiveAndRestoreUserDatas implements ShouldQueue
      */
     public function __construct(public User $user)
     {
-        //
+        $this->onQueue('high-tasks');
     }
 
     /**

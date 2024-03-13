@@ -22,7 +22,7 @@ class ArchiveAndClearUserDatas implements ShouldQueue
      */
     public function __construct(public User $user)
     {
-        //
+        $this->onQueue('low-tasks');
     }
 
     /**
@@ -44,11 +44,11 @@ class ArchiveAndClearUserDatas implements ShouldQueue
 
         $payload = [
             'email' => $this->user->email,
-            'first_name' => $this->user->profile->first_name,
-            'last_name' => $this->user->profile->last_name,
-            'birthday' => $this->user->profile->birthday,
-            'phone' => $this->user->profile->phone,
-            'mobile' => $this->user->profile->mobile,
+            'first_name' => $this->user->profile?->first_name,
+            'last_name' => $this->user->profile?->last_name,
+            'birthday' => $this->user->profile?->birthday,
+            'phone' => $this->user->profile?->phone,
+            'mobile' => $this->user->profile?->mobile,
         ];
 
         $this->user->archivedDatas()->create([
@@ -68,14 +68,16 @@ class ArchiveAndClearUserDatas implements ShouldQueue
         $this->user->archived_at = Carbon::now();
         $this->user->name = $email;
         $this->user->email = $email;
-        $this->user->profile->email = $email;
-        $this->user->profile->first_name = 'Utilisateur';
-        $this->user->profile->last_name = 'Archivé';
-        $this->user->profile->phone = null;
-        $this->user->profile->mobile = null;
-        $this->user->profile->birthday = null;
-
         $this->user->saveQuietly();
-        $this->user->profile->saveQuietly();
+
+        if ($this->user->profile) {
+            $this->user->profile->email = $email;
+            $this->user->profile->first_name = 'Utilisateur';
+            $this->user->profile->last_name = 'Archivé';
+            $this->user->profile->phone = null;
+            $this->user->profile->mobile = null;
+            $this->user->profile->birthday = null;
+            $this->user->profile->saveQuietly();
+        }
     }
 }
