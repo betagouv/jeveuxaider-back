@@ -57,13 +57,13 @@ class ArchiveNonActiveUsers extends Command
         //     ArchiveAndClearUserDatas::dispatch($user);
         // });
 
-        $query = User::shouldBeArchived()->orderBy('id')->limit($options['limit'])->get();
+        $users = User::shouldBeArchived()->orderBy('id')->limit($options['limit'])->get();
 
-        if ($this->confirm($query->count() . ' utilisateurs vont être archivés. Continuer ?')) {
+        if ($this->confirm($users->count() . ' utilisateurs vont être archivés. Continuer ?')) {
             // $start = now();
             // $executionTime = 0;
 
-            foreach($query->get() as $user) {
+            foreach($users as $user) {
                 $user->loadMissing('roles');
 
                 $this->comment($user->id . " - " . $user->email);
