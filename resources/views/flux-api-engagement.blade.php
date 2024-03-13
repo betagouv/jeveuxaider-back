@@ -33,7 +33,10 @@
         </organizationStatusJuridique>
         <organizationUrl>
             @php
-                $assoFrontUrl = $mission->structure->statut_juridique == 'Association' ? config('app.front_url') . '/organisations/' . $mission->structure->slug : null;
+                $assoFrontUrl =
+                    $mission->structure->statut_juridique == 'Association'
+                        ? config('app.front_url') . '/organisations/' . $mission->structure->slug
+                        : null;
             @endphp
             <![CDATA[{{ $assoFrontUrl }}]]>
         </organizationUrl>
@@ -124,7 +127,10 @@
         <domain>
             @php
                 $domainId = $mission->template ? $mission->template->domaine_id : $mission->domaine_id;
-                $domainApiName = isset($domainId) && isset(config('taxonomies.api_engagement_domaines.terms')[$domainId]) ? config('taxonomies.api_engagement_domaines.terms')[$domainId] : 'autre';
+                $domainApiName =
+                    isset($domainId) && isset(config('taxonomies.api_engagement_domaines.terms')[$domainId])
+                        ? config('taxonomies.api_engagement_domaines.terms')[$domainId]
+                        : 'autre';
             @endphp
             <![CDATA[{{ $domainApiName }}]]>
         </domain>
@@ -132,7 +138,10 @@
         <activity>
             @php
                 $activityId = $mission->template ? $mission->template->activity_id : $mission->activity_id;
-                $activityApiName = isset($activityId) && isset(config('taxonomies.api_engagement_activities.terms')[$activityId]) ? config('taxonomies.api_engagement_activities.terms')[$activityId] : null;
+                $activityApiName =
+                    isset($activityId) && isset(config('taxonomies.api_engagement_activities.terms')[$activityId])
+                        ? config('taxonomies.api_engagement_activities.terms')[$activityId]
+                        : null;
             @endphp
             <![CDATA[{{ $activityApiName }}]]>
         </activity>
@@ -149,17 +158,18 @@
 
         <openToMinors>
             @php
-                $isOpenToMinors = !empty($mission->publics_volontaires) && in_array('Mineurs', $mission->publics_volontaires);
+                $isOpenToMinors =
+                    !empty($mission->publics_volontaires) && in_array('Mineurs', $mission->publics_volontaires);
             @endphp
             <![CDATA[{{ $isOpenToMinors ? 'yes' : 'no' }}]]>
         </openToMinors>
 
         <snu>
-            @php
-                $isSnu = !empty($mission->publics_volontaires) && in_array('Jeunes volontaires du Service National Universel', $mission->publics_volontaires);
-            @endphp
-            <![CDATA[{{ $isSnu ? 'yes' : 'no' }}]]>
+            <![CDATA[{{ $mission->is_snu_mig_compatible ? 'yes' : 'no' }}]]>
         </snu>
+        <snuPlaces>
+            <![CDATA[{{ $mission->snu_mig_places }}]]>
+        </snuPlaces>
         <image>
             @if ($mission->template && $mission->template->photo)
                 <![CDATA[{{ $mission->template->photo->urls['original'] }}]]>
@@ -169,7 +179,13 @@
         </image>
         <schedule>
             @php
-                $schedule = isset($mission->commitment__duration) ? (isset($mission->commitment__time_period) ? config('taxonomies.duration.terms')[$mission->commitment__duration] . ' par ' . config('taxonomies.time_period.terms')[$mission->commitment__time_period] : config('taxonomies.duration.terms')[$mission->commitment__duration]) : null;
+                $schedule = isset($mission->commitment__duration)
+                    ? (isset($mission->commitment__time_period)
+                        ? config('taxonomies.duration.terms')[$mission->commitment__duration] .
+                            ' par ' .
+                            config('taxonomies.time_period.terms')[$mission->commitment__time_period]
+                        : config('taxonomies.duration.terms')[$mission->commitment__duration])
+                    : null;
             @endphp
             <![CDATA[{{ $schedule }}]]>
         </schedule>
