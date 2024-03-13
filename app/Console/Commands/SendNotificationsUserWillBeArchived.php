@@ -49,18 +49,16 @@ class SendNotificationsUserWillBeArchived extends Command
                 Carbon::now()->subYears(3)->addDays(7)->endOfDay(),
             ]);
 
-        $query->chunk(200, function ($users) {
-            foreach ($users as $user) {
-                $user->loadMissing('roles');
-                if ($user->hasRole('responsable')) {
-                    $user->loadMissing('structures');
-                    $structure = $user->structures->first();
-                    if ($structure) {
-                        Notification::send($user, new ResponsableWillBeArchived($structure));
-                    }
-                } else {
-                    Notification::send($user, new BenevoleWillBeArchived());
+        $query->cursor()->each(function (User $user) {
+            $user->loadMissing('roles');
+            if ($user->hasRole('responsable')) {
+                $user->loadMissing('structures');
+                $structure = $user->structures->first();
+                if ($structure) {
+                    Notification::send($user, new ResponsableWillBeArchived($structure));
                 }
+            } else {
+                Notification::send($user, new BenevoleWillBeArchived());
             }
         });
     }
