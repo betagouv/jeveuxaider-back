@@ -87,7 +87,7 @@ class MissionObserver
         $oldState = $mission->getOriginal('state');
         $newState = $mission->state;
 
-        $mission->load(['structure', 'responsable']);
+        $mission->loadMissing(['structure', 'responsable']);
 
         // STATUT BROUILLON -> EN ATTENTE DE VALIDATION
         if($oldState == 'Brouillon' && $newState == 'En attente de validation') {
@@ -118,6 +118,7 @@ class MissionObserver
                     }
                     // @TODO: Job CancelWaitingParticipationsFromMission (avec contexte mission signalée)
                     // Notif ON
+                    $mission->loadMissing(['participations']);
                     $mission->participations->whereIn('state', ['En attente de validation', 'En cours de traitement'])
                         ->each(function ($participation) {
                             $participation->update(['state' => 'Annulée']);
@@ -127,6 +128,7 @@ class MissionObserver
                     break;
                 case 'Annulée':
                     // @TODO: Job CancelWaitingParticipationsFromMission (avec contexte mission annulée)
+                    $mission->loadMissing(['participations']);
                     $mission->participations->whereIn('state', ['En attente de validation', 'En cours de traitement'])
                         ->each(function ($participation) {
                             $participation->update(['state' => 'Annulée']);
@@ -154,10 +156,13 @@ class MissionObserver
             $newResponsable = $mission->responsable->user;
 
             $participations = $mission->participations()->pluck('id')->toArray();
-            $conversationsQuery = $oldResponsable->conversations()->whereIn('conversable_id', $participations);
+            $conversationsQuery = $oldResponsable->conversations()
+                ->where('conversable_type', 'App\Models\Participation')
+                ->whereIn('conversable_id', $participations);
 
             foreach ($conversationsQuery->get() as $conversation) {
                 $conversation->users()->syncWithoutDetaching([$newResponsable->id]);
+                $conversation->loadMissing('conversable');
                 $participation = $conversation->conversable;
                 if ($participation && !in_array($participation->state, ['En attente de validation', 'En cours de traitement'])) {
                     $newResponsable->conversations()->updateExistingPivot($conversation->id, [
@@ -192,6 +197,8 @@ class MissionObserver
 
     public function saving(Mission $mission)
     {
+        $mission->loadMissing('structure');
+
         // Calcul Places Left
         $participations_validated = Participation::where('mission_id', $mission->id)->whereIn('state', Participation::ACTIVE_STATUS)->count();
         $places_left = $mission->participations_max - $participations_validated;
@@ -218,7 +225,6 @@ class MissionObserver
         }
 
         if ($mission->type === 'Mission à distance') {
-            $mission->load('structure');
             $mission->department = $mission->structure->department;
         }
 

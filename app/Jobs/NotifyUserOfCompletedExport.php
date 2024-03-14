@@ -11,7 +11,8 @@ use Illuminate\Support\Facades\Storage;
 
 class NotifyUserOfCompletedExport implements ShouldQueue
 {
-    use Queueable, SerializesModels;
+    use Queueable;
+    use SerializesModels;
 
     public $user;
 
@@ -21,6 +22,7 @@ class NotifyUserOfCompletedExport implements ShouldQueue
     {
         $this->user = $user;
         $this->filePath = $filePath;
+        $this->onQueue('low-tasks');
     }
 
     public function handle()

@@ -22,7 +22,7 @@ class DeclineWaitingParticipationsFromMission implements ShouldQueue
      */
     public function __construct(public Mission $mission, public string $reason = 'mission_terminated')
     {
-
+        $this->onQueue('low-tasks');
     }
 
     /**

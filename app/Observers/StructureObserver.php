@@ -146,7 +146,6 @@ class StructureObserver
                         if ($user->context_role == 'responsable' && $user->contextable_id == $structure->id) {
                             $user->resetContextRole();
                         }
-                        $user->notify(new \App\Notifications\StructureUnsubscribed($structure));
                     });
 
                     if ($structure->missions) {

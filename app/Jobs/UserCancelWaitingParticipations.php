@@ -11,14 +11,17 @@ use Illuminate\Queue\SerializesModels;
 
 class UserCancelWaitingParticipations implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     /**
      * Create a new job instance.
      */
     public function __construct(public User $user, public string $reason = 'user_archived')
     {
-
+        $this->onQueue('low-tasks');
     }
 
     /**
@@ -29,9 +32,9 @@ class UserCancelWaitingParticipations implements ShouldQueue
         $user = $this->user;
         $reason = $this->reason;
 
-        $user->profile->participations()->with(['conversation'])->whereIn('state', ['En attente de validation', 'En cours de traitement'])
+        $user->profile?->participations()->with(['conversation'])->whereIn('state', ['En attente de validation', 'En cours de traitement'])
             ->each(function ($participation) use ($user, $reason) {
-                $participation->conversation->messages()->create([
+                $participation->conversation?->messages()->create([
                     'from_id' => $user->id,
                     'type' => 'contextual',
                     'content' => 'La participation a été annulée',
@@ -40,7 +43,6 @@ class UserCancelWaitingParticipations implements ShouldQueue
                 ]);
 
                 activity()
-                    ->causedBy($user)
                     ->performedOn($participation)
                     ->withProperties([
                         'attributes' => ['state' => 'Annulée'],

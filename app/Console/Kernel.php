@@ -6,6 +6,7 @@ use App\Console\Commands\AirtableSyncOrganisationsScore;
 use App\Console\Commands\AlgoliaMissionUpdateFieldOutdated;
 use App\Console\Commands\ApiEngagementExportMissions;
 use App\Console\Commands\ApiEngagementSyncMissions;
+use App\Console\Commands\ArchiveNonActiveUsers;
 use App\Console\Commands\SendNotificationsBenevoleCejNoParticipation;
 use App\Console\Commands\SendNotificationsBenevoleCejOneYearAfter;
 use App\Console\Commands\SendNotificationsBenevoleCejSixMonthsAfter;
@@ -25,6 +26,7 @@ use App\Console\Commands\SendNotificationResponsablesParticipationsNeedToBeTreat
 use App\Console\Commands\SendNotificationsStructureWithoutMission;
 use App\Console\Commands\MissionsCloseOutdatedCommand;
 use App\Console\Commands\SendNotificationsBenevoleWhenParticipationWillStart;
+use App\Console\Commands\SendNotificationsUserWillBeArchived;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -54,6 +56,7 @@ class Kernel extends ConsoleKernel
         $schedule->command(SendNotificationsBenevoleCejNoParticipation::class)->daily()->at('10:10');
         $schedule->command(SendNotificationsBenevoleCejSixMonthsAfter::class)->daily()->at('10:20');
         $schedule->command(SendNotificationsBenevoleCejOneYearAfter::class)->daily()->at('10:30');
+        $schedule->command(SendNotificationsUserWillBeArchived::class)->daily()->at('11:00');
         $schedule->command(SendNotificationsBenevoleWhenParticipationShouldBeDone::class)->daily()->at('18:00');
 
         // Responsables
@@ -92,6 +95,9 @@ class Kernel extends ConsoleKernel
 
         // Close outdated missions
         $schedule->command(MissionsCloseOutdatedCommand::class)->daily()->at('09:30');
+
+        // Archive non active users
+        // $schedule->command(ArchiveNonActiveUsers::class)->daily()->at('03:00');
     }
 
     /**

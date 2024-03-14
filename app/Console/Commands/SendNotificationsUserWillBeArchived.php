@@ -43,32 +43,23 @@ class SendNotificationsUserWillBeArchived extends Command
     public function handle()
     {
         // 7 jours avant le passage du script qui archive les utilisateurs.
-        $date = Carbon::now()->subYears(3)->addDays(7);
-        $query = User::canReceiveNotifications()->where('last_interaction_at', "<", $date);
+        $query = User::canReceiveNotifications()
+            ->whereBetween('last_interaction_at', [
+                Carbon::now()->subYears(3)->addDays(7)->startOfDay(),
+                Carbon::now()->subYears(3)->addDays(7)->endOfDay(),
+            ]);
 
-        if ($this->confirm($query->count() . ' users will get a notification')) {
-            $start = now();
-            $executionTime = 0;
-            $query->chunk(200, function ($users) use ($start, &$executionTime) {
-                foreach ($users as $user) {
-                    $user->loadMissing('roles');
-                    if ($user->hasRole('responsable')) {
-                        $user->loadMissing('structures');
-                        $structure = $user->structures->first();
-                        if ($structure) {
-                            Notification::send($user, new ResponsableWillBeArchived($structure));
-                        }
-                    } else {
-                        Notification::send($user, new BenevoleWillBeArchived());
-                    }
+        $query->cursor()->each(function (User $user) {
+            $user->loadMissing('roles');
+            if ($user->hasRole('responsable')) {
+                $user->loadMissing('structures');
+                $structure = $user->structures->first();
+                if ($structure) {
+                    Notification::send($user, new ResponsableWillBeArchived($structure));
                 }
-
-                $time = $start->diffInSeconds(now());
-                if ($executionTime !== $time && ($time - $executionTime) % 5 === 0) {
-                    $this->comment("Processing... ($time seconds)");
-                    $executionTime = $time;
-                }
-            });
-        }
+            } else {
+                Notification::send($user, new BenevoleWillBeArchived());
+            }
+        });
     }
 }

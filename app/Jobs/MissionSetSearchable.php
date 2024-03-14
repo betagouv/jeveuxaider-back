@@ -12,7 +12,11 @@ use Illuminate\Bus\Batchable;
 
 class MissionSetSearchable implements ShouldQueue
 {
-    use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Batchable;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     protected $mission;
 
@@ -24,7 +28,7 @@ class MissionSetSearchable implements ShouldQueue
     public function __construct($missionId)
     {
         $this->mission = Mission::find($missionId);
-        $this->onQueue('default');
+        $this->onQueue('high-tasks');
     }
 
     /**

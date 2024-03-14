@@ -350,7 +350,7 @@ class Profile extends Model implements HasMedia
     protected function description(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => strip_tags($value),
+            get: fn ($value) => isset($value) ? strip_tags($value) : null,
         );
     }
 

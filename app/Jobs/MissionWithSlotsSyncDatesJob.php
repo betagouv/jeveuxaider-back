@@ -27,7 +27,7 @@ class MissionWithSlotsSyncDatesJob implements ShouldQueue
     public function __construct($missionId)
     {
         $this->mission = Mission::find($missionId);
-        $this->onQueue('default');
+        $this->onQueue('low-tasks');
     }
 
     /**

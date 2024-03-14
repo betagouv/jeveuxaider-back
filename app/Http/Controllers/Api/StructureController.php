@@ -221,9 +221,15 @@ class StructureController extends Controller
             abort(403, "Vous n'avez pas les droits nécéssaires pour réaliser cette action");
         }
 
+        $members = $structure->members;
+
         $structure->update([
             'state' => 'Désinscrite',
         ]);
+
+        $members->each(function ($user) use ($structure) {
+            $user->notify(new \App\Notifications\StructureUnsubscribed($structure));
+        });
 
         return $structure;
     }

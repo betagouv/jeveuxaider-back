@@ -4,25 +4,25 @@ namespace App\Jobs;
 
 use App\Models\User;
 use Carbon\Carbon;
-use Firebase\JWT\JWT;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Hash;
 
 class ArchiveAndClearUserDatas implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     /**
      * Create a new job instance.
      */
     public function __construct(public User $user)
     {
-        //
+        $this->onQueue('low-tasks');
     }
 
     /**
@@ -38,13 +38,17 @@ class ArchiveAndClearUserDatas implements ShouldQueue
             throw new \Exception('Les données ne peuvent pas être archivées pour ' . $this->user->id);
         }
 
+        if (User::where('id', $this->user->id)->isActive()->exists()) {
+            throw new \Exception('l\'utilisateur ' . $this->user->id . ' est actif et ne peut donc pas être archivé');
+        }
+
         $payload = [
             'email' => $this->user->email,
-            'first_name' => $this->user->profile->first_name,
-            'last_name' => $this->user->profile->last_name,
-            'birthday' => $this->user->profile->birthday,
-            'phone' => $this->user->profile->phone,
-            'mobile' => $this->user->profile->mobile,
+            'first_name' => $this->user->profile?->first_name,
+            'last_name' => $this->user->profile?->last_name,
+            'birthday' => $this->user->profile?->birthday,
+            'phone' => $this->user->profile?->phone,
+            'mobile' => $this->user->profile?->mobile,
         ];
 
         $this->user->archivedDatas()->create([
@@ -64,14 +68,16 @@ class ArchiveAndClearUserDatas implements ShouldQueue
         $this->user->archived_at = Carbon::now();
         $this->user->name = $email;
         $this->user->email = $email;
-        $this->user->profile->email = $email;
-        $this->user->profile->first_name = 'Utilisateur';
-        $this->user->profile->last_name = 'Archivé';
-        $this->user->profile->phone = null;
-        $this->user->profile->mobile = null;
-        $this->user->profile->birthday = null;
-
         $this->user->saveQuietly();
-        $this->user->profile->saveQuietly();
+
+        if ($this->user->profile) {
+            $this->user->profile->email = $email;
+            $this->user->profile->first_name = 'Utilisateur';
+            $this->user->profile->last_name = 'Archivé';
+            $this->user->profile->phone = null;
+            $this->user->profile->mobile = null;
+            $this->user->profile->birthday = null;
+            $this->user->profile->saveQuietly();
+        }
     }
 }
