@@ -78,8 +78,8 @@ class Sendinblue
 
     public static function sync(User $user, $withSMS = true)
     {
-        // Don't sync if anonymous
-        if ($user->anonymous_at) {
+        // Don't sync if archived, anonymous or banned
+        if ($user->archived_at || $user->anonymous_at || $user->banned_at) {
             return;
         }
 

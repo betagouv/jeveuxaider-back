@@ -12,7 +12,10 @@ use Illuminate\Queue\SerializesModels;
 
 class SendinblueSyncUser implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     protected $user;
     protected $oldEmail;
@@ -36,7 +39,11 @@ class SendinblueSyncUser implements ShouldQueue
      */
     public function handle()
     {
-        if($this->oldEmail){
+        if ($this->user->archived_at || $this->user->anonymous_at || $this->user->banned_at) {
+            return;
+        }
+
+        if ($this->oldEmail) {
             Sendinblue::updateContactEmail($this->user, $this->oldEmail);
         } else {
             Sendinblue::sync($this->user);
