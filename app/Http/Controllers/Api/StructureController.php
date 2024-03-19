@@ -335,16 +335,18 @@ class StructureController extends Controller
 
     public function exist(Request $request, $rnaOrName)
     {
-        $structure = Structure::whereIn('state', ['En attente de validation', 'Validée'])
+        $structure = Structure::whereIn('state', ['En attente de validation', 'Validée', 'En cours de traitement'])
             ->where(function ($query) use ($rnaOrName) {
-                $query->where('api_id', '=', $rnaOrName)
-                    ->orWhere('name', 'ILIKE', $rnaOrName);
-            })
-            ->orWhere(function ($query) use ($rnaOrName) {
-                $query->whereHas('territoire', function ($query) use ($rnaOrName) {
-                    $query
-                        ->whereIn('state', ['waiting', 'validated'])
-                        ->where('name', 'ILIKE', $rnaOrName);
+                $query->where(function ($query) use ($rnaOrName) {
+                    $query->where('api_id', '=', $rnaOrName)
+                        ->orWhere('name', 'ILIKE', $rnaOrName);
+                })
+                ->orWhere(function ($query) use ($rnaOrName) {
+                    $query->whereHas('territoire', function ($query) use ($rnaOrName) {
+                        $query
+                            ->whereIn('state', ['waiting', 'validated'])
+                            ->where('name', 'ILIKE', $rnaOrName);
+                    });
                 });
             })
             ->first();
