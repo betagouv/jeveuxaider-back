@@ -213,27 +213,27 @@ class Profile extends Model implements HasMedia
 
     public function scopeDepartment($query, ...$values)
     {
-        if (in_array('2A', $values)) {
-            $query
-                ->orWhere('zip', 'LIKE', '200%')
-                ->orWhere('zip', 'LIKE', '201%');
+        return $query->where(function ($query) use ($values) {
+            if (in_array('2A', $values)) {
+                $query
+                    ->orWhere('zip', 'LIKE', '200%')
+                    ->orWhere('zip', 'LIKE', '201%');
 
-            $values = array_filter($values, fn ($v) => $v != '2A');
-        }
+                $values = array_filter($values, fn ($v) => $v != '2A');
+            }
 
-        if (in_array('2B', $values)) {
-            $query
-                ->orWhere('zip', 'LIKE', '202%')
-                ->orWhere('zip', 'LIKE', '206%');
+            if (in_array('2B', $values)) {
+                $query
+                    ->orWhere('zip', 'LIKE', '202%')
+                    ->orWhere('zip', 'LIKE', '206%');
 
-            $values = array_filter($values, fn ($v) => $v != '2B');
-        }
+                $values = array_filter($values, fn ($v) => $v != '2B');
+            }
 
-        foreach ($values as $value) {
-            $query->orWhere('zip', 'LIKE', $value . '%');
-        }
-
-        return $query;
+            foreach ($values as $value) {
+                $query->orWhere('zip', 'LIKE', $value . '%');
+            }
+        });
     }
 
     public function scopeOfDomaine($query, $domain_id)
