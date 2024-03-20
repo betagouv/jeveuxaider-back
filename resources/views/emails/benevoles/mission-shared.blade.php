@@ -7,12 +7,16 @@
         publique du bénévolat, et aimerait la faire avec vous.
     @endcomponent
     @component('mail::components.paragraph')
-        <div style="text-align: center; font-weight: bold, font-color: #000000">
+        <div style="text-align: center; font-weight: bold; color: #000000">
             Alors, prêt à passer à l’action ?
         </div>
     @endcomponent
     @component('mail::button', ['url' => $url])
         Découvrir la mission
+    @endcomponent
+    @component('mail::components.space', ['height' => 24])
+    @endcomponent
+    @component('mail::components.card-mission', ['mission' => $mission, 'url' => $url])
     @endcomponent
     @component('mail::components.tips', ['title' => 'Des questions ?'])
         En cas de besoin, vous pouvez répondre à ce mail pour échanger directement avec le support utilisateurs !

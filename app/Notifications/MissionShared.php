@@ -68,7 +68,7 @@ class MissionShared extends Notification implements ShouldQueue
         return (new MailMessage())
             ->subject($this->user->profile->full_name . ' veut faire du bénévolat avec vous')
             ->markdown('emails.benevoles.mission-shared', [
-                'url' => $this->trackedUrl($this->mission->full_url),
+                'url' => $url,
                 'mission' => $this->mission,
                 'user' => $this->user,
             ])

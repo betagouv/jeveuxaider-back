@@ -33,6 +33,7 @@ use App\Notifications\MissionStillInDraft;
 use App\Notifications\MissionOutdatedFirstReminder;
 use App\Notifications\MissionOutdatedSecondReminder;
 use App\Notifications\MissionReactivated;
+use App\Notifications\MissionShared;
 use App\Notifications\MissionSignaled;
 use App\Notifications\MissionSubmitted;
 use App\Notifications\MissionTemplateWaiting;
@@ -194,6 +195,10 @@ class NotificationController extends Controller
                 break;
             case 'benevole_participation_declined_mission_terminated':
                 $notification = new ParticipationDeclinedFromMissionTerminated($participation);
+                break;
+            case 'benevole_mission_shared':
+                $mission = Mission::find(30148);
+                $notification = new MissionShared($mission, $user);
                 break;
             case 'responsable_mission_created':
                 $notification = new MissionWaitingValidation($mission);
