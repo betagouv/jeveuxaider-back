@@ -178,6 +178,7 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::put('missions/{mission}', 'Api\MissionController@update');
     Route::post('missions/{mission}/duplicate', 'Api\MissionController@duplicate');
     Route::delete('missions/{mission}', 'Api\MissionController@delete');
+    Route::post('missions/{mission}/share', 'Api\MissionController@share');
 
     // PROFILES
     Route::get('profiles', 'Api\ProfileController@index');
