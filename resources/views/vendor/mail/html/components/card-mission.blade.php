@@ -20,8 +20,12 @@
                         <div style="font-size: 14px; margin-bottom: 4px;">
                             <img style="display: inline;" src="{{ config('app.url') }}/images/icones/marker.svg"
                                 alt="" width="16" />
-                            @if ($mission->type == 'Mission en présentiel' && !$mission->is_autonomy)
-                                {{ $mission->city }} {{ $mission->zip }}
+                            @if ($mission->type == 'Mission en présentiel')
+                                @if ($mission->is_autonomy)
+                                    Mission en autonomie
+                                @else
+                                    {{ $mission->city }} {{ $mission->zip }}
+                                @endif
                             @endif
                             @if ($mission->type == 'Mission à distance')
                                 Mission à distance
