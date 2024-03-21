@@ -208,7 +208,7 @@ class MissionController extends Controller
     public function share(Request $request, Mission $mission)
     {
         $validator = Validator::make($request->all(), [
-            'emails' => 'required|array',
+            'emails' => 'required|array|max:5',
             'emails.*' => 'email',
         ]);
 
