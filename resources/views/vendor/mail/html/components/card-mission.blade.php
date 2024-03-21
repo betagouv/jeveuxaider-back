@@ -5,14 +5,14 @@
         <td>
             @if ($mission->picture)
                 <a href="{{ $url }}">
-                    <img srcset="{{ $mission->picture['large'] }}" alt="" />
+                    <img srcset="{{ $mission->picture['large'] }}" alt="" style="max-width: 100%; height: auto;" />
                 </a>
             @endif
         </td>
     </tr>
     <tr>
         <td style="padding: 20px;">
-            <table cellpadding="0" cellspacing="0">
+            <table cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                     <td>
                         <div style="font-size: 22px; font-weight: 700; color: #161616; margin-bottom: 16px;">
@@ -37,9 +37,22 @@
                                 {{ Utils::labelFromValue($mission->commitment__duration, 'duration') }}
                             @endif
                         </div>
-                        <div style="font-size: 14px;">
-                            Proposée par <strong>{{ $mission->structure->name }}</strong>
-                        </div>
+                        <table cellpadding="0" cellspacing="0" width="100%">
+                            <tr>
+                                <td>
+                                    <div style="font-size: 14px;">
+                                        Proposée par <strong>{{ $mission->structure->name }}</strong>
+                                    </div>
+                                </td>
+                                <td align="right">
+                                    <a href="{{ $url }}">
+                                        <img style=""
+                                            src="{{ config('app.url') }}/images/icones/right-arrow-line.svg"
+                                            alt="" width="28" />
+                                    </a>
+                                </td>
+                            </tr>
+                        </table>
                     </td>
                 </tr>
             </table>
