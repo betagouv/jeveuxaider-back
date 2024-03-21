@@ -29,6 +29,7 @@ use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\AllowedInclude;
 use Spatie\QueryBuilder\QueryBuilder;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Validator;
 
 class MissionController extends Controller
 {
@@ -206,14 +207,25 @@ class MissionController extends Controller
 
     public function share(Request $request, Mission $mission)
     {
-        // @TODO validation mission avec places + en ligne
-        // @TODO validation emails array demail valides + max 5
+        $validator = Validator::make($request->all(), [
+            'emails' => 'required|array',
+            'emails.*' => 'email',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        if(!$mission->isAvailableForRegistration){
+            return response()->json(['message' => 'La mission n\'est plus ouverte aux inscriptions'], 422);
+        }
+
         $emails = collect($request->input('emails'));
         $user = User::find($request->user()->id);
+
         $emails->each(function ($email) use($mission, $user) {
             Notification::route('mail', $email)->notify(new MissionShared($mission, $user));
         });
-       
 
         return response()->json(['message' => 'La mission a bien été partagée']);
     }

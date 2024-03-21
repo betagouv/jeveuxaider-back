@@ -374,6 +374,11 @@ class Mission extends Model
             });
     }
 
+    public function getIsAvailableForRegistrationAttribute()
+    {
+        return $this->state == 'Validée' && $this->is_online && $this->is_registration_open && $this->structure->state == 'Validée' && $this->has_places_left;
+    }
+
     public function scopeDepartment($query, $value)
     {
         return $query->where('department', $value);

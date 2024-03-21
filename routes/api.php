@@ -132,6 +132,8 @@ Route::group(['middleware' => ['auth:api', 'is.not.banned']], function () {
     Route::put('participations/{participation}/cancel-by-benevole', 'Api\ParticipationController@cancelByBenevole');
     Route::put('participations/{participation}/validate-by-benevole', 'Api\ParticipationController@validateByBenevole');
 
+    Route::post('missions/{mission}/share', 'Api\MissionController@share');
+
     Route::post('user/password', 'Api\UserController@updatePassword');
     Route::get('user/mission/{mission}/has-participation', 'Api\UserController@hasParticipation');
 
@@ -178,7 +180,6 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::put('missions/{mission}', 'Api\MissionController@update');
     Route::post('missions/{mission}/duplicate', 'Api\MissionController@duplicate');
     Route::delete('missions/{mission}', 'Api\MissionController@delete');
-    Route::post('missions/{mission}/share', 'Api\MissionController@share');
 
     // PROFILES
     Route::get('profiles', 'Api\ProfileController@index');
