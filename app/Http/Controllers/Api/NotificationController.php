@@ -197,7 +197,6 @@ class NotificationController extends Controller
                 $notification = new ParticipationDeclinedFromMissionTerminated($participation);
                 break;
             case 'benevole_mission_shared':
-                $mission = Mission::find(30148);
                 $notification = new MissionShared($mission, $user);
                 break;
             case 'responsable_mission_created':
