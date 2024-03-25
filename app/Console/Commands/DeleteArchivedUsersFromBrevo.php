@@ -54,12 +54,21 @@ class DeleteArchivedUsersFromBrevo extends Command
         }
 
         if ($this->confirm($query->count() . ' contacts vont être supprimés de Brevo. Continuer ?')) {
+            $start = now();
+            $executionTime = 0;
+
             foreach($query->cursor() as $archivedUserDatas) {
                 $email = Encryption::php()->decrypt($archivedUserDatas->email);
                 if ($options['debug']) {
                     $this->info('email: ' . $email);
                 }
                 SendinblueDeleteUser::dispatch($email, "user_archived");
+
+                $time = $start->diffInSeconds(now());
+                if ($executionTime !== $time && ($time - $executionTime) % 5 === 0) {
+                    $this->comment("Processing... ($time seconds)");
+                    $executionTime = $time;
+                }
             }
         }
     }
