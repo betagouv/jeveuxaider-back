@@ -365,7 +365,7 @@ class User extends Authenticatable
         }
 
         if (config('services.sendinblue.sync')) {
-            Sendinblue::deleteContact($this);
+            Sendinblue::deleteContact($this->email);
         }
 
         $this->banned_at = Carbon::now();
@@ -439,7 +439,7 @@ class User extends Authenticatable
     //     }
 
     //     UserCancelWaitingParticipations::dispatch($this, 'user_archived');
-    //     SendinblueDeleteUser::dispatch($this);
+    //     SendinblueDeleteUser::dispatch($this->email, "user_archived");
     //     CloseOrTransferResponsableMissions::dispatchIf($this->hasRole('responsable'), $this);
     //     ArchiveAndClearUserDatas::dispatchSync($this);
     // }

@@ -68,11 +68,11 @@ class Sendinblue
         );
     }
 
-    public static function deleteContact(User $user)
+    public static function deleteContact($email)
     {
         return self::api(
             'delete',
-            "/contacts/$user->email"
+            "/contacts/$email"
         );
     }
 

@@ -290,7 +290,7 @@ class UserController extends Controller
         $user->notify($notification);
 
         UserCancelWaitingParticipations::dispatch($user, 'user_unsubscribed');
-        SendinblueDeleteUser::dispatch($user);
+        SendinblueDeleteUser::dispatch($user->email);
         UnsubscribeAndAnonymizeUserDatas::dispatchSync($user);
 
         return $user->fresh();

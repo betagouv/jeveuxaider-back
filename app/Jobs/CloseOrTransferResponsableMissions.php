@@ -43,7 +43,7 @@ class CloseOrTransferResponsableMissions implements ShouldQueue
                     $mission->save();
                 });
             }
-        } else {
+        } elseif ($organisation->state != 'Validée') {
             // View StructureObserver for more details
             $organisation->state = 'Désinscrite';
             $organisation->save();

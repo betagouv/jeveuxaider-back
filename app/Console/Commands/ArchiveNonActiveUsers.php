@@ -16,7 +16,7 @@ class ArchiveNonActiveUsers extends Command
     *
     * @var string
     */
-    protected $signature = 'archive-non-active-users {--debug} {--maxId=}';
+    protected $signature = 'archive-non-active-users';
 
     /**
      * The console command description.
@@ -42,49 +42,13 @@ class ArchiveNonActiveUsers extends Command
      */
     public function handle()
     {
-        $options = $this->options();
-        if (empty($options['maxId'])) {
-            $this->error('Mandatory option: --maxId');
-            return;
-        }
-
-        $query = User::shouldBeArchived()
-            ->orderBy('id')
-            ->where('id', '<=', $options['maxId']);
-
-        if ($this->confirm($query->count() . ' utilisateurs vont être archivés. Continuer ?')) {
-            $start = now();
-            $executionTime = 0;
-
-            foreach($query->cursor() as $user) {
-                $user->loadMissing('roles');
-
-                if ($options['debug']) {
-                    $this->comment($user->id . " - " . $user->email);
-                }
-
-                UserCancelWaitingParticipations::dispatch($user, 'user_archived');
-                SendinblueDeleteUser::dispatch($user);
-                CloseOrTransferResponsableMissions::dispatchIf($user->hasRole('responsable'), $user);
-                ArchiveAndClearUserDatas::dispatch($user);
-
-                $time = $start->diffInSeconds(now());
-                if ($executionTime !== $time && ($time - $executionTime) % 5 === 0) {
-                    $this->comment("Processing... ($time seconds)");
-                    $executionTime = $time;
-                }
-            }
-        }
-
-        // @todo: script auto avec kernel
-
-        // $query = User::shouldBeArchived()->orderBy('id');
-        // $query->cursor()->each(function (User $user) {
-        //     $user->loadMissing('roles');
-        //     UserCancelWaitingParticipations::dispatch($user, 'user_archived');
-        //     SendinblueDeleteUser::dispatch($user);
-        //     CloseOrTransferResponsableMissions::dispatchIf($user->hasRole('responsable'), $user);
-        //     ArchiveAndClearUserDatas::dispatch($user);
-        // });
+        $query = User::shouldBeArchived()->orderBy('id');
+        $query->cursor()->each(function (User $user) {
+            $user->loadMissing('roles');
+            UserCancelWaitingParticipations::dispatch($user, 'user_archived');
+            SendinblueDeleteUser::dispatch($user->email, "user_archived");
+            CloseOrTransferResponsableMissions::dispatchIf($user->hasRole('responsable'), $user);
+            ArchiveAndClearUserDatas::dispatch($user);
+        });
     }
 }
