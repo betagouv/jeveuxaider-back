@@ -2,23 +2,27 @@
 
 namespace App\Jobs;
 
-use App\Models\User;
+use App\Models\UserArchivedDatas;
 use App\Services\Sendinblue;
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Maize\Encryptable\Encryption;
 
 class SendinblueDeleteUser implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     /**
      * Create a new job instance.
      */
-    public function __construct(public User $user)
+    public function __construct(public $email, public $context = null)
     {
         $this->onQueue('sendinblue');
     }
@@ -29,7 +33,13 @@ class SendinblueDeleteUser implements ShouldQueue
     public function handle(): void
     {
         if (config('services.sendinblue.sync')) {
-            Sendinblue::deleteContact($this->user);
+            Sendinblue::deleteContact($this->email);
+        }
+
+        if ($this->context === 'user_archived') {
+            UserArchivedDatas::where('email', Encryption::php()->encrypt($this->email))->update([
+                'brevo_deleted_at' => Carbon::now()
+            ]);
         }
     }
 }

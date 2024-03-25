@@ -7,6 +7,7 @@ use App\Filters\FiltersParticipationSearch;
 use App\Models\Participation;
 use App\Models\User;
 use App\Notifications\UserHasExportedDatas;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromQuery;
@@ -102,7 +103,6 @@ class ParticipationsExport implements FromQuery, WithMapping, WithHeadings, With
             'benevole_email',
             'benevole_code_postal',
             'benevole_date_anniversaire',
-            'date_bénévole',
             'créneaux_bénévole',
             'date_creation',
             'date_modification',
@@ -113,6 +113,16 @@ class ParticipationsExport implements FromQuery, WithMapping, WithHeadings, With
     {
         $hidden = ($participation->mission && $participation->mission->state == 'Signalée') && $this->request->header('Context-Role') == 'responsable'
             ? true : false;
+
+        $creneaux = null;
+
+        if($participation->slots) {
+            $creneaux = implode(', ', collect($participation->slots)->map( function ($item) {
+                $date = Carbon::parse($item['date'])->timezone('Europe/Paris')->format('Y-m-d');
+                $slots = implode(', ', $item['slots']);
+                return "$date ($slots)";
+            })->toArray());
+        }
 
         return [
             $participation->id,
@@ -127,9 +137,8 @@ class ParticipationsExport implements FromQuery, WithMapping, WithHeadings, With
             $participation->profile && !$hidden ? $participation->profile->mobile : '',
             $participation->profile && !$hidden ? $participation->profile->email : '',
             $participation->profile && !$hidden ? $participation->profile->zip : '',
-            $participation->profile && !$hidden ? $participation->profile->birthday : '',
-            $participation->date,
-            $participation->slots,
+            $participation->profile && !$hidden ? Carbon::parse($participation->profile->birthday)->format('Y-m-d') : '',
+            $creneaux,
             $participation->created_at,
             $participation->updated_at,
         ];
