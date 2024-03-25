@@ -132,6 +132,8 @@ Route::group(['middleware' => ['auth:api', 'is.not.banned']], function () {
     Route::put('participations/{participation}/cancel-by-benevole', 'Api\ParticipationController@cancelByBenevole');
     Route::put('participations/{participation}/validate-by-benevole', 'Api\ParticipationController@validateByBenevole');
 
+    Route::post('missions/{mission}/share', 'Api\MissionController@share');
+
     Route::post('user/password', 'Api\UserController@updatePassword');
     Route::get('user/mission/{mission}/has-participation', 'Api\UserController@hasParticipation');
 

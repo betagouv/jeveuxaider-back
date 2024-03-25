@@ -20,12 +20,16 @@ use App\Http\Requests\Api\MissionUpdateRequest;
 use App\Models\Mission;
 use App\Models\Participation;
 use App\Models\Profile;
+use App\Models\User;
+use App\Notifications\MissionShared;
 use App\Services\ApiEngagement;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\AllowedInclude;
 use Spatie\QueryBuilder\QueryBuilder;
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Validator;
 
 class MissionController extends Controller
 {
@@ -199,6 +203,31 @@ class MissionController extends Controller
             ->log('duplicated');
 
         return $new;
+    }
+
+    public function share(Request $request, Mission $mission)
+    {
+        $validator = Validator::make($request->all(), [
+            'emails' => 'required|array|max:5',
+            'emails.*' => 'email',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        if(!$mission->isAvailableForRegistration){
+            return response()->json(['message' => 'La mission n\'est plus ouverte aux inscriptions'], 422);
+        }
+
+        $emails = collect($request->input('emails'));
+        $user = User::find($request->user()->id);
+
+        $emails->each(function ($email) use($mission, $user) {
+            Notification::route('mail', $email)->notify(new MissionShared($mission, $user));
+        });
+
+        return response()->json(['message' => 'La mission a bien été partagée']);
     }
 
     public function benevoles(Request $request, Mission $mission)

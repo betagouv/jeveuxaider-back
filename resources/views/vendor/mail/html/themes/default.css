@@ -141,6 +141,13 @@ a.link {
     margin: 0;
 }
 
+.mail-table-card-mission {
+    border: 1px solid #E5E5E5;
+    -premailer-cellpadding: 0;
+    -premailer-cellspacing: 0;
+    -premailer-width: 100%;
+}
+
 .table-model {
     border: 1px solid #E5E5E5;
     -premailer-cellpadding: 0;
