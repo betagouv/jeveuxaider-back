@@ -97,7 +97,7 @@ class Kernel extends ConsoleKernel
         $schedule->command(MissionsCloseOutdatedCommand::class)->daily()->at('09:30');
 
         // Archive non active users
-        // $schedule->command(ArchiveNonActiveUsers::class)->daily()->at('03:00');
+        $schedule->command(ArchiveNonActiveUsers::class)->daily()->at('03:00');
     }
 
     /**
