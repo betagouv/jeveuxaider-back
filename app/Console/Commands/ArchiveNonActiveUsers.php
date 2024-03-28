@@ -7,7 +7,9 @@ use App\Jobs\CloseOrTransferResponsableMissions;
 use App\Jobs\SendinblueDeleteUser;
 use App\Jobs\UserCancelWaitingParticipations;
 use App\Models\User;
+use App\Notifications\ArchiveNonActiveUsers as NotificationsArchiveNonActiveUsers;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Notification;
 
 class ArchiveNonActiveUsers extends Command
 {
@@ -50,5 +52,7 @@ class ArchiveNonActiveUsers extends Command
             CloseOrTransferResponsableMissions::dispatchIf($user->hasRole('responsable'), $user);
             ArchiveAndClearUserDatas::dispatch($user);
         });
+        Notification::route('slack', config('services.slack.hook_url'))
+            ->notify(new NotificationsArchiveNonActiveUsers($query->count()));
     }
 }
