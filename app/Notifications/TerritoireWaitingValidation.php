@@ -66,7 +66,7 @@ class TerritoireWaitingValidation extends Notification implements ShouldQueue
             ->greeting('Bonjour,')
             ->line('La collectivité "' . $this->territoire->name . '" a rejoint JeVeuxAider.gouv.fr !')
             ->line('Elle est en attente de validation par un modérateur.')
-            ->action('Voir la collectivité', $this->trackedUrl('/admin/territoires/' . $this->territoire->id))
+            ->action('Voir la collectivité', $this->trackedUrl('/admin/contenus/territoires/' . $this->territoire->id))
             ->tag($this->tag);
     }
 
@@ -86,7 +86,7 @@ class TerritoireWaitingValidation extends Notification implements ShouldQueue
                     ->to('#déploiement-collectivités-acquisition')
                     ->content('Une nouvelle collectivité vient de s\'inscrire! Elle est en attente de validation.')
                     ->attachment(function ($attachment) use ($territoire) {
-                        $attachment->title($territoire->name, url(config('app.front_url') . '/admin/territoires/' . $territoire->id));
+                        $attachment->title($territoire->name, url(config('app.front_url') . '/admin/contenus/territoires/' . $territoire->id));
                     });
     }
 
