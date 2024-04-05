@@ -327,15 +327,18 @@ class User extends Authenticatable
 
     public function scopeCanReceiveNotifications($query)
     {
+        // Don't add users.hard_bounced_at, as there is no Brevo hook when a contact has been "de-hardbounced"
+        // Also, Brevo handles it already by blocklisting hardbounced contacts
         return $query->whereNull('users.archived_at')
             ->whereNull('users.anonymous_at')
-            ->whereNull('users.banned_at')
-            ->whereNull('users.hard_bounced_at');
+            ->whereNull('users.banned_at');
     }
 
     public function canBeNotified()
     {
-        return !$this->archived_at && !$this->anonymous_at && !$this->banned_at && !$this->hard_bounced_at;
+        // Don't add hard_bounced_at, as there is no Brevo hook when a contact has been "de-hardbounced"
+        // Also, Brevo handles it already by blocklisting hardbounced contacts
+        return !$this->archived_at && !$this->anonymous_at && !$this->banned_at;
     }
 
     public function ban($reason)

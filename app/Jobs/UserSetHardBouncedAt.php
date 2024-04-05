@@ -3,7 +3,6 @@
 namespace App\Jobs;
 
 use App\Models\User;
-use App\Services\Sendinblue;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -12,7 +11,10 @@ use Illuminate\Queue\SerializesModels;
 
 class UserSetHardBouncedAt implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     protected $email;
     protected $timestamp;
@@ -38,6 +40,8 @@ class UserSetHardBouncedAt implements ShouldQueue
     {
         $user = User::where('email', $this->email)->first();
         if ($user) {
+            // Don't rely on it (as in keep sending email to hardbouced users), as there is no Brevo hook when a contact has been "de-hardbounced"
+            // The field just serves to log hardbounced users, to be able to potentially contact them by other means (sms)
             $user->hard_bounced_at = $this->timestamp;
             $user->saveQuietly();
         }

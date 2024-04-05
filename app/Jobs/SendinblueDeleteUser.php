@@ -36,6 +36,7 @@ class SendinblueDeleteUser implements ShouldQueue
             Sendinblue::deleteContact($this->email);
         }
 
+        // @todo: delete the field. Don't rely on it, as it does not work if the user has not been archived yet (async jobs from ArchiveNonActiveUsers command). Was used for the fixing script DeleteArchivedUsersFromBrevo.
         if ($this->context === 'user_archived') {
             UserArchivedDatas::where('email', Encryption::php()->encrypt($this->email))->update([
                 'brevo_deleted_at' => Carbon::now()
