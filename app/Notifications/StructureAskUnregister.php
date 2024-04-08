@@ -74,7 +74,7 @@ class StructureAskUnregister extends Notification
                 $attachment
                     ->color('#BBBBBB')
                     ->fields([
-                        'Nombre de participations' => $structure->missions()->participations()->count(),
+                        'Nombre de participations' => $structure->participations()->count(),
                         'Nombre de missions' => $structure->missions()->count(),
                         'Statut' => $structure->state
                     ]);
