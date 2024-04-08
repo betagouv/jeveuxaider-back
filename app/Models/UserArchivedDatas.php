@@ -31,4 +31,9 @@ class UserArchivedDatas extends Model
         $this->code = random_int(100000, 999999);
         $this->save();
     }
+
+    protected function getUnserializedDatasAttribute()
+    {
+        return unserialize($this->datas);
+    }
 }
