@@ -62,18 +62,19 @@ class StructureAskUnregister extends Notification
     {
         $structure = $this->structure;
         $from = config('app.env') != 'production' ? '[' . config('app.env') . '] JeVeuxAider.gouv.fr' : 'JeVeuxAider.gouv.fr';
-        $url = url(config('app.front_url') . '/admin/organisations/' . $structure->id);
+        $urlOrganisation = url(config('app.front_url') . '/admin/organisations/' . $structure->id);
+        $urlProfil = url(config('app.front_url') . '/admin/utilisateurs/' . $this->user->profile->id);
 
         return (new SlackMessage())
             ->from($from)
             ->success()
             ->to('#' . config('services.slack.log_channel'))
-            ->content('*' . $this->user->profile->full_name . '* souhaite désinscrire l\'organisation *<' . $url . '|' . $structure->name . '>*')
-            ->attachment(function ($attachment) use ($structure, $url) {
+            ->content('*<' . $urlProfil . '|' . $this->user->profile->full_name . '>* souhaite désinscrire l\'organisation *<' . $urlOrganisation . '|' . $structure->name . '>*')
+            ->attachment(function ($attachment) use ($structure) {
                 $attachment
                     ->color('#BBBBBB')
                     ->fields([
-                        'Nombre de participations' => $structure->missions()->count(),
+                        'Nombre de participations' => $structure->missions()->participations()->count(),
                         'Nombre de missions' => $structure->missions()->count(),
                         'Statut' => $structure->state
                     ]);
