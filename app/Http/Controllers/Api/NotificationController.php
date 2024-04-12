@@ -20,6 +20,7 @@ use App\Notifications\BenevoleCejNoParticipation;
 use App\Notifications\BenevoleCejOneYearAfter;
 use App\Notifications\BenevoleCejSixMonthsAfter;
 use App\Notifications\BenevoleWillBeArchived;
+use App\Notifications\BenevoleWillBeArchivedSecondReminder;
 use App\Notifications\DocumentSubmitted;
 use App\Notifications\ExportReady;
 use App\Notifications\InvitationSent;
@@ -70,6 +71,7 @@ use App\Notifications\ResponsableParticipationAModeredEnPriorite;
 use App\Notifications\ResponsableSummaryDaily;
 use App\Notifications\ResponsableSummaryMonthly;
 use App\Notifications\ResponsableWillBeArchived;
+use App\Notifications\ResponsableWillBeArchivedSecondReminder;
 use App\Notifications\SendCodeUnarchiveUserDatas;
 use App\Notifications\StructureAskUnregister;
 use App\Notifications\StructureAssociationValidated;
@@ -446,8 +448,14 @@ class NotificationController extends Controller
             case 'benevole_will_be_archived':
                 $notification = new BenevoleWillBeArchived();
                 break;
+            case 'benevole_will_be_archived_second_reminder':
+                $notification = new BenevoleWillBeArchivedSecondReminder();
+                break;
             case 'responsable_will_be_archived':
                 $notification = new ResponsableWillBeArchived($structure);
+                break;
+            case 'responsable_will_be_archived_second_reminder':
+                $notification = new ResponsableWillBeArchivedSecondReminder($structure);
                 break;
             default:
                 return null;
