@@ -50,15 +50,11 @@ class RegisterUserVolontaire extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage())
-            ->subject('💪 Une dernière étape pour s’engager ' . $notifiable->profile->first_name . ' !')
+            ->subject('Bienvenue sur JeVeuxAider.gouv.fr 💙')
             ->markdown('emails.benevoles.inscription', [
-                'url' => $this->trackedUrl('/missions-benevolat'),
-                'urlDomains' => [
-                    'sport' => $this->trackedUrl('/missions-benevolat?domaines=Sport pour tous'),
-                    'collecte' => $this->trackedUrl('/missions-benevolat?activities.name=Collecte de produits'),
-                    'mentorat' => $this->trackedUrl('/missions-benevolat?activities.name=Mentorat %26 Parrainage'),
-                    'nature' => $this->trackedUrl('/missions-benevolat?domaines=Protection de la nature'),
-                ],
+                'urlQuiz' => $this->trackedUrl('/quiz/generique'),
+                'urlHome' => $this->trackedUrl('/'),
+                'urlCharte' => $this->trackedUrl('/profile/charte-bon-fonctionnement'),
                 'notifiable' => $notifiable
             ])
             ->tag($this->tag);
