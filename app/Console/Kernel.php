@@ -26,6 +26,7 @@ use App\Console\Commands\SendNotificationResponsablesParticipationsNeedToBeTreat
 use App\Console\Commands\SendNotificationsStructureWithoutMission;
 use App\Console\Commands\MissionsCloseOutdatedCommand;
 use App\Console\Commands\SendNotificationsBenevoleWhenParticipationWillStart;
+use App\Console\Commands\SendNotificationsToInactiveUsers;
 use App\Console\Commands\SendNotificationsUserWillBeArchived;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -57,6 +58,7 @@ class Kernel extends ConsoleKernel
         $schedule->command(SendNotificationsBenevoleCejSixMonthsAfter::class)->daily()->at('10:20');
         $schedule->command(SendNotificationsBenevoleCejOneYearAfter::class)->daily()->at('10:30');
         $schedule->command(SendNotificationsUserWillBeArchived::class)->daily()->at('11:00');
+        $schedule->command(SendNotificationsToInactiveUsers::class)->daily()->at('11:30');
         $schedule->command(SendNotificationsBenevoleWhenParticipationShouldBeDone::class)->daily()->at('18:00');
 
         // Responsables

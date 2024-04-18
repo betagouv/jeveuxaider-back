@@ -19,6 +19,8 @@ use App\Models\UserArchivedDatas;
 use App\Notifications\BenevoleCejNoParticipation;
 use App\Notifications\BenevoleCejOneYearAfter;
 use App\Notifications\BenevoleCejSixMonthsAfter;
+use App\Notifications\BenevoleIsInactive;
+use App\Notifications\BenevoleIsInactiveSecondReminder;
 use App\Notifications\BenevoleWillBeArchived;
 use App\Notifications\BenevoleWillBeArchivedSecondReminder;
 use App\Notifications\DocumentSubmitted;
@@ -65,6 +67,8 @@ use App\Notifications\RegisterUserVolontaireCej;
 use App\Notifications\RegisterUserVolontaireCejAdviser;
 use App\Notifications\ReseauNewLead;
 use App\Notifications\ResetPassword;
+use App\Notifications\ResponsableIsInactive;
+use App\Notifications\ResponsableIsInactiveSecondReminder;
 use App\Notifications\ResponsableMissionsDeactivated;
 use App\Notifications\ResponsableMissionsReactivated;
 use App\Notifications\ResponsableParticipationAModeredEnPriorite;
@@ -456,6 +460,18 @@ class NotificationController extends Controller
                 break;
             case 'responsable_will_be_archived_second_reminder':
                 $notification = new ResponsableWillBeArchivedSecondReminder($structure);
+                break;
+            case 'responsable_is_inactive':
+                $notification = new ResponsableIsInactive($structure);
+                break;
+            case 'responsable_is_inactive_second_reminder':
+                $notification = new ResponsableIsInactiveSecondReminder($structure);
+                break;
+            case 'benevole_is_inactive':
+                $notification = new BenevoleIsInactive($structure);
+                break;
+            case 'benevole_is_inactive_second_reminder':
+                $notification = new BenevoleIsInactiveSecondReminder($structure);
                 break;
             default:
                 return null;

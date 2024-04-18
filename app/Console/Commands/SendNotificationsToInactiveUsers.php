@@ -3,29 +3,29 @@
 namespace App\Console\Commands;
 
 use App\Models\User;
-use App\Notifications\BenevoleWillBeArchived;
-use App\Notifications\BenevoleWillBeArchivedSecondReminder;
-use App\Notifications\ResponsableWillBeArchived;
-use App\Notifications\ResponsableWillBeArchivedSecondReminder;
+use App\Notifications\BenevoleIsInactive;
+use App\Notifications\BenevoleIsInactiveSecondReminder;
+use App\Notifications\ResponsableIsInactive;
+use App\Notifications\ResponsableIsInactiveSecondReminder;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Notification;
 
-class SendNotificationsUserWillBeArchived extends Command
+class SendNotificationsToInactiveUsers extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'notification:user-will-be-archived';
+    protected $signature = 'notification:inactive-users';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Send Notifications to users that will be archived (M-1 and D-7)';
+    protected $description = 'Send Notifications to inactive users (M+3 and M+6)';
 
     /**
      * Create a new command instance.
@@ -48,13 +48,13 @@ class SendNotificationsUserWillBeArchived extends Command
         $this->handleSecondNotification();
     }
 
-    // 1 mois avant l'archivage.
+    // 3 mois après la dernière interaction.
     private function handleFirstNotification()
     {
         $query = User::canReceiveNotifications()
             ->whereBetween('last_interaction_at', [
-                Carbon::now()->subYears(3)->addMonth()->startOfDay(),
-                Carbon::now()->subYears(3)->addMonth()->endOfDay(),
+                Carbon::now()->subMonths(3)->startOfDay(),
+                Carbon::now()->subMonths(3)->endOfDay(),
             ]);
 
         $query->cursor()->each(function (User $user) {
@@ -63,23 +63,23 @@ class SendNotificationsUserWillBeArchived extends Command
                 $user->loadMissing('structures');
                 $structure = $user->structures->first();
                 if ($structure && !in_array($structure->state, ['Désinscrite', 'Signalée'])) {
-                    Notification::send($user, new ResponsableWillBeArchived($structure));
+                    Notification::send($user, new ResponsableIsInactive($structure));
                 } else {
-                    Notification::send($user, new BenevoleWillBeArchived());
+                    Notification::send($user, new BenevoleIsInactive());
                 }
             } else {
-                Notification::send($user, new BenevoleWillBeArchived());
+                Notification::send($user, new BenevoleIsInactive());
             }
         });
     }
 
-    // 7 jours avant l'archivage.
+    // 6 mois après la dernière interaction.
     private function handleSecondNotification()
     {
         $query = User::canReceiveNotifications()
             ->whereBetween('last_interaction_at', [
-                Carbon::now()->subYears(3)->addDays(7)->startOfDay(),
-                Carbon::now()->subYears(3)->addDays(7)->endOfDay(),
+                Carbon::now()->subMonths(6)->startOfDay(),
+                Carbon::now()->subMonths(6)->endOfDay(),
             ]);
 
         $query->cursor()->each(function (User $user) {
@@ -88,12 +88,12 @@ class SendNotificationsUserWillBeArchived extends Command
                 $user->loadMissing('structures');
                 $structure = $user->structures->first();
                 if ($structure && !in_array($structure->state, ['Désinscrite', 'Signalée'])) {
-                    Notification::send($user, new ResponsableWillBeArchivedSecondReminder($structure));
+                    Notification::send($user, new ResponsableIsInactiveSecondReminder($structure));
                 } else {
-                    Notification::send($user, new BenevoleWillBeArchivedSecondReminder());
+                    Notification::send($user, new BenevoleIsInactiveSecondReminder());
                 }
             } else {
-                Notification::send($user, new BenevoleWillBeArchivedSecondReminder());
+                Notification::send($user, new BenevoleIsInactiveSecondReminder());
             }
         });
     }
