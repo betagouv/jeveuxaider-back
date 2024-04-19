@@ -1,7 +1,7 @@
-@component('mail::components.space', ['height' => 24])
+@component('mail::components.space', ['height' => $spaceTop ?? 24])
 @endcomponent
 <table cellpadding="0" cellspacing="0" border="0" width="88%"
-    style="width: 88% !important; min-width: 88%; max-width: 88%; background: #e5e4f6; border-top-left-radius: 8px; border-top-right-radius: 8px;">
+    style="width: 88% !important; min-width: 88%; max-width: 88%; background: #F5F5FE; border-top-left-radius: 4px; border-top-right-radius: 4px; border-width: 1px; border-style: solid; border-color: #E3E3FD;">
     <tbody>
         <tr>
             <td width="10" style="width: 10px; max-width: 10px; min-width: 10px;">&nbsp;</td>
@@ -28,7 +28,7 @@
                                 <div style="color: #1a1a1a; font-size: 19px; font-weight: 600;">{{ $title }}
                                 </div>
                                 @if (isset($subtitle))
-                                    <div style="color: #302e6c; font-size: 19px;">{{ $subtitle }}</div>
+                                    <div style="color: #606060; font-size: 19px; margin-top: 2px;">{{ $subtitle }}</div>
                                 @endif
                             </td>
                             <td width="6" style="width: 6px; max-width: 6px; min-width: 6px;">&nbsp;</td>
@@ -43,7 +43,7 @@
     </tbody>
 </table>
 <table cellpadding="0" cellspacing="0" border="0" width="88%"
-    style="width: 88% !important; min-width: 88%; max-width: 88%; border-width: 1px; border-style: solid; border-color: #e5e5e5; border-top: none;">
+    style="width: 88% !important; min-width: 88%; max-width: 88%; border-width: 1px; border-style: solid; border-color: #E3E3FD; border-top: none;">
     <tbody>
         <tr>
             <td width="5%" style="width: 5%; max-width: 5%; min-width: 5%;">&nbsp;</td>
