@@ -16,12 +16,18 @@
         P.S: Si vous avez réalisé la mission ou êtes en discussion avec le responsable de l’organisation, vous pouvez ignorer
         cet email.
     @endcomponent
-    @component('mail::components.tips', ['title' => 'Ce n\'est que partie remise !'])
-        Plus de 10 000 missions de bénévolat vous attendent sur JeVeuxAider.gouv.fr
-        @component('mail::components.space', ['height' => 24])
-        @endcomponent
-        @component('mail::button', ['url' => $urlSearch, 'align' => 'left'])
-            Trouver une nouvelle mission
-        @endcomponent
+    @component('mail::components.divider', ['spaceTop' => 8, 'spaceBottom' => 32])
+    @endcomponent
+    @component('mail::components.paragraph', ['title' => "Ce n'est que partie remise !"])
+        Les organisations ont toujours besoin de bénévoles. Jetez un oeil au <a class="link" href="{{ $urlQuiz }}">quiz du bénévolat</a>, et découvrez une sélection personnalisée de missions 🎯
+    @endcomponent
+    @component('mail::components.space', ['height' => 8])
+    @endcomponent
+    @component('mail::button', ['url' => $urlQuiz])
+        Répondre à notre quiz
+    @endcomponent
+    @component('mail::components.space', ['height' => 32])
+    @endcomponent
+    @component('mail::components.quiz', ['url' => $urlQuiz])
     @endcomponent
 @endcomponent

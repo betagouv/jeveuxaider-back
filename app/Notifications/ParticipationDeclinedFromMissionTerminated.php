@@ -68,6 +68,7 @@ class ParticipationDeclinedFromMissionTerminated extends Notification implements
             ->markdown('emails.benevoles.participation-declined-mission-terminated', [
                 'url' => $this->trackedUrl($url),
                 'urlSearch' => $this->trackedUrl('/missions-benevolat'),
+                'urlQuiz' => $this->trackedUrl('/quiz/generique'),
                 'mission' => $this->participation->mission,
                 'structure' => $this->participation->mission->structure,
                 'responsable' => $this->participation->mission->responsable,
