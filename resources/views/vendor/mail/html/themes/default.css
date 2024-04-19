@@ -67,11 +67,21 @@ ul > li > p {
   letter-spacing: -1.5px;
 }
 
+.headline-wrapper .subtitle {
+  color: #1a1a1a;
+  font-size: 22px;
+  line-height: 32px;
+  font-weight: 600;
+  letter-spacing: -1px;
+  margin-top: 8px;
+}
+
 .paragraph-wrapper .title {
   color: #1a1a1a;
   font-size: 22px;
   line-height: 40px;
   font-weight: 600;
+  margin-bottom: 6px;
 }
 
 .paragraph-wrapper .content {

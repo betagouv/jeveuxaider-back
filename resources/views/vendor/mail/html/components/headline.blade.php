@@ -3,7 +3,10 @@
     <tbody>
         <tr>
             <td align="{{ $align ?? 'left' }}" class="headline-wrapper" align="left" valign="top">
-                <span class="headline"> {{ $slot }}</span>
+                <div class="headline"> {{ $slot }}</div>
+                @isset($subtitle)
+                    <div class="subtitle">{{ $subtitle }}</div>
+                @endisset
             </td>
         </tr>
     </tbody>
