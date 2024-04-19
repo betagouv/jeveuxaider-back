@@ -70,11 +70,13 @@ class ParticipationDeclined extends Notification implements ShouldQueue
             ->markdown('emails.benevoles.participation-declined', [
                 'url' => $this->trackedUrl($url),
                 'urlSearch' => $this->trackedUrl('/missions-benevolat'),
+                'urlQuiz' => $this->trackedUrl('/quiz/generique'),
+                'urlMission' => $this->trackedUrl($this->participation->mission->full_url),
                 'mission' => $this->participation->mission,
                 'structure' => $this->participation->mission->structure,
                 'responsable' => $this->participation->mission->responsable,
                 'message' => $this->message,
-                'reason' => $this->reason && $this->reason != 'other' ? config('taxonomies.participation_declined_reasons.terms')[$this->reason] : null,
+                'reason' => $this->reason,
                 'notifiable' => $notifiable
             ])
             ->tag($this->tag);

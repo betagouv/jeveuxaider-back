@@ -1,38 +1,51 @@
 @component('mail::message')
-    @component('mail::components.headline')
-        Votre participation a été déclinée 🥺
+    @component('mail::components.headline', ['align' => 'center'])
+        Votre participation a été déclinée 🥺 …<br>
+        @slot('subtitle')
+            … mais, à la fin de ce mail, on vous propose d'autres missions qui pourraient vous intéresser 👀
+        @endslot
+    @endcomponent
+    @component('mail::components.divider', ['spaceTop' => 0, 'spaceBottom' => 33])
     @endcomponent
     @component('mail::components.paragraph')
-        L’organisation <strong style="color: #1a1a1a; font-weight: 600;">{{ $structure->name }}</strong> a bien reçu votre
-        candidature, malheureusement elle ne pourra pas vous accueillir pour cette mission de bénévolat.
-    @endcomponent
-    @component('mail::components.paragraph', ['title' => 'Petit rappel de la mission'])
-        <div>{{ $mission->name }}</div>
-        @component('mail::components.space', ['height' => 10])
-        @endcomponent
-        <a class="link" href="{{ $url }}">Plus de détails ›</a>
+        <p>L’organisation <strong style="color: #1a1a1a; font-weight: 600;">{{ $structure->name }}</strong> a bien reçu votre
+        candidature, malheureusement elle ne pourra pas vous accueillir pour cette mission de bénévolat :</p>
+        <p><a href="{{ $urlMission }}" class="link">{{ $mission->name }}</a></p>
     @endcomponent
     @isset($message)
         @component('mail::components.card-message', [
             'title' => $responsable->first_name,
             'subtitle' => 'Responsable de mission chez ' . $structure->name,
+            'spaceTop' => 0,
         ])
             {{ $message }}
             @slot('footer')
-                <span style="color: #5E5E5E; font-size: 19px; line-height: 22px; text-decoration: none;">Pour
-                    plus d’informations, échangez avec {{ $responsable->first_name }} via la <a href="{{ $url }}"
-                        style="color: #070191; text-decoration:  ">messagerie ›</a> </span>
+                <span style="color: #5E5E5E; font-size: 19px; line-height: 22px;"><a class="link" href="{{ $url }}">Plus d’informations dans la messagerie</a> </span>
                 @component('mail::components.space', ['height' => 24])
                 @endcomponent
             @endslot
         @endcomponent
     @endisset
-    @component('mail::components.tips', ['title' => 'Ce n\'est que partie remise !'])
-        Plus de 10 000 missions de bénévolat vous attendent sur JeVeuxAider.gouv.fr
-        @component('mail::components.space', ['height' => 24])
+    @if ($reason === 'no_response')
+        @component('mail::components.tips', ['spaceTop' => 32])
+            Ne l’oubliez pas, lorsque vous proposez votre aide sur une mission, les organisations comptent sur vous.
+            @component('mail::components.space', ['height' => 24])
+            @endcomponent
+            <strong style="color: #1a1a1a; font-weight: 600;">Si vous ne pouvez plus y participer, il suffit de les prévenir à l’aide de la <a class="link" href="{{ $url }}">messagerie</a></strong>.
         @endcomponent
-        @component('mail::button', ['url' => $urlSearch, 'align' => 'left'])
-            Trouver une nouvelle mission
-        @endcomponent
+    @endif
+    @component('mail::components.divider', ['spaceTop' => 32, 'spaceBottom' => 32])
+    @endcomponent
+    @component('mail::components.paragraph', ['title' => "Ce n'est que partie remise !"])
+        Les organisations ont toujours besoin de bénévoles. Jetez un oeil au <a class="link" href="{{ $urlQuiz }}">quiz du bénévolat</a>, et découvrez une sélection personnalisée de missions 🎯
+    @endcomponent
+    @component('mail::components.space', ['height' => 8])
+    @endcomponent
+    @component('mail::button', ['url' => $urlQuiz])
+        Répondre à notre quiz
+    @endcomponent
+    @component('mail::components.space', ['height' => 32])
+    @endcomponent
+    @component('mail::components.quiz', ['url' => $urlQuiz])
     @endcomponent
 @endcomponent
