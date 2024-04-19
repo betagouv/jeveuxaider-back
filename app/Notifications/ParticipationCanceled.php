@@ -66,7 +66,7 @@ class ParticipationCanceled extends Notification implements ShouldQueue
             ->subject('😔 Oh non… La mission de ' . $this->participation->mission->structure->name . ' a été annulée')
             ->markdown('emails.benevoles.participation-canceled', [
                 'url' => $this->trackedUrl($url),
-                'urlSearch' => $this->trackedUrl('/missions-benevolat'),
+                'urlQuiz' => $this->trackedUrl('/quiz/generique'),
                 'mission' => $this->participation->mission,
                 'structure' => $this->participation->mission->structure,
                 'notifiable' => $notifiable
