@@ -3,7 +3,7 @@
         Bonjour {{ $notifiable->profile->first_name }} 👋🏻,
     @endcomponent
     @component('mail::components.paragraph')
-        Cela fait déjà trois mois qu’on ne s’est pas vu sur <a href="{{ $urlHome }}">JeVeuxAider.gouv.fr</a> la plateforme publique du bénévolat. 😭
+        Cela fait déjà trois mois qu’on ne s’est pas vu sur <a class="link" href="{{ $urlHome }}">JeVeuxAider.gouv.fr</a> la plateforme publique du bénévolat. 😭
     @endcomponent
     @component('mail::components.paragraph')
         Le temps file beaucoup trop vite. Du coup, on vous propose quelque chose qui permet d’appuyer sur pause : <strong style="color: #1a1a1a; font-weight: 600;">l’agenda</strong>. Mais façon bénévolat !
