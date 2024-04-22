@@ -2,7 +2,6 @@
 
 namespace App\Observers;
 
-use App\Helpers\Utils;
 use App\Jobs\AirtableSyncObject;
 use App\Jobs\SendinblueSyncUser;
 use App\Models\Profile;
@@ -25,8 +24,6 @@ class ProfileObserver
                 SendinblueSyncUser::dispatch($profile->user);
             }
         }
-
-        $profile->geolocalise();
     }
 
     /**
@@ -65,10 +62,6 @@ class ProfileObserver
                 AirtableSyncObject::dispatch($profile->user);
             }
         }
-
-        if($profile->isDirty('zip')) {
-            $profile->geolocalise();
-        }
     }
 
     /**
@@ -79,10 +72,6 @@ class ProfileObserver
      */
     public function saving(Profile $profile)
     {
-        if ($profile->zip) {
-            $profile->department = Utils::getDepartmentFromZip($profile->zip);
-        }
-
         if ($profile->commitment__duration) {
             $profile->setCommitmentTotal();
         }
