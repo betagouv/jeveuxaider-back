@@ -111,4 +111,15 @@ class Utils
         $terms = config("taxonomies.$taxonomy.terms");
         return $terms && isset($terms[$value]) ? $terms[$value] : $value;
     }
+
+    // Citycode, not postcode.
+    public static function getDepartmentFromCitycode($citycode)
+    {
+        $pattern = '/^(971|972|973|974|976|987|988)/';
+        if (preg_match($pattern, $citycode)) {
+            return substr($citycode, 0, 3);
+        }
+
+        return substr($citycode, 0, 2);
+    }
 }

@@ -216,14 +216,14 @@ class MissionController extends Controller
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        if(!$mission->isAvailableForRegistration){
+        if(!$mission->isAvailableForRegistration) {
             return response()->json(['message' => 'La mission n\'est plus ouverte aux inscriptions'], 422);
         }
 
         $emails = collect($request->input('emails'));
         $user = User::find($request->user()->id);
 
-        $emails->each(function ($email) use($mission, $user) {
+        $emails->each(function ($email) use ($mission, $user) {
             Notification::route('mail', $email)->notify(new MissionShared($mission, $user));
         });
 
@@ -251,14 +251,14 @@ class MissionController extends Controller
             ->whereHas('user', function (Builder $query) {
                 $query->canReceiveNotifications();
             })
-            ->ofDomaine($domaineId)
+            // ->ofDomaine($domaineId)
             ->whereDoesntHave('participations', function (Builder $query) use ($mission) {
                 $query->where('mission_id', $mission->id);
             });
 
-        if ($mission->type == 'Mission en présentiel') {
-            $profilesQueryBuilder->department($mission->department);
-        }
+        // if ($mission->type == 'Mission en présentiel') {
+        //     $profilesQueryBuilder->department($mission->department);
+        // }
 
         return QueryBuilder::for($profilesQueryBuilder)
             ->allowedIncludes([
