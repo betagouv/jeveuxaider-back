@@ -312,7 +312,7 @@ class User extends Authenticatable
     public function scopeShouldBeArchived($query)
     {
         return $query
-            ->where("users.last_interaction_at", "<", Carbon::now()->subYears(3))
+            ->where("users.last_interaction_at", "<=", Carbon::now()->subYears(3)->startOfDay())
             ->doesntHave('archivedDatas')
             ->whereNull('users.archived_at')
             ->whereNull('users.anonymous_at')
