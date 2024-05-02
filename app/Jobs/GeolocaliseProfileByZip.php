@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Helpers\Utils;
 use App\Models\Profile;
 use App\Services\ApiAdresse;
 use Illuminate\Bus\Queueable;
@@ -20,9 +21,9 @@ class GeolocaliseProfileByZip implements ShouldQueue
     /**
      * Create a new job instance.
      */
-    public function __construct(public Profile $profile, public string $zip)
+    public function __construct(public Profile $profile)
     {
-
+        $this->onQueue('low-tasks');
     }
 
     /**
@@ -30,7 +31,8 @@ class GeolocaliseProfileByZip implements ShouldQueue
      */
     public function handle(): void
     {
-        $place = ApiAdresse::search(['q' => $this->zip, 'type' => 'municipality', 'limit' => 1]);
+        $q = $this->profile->zip . ' ' . $this->profile->city;
+        $place = ApiAdresse::search(['q' => $q, 'type' => 'municipality', 'limit' => 1]);
 
         if (!empty($place)) {
             $this->profile
@@ -38,13 +40,8 @@ class GeolocaliseProfileByZip implements ShouldQueue
                     'latitude' => $place['geometry']['coordinates'][1],
                     'longitude' => $place['geometry']['coordinates'][0],
                     'city' => $place['properties']['city'],
+                    'department' => Utils::getDepartmentFromCitycode($place['properties']['citycode']),
                 ]);
-        } else {
-            $this->profile->update([
-                'latitude' => 0,
-                'longitude' => 0,
-                'city' => null,
-            ]);
         }
     }
 }

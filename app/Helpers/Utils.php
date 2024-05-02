@@ -9,7 +9,7 @@ class Utils
 {
     public static function ucfirst($string = null)
     {
-        return mb_strtoupper(mb_substr($string, 0, 1)).mb_substr($string, 1);
+        return mb_strtoupper(mb_substr($string, 0, 1)) . mb_substr($string, 1);
     }
 
     public static function slug($value)
@@ -19,19 +19,6 @@ class Utils
         $value = str_replace($exclude_words, ' ', $value);
 
         return Str::slug($value);
-    }
-
-    public static function getDepartmentFromZip($zip)
-    {
-        $department = substr($zip, 0, 2);
-        switch ($department) {
-            case '97':
-            case '98':
-                $department = substr($zip, 0, 3);
-                break;
-        }
-
-        return $department;
     }
 
     public static function calculateCommitmentTotal($duration, $time_period = null)
@@ -91,7 +78,7 @@ class Utils
                 case '1_hour':
                 case '2_hours':
                 case 'half_day':
-                   return 'few_hours';
+                    return 'few_hours';
                 default:
                     return 'few_days';
             }
@@ -123,5 +110,16 @@ class Utils
     {
         $terms = config("taxonomies.$taxonomy.terms");
         return $terms && isset($terms[$value]) ? $terms[$value] : $value;
+    }
+
+    // Citycode, not postcode.
+    public static function getDepartmentFromCitycode($citycode)
+    {
+        $pattern = '/^(971|972|973|974|976|987|988)/';
+        if (preg_match($pattern, $citycode)) {
+            return substr($citycode, 0, 3);
+        }
+
+        return substr($citycode, 0, 2);
     }
 }
