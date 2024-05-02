@@ -128,6 +128,7 @@ class Sendinblue
             'PRENOM' => $user->profile->first_name,
             'DATE_DE_NAISSANCE' => $user->profile->birthday?->format('Y-m-d') ?: "",
             'CODE_POSTAL' => $user->profile->zip,
+            'VILLE' => $user->profile->city,
             'DEPARTEMENT' => substr($user->profile->zip, 0, 2),
             'DATE_INSCRIPTION' => $user->created_at->format('Y-m-d'),
             'NB_DEMANDE_PARTICIPATION' => $user->profile->participations->count(),
