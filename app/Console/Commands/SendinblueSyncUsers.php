@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
+use App\Jobs\SendinblueSyncUser;
 use App\Models\User;
-use App\Services\Sendinblue;
 use Illuminate\Console\Command;
 
 class SendinblueSyncUsers extends Command
@@ -13,14 +13,14 @@ class SendinblueSyncUsers extends Command
      *
      * @var string
      */
-    protected $signature = 'sendinblue:sync-users {--fromId=1}';
+    protected $signature = 'sendinblue:sync-users {--fromId=} {--toId=}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Sync users in Sendinblue {--fromId= : Take users > fromId }';
+    protected $description = 'Sync users in Sendinblue';
 
     /**
      * Create a new command instance.
@@ -40,21 +40,35 @@ class SendinblueSyncUsers extends Command
     public function handle()
     {
         $options = $this->options();
-        $query = User::with(['profile', 'roles', 'structures', 'profile.participations', 'structures.missions', 'departmentsAsReferent', 'regionsAsReferent', 'profile.activities'])->orderBy('id')->where('id', '>=', $options['fromId']);
+        if (empty($options['fromId'])) {
+            $this->error('Mandatory option: --fromId');
+            return;
+        }
+        if (empty($options['toId'])) {
+            $this->error('Mandatory option: --toId');
+            return;
+        }
+        if (config('services.sendinblue.sync') !== true) {
+            $this->error('Sendinblue synchronisation is disabled !');
+            return;
+        }
 
-        if ($this->confirm($query->count().' users will be added or updated in Sendinnblue')) {
+        $query = User::canReceiveNotifications()
+            ->where('id', '>=', $options['fromId'])
+            ->where('id', '<=', $options['toId'])
+            ->orderBy('id');
+
+        if ($this->confirm($query->count() . ' users will be added or updated in Sendinblue')) {
             $start = now();
-            $time = $start->diffInSeconds(now());
+            $executionTime = 0;
+            $query->cursor()->each(function (User $user) use (&$start, &$executionTime) {
+                SendinblueSyncUser::dispatch($user);
 
-            $this->comment("Processed in $time seconds");
-
-            $query->chunk(50, function ($users) use ($start) {
-                foreach ($users as $user) {
-                    Sendinblue::sync($user);
-                    $this->comment('Processed user '.$user->id);
-                }
                 $time = $start->diffInSeconds(now());
-                $this->comment("Processed in $time seconds");
+                if ($executionTime !== $time && ($time - $executionTime) % 5 === 0) {
+                    $this->comment("Processing... ($time seconds)");
+                    $executionTime = $time;
+                }
             });
         }
     }
