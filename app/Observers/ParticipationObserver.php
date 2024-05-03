@@ -6,6 +6,7 @@ use App\Jobs\SendinblueSyncUser;
 use App\Models\Participation;
 use App\Models\User;
 use App\Notifications\MissionAlmostFull;
+use App\Notifications\MissionFull;
 use App\Notifications\ParticipationBeingProcessed;
 use App\Notifications\ParticipationCanceled;
 use App\Notifications\ParticipationValidated;
@@ -41,10 +42,12 @@ class ParticipationObserver
         $participation->mission->update();
 
         if (
-            $participation->mission->participations_max > 10 &&
+            $participation->mission->participations_max > 5 &&
             $participation->mission->places_left === 1
         ) {
             $participation->mission->responsable->notify(new MissionAlmostFull($participation->mission));
+        } elseif ($participation->mission->places_left <= 0) {
+            $participation->mission->responsable->notify(new MissionFull($participation->mission));
         }
     }
 

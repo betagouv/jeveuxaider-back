@@ -32,6 +32,7 @@ use App\Notifications\MessageStructureCreated;
 use App\Notifications\MissionAlmostFull;
 use App\Notifications\MissionBeingProcessed;
 use App\Notifications\MissionDeactivated;
+use App\Notifications\MissionFull;
 use App\Notifications\MissionStillInDraft;
 use App\Notifications\MissionOutdatedFirstReminder;
 use App\Notifications\MissionOutdatedSecondReminder;
@@ -225,6 +226,9 @@ class NotificationController extends Controller
                 break;
             case 'responsable_mission_almost_full':
                 $notification = new MissionAlmostFull($mission);
+                break;
+            case 'responsable_mission_full':
+                $notification = new MissionFull($mission);
                 break;
             case 'responsable_mission_still_in_draft':
                 $notification = new MissionStillInDraft($mission);

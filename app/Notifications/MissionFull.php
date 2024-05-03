@@ -9,7 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class MissionAlmostFull extends Notification implements ShouldQueue
+class MissionFull extends Notification implements ShouldQueue
 {
     use Queueable;
     use TransactionalEmail;
@@ -31,7 +31,7 @@ class MissionAlmostFull extends Notification implements ShouldQueue
     public function __construct(Mission $mission)
     {
         $this->mission = $mission;
-        $this->tag = 'app-responsable-mission-presque-complete';
+        $this->tag = 'app-responsable-mission-complete';
     }
 
     /**
@@ -61,8 +61,8 @@ class MissionAlmostFull extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage())
-            ->subject('🔥 Votre mission est presque complète !')
-            ->markdown('emails.responsables.mission-almost-full', [
+            ->subject('Vous ne pouvez plus recevoir de demandes de participations 😢')
+            ->markdown('emails.responsables.mission-full', [
                 'url' => $this->trackedUrl('/admin/missions/' . $this->mission->id),
                 'mission' => $this->mission,
                 'notifiable' => $notifiable
