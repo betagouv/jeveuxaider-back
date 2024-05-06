@@ -395,6 +395,10 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::get('support/responsables/missions-outdated', 'Api\SupportController@responsablesMissionsOutdated');
     Route::post('support/scripts/generate-password-reset-link', 'Api\SupportController@generatePasswordResetLink');
 
+    Route::get('support/contents/doublons-territoires', 'Api\SupportController@doublonsTerritoires');
+    Route::post('support/contents/doublons-territoires/list', 'Api\SupportController@fetchDoublonsTerritoires');
+
+
     // UTILISATEURS ARCHIVÉS
     Route::get('archived-users', 'Api\UserArchivedDatasController@index');
 });

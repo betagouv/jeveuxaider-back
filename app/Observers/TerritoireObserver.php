@@ -19,7 +19,7 @@ class TerritoireObserver
     {
         if ($territoire->state == 'waiting') {
             Notification::route('slack', config('services.slack.hook_url'))
-            ->notify(new TerritoireWaitingValidation($territoire));
+                ->notify(new TerritoireWaitingValidation($territoire));
         }
     }
 

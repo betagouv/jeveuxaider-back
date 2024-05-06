@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Mission;
 use App\Models\Participation;
 use App\Models\Structure;
+use App\Models\Territoire;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -22,10 +23,10 @@ class SupportController extends Controller
         $this->startDate = Carbon::now()->subDays(14);
         $this->endDate = Carbon::now();
 
-        if($request->input('startDate')) {
+        if ($request->input('startDate')) {
             $this->startDate = Carbon::createFromFormat('Y-m-d', $request->input('startDate'))->hour(0)->minute(0)->second(0);
         }
-        if($request->input('endDate')) {
+        if ($request->input('endDate')) {
             $this->endDate = Carbon::createFromFormat('Y-m-d', $request->input('endDate'))->hour(23)->minute(59)->second(59);
         }
     }
@@ -224,11 +225,11 @@ class SupportController extends Controller
                     $query->where('participations.state', 'En attente de validation')
                         ->where('participations.created_at', '<', Carbon::now()->subDays(7)->startOfDay());
                 })
-                ->orWhere(function ($query) {
-                    $query
-                        ->where('participations.state', 'En cours de traitement')
-                        ->where('participations.created_at', '<', Carbon::now()->subMonths(2)->startOfDay());
-                });
+                    ->orWhere(function ($query) {
+                        $query
+                            ->where('participations.state', 'En cours de traitement')
+                            ->where('participations.created_at', '<', Carbon::now()->subMonths(2)->startOfDay());
+                    });
             })
             ->when($searchValue, function ($query) use ($searchValue) {
                 $query->whereRaw("CONCAT(profiles.first_name, ' ', profiles.last_name, ' ', profiles.email) ILIKE ?", ['%' . $searchValue . '%']);
@@ -301,7 +302,6 @@ class SupportController extends Controller
             ->paginate(20);
 
         return $results;
-
     }
 
     public function generatePasswordResetLink(Request $request)
@@ -316,4 +316,44 @@ class SupportController extends Controller
         return config('app.front_url') . '/password-reset/' . $token . '?email=' . urlencode($user->email);
     }
 
+    public function doublonsTerritoires(Request $request)
+    {
+        $searchValue = $request->input('search') ?? null;
+
+        $results = Territoire::selectRaw("translate(
+            LOWER(REPLACE(REPLACE(name, ' ', ''), '-', '')),
+            'âãäåāăąÁÂÃÄÅĀĂĄèééêëēĕėęěĒĔĖĘĚìíîïìĩīĭÌÍÎÏÌĨĪĬóôõöōŏőÒÓÔÕÖŌŎŐùúûüũūŭůÙÚÛÜŨŪŬŮ',
+            'aaaaaaaaaaaaaaaeeeeeeeeeeeeeeeiiiiiiiiiiiiiiiiooooooooooooooouuuuuuuuuuuuuuuu'
+        ) as trimname, COUNT(*)")
+            ->where('state', 'validated')
+            ->where('type', 'city')
+            ->when($searchValue, function ($query) use ($searchValue) {
+                $query->where('name', 'ilike', '%' . $searchValue . '%');
+            })
+            ->groupByRaw("trimname")
+            ->havingRaw('count(*) > 1')
+            ->orderBy('trimname')
+            ->paginate(15);
+
+        return $results;
+    }
+
+    public function fetchDoublonsTerritoires(Request $request)
+    {
+        $searchValue = $request->input('search') ?? null;
+
+        $searchValue = strtolower(str_replace([' ', '-'], '', $searchValue));
+
+        $results = Territoire::whereRaw("translate(LOWER(REPLACE(REPLACE(name, ' ', ''), '-', '')),
+        'âãäåāăąÁÂÃÄÅĀĂĄèééêëēĕėęěĒĔĖĘĚìíîïìĩīĭÌÍÎÏÌĨĪĬóôõöōŏőÒÓÔÕÖŌŎŐùúûüũūŭůÙÚÛÜŨŪŬŮ',
+        'aaaaaaaaaaaaaaaeeeeeeeeeeeeeeeiiiiiiiiiiiiiiiiooooooooooooooouuuuuuuuuuuuuuuu'
+    ) = translate(LOWER(REPLACE(REPLACE(?, ' ', ''), '-', '')),
+    'âãäåāăąÁÂÃÄÅĀĂĄèééêëēĕėęěĒĔĖĘĚìíîïìĩīĭÌÍÎÏÌĨĪĬóôõöōŏőÒÓÔÕÖŌŎŐùúûüũūŭůÙÚÛÜŨŪŬŮ',
+    'aaaaaaaaaaaaaaaeeeeeeeeeeeeeeeiiiiiiiiiiiiiiiiooooooooooooooouuuuuuuuuuuuuuuu'
+)", [$searchValue])
+            ->where('type', 'city')
+            ->get();
+
+        return $results;
+    }
 }

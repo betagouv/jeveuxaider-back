@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\Jobs\AirtableDeleteObject;
 use App\Jobs\AirtableSyncObject;
+use App\Jobs\CreateTerritoireFromStructure;
 use App\Jobs\SendinblueSyncUser;
 use App\Models\Domaine;
 use App\Models\Mission;
@@ -31,25 +32,6 @@ class StructureObserver
     public function created(Structure $structure)
     {
         $structure->addMember($structure->user);
-
-        // COLLECTIVITE
-        if ($structure->statut_juridique === 'Collectivité') {
-            $name = preg_replace("/(^Mairie (des|du|de|d')*)/mi", '', $structure->name);
-            $territoire = Territoire::create([
-                'structure_id' => $structure->id,
-                'name' => $name,
-                'suffix_title' => 'à ' . $name,
-                'zips' => $structure->zip ? [$structure->zip] : [],
-                'department' => $structure->department,
-                'is_published' => false,
-                'type' => 'city',
-                'state' => 'waiting',
-            ]);
-            $responsable = $structure->members->first();
-            if ($responsable) {
-                $territoire->addResponsable($responsable);
-            }
-        }
 
         // Sync Sendinblue
         if (config('services.sendinblue.sync')) {
@@ -107,7 +89,10 @@ class StructureObserver
                     if ($responsable) {
                         $responsable->notify(new StructureValidated($structure));
                         if ($structure->statut_juridique == 'Collectivité') {
-                            $responsable->notify(new StructureCollectivityValidated($structure));
+                            if(!$structure->territoire){
+                                CreateTerritoireFromStructure::dispatch($structure);
+                                $responsable->notify(new StructureCollectivityValidated($structure));
+                            }
                         } else {
                             $responsable->notify(new StructureAssociationValidated($structure));
                         }

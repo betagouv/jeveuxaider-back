@@ -80,8 +80,10 @@ class TerritoireWaitingValidation extends Notification implements ShouldQueue
     {
         $territoire = $this->territoire;
 
+        $from = config('app.env') != 'production' ? '[' . config('app.env') . '] JeVeuxAider.gouv.fr' : 'JeVeuxAider.gouv.fr';
+
         return (new SlackMessage())
-                    ->from('JeVeuxAider.gouv.fr')
+                    ->from($from)
                     ->success()
                     ->to('#déploiement-collectivités-acquisition')
                     ->content('Une nouvelle collectivité vient de s\'inscrire! Elle est en attente de validation.')
