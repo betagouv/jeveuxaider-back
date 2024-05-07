@@ -320,11 +320,11 @@ class SupportController extends Controller
     {
         $searchValue = $request->input('search') ?? null;
 
-        $results = Territoire::selectRaw("translate(
-            LOWER(REPLACE(REPLACE(name, ' ', ''), '-', '')),
-            'âãäåāăąÁÂÃÄÅĀĂĄèééêëēĕėęěĒĔĖĘĚìíîïìĩīĭÌÍÎÏÌĨĪĬóôõöōŏőÒÓÔÕÖŌŎŐùúûüũūŭůÙÚÛÜŨŪŬŮ',
-            'aaaaaaaaaaaaaaaeeeeeeeeeeeeeeeiiiiiiiiiiiiiiiiooooooooooooooouuuuuuuuuuuuuuuu'
-        ) as trimname, COUNT(*)")
+        $accent = 'âãäåāăąÁÂÃÄÅĀĂĄèééêëēĕėęěĒĔĖĘĚìíîïìĩīĭÌÍÎÏÌĨĪĬóôõöōŏőÒÓÔÕÖŌŎŐùúûüũūŭůÙÚÛÜŨŪŬŮ';
+        $sansAccent = 'aaaaaaaaaaaaaaaeeeeeeeeeeeeeeeiiiiiiiiiiiiiiiiooooooooooooooouuuuuuuuuuuuuuuu';
+        $selectRawTranslate = "translate(LOWER(REPLACE(REPLACE(name, ' ', ''), '-', '')),'$accent', '$sansAccent') as trimname";
+
+        $results = Territoire::selectRaw("$selectRawTranslate, COUNT(*)")
             ->where('state', 'validated')
             ->where('type', 'city')
             ->when($searchValue, function ($query) use ($searchValue) {
@@ -341,18 +341,20 @@ class SupportController extends Controller
     public function fetchDoublonsTerritoires(Request $request)
     {
         $searchValue = $request->input('search') ?? null;
+        $excludeId = $request->input('excludeId') ?? null;
 
         $searchValue = strtolower(str_replace([' ', '-'], '', $searchValue));
 
-        $results = Territoire::whereRaw("translate(LOWER(REPLACE(REPLACE(name, ' ', ''), '-', '')),
-        'âãäåāăąÁÂÃÄÅĀĂĄèééêëēĕėęěĒĔĖĘĚìíîïìĩīĭÌÍÎÏÌĨĪĬóôõöōŏőÒÓÔÕÖŌŎŐùúûüũūŭůÙÚÛÜŨŪŬŮ',
-        'aaaaaaaaaaaaaaaeeeeeeeeeeeeeeeiiiiiiiiiiiiiiiiooooooooooooooouuuuuuuuuuuuuuuu'
-    ) = translate(LOWER(REPLACE(REPLACE(?, ' ', ''), '-', '')),
-    'âãäåāăąÁÂÃÄÅĀĂĄèééêëēĕėęěĒĔĖĘĚìíîïìĩīĭÌÍÎÏÌĨĪĬóôõöōŏőÒÓÔÕÖŌŎŐùúûüũūŭůÙÚÛÜŨŪŬŮ',
-    'aaaaaaaaaaaaaaaeeeeeeeeeeeeeeeiiiiiiiiiiiiiiiiooooooooooooooouuuuuuuuuuuuuuuu'
-)", [$searchValue])
+        $accent = 'âãäåāăąÁÂÃÄÅĀĂĄèééêëēĕėęěĒĔĖĘĚìíîïìĩīĭÌÍÎÏÌĨĪĬóôõöōŏőÒÓÔÕÖŌŎŐùúûüũūŭůÙÚÛÜŨŪŬŮ';
+        $sansAccent = 'aaaaaaaaaaaaaaaeeeeeeeeeeeeeeeiiiiiiiiiiiiiiiiooooooooooooooouuuuuuuuuuuuuuuu';
+        $whereRawTranslate = "translate(LOWER(REPLACE(REPLACE(name, ' ', ''), '-', '')),'$accent', '$sansAccent') = translate(LOWER(REPLACE(REPLACE(?, ' ', ''), '-', '')),'$accent', '$sansAccent')";
+
+        $results = Territoire::whereRaw($whereRawTranslate, [$searchValue])
             ->where('state', 'validated')
             ->where('type', 'city')
+            ->when($excludeId, function ($query) use ($excludeId) {
+                $query->where('id', '!=', $excludeId);
+            })
             ->get();
 
         return $results;
