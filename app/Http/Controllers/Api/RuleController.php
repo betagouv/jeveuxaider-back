@@ -9,7 +9,6 @@ use App\Jobs\RuleMissionAttachTag;
 use App\Jobs\RuleMissionDetachTag;
 use App\Models\Rule;
 use App\Models\User;
-use App\Models\Mission;
 use App\Notifications\BatchRuleExecuted;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -29,7 +28,7 @@ class RuleController extends Controller
         return QueryBuilder::for(Rule::class)
             ->allowedFilters([
                 AllowedFilter::exact('is_active'),
-                AllowedFilter::custom('search', new FiltersNameSearch),
+                AllowedFilter::custom('search', new FiltersNameSearch()),
             ])
             ->defaultSort('-updated_at')
             ->paginate(config('query-builder.results_per_page'));
@@ -37,8 +36,8 @@ class RuleController extends Controller
 
     public function show(Request $request, Rule $rule)
     {
-        if($request->has('appends')){
-            $rule->append(explode(',',$request->input('appends')));
+        if($request->has('appends')) {
+            $rule->append(explode(',', $request->input('appends')));
         }
 
         return $rule;
@@ -82,7 +81,7 @@ class RuleController extends Controller
         $itemsCount = $rule->pending_items_count;
 
         $batch = Bus::batch(
-            $rule->pendingItems()->map(function($item) use ($rule) {
+            $rule->pendingItems()->map(function ($item) use ($rule) {
                 if($rule->action_key == 'mission_attach_tag') {
                     return new RuleMissionAttachTag($rule, $item);
                 }
@@ -96,7 +95,7 @@ class RuleController extends Controller
             Notification::route('slack', config('services.slack.hook_url'))
                 ->notify(new BatchRuleExecuted($rule, $user, $itemsCount));
         })->catch(function (Batch $batch, Throwable $e) use ($rule, $user, $itemsCount) {
-           //
+            //
         })->finally(function (Batch $batch) use ($rule, $user, $itemsCount) {
             activity('batch')
                 ->causedBy($user)
@@ -114,7 +113,7 @@ class RuleController extends Controller
         $queryBuilder = $rule->pendingItemsQueryBuilder();
 
         $result = QueryBuilder::for($queryBuilder)
-            ->with(['domaine', 'template', 'template.domaine', 'structure'])
+            ->with(['domaine', 'template', 'template.domaine', 'structure', 'tags'])
             ->allowedFilters([
 
             ])
