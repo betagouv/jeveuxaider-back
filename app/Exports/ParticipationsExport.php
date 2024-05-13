@@ -74,7 +74,9 @@ class ParticipationsExport implements FromQuery, WithMapping, WithHeadings, With
                 AllowedFilter::exact('mission.structure.id'),
                 AllowedFilter::exact('mission.template.id'),
                 AllowedFilter::exact('profile.id'),
+                AllowedFilter::scope('ofStructure'),
                 AllowedFilter::scope('ofReseau'),
+                AllowedFilter::scope('ofTemplate'),
                 AllowedFilter::scope('ofTerritoire'),
                 AllowedFilter::scope('ofActivity'),
                 AllowedFilter::scope('ofDomaine'),
@@ -117,7 +119,7 @@ class ParticipationsExport implements FromQuery, WithMapping, WithHeadings, With
         $creneaux = null;
 
         if($participation->slots) {
-            $creneaux = implode(', ', collect($participation->slots)->map( function ($item) {
+            $creneaux = implode(', ', collect($participation->slots)->map(function ($item) {
                 $date = Carbon::parse($item['date'])->timezone('Europe/Paris')->format('Y-m-d');
                 $slots = implode(', ', $item['slots']);
                 return "$date ($slots)";

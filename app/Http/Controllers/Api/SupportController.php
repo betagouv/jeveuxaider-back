@@ -185,7 +185,7 @@ class SupportController extends Controller
         $orderBy = $request->input('sort') ? $request->input('sort') . ' DESC' : 'participations_total_count DESC';
         $searchValue = $request->input('search') ?? null;
         $inactiveValue = $request->input('inactive') ?? null;
-        $organisationValue = $request->input('organisation_id') ?? null;
+        $organisationValue = $request->input('filter.ofStructure') ?? null;
         $onlineValue = $request->input('online') ?? null;
 
         $results = DB::table('profiles')
@@ -255,7 +255,7 @@ class SupportController extends Controller
         $orderBy = $request->input('sort') ? $request->input('sort') . ' DESC' : 'missions_total_count DESC';
         $searchValue = $request->input('search') ?? null;
         $inactiveValue = $request->input('inactive') ?? null;
-        $organisationValue = $request->input('organisation_id') ?? null;
+        $organisationValue = $request->input('filter.ofStructure') ?? null;
         $onlineValue = $request->input('online') ?? null;
 
         $results = DB::table('profiles')

@@ -25,7 +25,7 @@ class MissionTemplateController extends Controller
                 AllowedFilter::custom('search', new FiltersTitleBodySearch()),
                 AllowedFilter::exact('domaine.id'),
                 AllowedFilter::exact('published'),
-                AllowedFilter::scope('of_reseau'),
+                AllowedFilter::scope('ofReseau'),
                 AllowedFilter::scope('with_reseau'),
                 AllowedFilter::exact('reseau.name'),
                 AllowedFilter::exact('reseau.id'),

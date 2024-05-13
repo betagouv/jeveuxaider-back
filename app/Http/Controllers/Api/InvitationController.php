@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Filters\FiltersInvitationSearch;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\InvitationRequest;
 use App\Http\Requests\RegisterInvitationRequest;
@@ -30,6 +29,12 @@ class InvitationController extends Controller
                 AllowedFilter::callback('reseau.id', function (Builder $query, $value) {
                     $query->ofReseau($value);
                 }),
+                AllowedFilter::callback('ofReseau', function (Builder $query, $value) {
+                    $query->ofReseau($value);
+                }),
+                AllowedFilter::callback('ofStructure', function (Builder $query, $value) {
+                    $query->ofStructure($value);
+                }),
                 AllowedFilter::callback('structure.id', function (Builder $query, $value) {
                     $query->ofStructure($value);
                 }),
@@ -37,7 +42,7 @@ class InvitationController extends Controller
                     $query->where('properties->referent_departemental', $value);
                 }),
                 AllowedFilter::callback('search', function (Builder $query, $value) {
-                    $query->where('email', 'ilike', '%'.$value.'%');
+                    $query->where('email', 'ilike', '%' . $value . '%');
                 }),
             )
             ->allowedIncludes('user.profile')
@@ -54,7 +59,7 @@ class InvitationController extends Controller
     {
         $invitation = Invitation::whereToken($token)->first();
 
-        if (! $invitation) {
+        if (!$invitation) {
             abort(404, "L'invitation n'est plus disponible");
         }
         $invitation->load('invitable');
@@ -67,7 +72,7 @@ class InvitationController extends Controller
     {
         if ($request->input('email') == $request->user()->email) {
             $user = User::where('email', 'ILIKE', $request->input('email'))->first();
-            if (! $user->hasRole('admin')) {
+            if (!$user->hasRole('admin')) {
                 abort(422, 'Vous ne pouvez pas vous inviter vous-même');
             }
         }
@@ -105,15 +110,15 @@ class InvitationController extends Controller
     {
         $invitation = Invitation::whereToken($token)->first();
 
-       $this->authorize('resend', $invitation);
+        $this->authorize('resend', $invitation);
 
-        if (! $invitation) {
+        if (!$invitation) {
             abort(422, "L'invitation n'est plus disponible");
         }
 
         $diffTimestamp = Carbon::now()->timestamp - $invitation->last_sent_at->timestamp;
         if ($diffTimestamp < 3600) {
-            abort(422, 'Vous devez attendre '.floor(60 - ($diffTimestamp / 60))." minutes pour renvoyer l'email d'invitation");
+            abort(422, 'Vous devez attendre ' . floor(60 - ($diffTimestamp / 60)) . " minutes pour renvoyer l'email d'invitation");
         }
 
         $invitation->update(['last_sent_at' => Carbon::now()]);
@@ -126,7 +131,7 @@ class InvitationController extends Controller
     {
         $invitation = Invitation::whereToken($token)->first();
 
-        if (! $invitation) {
+        if (!$invitation) {
             abort(422, "L'invitation n'est plus disponible");
         }
 
@@ -145,7 +150,7 @@ class InvitationController extends Controller
 
         $this->authorize('delete', $invitation);
 
-        if (! $invitation) {
+        if (!$invitation) {
             abort(422, "L'invitation n'est plus disponible");
         }
 
@@ -156,7 +161,7 @@ class InvitationController extends Controller
     {
         $invitation = Invitation::whereToken($token)->first();
 
-        if (! $invitation) {
+        if (!$invitation) {
             abort(422, "L'invitation n'est plus disponible");
         }
 

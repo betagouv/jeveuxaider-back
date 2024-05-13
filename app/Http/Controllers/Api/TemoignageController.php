@@ -27,6 +27,7 @@ class TemoignageController extends Controller
                 AllowedFilter::custom('search', new FiltersTemoignageSearch()),
                 AllowedFilter::custom('organisation', new FiltersTemoignageOrganisationSearch()),
                 AllowedFilter::exact('participation.mission.structure.id'),
+                AllowedFilter::scope('ofStructure'),
             )
             ->defaultSort('-created_at')
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
