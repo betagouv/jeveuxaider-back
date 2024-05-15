@@ -275,7 +275,7 @@ class UserController extends Controller
         $token->token->save();
 
         activity('impersonate')
-            ->event('impersonated')
+            ->event('start_impersonated')
             ->withProperties([
                 'impersonate_user_email' => $user->email,
                 'impersonate_user_name' => $user->profile->full_name,
@@ -293,7 +293,7 @@ class UserController extends Controller
                 'impersonate_user_email' => $token->user->email,
                 'impersonate_user_name' =>  $token->user->profile->full_name,
             ])
-            ->log("stop_impersonated");
+            ->log("impersonated");
 
         return (string) $token->revoke();
     }
