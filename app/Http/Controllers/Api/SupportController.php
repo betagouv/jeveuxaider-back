@@ -359,4 +359,47 @@ class SupportController extends Controller
 
         return $results;
     }
+
+    public function doublonsOrganisations(Request $request)
+    {
+        $searchValue = $request->input('search') ?? null;
+
+        $accent = 'âãäåāăąÁÂÃÄÅĀĂĄèééêëēĕėęěĒĔĖĘĚìíîïìĩīĭÌÍÎÏÌĨĪĬóôõöōŏőÒÓÔÕÖŌŎŐùúûüũūŭůÙÚÛÜŨŪŬŮ';
+        $sansAccent = 'aaaaaaaaaaaaaaaeeeeeeeeeeeeeeeiiiiiiiiiiiiiiiiooooooooooooooouuuuuuuuuuuuuuuu';
+        $selectRawTranslate = "translate(LOWER(REPLACE(REPLACE(name, ' ', ''), '-', '')),'$accent', '$sansAccent') as trimname";
+
+        $results = Structure::selectRaw("$selectRawTranslate, COUNT(*)")
+            ->where('state', 'Validée')
+            ->when($searchValue, function ($query) use ($searchValue) {
+                $query->where('name', 'ilike', '%' . $searchValue . '%');
+            })
+            ->groupByRaw("trimname")
+            ->havingRaw('count(*) > 1')
+            ->orderBy('trimname')
+            ->paginate(15);
+
+        return $results;
+    }
+
+    public function fetchDoublonsOrganisations(Request $request)
+    {
+        $searchValue = $request->input('search') ?? null;
+        $excludeId = $request->input('excludeId') ?? null;
+
+        $searchValue = strtolower(str_replace([' ', '-'], '', $searchValue));
+
+        $accent = 'âãäåāăąÁÂÃÄÅĀĂĄèééêëēĕėęěĒĔĖĘĚìíîïìĩīĭÌÍÎÏÌĨĪĬóôõöōŏőÒÓÔÕÖŌŎŐùúûüũūŭůÙÚÛÜŨŪŬŮ';
+        $sansAccent = 'aaaaaaaaaaaaaaaeeeeeeeeeeeeeeeiiiiiiiiiiiiiiiiooooooooooooooouuuuuuuuuuuuuuuu';
+        $whereRawTranslate = "translate(LOWER(REPLACE(REPLACE(name, ' ', ''), '-', '')),'$accent', '$sansAccent') = translate(LOWER(REPLACE(REPLACE(?, ' ', ''), '-', '')),'$accent', '$sansAccent')";
+
+        $results = Structure::whereRaw($whereRawTranslate, [$searchValue])
+            // ->withCount(['members'])
+            ->where('state', 'Validée')
+            ->when($excludeId, function ($query) use ($excludeId) {
+                $query->where('id', '!=', $excludeId);
+            })
+            ->get();
+
+        return $results;
+    }
 }
