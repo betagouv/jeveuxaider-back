@@ -274,11 +274,27 @@ class UserController extends Controller
         $token->token->expires_at = now()->addMinutes(60);
         $token->token->save();
 
+        activity('impersonate')
+            ->event('impersonated')
+            ->withProperties([
+                'impersonate_user_email' => $user->email,
+                'impersonate_user_name' => $user->profile->full_name,
+            ])
+            ->log("impersonated");
+
         return $token;
     }
 
     public function stopImpersonate(Token $token)
     {
+        activity('impersonate')
+            ->event('stop_impersonated')
+            ->withProperties([
+                'impersonate_user_email' => $token->user->email,
+                'impersonate_user_name' =>  $token->user->profile->full_name,
+            ])
+            ->log("stop_impersonated");
+
         return (string) $token->revoke();
     }
 
