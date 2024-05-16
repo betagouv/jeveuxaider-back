@@ -324,4 +324,5 @@ class MissionController extends Controller
 
         return $query->paginate(10)->load('domaine', 'template', 'template.domaine', 'template.media', 'structure', 'illustrations', 'template.activity');
     }
+
 }

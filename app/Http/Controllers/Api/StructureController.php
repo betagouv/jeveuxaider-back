@@ -29,6 +29,7 @@ use Spatie\QueryBuilder\QueryBuilder;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class StructureController extends Controller
 {
@@ -426,4 +427,6 @@ class StructureController extends Controller
 
         return $structure->invitations()->with('user.profile')->orderBy('id')->get();
     }
+
+    
 }
