@@ -174,7 +174,8 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::post('structures/{structure}/v2/missions', 'Api\FormMissionController@store');
     Route::put('/missions/{mission}/title', 'Api\FormMissionController@updateTitle');
     Route::put('/missions/{mission}/visuel', 'Api\FormMissionController@updateVisuel');
-    Route::put('/missions/{mission}/description', 'Api\FormMissionController@updateDescription');
+    Route::put('/missions/{mission}/informations', 'Api\FormMissionController@updateInformations');
+    Route::put('/missions/{mission}/dates', 'Api\FormMissionController@updateDates');
 
     // INVITATIONS
     Route::post('invitations', 'Api\InvitationController@store');

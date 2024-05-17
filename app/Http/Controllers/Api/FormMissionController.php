@@ -93,7 +93,7 @@ class FormMissionController extends Controller
         return $mission;
     }
 
-    public function updateDescription(Request $request, Mission $mission)
+    public function updateInformations(Request $request, Mission $mission)
     {
         $validator = Validator::make($request->all(),[
             'domaine_id' => '',
@@ -105,6 +105,23 @@ class FormMissionController extends Controller
             'objectif' => 'required',
             'description' => 'required',
             'information' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $mission->update($validator->validated());
+
+        return $mission;
+    }
+
+    public function updateDates(Request $request, Mission $mission)
+    {
+        $validator = Validator::make($request->all(),[
+            'date_type' => 'required',
+            'commitment__duration' => 'required',
+            'commitment__period' => '',
         ]);
 
         if ($validator->fails()) {
