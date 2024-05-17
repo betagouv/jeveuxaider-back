@@ -89,8 +89,9 @@ class FormMissionController extends Controller
         }
 
         $mission->illustrations()->sync([$request->input('media_id') => ['field' => 'mission_illustrations']]);
+        $mission->load('illustrations');
 
-        return $mission;
+        return  $mission;
     }
 
     public function updateInformations(Request $request, Mission $mission)
