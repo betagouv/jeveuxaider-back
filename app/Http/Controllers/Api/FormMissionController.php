@@ -17,6 +17,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\MissionDeleteRequest;
 use App\Http\Requests\Api\MissionDuplicateRequest;
 use App\Http\Requests\Api\MissionUpdateRequest;
+use App\Models\Media;
 use App\Models\Mission;
 use App\Models\Participation;
 use App\Models\Profile;
@@ -71,6 +72,46 @@ class FormMissionController extends Controller
         $mission->update([
             'name' => $request->input('name'),
         ]);
+
+        return $mission;
+    }
+
+    public function updateVisuel(Request $request, Mission $mission)
+    {
+        $validator = Validator::make($request->all(),[
+            'media_id' => 'required',
+        ], [
+            'media_id.required' => 'Vous devez sélectionner une image',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $mission->illustrations()->sync([$request->input('media_id') => ['field' => 'mission_illustrations']]);
+
+        return $mission;
+    }
+
+    public function updateDescription(Request $request, Mission $mission)
+    {
+        $validator = Validator::make($request->all(),[
+            'domaine_id' => '',
+            'domaine_secondary_id' => '',
+            'activity_id' => 'required',
+            'activity_secondary_id' => '',
+            'publics_volontaires' => '',
+            'publics_beneficiaires' => 'required',
+            'objectif' => 'required',
+            'description' => 'required',
+            'information' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $mission->update($validator->validated());
 
         return $mission;
     }

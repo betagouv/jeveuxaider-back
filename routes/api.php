@@ -173,6 +173,8 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
 
     Route::post('structures/{structure}/v2/missions', 'Api\FormMissionController@store');
     Route::put('/missions/{mission}/title', 'Api\FormMissionController@updateTitle');
+    Route::put('/missions/{mission}/visuel', 'Api\FormMissionController@updateVisuel');
+    Route::put('/missions/{mission}/description', 'Api\FormMissionController@updateDescription');
 
     // INVITATIONS
     Route::post('invitations', 'Api\InvitationController@store');
