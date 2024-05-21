@@ -2,35 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Filters\FiltersDisponibility;
-use App\Filters\FiltersDoesntHaveTags;
-use App\Filters\FiltersMissionDate;
-use App\Filters\FiltersMissionIsTemplate;
-use App\Filters\FiltersMissionPlacesLeft;
-use App\Filters\FiltersMissionPriorityAvailable;
-use App\Filters\FiltersMissionPublicsBeneficiaires;
-use App\Filters\FiltersMissionPublicsVolontaires;
-use App\Filters\FiltersMissionSearch;
-use App\Filters\FiltersTags;
-use App\Filters\FiltersMissionZip;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\MissionDeleteRequest;
-use App\Http\Requests\Api\MissionDuplicateRequest;
-use App\Http\Requests\Api\MissionUpdateRequest;
-use App\Models\Media;
 use App\Models\Mission;
-use App\Models\Participation;
-use App\Models\Profile;
 use App\Models\Structure;
-use App\Models\User;
-use App\Notifications\MissionShared;
-use App\Services\ApiEngagement;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
-use Spatie\QueryBuilder\AllowedFilter;
-use Spatie\QueryBuilder\AllowedInclude;
-use Spatie\QueryBuilder\QueryBuilder;
-use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 
@@ -101,7 +77,6 @@ class FormMissionController extends Controller
             'domaine_secondary_id' => '',
             'activity_id' => 'required',
             'activity_secondary_id' => '',
-            'publics_volontaires' => '',
             'publics_beneficiaires' => 'required',
             'objectif' => 'required',
             'description' => 'required',
@@ -130,6 +105,67 @@ class FormMissionController extends Controller
         }
 
         $mission->update($validator->validated());
+
+        return $mission;
+    }
+
+    public function updateBenevoles(Request $request, Mission $mission)
+    {
+        $validator = Validator::make($request->all(),[
+            'participations_max' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $mission->update($validator->validated());
+
+        return $mission;
+    }
+
+    public function updateBenevolesInformations(Request $request, Mission $mission)
+    {
+        $validator = Validator::make($request->all(),[
+            'publics_volontaires' => '',
+            'prerequisites' => 'max:3|array',
+            'prerequisites.*' => 'string|max:100',
+            'skills' => '',
+            'is_motivation_required' => '',
+            'is_snu_mig_compatible' => '',
+            'snu_mig_places' => 'required_if:is_snu_mig_compatible,true',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        if ($request->has('skills')) {
+            $skills = collect($request->input('skills'));
+            $values = $skills->pluck($skills, 'id')->map(function ($item) {
+                return ['field' => 'mission_skills'];
+            });
+            $mission->skills()->sync($values);
+        }
+
+        $mission->update($validator->validated());
+
+        return $mission;
+    }
+
+    public function updateResponsables(Request $request, Mission $mission)
+    {
+        $validator = Validator::make($request->all(),[
+            'responsables' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        ray($request->input('responsables'));
+
+        // $mission->update($validator->validated());
 
         return $mission;
     }
