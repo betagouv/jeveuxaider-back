@@ -397,6 +397,7 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
 
     Route::get('support/contents/doublons-territoires', 'Api\SupportController@doublonsTerritoires');
     Route::post('support/contents/doublons-territoires/list', 'Api\SupportController@fetchDoublonsTerritoires');
+    Route::get('support/contents/doublons-territoires/export', 'Api\SupportController@exportDoublonsTerritoires');
     Route::get('support/contents/doublons-organisations', 'Api\SupportController@doublonsOrganisations');
     Route::post('support/contents/doublons-organisations/list', 'Api\SupportController@fetchDoublonsOrganisations');
 

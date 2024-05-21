@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Exports\DoublonsTerritoiresExport;
 use App\Http\Controllers\Controller;
 use App\Models\Mission;
 use App\Models\Participation;
@@ -12,6 +13,8 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Password;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Str;
 
 class SupportController extends Controller
 {
@@ -336,6 +339,14 @@ class SupportController extends Controller
             ->paginate(15);
 
         return $results;
+    }
+
+    public function exportDoublonsTerritoires(Request $request)
+    {
+            $fileName = 'doublons-territoires-' . Str::random(8) . '.xlsx';
+
+            return Excel::download(new DoublonsTerritoiresExport($request), $fileName, \Maatwebsite\Excel\Excel::XLSX);
+
     }
 
     public function fetchDoublonsTerritoires(Request $request)
