@@ -321,10 +321,7 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::get('export/territoires', 'Api\ExportController@territoires');
     Route::get('export/reseaux', 'Api\ExportController@reseaux');
 
-    // SCRIPTS
-    Route::post('scripts/migrate-organisation-missions', 'Api\ScriptController@migrateOrganisationMissions');
-    Route::post('scripts/user-reset-context-role', 'Api\ScriptController@resetUserContextRole');
-    Route::get('scripts/activites-missions-libres/{activity}', 'Api\ScriptController@assignActivityToMissions');
+   
 
     // VOCABULARIES
     Route::get('/vocabularies/{vocabulary:slug}', 'Api\VocabularyController@show');
@@ -393,7 +390,12 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::get('support/referents/activity-logs', 'Api\SupportController@referentsActivityLogs');
     Route::get('support/responsables/participations-to-be-treated', 'Api\SupportController@responsablesParticipationsToBeTreated');
     Route::get('support/responsables/missions-outdated', 'Api\SupportController@responsablesMissionsOutdated');
-    Route::post('support/scripts/generate-password-reset-link', 'Api\SupportController@generatePasswordResetLink');
+    
+    // SCRIPTS
+    Route::post('scripts/migrate-organisation-missions', 'Api\ScriptController@migrateOrganisationMissions');
+    Route::post('scripts/user-reset-context-role', 'Api\ScriptController@resetUserContextRole');
+    Route::get('scripts/activites-missions-libres/{activity}', 'Api\ScriptController@assignActivityToMissions');
+    Route::post('support/actions/generate-password-reset-link', 'Api\SupportController@generatePasswordResetLink');
 
     Route::get('support/contents/doublons-territoires', 'Api\SupportController@doublonsTerritoires');
     Route::post('support/contents/doublons-territoires/list', 'Api\SupportController@fetchDoublonsTerritoires');
