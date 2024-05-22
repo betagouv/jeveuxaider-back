@@ -110,7 +110,7 @@ class MissionController extends Controller
     {
         if (is_numeric($id)) {
             $mission = Mission::with([
-                'structure.members',
+                'structure.members.profile.avatar',
                 'template.domaine',
                 'template.domaineSecondary',
                 'domaine',

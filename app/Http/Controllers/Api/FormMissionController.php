@@ -109,6 +109,44 @@ class FormMissionController extends Controller
         return $mission;
     }
 
+    public function updateLieux(Request $request, Mission $mission)
+    {
+        $validator = Validator::make($request->all(),[
+            'type' => 'required',
+            'department' => 'required',
+            'is_autonomy' => '',
+            'autonomy_zips' => [
+                'required_if:is_autonomy,true',
+                function ($attribute, $autonomy_zips, $fail) use ($request){
+                    $datas = $request->all();
+                    if (!empty($datas['is_autonomy']) && !empty($autonomy_zips) && !empty($datas['department'])) {
+                        $department = $datas['department'];
+                        foreach ($autonomy_zips as $item) {
+                            if (substr($item['zip'], 0, strlen($department)) != $department) {
+                                // Exeptions.
+                                if (in_array($department, ['2A', '2B']) && substr($item['zip'], 0, 2) == '20') {
+                                    continue;
+                                }
+                                $fail('Les codes postaux et le département ne correspondent pas !');
+
+                                return;
+                            }
+                        }
+                    }
+                },
+            ],
+            'autonomy_precisions' => '',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $mission->update($validator->validated());
+
+        return $mission;
+    }
+
     public function updateBenevoles(Request $request, Mission $mission)
     {
         $validator = Validator::make($request->all(),[
@@ -156,16 +194,16 @@ class FormMissionController extends Controller
     public function updateResponsables(Request $request, Mission $mission)
     {
         $validator = Validator::make($request->all(),[
-            'responsables' => 'required',
+            'responsable_id' => 'required',
         ]);
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        ray($request->input('responsables'));
+        $mission->update($validator->validated());
 
-        // $mission->update($validator->validated());
+        $mission->load('responsable.avatar');
 
         return $mission;
     }
