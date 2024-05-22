@@ -40,10 +40,10 @@ class FormMissionController extends Controller
     {
         $mission->load([
             'structure.members.profile.avatar',
-            // 'template.domaine',
-            // 'template.domaineSecondary',
-            // 'domaine',
-            // 'domaineSecondary',
+            'template.domaine',
+            'template.domaineSecondary',
+            'domaine',
+            'domaineSecondary',
             // 'responsable.tags',
             // 'responsable.user',
             'responsable.avatar',
@@ -60,6 +60,8 @@ class FormMissionController extends Controller
             // 'structure.reseaux:id,name',
             // 'tags'
         ]);
+
+        $mission->append(['full_address', 'has_places_left']);
         
         return $mission;
     }
@@ -127,7 +129,13 @@ class FormMissionController extends Controller
             'date_type' => 'required',
             'commitment__duration' => 'required',
             'commitment__period' => '',
+            'start_date' => 'required|date',
+            'end_date' => 'nullable|date|after_or_equal:start_date',
+            'dates' => '',
         ]);
+
+        ray('updateDates', $request->all());
+        ray('updateDates validator', $validator->validated());
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
@@ -257,7 +265,7 @@ class FormMissionController extends Controller
         $validator = Validator::make($request->all(),[
             'publics_volontaires' => '',
             'prerequisites' => 'max:3|array',
-            'prerequisites.*' => 'nullable|max:100',
+            'prerequisites.*' => 'string|max:100',
             'skills' => '',
             'is_motivation_required' => '',
             'is_snu_mig_compatible' => '',
