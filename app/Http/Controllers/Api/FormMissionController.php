@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class FormMissionController extends Controller
 {
@@ -136,6 +137,67 @@ class FormMissionController extends Controller
                 },
             ],
             'autonomy_precisions' => '',
+            'address' => '',
+            'latitude' => [
+                Rule::requiredIf(function () use ($request){
+                    if ($request->get('is_autonomy') === true) {
+                        return false;
+                    }
+                    // Hack - Dom Tom (Nouvelle Calédonie et Polynésie française)
+                    if (in_array($request->get('department'), ['987', '988'])) {
+                        return false;
+                    }
+                    if ($request->get('type') == 'Mission en présentiel') {
+                        return true;
+                    }
+                }),
+            ],
+            'longitude' => [
+                Rule::requiredIf(function () use ($request){
+                    if ($request->get('is_autonomy') === true) {
+                        return false;
+                    }
+                    // Hack - Dom Tom (Nouvelle Calédonie et Polynésie française)
+                    if (in_array($request->get('department'), ['987', '988'])) {
+                        return false;
+                    }
+                    if ($request->get('type') == 'Mission en présentiel') {
+                        return true;
+                    }
+                }),
+            ],
+            'zip' => [
+                Rule::requiredIf(function () use ($request){
+                    if ($request->get('type') === 'Mission en présentiel' && $request->get('is_autonomy') === false) {
+                        return true;
+                    }
+                }),
+            ],
+            'city' => [
+                Rule::requiredIf(function () use ($request){
+                    if ($request->get('type') === 'Mission en présentiel' && $request->get('is_autonomy') === false) {
+                        return true;
+                    }
+                }),
+            ],
+            'department' => [
+                'requiredIf:type,Mission en présentiel',
+                function ($attribute, $department, $fail) use ($request){
+                    $datas = $request->all();
+                    if (empty($datas['is_autonomy']) && !empty($datas['zip'])) {
+                        $zip = str_replace(' ', '', $datas['zip']);
+
+                        if (substr($zip, 0, strlen($department)) != $department) {
+                            // Exeptions.
+                            if (in_array($department, ['2A', '2B']) && substr($zip, 0, 2) == '20') {
+                                return;
+                            }
+
+                            $fail("L'adresse et le département ne correspondent pas !");
+                        }
+                    }
+                },
+            ],
         ]);
 
         if ($validator->fails()) {
