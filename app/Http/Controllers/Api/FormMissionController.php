@@ -36,6 +36,34 @@ class FormMissionController extends Controller
         return $mission;
     }
 
+    public function show(Mission $mission)
+    {
+        $mission->load([
+            'structure.members.profile.avatar',
+            // 'template.domaine',
+            // 'template.domaineSecondary',
+            // 'domaine',
+            // 'domaineSecondary',
+            // 'responsable.tags',
+            // 'responsable.user',
+            'responsable.avatar',
+            'skills',
+            // 'template.photo',
+            'illustrations',
+            // 'structure.illustrations',
+            // 'structure.overrideImage1',
+            // 'structure.logo',
+            // 'activity:id,name',
+            // 'activitySecondary:id,name',
+            // 'template.activity:id,name',
+            // 'template.activitySecondary:id,name',
+            // 'structure.reseaux:id,name',
+            // 'tags'
+        ]);
+        
+        return $mission;
+    }
+
     public function updateTitle(Request $request, Mission $mission)
     {
         $validator = Validator::make($request->all(),[
@@ -229,7 +257,7 @@ class FormMissionController extends Controller
         $validator = Validator::make($request->all(),[
             'publics_volontaires' => '',
             'prerequisites' => 'max:3|array',
-            'prerequisites.*' => 'string|max:100',
+            'prerequisites.*' => 'nullable|max:100',
             'skills' => '',
             'is_motivation_required' => '',
             'is_snu_mig_compatible' => '',
@@ -249,6 +277,7 @@ class FormMissionController extends Controller
         }
 
         $mission->update($validator->validated());
+        $mission->load('skills');
 
         return $mission;
     }

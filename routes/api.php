@@ -172,6 +172,8 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::delete('structures/{structure}/members/{user}', 'Api\StructureController@deleteMember');
 
     Route::post('structures/{structure}/v2/missions', 'Api\FormMissionController@store');
+    
+    Route::get('/missions/{mission}/show', 'Api\FormMissionController@show');
     Route::put('/missions/{mission}/title', 'Api\FormMissionController@updateTitle');
     Route::put('/missions/{mission}/visuel', 'Api\FormMissionController@updateVisuel');
     Route::put('/missions/{mission}/informations', 'Api\FormMissionController@updateInformations');
