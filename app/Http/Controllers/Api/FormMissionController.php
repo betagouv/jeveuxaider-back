@@ -63,7 +63,7 @@ class FormMissionController extends Controller
             // 'tags'
         ]);
 
-        $mission->append(['full_address', 'has_places_left']);
+        $mission->append(['full_address', 'has_places_left','picture']);
 
         return $mission;
     }
@@ -99,6 +99,7 @@ class FormMissionController extends Controller
 
         $mission->illustrations()->sync([$request->input('media_id') => ['field' => 'mission_illustrations']]);
         $mission->load('illustrations');
+        $mission->append(['picture']);
 
         return  $mission;
     }
@@ -132,7 +133,7 @@ class FormMissionController extends Controller
             'commitment__duration' => 'required',
             'commitment__period' => '',
             'with_dates' => 'required',
-            'start_date' => 'required_if:with_dates,no|date',
+            'start_date' => 'nullable|required_if:with_dates,no|date',
             'end_date' => 'nullable|date|after_or_equal:start_date',
             'dates' => 'array|required_if:with_dates,yes',
         ]);
