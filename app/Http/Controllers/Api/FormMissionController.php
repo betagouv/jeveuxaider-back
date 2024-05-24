@@ -10,12 +10,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
+use Carbon\Carbon;
 
 class FormMissionController extends Controller
 {
     public function store(Request $request, Structure $structure)
     {
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             'domaine_id' => 'required',
             'template_id' => '',
         ]);
@@ -24,7 +25,7 @@ class FormMissionController extends Controller
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
-       $mission = $structure->missions()->create([
+        $mission = $structure->missions()->create([
             'state' => 'Brouillon',
             'domaine_id' => $request->input('domaine_id'),
             'template_id' => $request->input('template_id'),
@@ -40,14 +41,15 @@ class FormMissionController extends Controller
     {
         $mission->load([
             'structure.members.profile.avatar',
-            'template.domaine',
-            'template.domaineSecondary',
+            // 'template.domaine',
+            // 'template.domaineSecondary',
             'domaine',
             'domaineSecondary',
             // 'responsable.tags',
             // 'responsable.user',
             'responsable.avatar',
             'skills',
+            'template',
             // 'template.photo',
             'illustrations',
             // 'structure.illustrations',
@@ -62,13 +64,13 @@ class FormMissionController extends Controller
         ]);
 
         $mission->append(['full_address', 'has_places_left']);
-        
+
         return $mission;
     }
 
     public function updateTitle(Request $request, Mission $mission)
     {
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             'name' => 'required',
         ]);
 
@@ -85,7 +87,7 @@ class FormMissionController extends Controller
 
     public function updateVisuel(Request $request, Mission $mission)
     {
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             'media_id' => 'required',
         ], [
             'media_id.required' => 'Vous devez sélectionner une image',
@@ -103,7 +105,7 @@ class FormMissionController extends Controller
 
     public function updateInformations(Request $request, Mission $mission)
     {
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             'domaine_id' => '',
             'domaine_secondary_id' => '',
             'activity_id' => 'required',
@@ -111,7 +113,7 @@ class FormMissionController extends Controller
             'publics_beneficiaires' => 'required',
             'objectif' => 'required',
             'description' => 'required',
-            'information' => 'required',
+            'information' => '',
         ]);
 
         if ($validator->fails()) {
@@ -125,36 +127,56 @@ class FormMissionController extends Controller
 
     public function updateDates(Request $request, Mission $mission)
     {
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             'date_type' => 'required',
             'commitment__duration' => 'required',
             'commitment__period' => '',
-            'start_date' => 'required|date',
+            'with_dates' => 'required',
+            'start_date' => 'required_if:with_dates,no|date',
             'end_date' => 'nullable|date|after_or_equal:start_date',
-            'dates' => '',
+            'dates' => 'array|required_if:with_dates,yes',
         ]);
 
-        ray('updateDates', $request->all());
-        ray('updateDates validator', $validator->validated());
+        if ($request->input('with_dates') === 'yes') {
+            $dates = array_column($request->input('dates'), 'date');
+            $carbonDates = array_map(function ($date) {
+                return Carbon::parse($date);
+            }, $dates);
+            usort($carbonDates, function ($a, $b) {
+                return $a->lt($b) ? -1 : 1;
+            });
+            $firstDate = $carbonDates[0];
+            $lastDate = $carbonDates[count($carbonDates) - 1];
+            $attributes = [
+                ...$validator->validated(),
+                'start_date' => $firstDate->format('Y-m-d'),
+                'end_date' => $lastDate->format('Y-m-d'),
+            ];
+        } else {
+            $attributes = [
+                ...$validator->validated(),
+                'dates' => null,
+            ];
+        }
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        $mission->update($validator->validated());
+        $mission->update($attributes);
 
         return $mission;
     }
 
     public function updateLieux(Request $request, Mission $mission)
     {
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             'type' => 'required',
             'department' => 'required',
             'is_autonomy' => '',
             'autonomy_zips' => [
                 'required_if:is_autonomy,true',
-                function ($attribute, $autonomy_zips, $fail) use ($request){
+                function ($attribute, $autonomy_zips, $fail) use ($request) {
                     $datas = $request->all();
                     if (!empty($datas['is_autonomy']) && !empty($autonomy_zips) && !empty($datas['department'])) {
                         $department = $datas['department'];
@@ -175,7 +197,7 @@ class FormMissionController extends Controller
             'autonomy_precisions' => '',
             'address' => '',
             'latitude' => [
-                Rule::requiredIf(function () use ($request){
+                Rule::requiredIf(function () use ($request) {
                     if ($request->get('is_autonomy') === true) {
                         return false;
                     }
@@ -189,7 +211,7 @@ class FormMissionController extends Controller
                 }),
             ],
             'longitude' => [
-                Rule::requiredIf(function () use ($request){
+                Rule::requiredIf(function () use ($request) {
                     if ($request->get('is_autonomy') === true) {
                         return false;
                     }
@@ -203,14 +225,14 @@ class FormMissionController extends Controller
                 }),
             ],
             'zip' => [
-                Rule::requiredIf(function () use ($request){
+                Rule::requiredIf(function () use ($request) {
                     if ($request->get('type') === 'Mission en présentiel' && $request->get('is_autonomy') === false) {
                         return true;
                     }
                 }),
             ],
             'city' => [
-                Rule::requiredIf(function () use ($request){
+                Rule::requiredIf(function () use ($request) {
                     if ($request->get('type') === 'Mission en présentiel' && $request->get('is_autonomy') === false) {
                         return true;
                     }
@@ -218,7 +240,7 @@ class FormMissionController extends Controller
             ],
             'department' => [
                 'requiredIf:type,Mission en présentiel',
-                function ($attribute, $department, $fail) use ($request){
+                function ($attribute, $department, $fail) use ($request) {
                     $datas = $request->all();
                     if (empty($datas['is_autonomy']) && !empty($datas['zip'])) {
                         $zip = str_replace(' ', '', $datas['zip']);
@@ -247,7 +269,7 @@ class FormMissionController extends Controller
 
     public function updateBenevoles(Request $request, Mission $mission)
     {
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             'participations_max' => 'required',
         ]);
 
@@ -262,7 +284,7 @@ class FormMissionController extends Controller
 
     public function updateBenevolesInformations(Request $request, Mission $mission)
     {
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             'publics_volontaires' => '',
             'prerequisites' => 'max:3|array',
             'prerequisites.*' => 'string|max:100',
@@ -292,7 +314,7 @@ class FormMissionController extends Controller
 
     public function updateResponsables(Request $request, Mission $mission)
     {
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             'responsable_id' => 'required',
         ]);
 
