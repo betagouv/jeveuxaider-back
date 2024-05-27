@@ -92,6 +92,7 @@ class TemoignageController extends Controller
     {
         return Temoignage::with([
             'participation.mission:id,name,structure_id',
+            'participation.mission.structure:id,name',
             'participation.mission.structure.logo',
             'participation.profile:id,first_name',
         ])->where('grade', '>=', 4)->where('is_published', true)->ofReseau($reseau->id)->inRandomOrder()->take(10)->get();
