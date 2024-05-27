@@ -17,7 +17,6 @@ class FormMissionController extends Controller
 {
     public function store(Request $request, Structure $structure)
     {
-
         $this->authorize('createMission', $structure);
 
         $validator = Validator::make($request->all(), [
@@ -35,8 +34,9 @@ class FormMissionController extends Controller
             'template_id' => $request->input('template_id'),
             'participations_max' => 5,
             'user_id' => Auth::guard('api')->user()->id,
-            // 'responsable_id' => Auth::guard('api')->user()->profile->id,
         ]);
+
+        $mission->responsables->attach(Auth::guard('api')->user()->profile->id);
 
         return $mission;
     }
@@ -45,37 +45,36 @@ class FormMissionController extends Controller
     {
         $mission->load([
             'structure.members.profile.avatar',
-            // 'template.domaine',
-            // 'template.domaineSecondary',
             'domaine',
             'domaineSecondary',
-            // 'responsable.tags',
-            // 'responsable.user',
             'responsables.avatar',
             'skills',
             'template',
-            // 'template.photo',
             'illustrations',
-            // 'structure.illustrations',
-            // 'structure.overrideImage1',
-            // 'structure.logo',
-            // 'activity:id,name',
-            // 'activitySecondary:id,name',
-            // 'template.activity:id,name',
-            // 'template.activitySecondary:id,name',
-            // 'structure.reseaux:id,name',
-            // 'tags'
         ]);
 
-        $mission->append(['full_address', 'has_places_left','picture']);
+        $mission->append(['full_address', 'has_places_left', 'picture']);
 
+        return $mission;
+    }
+
+    public function publish(Request $request, Mission $mission)
+    {
+        $this->authorize('update', $mission);
+
+        if($mission->template_id){
+            $mission->update(['state' => 'Validée']);
+        } else {
+            $mission->update(['state' => 'En attente de validation']);
+        }
+        
         return $mission;
     }
 
     public function updateTitle(Request $request, Mission $mission)
     {
         $this->authorize('update', $mission);
-        
+
         $validator = Validator::make($request->all(), [
             'name' => 'required',
         ]);
@@ -84,9 +83,7 @@ class FormMissionController extends Controller
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        $mission->update([
-            'name' => $request->input('name'),
-        ]);
+        $mission->update($validator->validated());
 
         return $mission;
     }
