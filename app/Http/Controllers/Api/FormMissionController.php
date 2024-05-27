@@ -31,7 +31,7 @@ class FormMissionController extends Controller
             'template_id' => $request->input('template_id'),
             'participations_max' => 5,
             'user_id' => Auth::guard('api')->user()->id,
-            'responsable_id' => Auth::guard('api')->user()->profile->id,
+            // 'responsable_id' => Auth::guard('api')->user()->profile->id,
         ]);
 
         return $mission;
@@ -47,7 +47,7 @@ class FormMissionController extends Controller
             'domaineSecondary',
             // 'responsable.tags',
             // 'responsable.user',
-            'responsable.avatar',
+            'responsables.avatar',
             'skills',
             'template',
             // 'template.photo',
@@ -315,17 +315,25 @@ class FormMissionController extends Controller
 
     public function updateResponsables(Request $request, Mission $mission)
     {
+
+        // Todo: Check if user is responsable of the structure
+
         $validator = Validator::make($request->all(), [
-            'responsable_id' => 'required',
+            'responsables' => 'required|array',
         ]);
+
+        ray($request->input('responsables'));
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        $mission->update($validator->validated());
+        $values = collect($request->input('responsables'))->pluck('id');
+        $mission->responsables()->sync($values);
 
-        $mission->load('responsable.avatar');
+        // $mission->update($validator->validated());
+
+        $mission->load('responsables.avatar');
 
         return $mission;
     }

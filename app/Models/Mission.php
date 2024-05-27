@@ -230,6 +230,11 @@ class Mission extends Model
         return $this->belongsTo('App\Models\Profile');
     }
 
+    public function responsables()
+    {
+        return $this->belongsToMany('App\Models\Profile', 'missions_responsables', 'mission_id', 'responsable_id');
+    }
+
     public function participations()
     {
         return $this->hasMany('App\Models\Participation', 'mission_id');
