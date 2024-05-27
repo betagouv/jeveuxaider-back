@@ -107,4 +107,9 @@ class StructurePolicy
     {
         return $user->structures()->whereId($structure->id)->exists();
     }
+
+    public function createMission(User $user, Structure $structure)
+    {
+        return $user->structures()->whereId($structure->id)->exists();
+    }
 }

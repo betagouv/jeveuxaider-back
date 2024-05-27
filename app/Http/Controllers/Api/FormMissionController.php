@@ -11,11 +11,15 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Carbon\Carbon;
+use Illuminate\Auth\Access\Gate;
 
 class FormMissionController extends Controller
 {
     public function store(Request $request, Structure $structure)
     {
+
+        $this->authorize('createMission', $structure);
+
         $validator = Validator::make($request->all(), [
             'domaine_id' => 'required',
             'template_id' => '',
@@ -70,6 +74,8 @@ class FormMissionController extends Controller
 
     public function updateTitle(Request $request, Mission $mission)
     {
+        $this->authorize('update', $mission);
+        
         $validator = Validator::make($request->all(), [
             'name' => 'required',
         ]);
@@ -87,6 +93,8 @@ class FormMissionController extends Controller
 
     public function updateVisuel(Request $request, Mission $mission)
     {
+        $this->authorize('update', $mission);
+
         $validator = Validator::make($request->all(), [
             'media_id' => 'required',
         ], [
@@ -106,6 +114,8 @@ class FormMissionController extends Controller
 
     public function updateInformations(Request $request, Mission $mission)
     {
+        $this->authorize('update', $mission);
+
         $validator = Validator::make($request->all(), [
             'domaine_id' => '',
             'domaine_secondary_id' => '',
@@ -128,6 +138,8 @@ class FormMissionController extends Controller
 
     public function updateDates(Request $request, Mission $mission)
     {
+        $this->authorize('update', $mission);
+
         $validator = Validator::make($request->all(), [
             'date_type' => 'required',
             'commitment__duration' => 'required',
@@ -171,6 +183,8 @@ class FormMissionController extends Controller
 
     public function updateLieux(Request $request, Mission $mission)
     {
+        $this->authorize('update', $mission);
+
         $validator = Validator::make($request->all(), [
             'type' => 'required',
             'department' => 'required',
@@ -270,6 +284,8 @@ class FormMissionController extends Controller
 
     public function updateBenevoles(Request $request, Mission $mission)
     {
+        $this->authorize('update', $mission);
+
         $validator = Validator::make($request->all(), [
             'participations_max' => 'required',
         ]);
@@ -285,6 +301,8 @@ class FormMissionController extends Controller
 
     public function updateBenevolesInformations(Request $request, Mission $mission)
     {
+        $this->authorize('update', $mission);
+
         $validator = Validator::make($request->all(), [
             'publics_volontaires' => '',
             'prerequisites' => 'max:3|array',
@@ -315,24 +333,28 @@ class FormMissionController extends Controller
 
     public function updateResponsables(Request $request, Mission $mission)
     {
+        $this->authorize('update', $mission);
 
-        // Todo: Check if user is responsable of the structure
+        $structureMembersProfilesIds = $mission->structure->members->pluck('profile.id');
 
         $validator = Validator::make($request->all(), [
             'responsables' => 'required|array',
         ]);
 
-        ray($request->input('responsables'));
-
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
+        $responsableProfilesIds = collect($request->input('responsables'))->pluck('id');
+
+        foreach ($responsableProfilesIds as $responsableProfileId) {
+            if (!$structureMembersProfilesIds->contains($responsableProfileId)) {
+                abort(422, "Vous ne pouvez pas ajouter un responsable qui n'est pas membre de l'organisation");
+            }
+        }
+
         $values = collect($request->input('responsables'))->pluck('id');
         $mission->responsables()->sync($values);
-
-        // $mission->update($validator->validated());
-
         $mission->load('responsables.avatar');
 
         return $mission;
