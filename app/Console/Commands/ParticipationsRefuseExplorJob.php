@@ -38,19 +38,21 @@ class ParticipationsRefuseExplorJob extends Command
             $bar->start();
 
             foreach ($query->cursor() as $participation) {
-                if ($participation->conversation && $participation->mission->responsable) {
+                if ($participation->conversation && $participation->mission->responsables) {
                     $participation->conversation->messages()->create([
-                        'from_id' => $participation->mission->responsable->user->id,
+                        'from_id' => $participation->mission->responsables[0]->user->id,
                         'type' => 'contextual',
                         'content' => 'La participation a été déclinée',
                         'contextual_state' => 'Refusée',
                         'contextual_reason' => 'no_response',
                     ]);
 
-                    if ($participation->mission->responsable) {
-                        $participation->mission->responsable->user->conversations()->updateExistingPivot($participation->conversation->id, [
-                            'read_at' => Carbon::now(),
-                        ]);
+                    if ($participation->mission->has('responsables')) {
+                        $participation->mission->responsables->each(function ($responsable) use ($participation) {
+                            $responsable->user->conversations()->updateExistingPivot($participation->conversation->id, [
+                                'read_at' => Carbon::now(),
+                            ]);
+                        });
                     }
                 }
 

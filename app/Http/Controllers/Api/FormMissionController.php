@@ -36,7 +36,7 @@ class FormMissionController extends Controller
             'user_id' => Auth::guard('api')->user()->id,
         ]);
 
-        $mission->responsables->attach(Auth::guard('api')->user()->profile->id);
+        $mission->responsables()->attach(Auth::guard('api')->user()->profile->id);
 
         return $mission;
     }
