@@ -34,8 +34,8 @@ class ParticipationFactory extends Factory
             $currentUser = $participation->profile->user;
             Passport::actingAs($currentUser);
 
-            $conversation = $currentUser->startConversation($participation->mission->responsable->user, $participation);
-            $currentUser->sendMessage($conversation->id, fake()->paragraph());
+            $conversation = $participation->createConversation();
+            $currentUser->sendMessage($conversation->id,  fake()->paragraph());
             $currentUser->markConversationAsRead($participation->conversation);
         });
     }

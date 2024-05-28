@@ -29,17 +29,17 @@ class MissionRequest extends FormRequest
         return [
             'user_id' => 'sometimes|required',
             'name' => 'required_without:template_id|min:3|max:255',
-            'responsable_id' => ['required', function ($attribute, $value, $fail) {
-                $datas = $this->validator->getData();
+            // 'responsable_id' => ['required', function ($attribute, $value, $fail) {
+            //     $datas = $this->validator->getData();
 
-                $structure = request()->route('structure');
-                if (!$structure) {
-                    $structure = Structure::with('members.profile')->find($datas['structure_id']);
-                }
-                if ($structure && !$structure->members->pluck('profile.id')->contains($value)) {
-                    $fail("Le responsable renseigné n'est pas un membre de l'organisation");
-                }
-            }],
+            //     $structure = request()->route('structure');
+            //     if (!$structure) {
+            //         $structure = Structure::with('members.profile')->find($datas['structure_id']);
+            //     }
+            //     if ($structure && !$structure->members->pluck('profile.id')->contains($value)) {
+            //         $fail("Le responsable renseigné n'est pas un membre de l'organisation");
+            //     }
+            // }],
             'start_date' => 'required|date',
             'end_date' => 'nullable|date|after_or_equal:start_date',
             'structure_id' => '',
@@ -238,7 +238,7 @@ class MissionRequest extends FormRequest
             'end_date.date_format' => 'La date de fin doit être au format YYYY-MM-DD H:i:s',
             'end_date.after' => 'La date de fin doit être supérieur à celle de début',
             'name.required_without' => 'Le nom de la mission est requis',
-            'responsable_id.required' => 'Sélectionnez le contact principal de la mission',
+            // 'responsable_id.required' => 'Sélectionnez le contact principal de la mission',
             'snu_mig_places.required_if' => 'Merci d\'indiquer le nombre de places pour les jeunes du SNU',
             'autonomy_zips.required_if' => 'Merci de renseigner les codes postaux liés à l\'autonomie de la mission',
             'prerequisites.max' => 'Les pre-requis sont limités à 3'

@@ -120,7 +120,7 @@ class MigrateOrganisationMissions extends Command
             $bar = $this->output->createProgressBar(count($addedMembers));
             $bar->start();
             foreach ($addedMembers as $member) {
-                $count = $structureOrigin->missions->where('responsable_id', $member->id)->count();
+                $count = $structureOrigin->missions->ofResponsable($member->id)->count();
                 if ($count == 0) {
                     $deletedMembers[] = $member;
                     $structureOrigin->deleteMember($member->user);

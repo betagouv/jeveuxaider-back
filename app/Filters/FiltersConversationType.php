@@ -50,7 +50,7 @@ class FiltersConversationType implements Filter
                 ->whereHasMorph('conversable', [Participation::class], function (Builder $query) {
                     $query
                         ->whereHas('mission', function (Builder $query) {
-                            $query->where('responsable_id', Auth::guard('api')->user()->profile->id);
+                            $query->ofResponsable(Auth::guard('api')->user()->profile->id);
                         })
                         ->where(function($query){
                             $query->where(function($query){

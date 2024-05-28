@@ -258,7 +258,6 @@ class Profile extends Model implements HasMedia
 
     public function missions()
     {
-        // return $this->hasMany('App\Models\Mission', 'responsable_id');
         return $this->belongsToMany('App\Models\Mission', 'missions_responsables', 'responsable_id', 'mission_id');
     }
 

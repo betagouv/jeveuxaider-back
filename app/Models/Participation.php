@@ -128,11 +128,11 @@ class Participation extends Model
             });
     }
 
-    public function scopeOfResponsable($query, $value)
+    public function scopeOfResponsable($query, $profileId)
     {
         return $query
-            ->whereHas('mission', function (Builder $query) use ($value) {
-                $query->where('responsable_id', $value);
+            ->whereHas('mission', function (Builder $query) use ($profileId) {
+                $query->ofResponsable($profileId);
             });
     }
 
@@ -224,5 +224,16 @@ class Participation extends Model
             'participation_id' => $this->id,
             'reminders_sent' => 1,
         ]);
+    }
+
+    public function createConversation(){
+
+        $responsableUserIds = $this->mission->responsables->pluck('user_id')->toArray();
+        $benevoleUserId = $this->profile->user_id;
+
+        $conversation = $this->conversation()->create();
+        $conversation->users()->attach(array_merge($responsableUserIds, [$benevoleUserId]));
+
+        return $conversation;
     }
 }

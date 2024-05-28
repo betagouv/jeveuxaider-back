@@ -56,7 +56,7 @@ class ParticipationController extends Controller
             ->allowedIncludes([
                 'conversation.latestMessage',
                 'profile.avatar',
-                'mission.responsable',
+                'mission.responsables',
                 'mission.structure',
                 'tags'
             ])
@@ -71,8 +71,8 @@ class ParticipationController extends Controller
             'profile',
             'conversation',
             'conversation.latestMessage',
-            'mission.responsable',
-            'mission.responsable.user',
+            'mission.responsables',
+            'mission.responsables.user',
             'profile.skills',
             'profile.domaines',
             'profile.avatar',
@@ -88,7 +88,7 @@ class ParticipationController extends Controller
         $mission = Mission::find(request('mission_id'));
         $profile = Profile::find(request('profile_id'));
 
-        if ($mission->responsable_id == $profile->id) {
+        if ($mission->responsables()->where('id', $profile->id)->exists()) {
             abort(422, 'Désolé, vous ne pouvez pas participer à votre propre mission !');
         }
 
@@ -117,8 +117,12 @@ class ParticipationController extends Controller
             $participation = Participation::create($request->validated());
             if (request('content')) {
                 // En attendant de régler le souci des responsables sans user
-                $user = $mission->responsable->user ?? $mission->structure->user;
-                $conversation = $currentUser->startConversation($user, $participation);
+                // $user = $mission->responsable->user ?? $mission->structure->user;
+                // $conversation = $currentUser->startConversation($user, $participation);
+                // $currentUser->sendMessage($conversation->id, request('content'));
+                // $currentUser->markConversationAsRead($participation->conversation);
+
+                $conversation = $participation->createConversation();
                 $currentUser->sendMessage($conversation->id, request('content'));
                 $currentUser->markConversationAsRead($participation->conversation);
             }

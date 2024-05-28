@@ -20,10 +20,12 @@ class ParticipationObserver
     public function created(Participation $participation)
     {
         if ($participation->state == 'En attente de validation') {
-            if ($participation->mission->responsable) {
-                if($participation->mission->responsable->notification__responsable_frequency == 'realtime') {
-                    $participation->mission->responsable->notify(new ParticipationWaitingValidation($participation));
-                }
+            if ($participation->mission->has('responsables')) {
+                $participation->mission->responsables->each(function ($responsable) use ($participation) {
+                    if($responsable->notification__responsable_frequency == 'realtime'){
+                        $responsable->notify(new ParticipationWaitingValidation($participation));
+                    }
+                });
             }
             if (!empty($participation->profile->cej_email_adviser)) {
                 Notification::route('mail', $participation->profile->cej_email_adviser)->notify(new ParticipationValidatedCejAdviser($participation));
@@ -45,9 +47,17 @@ class ParticipationObserver
             $participation->mission->participations_max > 5 &&
             $participation->mission->places_left === 1
         ) {
-            $participation->mission->responsable->notify(new MissionAlmostFull($participation->mission));
+            if ($participation->mission->has('responsables')) {
+                $participation->mission->responsables->each(function ($responsable) use ($participation) {
+                    $responsable->notify(new MissionAlmostFull($participation->mission));
+                });
+            }
         } elseif ($participation->mission->places_left <= 0) {
-            $participation->mission->responsable->notify(new MissionFull($participation->mission));
+            if ($participation->mission->has('responsables')) {
+                $participation->mission->responsables->each(function ($responsable) use ($participation) {
+                    $responsable->notify(new MissionFull($participation->mission));
+                });
+            }
         }
     }
 

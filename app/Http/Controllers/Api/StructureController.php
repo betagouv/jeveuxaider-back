@@ -281,7 +281,7 @@ class StructureController extends Controller
         if ($request->has('new_responsable_id') && $request->input('new_responsable_id')) {
             $newResponsable = Profile::find($request->input('new_responsable_id'));
             if ($newResponsable) {
-                Mission::where('responsable_id', $user->profile->id)
+                Mission::ofResponsable($user->profile->id)
                     ->where('structure_id', $structure->id)
                     ->get()->map(function ($mission) use ($newResponsable) {
                         $mission->update(['responsable_id' => $newResponsable->id]);

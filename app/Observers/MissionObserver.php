@@ -33,8 +33,10 @@ class MissionObserver
     public function created(Mission $mission)
     {
         if ($mission->state == 'En attente de validation') {
-            if ($mission->responsable) {
-                $mission->responsable->notify(new MissionWaitingValidation($mission));
+            if ($mission->has('responsables')) {
+                $mission->responsables->each(function ($responsable) use ($mission) {
+                    $responsable->notify(new MissionWaitingValidation($mission));
+                });
             }
             if ($mission->department) {
                 Profile::where('notification__referent_frequency', 'realtime')
@@ -47,8 +49,10 @@ class MissionObserver
         }
 
         if ($mission->state == 'Validée') {
-            if ($mission->responsable) {
-                $mission->responsable->notify(new MissionValidated($mission));
+            if ($mission->has('responsables')) {
+                $mission->responsables->each(function ($responsable) use ($mission) {
+                    $responsable->notify(new MissionValidated($mission));
+                });
             }
             if ($mission->structure->shouldBeSearchable()) {
                 $mission->structure->searchable();
@@ -87,12 +91,14 @@ class MissionObserver
         $oldState = $mission->getOriginal('state');
         $newState = $mission->state;
 
-        $mission->loadMissing(['structure', 'responsable']);
+        $mission->loadMissing(['structure', 'responsables']);
 
         // STATUT BROUILLON -> EN ATTENTE DE VALIDATION
         if($oldState == 'Brouillon' && $newState == 'En attente de validation') {
-            if ($mission->responsable) {
-                $mission->responsable->notify(new MissionWaitingValidation($mission));
+            if ($mission->has('responsables')) {
+                $mission->responsables->each(function ($responsable) use ($mission) {
+                    $responsable->notify(new MissionWaitingValidation($mission));
+                });
             }
             if ($mission->department) {
                 Profile::where('notification__referent_frequency', 'realtime')
@@ -108,14 +114,19 @@ class MissionObserver
         if ($oldState != $newState) {
             switch ($newState) {
                 case 'Validée':
-                    if ($mission->responsable) {
-                        $mission->responsable->notify(new MissionValidated($mission));
-                    }
+                    if ($mission->has('responsables')) {
+                    $mission->responsables->each(function ($responsable) use ($mission) {
+                        $responsable->notify(new MissionValidated($mission));
+                    });
+                }
+                    
                     break;
                 case 'Signalée':
-                    if ($mission->responsable) {
-                        $mission->responsable->notify(new MissionSignaled($mission));
-                    }
+                    if ($mission->has('responsables')) {
+                    $mission->responsables->each(function ($responsable) use ($mission) {
+                        $responsable->notify(new MissionSignaled($mission));
+                    });
+                }
                     // @TODO: Job CancelWaitingParticipationsFromMission (avec contexte mission signalée)
                     // Notif ON
                     $mission->loadMissing(['participations']);
@@ -139,8 +150,10 @@ class MissionObserver
                     $mission->sendNotificationsTemoignages();
                     break;
                 case 'En cours de traitement':
-                    if ($mission->responsable) {
-                        $mission->responsable->notify(new MissionBeingProcessed($mission));
+                    if ($mission->has('responsables')) {
+                        $mission->responsables->each(function ($responsable) use ($mission) {
+                            $responsable->notify(new MissionBeingProcessed($mission));
+                        });
                     }
                     break;
             }
@@ -188,9 +201,13 @@ class MissionObserver
         // Le statut n'a pas changé, mais la mission a été mise en ligne ou hors ligne
         if ($mission->isClean('state') && $mission->isDirty('is_online')) {
             if ($mission->is_online) {
-                $mission->responsable->notify(new MissionReactivated($mission));
+                $mission->responsables->each(function ($responsable) use ($mission) {
+                    $responsable->notify(new MissionReactivated($mission));
+                });
             } else {
-                $mission->responsable->notify(new MissionDeactivated($mission));
+                $mission->responsables->each(function ($responsable) use ($mission) {
+                    $responsable->notify(new MissionDeactivated($mission));
+                });
             }
         }
     }

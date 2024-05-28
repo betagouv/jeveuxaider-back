@@ -26,12 +26,12 @@ class BulkOperationsParticipationsDeclined extends Notification
         $this->currentUser = User::find($userId);
         $this->reason = $reason;
         $this->content = $content;
-        $this->participations = Participation::with(['profile', 'mission', 'mission.structure', 'mission.responsable'])->whereIn('id', $ids)->get()->map(function ($participation) {
+        $this->participations = Participation::with(['profile', 'mission', 'mission.structure', 'mission.responsables'])->whereIn('id', $ids)->get()->map(function ($participation) {
             return [
                 'id' => $participation->id,
                 'structureId' => $participation->mission->structure->id,
                 'structureName' => $participation->mission->structure->name,
-                'responsable' => $participation->mission->responsable->full_name,
+                'responsable' => $participation->mission->responsables[0]->full_name,
             ];
         })->unique('responsable');
     }

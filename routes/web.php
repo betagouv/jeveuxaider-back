@@ -16,5 +16,3 @@ Route::group(['middleware' => ['has.api.key']], function () {
     Route::get('api/api-engagement/organisations', 'Api\EngagementController@organisations');
     Route::get('api/api-engagement/organisations/{organisation}', 'Api\EngagementController@organisation');
 });
-
-

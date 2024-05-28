@@ -38,8 +38,8 @@ class CloseOrTransferResponsableMissions implements ShouldQueue
         if ($organisation->members->count() > 1) {
             $newResponsable = $organisation->members()->where('id', '!=', $this->user->id)->isActive()->first();
             if($newResponsable) {
-                $organisation->missions->where('responsable_id', $this->user->profile->id)->each(function ($mission) use ($newResponsable) {
-                    $mission->responsable_id = $newResponsable->profile->id;
+                $organisation->missions->ofResponsable($this->user->profile->id)->each(function ($mission) use ($newResponsable) {
+                    $mission->responsables()->attach($newResponsable->profile->id);
                     $mission->save();
                 });
             }

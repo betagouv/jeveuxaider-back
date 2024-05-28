@@ -17,7 +17,7 @@ class FiltersParticipationBenevoleSearch implements Filter
             $terms = explode(' ', $value);
 
             $query
-                ->whereHas('mission.responsable', function (Builder $query) use ($terms) {
+                ->whereHas('mission.responsables', function (Builder $query) use ($terms) {
                     foreach ($terms as $term) {
                         $query->whereRaw("CONCAT(first_name, ' ', last_name, ' ', email) ILIKE ?", ['%' . $term . '%']);
                     }

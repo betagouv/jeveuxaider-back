@@ -225,10 +225,10 @@ class Mission extends Model
         return $this->belongsTo('App\Models\Structure');
     }
 
-    public function responsable()
-    {
-        return $this->belongsTo('App\Models\Profile');
-    }
+    // public function responsable()
+    // {
+    //     return $this->belongsTo('App\Models\Profile');
+    // }
 
     public function responsables()
     {
@@ -537,7 +537,9 @@ class Mission extends Model
 
     public function scopeOfResponsable($query, $profile_id)
     {
-        return $query->where('responsable_id', $profile_id);
+        return $query->whereHas('responsables', function (Builder $query) use ($profile_id) {
+            $query->where('responsable_id', $profile_id);
+        });
     }
 
     public function scopeOfReseau($query, $reseau_id)
@@ -711,7 +713,7 @@ class Mission extends Model
 
     public function format()
     {
-        $this->loadMissing(['template', 'template.domaine', 'template.domaineSecondary', 'domaine', 'domaineSecondary', 'structure.reseaux', 'responsable', 'activity', 'activitySecondary', 'template.activity', 'template.activitySecondary']);
+        $this->loadMissing(['template', 'template.domaine', 'template.domaineSecondary', 'domaine', 'domaineSecondary', 'structure.reseaux', 'responsables', 'activity', 'activitySecondary', 'template.activity', 'template.activitySecondary']);
 
         if ($this->template) {
             $domaines = collect([$this->template->domaine, $this->template->domaineSecondary]);
@@ -722,6 +724,15 @@ class Mission extends Model
         }
         $domaines = $domaines->filter()->map(fn ($domaine) => ['id' => $domaine->id, 'name' => $domaine->name]);
         $activities = $activities->filter()->map(fn ($activity) => ['id' => $activity->id, 'name' => $activity->name]);
+
+        $responsables = $this->responsables->map(fn ($responsable) => [
+            'id' => $responsable->id,
+            'first_name' => $responsable->first_name,
+            'last_name' => $responsable->last_name,
+            'email' => $responsable->email,
+            'phone' => $responsable->phone,
+            'mobile' => $responsable->mobile,
+        ]);
 
         return [
             'id' => $this->id,
@@ -767,14 +778,15 @@ class Mission extends Model
                 'state' => $this->structure->state,
                 'reseaux' => $this->structure->reseaux->count() ? $this->structure->reseaux->all() : null,
             ] : null,
-            'responsable' => $this->responsable ? [
-                'id' => $this->responsable->id,
-                'first_name' => $this->responsable->first_name,
-                'last_name' => $this->responsable->last_name,
-                'email' => $this->responsable->email,
-                'phone' => $this->responsable->phone,
-                'mobile' => $this->responsable->mobile,
-            ] : null,
+            'responsables' => $responsables->values(),
+            // 'responsable' => $this->responsables->first() ? [
+            //     'id' => $this->responsable->id,
+            //     'first_name' => $this->responsable->first_name,
+            //     'last_name' => $this->responsable->last_name,
+            //     'email' => $this->responsable->email,
+            //     'phone' => $this->responsable->phone,
+            //     'mobile' => $this->responsable->mobile,
+            // ] : null,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];
