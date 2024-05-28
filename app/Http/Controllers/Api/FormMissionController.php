@@ -43,6 +43,8 @@ class FormMissionController extends Controller
 
     public function show(Mission $mission)
     {
+        $this->authorize('update', $mission);
+
         $mission->load([
             'structure.members.profile.avatar',
             'domaine',
@@ -67,7 +69,7 @@ class FormMissionController extends Controller
         } else {
             $mission->update(['state' => 'En attente de validation']);
         }
-        
+
         return $mission;
     }
 
@@ -141,10 +143,12 @@ class FormMissionController extends Controller
             'date_type' => 'required',
             'commitment__duration' => 'required',
             'commitment__period' => '',
+            'commitment__time_period' => '',
+            'recurrent_description' => '',
             'with_dates' => 'required',
             'start_date' => 'nullable|required_if:with_dates,no|date',
             'end_date' => 'nullable|date|after_or_equal:start_date',
-            'dates' => 'array|required_if:with_dates,yes',
+            'dates' => 'nullable|array|required_if:with_dates,yes',
         ]);
 
         if ($request->input('with_dates') === 'yes') {
