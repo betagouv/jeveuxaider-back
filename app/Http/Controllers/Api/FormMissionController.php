@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Mission;
 use App\Models\Structure;
+use App\Rules\AddressesInDepartment;
+use App\Rules\AddressIsNeeded;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -56,19 +58,6 @@ class FormMissionController extends Controller
         ]);
 
         $mission->append(['full_address', 'has_places_left', 'picture']);
-
-        return $mission;
-    }
-
-    public function publish(Request $request, Mission $mission)
-    {
-        $this->authorize('update', $mission);
-
-        if($mission->template_id){
-            $mission->update(['state' => 'Validée']);
-        } else {
-            $mission->update(['state' => 'En attente de validation']);
-        }
 
         return $mission;
     }
@@ -145,11 +134,15 @@ class FormMissionController extends Controller
             'commitment__period' => '',
             'commitment__time_period' => '',
             'recurrent_description' => '',
-            'with_dates' => 'required',
+            'with_dates' => 'required|in:yes,no',
             'start_date' => 'nullable|required_if:with_dates,no|date',
             'end_date' => 'nullable|date|after_or_equal:start_date',
             'dates' => 'nullable|array|required_if:with_dates,yes',
         ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
 
         if ($request->input('with_dates') === 'yes') {
             $dates = array_column($request->input('dates'), 'date');
@@ -173,10 +166,6 @@ class FormMissionController extends Controller
             ];
         }
 
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
-
         $mission->update($attributes);
 
         return $mission;
@@ -190,88 +179,13 @@ class FormMissionController extends Controller
             'type' => 'required',
             'department' => 'required',
             'is_autonomy' => '',
-            'autonomy_zips' => [
-                'required_if:is_autonomy,true',
-                function ($attribute, $autonomy_zips, $fail) use ($request) {
-                    $datas = $request->all();
-                    if (!empty($datas['is_autonomy']) && !empty($autonomy_zips) && !empty($datas['department'])) {
-                        $department = $datas['department'];
-                        foreach ($autonomy_zips as $item) {
-                            if (substr($item['zip'], 0, strlen($department)) != $department) {
-                                // Exeptions.
-                                if (in_array($department, ['2A', '2B']) && substr($item['zip'], 0, 2) == '20') {
-                                    continue;
-                                }
-                                $fail('Les codes postaux et le département ne correspondent pas !');
-
-                                return;
-                            }
-                        }
-                    }
-                },
-            ],
+            'autonomy_zips' => ['required_if:is_autonomy,true', new AddressesInDepartment],
             'autonomy_precisions' => '',
             'address' => '',
-            'latitude' => [
-                Rule::requiredIf(function () use ($request) {
-                    if ($request->get('is_autonomy') === true) {
-                        return false;
-                    }
-                    // Hack - Dom Tom (Nouvelle Calédonie et Polynésie française)
-                    if (in_array($request->get('department'), ['987', '988'])) {
-                        return false;
-                    }
-                    if ($request->get('type') == 'Mission en présentiel') {
-                        return true;
-                    }
-                }),
-            ],
-            'longitude' => [
-                Rule::requiredIf(function () use ($request) {
-                    if ($request->get('is_autonomy') === true) {
-                        return false;
-                    }
-                    // Hack - Dom Tom (Nouvelle Calédonie et Polynésie française)
-                    if (in_array($request->get('department'), ['987', '988'])) {
-                        return false;
-                    }
-                    if ($request->get('type') == 'Mission en présentiel') {
-                        return true;
-                    }
-                }),
-            ],
-            'zip' => [
-                Rule::requiredIf(function () use ($request) {
-                    if ($request->get('type') === 'Mission en présentiel' && $request->get('is_autonomy') === false) {
-                        return true;
-                    }
-                }),
-            ],
-            'city' => [
-                Rule::requiredIf(function () use ($request) {
-                    if ($request->get('type') === 'Mission en présentiel' && $request->get('is_autonomy') === false) {
-                        return true;
-                    }
-                }),
-            ],
-            'department' => [
-                'requiredIf:type,Mission en présentiel',
-                function ($attribute, $department, $fail) use ($request) {
-                    $datas = $request->all();
-                    if (empty($datas['is_autonomy']) && !empty($datas['zip'])) {
-                        $zip = str_replace(' ', '', $datas['zip']);
-
-                        if (substr($zip, 0, strlen($department)) != $department) {
-                            // Exeptions.
-                            if (in_array($department, ['2A', '2B']) && substr($zip, 0, 2) == '20') {
-                                return;
-                            }
-
-                            $fail("L'adresse et le département ne correspondent pas !");
-                        }
-                    }
-                },
-            ],
+            'latitude' => [new AddressIsNeeded],
+            'longitude' => [new AddressIsNeeded],
+            'zip' => [new AddressIsNeeded],
+            'city' => [new AddressIsNeeded],
         ]);
 
         if ($validator->fails()) {

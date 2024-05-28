@@ -327,4 +327,17 @@ class MissionController extends Controller
         return $query->paginate(10)->load('domaine', 'template', 'template.domaine', 'template.media', 'structure', 'illustrations', 'template.activity');
     }
 
+    public function publish(Request $request, Mission $mission)
+    {
+        $this->authorize('update', $mission);
+
+        if ($mission->template_id) {
+            $mission->update(['state' => 'Validée']);
+        } else {
+            $mission->update(['state' => 'En attente de validation']);
+        }
+
+        return $mission;
+    }
+
 }

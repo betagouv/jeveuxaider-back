@@ -182,7 +182,8 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::put('/missions/{mission}/benevoles', 'Api\FormMissionController@updateBenevoles');
     Route::put('/missions/{mission}/benevoles-informations', 'Api\FormMissionController@updateBenevolesInformations');
     Route::put('/missions/{mission}/responsables', 'Api\FormMissionController@updateResponsables');
-    Route::put('/missions/{mission}/publish', 'Api\FormMissionController@publish');
+
+    Route::put('/missions/{mission}/publish', 'Api\MissionController@publish');
 
     // INVITATIONS
     Route::post('invitations', 'Api\InvitationController@store');
