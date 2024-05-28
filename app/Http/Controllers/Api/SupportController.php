@@ -210,8 +210,11 @@ class SupportController extends Controller
                     ->whereIn('structures.state', ['Validée'])
                     ->whereNull('structures.deleted_at');
             })
+            ->join('missions_responsables', function ($join) {
+                $join->on('missions_responsables.responsable_id', '=', 'profiles.id');
+            })
             ->join('missions', function ($join) {
-                $join->on('missions.responsable_id', '=', 'profiles.id')
+                $join->on('missions.id', '=', 'missions_responsables.mission_id')
                     ->whereIn('missions.state', ['Validée', 'Terminée'])
                     ->whereNull('missions.deleted_at');
             })
@@ -278,8 +281,11 @@ class SupportController extends Controller
                     ->whereIn('structures.state', ['Validée'])
                     ->whereNull('structures.deleted_at');
             })
+            ->join('missions_responsables', function ($join) {
+                $join->on('missions_responsables.responsable_id', '=', 'profiles.id');
+            })
             ->join('missions', function ($join) {
-                $join->on('missions.responsable_id', '=', 'profiles.id')
+                $join->on('missions.id', '=', 'missions_responsables.mission_id')
                     ->whereIn('missions.state', ['Validée'])
                     ->where('missions.end_date', '<', Carbon::now())
                     ->whereNull('missions.deleted_at');

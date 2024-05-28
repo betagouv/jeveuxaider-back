@@ -99,9 +99,7 @@ class ParticipationController extends Controller
             abort(422, 'Désolé, vous avez déjà participé à cette mission !');
         }
 
-        $mission = Mission::find(request('mission_id'));
-
-        if($mission->state != 'Validée') {
+        if ($mission->state != 'Validée') {
             abort(422, "Désolé, la mission n'est pas validée");
         }
 
@@ -183,19 +181,23 @@ class ParticipationController extends Controller
 
             $currentUser->markConversationAsRead($participation->conversation);
 
-            $participation->mission->responsable->notify(new ParticipationBenevoleCanceled($participation, $request->input('content'), $request->input('reason')));
+            if ($participation->mission->has('responsables')) {
+                $participation->mission->responsables->each(function ($responsable) use ($participation, $request) {
+                    $responsable->notify(new ParticipationBenevoleCanceled($participation, $request->input('content'), $request->input('reason')));
+                });
+            }
         }
 
         // Log (because saveQuietly)
         activity()
-           ->causedBy($currentUser)
-           ->performedOn($participation)
-           ->withProperties([
-               'attributes' => ['state' => 'Annulée'],
-               'old' => ['state' => $participation->state]
-           ])
-           ->event('updated')
-           ->log('updated');
+            ->causedBy($currentUser)
+            ->performedOn($participation)
+            ->withProperties([
+                'attributes' => ['state' => 'Annulée'],
+                'old' => ['state' => $participation->state]
+            ])
+            ->event('updated')
+            ->log('updated');
 
         $participation->state = 'Annulée';
         $participation->saveQuietly();
@@ -229,8 +231,10 @@ class ParticipationController extends Controller
             ]);
         }
 
-        if($participation->mission->responsable) {
-            $participation->mission->responsable->notify(new ParticipationBenevoleValidated($participation));
+        if ($participation->mission->has('responsables')) {
+            $participation->mission->responsables->each(function ($responsable) use ($participation) {
+                $responsable->notify(new ParticipationBenevoleValidated($participation));
+            });
         }
 
         activity()
