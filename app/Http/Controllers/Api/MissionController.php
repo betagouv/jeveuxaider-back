@@ -322,7 +322,7 @@ class MissionController extends Controller
             abort('422', "La mission ne peut être publiée que si elle est en brouillon");
         }
 
-        if ($mission->template_id) {
+        if ($mission->template_id && $mission->structure->state == 'Validée') {
             $mission->update(['state' => 'Validée']);
         } else {
             $mission->update(['state' => 'En attente de validation']);

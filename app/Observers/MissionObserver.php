@@ -115,18 +115,18 @@ class MissionObserver
             switch ($newState) {
                 case 'Validée':
                     if ($mission->has('responsables')) {
-                    $mission->responsables->each(function ($responsable) use ($mission) {
-                        $responsable->notify(new MissionValidated($mission));
-                    });
-                }
-                    
+                        $mission->responsables->each(function ($responsable) use ($mission) {
+                            $responsable->notify(new MissionValidated($mission));
+                        });
+                    }
+
                     break;
                 case 'Signalée':
                     if ($mission->has('responsables')) {
-                    $mission->responsables->each(function ($responsable) use ($mission) {
-                        $responsable->notify(new MissionSignaled($mission));
-                    });
-                }
+                        $mission->responsables->each(function ($responsable) use ($mission) {
+                            $responsable->notify(new MissionSignaled($mission));
+                        });
+                    }
                     // @TODO: Job CancelWaitingParticipationsFromMission (avec contexte mission signalée)
                     // Notif ON
                     $mission->loadMissing(['participations']);
@@ -263,7 +263,7 @@ class MissionObserver
             }
         }
 
-        if(!$mission->structure->state == 'Validée') {
+        if($mission->structure->state !== 'Validée') {
             $mission->is_online = false;
         }
     }

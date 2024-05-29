@@ -21,7 +21,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
-use Spatie\Tags\HasTags;
+// use Spatie\Tags\HasTags;
 use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -30,7 +30,7 @@ class Structure extends Model implements HasMedia
     use SoftDeletes;
     use LogsActivity;
     use HasRelationships;
-    use HasTags;
+    // use HasTags;
     use HasFactory;
     use InteractsWithMedia;
     use HasSlug;

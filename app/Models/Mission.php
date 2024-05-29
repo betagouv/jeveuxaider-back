@@ -16,14 +16,15 @@ use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
-use Spatie\Tags\HasTags;
+
+// use Spatie\Tags\HasTags;
 
 class Mission extends Model
 {
     use SoftDeletes;
     use Searchable;
     use HasFactory;
-    use HasTags;
+    // use HasTags;
     use LogsActivity;
     use HasSlug;
     use Notable;
@@ -306,7 +307,10 @@ class Mission extends Model
 
     public function getNameAttribute($value)
     {
-        return $this->template_id ? $this->template->title : $value;
+        if($this->template_id) {
+            return $this->template->title;
+        }
+        return $value ?? 'Titre à définir';
     }
 
     public function setNameAttribute($value)

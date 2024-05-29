@@ -17,13 +17,14 @@ use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Spatie\Tags\HasTags;
+
+// use Spatie\Tags\HasTags;
 
 class Profile extends Model implements HasMedia
 {
     use Notifiable;
     use InteractsWithMedia;
-    use HasTags;
+    // use HasTags;
     use LogsActivity;
     use HasMissingFields;
 
