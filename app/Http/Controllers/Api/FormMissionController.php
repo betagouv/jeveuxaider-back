@@ -7,13 +7,10 @@ use App\Models\Mission;
 use App\Models\Structure;
 use App\Rules\AddressesInDepartment;
 use App\Rules\AddressIsNeeded;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\Rule;
 use Carbon\Carbon;
-use Illuminate\Auth\Access\Gate;
 
 class FormMissionController extends Controller
 {
@@ -34,7 +31,7 @@ class FormMissionController extends Controller
             'state' => 'Brouillon',
             'domaine_id' => $request->input('domaine_id'),
             'template_id' => $request->input('template_id'),
-            'participations_max' => 5,
+            'participations_max' => 1,
             'user_id' => Auth::guard('api')->user()->id,
         ]);
 
@@ -55,6 +52,7 @@ class FormMissionController extends Controller
             'skills',
             'template',
             'illustrations',
+            'tags',
         ]);
 
         $mission->append(['full_address', 'has_places_left', 'picture']);
@@ -179,13 +177,13 @@ class FormMissionController extends Controller
             'type' => 'required',
             'department' => 'required',
             'is_autonomy' => '',
-            'autonomy_zips' => ['required_if:is_autonomy,true', new AddressesInDepartment],
+            'autonomy_zips' => ['required_if:is_autonomy,true', new AddressesInDepartment()],
             'autonomy_precisions' => '',
             'address' => '',
-            'latitude' => [new AddressIsNeeded],
-            'longitude' => [new AddressIsNeeded],
-            'zip' => [new AddressIsNeeded],
-            'city' => [new AddressIsNeeded],
+            'latitude' => [new AddressIsNeeded()],
+            'longitude' => [new AddressIsNeeded()],
+            'zip' => [new AddressIsNeeded()],
+            'city' => [new AddressIsNeeded()],
         ]);
 
         if ($validator->fails()) {

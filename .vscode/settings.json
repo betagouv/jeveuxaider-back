@@ -1,8 +1,11 @@
 {
     "editor.formatOnSave": true,
-    "laravel-pint.enable": true,
-    "laravel-pint.enableDebugLogs": true,
-    "[php]": {
-        "editor.defaultFormatter": "open-southeners.laravel-pint"
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": "explicit"
     },
+    "[php]": {
+      "editor.defaultFormatter": "open-southeners.laravel-pint"
+    },
+    "laravel-pint.enable": true
 }

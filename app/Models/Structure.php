@@ -342,21 +342,6 @@ class Structure extends Model implements HasMedia
         return $this->load('members');
     }
 
-    // public function resetResponsable(Profile $profile)
-    // {
-    //     $newResponsableProfileId = $this->members->where('id', '!=', $profile->id)->pluck('id')->first();
-    //     if ($newResponsableProfileId) {
-    //         Mission::where('responsable_id', $profile->id)->where('structure_id', $this->id)->update(['responsable_id' => $newResponsableProfileId]);
-    //     }
-    // }
-
-    public function addMission($values)
-    {
-        $mission = $this->missions()->create($values);
-
-        return $mission;
-    }
-
     public function logo()
     {
         return $this->morphOne(ModelMedia::class, 'model')->where('collection_name', 'structure__logo');

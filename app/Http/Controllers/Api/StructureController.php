@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api;
 use App\Filters\FiltersStructureSearch;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AddResponsableRequest;
-use App\Http\Requests\Api\MissionCreateRequest;
 use App\Http\Requests\Api\StructureCreateRequest;
 use App\Http\Requests\Api\StructureDeleteRequest;
 use App\Http\Requests\Api\StructureUpdateRequest;
@@ -29,7 +28,6 @@ use Spatie\QueryBuilder\QueryBuilder;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Validator;
 
 class StructureController extends Controller
 {
@@ -297,43 +295,6 @@ class StructureController extends Controller
         return $structure->members;
     }
 
-    public function addMission(MissionCreateRequest $request, Structure $structure)
-    {
-        $attributes = array_merge($request->validated(), ['user_id' => Auth::guard('api')->user()->id]);
-
-        if ($structure->state != 'Validée' && empty($attributes['state'])) {
-            $attributes['state'] = 'Brouillon';
-        }
-
-        $mission = $structure->addMission($attributes);
-
-        if ($request->has('tags')) {
-            $tags = collect($request->input('tags'));
-            $values = $tags->pluck($tags, 'id')->map(function ($item) {
-                return ['field' => 'mission_tags'];
-            });
-            $mission->tags()->sync($values);
-        }
-
-        if ($request->has('skills')) {
-            $skills = collect($request->input('skills'));
-            $values = $skills->pluck($skills, 'id')->map(function ($item) {
-                return ['field' => 'mission_skills'];
-            });
-            $mission->skills()->sync($values);
-        }
-
-        if ($request->has('illustrations')) {
-            $illustrations = collect($request->input('illustrations'));
-            $values = $illustrations->pluck($illustrations, 'id')->map(function ($item) {
-                return ['field' => 'mission_illustrations'];
-            });
-            $mission->illustrations()->sync($values);
-        }
-
-        return $mission;
-    }
-
     public function exist(Request $request, $rnaOrName)
     {
         $structure = Structure::whereIn('state', ['En attente de validation', 'Validée', 'En cours de traitement'])
@@ -428,5 +389,5 @@ class StructureController extends Controller
         return $structure->invitations()->with('user.profile')->orderBy('id')->get();
     }
 
-    
+
 }

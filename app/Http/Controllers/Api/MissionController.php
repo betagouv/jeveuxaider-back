@@ -14,8 +14,6 @@ use App\Filters\FiltersMissionSearch;
 use App\Filters\FiltersTags;
 use App\Filters\FiltersMissionZip;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\MissionDeleteRequest;
-use App\Http\Requests\Api\MissionDuplicateRequest;
 use App\Http\Requests\Api\MissionUpdateRequest;
 use App\Models\Mission;
 use App\Models\Participation;
@@ -161,28 +159,15 @@ class MissionController extends Controller
             $mission->tags()->sync($values);
         }
 
-        if ($request->has('skills')) {
-            $skills = collect($request->input('skills'));
-            $values = $skills->pluck($skills, 'id')->map(function ($item) {
-                return ['field' => 'mission_skills'];
-            });
-            $mission->skills()->sync($values);
-        }
-
-        if ($request->has('illustrations')) {
-            $illustrations = collect($request->input('illustrations'));
-            $values = $illustrations->pluck($illustrations, 'id')->map(function ($item) {
-                return ['field' => 'mission_illustrations'];
-            });
-            $mission->illustrations()->sync($values);
-        }
         $mission->update($request->validated());
 
         return $mission;
     }
 
-    public function delete(MissionDeleteRequest $request, Mission $mission)
+    public function delete(Request $request, Mission $mission)
     {
+        $this->authorize('delete', $mission);
+
         $relatedParticipationsCount = Participation::where('mission_id', $mission->id)->count();
 
         if ($relatedParticipationsCount) {
@@ -192,8 +177,10 @@ class MissionController extends Controller
         return (string) $mission->delete();
     }
 
-    public function duplicate(MissionDuplicateRequest $request, Mission $mission)
+    public function duplicate(Request $request, Mission $mission)
     {
+        $this->authorize('duplicate', $mission);
+
         if ($mission->template_id && (!$mission->template->published || $mission->template->state !== 'validated')) {
             abort('422', "Le modèle de cette mission n'est plus disponible.");
         }
@@ -330,6 +317,10 @@ class MissionController extends Controller
     public function publish(Request $request, Mission $mission)
     {
         $this->authorize('update', $mission);
+
+        if ($mission->state != 'Brouillon') {
+            abort('422', "La mission ne peut être publiée que si elle est en brouillon");
+        }
 
         if ($mission->template_id) {
             $mission->update(['state' => 'Validée']);
