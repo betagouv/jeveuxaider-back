@@ -20,6 +20,12 @@
         <organizationId>
             <![CDATA[{{ $mission->structure->id }}]]>
         </organizationId>
+        <organizationRna>
+            <![CDATA[{{ $mission->structure->rna }}]]>
+        </organizationRna>
+        <organizationSiret>
+            <![CDATA[{{ $mission->structure->siret }}]]>
+        </organizationSiret>
         <organizationName>
             <![CDATA[{{ $mission->structure->name }}]]>
         </organizationName>
