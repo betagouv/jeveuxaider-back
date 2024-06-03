@@ -31,11 +31,8 @@ class FormMissionController extends Controller
             'state' => 'Brouillon',
             'domaine_id' => $request->input('domaine_id'),
             'template_id' => $request->input('template_id'),
-            'participations_max' => 1,
             'user_id' => Auth::guard('api')->user()->id,
         ]);
-
-        $mission->responsables()->attach(Auth::guard('api')->user()->profile->id);
 
         return $mission;
     }
