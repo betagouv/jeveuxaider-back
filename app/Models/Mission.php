@@ -310,7 +310,7 @@ class Mission extends Model
         if($this->template_id) {
             return $this->template->title;
         }
-        return $value ?? 'Titre à définir';
+        return $value;
     }
 
     public function setNameAttribute($value)

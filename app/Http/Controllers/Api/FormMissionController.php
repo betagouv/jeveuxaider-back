@@ -175,7 +175,7 @@ class FormMissionController extends Controller
 
         $validator = Validator::make($request->all(), [
             'type' => 'required',
-            'department' => 'required',
+            'department' => 'required_if:type,Mission en présentiel',
             'is_autonomy' => '',
             'autonomy_zips' => ['required_if:is_autonomy,true', new AddressesInDepartment()],
             'autonomy_precisions' => '',
