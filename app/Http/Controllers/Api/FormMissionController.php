@@ -5,8 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Mission;
 use App\Models\Structure;
-use App\Rules\AddressesInDepartment;
-use App\Rules\AddressIsNeeded;
+use App\Rules\AddressesInSameDepartment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
@@ -172,22 +171,19 @@ class FormMissionController extends Controller
 
         $validator = Validator::make($request->all(), [
             'type' => 'required',
-            'department' => 'required_if:type,Mission en présentiel',
-            'is_autonomy' => '',
-            'autonomy_zips' => ['required_if:is_autonomy,true', new AddressesInDepartment()],
-            'autonomy_precisions' => '',
-            'address' => '',
-            'latitude' => [new AddressIsNeeded()],
-            'longitude' => [new AddressIsNeeded()],
-            'zip' => [new AddressIsNeeded()],
-            'city' => [new AddressIsNeeded()],
+            'addresses' => ['required','array','min:1', new AddressesInSameDepartment()]
         ]);
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        $mission->update($validator->validated());
+        $department = explode(',', $request->input('addresses')[0]['properties']['context'])[0];
+
+        $mission->update([
+            ...$validator->validated(),
+            'department' => $department
+        ]);
 
         return $mission;
     }

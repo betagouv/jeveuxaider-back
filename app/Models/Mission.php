@@ -50,6 +50,7 @@ class Mission extends Model
         'is_autonomy' => 'boolean',
         'is_qpv' => 'boolean',
         'autonomy_zips' => 'json',
+        'addresses' => 'json',
         'dates' => 'json',
         'prerequisites' => 'array',
         'is_registration_open' => 'boolean',
