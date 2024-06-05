@@ -8,6 +8,8 @@ class Media extends SpatieMedia
 {
     protected $appends = ['urls', 'manipulation'];
 
+    protected $hidden = ['model'];
+
     public function getUrlsAttribute()
     {
         $mediaUrls = ['original' => $this->getUrl()];
@@ -20,7 +22,7 @@ class Media extends SpatieMedia
 
     public function getManipulationAttribute()
     {
-        return ! empty($this->manipulations[array_key_first($this->manipulations)]) ?
+        return !empty($this->manipulations[array_key_first($this->manipulations)]) ?
         $this->manipulations[array_key_first($this->manipulations)] : null;
     }
 
