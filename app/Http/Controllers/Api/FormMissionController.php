@@ -126,8 +126,8 @@ class FormMissionController extends Controller
         $validator = Validator::make($request->all(), [
             'date_type' => 'required',
             'commitment__duration' => 'required',
-            'commitment__period' => '',
-            'commitment__time_period' => '',
+            'commitment__time_period' => 'required_if:date_type,recurring',
+            'commitment__duration_min' => 'required_if:date_type,recurring',
             'recurrent_description' => '',
             'with_dates' => 'required|in:yes,no',
             'start_date' => 'nullable|required_if:with_dates,no|date',
