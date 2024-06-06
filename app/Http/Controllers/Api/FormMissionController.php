@@ -178,7 +178,7 @@ class FormMissionController extends Controller
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        $department = explode(',', $request->input('addresses')[0]['properties']['context'])[0];
+        $department = $request->input('addresses')[0]['department'];
 
         $mission->update([
             ...$validator->validated(),

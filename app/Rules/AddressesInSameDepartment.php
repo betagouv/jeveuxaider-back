@@ -17,14 +17,16 @@ class AddressesInSameDepartment implements ValidationRule, DataAwareRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        $firstDepartment = $value[0]['properties']['context'];
-
-        foreach ($value as $address) {
-
-            if($address['properties']['context'] !== $firstDepartment) {
-                $fail('Toutes les adresses doivent être dans le même département.');
-                return;
+        try {
+            $firstDepartment = $value[0]['department'];
+            foreach ($value as $address) {
+                if($address['department'] !== $firstDepartment) {
+                    $fail('Toutes les adresses doivent être dans le même département.');
+                    return;
+                }
             }
+        } catch (\Exception $e) {
+            $fail('Une erreur est survenue ', $e->getMessage());
         }
     }
 
