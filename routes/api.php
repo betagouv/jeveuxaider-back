@@ -57,7 +57,6 @@ Route::get('reseaux/{reseau}', 'Api\ReseauController@show');
 Route::get('reseaux/{reseau}/structures', 'Api\ReseauController@structures');
 
 Route::get('notification-temoignage/{token}', 'Api\NotificationTemoignageController@show');
-Route::get('participations/{participation}/temoignage', 'Api\ParticipationController@temoignage');
 // Route::get('participation/{participation}/benevole-name', 'Api\ParticipationController@benevoleName');
 // Route::get('participation/{participation}/mission', 'Api\ParticipationController@mission');
 Route::post('temoignages', 'Api\TemoignageController@store');
@@ -321,7 +320,7 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::get('export/territoires', 'Api\ExportController@territoires');
     Route::get('export/reseaux', 'Api\ExportController@reseaux');
 
-   
+
 
     // VOCABULARIES
     Route::get('/vocabularies/{vocabulary:slug}', 'Api\VocabularyController@show');
@@ -390,7 +389,7 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::get('support/referents/activity-logs', 'Api\SupportController@referentsActivityLogs');
     Route::get('support/responsables/participations-to-be-treated', 'Api\SupportController@responsablesParticipationsToBeTreated');
     Route::get('support/responsables/missions-outdated', 'Api\SupportController@responsablesMissionsOutdated');
-    
+
     // SCRIPTS
     Route::post('scripts/migrate-organisation-missions', 'Api\ScriptController@migrateOrganisationMissions');
     Route::post('scripts/user-reset-context-role', 'Api\ScriptController@resetUserContextRole');
