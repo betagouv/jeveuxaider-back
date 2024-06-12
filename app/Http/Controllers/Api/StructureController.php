@@ -72,21 +72,21 @@ class StructureController extends Controller
         return $results;
     }
 
-    public function availableMissions(Request $request, Structure $structure)
-    {
-        $query = QueryBuilder::for(Mission::with(['domaine', 'template', 'template.domaine', 'template.photo', 'illustrations', 'structure']))
-            ->available()
-            ->where('structure_id', $structure->id);
+    // public function availableMissions(Request $request, Structure $structure)
+    // {
+    //     $query = QueryBuilder::for(Mission::with(['domaine', 'template', 'template.domaine', 'template.photo', 'illustrations', 'structure']))
+    //         ->available()
+    //         ->where('structure_id', $structure->id);
 
-        if ($request->has('exclude')) {
-            $query->where('id', '<>', $request->input('exclude'));
-        }
+    //     if ($request->has('exclude')) {
+    //         $query->where('id', '<>', $request->input('exclude'));
+    //     }
 
-        return $query
-            ->defaultSort('-updated_at')
-            ->allowedSorts(['places_left', 'type'])
-            ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
-    }
+    //     return $query
+    //         ->defaultSort('-updated_at')
+    //         ->allowedSorts(['places_left', 'type'])
+    //         ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
+    // }
 
     public function show(Request $request, Structure $structure)
     {

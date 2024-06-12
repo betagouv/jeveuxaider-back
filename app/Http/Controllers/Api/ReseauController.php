@@ -41,20 +41,22 @@ class ReseauController extends Controller
         return $results;
     }
 
-    public function show($slugOrId)
+    public function view(Request $request, Reseau $reseau)
     {
-        if (is_numeric($slugOrId)) {
-            return Reseau::where('id', $slugOrId)
-                ->with(['responsables.profile.tags', 'responsables.profile.user', 'domaines', 'logo', 'illustrations', 'overrideImage1', 'overrideImage2', 'illustrationsAntennes'])
-                ->withCount('structures', 'missions', 'missionTemplates', 'invitationsAntennes', 'responsables')
-                ->firstOrFail()->append(['missing_fields', 'completion_rate']);
-        }
+        $reseau->load(['domaines', 'logo', 'illustrations', 'overrideImage1', 'overrideImage2', 'illustrationsAntennes']);
+        $reseau->loadCount(['missionsAvailable', 'participations']);
+        $reseau->append(['places_left', 'statistics']);
 
-        return Reseau::where('slug', $slugOrId)
-            ->with(['domaines', 'logo', 'illustrations', 'overrideImage1', 'overrideImage2', 'illustrationsAntennes'])
-            ->withCount(['missionsAvailable', 'participations'])
-            ->firstOrFail()
-            ->append(['places_left', 'statistics']);
+        return $reseau;
+    }
+
+    public function show(Request $request, Reseau $reseau)
+    {
+        $reseau->load(['responsables.profile.tags', 'responsables.profile.user', 'domaines', 'logo', 'illustrations', 'overrideImage1', 'overrideImage2', 'illustrationsAntennes']);
+        $reseau->loadCount(['structures', 'missions', 'missionTemplates', 'invitationsAntennes', 'responsables']);
+        $reseau->append(['missing_fields', 'completion_rate']);
+
+        return $reseau;
     }
 
     public function activities(Request $request, Reseau $reseau)
@@ -205,14 +207,14 @@ class ReseauController extends Controller
         return $reseau->responsables;
     }
 
-    public function structures(Request $request, Reseau $reseau)
-    {
-        return $reseau->structures()
-            ->where('state', 'Validée')
-            ->where('statut_juridique', 'Association')
-            ->orderByRaw('UPPER(structures.city)') // Bypass case insensitive collation (PostgreSQL)
-            ->get();
-    }
+    // public function structures(Request $request, Reseau $reseau)
+    // {
+    //     return $reseau->structures()
+    //         ->where('state', 'Validée')
+    //         ->where('statut_juridique', 'Association')
+    //         ->orderByRaw('UPPER(structures.city)') // Bypass case insensitive collation (PostgreSQL)
+    //         ->get();
+    // }
 
     public function delete(Request $request, Reseau $reseau)
     {

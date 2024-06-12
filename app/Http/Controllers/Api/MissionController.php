@@ -33,17 +33,17 @@ use Illuminate\Support\Facades\Validator;
 
 class MissionController extends Controller
 {
-    public function prioritaires(Request $request)
-    {
-        return  QueryBuilder::for(Mission::where('is_priority', true))
-            ->with(['domaine', 'template', 'template.domaine', 'template.photo', 'illustrations', 'structure'])
-            ->allowedFilters([
-                AllowedFilter::custom('search', new FiltersMissionSearch()),
-                AllowedFilter::custom('available', new FiltersMissionPriorityAvailable()),
-            ])
-            ->defaultSort('-created_at')
-            ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
-    }
+    // public function prioritaires(Request $request)
+    // {
+    //     return  QueryBuilder::for(Mission::where('is_priority', true))
+    //         ->with(['domaine', 'template', 'template.domaine', 'template.photo', 'illustrations', 'structure'])
+    //         ->allowedFilters([
+    //             AllowedFilter::custom('search', new FiltersMissionSearch()),
+    //             AllowedFilter::custom('available', new FiltersMissionPriorityAvailable()),
+    //         ])
+    //         ->defaultSort('-created_at')
+    //         ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
+    // }
 
     public function index(Request $request)
     {
@@ -106,37 +106,32 @@ class MissionController extends Controller
         return $result;
     }
 
-    public function show(Request $request, $id)
+    public function view(Request $request, $slugOrId)
     {
-        if (is_numeric($id)) {
+        if (is_numeric($slugOrId)) {
             $mission = Mission::with([
-                'structure.members',
-                'template.domaine',
-                'template.domaineSecondary',
-                'domaine',
-                'domaineSecondary',
-                'responsable.tags',
-                'responsable.user',
-                'skills',
+                'structure:id,name,state,statut_juridique,description,slug',
+                'template:id,title,subtitle',
+                'template.domaine:id,name',
+                'template.domaineSecondary:id,name',
+                'domaine:id,name',
+                'responsable:id,first_name,last_name',
+                'domaineSecondary:id,name',
                 'template.photo',
                 'illustrations',
-                'structure.illustrations',
-                'structure.overrideImage1',
                 'structure.logo',
                 'activity:id,name',
                 'activitySecondary:id,name',
                 'template.activity:id,name',
                 'template.activitySecondary:id,name',
-                'structure.reseaux:id,name',
-                'tags'
-            ])->withCount('temoignages')->where('id', $id)->first();
+            ])->where('id', $slugOrId)->first();
             if ($mission) {
                 $mission->append(['full_address', 'has_places_left']);
             }
         } else {
             // API ENGAGEMENT
             $api = new ApiEngagement();
-            $mission = $api->getMission($id);
+            $mission = $api->getMission($slugOrId);
             if ($mission) {
                 $mission['isFromApi'] = true;
             }
@@ -147,6 +142,35 @@ class MissionController extends Controller
         }
 
         return $mission['isFromApi'] ? $mission : $mission->append('participations_total', 'full_url');
+    }
+
+    public function show(Request $request, Mission $mission)
+    {
+        $mission->load([
+            'structure.members',
+            'template.domaine',
+            'template.domaineSecondary',
+            'domaine',
+            'domaineSecondary',
+            'responsable.tags',
+            'responsable.user',
+            'skills',
+            'template.photo',
+            'illustrations',
+            'structure.illustrations',
+            'structure.overrideImage1',
+            'structure.logo',
+            'activity:id,name',
+            'activitySecondary:id,name',
+            'template.activity:id,name',
+            'template.activitySecondary:id,name',
+            'structure.reseaux:id,name',
+            'tags'
+        ]);
+
+        $mission->append(['full_address', 'has_places_left','participations_total', 'full_url']);
+
+        return $mission;
     }
 
     public function update(MissionUpdateRequest $request, Mission $mission)
@@ -299,7 +323,7 @@ class MissionController extends Controller
             $query->aroundLatLng($mission->latitude, $mission->longitude);
         }
 
-        return $query->paginate(10)->load('domaine', 'template', 'template.domaine', 'template.media', 'structure', 'illustrations', 'template.activity');
+        return $query->paginate(10)->load('domaine', 'template', 'template.domaine', 'template.media', 'structure:id,name,statut_juridique', 'illustrations', 'template.activity');
     }
 
     public function similarForApi(Request $request)
