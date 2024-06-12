@@ -992,7 +992,7 @@ return [
             17 => "soutien-scolaire", // Soutien scolaire et formation
             18 => "autre", // Vie citoyenne
             19 => "sensibilisation", // Actions de sensibilisation
-            20 => "encadrement-d-equipes", // Accompagnement aux activités sportives
+            20 => "encadrement-d-equipes", // Activités sportives
             21 => "accueil-de-public", // Accueil / Information
             22 => "activites-manuelles", // Travaux manuelles
             23 => "gestion-recherche-des-partenariats", // Collecte de fonds
@@ -1016,7 +1016,7 @@ return [
         ]
     ],
 
-     /*
+    /*
     |--------------------------------------------------------------------------
     | RULES
     |--------------------------------------------------------------------------

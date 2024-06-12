@@ -59,7 +59,6 @@ Route::post('reseaux/lead', 'Api\ReseauController@lead');
 // Route::get('reseaux/{reseau}/structures', 'Api\ReseauController@structures');
 
 Route::get('notification-temoignage/{token}', 'Api\NotificationTemoignageController@show');
-Route::get('participations/{participation}/temoignage', 'Api\ParticipationController@temoignage');
 
 Route::post('temoignages', 'Api\TemoignageController@store');
 Route::get('temoignages/organisations/{structure}', 'Api\TemoignageController@forOrganisation');
