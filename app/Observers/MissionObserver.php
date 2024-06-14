@@ -223,12 +223,13 @@ class MissionObserver
 
         if ($mission->date_type == 'ponctual') {
             $mission->commitment__time_period = null;
+            $mission->commitment__duration_min = null;
             $mission->recurrent_description = null;
         }
-        // if ($mission->date_type == 'recurring') {
-        //     $mission->dates = null;
-        //     $mission->end_date = null;
-        // }
+        if ($mission->date_type == 'recurring') {
+            $mission->dates = null;
+            // $mission->end_date = null;
+        }
         if ($mission->commitment__duration) {
             $mission->setCommitmentTotal();
         }
