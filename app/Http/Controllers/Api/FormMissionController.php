@@ -263,6 +263,13 @@ class FormMissionController extends Controller
         $mission->responsables()->sync($values);
         $mission->load('responsables.avatar');
 
+        // @TODO: In Job + Detect if new responsables are added / deleted
+        // + read at for participation !in_array($participation->state, ['En attente de validation', 'En cours de traitement'])
+        $mission->participations->each(function ($participation) use ($mission) {
+            $participation->loadMissing('conversation');
+            $participation->conversation->users()->syncWithoutDetaching($mission->responsables->pluck('user_id'));
+        });
+
         return $mission;
     }
 }
