@@ -234,25 +234,25 @@ class MissionObserver
             $mission->setCommitmentTotal();
         }
 
-        if ($mission->type !== 'Mission en présentiel') {
-            $mission->is_autonomy = false;
-        }
-        if ($mission->type !== 'Mission en présentiel' || $mission->is_autonomy === false) {
-            $mission->autonomy_zips = null;
-            $mission->autonomy_precisions = null;
-        }
+        // if ($mission->type !== 'Mission en présentiel') {
+        //     $mission->is_autonomy = false;
+        // }
+        // if ($mission->type !== 'Mission en présentiel' || $mission->is_autonomy === false) {
+        //     $mission->autonomy_zips = null;
+        //     $mission->autonomy_precisions = null;
+        // }
 
         if ($mission->type === 'Mission à distance') {
             $mission->department = $mission->structure->department;
         }
 
-        if ($mission->is_autonomy === true) {
-            $mission->address = null;
-            $mission->zip = null;
-            $mission->city = null;
-            $mission->latitude = null;
-            $mission->longitude = null;
-        }
+        // if ($mission->is_autonomy === true) {
+        //     $mission->address = null;
+        //     $mission->zip = null;
+        //     $mission->city = null;
+        //     $mission->latitude = null;
+        //     $mission->longitude = null;
+        // }
 
         if($mission->isDirty('state')) {
             if($mission->state == 'Validée') {

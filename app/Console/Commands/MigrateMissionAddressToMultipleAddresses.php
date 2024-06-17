@@ -27,42 +27,47 @@ class MigrateMissionAddressToMultipleAddresses extends Command
     {
         $options = $this->options();
 
-        DB::table('missions')->whereNull('addresses')->limit($options['limit'])->get()->each(function ($mission) {
+        $queryCount = DB::table('missions')->whereNull('addresses')->where('type', 'Mission en présentiel')->count();
 
-            $addresses = [];
+        if ($this->confirm("{$queryCount} addresses will be migrated")) {
 
-            $zips = json_decode($mission->autonomy_zips, true);
+            DB::table('missions')->whereNull('addresses')->where('type', 'Mission en présentiel')->limit($options['limit'])->get()->each(function ($mission) {
 
-            if(isset($zips) && !empty($zips)) {
-                foreach ($zips as $zip) {
+                $addresses = [];
+
+                $zips = json_decode($mission->autonomy_zips_old, true);
+
+                if(isset($zips) && !empty($zips)) {
+                    foreach ($zips as $zip) {
+                        $addresses[] = [
+                            "id" => random_int(100000, 999999),
+                            "label" => $zip['zip'] . ' ' . $zip['city'] ?? null,
+                            "street" => null,
+                            "zip" => $zip['zip'] ?? null,
+                            "city" => $zip['city'] ?? null,
+                            "department" => $mission->department,
+                            "latitude" => $zip['latitude'] ?? null,
+                            "longitude" => $zip['longitude'] ?? null,
+                        ];
+                    }
+                } else {
                     $addresses[] = [
                         "id" => random_int(100000, 999999),
-                        "label" => $zip['zip'] . ' ' . $zip['city'] ?? null,
-                        "street" => null,
-                        "zip" => $zip['zip'] ?? null,
-                        "city" => $zip['city'] ?? null,
+                        "label" => ($mission->address_old == $mission->city_old) ? "{$mission->zip_old} {$mission->city_old}" : "{$mission->address_old} {$mission->zip_old} {$mission->city_old}",
+                        "street" => $mission->address_old ?? null,
+                        "zip" => $mission->zip_old ?? null,
+                        "city" => $mission->city_old ?? null,
                         "department" => $mission->department,
-                        "latitude" => $zip['latitude'] ?? null,
-                        "longitude" => $zip['longitude'] ?? null,
+                        "latitude" => $mission->latitude_old ?? null,
+                        "longitude" => $mission->longitude_old ?? null,
                     ];
                 }
-            } else {
-                $addresses[] = [
-                    "id" => random_int(100000, 999999),
-                    "label" => ($mission->address == $mission->city) ? "{$mission->zip} {$mission->city}" : "{$mission->address} {$mission->zip} {$mission->city}",
-                    "street" => $mission->address ?? null,
-                    "zip" => $mission->zip ?? null,
-                    "city" => $mission->city ?? null,
-                    "department" => $mission->department,
-                    "latitude" => $mission->latitude ?? null,
-                    "longitude" => $mission->longitude ?? null,
-                ];
-            }
 
-            DB::table('missions')
-                ->where('id', $mission->id)
-                ->update(['addresses' => $addresses]);
+                DB::table('missions')
+                    ->where('id', $mission->id)
+                    ->update(['addresses' => $addresses]);
 
-        });
+            });
+        }
     }
 }

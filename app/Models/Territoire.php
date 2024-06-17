@@ -18,7 +18,10 @@ use Spatie\Sluggable\SlugOptions;
 
 class Territoire extends Model implements HasMedia
 {
-    use InteractsWithMedia, LogsActivity, HasSlug, HasMissingFields;
+    use InteractsWithMedia;
+    use LogsActivity;
+    use HasSlug;
+    use HasMissingFields;
 
     protected $table = 'territoires';
 
@@ -184,7 +187,7 @@ class Territoire extends Model implements HasMedia
         $territoire = $this;
         $missions = Mission::search('', function ($algolia, $query, $options) use ($territoire, $limit) {
             $config = [
-                'filters' => 'provider:reserve_civique AND is_autonomy=0',
+                'filters' => 'provider:reserve_civique',
                 'aroundPrecision' => 2000,
                 'hitsPerPage' => $limit,
             ];

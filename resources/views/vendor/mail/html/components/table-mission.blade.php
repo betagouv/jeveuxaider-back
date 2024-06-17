@@ -27,16 +27,8 @@
                                     valign="top">📍
                                 </td>
                                 <td>
-                                    @if ($mission->is_autonomy)
-                                        <div class="text-label">Mission en autonomie</div>
-                                        <div class="text-value">
-                                            @foreach ($mission->autonomy_zips as $item)
-                                                {{ $item['city'] }} {{ $item['zip'] }} {{ $loop->last ? '' : ' • ' }}
-                                            @endforeach
-                                    @endif
-                                    @if ($mission->type == 'Mission en présentiel' && !$mission->is_autonomy)
-                                        <div class="text-label">{{ $mission->city }} {{ $mission->zip }}</div>
-                                        <div class="text-value">{{ $mission->address }}</div>
+                                    @if ($mission->type == 'Mission en présentiel')
+                                        <div class="text-label">Mission en présentiel</div>
                                     @endif
                                     @if ($mission->type == 'Mission à distance')
                                         <div class="text-label">Mission à distance</div>

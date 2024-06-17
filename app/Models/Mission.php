@@ -45,11 +45,11 @@ class Mission extends Model
         // 'end_date' => 'datetime:Y-m-d\TH:i',
         'start_date' => 'datetime:Y-m-d',
         'end_date' => 'datetime:Y-m-d',
-        'latitude' => 'float',
-        'longitude' => 'float',
-        'is_autonomy' => 'boolean',
+        // 'latitude' => 'float',
+        // 'longitude' => 'float',
+        // 'is_autonomy' => 'boolean',
         'is_qpv' => 'boolean',
-        'autonomy_zips' => 'json',
+        // 'autonomy_zips' => 'json',
         'addresses' => 'json',
         'dates' => 'json',
         'prerequisites' => 'array',
@@ -125,11 +125,12 @@ class Mission extends Model
             'id' => $this->id,
             'name' => $this->name,
             'slug' => $this->slug,
-            'city' => $this->city,
+            // 'city' => $this->city,
             'state' => $this->state,
             'department' => $this->department,
             'department_name' => $this->department . ' - ' . config('taxonomies.departments.terms')[$this->department],
-            'zip' => $this->zip,
+            // 'zip' => $this->zip,
+            'addresses' => $this->addresses,
             'periodicite' => $this->periodicite,
             'has_places_left' => $this->has_places_left,
             'places_left' => $this->places_left,
@@ -183,8 +184,8 @@ class Mission extends Model
                 $this->publics_beneficiaires
             ),
             'publics_volontaires' => $this->publics_volontaires,
-            'is_autonomy' => $this->is_autonomy,
-            'autonomy_zips' => $this->is_autonomy && count($this->autonomy_zips) > 0 ? $this->autonomy_zips : null,
+            // 'is_autonomy' => $this->is_autonomy,
+            // 'autonomy_zips' => $this->is_autonomy && count($this->autonomy_zips) > 0 ? $this->autonomy_zips : null,
             'is_outdated' => isset($trueEndDate) && (Carbon::today())->gt($trueEndDate) ? true : false,
             'tags' => $this->tags->where('is_published', true)->pluck('name'),
             'is_registration_open' => $this->is_registration_open,
@@ -199,18 +200,12 @@ class Mission extends Model
             'end_date_no_creneaux' => $this->dates ? null : strtotime($this->end_date)
         ];
 
-        if ($this->is_autonomy) {
-            $mission['_geoloc'] = [];
-            foreach ($this->autonomy_zips as $item) {
-                $mission['_geoloc'][] = [
-                    'lat' => $item['latitude'],
-                    'lng' => $item['longitude'],
-                ];
-            }
-        } elseif ($this->latitude && $this->longitude) {
-            $mission['_geoloc'] = [
-                'lat' => $this->latitude,
-                'lng' => $this->longitude,
+        $mission['_geoloc'] = [];
+
+        foreach ($this->addresses as $item) {
+            $mission['_geoloc'][] = [
+                'lat' => (float)$item['latitude'],
+                'lng' => (float)$item['longitude'],
             ];
         }
 
@@ -739,6 +734,8 @@ class Mission extends Model
             'mobile' => $responsable->mobile,
         ]);
 
+        $firstAddress = $this->addresses ? $this->addresses[0] : null;
+
         return [
             'id' => $this->id,
             'name' => $this->name,
@@ -763,18 +760,20 @@ class Mission extends Model
             'is_snu_mig_compatible' => $this->is_snu_mig_compatible,
             'snu_mig_places' => $this->snu_mig_places,
             'picture' => $this->picture,
-            'is_autonomy' => $this->is_autonomy,
-            'autonomy_zips' => $this->is_autonomy && count($this->autonomy_zips) > 0 ? $this->autonomy_zips : null,
-            'address' => [
-                'full' => $this->full_address,
-                'address' => $this->address,
-                'zip' => $this->zip,
-                'city' => $this->city,
-                'department' => $this->department,
-                'country' => $this->country,
-                'latitude' => $this->latitude,
-                'longitude' => $this->longitude,
-            ],
+            // 'is_autonomy' => $this->is_autonomy,
+            // 'autonomy_zips' => $this->is_autonomy && count($this->autonomy_zips) > 0 ? $this->autonomy_zips : null,
+            'addresses' => $this->addresses,
+            'address' => $firstAddress,
+            // 'address' => [
+            //     'full' => $this->full_address,
+            //     'address' => $this->address,
+            //     'zip' => $this->zip,
+            //     'city' => $this->city,
+            //     'department' => $this->department,
+            //     'country' => $this->country,
+            //     'latitude' => $this->latitude,
+            //     'longitude' => $this->longitude,
+            // ],
             'structure' => $this->structure ? [
                 'id' => $this->structure->id,
                 'name' => $this->structure->name,
