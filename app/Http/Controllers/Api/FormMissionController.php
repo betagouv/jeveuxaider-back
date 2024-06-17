@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\RecomputeConversationUsersWhenMissionResponsablesAdded;
+use App\Jobs\RecomputeConversationUsersWhenMissionResponsablesRemoved;
 use App\Models\Mission;
 use App\Models\Structure;
 use App\Rules\AddressesInSameDepartment;
@@ -241,7 +243,7 @@ class FormMissionController extends Controller
     {
         $this->authorize('update', $mission);
 
-        $structureMembersProfilesIds = $mission->structure->members->pluck('profile.id');
+        $structureUserIds = $mission->structure->members->pluck('id');
 
         $validator = Validator::make($request->all(), [
             'responsables' => 'required|array',
@@ -251,24 +253,28 @@ class FormMissionController extends Controller
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        $responsableProfilesIds = collect($request->input('responsables'))->pluck('id');
+        $newResponsableProfileIds = collect($request->input('responsables'))->pluck('id')->toArray();
+        $newResponsableUserIds = collect($request->input('responsables'))->pluck('user_id')->toArray();
+        $oldResponsableUserIds = $mission->responsables->pluck('user_id')->toArray();
 
-        foreach ($responsableProfilesIds as $responsableProfileId) {
-            if (!$structureMembersProfilesIds->contains($responsableProfileId)) {
+        foreach ($newResponsableUserIds as $userId) {
+            if (!$structureUserIds->contains($userId)) {
                 abort(422, "Vous ne pouvez pas ajouter un responsable qui n'est pas membre de l'organisation");
             }
         }
 
-        $values = collect($request->input('responsables'))->pluck('id');
-        $mission->responsables()->sync($values);
-        $mission->load('responsables.avatar');
+        $addedResponsableUserIds = array_diff($newResponsableUserIds, $oldResponsableUserIds);
+        if(!empty($addedResponsableUserIds)) {
+            RecomputeConversationUsersWhenMissionResponsablesAdded::dispatch($mission, $addedResponsableUserIds);
+        }
 
-        // @TODO: In Job + Detect if new responsables are added / deleted
-        // + read at for participation !in_array($participation->state, ['En attente de validation', 'En cours de traitement'])
-        $mission->participations->each(function ($participation) use ($mission) {
-            $participation->loadMissing('conversation');
-            $participation->conversation->users()->syncWithoutDetaching($mission->responsables->pluck('user_id'));
-        });
+        $removedResponsableUserIds = array_diff($oldResponsableUserIds, $newResponsableUserIds);
+        if(!empty($removedResponsableUserIds)) {
+            RecomputeConversationUsersWhenMissionResponsablesRemoved::dispatch($mission, $removedResponsableUserIds);
+        }
+
+        $mission->responsables()->sync($newResponsableProfileIds);
+        $mission->load('responsables.avatar');
 
         return $mission;
     }
