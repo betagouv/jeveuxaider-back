@@ -487,8 +487,15 @@ class Mission extends Model
         }
 
         if ($territoire->type == 'city') {
-            return $query
-                ->whereIn('zip', $territoire->zips);
+            return $query->where(function (Builder $query) use ($territoire) {
+                if($territoire->zips) {
+                    foreach ($territoire->zips as $zip) {
+                        $query->orWhereJsonContains('addresses', [['zip' => $zip]]);
+                    }
+                } else {
+                    $query->where('id', null);
+                }
+            });
         }
     }
 

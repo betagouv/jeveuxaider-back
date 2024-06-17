@@ -11,6 +11,7 @@ use App\Models\Mission;
 use App\Models\Participation;
 use App\Models\Territoire;
 use App\Models\User;
+use App\Services\AlgoliaMissionClient;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -111,19 +112,37 @@ class TerritoireController extends Controller
             ? Territoire::where('id', $slugOrId)->firstOrFail()
             : Territoire::where('slug', $slugOrId)->firstOrFail();
 
-        $cities = [];
-        $missionsByCity = $territoire->promotedMissions(50)->groupBy('city');
+        // $cities = [];
+        // $missionsByCity = $territoire->promotedMissions(50)->groupBy('city');
 
-        foreach ($missionsByCity as $missions) {
-            $mission = $missions->first();
-            $cities[] = [
-                'name' => $mission->city,
-                'coordonates' => $mission->latitude . ',' . $mission->longitude,
-                'zipcode' => $mission->zip,
-            ];
+        // foreach ($missionsByCity as $missions) {
+        //     $mission = $missions->first();
+        //     $cities[] = [
+        //         'name' => $mission->city,
+        //         'coordonates' => $mission->latitude . ',' . $mission->longitude,
+        //         'zipcode' => $mission->zip,
+        //     ];
+        // }
+
+        // return array_slice($cities, 0, 10);
+
+        $algoliaClient = new AlgoliaMissionClient();
+
+        if ($territoire->type == 'department') {
+            $facets = $algoliaClient->searchForFacetValues('addresses.city', '', [
+                'aroundLatLng' => $territoire->latitude . ',' . $territoire->longitude,
+                'aroundRadius' => 35000,
+                'filters' => 'type:"Mission en présentiel" AND department:' . $territoire->department . ' AND provider:reserve_civique',
+            ]);
+        } else {
+            $facets = $algoliaClient->searchForFacetValues('addresses.city', '', [
+                'aroundLatLng' => $territoire->latitude . ',' . $territoire->longitude,
+                'aroundRadius' => 35000,
+                'filters' => 'type:"Mission en présentiel" AND provider:reserve_civique',
+            ]);
         }
 
-        return array_slice($cities, 0, 10);
+        return $facets['facetHits'];
     }
 
     public function exist(Request $request, $name)
