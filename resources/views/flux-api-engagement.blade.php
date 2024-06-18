@@ -86,7 +86,7 @@
             <![CDATA[{{ 'France' }}]]>
         </country>
         <lonlat>
-            <![CDATA[{{ $firstAddress ? $firstAddress['longitude'] : null }},{{ $firstAddress ? $firstAddress['latitude'] : null }}]]>
+            <![CDATA[{{ $firstAddress && isset($firstAddress['longitude']) && isset($firstAddress['latitude']) ? $firstAddress['longitude'] : null }},{{ $firstAddress ? $firstAddress['latitude'] : null }}]]>
         </lonlat>
         <places>
             <![CDATA[{{ $mission->places_left }}]]>
