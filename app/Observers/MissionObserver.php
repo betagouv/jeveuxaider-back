@@ -76,6 +76,18 @@ class MissionObserver
         if (config('services.qpv.sync')) {
             MissionGetQPV::dispatch($mission);
         }
+
+        // Sync Mission template tags
+        if($mission->template_id) {
+            $mission->loadMissing('template');
+            if($mission->template->has('tags')) {
+                $tags = $mission->template->tags;
+                $values = $tags->pluck($tags, 'id')->map(function ($item) {
+                    return ['field' => 'mission_tags'];
+                });
+                $mission->tags()->syncWithoutDetaching($values);
+            }
+        }
     }
 
     /**
