@@ -413,11 +413,20 @@ class ApiEngagement
             'application_url' => $mission['applicationUrl'],
             'id' => $id,
             'name' => $mission['title'],
-            'city' => $mission['city'] ?? null,
+            'addresses' => [
+                [
+                    'city' => $mission['city'] ?? null,
+                    'zip' => $mission['postalCode'] ?? null,
+                    'label' => $mission['address'] ?? null,
+                    'latitude' => isset($mission['location']) && isset($mission['location']['lat']) ? $mission['location']['lat'] : 0,
+                    'longitude' => isset($mission['location']) && isset($mission['location']['lon']) ? $mission['location']['lon'] : 0,
+                ],
+            ],
+            // 'city' => $mission['city'] ?? null,
             'department' => $departmentNumber ?? null,
             'department_name' => $departmentNumber && $departmentName ?
                 $departmentNumber . ' - ' . $departmentName : null,
-            'zip' => $mission['postalCode'] ?? null,
+            // 'zip' => $mission['postalCode'] ?? null,
             'places_left' => $mission['places'] ?? null,
             'participations_max' => $mission['places'] ?? null,
             'has_places_left' => isset($mission['places']) ? ($mission['places'] > 0 ? true : false) : true, // Fallback to true for sorting purposes
@@ -439,8 +448,8 @@ class ApiEngagement
             ],
             'domaines' => [$this->formatDomain($mission)['name']],
             '_geoloc' => [
-                'lat' => isset($mission['location']) && isset($mission['location']['lat']) ? $mission['location']['lat'] : 0,
-                'lng' => isset($mission['location']) && isset($mission['location']['lon']) ? $mission['location']['lon'] : 0,
+                'lat' => isset($mission['location']) && isset($mission['location']['lat']) ? (float)$mission['location']['lat'] : 0,
+                'lng' => isset($mission['location']) && isset($mission['location']['lon']) ? (float)$mission['location']['lon'] : 0,
             ],
             'post_date' => strtotime($mission['postedAt']),
             'description' => $mission['description'],
