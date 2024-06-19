@@ -177,12 +177,12 @@ class Mission extends Model
             'commitment__time_period' => $this->commitment__time_period,
             'commitment__duration' => $this->commitment__duration,
             'commitment' => $this->commitment,
-            'publics_beneficiaires' => array_map(
+            'publics_beneficiaires' => is_array($this->publics_beneficiaires) ? array_map(
                 function ($public) use ($publicsBeneficiaires) {
                     return $publicsBeneficiaires[$public];
                 },
                 $this->publics_beneficiaires
-            ),
+            ) : null,
             'publics_volontaires' => $this->publics_volontaires,
             // 'is_autonomy' => $this->is_autonomy,
             // 'autonomy_zips' => $this->is_autonomy && count($this->autonomy_zips) > 0 ? $this->autonomy_zips : null,
