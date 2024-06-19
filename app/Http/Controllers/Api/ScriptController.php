@@ -4,54 +4,106 @@ namespace App\Http\Controllers\Api;
 
 use App\Filters\FiltersMissionSearch;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\ScriptMigrateOrganisationMissionsRequest;
 use App\Models\Activity;
 use App\Models\Mission;
+use App\Models\Rolable;
 use App\Models\Structure;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
+use Illuminate\Support\Facades\Validator;
 
 class ScriptController extends Controller
 {
-    public function migrateOrganisationMissions(ScriptMigrateOrganisationMissionsRequest $request)
+    // public function migrateOrganisationMissions(ScriptMigrateOrganisationMissionsRequest $request)
+    // {
+    //     $structureOrigin = Structure::withCount(['missions'])->find($request->input('origin')['id']);
+    //     $structureDestination = Structure::find($request->input('destination')['id']);
+    //     $missionsToMigrate = $request->input('missions');
+
+    //     if (! $structureOrigin) {
+    //         abort(422, "L'organisation d'origine n'existe plus");
+    //     }
+
+    //     if (! $structureOrigin->missions_count) {
+    //         abort(422, "L'organisation d'origine n'a pas de mission");
+    //     }
+
+    //     if (! $structureDestination) {
+    //         abort(422, "L'organisation de destination n'existe plus");
+    //     }
+
+    //     if ($structureDestination->id == $structureOrigin->id) {
+    //         abort(422, 'Merci de sélectionner différentes organisations ! :)');
+    //     }
+
+    //     if ($missionsToMigrate) {
+    //         Artisan::call('migrate-organisation-missions', [
+    //             'id' => collect($missionsToMigrate)->pluck('id')->toArray(),
+    //             '--origin' => $structureOrigin->id,
+    //             '--destination' => $structureDestination->id,
+    //             '--no-interaction' => true,
+    //         ]);
+    //     } else {
+    //         Artisan::call('migrate-organisation-missions', [
+    //             '--origin' => $structureOrigin->id,
+    //             '--destination' => $structureDestination->id,
+    //             '--no-interaction' => true,
+    //         ]);
+    //     }
+    // }
+
+    public function transfertOrganisation(Request $request)
     {
-        $structureOrigin = Structure::withCount(['missions'])->find($request->input('origin')['id']);
-        $structureDestination = Structure::find($request->input('destination')['id']);
-        $missionsToMigrate = $request->input('missions');
+        $validator = Validator::make($request->all(), [
+            'organisationFrom' => 'required',
+            'organisationTo' => 'required',
+        ]);
 
-        if (! $structureOrigin) {
-            abort(422, "L'organisation d'origine n'existe plus");
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        if (! $structureOrigin->missions_count) {
-            abort(422, "L'organisation d'origine n'a pas de mission");
+        $organisationFromId = $request->input('organisationFrom.id');
+        $organisationToId = $request->input('organisationTo.id');
+
+        if($organisationFromId === $organisationToId){
+            abort(422, "Vous devez sélectionner des organisations différentes");
         }
 
-        if (! $structureDestination) {
-            abort(422, "L'organisation de destination n'existe plus");
-        }
+        $organisationFrom = Structure::find($organisationFromId);
+        $organisationTo = Structure::find($organisationToId);
 
-        if ($structureDestination->id == $structureOrigin->id) {
-            abort(422, 'Merci de sélectionner différentes organisations ! :)');
-        }
+        $organisationFrom->missions()->update([
+            'structure_id' => $organisationToId
+        ]);
 
-        if ($missionsToMigrate) {
-            Artisan::call('migrate-organisation-missions', [
-                'id' => collect($missionsToMigrate)->pluck('id')->toArray(),
-                '--origin' => $structureOrigin->id,
-                '--destination' => $structureDestination->id,
-                '--no-interaction' => true,
+        $membersToMigrate = $organisationFrom->members()->get();
+
+        $membersToMigrate->each(function($member) use ($organisationTo, $organisationFrom) {
+            // Ne marche pas :/ @TODO
+            $member->roles()->updateExistingPivot(2, [
+                'rolable_id'=> $organisationFrom->id
             ]);
-        } else {
-            Artisan::call('migrate-organisation-missions', [
-                '--origin' => $structureOrigin->id,
-                '--destination' => $structureDestination->id,
-                '--no-interaction' => true,
-            ]);
-        }
+            // $rolable = Rolable::where('user_id', $member->id)
+            //     ->where('rolable_type', 'App\Models\Structure')
+            //     ->where('rolable_id', $organisationFrom->id)
+            //     ->first();
+            // ray('rolable', $rolable);
+            
+            // if($rolable) {
+            //     $rolable->update([
+            //         'rolable_id' => $organisationTo->id
+            //     ]);
+            //     // $rolable->rolable_id = $organisationTo->id;
+            //     // $new = $rolable->save();
+            //     // ray('save', $new);
+            // }
+        });
+
+        return response()->json(['message' => 'Success'], 200);
     }
 
     public function resetUserContextRole(Request $request)
