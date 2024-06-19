@@ -171,8 +171,9 @@ class PassportController extends Controller
             return response()->json(['errors' => $validator->errors()], 401);
         }
 
-        // if email contains @anonymized.fr or archived.fr, abort
-        if (preg_match('/@anonymized.fr$/', $request->input('email')) || preg_match('/@archived.fr$/', $request->input('email'))) {
+        $user = User::where('email', $request->input('email'))->firstOrFail();
+
+        if($user->anonymous_at || $user->archived_at){
             return response()->json(['message' => "L'email que vous avez renseigné est incorrect"], 401);
         }
 
