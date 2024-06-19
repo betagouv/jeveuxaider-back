@@ -173,19 +173,27 @@ class FormMissionController extends Controller
 
         $validator = Validator::make($request->all(), [
             'type' => 'required',
-            'addresses' => ['required','array','min:1', new AddressesInSameDepartment()]
+            'addresses' => $request->input('type') == 'Mission en présentiel' ? [
+                'required',
+                'array',
+                'min:1',
+                new AddressesInSameDepartment()
+            ] : ''
         ]);
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        $department = $request->input('addresses')[0]['department'];
-
-        $mission->update([
-            ...$validator->validated(),
-            'department' => $department
-        ]);
+        if($request->input('type') == 'Mission en présentiel'){
+            $department = $request->input('addresses')[0]['department'];
+            $mission->update([
+                ...$validator->validated(),
+                'department' => $department
+            ]);
+        } else {
+            $mission->update($validator->validated());
+        }
 
         return $mission;
     }
