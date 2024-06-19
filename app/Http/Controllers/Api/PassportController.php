@@ -171,9 +171,9 @@ class PassportController extends Controller
             return response()->json(['errors' => $validator->errors()], 401);
         }
 
-        $user = User::where('email', $request->input('email'))->firstOrFail();
+        $user = User::where('email', $request->input('email'))->first();
 
-        if($user->anonymous_at || $user->archived_at){
+        if($user && ($user->anonymous_at || $user->archived_at)){
             return response()->json(['message' => "L'email que vous avez renseigné est incorrect"], 401);
         }
 
