@@ -439,8 +439,8 @@ class ApiEngagement
             ],
             'domaines' => [$this->formatDomain($mission)['name']],
             '_geoloc' => [
-                'lat' => isset($mission['location']) && isset($mission['location']['lat']) ? $mission['location']['lat'] : 0,
-                'lng' => isset($mission['location']) && isset($mission['location']['lon']) ? $mission['location']['lon'] : 0,
+                'lat' => isset($mission['location']) && isset($mission['location']['lat']) ? (float)$mission['location']['lat'] : 0,
+                'lng' => isset($mission['location']) && isset($mission['location']['lon']) ? (float)$mission['location']['lon'] : 0,
             ],
             'post_date' => strtotime($mission['postedAt']),
             'description' => $mission['description'],
