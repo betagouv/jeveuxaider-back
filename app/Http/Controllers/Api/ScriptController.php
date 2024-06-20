@@ -6,11 +6,11 @@ use App\Filters\FiltersMissionSearch;
 use App\Http\Controllers\Controller;
 use App\Models\Activity;
 use App\Models\Mission;
-use App\Models\Rolable;
 use App\Models\Structure;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\DB;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 use Illuminate\Support\Facades\Validator;
@@ -69,7 +69,7 @@ class ScriptController extends Controller
         $organisationFromId = $request->input('organisationFrom.id');
         $organisationToId = $request->input('organisationTo.id');
 
-        if($organisationFromId === $organisationToId){
+        if($organisationFromId === $organisationToId) {
             abort(422, "Vous devez sélectionner des organisations différentes");
         }
 
@@ -80,41 +80,38 @@ class ScriptController extends Controller
             'structure_id' => $organisationToId
         ]);
 
+        // $organisationFrom->missions()->unsearchable();
+
         $membersToMigrate = $organisationFrom->members()->get();
 
-        $membersToMigrate->each(function($member) use ($organisationTo, $organisationFrom) {
-            // Ne marche pas :/ @TODO
-            $member->roles()->updateExistingPivot(2, [
-                'rolable_id'=> $organisationFrom->id
-            ]);
-            // $rolable = Rolable::where('user_id', $member->id)
-            //     ->where('rolable_type', 'App\Models\Structure')
-            //     ->where('rolable_id', $organisationFrom->id)
-            //     ->first();
-            // ray('rolable', $rolable);
-            
-            // if($rolable) {
-            //     $rolable->update([
-            //         'rolable_id' => $organisationTo->id
-            //     ]);
-            //     // $rolable->rolable_id = $organisationTo->id;
-            //     // $new = $rolable->save();
-            //     // ray('save', $new);
-            // }
-        });
+        if($membersToMigrate->isNotEmpty()) {
+            DB::table('rolables')
+                ->whereIn('user_id', $membersToMigrate->pluck('id'))
+                ->where('rolable_type', 'App\Models\Structure')
+                ->where('rolable_id', $organisationFrom->id)
+                ->update([
+                    'rolable_id' => $organisationTo->id
+                ]);
+
+            $membersToMigrate->each(function ($member) {
+                $member->resetContextRole();
+            });
+        }
+
+        // $organisationTo->missions()->searchable();
 
         return response()->json(['message' => 'Success'], 200);
     }
 
     public function resetUserContextRole(Request $request)
     {
-        if (! $request->has('profile')) {
+        if (!$request->has('profile')) {
             abort(422, 'Un utilisateur est requis');
         }
 
         $user = User::find($request->input('profile')['user_id']);
 
-        if (! $user) {
+        if (!$user) {
             abort(422, "L'utilisateur n'existe plus");
         }
 
@@ -135,7 +132,7 @@ class ScriptController extends Controller
                 AllowedFilter::scope('ofDomaine'),
                 AllowedFilter::scope('hasActivity'),
                 AllowedFilter::scope('hasTemplate'),
-                AllowedFilter::custom('search', new FiltersMissionSearch),
+                AllowedFilter::custom('search', new FiltersMissionSearch()),
                 AllowedFilter::scope('available'),
             ]);
 

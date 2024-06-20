@@ -9,6 +9,8 @@ use App\Http\Requests\Api\StructureCreateRequest;
 use App\Http\Requests\Api\StructureDeleteRequest;
 use App\Http\Requests\Api\StructureUpdateRequest;
 use App\Http\Requests\StructureRequest;
+use App\Jobs\RecomputeConversationUsersWhenMissionResponsablesAdded;
+use App\Jobs\RecomputeConversationUsersWhenMissionResponsablesRemoved;
 use App\Models\Mission;
 use App\Models\Participation;
 use App\Models\Profile;
@@ -54,6 +56,7 @@ class StructureController extends Controller
                 'illustrations',
                 'overrideImage1',
                 AllowedInclude::count('missionsCount'),
+                AllowedInclude::count('membersCount'),
             ])
             ->defaultSort('-created_at')
             ->allowedSorts([
@@ -281,8 +284,13 @@ class StructureController extends Controller
             if ($newResponsable) {
                 Mission::ofResponsable($user->profile->id)
                     ->where('structure_id', $structure->id)
-                    ->get()->map(function ($mission) use ($newResponsable) {
-                        $mission->update(['responsable_id' => $newResponsable->id]);
+                    ->get()->map(function ($mission) use ($user, $newResponsable) {
+                        // Remove from conversations
+                        RecomputeConversationUsersWhenMissionResponsablesRemoved::dispatch($mission, [$user->id]);
+                        $mission->responsables()->detach($user->profile->id);
+                        // Add to conversations
+                        RecomputeConversationUsersWhenMissionResponsablesAdded::dispatch($mission, [$newResponsable->user_id]);
+                        $mission->responsables()->syncWithoutDetaching([$newResponsable->id]);
                     });
                 if ($currentUser->profile->id != $newResponsable->id) {
                     $newResponsable->notify(new StructureSwitchResponsable($structure, $user->profile));
