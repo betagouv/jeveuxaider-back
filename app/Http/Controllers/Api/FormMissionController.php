@@ -178,7 +178,8 @@ class FormMissionController extends Controller
                 'array',
                 'min:1',
                 new AddressesInSameDepartment()
-            ] : ''
+            ] : '',
+            'addresses_precisions' => ''
         ]);
 
         if ($validator->fails()) {

@@ -100,33 +100,9 @@
                 <![CDATA[full]]>
             </remote>
         @endif
-        <!-- <isAutonomy>
-            <![CDATA[{{ $mission->is_autonomy }}]]>
-        </isAutonomy> -->
-        <!-- <autonomyPrecisions>
-            <![CDATA[{{ $mission->autonomy_precisions }}]]>
-        </autonomyPrecisions> -->
-        <!-- <autonomyZips>
-            @if ($mission->is_autonomy)
-                @foreach ($mission->autonomy_zips as $item)
-                    <item>
-                        <zip>
-                            <![CDATA[{{ $item['zip'] }}]]>
-                        </zip>
-                        <city>
-                            <![CDATA[{{ $item['city'] }}]]>
-                        </city>
-                        <longitude>
-                            <![CDATA[{{ $item['longitude'] }}]]>
-                        </longitude>
-                        <latitude>
-                            <![CDATA[{{ $item['latitude'] }}]]>
-                        </latitude>
-                    </item>
-                @endforeach
-            @endif
-        </autonomyZips> -->
-
+        <addressPrecisions>
+            <![CDATA[{{ $mission->addresses_precisions }}]]>
+        </addressPrecisions>
         <domain>
             @php
                 $domainId = $mission->template ? $mission->template->domaine_id : $mission->domaine_id;
