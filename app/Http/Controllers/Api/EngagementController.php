@@ -41,7 +41,7 @@ class EngagementController extends Controller
             });
 
         $results = QueryBuilder::for($missionsQueryBuilder)
-            ->with(['responsable', 'domaine', 'activity', 'template', 'template.activity', 'template.domaine', 'template.photo', 'structure', 'structure.reseaux', 'illustrations'])
+            ->with(['responsables', 'domaine', 'activity', 'template', 'template.activity', 'template.domaine', 'template.photo', 'structure', 'structure.reseaux', 'illustrations'])
             ->allowedFilters([
                 'state',
                 'type',

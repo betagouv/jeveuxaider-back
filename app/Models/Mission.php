@@ -270,7 +270,7 @@ class Mission extends Model
     public function getPictureAttribute()
     {
         if ($this->template_id) {
-            return $this->template->photo->urls;
+            return $this->template->photo?->urls;
         }
 
         return $this->illustrations->first() ? $this->illustrations->first()->urls : null;
@@ -742,6 +742,7 @@ class Mission extends Model
         ]);
 
         $firstAddress = $this->addresses ? $this->addresses[0] : null;
+        $firstResponsable = $this->responsables ? $this->responsables[0] : null;
 
         return [
             'id' => $this->id,
@@ -790,14 +791,14 @@ class Mission extends Model
                 'reseaux' => $this->structure->reseaux->count() ? $this->structure->reseaux->all() : null,
             ] : null,
             'responsables' => $responsables->values(),
-            // 'responsable' => $this->responsables->first() ? [
-            //     'id' => $this->responsable->id,
-            //     'first_name' => $this->responsable->first_name,
-            //     'last_name' => $this->responsable->last_name,
-            //     'email' => $this->responsable->email,
-            //     'phone' => $this->responsable->phone,
-            //     'mobile' => $this->responsable->mobile,
-            // ] : null,
+            'responsable' => $firstResponsable ? [
+                'id' => $firstResponsable->id,
+                'first_name' => $firstResponsable->first_name,
+                'last_name' => $firstResponsable->last_name,
+                'email' => $firstResponsable->email,
+                'phone' => $firstResponsable->phone,
+                'mobile' => $firstResponsable->mobile,
+            ] : null,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];
