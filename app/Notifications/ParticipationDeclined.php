@@ -65,6 +65,8 @@ class ParticipationDeclined extends Notification implements ShouldQueue
     {
         $url = $this->participation->conversation ? '/messages/' . $this->participation->conversation->id : '/messages';
 
+        $firstResponsable = $this->participation->mission->responsables->first();
+
         return (new MailMessage())
             ->subject('Quel dommage… votre participation vient d’être déclinée')
             ->markdown('emails.benevoles.participation-declined', [
@@ -74,7 +76,7 @@ class ParticipationDeclined extends Notification implements ShouldQueue
                 'urlMission' => $this->trackedUrl($this->participation->mission->full_url),
                 'mission' => $this->participation->mission,
                 'structure' => $this->participation->mission->structure,
-                'responsable' => $this->participation->mission->responsable,
+                'responsable' =>  $firstResponsable,
                 'message' => $this->message,
                 'reason' => $this->reason,
                 'notifiable' => $notifiable

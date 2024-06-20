@@ -578,12 +578,12 @@ class Mission extends Model
         $mission->state = 'Brouillon';
         $mission->is_priority = false;
 
-        // Si la personne qui clone fait parti des responsables de l'organisation,
-        // la mettre en tant que responsable de la mission
-        $currentUserProfile = Auth::guard('api')->user()->profile;
-        if ($this->structure->members->contains('id', $currentUserProfile->id)) {
-            $mission->responsable_id = $currentUserProfile->id;
-        }
+        // // Si la personne qui clone fait parti des responsables de l'organisation,
+        // // la mettre en tant que responsable de la mission
+        // $currentUserProfile = Auth::guard('api')->user()->profile;
+        // if ($this->structure->members->contains('id', $currentUserProfile->id)) {
+        //     $mission->responsable_id = $currentUserProfile->id;
+        // }
 
         $mission->save();
 

@@ -62,6 +62,7 @@ class ParticipationDeclinedFromMissionTerminated extends Notification implements
     public function toMail($notifiable)
     {
         $url = $this->participation->conversation ? '/messages/' . $this->participation->conversation->id : '/messages';
+        $firstResponsable = $this->participation->mission->responsables->first();
 
         return (new MailMessage())
             ->subject('La mission à laquelle vous avez candidaté est terminée')
@@ -71,7 +72,7 @@ class ParticipationDeclinedFromMissionTerminated extends Notification implements
                 'urlQuiz' => $this->trackedUrl('/quiz/generique'),
                 'mission' => $this->participation->mission,
                 'structure' => $this->participation->mission->structure,
-                'responsable' => $this->participation->mission->responsable,
+                'responsable' => $firstResponsable,
                 'notifiable' => $notifiable
             ])
             ->tag($this->tag);
