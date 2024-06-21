@@ -26,12 +26,17 @@ class MigrateMissionAddressToMultipleAddresses extends Command
     public function handle()
     {
         $options = $this->options();
-
+        $limit = $options['limit'];
         $queryCount = DB::table('missions')->whereNull('addresses')->where('type', 'Mission en présentiel')->count();
 
-        if ($this->confirm("{$queryCount} addresses will be migrated")) {
+        if ($this->confirm("{$limit} of {$queryCount} addresses will be migrated")) {
 
-            DB::table('missions')->whereNull('addresses')->where('type', 'Mission en présentiel')->limit($options['limit'])->get()->each(function ($mission) {
+            DB::table('missions')
+            ->whereNull('addresses')
+            ->where('type', 'Mission en présentiel')
+            ->limit($limit)
+            ->get()
+            ->each(function ($mission) {
 
                 $addresses = [];
 
@@ -62,7 +67,6 @@ class MigrateMissionAddressToMultipleAddresses extends Command
                         "longitude" => $mission->longitude_old ?? null,
                     ];
                 }
-
                 DB::table('missions')
                     ->where('id', $mission->id)
                     ->update(['addresses' => $addresses]);
