@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Response;
 
-class IsNotBanned
+class IsNotBlocked
 {
     /**
      * Handle an incoming request.
@@ -17,8 +17,8 @@ class IsNotBanned
     public function handle($request, Closure $next)
     {
         $user = $request->user();
-        if ($user->banned_at) {
-            return new Response(['message' => "Vous avez été désinscrit de la plateforme JeVeuxAider.gouv.fr car vous ne répondez pas aux conditions d’éligibilité."], 401);
+        if ($user->isBlocked()) {
+            return new Response(['message' => "Une erreur est survenue"], 401);
         }
 
         return $next($request);

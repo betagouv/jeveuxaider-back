@@ -81,7 +81,7 @@ Route::post('user/archive/exist', 'Api\UserController@checkUserArchiveExist');
 Route::post('user/archive/send-code', 'Api\UserController@sendUserArchiveCode');
 Route::post('user/archive/validate-code', 'Api\UserController@validateUserArchiveCode');
 
-Route::group(['middleware' => ['auth:api', 'is.not.banned']], function () {
+Route::group(['middleware' => ['auth:api', 'is.not.blocked']], function () {
     Route::get('user', 'Api\UserController@me');
     Route::get('user/status', 'Api\UserController@status');
     Route::get('user/unread-messages', 'Api\UserController@unreadMessages');
