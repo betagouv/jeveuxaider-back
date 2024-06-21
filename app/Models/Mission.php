@@ -200,14 +200,14 @@ class Mission extends Model
             $mission['_geoloc'] = [];
             foreach ($this->autonomy_zips as $item) {
                 $mission['_geoloc'][] = [
-                    'lat' => $item['latitude'],
-                    'lng' => $item['longitude'],
+                    'lat' => (float) $item['latitude'],
+                    'lng' => (float) $item['longitude'],
                 ];
             }
         } elseif ($this->latitude && $this->longitude) {
             $mission['_geoloc'] = [
-                'lat' => $this->latitude,
-                'lng' => $this->longitude,
+                'lat' => (float) $this->latitude,
+                'lng' => (float) $this->longitude,
             ];
         }
 
