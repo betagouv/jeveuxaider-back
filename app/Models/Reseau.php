@@ -15,13 +15,13 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
-use Spatie\Tags\HasTags;
+// use Spatie\Tags\HasTags;
 use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 
 class Reseau extends Model implements HasMedia
 {
     use HasRelationships;
-    use HasTags;
+    // use HasTags;
     use InteractsWithMedia;
     use HasSlug;
     use LogsActivity;

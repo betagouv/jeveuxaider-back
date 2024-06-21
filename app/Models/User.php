@@ -192,6 +192,7 @@ class User extends Authenticatable
     public function getUnreadConversationsCount()
     {
         return $this->conversations()
+            ->whereHas('conversable')
             ->whereHas('users', function (Builder $query) {
                 $query
                     ->where(function ($query) {
@@ -212,6 +213,7 @@ class User extends Authenticatable
     public function lastReadConversation()
     {
         return $this->conversations()
+            ->whereHas('conversable')
             ->whereHas('users', function (Builder $query) {
                 $query
                     ->whereNotNull('conversations_users.read_at')
