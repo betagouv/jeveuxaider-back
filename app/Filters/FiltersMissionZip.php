@@ -11,7 +11,7 @@ class FiltersMissionZip implements Filter
     {
         return $query->where(function ($query) use ($value) {
 
-            return $query->whereJsonContains('addresses', [['zip' => $value]]);
+            $query->whereJsonContains('addresses', [['zip' => $value]]);
             // return $query->where(function ($query) use ($value) {
             //     if (is_array($value)) {
             //         $query->whereIn('zip', $value)
