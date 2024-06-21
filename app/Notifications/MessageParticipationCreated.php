@@ -73,7 +73,6 @@ class MessageParticipationCreated extends Notification implements ShouldQueue
                 'message' => $this->message,
                 'mission' => $participation->mission,
                 'structure' => $participation->mission->structure,
-                'responsable' => $participation->mission->responsable,
                 'from' => $this->message->from->profile,
                 'notifiable' => $notifiable,
                 'isFromResponsable' => $isFromResponsable

@@ -60,14 +60,11 @@ class ParticipationWillStart extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $firstResponsable = $this->participation->mission->responsables->first();
-
         return (new MailMessage())
             ->subject('Votre mission commence très prochainement 👟')
             ->markdown('emails.benevoles.participation-will-start', [
                 'url' => $this->trackedUrl('/messages/' . $this->participation->conversation->id),
                 'mission' => $this->participation->mission,
-                'responsable' =>  $firstResponsable,
                 'organisation' => $this->participation->mission->structure,
                 'benevole' => $notifiable
             ])

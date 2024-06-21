@@ -60,14 +60,11 @@ class ParticipationShouldBeDone extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $firstResponsable = $this->participation->mission->responsables->first();
-
         return (new MailMessage())
             ->subject('Avez-vous réalisé votre mission ?')
             ->markdown('emails.benevoles.participation-should-be-done', [
                 'url' => $this->trackedUrl('/messages/' . $this->participation->conversation->id . '?open_modal=participation-should-be-done'),
                 'mission' => $this->participation->mission,
-                'responsable' =>  $firstResponsable,
                 'organisation' => $this->participation->mission->structure,
                 'benevole' => $notifiable
             ])
