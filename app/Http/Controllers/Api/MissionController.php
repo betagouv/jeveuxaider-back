@@ -273,6 +273,7 @@ class MissionController extends Controller
 
     public function similar(Request $request, Mission $mission)
     {
+
         $activity = $mission->template?->activity?->name ?? $mission->activity?->name;
         $domaine = $mission->template?->domaine?->name ?? $mission->domaine?->name;
         $facetFilters = $activity ? 'activity.name:' . $activity : ($domaine ? 'domaines:' . $domaine : '');
@@ -284,8 +285,8 @@ class MissionController extends Controller
                 // Sans prendre en compte l'API, sinon erreur ScoutExtended ObjectID seems invalid
                 'filters' => 'provider:reserve_civique AND is_registration_open=1 AND has_places_left=1 AND is_outdated=0',
             ]);
-        if ($mission->latitude && $mission->longitude) {
-            $query->aroundLatLng($mission->latitude, $mission->longitude);
+        if ($mission->addresses && isset($mission->addresses[0])) {
+            $query->aroundLatLng($mission->addresses[0]['latitude'], $mission->addresses[0]['longitude']);
         }
 
         return $query->paginate(10)->load('domaine', 'template', 'template.domaine', 'template.media', 'structure', 'illustrations', 'template.activity');

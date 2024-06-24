@@ -256,6 +256,7 @@ class MissionObserver
 
         if ($mission->type === 'Mission à distance') {
             $mission->department = $mission->structure->department;
+            $mission->addresses = null;
         }
 
         // if ($mission->is_autonomy === true) {

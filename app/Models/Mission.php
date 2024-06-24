@@ -202,11 +202,13 @@ class Mission extends Model
 
         $mission['_geoloc'] = [];
 
-        foreach ($this->addresses as $item) {
-            $mission['_geoloc'][] = [
-                'lat' => (float)$item['latitude'],
-                'lng' => (float)$item['longitude'],
-            ];
+        if($this->addresses) {
+            foreach ($this->addresses as $item) {
+                $mission['_geoloc'][] = [
+                    'lat' => (float)$item['latitude'],
+                    'lng' => (float)$item['longitude'],
+                ];
+            }
         }
 
         return $mission;

@@ -20,7 +20,6 @@ use App\Console\Commands\SendNotificationsResponsablesSummaryDaily;
 use App\Console\Commands\SendNotificationsResponsablesSummaryMonthly;
 use App\Console\Commands\SendNotificationsReferentsSummaryMonthly;
 use App\Console\Commands\SendNotificationsStructureInDraft;
-use App\Console\Commands\SendNotificationTodoToModerateurs;
 use App\Console\Commands\SendNotificationTodoToReferents;
 use App\Console\Commands\SendNotificationResponsablesParticipationsNeedToBeTreated;
 use App\Console\Commands\SendNotificationsStructureWithoutMission;
@@ -50,41 +49,43 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // Notifications
-        // $schedule->command(SendNotificationTodoToModerateurs::class)->weekdays()->daily()->at('08:00');
-        $schedule->command(SendNotificationsBenevoleWhenParticipationWillStart::class)->daily()->at('10:00');
-        $schedule->command(SendNotificationsRegisterUserVolontaireCej::class)->daily()->at('10:00');
-        $schedule->command(SendNotificationsBenevoleCejNoParticipation::class)->daily()->at('10:10');
-        $schedule->command(SendNotificationsBenevoleCejSixMonthsAfter::class)->daily()->at('10:20');
-        $schedule->command(SendNotificationsBenevoleCejOneYearAfter::class)->daily()->at('10:30');
-        $schedule->command(SendNotificationsUserWillBeArchived::class)->daily()->at('11:00');
-        $schedule->command(SendNotificationsToInactiveUsers::class)->daily()->at('11:30');
-        $schedule->command(SendNotificationsBenevoleWhenParticipationShouldBeDone::class)->daily()->at('18:00');
 
-        // Responsables
-        $schedule->command(SendNotificationsResponsablesSummaryDaily::class)->daily()->at('07:50');
-        $schedule->command(SendNotificationsResponsablesSummaryMonthly::class)->monthlyOn(1)->at('08:00');
-        $schedule->command(SendNotificationsMissionOutdated::class)->daily()->at('08:30');
-        $schedule->command(SendNotificationsMissionInDraft::class)->daily()->at('08:40');
-        $schedule->command(SendNotificationsNoNewMission::class)->daily()->at('08:50');
-        $schedule->command(SendNotificationsStructureWithoutMission::class)->daily()->at('09:10');
-        $schedule->command(SendNotificationsStructureInDraft::class)->daily()->at('09:50');
-        $schedule->command(SendNotificationResponsablesParticipationsNeedToBeTreated::class)->weeklyOn(1)->at('08:20');
+        // ONLY ENV PRODUCTION
+        if (config('app.env') === 'production') {
+            $schedule->command(SendNotificationsBenevoleWhenParticipationWillStart::class)->daily()->at('10:00');
+            $schedule->command(SendNotificationsRegisterUserVolontaireCej::class)->daily()->at('10:00');
+            $schedule->command(SendNotificationsBenevoleCejNoParticipation::class)->daily()->at('10:10');
+            $schedule->command(SendNotificationsBenevoleCejSixMonthsAfter::class)->daily()->at('10:20');
+            $schedule->command(SendNotificationsBenevoleCejOneYearAfter::class)->daily()->at('10:30');
+            $schedule->command(SendNotificationsUserWillBeArchived::class)->daily()->at('11:00');
+            $schedule->command(SendNotificationsToInactiveUsers::class)->daily()->at('11:30');
+            $schedule->command(SendNotificationsBenevoleWhenParticipationShouldBeDone::class)->daily()->at('18:00');
 
-        // Référents
-        $schedule->command(SendNotificationTodoToReferents::class)->weekdays()->daily()->at('08:00');
-        $schedule->command(SendNotificationsReferentsSummaryDaily::class)->days([1, 4])->at('08:10');
-        $schedule->command(SendNotificationsReferentsSummaryMonthly::class)->monthlyOn(1)->at('08:20');
+            // Responsables
+            $schedule->command(SendNotificationsResponsablesSummaryDaily::class)->daily()->at('07:50');
+            $schedule->command(SendNotificationsResponsablesSummaryMonthly::class)->monthlyOn(1)->at('08:00');
+            $schedule->command(SendNotificationsMissionOutdated::class)->daily()->at('08:30');
+            $schedule->command(SendNotificationsMissionInDraft::class)->daily()->at('08:40');
+            $schedule->command(SendNotificationsNoNewMission::class)->daily()->at('08:50');
+            $schedule->command(SendNotificationsStructureWithoutMission::class)->daily()->at('09:10');
+            $schedule->command(SendNotificationsStructureInDraft::class)->daily()->at('09:50');
+            $schedule->command(SendNotificationResponsablesParticipationsNeedToBeTreated::class)->weeklyOn(1)->at('08:20');
 
-        // Algolia
-        $schedule->command(AlgoliaMissionUpdateFieldOutdated::class)->daily()->at('02:00');
+            // Référents
+            $schedule->command(SendNotificationTodoToReferents::class)->weekdays()->daily()->at('08:00');
+            $schedule->command(SendNotificationsReferentsSummaryDaily::class)->days([1, 4])->at('08:10');
+            $schedule->command(SendNotificationsReferentsSummaryMonthly::class)->monthlyOn(1)->at('08:20');
 
-        // Sync ApiEngagement
-        $schedule->command(ApiEngagementExportMissions::class)->everySixHours();
-        $schedule->command(ApiEngagementSyncMissions::class)->everySixHours();
+            // Algolia
+            $schedule->command(AlgoliaMissionUpdateFieldOutdated::class)->daily()->at('02:00');
 
-        // Sync Airtable Orga
-        $schedule->command(AirtableSyncOrganisationsScore::class)->thursdays()->at('02:00');
+            // Sync ApiEngagement
+            $schedule->command(ApiEngagementExportMissions::class)->everySixHours();
+            $schedule->command(ApiEngagementSyncMissions::class)->everySixHours();
+
+            // Sync Airtable Orga
+            $schedule->command(AirtableSyncOrganisationsScore::class)->thursdays()->at('02:00');
+        }
 
         // Horizon update dashboard metrics
         $schedule->command('horizon:snapshot')->everyFiveMinutes();
