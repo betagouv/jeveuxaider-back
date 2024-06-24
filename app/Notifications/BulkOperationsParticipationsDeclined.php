@@ -27,9 +27,9 @@ class BulkOperationsParticipationsDeclined extends Notification
                 'id' => $participation->id,
                 'structureId' => $participation->mission->structure->id,
                 'structureName' => $participation->mission->structure->name,
-                'responsable' => $participation->mission->responsables[0]->full_name,
+                'responsables' => $participation->mission->responsables->pluck('full_name')->implode(', ', 'full_name'),
             ];
-        })->unique('responsable');
+        });
     }
 
     /**
@@ -69,7 +69,7 @@ class BulkOperationsParticipationsDeclined extends Notification
                 $outputResponsables = [];
                 foreach ($participations as $participation) {
                     $urlOrganisation = url(config('app.front_url')) . '/admin/organisations/' . $participation['structureId'];
-                    $outputResponsables[] = $participation['responsable'] . ' (<' . $urlOrganisation . '|' . $participation['structureName'] . '>)';
+                    $outputResponsables[] = $participation['responsables'] . ' (<' . $urlOrganisation . '|' . $participation['structureName'] . '>)';
                 }
 
                 $attachment

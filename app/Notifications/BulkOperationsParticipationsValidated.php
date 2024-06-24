@@ -22,9 +22,9 @@ class BulkOperationsParticipationsValidated extends Notification
                 'id' => $participation->id,
                 'structureId' => $participation->mission->structure->id,
                 'structureName' => $participation->mission->structure->name,
-                'responsable' => $participation->mission->responsable[0]->full_name,
+                'responsables' => $participation->mission->responsables->pluck('full_name')->implode(', ', 'full_name'),
             ];
-        })->unique('responsable');
+        });
         $this->currentUser = User::find($userId);
     }
 
@@ -62,7 +62,7 @@ class BulkOperationsParticipationsValidated extends Notification
                 $outputResponsables = [];
                 foreach ($participations as $participation) {
                     $urlOrganisation = url(config('app.front_url')) . '/admin/organisations/' . $participation['structureId'];
-                    $outputResponsables[] = $participation['responsable'] . ' (<' . $urlOrganisation . '|' . $participation['structureName'] . '>)';
+                    $outputResponsables[] = $participation['responsables'] . ' (<' . $urlOrganisation . '|' . $participation['structureName'] . '>)';
                 }
                 $attachment->color('#2FB887')->content('<' . $urlProfile . '|' . $currentUser->profile->full_name . '> a *validé* <' . $url . '|' . count($ids) . ' ' . Str::plural('participation', count($ids)) . ">\n" . implode(', ', $ids) . "\n\n" . Str::plural('Responsable', count($outputResponsables)) . " :\n" . implode("\n", $outputResponsables));
             });
