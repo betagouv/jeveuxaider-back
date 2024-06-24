@@ -177,9 +177,9 @@ it('can unsubscribe', function () {
     $response = $this->post('/api/user/anonymize');
 
     $user->refresh();
-    
+
     expect($user)
-        ->email->toBe($user->id . '@anonymized.fr')
+        ->email->toBe('anonymized-' . $user->id)
         ->profile->first_name->toBe('Utilisateur')
         ->profile->last_name->toBe('Désinscrit');
 

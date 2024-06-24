@@ -63,7 +63,7 @@ class ArchiveAndClearUserDatas implements ShouldQueue
 
     private function clearUserAttributes(): void
     {
-        $email = $this->user->id . '@archived.fr';
+        $email = 'archived-' . $this->user->id;
 
         $this->user->archived_at = Carbon::now();
         $this->user->name = $email;

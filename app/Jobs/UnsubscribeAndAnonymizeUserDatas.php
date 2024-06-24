@@ -30,7 +30,7 @@ class UnsubscribeAndAnonymizeUserDatas implements ShouldQueue
      */
     public function handle(): void
     {
-        $email = $this->user->id . '@anonymized.fr';
+        $email = 'anonymized-' . $this->user->id;
 
         $this->user->anonymous_at = Carbon::now();
         $this->user->name = $email;
