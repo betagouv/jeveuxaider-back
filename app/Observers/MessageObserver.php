@@ -21,7 +21,7 @@ class MessageObserver
         // Quand un nouveau message dans la conversation
         $conversable = $message->conversation->conversable;
 
-        if(!$conversable){
+        if (!$conversable) {
             return;
         }
 
@@ -83,13 +83,15 @@ class MessageObserver
             }
         }
 
+        // @todo: revoir la logique
         $toUser = $message->conversation->users->filter(function ($user) use ($message) {
             return $user->id !== $message->from_id;
         })->first();
 
         // PARTICIPATION - Si le message est à destination du responsable et qu'il n'est pas en realtime
-        if ($send && $toUser) {
-            if ($conversable::class == Participation::class && $conversable->mission->responsable->user_id == $toUser->id) {
+        if ($send && $toUser && $conversable::class == Participation::class) {
+            $recipient = $conversable->profile->user->id === $toUser->id ? 'benevole' : 'responsable';
+            if ($recipient === 'responsable') {
                 if ($toUser->profile->notification__responsable_frequency !== 'realtime') {
                     $send = false;
                 }

@@ -408,7 +408,7 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     // SCRIPTS
     Route::post('scripts/transfert-organisation', 'Api\ScriptController@transfertOrganisation');
     Route::post('scripts/user-reset-context-role', 'Api\ScriptController@resetUserContextRole');
-    Route::get('scripts/activites-missions-libres/{activity}', 'Api\ScriptController@assignActivityToMissions');
+    // Route::get('scripts/activites-missions-libres/{activity}', 'Api\ScriptController@assignActivityToMissions');
     Route::post('support/actions/generate-password-reset-link', 'Api\SupportController@generatePasswordResetLink');
 
     Route::get('support/contents/doublons-territoires', 'Api\SupportController@doublonsTerritoires');
