@@ -337,7 +337,6 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
 
     // SCRIPTS
     Route::post('scripts/transfert-organisation', 'Api\ScriptController@transfertOrganisation');
-    // Route::post('scripts/migrate-organisation-missions', 'Api\ScriptController@migrateOrganisationMissions');
     Route::post('scripts/user-reset-context-role', 'Api\ScriptController@resetUserContextRole');
     Route::get('scripts/activites-missions-libres/{activity}', 'Api\ScriptController@assignActivityToMissions');
 

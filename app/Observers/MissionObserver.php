@@ -19,7 +19,6 @@ use App\Notifications\MissionSubmitted;
 use App\Notifications\MissionValidated;
 use App\Notifications\MissionWaitingValidation;
 use Illuminate\Database\Eloquent\Builder;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class MissionObserver
@@ -174,28 +173,6 @@ class MissionObserver
                 $mission->structure->searchable();
             }
         }
-
-        // Transfert des conversations.
-        // if ($mission->getOriginal('responsable_id') != $mission->responsable_id) {
-        //     $oldResponsable = Profile::find($mission->getOriginal('responsable_id'))->user;
-        //     $newResponsable = $mission->responsable->user;
-
-        //     $participations = $mission->participations()->pluck('id')->toArray();
-        //     $conversationsQuery = $oldResponsable->conversations()
-        //         ->where('conversable_type', 'App\Models\Participation')
-        //         ->whereIn('conversable_id', $participations);
-
-        //     foreach ($conversationsQuery->get() as $conversation) {
-        //         $conversation->users()->syncWithoutDetaching([$newResponsable->id]);
-        //         $conversation->loadMissing('conversable');
-        //         $participation = $conversation->conversable;
-        //         if ($participation && !in_array($participation->state, ['En attente de validation', 'En cours de traitement'])) {
-        //             $newResponsable->conversations()->updateExistingPivot($conversation->id, [
-        //                 'read_at' => Carbon::now(),
-        //             ]);
-        //         }
-        //     }
-        // }
 
         // Sync Airtable
         if (config('services.airtable.sync')) {
