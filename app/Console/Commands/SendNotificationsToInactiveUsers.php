@@ -10,6 +10,7 @@ use App\Notifications\ResponsableIsInactiveSecondReminder;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Database\Eloquent\Builder;
 
 class SendNotificationsToInactiveUsers extends Command
 {
@@ -55,7 +56,11 @@ class SendNotificationsToInactiveUsers extends Command
             ->whereBetween('last_interaction_at', [
                 Carbon::now()->subMonths(3)->startOfDay(),
                 Carbon::now()->subMonths(3)->endOfDay(),
-            ]);
+            ])->whereDoesntHave('profile.participations', function (Builder $query) {
+                $query
+                    ->whereIn('state', ['En attente de validation', 'En cours de traitement', 'Validée'])
+                    ->where('created_at', '>=', Carbon::now()->subMonths(6)->startOfDay());
+            });
 
         $query->cursor()->each(function (User $user) {
             $user->loadMissing('roles');

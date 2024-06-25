@@ -13,14 +13,17 @@
 
 use Illuminate\Support\Facades\Route;
 
+Route::get('/missions/{slugOrId}/view', 'Api\MissionController@view');
+Route::get('/territoires/{territoire:slug}/view', 'Api\TerritoireController@view');
+Route::get('/reseaux/{reseau:slug}/view', 'Api\ReseauController@view');
+
 // AUTH
 Route::post('register/volontaire', 'Api\PassportController@registerVolontaire');
 Route::post('register/responsable', 'Api\PassportController@registerResponsable');
 Route::post('password/forgot', 'Api\PassportController@forgotPassword');
 Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.update');
 
-Route::get('missions/prioritaires', 'Api\MissionController@prioritaires');
-Route::get('missions/{mission}', 'Api\MissionController@show');
+// Route::get('missions/prioritaires', 'Api\MissionController@prioritaires');
 Route::get('missions/{mission}/similar', 'Api\MissionController@similar');
 Route::post('missions/similar-for-api', 'Api\MissionController@similarForApi');
 Route::get('associations/{slugOrId}', 'Api\StructureController@associationSlugOrId');
@@ -29,7 +32,7 @@ Route::get('reseaux/{reseau}/activities', 'Api\ReseauController@activities');
 
 Route::get('territoires/{name}/exist', 'Api\TerritoireController@exist');
 Route::get('structures/{rnaOrName}/exist', 'Api\StructureController@exist');
-Route::get('structures/{structure}/available-missions', 'Api\StructureController@availableMissions');
+// Route::get('structures/{structure}/available-missions', 'Api\StructureController@availableMissions');
 
 Route::get('sitemap', 'Api\ConfigController@sitemap');
 
@@ -49,17 +52,14 @@ Route::get('franceconnect/login-authorize', 'Auth\FranceConnectController@oauthL
 Route::get('franceconnect/login-callback', 'Auth\FranceConnectController@oauthLoginCallback');
 
 Route::get('territoires', 'Api\TerritoireController@index');
-Route::get('territoires/{slugOrId}', 'Api\TerritoireController@show');
+// Route::get('territoires/{slugOrId}', 'Api\TerritoireController@show');
 Route::get('territoires/{territoire}/available-cities', 'Api\TerritoireController@availableCities');
 
 Route::post('reseaux/lead', 'Api\ReseauController@lead');
-Route::get('reseaux/{reseau}', 'Api\ReseauController@show');
-Route::get('reseaux/{reseau}/structures', 'Api\ReseauController@structures');
+// Route::get('reseaux/{reseau}/structures', 'Api\ReseauController@structures');
 
 Route::get('notification-temoignage/{token}', 'Api\NotificationTemoignageController@show');
-Route::get('participations/{participation}/temoignage', 'Api\ParticipationController@temoignage');
-// Route::get('participation/{participation}/benevole-name', 'Api\ParticipationController@benevoleName');
-// Route::get('participation/{participation}/mission', 'Api\ParticipationController@mission');
+
 Route::post('temoignages', 'Api\TemoignageController@store');
 Route::get('temoignages/organisations/{structure}', 'Api\TemoignageController@forOrganisation');
 Route::get('temoignages/reseaux/{reseau}', 'Api\TemoignageController@forReseau');
@@ -71,7 +71,6 @@ Route::post('webhook/sendinblue', 'Api\WebhookController@sendinblue');
 
 Route::get('emailable/verify/{email}', 'Api\EmailableController@verify');
 
-
 Route::get('organisations/popular', 'Api\StructureController@popular');
 
 Route::get('structures/{structure}/score', 'Api\StructureController@score');
@@ -82,7 +81,7 @@ Route::post('user/archive/exist', 'Api\UserController@checkUserArchiveExist');
 Route::post('user/archive/send-code', 'Api\UserController@sendUserArchiveCode');
 Route::post('user/archive/validate-code', 'Api\UserController@validateUserArchiveCode');
 
-Route::group(['middleware' => ['auth:api', 'is.not.banned']], function () {
+Route::group(['middleware' => ['auth:api', 'is.not.blocked']], function () {
     Route::get('user', 'Api\UserController@me');
     Route::get('user/status', 'Api\UserController@status');
     Route::get('user/unread-messages', 'Api\UserController@unreadMessages');
@@ -190,6 +189,7 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
 
     // MISSIONS
     Route::get('missions', 'Api\MissionController@index');
+    Route::get('missions/{mission}', 'Api\MissionController@show');
     Route::get('missions/{mission}/benevoles', 'Api\MissionController@benevoles');
     Route::put('missions/{mission}', 'Api\MissionController@update');
     Route::post('missions/{mission}/duplicate', 'Api\MissionController@duplicate');
@@ -242,6 +242,7 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::get('activity-logs/participation/{participation}/states', 'Api\ActivityLogController@participationStatesChanges');
 
     // TERRITOIRES
+    Route::get('territoires/{territoire}', 'Api\TerritoireController@show');
     Route::put('territoires/{territoire}', 'Api\TerritoireController@update');
     Route::get('territoires/{territoire}/statistics', 'Api\TerritoireController@statistics');
     Route::get('territoires/{territoire}/invitations', 'Api\TerritoireController@invitations');
@@ -261,6 +262,7 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::get('activities', 'Api\ActivityController@index');
 
     // RESEAUX
+    Route::get('reseaux/{reseau}', 'Api\ReseauController@show');
     Route::put('reseaux/{reseau}', 'Api\ReseauController@update');
     Route::get('reseaux/{reseau}/invitations-responsables', 'Api\ReseauController@invitationsResponsables');
     Route::get('reseaux/{reseau}/invitations-antennes', 'Api\ReseauController@invitationsAntennes');
@@ -335,12 +337,6 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::get('export/territoires', 'Api\ExportController@territoires');
     Route::get('export/reseaux', 'Api\ExportController@reseaux');
 
-    // SCRIPTS
-    Route::post('scripts/transfert-organisation', 'Api\ScriptController@transfertOrganisation');
-    // Route::post('scripts/migrate-organisation-missions', 'Api\ScriptController@migrateOrganisationMissions');
-    Route::post('scripts/user-reset-context-role', 'Api\ScriptController@resetUserContextRole');
-    Route::get('scripts/activites-missions-libres/{activity}', 'Api\ScriptController@assignActivityToMissions');
-
     // VOCABULARIES
     Route::get('/vocabularies/{vocabulary:slug}', 'Api\VocabularyController@show');
     Route::post('/vocabularies/{vocabulary:slug}/terms', 'Api\TermController@store');
@@ -408,10 +404,16 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::get('support/referents/activity-logs', 'Api\SupportController@referentsActivityLogs');
     Route::get('support/responsables/participations-to-be-treated', 'Api\SupportController@responsablesParticipationsToBeTreated');
     Route::get('support/responsables/missions-outdated', 'Api\SupportController@responsablesMissionsOutdated');
-    Route::post('support/scripts/generate-password-reset-link', 'Api\SupportController@generatePasswordResetLink');
+
+    // SCRIPTS
+    Route::post('scripts/transfert-organisation', 'Api\ScriptController@transfertOrganisation');
+    Route::post('scripts/user-reset-context-role', 'Api\ScriptController@resetUserContextRole');
+    Route::get('scripts/activites-missions-libres/{activity}', 'Api\ScriptController@assignActivityToMissions');
+    Route::post('support/actions/generate-password-reset-link', 'Api\SupportController@generatePasswordResetLink');
 
     Route::get('support/contents/doublons-territoires', 'Api\SupportController@doublonsTerritoires');
     Route::post('support/contents/doublons-territoires/list', 'Api\SupportController@fetchDoublonsTerritoires');
+    Route::get('support/contents/doublons-territoires/export', 'Api\SupportController@exportDoublonsTerritoires');
     Route::get('support/contents/doublons-organisations', 'Api\SupportController@doublonsOrganisations');
     Route::post('support/contents/doublons-organisations/list', 'Api\SupportController@fetchDoublonsOrganisations');
 

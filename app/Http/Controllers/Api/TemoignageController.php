@@ -81,9 +81,9 @@ class TemoignageController extends Controller
     public function forOrganisation(Request $request, Structure $structure)
     {
         return Temoignage::with([
-            'participation.mission',
-            'participation.mission.structure',
-            'participation.profile',
+            'participation.mission:id,name,structure_id',
+            'participation.mission.structure:id,name',
+            'participation.profile:id,first_name',
             'participation.profile.avatar',
         ])->where('grade', '>=', 4)->where('is_published', true)->ofStructure($structure->id)->inRandomOrder()->take(10)->get();
     }
@@ -91,9 +91,10 @@ class TemoignageController extends Controller
     public function forReseau(Request $request, Reseau $reseau)
     {
         return Temoignage::with([
-            'participation.mission',
+            'participation.mission:id,name,structure_id',
+            'participation.mission.structure:id,name',
             'participation.mission.structure.logo',
-            'participation.profile',
+            'participation.profile:id,first_name',
         ])->where('grade', '>=', 4)->where('is_published', true)->ofReseau($reseau->id)->inRandomOrder()->take(10)->get();
     }
 }

@@ -277,7 +277,7 @@ class ApiEngagement
             case 'encadrement-d-equipes':
                 return [
                     'id' => 20,
-                    'name' => 'Accompagnement aux activités sportives',
+                    'name' => 'Activités sportives',
                 ];
                 break;
             case 'accueil-de-public':

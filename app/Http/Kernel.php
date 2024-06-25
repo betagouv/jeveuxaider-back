@@ -68,7 +68,7 @@ class Kernel extends HttpKernel
         'has.api.key' => \App\Http\Middleware\HasApiKey::class,
         'is.admin' => \App\Http\Middleware\IsAdmin::class,
         'is.admin.or.referent' => \App\Http\Middleware\IsAdminOrReferent::class,
-        'is.not.banned' => \App\Http\Middleware\IsNotBanned::class,
+        'is.not.blocked' => \App\Http\Middleware\IsNotBlocked::class,
     ];
 
     /**

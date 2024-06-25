@@ -58,9 +58,6 @@ class ParticipationsExport implements FromQuery, WithMapping, WithHeadings, With
         $contextRole = $this->request->header('Context-Role');
 
         $queryBuilder = Participation::role($contextRole)
-            ->when($contextRole != 'admin', function ($q) {
-                $q->whereIn('state', ['Validée', 'En attente de validation', 'En cours de traitement']);
-            })
             ->with(['profile', 'mission']);
 
         return QueryBuilder::for($queryBuilder)

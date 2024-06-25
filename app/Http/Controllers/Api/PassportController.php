@@ -53,7 +53,7 @@ class PassportController extends Controller
         $user->notify($notification);
 
         // Can be set from soft gate register
-        if ($user->profile->cej && ! empty($user->profile->cej_email_adviser)) {
+        if ($user->profile->cej && !empty($user->profile->cej_email_adviser)) {
             Notification::route('mail', $user->profile->cej_email_adviser)
                 ->notify(new RegisterUserVolontaireCejAdviser($user->profile));
         }
@@ -169,6 +169,12 @@ class PassportController extends Controller
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 401);
+        }
+
+        $user = User::where('email', $request->input('email'))->first();
+
+        if ($user && $user->isBlocked()) {
+            return response()->json(['message' => "L'email que vous avez renseigné est incorrect"], 401);
         }
 
         $response = $this->broker()->sendResetLink(

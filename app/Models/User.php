@@ -22,6 +22,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Hash;
 
 class User extends Authenticatable
 {
@@ -192,6 +193,7 @@ class User extends Authenticatable
     public function getUnreadConversationsCount()
     {
         return $this->conversations()
+            ->whereHas('conversable')
             ->whereHas('users', function (Builder $query) {
                 $query
                     ->where(function ($query) {
@@ -212,6 +214,7 @@ class User extends Authenticatable
     public function lastReadConversation()
     {
         return $this->conversations()
+            ->whereHas('conversable')
             ->whereHas('users', function (Builder $query) {
                 $query
                     ->whereNotNull('conversations_users.read_at')
@@ -333,6 +336,12 @@ class User extends Authenticatable
             ->whereNull('users.banned_at');
     }
 
+    public function isBlocked()
+    {
+        // Users that should not be able to connect or use the platform
+        return $this->archived_at || $this->anonymous_at || $this->banned_at;
+    }
+
     public function canBeNotified()
     {
         // Don't add hard_bounced_at, as there is no Brevo hook when a contact has been "de-hardbounced"
@@ -450,4 +459,13 @@ class User extends Authenticatable
     // {
     //     UnarchiveAndRestoreUserDatas::dispatchSync($this);
     // }
+
+    public function validateForPassportPasswordGrant(string $password): bool
+    {
+        if($this->isBlocked()) {
+            return false;
+        }
+
+        return Hash::check($password, $this->password);
+    }
 }

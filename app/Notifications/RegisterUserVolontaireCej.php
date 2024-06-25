@@ -55,7 +55,7 @@ class RegisterUserVolontaireCej extends Notification implements ShouldQueue
             ->greeting('Bonjour ' . $notifiable->first_name . ',')
             ->line('Savez-vous que les missions de bénévolat peuvent être effectuées dans le cadre du Contrat d’Engagement Jeune ?')
             ->line('Pour vous accompagner dans vos premiers pas en tant que bénévole, nous avons sélectionné des missions qui pourront vous plaire :')
-            ->line(new HtmlString('<ul class="list-none"><li>🏀 <a href="' . $this->trackedUrl('/activites/accompagnement-aux-activites-sportives') . '">Accompagnement aux activités sportives</a></li>'))
+            ->line(new HtmlString('<ul class="list-none"><li>🏀 <a href="' . $this->trackedUrl('/activites/activites-sportives') . '">Activités sportives</a></li>'))
             ->line(new HtmlString('<li>🥫 <a href="' . $this->trackedUrl('/activites/collecte-de-produits') . '">Collecte de produits</a></li>'))
             ->line(new HtmlString('<li>📆 <a href="' . $this->trackedUrl('/activites/evenementiel') . '">Evénementiel</a></li>'))
             ->line(new HtmlString('<li>♻️ <a href="' . $this->trackedUrl('/activites/ramassage-de-dechets') . '">Ramassage de déchets</a></li>'))

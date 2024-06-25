@@ -170,14 +170,14 @@ class UserActionController extends Controller
         ];
 
         $actions[] = [
+            'type' => 'is_minor',
+            'value' => Carbon::parse($user->profile->birthday)->age < 18,
+        ];
+
+        $actions[] = [
             'type' => 'search_missions',
             'value' => true,
         ];
-
-        // $actions[] = [
-        //     'type' => 'has_agreed_benevole_terms',
-        //     'value' => $user->has_agreed_benevole_terms_at,
-        // ];
 
         return $actions;
     }

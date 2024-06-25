@@ -14,7 +14,6 @@ use App\Models\Mission;
 use App\Models\Participation;
 use App\Models\Profile;
 use App\Models\StructureTag;
-use App\Models\Temoignage;
 use App\Models\User;
 use App\Notifications\ParticipationBenevoleCanceled;
 use App\Notifications\ParticipationBenevoleValidated;
@@ -259,13 +258,6 @@ class ParticipationController extends Controller
         $participation->mission->structure->calculateScore();
 
         return $participation;
-    }
-
-    public function temoignage(Request $request, Participation $participation)
-    {
-        return [
-            'temoignage' => Temoignage::where('participation_id', $participation->id)->first()
-        ];
     }
 
     public function attachStructureTag(Request $request, Participation $participation, StructureTag $structureTag)

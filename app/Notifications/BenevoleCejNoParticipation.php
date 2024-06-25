@@ -57,7 +57,7 @@ class BenevoleCejNoParticipation extends Notification implements ShouldQueue
             ->greeting('Bonjour ' . $notifiable->first_name . ',')
             ->line('Et si c’était le moment de vous engager sur une mission de bénévolat ?')
             ->line('Pour vous accompagner dans le choix de votre première mission, voici une liste d’activités que nous avons sélectionnées pour vous :')
-            ->line(new HtmlString('<ul class="list-none"><li>🏀 <a href="' . $this->trackedUrl('/activites/accompagnement-aux-activites-sportives') . '">Accompagnement aux activités sportives</a></li>'))
+            ->line(new HtmlString('<ul class="list-none"><li>🏀 <a href="' . $this->trackedUrl('/activites/activites-sportives') . '">Activités sportives</a></li>'))
             ->line(new HtmlString('<li>🥫 <a href="' . $this->trackedUrl('/activites/collecte-de-produits') . '">Collecte de produits</a></li>'))
             ->line(new HtmlString('<li>📆 <a href="' . $this->trackedUrl('/activites/evenementiel') . '">Evénementiel</a></li>'))
             ->line(new HtmlString('<li>♻️ <a href="' . $this->trackedUrl('/activites/ramassage-de-dechets') . '">Ramassage de déchets</a></li>'))

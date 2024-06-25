@@ -33,7 +33,7 @@ class MediaController extends Controller
         $media = $model
             ->addMedia($file)
             ->withManipulations($this->formatManipulations($manipulations, $model, $collection))
-            ->usingFileName(Str::random(30).'.'.$file->guessExtension())
+            ->usingFileName(Str::random(30) . '.' . $file->guessExtension())
             ->toMediaCollection($collection);
 
         return $media;
@@ -44,10 +44,10 @@ class MediaController extends Controller
         $model = ($media->model_type)::find($media->model_id);
         $model->registerMediaConversions();
         $manipulations = $request->input('manipulations');
-        if (! empty($manipulations)) {
+        if (!empty($manipulations)) {
             $media->manipulations = $this->formatManipulations($manipulations, $model, $media->collection_name);
             $media->save();
-            Artisan::call('media-library:regenerate', ['--ids' => $media->id,  '--force' => true]);
+            Artisan::call('media-library:regenerate', ['--ids' => $media->id, '--force' => true, '--with-responsive-images' => true]);
         }
 
         return $media;
@@ -60,7 +60,7 @@ class MediaController extends Controller
 
     private function getModel(string $modelType, int $modelId)
     {
-        $modelClass = '\\App\\Models\\'.Str::studly($modelType);
+        $modelClass = '\\App\\Models\\' . Str::studly($modelType);
         $model = $modelClass::find($modelId);
         $model->registerMediaConversions();
 

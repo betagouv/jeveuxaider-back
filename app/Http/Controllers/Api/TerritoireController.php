@@ -44,16 +44,22 @@ class TerritoireController extends Controller
         return $results;
     }
 
-    public function show($slugOrId)
+    public function view(Request $request, Territoire $territoire)
     {
-        $territoire = (is_numeric($slugOrId))
-            ? Territoire::where('id', $slugOrId)->with(['responsables.profile.tags', 'responsables.profile.user', 'banner', 'logo', 'promotedOrganisations'])->firstOrFail()->append(['missing_fields', 'completion_rate'])
-            : Territoire::where('slug', $slugOrId)->with(['banner', 'logo', 'promotedOrganisations'])->firstOrFail();
+        $territoire->load(['banner', 'logo', 'promotedOrganisations']);
 
         return $territoire;
     }
 
-    public function statistics(Territoire $territoire)
+    public function show(Request $request, Territoire $territoire)
+    {
+        $territoire->load(['responsables.profile.tags', 'responsables.profile.user', 'banner', 'logo', 'promotedOrganisations']);
+        $territoire->append(['missing_fields', 'completion_rate']);
+
+        return $territoire;
+    }
+
+    public function statistics(Request $request, Territoire $territoire)
     {
         return [
             'missions_count' => Mission::ofTerritoire($territoire->id)->count(),
