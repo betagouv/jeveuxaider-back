@@ -113,7 +113,7 @@ class MissionController extends Controller
                 'template.domaine:id,name,slug',
                 'template.domaineSecondary:id,name,slug',
                 'domaine:id,name,slug',
-                'responsable:id,first_name,last_name',
+                'responsables:id,first_name,last_name',
                 'domaineSecondary:id,name,slug',
                 'template.photo',
                 'illustrations',
@@ -126,6 +126,7 @@ class MissionController extends Controller
             if ($mission) {
                 $mission->append(['full_address', 'has_places_left']);
             }
+            ray($mission);
         } else {
             // API ENGAGEMENT
             $api = new ApiEngagement();
