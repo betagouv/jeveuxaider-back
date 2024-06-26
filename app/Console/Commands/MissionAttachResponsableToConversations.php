@@ -46,7 +46,7 @@ class MissionAttachResponsableToConversations extends Command
             foreach ($missions as $mission) {
                 $participations = $mission->participations;
                 foreach ($participations as $participation) {
-                    $participation->conversation->users()->syncWithoutDetaching([$mission->responsable->user->id]);
+                    $participation->conversation->users()->syncWithoutDetaching([$mission->responsables[0]->user->id]);
                 }
             }
         }

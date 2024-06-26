@@ -55,7 +55,8 @@ class MessageParticipationCreated extends Notification implements ShouldQueue
     {
         $participation = $this->message->conversation->conversable;
         $url = $this->message->conversation ? '/messages/' . $this->message->conversation->id : '/messages';
-        $isFromResponsable = $participation->mission->responsable_id == $this->message->from->profile->id;
+
+        $isFromResponsable = $participation->profile->id !== $this->message->from->profile->id;
 
         if ($isFromResponsable) {
             $subject = 'Nouveau message de la part de ' . $this->message->from->profile->first_name;
@@ -72,7 +73,6 @@ class MessageParticipationCreated extends Notification implements ShouldQueue
                 'message' => $this->message,
                 'mission' => $participation->mission,
                 'structure' => $participation->mission->structure,
-                'responsable' => $participation->mission->responsable,
                 'from' => $this->message->from->profile,
                 'notifiable' => $notifiable,
                 'isFromResponsable' => $isFromResponsable

@@ -46,7 +46,7 @@ class Profile extends Model implements HasMedia
         'longitude' => 'float',
     ];
 
-    protected $appends = ['short_name', 'full_name'];
+    protected $appends = ['short_name', 'full_name', 'secret_name'];
 
     protected $checkFields = ['mobile', 'zip', 'type', 'disponibilities', 'commitment__time_period', 'commitment__duration', 'description', 'birthday', 'skills'];
 
@@ -107,6 +107,11 @@ class Profile extends Model implements HasMedia
     public function getFullNameAttribute()
     {
         return "{$this->first_name} {$this->last_name}";
+    }
+
+    public function getSecretNameAttribute()
+    {
+        return $this->first_name . ' ' . $this->last_name[0] . '.';
     }
 
     public function getShortNameAttribute()
@@ -259,12 +264,12 @@ class Profile extends Model implements HasMedia
 
     public function missions()
     {
-        return $this->hasMany('App\Models\Mission', 'responsable_id');
+        return $this->belongsToMany('App\Models\Mission', 'missions_responsables', 'responsable_id', 'mission_id');
     }
 
     public function missionsValidatedAndOffline()
     {
-        return $this->hasMany('App\Models\Mission', 'responsable_id')
+        return $this->missions()
             ->where('is_online', false)
             ->where('state', 'Validée');
     }

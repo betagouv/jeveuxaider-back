@@ -5,11 +5,12 @@ namespace App\Http\Controllers\Api;
 use App\Filters\FiltersStructureSearch;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AddResponsableRequest;
-use App\Http\Requests\Api\MissionCreateRequest;
 use App\Http\Requests\Api\StructureCreateRequest;
 use App\Http\Requests\Api\StructureDeleteRequest;
 use App\Http\Requests\Api\StructureUpdateRequest;
 use App\Http\Requests\StructureRequest;
+use App\Jobs\RecomputeConversationUsersWhenMissionResponsablesAdded;
+use App\Jobs\RecomputeConversationUsersWhenMissionResponsablesRemoved;
 use App\Models\Mission;
 use App\Models\Participation;
 use App\Models\Profile;
@@ -55,6 +56,7 @@ class StructureController extends Controller
                 'illustrations',
                 'overrideImage1',
                 AllowedInclude::count('missionsCount'),
+                AllowedInclude::count('membersCount'),
             ])
             ->defaultSort('-created_at')
             ->allowedSorts([
@@ -280,10 +282,15 @@ class StructureController extends Controller
         if ($request->has('new_responsable_id') && $request->input('new_responsable_id')) {
             $newResponsable = Profile::find($request->input('new_responsable_id'));
             if ($newResponsable) {
-                Mission::where('responsable_id', $user->profile->id)
+                Mission::ofResponsable($user->profile->id)
                     ->where('structure_id', $structure->id)
-                    ->get()->map(function ($mission) use ($newResponsable) {
-                        $mission->update(['responsable_id' => $newResponsable->id]);
+                    ->get()->map(function ($mission) use ($user, $newResponsable) {
+                        // Remove from conversations
+                        RecomputeConversationUsersWhenMissionResponsablesRemoved::dispatch($mission, [$user->id]);
+                        $mission->responsables()->detach($user->profile->id);
+                        // Add to conversations
+                        RecomputeConversationUsersWhenMissionResponsablesAdded::dispatch($mission, [$newResponsable->user_id]);
+                        $mission->responsables()->syncWithoutDetaching([$newResponsable->id]);
                     });
                 if ($currentUser->profile->id != $newResponsable->id) {
                     $newResponsable->notify(new StructureSwitchResponsable($structure, $user->profile));
@@ -294,43 +301,6 @@ class StructureController extends Controller
         $structure->deleteMember($user);
 
         return $structure->members;
-    }
-
-    public function addMission(MissionCreateRequest $request, Structure $structure)
-    {
-        $attributes = array_merge($request->validated(), ['user_id' => Auth::guard('api')->user()->id]);
-
-        if ($structure->state != 'Validée' && empty($attributes['state'])) {
-            $attributes['state'] = 'Brouillon';
-        }
-
-        $mission = $structure->addMission($attributes);
-
-        if ($request->has('tags')) {
-            $tags = collect($request->input('tags'));
-            $values = $tags->pluck($tags, 'id')->map(function ($item) {
-                return ['field' => 'mission_tags'];
-            });
-            $mission->tags()->sync($values);
-        }
-
-        if ($request->has('skills')) {
-            $skills = collect($request->input('skills'));
-            $values = $skills->pluck($skills, 'id')->map(function ($item) {
-                return ['field' => 'mission_skills'];
-            });
-            $mission->skills()->sync($values);
-        }
-
-        if ($request->has('illustrations')) {
-            $illustrations = collect($request->input('illustrations'));
-            $values = $illustrations->pluck($illustrations, 'id')->map(function ($item) {
-                return ['field' => 'mission_illustrations'];
-            });
-            $mission->illustrations()->sync($values);
-        }
-
-        return $mission;
     }
 
     public function exist(Request $request, $rnaOrName)
@@ -426,4 +396,6 @@ class StructureController extends Controller
 
         return $structure->invitations()->with('user.profile')->orderBy('id')->get();
     }
+
+
 }

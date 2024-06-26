@@ -5,6 +5,9 @@
 <lastBuildDate>{{ now() }}</lastBuildDate>
 @foreach ($missions as $mission)
     <mission>
+        @php
+            $firstAddress = $mission->addresses ? $mission->addresses[0] : null;
+        @endphp
         <title>
             <![CDATA[{{ $mission->name }}]]>
         </title>
@@ -71,25 +74,25 @@
             <![CDATA[{{ $mission->end_date }}]]>
         </endAt>
         <adresse>
-            <![CDATA[{{ $mission->address }}, {{ $mission->zip }} {{ $mission->city }}]]>
+            <![CDATA[{{ $firstAddress ? $firstAddress['label'] : null }}]]>
         </adresse>
         <postalCode>
-            <![CDATA[{{ $mission->zip }}]]>
+            <![CDATA[{{ $firstAddress ? $firstAddress['zip'] : null }}]]>
         </postalCode>
         <departmentName>
-            <![CDATA[{{ config('taxonomies.departments.terms')[$mission->department] }}]]>
+            <![CDATA[{{ $firstAddress ? config('taxonomies.departments.terms')[ $firstAddress['department']] : null }}]]>
         </departmentName>
         <departmentCode>
-            <![CDATA[{{ $mission->department }}]]>
+            <![CDATA[{{ $firstAddress ? $firstAddress['department'] : null }}]]>
         </departmentCode>
         <city>
-            <![CDATA[{{ $mission->city }}]]>
+            <![CDATA[{{ $firstAddress ? $firstAddress['city'] : null }}]]>
         </city>
         <country>
-            <![CDATA[{{ $mission->country }}]]>
+            <![CDATA[{{ 'France' }}]]>
         </country>
         <lonlat>
-            <![CDATA[{{ $mission->longitude }},{{ $mission->latitude }}]]>
+            <![CDATA[{{ $firstAddress && isset($firstAddress['longitude']) && isset($firstAddress['latitude']) ? $firstAddress['longitude'] : null }},{{ $firstAddress ? $firstAddress['latitude'] : null }}]]>
         </lonlat>
         <places>
             <![CDATA[{{ $mission->places_left }}]]>
@@ -103,33 +106,9 @@
                 <![CDATA[full]]>
             </remote>
         @endif
-        <isAutonomy>
-            <![CDATA[{{ $mission->is_autonomy }}]]>
-        </isAutonomy>
-        <autonomyPrecisions>
-            <![CDATA[{{ $mission->autonomy_precisions }}]]>
-        </autonomyPrecisions>
-        <autonomyZips>
-            @if ($mission->is_autonomy)
-                @foreach ($mission->autonomy_zips as $item)
-                    <item>
-                        <zip>
-                            <![CDATA[{{ $item['zip'] }}]]>
-                        </zip>
-                        <city>
-                            <![CDATA[{{ $item['city'] }}]]>
-                        </city>
-                        <longitude>
-                            <![CDATA[{{ $item['longitude'] }}]]>
-                        </longitude>
-                        <latitude>
-                            <![CDATA[{{ $item['latitude'] }}]]>
-                        </latitude>
-                    </item>
-                @endforeach
-            @endif
-        </autonomyZips>
-
+        <addressPrecisions>
+            <![CDATA[{{ $mission->addresses_precisions }}]]>
+        </addressPrecisions>
         <domain>
             @php
                 $domainId = $mission->template ? $mission->template->domaine_id : $mission->domaine_id;

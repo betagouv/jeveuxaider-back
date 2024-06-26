@@ -65,7 +65,6 @@ class ParticipationWillStart extends Notification implements ShouldQueue
             ->markdown('emails.benevoles.participation-will-start', [
                 'url' => $this->trackedUrl('/messages/' . $this->participation->conversation->id),
                 'mission' => $this->participation->mission,
-                'responsable' => $this->participation->mission->responsable,
                 'organisation' => $this->participation->mission->structure,
                 'benevole' => $notifiable
             ])

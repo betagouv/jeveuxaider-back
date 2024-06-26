@@ -170,6 +170,20 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::get('structures/{structure}/invitations', 'Api\StructureController@invitations');
     Route::delete('structures/{structure}/members/{user}', 'Api\StructureController@deleteMember');
 
+    Route::post('structures/{structure}/v2/missions', 'Api\FormMissionController@store');
+
+    Route::get('/missions/{mission}/show', 'Api\FormMissionController@show');
+    Route::put('/missions/{mission}/title', 'Api\FormMissionController@updateTitle');
+    Route::put('/missions/{mission}/visuel', 'Api\FormMissionController@updateVisuel');
+    Route::put('/missions/{mission}/informations', 'Api\FormMissionController@updateInformations');
+    Route::put('/missions/{mission}/dates', 'Api\FormMissionController@updateDates');
+    Route::put('/missions/{mission}/lieux', 'Api\FormMissionController@updateLieux');
+    Route::put('/missions/{mission}/benevoles', 'Api\FormMissionController@updateBenevoles');
+    Route::put('/missions/{mission}/benevoles-informations', 'Api\FormMissionController@updateBenevolesInformations');
+    Route::put('/missions/{mission}/responsables', 'Api\FormMissionController@updateResponsables');
+
+    Route::put('/missions/{mission}/publish', 'Api\MissionController@publish');
+
     // INVITATIONS
     Route::post('invitations', 'Api\InvitationController@store');
 
@@ -323,8 +337,6 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::get('export/territoires', 'Api\ExportController@territoires');
     Route::get('export/reseaux', 'Api\ExportController@reseaux');
 
-
-
     // VOCABULARIES
     Route::get('/vocabularies/{vocabulary:slug}', 'Api\VocabularyController@show');
     Route::post('/vocabularies/{vocabulary:slug}/terms', 'Api\TermController@store');
@@ -394,9 +406,9 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::get('support/responsables/missions-outdated', 'Api\SupportController@responsablesMissionsOutdated');
 
     // SCRIPTS
-    Route::post('scripts/migrate-organisation-missions', 'Api\ScriptController@migrateOrganisationMissions');
+    Route::post('scripts/transfert-organisation', 'Api\ScriptController@transfertOrganisation');
     Route::post('scripts/user-reset-context-role', 'Api\ScriptController@resetUserContextRole');
-    Route::get('scripts/activites-missions-libres/{activity}', 'Api\ScriptController@assignActivityToMissions');
+    // Route::get('scripts/activites-missions-libres/{activity}', 'Api\ScriptController@assignActivityToMissions');
     Route::post('support/actions/generate-password-reset-link', 'Api\SupportController@generatePasswordResetLink');
 
     Route::get('support/contents/doublons-territoires', 'Api\SupportController@doublonsTerritoires');

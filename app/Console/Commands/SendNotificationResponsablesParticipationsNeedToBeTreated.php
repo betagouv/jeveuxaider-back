@@ -43,23 +43,24 @@ class SendNotificationResponsablesParticipationsNeedToBeTreated extends Command
     {
         $results = DB::select(
             "
-                SELECT missions.responsable_id, COUNT(*) As total_count,
+                SELECT missions_responsables.responsable_id, COUNT(*) As total_count,
                 COUNT(*) filter(WHERE participations.state = 'En attente de validation' AND participations.created_at < (NOW() - INTERVAL '7 days')) As waiting_count,
                 COUNT(*) filter(WHERE participations.state = 'En cours de traitement' AND participations.created_at < (NOW() - INTERVAL '2 months')) As in_progress_count
                 FROM participations
                 LEFT JOIN missions ON missions.id = participations.mission_id
-                LEFT JOIN profiles ON profiles.id = missions.responsable_id
-                WHERE missions.responsable_id IS NOT NULL
+                LEFT JOIN missions_responsables ON missions_responsables.mission_id = missions.id
+                LEFT JOIN profiles ON profiles.id = missions_responsables.responsable_id
+                WHERE missions_responsables.responsable_id IS NOT NULL
                 AND (
                     (participations.state = 'En attente de validation' AND participations.created_at < (NOW() - INTERVAL '7 days'))
                     OR (participations.state = 'En cours de traitement' AND participations.created_at < (NOW() - INTERVAL '2 months'))
                 )
-                GROUP BY missions.responsable_id
+                GROUP BY missions_responsables.responsable_id
                 ORDER BY total_count DESC
             "
         );
 
-        collect($results)->each(function($item) {
+        collect($results)->each(function ($item) {
             Notification::send(Profile::find($item->responsable_id), new ResponsableParticipationAModeredEnPriorite($item->total_count, $item->waiting_count, $item->in_progress_count));
         });
     }

@@ -107,4 +107,11 @@ class StructurePolicy
     {
         return $user->structures()->whereId($structure->id)->exists();
     }
+
+    public function createMission(User $user, Structure $structure)
+    {
+        // $this->user()->can('view', request()->route('structure')) && !empty($this->user()->profile->mobile) && $this->user()->profile->doesntHave('missionsValidatedAndOffline');
+
+        return $user->structures()->whereId($structure->id)->exists();
+    }
 }

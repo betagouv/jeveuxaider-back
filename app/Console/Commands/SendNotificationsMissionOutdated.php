@@ -38,27 +38,31 @@ class SendNotificationsMissionOutdated extends Command
 
     private function sendFirstReminder()
     {
-        $query = Mission::with(['responsable'])->where('state', 'Validée')
+        $query = Mission::with(['responsables'])->where('state', 'Validée')
             ->whereBetween('end_date', [
                 Carbon::now()->subDays(5)->startOfDay(),
                 Carbon::now()->subDays(5)->endOfDay(),
             ]);
 
         foreach ($query->get() as $mission) {
-            Notification::send($mission->responsable, new MissionOutdatedFirstReminder($mission));
+            $mission->responsables->each(function ($responsable) use ($mission) {
+                Notification::send($responsable, new MissionOutdatedFirstReminder($mission));
+            });
         }
     }
 
     private function sendSecondReminder()
     {
-        $query = Mission::with(['responsable'])->where('state', 'Validée')
+        $query = Mission::with(['responsables'])->where('state', 'Validée')
             ->whereBetween('end_date', [
                 Carbon::now()->subDays(20)->startOfDay(),
                 Carbon::now()->subDays(20)->endOfDay(),
             ]);
 
         foreach ($query->get() as $mission) {
-            Notification::send($mission->responsable, new MissionOutdatedSecondReminder($mission));
+            $mission->responsables->each(function ($responsable) use ($mission) {
+                Notification::send($responsable, new MissionOutdatedSecondReminder($mission));
+            });
         }
     }
 }

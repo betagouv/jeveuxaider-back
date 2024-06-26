@@ -41,13 +41,16 @@ class Mission extends Model
         'is_priority' => 'boolean',
         'is_motivation_required' => 'boolean',
         'is_snu_mig_compatible' => 'boolean',
-        'start_date' => 'datetime:Y-m-d\TH:i',
-        'end_date' => 'datetime:Y-m-d\TH:i',
-        'latitude' => 'float',
-        'longitude' => 'float',
-        'is_autonomy' => 'boolean',
+        // 'start_date' => 'datetime:Y-m-d\TH:i',
+        // 'end_date' => 'datetime:Y-m-d\TH:i',
+        'start_date' => 'datetime:Y-m-d',
+        'end_date' => 'datetime:Y-m-d',
+        // 'latitude' => 'float',
+        // 'longitude' => 'float',
+        // 'is_autonomy' => 'boolean',
         'is_qpv' => 'boolean',
-        'autonomy_zips' => 'json',
+        // 'autonomy_zips' => 'json',
+        'addresses' => 'json',
         'dates' => 'json',
         'prerequisites' => 'array',
         'is_registration_open' => 'boolean',
@@ -122,11 +125,12 @@ class Mission extends Model
             'id' => $this->id,
             'name' => $this->name,
             'slug' => $this->slug,
-            'city' => $this->city,
+            // 'city' => $this->city,
             'state' => $this->state,
             'department' => $this->department,
             'department_name' => $this->department . ' - ' . config('taxonomies.departments.terms')[$this->department],
-            'zip' => $this->zip,
+            // 'zip' => $this->zip,
+            'addresses' => $this->addresses,
             'periodicite' => $this->periodicite,
             'has_places_left' => $this->has_places_left,
             'places_left' => $this->places_left,
@@ -173,15 +177,15 @@ class Mission extends Model
             'commitment__time_period' => $this->commitment__time_period,
             'commitment__duration' => $this->commitment__duration,
             'commitment' => $this->commitment,
-            'publics_beneficiaires' => array_map(
+            'publics_beneficiaires' => is_array($this->publics_beneficiaires) ? array_map(
                 function ($public) use ($publicsBeneficiaires) {
                     return $publicsBeneficiaires[$public];
                 },
                 $this->publics_beneficiaires
-            ),
+            ) : null,
             'publics_volontaires' => $this->publics_volontaires,
-            'is_autonomy' => $this->is_autonomy,
-            'autonomy_zips' => $this->is_autonomy && count($this->autonomy_zips) > 0 ? $this->autonomy_zips : null,
+            // 'is_autonomy' => $this->is_autonomy,
+            // 'autonomy_zips' => $this->is_autonomy && count($this->autonomy_zips) > 0 ? $this->autonomy_zips : null,
             'is_outdated' => isset($trueEndDate) && (Carbon::today())->gt($trueEndDate) ? true : false,
             'tags' => $this->tags->where('is_published', true)->pluck('name'),
             'is_registration_open' => $this->is_registration_open,
@@ -196,19 +200,15 @@ class Mission extends Model
             'end_date_no_creneaux' => $this->dates ? null : strtotime($this->end_date)
         ];
 
-        if ($this->is_autonomy) {
-            $mission['_geoloc'] = [];
-            foreach ($this->autonomy_zips as $item) {
+        $mission['_geoloc'] = [];
+
+        if($this->addresses) {
+            foreach ($this->addresses as $item) {
                 $mission['_geoloc'][] = [
-                    'lat' => (float) $item['latitude'],
-                    'lng' => (float) $item['longitude'],
+                    'lat' => (float)$item['latitude'],
+                    'lng' => (float)$item['longitude'],
                 ];
             }
-        } elseif ($this->latitude && $this->longitude) {
-            $mission['_geoloc'] = [
-                'lat' => (float) $this->latitude,
-                'lng' => (float) $this->longitude,
-            ];
         }
 
         return $mission;
@@ -224,9 +224,14 @@ class Mission extends Model
         return $this->belongsTo('App\Models\Structure');
     }
 
-    public function responsable()
+    // public function responsable()
+    // {
+    //     return $this->belongsTo('App\Models\Profile');
+    // }
+
+    public function responsables()
     {
-        return $this->belongsTo('App\Models\Profile');
+        return $this->belongsToMany('App\Models\Profile', 'missions_responsables', 'mission_id', 'responsable_id');
     }
 
     public function participations()
@@ -267,7 +272,7 @@ class Mission extends Model
     public function getPictureAttribute()
     {
         if ($this->template_id) {
-            return $this->template->photo->urls;
+            return $this->template->photo?->urls;
         }
 
         return $this->illustrations->first() ? $this->illustrations->first()->urls : null;
@@ -300,7 +305,10 @@ class Mission extends Model
 
     public function getNameAttribute($value)
     {
-        return $this->template_id ? $this->template->title : $value;
+        if($this->template_id) {
+            return $this->template->title;
+        }
+        return $value;
     }
 
     public function setNameAttribute($value)
@@ -481,8 +489,15 @@ class Mission extends Model
         }
 
         if ($territoire->type == 'city') {
-            return $query
-                ->whereIn('zip', $territoire->zips);
+            return $query->where(function (Builder $query) use ($territoire) {
+                if($territoire->zips) {
+                    foreach ($territoire->zips as $zip) {
+                        $query->orWhereJsonContains('addresses', [['zip' => $zip]]);
+                    }
+                } else {
+                    $query->where('id', null);
+                }
+            });
         }
     }
 
@@ -531,7 +546,9 @@ class Mission extends Model
 
     public function scopeOfResponsable($query, $profile_id)
     {
-        return $query->where('responsable_id', $profile_id);
+        return $query->whereHas('responsables', function (Builder $query) use ($profile_id) {
+            $query->where('responsable_id', $profile_id);
+        });
     }
 
     public function scopeOfReseau($query, $reseau_id)
@@ -563,13 +580,6 @@ class Mission extends Model
         $mission->state = 'Brouillon';
         $mission->is_priority = false;
 
-        // Si la personne qui clone fait parti des responsables de l'organisation,
-        // la mettre en tant que responsable de la mission
-        $currentUserProfile = Auth::guard('api')->user()->profile;
-        if ($this->structure->members->contains('id', $currentUserProfile->id)) {
-            $mission->responsable_id = $currentUserProfile->id;
-        }
-
         $mission->save();
 
         if ($this->illustrations) {
@@ -579,6 +589,10 @@ class Mission extends Model
                 }
             );
             $mission->illustrations()->sync($values);
+        }
+
+        if($this->has('responsables')) {
+            $mission->responsables()->sync($this->responsables->pluck('id'));
         }
 
         return $mission;
@@ -705,7 +719,7 @@ class Mission extends Model
 
     public function format()
     {
-        $this->loadMissing(['template', 'template.domaine', 'template.domaineSecondary', 'domaine', 'domaineSecondary', 'structure.reseaux', 'responsable', 'activity', 'activitySecondary', 'template.activity', 'template.activitySecondary']);
+        $this->loadMissing(['template', 'template.domaine', 'template.domaineSecondary', 'domaine', 'domaineSecondary', 'structure.reseaux', 'responsables', 'activity', 'activitySecondary', 'template.activity', 'template.activitySecondary']);
 
         if ($this->template) {
             $domaines = collect([$this->template->domaine, $this->template->domaineSecondary]);
@@ -716,6 +730,18 @@ class Mission extends Model
         }
         $domaines = $domaines->filter()->map(fn ($domaine) => ['id' => $domaine->id, 'name' => $domaine->name]);
         $activities = $activities->filter()->map(fn ($activity) => ['id' => $activity->id, 'name' => $activity->name]);
+
+        $responsables = $this->responsables->map(fn ($responsable) => [
+            'id' => $responsable->id,
+            'first_name' => $responsable->first_name,
+            'last_name' => $responsable->last_name,
+            'email' => $responsable->email,
+            'phone' => $responsable->phone,
+            'mobile' => $responsable->mobile,
+        ]);
+
+        $firstAddress = $this->addresses ? $this->addresses[0] : null;
+        $firstResponsable = $this->responsables ? $this->responsables[0] : null;
 
         return [
             'id' => $this->id,
@@ -741,18 +767,20 @@ class Mission extends Model
             'is_snu_mig_compatible' => $this->is_snu_mig_compatible,
             'snu_mig_places' => $this->snu_mig_places,
             'picture' => $this->picture,
-            'is_autonomy' => $this->is_autonomy,
-            'autonomy_zips' => $this->is_autonomy && count($this->autonomy_zips) > 0 ? $this->autonomy_zips : null,
-            'address' => [
-                'full' => $this->full_address,
-                'address' => $this->address,
-                'zip' => $this->zip,
-                'city' => $this->city,
-                'department' => $this->department,
-                'country' => $this->country,
-                'latitude' => $this->latitude,
-                'longitude' => $this->longitude,
-            ],
+            // 'is_autonomy' => $this->is_autonomy,
+            // 'autonomy_zips' => $this->is_autonomy && count($this->autonomy_zips) > 0 ? $this->autonomy_zips : null,
+            'addresses' => $this->addresses,
+            'address' => $firstAddress,
+            // 'address' => [
+            //     'full' => $this->full_address,
+            //     'address' => $this->address,
+            //     'zip' => $this->zip,
+            //     'city' => $this->city,
+            //     'department' => $this->department,
+            //     'country' => $this->country,
+            //     'latitude' => $this->latitude,
+            //     'longitude' => $this->longitude,
+            // ],
             'structure' => $this->structure ? [
                 'id' => $this->structure->id,
                 'name' => $this->structure->name,
@@ -761,13 +789,14 @@ class Mission extends Model
                 'state' => $this->structure->state,
                 'reseaux' => $this->structure->reseaux->count() ? $this->structure->reseaux->all() : null,
             ] : null,
-            'responsable' => $this->responsable ? [
-                'id' => $this->responsable->id,
-                'first_name' => $this->responsable->first_name,
-                'last_name' => $this->responsable->last_name,
-                'email' => $this->responsable->email,
-                'phone' => $this->responsable->phone,
-                'mobile' => $this->responsable->mobile,
+            'responsables' => $responsables->values(),
+            'responsable' => $firstResponsable ? [
+                'id' => $firstResponsable->id,
+                'first_name' => $firstResponsable->first_name,
+                'last_name' => $firstResponsable->last_name,
+                'email' => $firstResponsable->email,
+                'phone' => $firstResponsable->phone,
+                'mobile' => $firstResponsable->mobile,
             ] : null,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

@@ -7,7 +7,7 @@
         jours (via la messagerie de JeVeuxAider.gouv.fr ou en direct grâce aux coordonnées de votre profil).
     @endcomponent
     @component('mail::components.paragraph')
-        Des questions ? Écrivez à {{ $responsable->first_name }} via la <a class="link" href="{{ $url }}">messagerie
+        Des questions ? Écrivez au responsable via la <a class="link" href="{{ $url }}">messagerie
             ›</a>
     @endcomponent
     @component('mail::components.paragraph', ['title' => 'Petit rappel de la mission'])

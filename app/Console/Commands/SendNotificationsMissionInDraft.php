@@ -31,14 +31,16 @@ class SendNotificationsMissionInDraft extends Command
      */
     public function handle()
     {
-        $query = Mission::with(['responsable'])->where('state', 'Brouillon')
+        $query = Mission::with(['responsables'])->where('state', 'Brouillon')
         ->whereBetween('created_at', [
             Carbon::now()->subDays(7)->startOfDay(),
             Carbon::now()->subDays(7)->endOfDay(),
         ]);
 
         foreach ($query->get() as $mission) {
-            Notification::send($mission->responsable, new MissionStillInDraft($mission));
+            $mission->responsables->each(function ($responsable) use ($mission) {
+                Notification::send($responsable, new MissionStillInDraft($mission));
+            });
         }
     }
 }

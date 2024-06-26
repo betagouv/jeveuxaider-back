@@ -159,6 +159,7 @@ class Airtable
             'Fréquence d\'engagement' => $mission->commitment__time_period,
             'Durée d\'engagement' =>  $mission->commitment__duration,
             'Durée totale d\'Engagement' => $mission->commitment__total,
+            'Durée d\'engagement minimum' => $mission->commitment__duration_min,
             'Date type' => $mission->date_type,
             'Inscription ouverte' => $mission->is_registration_open,
             'Prerequisites' => collect($mission->prerequisites)->count() > 0 ? collect($mission->prerequisites)->join(', ') : null,

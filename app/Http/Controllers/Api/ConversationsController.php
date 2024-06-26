@@ -35,6 +35,7 @@ class ConversationsController extends Controller
                         [
                             Participation::class => [
                                 'mission.structure:id,name',
+                                'profile',
                                 'tags'
                             ],
                         ]
@@ -74,14 +75,14 @@ class ConversationsController extends Controller
                     [
                         Participation::class => [
                             'mission.structure:id,name',
-                            'mission.responsable',
+                            'mission.responsables',
                             'profile',
                             'temoignage',
                             'tags'
                         ],
                         Mission::class => [
                             'structure:id,name',
-                            'responsable',
+                            'responsables',
                         ],
                     ]
                 );

@@ -53,7 +53,7 @@ class UserController extends Controller
         return [
             'structure' => $structure,
             'structure_responsables' => $structure ? $structure->members()->get() : null,
-            'structure_missions_where_i_m_responsable_count' => Mission::where('responsable_id', $user->profile->id)->count(),
+            'structure_missions_where_i_m_responsable_count' => Mission::ofResponsable($user->profile->id)->count(),
             'structure_participations_count' => Participation::ofResponsable($user->profile->id)->count(),
         ];
     }
@@ -147,7 +147,7 @@ class UserController extends Controller
             )
             ->allowedIncludes([
                 'conversation.latestMessage',
-                'mission.responsable.avatar',
+                'mission.responsables.avatar',
                 'mission.structure',
                 'temoignage'
             ])

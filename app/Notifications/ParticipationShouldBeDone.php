@@ -65,7 +65,6 @@ class ParticipationShouldBeDone extends Notification implements ShouldQueue
             ->markdown('emails.benevoles.participation-should-be-done', [
                 'url' => $this->trackedUrl('/messages/' . $this->participation->conversation->id . '?open_modal=participation-should-be-done'),
                 'mission' => $this->participation->mission,
-                'responsable' => $this->participation->mission->responsable,
                 'organisation' => $this->participation->mission->structure,
                 'benevole' => $notifiable
             ])

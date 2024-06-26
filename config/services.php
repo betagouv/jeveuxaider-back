@@ -70,6 +70,11 @@ return [
         'sync' => env('AIRTABLE_SYNC'),
     ],
 
+    'algolia' => [
+        'app_id' => env('ALGOLIA_APP_ID'),
+        'secret' => env('ALGOLIA_SECRET'),
+    ],
+
     'emailable' => [
         'key' => env('API_EMAILABLE_KEY'),
     ],

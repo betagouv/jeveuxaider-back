@@ -74,7 +74,6 @@ class ParticipationDeclined extends Notification implements ShouldQueue
                 'urlMission' => $this->trackedUrl($this->participation->mission->full_url),
                 'mission' => $this->participation->mission,
                 'structure' => $this->participation->mission->structure,
-                'responsable' => $this->participation->mission->responsable,
                 'message' => $this->message,
                 'reason' => $this->reason,
                 'notifiable' => $notifiable

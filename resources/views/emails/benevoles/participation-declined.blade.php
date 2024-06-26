@@ -14,8 +14,8 @@
     @endcomponent
     @isset($message)
         @component('mail::components.card-message', [
-            'title' => $responsable->first_name,
-            'subtitle' => 'Responsable de mission chez ' . $structure->name,
+            'title' => 'Responsable de mission',
+            'subtitle' => $structure->name,
             'spaceTop' => 0,
         ])
             {{ $message }}

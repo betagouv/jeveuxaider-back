@@ -231,8 +231,7 @@ class User extends Authenticatable
 
         if($this->hasRole('responsable')) {
             $responsableStats = [
-                'missions_as_responsable_count' => Mission::where('responsable_id', $this->profile->id)
-                    ->count(),
+                'missions_as_responsable_count' => Mission::ofResponsable($this->profile->id)->count(),
                 'participations_need_to_be_treated_count' => Participation::ofResponsable($this->profile->id)->needToBeTreated()
                     ->count(),
                 'missions_offline_count' => $this->profile->missionsValidatedAndOffline->count()

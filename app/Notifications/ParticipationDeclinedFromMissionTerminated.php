@@ -71,7 +71,6 @@ class ParticipationDeclinedFromMissionTerminated extends Notification implements
                 'urlQuiz' => $this->trackedUrl('/quiz/generique'),
                 'mission' => $this->participation->mission,
                 'structure' => $this->participation->mission->structure,
-                'responsable' => $this->participation->mission->responsable,
                 'notifiable' => $notifiable
             ])
             ->tag($this->tag);

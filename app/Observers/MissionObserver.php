@@ -19,7 +19,6 @@ use App\Notifications\MissionSubmitted;
 use App\Notifications\MissionValidated;
 use App\Notifications\MissionWaitingValidation;
 use Illuminate\Database\Eloquent\Builder;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class MissionObserver
@@ -33,8 +32,10 @@ class MissionObserver
     public function created(Mission $mission)
     {
         if ($mission->state == 'En attente de validation') {
-            if ($mission->responsable) {
-                $mission->responsable->notify(new MissionWaitingValidation($mission));
+            if ($mission->has('responsables')) {
+                $mission->responsables->each(function ($responsable) use ($mission) {
+                    $responsable->notify(new MissionWaitingValidation($mission));
+                });
             }
             if ($mission->department) {
                 Profile::where('notification__referent_frequency', 'realtime')
@@ -47,8 +48,10 @@ class MissionObserver
         }
 
         if ($mission->state == 'Validée') {
-            if ($mission->responsable) {
-                $mission->responsable->notify(new MissionValidated($mission));
+            if ($mission->has('responsables')) {
+                $mission->responsables->each(function ($responsable) use ($mission) {
+                    $responsable->notify(new MissionValidated($mission));
+                });
             }
             if ($mission->structure->shouldBeSearchable()) {
                 $mission->structure->searchable();
@@ -72,6 +75,18 @@ class MissionObserver
         if (config('services.qpv.sync')) {
             MissionGetQPV::dispatch($mission);
         }
+
+        // Sync Mission template tags
+        if($mission->template_id) {
+            $mission->loadMissing('template');
+            if($mission->template->has('tags')) {
+                $tags = $mission->template->tags;
+                $values = $tags->pluck($tags, 'id')->map(function ($item) {
+                    return ['field' => 'mission_tags'];
+                });
+                $mission->tags()->syncWithoutDetaching($values);
+            }
+        }
     }
 
     /**
@@ -87,12 +102,14 @@ class MissionObserver
         $oldState = $mission->getOriginal('state');
         $newState = $mission->state;
 
-        $mission->loadMissing(['structure', 'responsable']);
+        $mission->loadMissing(['structure', 'responsables']);
 
         // STATUT BROUILLON -> EN ATTENTE DE VALIDATION
         if($oldState == 'Brouillon' && $newState == 'En attente de validation') {
-            if ($mission->responsable) {
-                $mission->responsable->notify(new MissionWaitingValidation($mission));
+            if ($mission->has('responsables')) {
+                $mission->responsables->each(function ($responsable) use ($mission) {
+                    $responsable->notify(new MissionWaitingValidation($mission));
+                });
             }
             if ($mission->department) {
                 Profile::where('notification__referent_frequency', 'realtime')
@@ -108,13 +125,18 @@ class MissionObserver
         if ($oldState != $newState) {
             switch ($newState) {
                 case 'Validée':
-                    if ($mission->responsable) {
-                        $mission->responsable->notify(new MissionValidated($mission));
+                    if ($mission->has('responsables')) {
+                        $mission->responsables->each(function ($responsable) use ($mission) {
+                            $responsable->notify(new MissionValidated($mission));
+                        });
                     }
+
                     break;
                 case 'Signalée':
-                    if ($mission->responsable) {
-                        $mission->responsable->notify(new MissionSignaled($mission));
+                    if ($mission->has('responsables')) {
+                        $mission->responsables->each(function ($responsable) use ($mission) {
+                            $responsable->notify(new MissionSignaled($mission));
+                        });
                     }
                     // @TODO: Job CancelWaitingParticipationsFromMission (avec contexte mission signalée)
                     // Notif ON
@@ -139,36 +161,16 @@ class MissionObserver
                     $mission->sendNotificationsTemoignages();
                     break;
                 case 'En cours de traitement':
-                    if ($mission->responsable) {
-                        $mission->responsable->notify(new MissionBeingProcessed($mission));
+                    if ($mission->has('responsables')) {
+                        $mission->responsables->each(function ($responsable) use ($mission) {
+                            $responsable->notify(new MissionBeingProcessed($mission));
+                        });
                     }
                     break;
             }
 
             if ($mission->structure->shouldBeSearchable()) {
                 $mission->structure->searchable();
-            }
-        }
-
-        // Transfert des conversations.
-        if ($mission->getOriginal('responsable_id') != $mission->responsable_id) {
-            $oldResponsable = Profile::find($mission->getOriginal('responsable_id'))->user;
-            $newResponsable = $mission->responsable->user;
-
-            $participations = $mission->participations()->pluck('id')->toArray();
-            $conversationsQuery = $oldResponsable->conversations()
-                ->where('conversable_type', 'App\Models\Participation')
-                ->whereIn('conversable_id', $participations);
-
-            foreach ($conversationsQuery->get() as $conversation) {
-                $conversation->users()->syncWithoutDetaching([$newResponsable->id]);
-                $conversation->loadMissing('conversable');
-                $participation = $conversation->conversable;
-                if ($participation && !in_array($participation->state, ['En attente de validation', 'En cours de traitement'])) {
-                    $newResponsable->conversations()->updateExistingPivot($conversation->id, [
-                        'read_at' => Carbon::now(),
-                    ]);
-                }
             }
         }
 
@@ -188,9 +190,13 @@ class MissionObserver
         // Le statut n'a pas changé, mais la mission a été mise en ligne ou hors ligne
         if ($mission->isClean('state') && $mission->isDirty('is_online')) {
             if ($mission->is_online) {
-                $mission->responsable->notify(new MissionReactivated($mission));
+                $mission->responsables->each(function ($responsable) use ($mission) {
+                    $responsable->notify(new MissionReactivated($mission));
+                });
             } else {
-                $mission->responsable->notify(new MissionDeactivated($mission));
+                $mission->responsables->each(function ($responsable) use ($mission) {
+                    $responsable->notify(new MissionDeactivated($mission));
+                });
             }
         }
     }
@@ -206,35 +212,37 @@ class MissionObserver
 
         if ($mission->date_type == 'ponctual') {
             $mission->commitment__time_period = null;
+            $mission->commitment__duration_min = null;
             $mission->recurrent_description = null;
         }
         if ($mission->date_type == 'recurring') {
             $mission->dates = null;
-            $mission->end_date = null;
+            // $mission->end_date = null;
         }
         if ($mission->commitment__duration) {
             $mission->setCommitmentTotal();
         }
 
-        if ($mission->type !== 'Mission en présentiel') {
-            $mission->is_autonomy = false;
-        }
-        if ($mission->type !== 'Mission en présentiel' || $mission->is_autonomy === false) {
-            $mission->autonomy_zips = null;
-            $mission->autonomy_precisions = null;
-        }
+        // if ($mission->type !== 'Mission en présentiel') {
+        //     $mission->is_autonomy = false;
+        // }
+        // if ($mission->type !== 'Mission en présentiel' || $mission->is_autonomy === false) {
+        //     $mission->autonomy_zips = null;
+        //     $mission->autonomy_precisions = null;
+        // }
 
         if ($mission->type === 'Mission à distance') {
             $mission->department = $mission->structure->department;
+            $mission->addresses = null;
         }
 
-        if ($mission->is_autonomy === true) {
-            $mission->address = null;
-            $mission->zip = null;
-            $mission->city = null;
-            $mission->latitude = null;
-            $mission->longitude = null;
-        }
+        // if ($mission->is_autonomy === true) {
+        //     $mission->address = null;
+        //     $mission->zip = null;
+        //     $mission->city = null;
+        //     $mission->latitude = null;
+        //     $mission->longitude = null;
+        // }
 
         if($mission->isDirty('state')) {
             if($mission->state == 'Validée') {
@@ -246,7 +254,7 @@ class MissionObserver
             }
         }
 
-        if(!$mission->structure->state == 'Validée') {
+        if($mission->structure->state !== 'Validée') {
             $mission->is_online = false;
         }
     }

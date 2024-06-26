@@ -66,7 +66,6 @@ class ParticipationValidated extends Notification implements ShouldQueue
             ->markdown('emails.benevoles.participation-validated', [
                 'url' => $this->trackedUrl($url),
                 'mission' => $this->participation->mission,
-                'responsable' => $this->participation->mission->responsable,
                 'notifiable' => $notifiable
             ])
             ->tag($this->tag);
