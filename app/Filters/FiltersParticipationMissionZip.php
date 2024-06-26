@@ -11,13 +11,17 @@ class FiltersParticipationMissionZip implements Filter
     {
         return $query->where(function ($query) use ($value) {
             $query->whereHas('mission', function (Builder $query) use ($value) {
-                if(is_array($value)) {
-                    foreach ($value as $v) {
-                        $query->orWhereJsonContains('addresses', [['zip' => $v]]);
-                    }
-                } else {
-                    $query->whereJsonContains('addresses', [['zip' => $value]]);
-                }
+                $query
+                    ->where('type', 'Mission en présentiel')
+                    ->where(function ($query) use ($value) {
+                        if(is_array($value)) {
+                            foreach ($value as $v) {
+                                $query->orWhereJsonContains('addresses', [['zip' => $v]]);
+                            }
+                        } else {
+                            $query->whereJsonContains('addresses', [['zip' => $value]]);
+                        }
+                    });
             });
         });
     }
