@@ -83,43 +83,51 @@ class MessageObserver
             }
         }
 
-        // @todo: revoir la logique
-        $toUser = $message->conversation->users->filter(function ($user) use ($message) {
+        // GET USERS TO NOTIFY
+        $toUsers = $message->conversation->users->filter(function ($user) use ($message) {
             return $user->id !== $message->from_id;
-        })->first();
+        });
+
+        if ($toUsers->count() === 0) {
+            $send = false;
+        }
 
         // PARTICIPATION - Si le message est à destination du responsable et qu'il n'est pas en realtime
-        if ($send && $toUser && $conversable::class == Participation::class) {
-            $recipient = $conversable->profile->user->id === $toUser->id ? 'benevole' : 'responsable';
-            if ($recipient === 'responsable') {
-                if ($toUser->profile->notification__responsable_frequency !== 'realtime') {
-                    $send = false;
+        if ($send && $conversable::class == Participation::class) {
+            $toUsers->each(function ($toUser) use ($message, $conversable) {
+                $recipient = $conversable->profile->user->id === $toUser->id ? 'benevole' : 'responsable';
+                if ($recipient === 'responsable') {
+                    if ($toUser->profile->notification__responsable_frequency === 'realtime') {
+                        $toUser->notify(new MessageParticipationCreated($message));
+                    }
+                } else {
+                    $toUser->notify(new MessageParticipationCreated($message));
                 }
-            }
+            });
         }
 
         // STRUCTURE - Si le message est à destination du referent ou du responsable et qu'il n'est pas en realtime
-        if ($send && $toUser) {
-            if ($conversable::class == Structure::class) {
-                if ($toUser->context_role == 'referent' && $toUser->profile->notification__referent_frequency !== 'realtime') {
-                    $send = false;
+        if ($send && $conversable::class == Structure::class) {
+            $toUsers->each(function ($toUser) use ($message, $conversable) {
+                if ($toUser->context_role == 'referent' && $toUser->profile->notification__referent_frequency === 'realtime') {
+                    $toUser->notify(new MessageStructureCreated($message));
                 }
-                if ($toUser->context_role == 'responsable' && $toUser->profile->notification__responsable_frequency !== 'realtime') {
-                    $send = false;
+                if ($toUser->context_role == 'responsable' && $toUser->profile->notification__responsable_frequency === 'realtime') {
+                    $toUser->notify(new MessageStructureCreated($message));
                 }
-            }
+            });
         }
 
-        if ($send && $toUser) {
-            if ($conversable::class == Participation::class) {
-                $toUser->notify(new MessageParticipationCreated($message));
-            }
-            if ($conversable::class == Structure::class) {
-                $toUser->notify(new MessageStructureCreated($message));
-            }
-            if ($conversable::class == Mission::class) {
-                $toUser->notify(new MessageMissionCreated($message));
-            }
+        // MISSION - Si le message est à destination du referent ou du responsable et qu'il n'est pas en realtime
+        if ($send && $conversable::class == Mission::class) {
+            $toUsers->each(function ($toUser) use ($message, $conversable) {
+                if ($toUser->context_role == 'referent' && $toUser->profile->notification__referent_frequency === 'realtime') {
+                    $toUser->notify(new MessageMissionCreated($message));
+                }
+                if ($toUser->context_role == 'responsable' && $toUser->profile->notification__responsable_frequency === 'realtime') {
+                    $toUser->notify(new MessageMissionCreated($message));
+                }
+            });
         }
 
         // Notification SMS si première réponse d'un reponsable
