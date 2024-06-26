@@ -126,7 +126,6 @@ class MissionController extends Controller
             if ($mission) {
                 $mission->append(['full_address', 'has_places_left']);
             }
-            ray($mission);
         } else {
             // API ENGAGEMENT
             $api = new ApiEngagement();
