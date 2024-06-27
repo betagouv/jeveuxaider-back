@@ -118,19 +118,9 @@ class TerritoireController extends Controller
             ? Territoire::where('id', $slugOrId)->firstOrFail()
             : Territoire::where('slug', $slugOrId)->firstOrFail();
 
-        // $cities = [];
-        // $missionsByCity = $territoire->promotedMissions(50)->groupBy('city');
-
-        // foreach ($missionsByCity as $missions) {
-        //     $mission = $missions->first();
-        //     $cities[] = [
-        //         'name' => $mission->city,
-        //         'coordonates' => $mission->latitude . ',' . $mission->longitude,
-        //         'zipcode' => $mission->zip,
-        //     ];
-        // }
-
-        // return array_slice($cities, 0, 10);
+        if($territoire->latitude === null || $territoire->longitude === null) {
+            return [];
+        }
 
         $algoliaClient = new AlgoliaMissionClient();
 
