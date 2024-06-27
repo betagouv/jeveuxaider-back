@@ -36,7 +36,9 @@ class RecomputeConversationUsersWhenMissionResponsablesAdded implements ShouldQu
 
         $this->mission->participations->each(function ($participation) use ($newResponsablesIds) {
             $participation->loadMissing('conversation');
-            $participation->conversation->users()->syncWithoutDetaching($newResponsablesIds);
+            if($participation->has('conversation')) {
+                $participation->conversation->users()->syncWithoutDetaching($newResponsablesIds);
+            }
         });
     }
 }

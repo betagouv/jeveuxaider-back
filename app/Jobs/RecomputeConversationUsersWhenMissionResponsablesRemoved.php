@@ -31,7 +31,9 @@ class RecomputeConversationUsersWhenMissionResponsablesRemoved implements Should
     {
         $this->mission->participations->each(function ($participation) {
             $participation->loadMissing('conversation');
-            $participation->conversation->users()->detach($this->removedResponsableUserIds);
+            if($participation->has('conversation')) {
+                $participation->conversation->users()->detach($this->removedResponsableUserIds);
+            }
         });
     }
 }
