@@ -111,7 +111,7 @@ class Profile extends Model implements HasMedia
 
     public function getSecretNameAttribute()
     {
-        return $this->first_name . ' ' . $this->last_name[0] . '.';
+        return $this->first_name . ' ' . mb_substr($this->last_name, 0, 1) . '.';
     }
 
     public function getShortNameAttribute()
