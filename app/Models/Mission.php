@@ -81,6 +81,10 @@ class Mission extends Model
             return false;
         }
 
+        if (!$this->department) {
+            return false;
+        }
+
         // Attention  bien mettre à jour la query côté API Engagement aussi ( Api\EngagementController@feed )
         return $this->structure->state == 'Validée' && $this->state == 'Validée' && $this->is_online ? true : false;
     }

@@ -226,7 +226,8 @@ class Participation extends Model
         ]);
     }
 
-    public function createConversation(){
+    public function createConversation()
+    {
 
         $responsableUserIds = $this->mission->responsables->pluck('user_id')->toArray();
         $benevoleUserId = $this->profile->user_id;
