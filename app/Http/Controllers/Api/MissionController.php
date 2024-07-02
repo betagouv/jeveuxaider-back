@@ -260,20 +260,33 @@ class MissionController extends Controller
 
         $domaineId = $mission->template_id ? $mission->template->domaine_id : $mission->domaine_id;
 
-        $profilesQueryBuilder = Profile::where('is_visible', true)
+        $profilesQueryBuilder = Profile::select([
+            'id',
+            'user_id',
+            'first_name',
+            'last_name',
+            'zip',
+            'disponibilities',
+            'commitment__duration',
+            'commitment__time_period',
+            'type',
+            'is_visible'
+        ])
+            ->where('is_visible', true)
             ->whereHas('user', function (Builder $query) {
                 $query->canReceiveNotifications();
             })
             // ->ofDomaine($domaineId)
             ->whereDoesntHave('participations', function (Builder $query) use ($mission) {
                 $query->where('mission_id', $mission->id);
-            });
+            })
+        ;
 
         // if ($mission->type == 'Mission en présentiel') {
         //     $profilesQueryBuilder->department($mission->department);
         // }
 
-        return QueryBuilder::for($profilesQueryBuilder)
+        $results = QueryBuilder::for($profilesQueryBuilder)
             ->allowedIncludes([
                 'user',
                 'participationsValidatedCount',
@@ -290,6 +303,12 @@ class MissionController extends Controller
             )
             ->defaultSort('-created_at')
             ->paginate(config('query-builder.results_per_page'));
+
+        $results->getCollection()->transform(function ($profile) {
+            return $profile->makeHidden(['last_name', 'full_name']);
+        });
+
+        return $results;
     }
 
     public function similar(Request $request, Mission $mission)

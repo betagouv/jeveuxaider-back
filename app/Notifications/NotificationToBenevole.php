@@ -62,17 +62,20 @@ class NotificationToBenevole extends Notification implements ShouldQueue
     {
         $this->notificationBenevole->mission->loadMissing(['domaine', 'template.domaine']);
         $domaine = $this->notificationBenevole->mission->template_id ? $this->notificationBenevole->mission->template->domaine : $this->notificationBenevole->mission->domaine;
+        $url = "/missions-benevolat/{$this->notificationBenevole->mission->id}/{$this->notificationBenevole->mission->slug}?utm_source=mktplace";
+        $structure = $this->notificationBenevole->mission->structure;
+        $mission = $this->notificationBenevole->mission;
 
         return (new MailMessage())
-            ->subject("{$this->notificationBenevole->mission->structure->name} vous propose une mission de bénévolat")
-            ->greeting('Bonjour ' . $notifiable->first_name . ',')
-            ->line("L'organisation {$this->notificationBenevole->mission->structure->name} vous propose une nouvelle mission de bénévolat dans le domaine d'action **{$domaine->name}**.")
-            ->line('Votre profil correspond à celui des bénévoles recherchés.')
-            ->line('')
-            ->line('La mission')
-            ->line("**{$this->notificationBenevole->mission->name}**")
-            ->action('Proposer votre aide', $this->trackedUrl("/missions-benevolat/{$this->notificationBenevole->mission->id}/{$this->notificationBenevole->mission->slug}?utm_source=mktplace"))
-            ->line('Nous comptons sur vous pour faire vivre l’engagement. Merci !')
+            ->subject("{$structure->name} vous propose une mission de bénévolat")
+            ->markdown('emails.benevoles.proposition-mission', [
+                'url' => $this->trackedUrl($url),
+                'urlProfilePreferences' => $this->trackedUrl('/profile/preferences'),
+                'domaine' => $domaine,
+                'structure' => $structure,
+                'mission' => $mission,
+                'notifiable' => $notifiable
+            ])
             ->tag($this->tag);
     }
 
