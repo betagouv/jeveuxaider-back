@@ -34,6 +34,10 @@ class Profile extends Model implements HasMedia
         'id',
     ];
 
+    protected $attributes = [
+        'is_visible' => true,
+    ];
+
     protected $casts = [
         'birthday' => 'date:Y-m-d',
         'is_visible' => 'boolean',
