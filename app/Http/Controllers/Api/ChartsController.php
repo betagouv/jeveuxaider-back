@@ -10,8 +10,8 @@ use Illuminate\Support\Facades\DB;
 
 class ChartsController extends Controller
 {
-    public $startDate;
-    public $endDate;
+    // public $startDate;
+    // public $endDate;
     public $startYear;
     public $endYear;
     public $department;
@@ -21,12 +21,12 @@ class ChartsController extends Controller
         $this->startYear = 2020;
         $this->endYear = date('Y');
 
-        if($request->input('startDate')) {
-            $this->startDate =  Carbon::createFromFormat('Y-m-d', $request->input('startDate'))->hour(0)->minute(0)->second(0);
-        }
-        if($request->input('endDate')) {
-            $this->endDate =  Carbon::createFromFormat('Y-m-d', $request->input('endDate'))->hour(23)->minute(59)->second(59);
-        }
+        // if($request->input('startDate')) {
+        //     $this->startDate =  Carbon::createFromFormat('Y-m-d', $request->input('startDate'))->hour(0)->minute(0)->second(0);
+        // }
+        // if($request->input('endDate')) {
+        //     $this->endDate =  Carbon::createFromFormat('Y-m-d', $request->input('endDate'))->hour(23)->minute(59)->second(59);
+        // }
         if($request->header('Context-Role') == 'referent') {
             $this->department = Auth::guard('api')->user()->departmentsAsReferent->first()->number;
         } elseif($request->input('department')) {

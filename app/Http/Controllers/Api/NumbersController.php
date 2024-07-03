@@ -21,17 +21,21 @@ use Illuminate\Support\Facades\DB;
 
 class NumbersController extends Controller
 {
-    public $startDate;
-    public $endDate;
-    public $department;
+    public $startDate = null;
+    public $endDate = null;
+    public $department = null;
 
     public function __construct(Request $request)
     {
-        if($request->input('startDate')) {
-            $this->startDate = Carbon::createFromFormat('Y-m-d', $request->input('startDate'))->hour(0)->minute(0)->second(0);
+        if($request->input('start_date')) {
+            $this->startDate = Carbon::createFromFormat('Y-m-d', $request->input('start_date'))->hour(0)->minute(0)->second(0);
+        } else {
+            $this->startDate = Carbon::createFromFormat('Y-m-d', '2020-01-01')->hour(0)->minute(0)->second(0);
         }
-        if($request->input('endDate')) {
-            $this->endDate = Carbon::createFromFormat('Y-m-d', $request->input('endDate'))->hour(23)->minute(59)->second(59);
+        if($request->input('end_date')) {
+            $this->endDate = Carbon::createFromFormat('Y-m-d', $request->input('end_date'))->hour(23)->minute(59)->second(59);
+        } else {
+            $this->endDate = Carbon::now()->hour(23)->minute(59)->second(59);
         }
 
         if($request->header('Context-Role') == 'referent') {
@@ -46,7 +50,12 @@ class NumbersController extends Controller
         if(in_array($request->header('Context-Role'), ['admin', 'referent'])) {
             $organisationsValidatedCount = Structure::role($request->header('Context-Role'))
             ->whereIn('state', ['Validée'])
-            ->whereBetween('created_at', [$this->startDate, $this->endDate])
+            ->when($this->startDate, function ($query) {
+                $query->where('created_at', '>=', $this->startDate);
+            })
+            ->when($this->endDate, function ($query) {
+                $query->where('created_at', '<=', $this->endDate);
+            })
             ->when(
                 $this->department,
                 function ($query) {
