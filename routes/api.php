@@ -301,7 +301,7 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
 
     Route::get('statistics/participations-by-activities', 'Api\NumbersController@participationsByActivities');
     Route::get('statistics/participations-by-mission-templates', 'Api\NumbersController@participationsByMissionTemplates');
-    Route::get('statistics/participations-by-missions', 'Api\NumbersController@participationsByMissions');
+    // Route::get('statistics/participations-by-missions', 'Api\NumbersController@participationsByMissions');
     Route::get('statistics/participations-by-organisations', 'Api\NumbersController@participationsByOrganisations');
     Route::get('statistics/participations-by-reseaux', 'Api\NumbersController@participationsByReseaux');
     Route::get('statistics/participations-by-states', 'Api\NumbersController@participationsByStates');

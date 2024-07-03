@@ -146,6 +146,15 @@ class NumbersController extends Controller
                 $query->where('department', $this->department);
             }
         )
+        ->count();
+
+        $missionsAvailableCount = Mission::role($request->header('Context-Role'))
+        ->when(
+            $this->department,
+            function ($query) {
+                $query->where('department', $this->department);
+            }
+        )
         ->available()
         ->count();
 
@@ -159,7 +168,8 @@ class NumbersController extends Controller
         ->count();
 
         return [
-            'missions_available' => $missionsCount,
+            'missions' => $missionsCount,
+            'missions_available' => $missionsAvailableCount,
             'missions_validated_and_over' => $missionsValidatedOverCount,
             'missions_snu' => Mission::role($request->header('Context-Role'))->where('is_snu_mig_compatible', true)->whereIn('state', ['Validée', 'Terminée'])->when(
                 $this->department,
@@ -969,55 +979,55 @@ class NumbersController extends Controller
         return $results;
     }
 
-    public function participationsByMissionTemplates(Request $request)
-    {
-        $results = DB::select(
-            "
-                SELECT mission_templates.title, COUNT(*) AS count FROM participations
-                LEFT JOIN missions ON missions.id = participations.mission_id
-                LEFT JOIN mission_templates ON mission_templates.id = missions.template_id
-                WHERE participations.deleted_at IS NULL
-                AND missions.deleted_at IS NULL
-                AND COALESCE(missions.department,'') ILIKE :department
-                AND mission_templates.title IS NOT NULL
-                AND participations.created_at BETWEEN :start and :end
-                GROUP BY mission_templates.title
-                ORDER BY count DESC
-                LIMIT 5
-            ",
-            [
-                'department' => $this->department ? '%' . $this->department . '%' : '%%',
-                'start' => $this->startDate,
-                'end' => $this->endDate,
-            ]
-        );
+    // public function participationsByMissionTemplates(Request $request)
+    // {
+    //     $results = DB::select(
+    //         "
+    //             SELECT mission_templates.title, COUNT(*) AS count FROM participations
+    //             LEFT JOIN missions ON missions.id = participations.mission_id
+    //             LEFT JOIN mission_templates ON mission_templates.id = missions.template_id
+    //             WHERE participations.deleted_at IS NULL
+    //             AND missions.deleted_at IS NULL
+    //             AND COALESCE(missions.department,'') ILIKE :department
+    //             AND mission_templates.title IS NOT NULL
+    //             AND participations.created_at BETWEEN :start and :end
+    //             GROUP BY mission_templates.title
+    //             ORDER BY count DESC
+    //             LIMIT 5
+    //         ",
+    //         [
+    //             'department' => $this->department ? '%' . $this->department . '%' : '%%',
+    //             'start' => $this->startDate,
+    //             'end' => $this->endDate,
+    //         ]
+    //     );
 
-        return $results;
-    }
+    //     return $results;
+    // }
 
-    public function participationsByMissions(Request $request)
-    {
-        $results = DB::select(
-            "
-                SELECT missions.id, COUNT(*) AS count FROM participations
-                LEFT JOIN missions ON missions.id = participations.mission_id
-                WHERE participations.deleted_at IS NULL
-                AND missions.deleted_at IS NULL
-                AND COALESCE(missions.department,'') ILIKE :department
-                AND participations.created_at BETWEEN :start and :end
-                GROUP BY missions.id
-                ORDER BY count DESC
-                LIMIT 5
-            ",
-            [
-                'department' => $this->department ? '%' . $this->department . '%' : '%%',
-                'start' => $this->startDate,
-                'end' => $this->endDate,
-            ]
-        );
+    // public function participationsByMissions(Request $request)
+    // {
+    //     $results = DB::select(
+    //         "
+    //             SELECT missions.id, COUNT(*) AS count FROM participations
+    //             LEFT JOIN missions ON missions.id = participations.mission_id
+    //             WHERE participations.deleted_at IS NULL
+    //             AND missions.deleted_at IS NULL
+    //             AND COALESCE(missions.department,'') ILIKE :department
+    //             AND participations.created_at BETWEEN :start and :end
+    //             GROUP BY missions.id
+    //             ORDER BY count DESC
+    //             LIMIT 5
+    //         ",
+    //         [
+    //             'department' => $this->department ? '%' . $this->department . '%' : '%%',
+    //             'start' => $this->startDate,
+    //             'end' => $this->endDate,
+    //         ]
+    //     );
 
-        return $results;
-    }
+    //     return $results;
+    // }
 
     public function participationsByOrganisations(Request $request)
     {
@@ -1094,76 +1104,152 @@ class NumbersController extends Controller
 
     public function missionsByActivities(Request $request)
     {
-        $results = DB::select(
-            "
-                SELECT activities.name, activities.id, COUNT(*) AS count FROM missions
-                LEFT JOIN mission_templates ON mission_templates.id = missions.template_id
-                LEFT JOIN activities ON activities.id = mission_templates.activity_id OR activities.id = missions.activity_id
-                WHERE missions.deleted_at IS NULL
-                AND missions.created_at BETWEEN :start and :end
-                AND missions.state IN ('Validée', 'Terminée')
-                AND COALESCE(missions.department,'') ILIKE :department
-                AND activities.name IS NOT NULL
-                GROUP BY activities.name, activities.id
-                ORDER BY count DESC
-            ",
-            [
-                'department' => $this->department ? '%' . $this->department . '%' : '%%',
-                'start' => $this->startDate,
-                'end' => $this->endDate,
-            ]
-        );
+        if($request->header('Context-Role') === 'responsable') {
+            $results = DB::select(
+                "
+                    SELECT activities.name, activities.id, COUNT(*) AS count FROM missions
+                    LEFT JOIN mission_templates ON mission_templates.id = missions.template_id
+                    LEFT JOIN activities ON activities.id = mission_templates.activity_id OR activities.id = missions.activity_id
+                    WHERE missions.deleted_at IS NULL
+                    AND missions.structure_id = :structureId
+                    AND missions.created_at BETWEEN :start and :end
+                    AND missions.state IN ('Validée', 'Terminée')
+                    AND COALESCE(missions.department,'') ILIKE :department
+                    AND activities.name IS NOT NULL
+                    GROUP BY activities.name, activities.id
+                    ORDER BY count DESC
+                ",
+                [
+                    'department' => $this->department ? '%' . $this->department . '%' : '%%',
+                    'start' => $this->startDate,
+                    'end' => $this->endDate,
+                    'structureId' => Auth::user()->contextable_id
+                ]
+            );
+        } else {
+            $results = DB::select(
+                "
+                    SELECT activities.name, activities.id, COUNT(*) AS count FROM missions
+                    LEFT JOIN mission_templates ON mission_templates.id = missions.template_id
+                    LEFT JOIN activities ON activities.id = mission_templates.activity_id OR activities.id = missions.activity_id
+                    WHERE missions.deleted_at IS NULL
+                    AND missions.created_at BETWEEN :start and :end
+                    AND missions.state IN ('Validée', 'Terminée')
+                    AND COALESCE(missions.department,'') ILIKE :department
+                    AND activities.name IS NOT NULL
+                    GROUP BY activities.name, activities.id
+                    ORDER BY count DESC
+                ",
+                [
+                    'department' => $this->department ? '%' . $this->department . '%' : '%%',
+                    'start' => $this->startDate,
+                    'end' => $this->endDate,
+                ]
+            );
+        }
+
 
         return $results;
     }
 
     public function missionsByDomaines(Request $request)
     {
-        $results = DB::select(
-            "
-                SELECT domaines.name, domaines.id, COUNT(*) AS count
-                FROM missions
-                LEFT JOIN mission_templates ON mission_templates.id = missions.template_id
-                LEFT JOIN domaines ON domaines.id = mission_templates.domaine_id OR domaines.id = missions.domaine_id OR domaines.id = missions.domaine_secondary_id OR domaines.id = mission_templates.domaine_secondary_id
-                WHERE missions.deleted_at IS NULL
-                AND missions.state IN ('Validée', 'Terminée')
-                AND COALESCE(missions.department,'') ILIKE :department
-                AND missions.created_at BETWEEN :start and :end
-                GROUP BY domaines.name, domaines.id
-                ORDER BY count DESC
-            ",
-            [
-                'department' => $this->department ? '%' . $this->department . '%' : '%%',
-                'start' => $this->startDate,
-                'end' => $this->endDate,
-            ]
-        );
+        if($request->header('Context-Role') === 'responsable') {
+            $results = DB::select(
+                "
+                    SELECT domaines.name, domaines.id, COUNT(*) AS count
+                    FROM missions
+                    LEFT JOIN mission_templates ON mission_templates.id = missions.template_id
+                    LEFT JOIN domaines ON domaines.id = mission_templates.domaine_id OR domaines.id = missions.domaine_id OR domaines.id = missions.domaine_secondary_id OR domaines.id = mission_templates.domaine_secondary_id
+                    WHERE missions.deleted_at IS NULL
+                    AND missions.structure_id = :structureId
+                    AND missions.state IN ('Validée', 'Terminée')
+                    AND COALESCE(missions.department,'') ILIKE :department
+                    AND missions.created_at BETWEEN :start and :end
+                    GROUP BY domaines.name, domaines.id
+                    ORDER BY count DESC
+                ",
+                [
+                    'department' => $this->department ? '%' . $this->department . '%' : '%%',
+                    'start' => $this->startDate,
+                    'end' => $this->endDate,
+                    'structureId' => Auth::user()->contextable_id
+                ]
+            );
+        } else {
+            $results = DB::select(
+                "
+                    SELECT domaines.name, domaines.id, COUNT(*) AS count
+                    FROM missions
+                    LEFT JOIN mission_templates ON mission_templates.id = missions.template_id
+                    LEFT JOIN domaines ON domaines.id = mission_templates.domaine_id OR domaines.id = missions.domaine_id OR domaines.id = missions.domaine_secondary_id OR domaines.id = mission_templates.domaine_secondary_id
+                    WHERE missions.deleted_at IS NULL
+                    AND missions.state IN ('Validée', 'Terminée')
+                    AND COALESCE(missions.department,'') ILIKE :department
+                    AND missions.created_at BETWEEN :start and :end
+                    GROUP BY domaines.name, domaines.id
+                    ORDER BY count DESC
+                ",
+                [
+                    'department' => $this->department ? '%' . $this->department . '%' : '%%',
+                    'start' => $this->startDate,
+                    'end' => $this->endDate,
+                ]
+            );
+        }
+
 
         return $results;
     }
 
     public function missionsByTemplates(Request $request)
     {
-        $results = DB::select(
-            "
-                SELECT mission_templates.title, mission_templates.id, COUNT(*) AS count FROM missions
-                LEFT JOIN mission_templates ON mission_templates.id = missions.template_id
-                WHERE missions.deleted_at IS NULL
-                AND missions.deleted_at IS NULL
-                AND missions.state IN ('Validée', 'Terminée')
-                AND COALESCE(missions.department,'') ILIKE :department
-                AND mission_templates.title IS NOT NULL
-                AND missions.created_at BETWEEN :start and :end
-                GROUP BY mission_templates.title, mission_templates.id
-                ORDER BY count DESC
-                LIMIT 5
-            ",
-            [
-                'department' => $this->department ? '%' . $this->department . '%' : '%%',
-                'start' => $this->startDate,
-                'end' => $this->endDate,
-            ]
-        );
+        if($request->header('Context-Role') === 'responsable') {
+            $results = DB::select(
+                "
+                    SELECT mission_templates.title, mission_templates.id, COUNT(*) AS count FROM missions
+                    LEFT JOIN mission_templates ON mission_templates.id = missions.template_id
+                    WHERE missions.deleted_at IS NULL
+                    AND missions.deleted_at IS NULL
+                    AND missions.structure_id = :structureId
+                    AND missions.state IN ('Validée', 'Terminée')
+                    AND COALESCE(missions.department,'') ILIKE :department
+                    AND mission_templates.title IS NOT NULL
+                    AND missions.created_at BETWEEN :start and :end
+                    GROUP BY mission_templates.title, mission_templates.id
+                    ORDER BY count DESC
+                    LIMIT 5
+                ",
+                [
+                    'department' => $this->department ? '%' . $this->department . '%' : '%%',
+                    'start' => $this->startDate,
+                    'end' => $this->endDate,
+                    'structureId' => Auth::user()->contextable_id
+                ]
+            );
+        } else {
+            $results = DB::select(
+                "
+                    SELECT mission_templates.title, mission_templates.id, COUNT(*) AS count FROM missions
+                    LEFT JOIN mission_templates ON mission_templates.id = missions.template_id
+                    WHERE missions.deleted_at IS NULL
+                    AND missions.deleted_at IS NULL
+                    AND missions.state IN ('Validée', 'Terminée')
+                    AND COALESCE(missions.department,'') ILIKE :department
+                    AND mission_templates.title IS NOT NULL
+                    AND missions.created_at BETWEEN :start and :end
+                    GROUP BY mission_templates.title, mission_templates.id
+                    ORDER BY count DESC
+                    LIMIT 5
+                ",
+                [
+                    'department' => $this->department ? '%' . $this->department . '%' : '%%',
+                    'start' => $this->startDate,
+                    'end' => $this->endDate,
+                ]
+            );
+        }
+
 
         return $results;
     }
@@ -2005,8 +2091,37 @@ class NumbersController extends Controller
 
     public function missionsByMonth(Request $request)
     {
-        $results = DB::select(
-            "
+        if($request->header('Context-Role') === 'responsable') {
+
+            $results = DB::select(
+                "
+            SELECT date_trunc('month', missions.created_at) AS created_at,
+                date_part('year', missions.created_at) as year,
+                date_part('month', missions.created_at) as month,
+                count(*) AS missions_total,
+                sum(case when missions.state  = 'Brouillon' then 1 else 0 end) as missions_draft,
+                sum(case when missions.state  = 'En attente de validation' then 1 else 0 end) as missions_waiting_validation,
+                sum(case when missions.state  = 'En cours de traitement' then 1 else 0 end) as missions_being_processed,
+                sum(case when missions.state  = 'Validée' then 1 else 0 end) as missions_validated,
+                sum(case when missions.state  = 'Signalée' then 1 else 0 end) as missions_signaled,
+                sum(case when missions.state  = 'Terminée' then 1 else 0 end) as missions_finished,
+                sum(case when missions.state  = 'Annulée' then 1 else 0 end) as missions_canceled,
+                sum(case when missions.state IN ('Validée','Terminée') then 1 else 0 end) as missions_posted
+            FROM missions
+            WHERE missions.deleted_at IS NULL
+            AND missions.structure_id = :structureId
+            AND COALESCE(missions.department,'') ILIKE :department
+            GROUP BY date_trunc('month', missions.created_at), year, month
+            ORDER BY date_trunc('month', missions.created_at) DESC
+            ",
+                [
+                    'department' => $this->department ? '%' . $this->department . '%' : '%%',
+                    'structureId' => Auth::user()->contextable_id
+                ]
+            );
+        } else {
+            $results = DB::select(
+                "
             SELECT date_trunc('month', missions.created_at) AS created_at,
                 date_part('year', missions.created_at) as year,
                 date_part('month', missions.created_at) as month,
@@ -2025,10 +2140,11 @@ class NumbersController extends Controller
             GROUP BY date_trunc('month', missions.created_at), year, month
             ORDER BY date_trunc('month', missions.created_at) DESC
             ",
-            [
-                'department' => $this->department ? '%' . $this->department . '%' : '%%',
-            ]
-        );
+                [
+                    'department' => $this->department ? '%' . $this->department . '%' : '%%',
+                ]
+            );
+        }
 
         foreach ($results as $index => $item) {
             if (isset($results[$index + 12])) {
@@ -2043,29 +2159,59 @@ class NumbersController extends Controller
 
     public function missionsByYear(Request $request)
     {
-        $results = DB::select(
-            "
-            SELECT date_trunc('year', missions.created_at) AS created_at,
-                date_part('year', missions.created_at) as year,
-                count(*) AS missions_total,
-                sum(case when missions.state  = 'Brouillon' then 1 else 0 end) as missions_draft,
-                sum(case when missions.state  = 'En attente de validation' then 1 else 0 end) as missions_waiting_validation,
-                sum(case when missions.state  = 'En cours de traitement' then 1 else 0 end) as missions_being_processed,
-                sum(case when missions.state  = 'Validée' then 1 else 0 end) as missions_validated,
-                sum(case when missions.state  = 'Signalée' then 1 else 0 end) as missions_signaled,
-                sum(case when missions.state  = 'Terminée' then 1 else 0 end) as missions_finished,
-                sum(case when missions.state  = 'Annulée' then 1 else 0 end) as missions_canceled,
-                sum(case when missions.state IN ('Validée','Terminée') then 1 else 0 end) as missions_posted
-            FROM missions
-            WHERE missions.deleted_at IS NULL
-            AND COALESCE(missions.department,'') ILIKE :department
-            GROUP BY date_trunc('year', missions.created_at), year
-            ORDER BY date_trunc('year', missions.created_at) DESC
-            ",
-            [
-                'department' => $this->department ? '%' . $this->department . '%' : '%%',
-            ]
-        );
+
+        if($request->header('Context-Role') === 'responsable') {
+            $results = DB::select(
+                "
+                SELECT date_trunc('year', missions.created_at) AS created_at,
+                    date_part('year', missions.created_at) as year,
+                    count(*) AS missions_total,
+                    sum(case when missions.state  = 'Brouillon' then 1 else 0 end) as missions_draft,
+                    sum(case when missions.state  = 'En attente de validation' then 1 else 0 end) as missions_waiting_validation,
+                    sum(case when missions.state  = 'En cours de traitement' then 1 else 0 end) as missions_being_processed,
+                    sum(case when missions.state  = 'Validée' then 1 else 0 end) as missions_validated,
+                    sum(case when missions.state  = 'Signalée' then 1 else 0 end) as missions_signaled,
+                    sum(case when missions.state  = 'Terminée' then 1 else 0 end) as missions_finished,
+                    sum(case when missions.state  = 'Annulée' then 1 else 0 end) as missions_canceled,
+                    sum(case when missions.state IN ('Validée','Terminée') then 1 else 0 end) as missions_posted
+                FROM missions
+                WHERE missions.deleted_at IS NULL
+                AND missions.structure_id = :structureId
+                AND COALESCE(missions.department,'') ILIKE :department
+                GROUP BY date_trunc('year', missions.created_at), year
+                ORDER BY date_trunc('year', missions.created_at) DESC
+                ",
+                [
+                    'department' => $this->department ? '%' . $this->department . '%' : '%%',
+                    'structureId' => Auth::user()->contextable_id
+                ]
+            );
+        } else {
+            $results = DB::select(
+                "
+                SELECT date_trunc('year', missions.created_at) AS created_at,
+                    date_part('year', missions.created_at) as year,
+                    count(*) AS missions_total,
+                    sum(case when missions.state  = 'Brouillon' then 1 else 0 end) as missions_draft,
+                    sum(case when missions.state  = 'En attente de validation' then 1 else 0 end) as missions_waiting_validation,
+                    sum(case when missions.state  = 'En cours de traitement' then 1 else 0 end) as missions_being_processed,
+                    sum(case when missions.state  = 'Validée' then 1 else 0 end) as missions_validated,
+                    sum(case when missions.state  = 'Signalée' then 1 else 0 end) as missions_signaled,
+                    sum(case when missions.state  = 'Terminée' then 1 else 0 end) as missions_finished,
+                    sum(case when missions.state  = 'Annulée' then 1 else 0 end) as missions_canceled,
+                    sum(case when missions.state IN ('Validée','Terminée') then 1 else 0 end) as missions_posted
+                FROM missions
+                WHERE missions.deleted_at IS NULL
+                AND COALESCE(missions.department,'') ILIKE :department
+                GROUP BY date_trunc('year', missions.created_at), year
+                ORDER BY date_trunc('year', missions.created_at) DESC
+                ",
+                [
+                    'department' => $this->department ? '%' . $this->department . '%' : '%%',
+                ]
+            );
+        }
+
 
         foreach ($results as $index => $item) {
             if (isset($results[$index + 1])) {
@@ -2080,8 +2226,34 @@ class NumbersController extends Controller
 
     public function participationsByMonth(Request $request)
     {
-        $results = DB::select(
-            "
+        if($request->header('Context-Role') === 'responsable') {
+            $results = DB::select(
+                "
+            SELECT date_trunc('month', participations.created_at) AS created_at,
+                date_part('year', participations.created_at) as year,
+                date_part('month', participations.created_at) as month,
+                count(*) AS participations_total,
+                sum(case when participations.state  = 'En attente de validation' then 1 else 0 end) as participations_waiting_validation,
+                sum(case when participations.state  = 'En cours de traitement' then 1 else 0 end) as participations_being_processed,
+                sum(case when participations.state  = 'Validée' then 1 else 0 end) as participations_validated,
+                sum(case when participations.state  = 'Refusée' then 1 else 0 end) as participations_refused,
+                sum(case when participations.state  = 'Annulée' then 1 else 0 end) as participations_canceled
+            FROM participations
+            LEFT JOIN missions ON participations.mission_id = missions.id
+            WHERE participations.deleted_at IS NULL
+            AND missions.structure_id = :structureId
+            AND COALESCE(missions.department,'') ILIKE :department
+            GROUP BY date_trunc('month', participations.created_at), year, month
+            ORDER BY date_trunc('month', participations.created_at) DESC
+            ",
+                [
+                    'department' => $this->department ? '%' . $this->department . '%' : '%%',
+                    'structureId' => Auth::user()->contextable_id
+                ]
+            );
+        } else {
+            $results = DB::select(
+                "
             SELECT date_trunc('month', participations.created_at) AS created_at,
                 date_part('year', participations.created_at) as year,
                 date_part('month', participations.created_at) as month,
@@ -2098,10 +2270,11 @@ class NumbersController extends Controller
             GROUP BY date_trunc('month', participations.created_at), year, month
             ORDER BY date_trunc('month', participations.created_at) DESC
             ",
-            [
-                'department' => $this->department ? '%' . $this->department . '%' : '%%',
-            ]
-        );
+                [
+                    'department' => $this->department ? '%' . $this->department . '%' : '%%',
+                ]
+            );
+        }
 
         foreach ($results as $index => $item) {
             if (isset($results[$index + 12])) {
@@ -2123,8 +2296,33 @@ class NumbersController extends Controller
 
     public function participationsByYear(Request $request)
     {
-        $results = DB::select(
-            "
+        if($request->header('Context-Role') === 'responsable') {
+            $results = DB::select(
+                "
+            SELECT date_trunc('year', participations.created_at) AS created_at,
+                date_part('year', participations.created_at) as year,
+                count(*) AS participations_total,
+                sum(case when participations.state  = 'En attente de validation' then 1 else 0 end) as participations_waiting_validation,
+                sum(case when participations.state  = 'En cours de traitement' then 1 else 0 end) as participations_being_processed,
+                sum(case when participations.state  = 'Validée' then 1 else 0 end) as participations_validated,
+                sum(case when participations.state  = 'Refusée' then 1 else 0 end) as participations_refused,
+                sum(case when participations.state  = 'Annulée' then 1 else 0 end) as participations_canceled
+            FROM participations
+            LEFT JOIN missions ON participations.mission_id = missions.id
+            WHERE participations.deleted_at IS NULL
+            AND missions.structure_id = :structureId
+            AND COALESCE(missions.department,'') ILIKE :department
+            GROUP BY date_trunc('year', participations.created_at), year
+            ORDER BY date_trunc('year', participations.created_at) DESC
+            ",
+                [
+                    'department' => $this->department ? '%' . $this->department . '%' : '%%',
+                    'structureId' => Auth::user()->contextable_id
+                ]
+            );
+        } else {
+            $results = DB::select(
+                "
             SELECT date_trunc('year', participations.created_at) AS created_at,
                 date_part('year', participations.created_at) as year,
                 count(*) AS participations_total,
@@ -2140,10 +2338,11 @@ class NumbersController extends Controller
             GROUP BY date_trunc('year', participations.created_at), year
             ORDER BY date_trunc('year', participations.created_at) DESC
             ",
-            [
-                'department' => $this->department ? '%' . $this->department . '%' : '%%',
-            ]
-        );
+                [
+                    'department' => $this->department ? '%' . $this->department . '%' : '%%',
+                ]
+            );
+        }
 
         foreach ($results as $index => $item) {
             if (isset($results[$index + 1])) {
