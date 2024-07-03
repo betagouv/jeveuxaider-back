@@ -69,7 +69,24 @@ class ChartsController extends Controller
     {
         $items = [];
 
-        $results = DB::select("
+        if($request->header('Context-Role') === 'responsable') {
+            $results = DB::select("
+                SELECT date_trunc('month', missions.created_at) AS created_at,
+                date_part('year', missions.created_at) as year,
+                date_part('month', missions.created_at) as month,
+                count(*) AS count
+                FROM missions
+                WHERE COALESCE(missions.department,'') ILIKE :department
+                AND missions.structure_id = :structureId
+                AND missions.state IN ('Validée', 'Terminée')
+                GROUP BY date_trunc('month', missions.created_at), year, month
+                ORDER BY date_trunc('month', missions.created_at) ASC
+            ", [
+                'department' => $this->department ? '%' . $this->department . '%' : '%%',
+                'structureId' => Auth::user()->contextable_id
+            ]);
+        } else {
+            $results = DB::select("
                 SELECT date_trunc('month', missions.created_at) AS created_at,
                 date_part('year', missions.created_at) as year,
                 date_part('month', missions.created_at) as month,
@@ -80,8 +97,9 @@ class ChartsController extends Controller
                 GROUP BY date_trunc('month', missions.created_at), year, month
                 ORDER BY date_trunc('month', missions.created_at) ASC
             ", [
-            'department' => $this->department ? '%' . $this->department . '%' : '%%',
-        ]);
+                'department' => $this->department ? '%' . $this->department . '%' : '%%',
+            ]);
+        }
 
         $collection = collect($results);
 
@@ -99,7 +117,24 @@ class ChartsController extends Controller
     {
         $items = [];
 
-        $results = DB::select("
+        if($request->header('Context-Role') === 'responsable') {
+            $results = DB::select("
+                SELECT date_trunc('month', participations.created_at) AS created_at,
+                date_part('year', participations.created_at) as year,
+                date_part('month', participations.created_at) as month,
+                count(*) AS count
+                FROM participations
+                LEFT JOIN missions ON missions.id = participations.mission_id
+                WHERE COALESCE(missions.department,'') ILIKE :department
+                AND missions.structure_id = :structureId
+                GROUP BY date_trunc('month', participations.created_at), year, month
+                ORDER BY date_trunc('month', participations.created_at) ASC
+            ", [
+                'department' => $this->department ? '%' . $this->department . '%' : '%%',
+                'structureId' => Auth::user()->contextable_id
+            ]);
+        } else {
+            $results = DB::select("
                 SELECT date_trunc('month', participations.created_at) AS created_at,
                 date_part('year', participations.created_at) as year,
                 date_part('month', participations.created_at) as month,
@@ -110,8 +145,9 @@ class ChartsController extends Controller
                 GROUP BY date_trunc('month', participations.created_at), year, month
                 ORDER BY date_trunc('month', participations.created_at) ASC
             ", [
-            'department' => $this->department ? '%' . $this->department . '%' : '%%',
-        ]);
+                'department' => $this->department ? '%' . $this->department . '%' : '%%',
+            ]);
+        }
 
         $collection = collect($results);
 
@@ -150,8 +186,8 @@ class ChartsController extends Controller
         for ($year = $this->startYear; $year <= $this->endYear; $year++) {
             for ($month = 1; $month < 13; $month++) {
                 $item = $collection->where('year', $year)->where('month', $month)->first();
-                $items[$year.' - A - Validated'][] = $item ? $item->participations_validated_count : 0;
-                $items[$year.' - B - Others'][] = $item ? $item->participations_others_count : 0;
+                $items[$year . ' - A - Validated'][] = $item ? $item->participations_validated_count : 0;
+                $items[$year . ' - B - Others'][] = $item ? $item->participations_others_count : 0;
             }
         }
 
