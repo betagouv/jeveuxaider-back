@@ -24,9 +24,14 @@ class NumbersController extends Controller
     public $startDate = null;
     public $endDate = null;
     public $department = null;
+    public $structureId = null;
 
     public function __construct(Request $request)
     {
+        if($request->header('Context-Role') == 'responsable') {
+            $this->structureId = Auth::guard('api')->user()->contextable_id;
+        }
+
         if($request->input('start_date')) {
             $this->startDate = Carbon::createFromFormat('Y-m-d', $request->input('start_date'))->hour(0)->minute(0)->second(0);
         } else {
@@ -37,6 +42,8 @@ class NumbersController extends Controller
         } else {
             $this->endDate = Carbon::now()->hour(23)->minute(59)->second(59);
         }
+
+        ray($this->startDate, $this->endDate);
 
         if($request->header('Context-Role') == 'referent') {
             $this->department = Auth::guard('api')->user()->departmentsAsReferent->first()->number;
@@ -300,8 +307,8 @@ class NumbersController extends Controller
     {
         $service = new ApiEngagement();
 
-        $from = Carbon::createFromFormat('Y-m-d', $request->input('startDate'))->hour(0)->minute(0)->second(0);
-        $to = Carbon::createFromFormat('Y-m-d', $request->input('endDate'))->hour(23)->minute(59)->second(59);
+        $from = $this->startDate->format('Y-m-d');
+        $to = $this->endDate->format('Y-m-d');
 
         $periodRedirections = $service->getStatistics("toPublisherId=5f5931496c7ea514150a818f&type=click&createdAt=gt:$from&createdAt=lt:$to");
         $totalRedirections = $service->getStatistics("toPublisherId=5f5931496c7ea514150a818f&type=click");
@@ -320,8 +327,8 @@ class NumbersController extends Controller
     {
         $service = new ApiEngagement();
 
-        $from = Carbon::createFromFormat('Y-m-d', $request->input('startDate'))->hour(0)->minute(0)->second(0);
-        $to = Carbon::createFromFormat('Y-m-d', $request->input('endDate'))->hour(23)->minute(59)->second(59);
+        $from = $this->startDate->format('Y-m-d');
+        $to = $this->endDate->format('Y-m-d');
 
         $redirections = $service->getStatistics("size=100&facets=fromPublisherName&createdAt=gt:$from&createdAt=lt:$to&toPublisherId=5f5931496c7ea514150a818f&type=click");
         $applications = $service->getStatistics("size=100&facets=fromPublisherName&createdAt=gt:$from&createdAt=lt:$to&toPublisherId=5f5931496c7ea514150a818f&type=apply");
@@ -350,8 +357,8 @@ class NumbersController extends Controller
     {
         $service = new ApiEngagement();
 
-        $from = Carbon::createFromFormat('Y-m-d', $request->input('startDate'))->hour(0)->minute(0)->second(0);
-        $to = Carbon::createFromFormat('Y-m-d', $request->input('endDate'))->hour(23)->minute(59)->second(59);
+        $from = $this->startDate->format('Y-m-d');
+        $to = $this->endDate->format('Y-m-d');
 
         $periodRedirections = $service->getStatistics("fromPublisherId=5f5931496c7ea514150a818f&type=click&createdAt=gt:$from&createdAt=lt:$to");
         $totalRedirections = $service->getStatistics("fromPublisherId=5f5931496c7ea514150a818f&type=click");
@@ -370,8 +377,8 @@ class NumbersController extends Controller
     {
         $service = new ApiEngagement();
 
-        $from = Carbon::createFromFormat('Y-m-d', $request->input('startDate'))->hour(0)->minute(0)->second(0);
-        $to = Carbon::createFromFormat('Y-m-d', $request->input('endDate'))->hour(23)->minute(59)->second(59);
+        $from = $this->startDate->format('Y-m-d');
+        $to = $this->endDate->format('Y-m-d');
 
         $redirections = $service->getStatistics("size=100&facets=toPublisherName&createdAt=gt:$from&createdAt=lt:$to&fromPublisherId=5f5931496c7ea514150a818f&type=click");
         $applications = $service->getStatistics("size=100&facets=toPublisherName&createdAt=gt:$from&createdAt=lt:$to&fromPublisherId=5f5931496c7ea514150a818f&type=apply");
@@ -1974,30 +1981,61 @@ class NumbersController extends Controller
     {
 
         if($request->header('Context-Role') === 'responsable') {
-            $results = DB::select(
-                "
-                    SELECT activities.name, activities.id,
-                    SUM(CASE WHEN missions.state IN ('Validée') THEN missions.places_left ELSE 0 END) AS count
-                    FROM missions
-                    LEFT JOIN structures ON structures.id = missions.structure_id
-                    LEFT JOIN mission_templates ON mission_templates.id = missions.template_id
-                    LEFT JOIN activities ON activities.id = mission_templates.activity_id OR activities.id = missions.activity_id OR activities.id = mission_templates.activity_secondary_id OR activities.id = missions.activity_secondary_id
-                    WHERE missions.deleted_at IS NULL
-                    AND missions.is_registration_open = true
-                    AND missions.is_online = true
-                    AND missions.structure_id = :structureId
-                    AND COALESCE(missions.department,'') ILIKE :department
-                    AND activities.name IS NOT NULL
-                    AND structures.deleted_at IS NULL
-                    AND structures.state = 'Validée'
-                    GROUP BY activities.name, activities.id
-                    ORDER BY count DESC
-                ",
-                [
-                    'department' => $this->department ? '%' . $this->department . '%' : '%%',
-                    'structureId' => Auth::user()->contextable_id
-                ]
-            );
+            // $results = DB::select(
+            //     "
+            //         SELECT activities.name, activities.id,
+            //         SUM(CASE WHEN missions.state IN ('Validée') THEN missions.places_left ELSE 0 END) AS count
+            //         FROM missions
+            //         LEFT JOIN structures ON structures.id = missions.structure_id
+            //         LEFT JOIN mission_templates ON mission_templates.id = missions.template_id
+            //         LEFT JOIN activities ON activities.id = mission_templates.activity_id OR activities.id = missions.activity_id OR activities.id = mission_templates.activity_secondary_id OR activities.id = missions.activity_secondary_id
+            //         WHERE missions.deleted_at IS NULL
+            //         AND missions.is_registration_open = true
+            //         AND missions.is_online = true
+            //         AND missions.structure_id = :structureId
+            //         AND COALESCE(missions.department,'') ILIKE :department
+            //         AND activities.name IS NOT NULL
+            //         AND structures.deleted_at IS NULL
+            //         AND structures.state = 'Validée'
+            //         GROUP BY activities.name, activities.id
+            //         ORDER BY count DESC
+            //     ",
+            //     [
+            //         'department' => $this->department ? '%' . $this->department . '%' : '%%',
+            //         'structureId' => Auth::user()->contextable_id
+            //     ]
+            // );
+
+            $results = DB::table('missions')
+                ->select(
+                    'activities.name',
+                    'activities.id',
+                    DB::raw("SUM(CASE WHEN missions.state IN ('Validée') THEN missions.places_left ELSE 0 END) AS count")
+                )
+                ->leftJoin('structures', 'structures.id', '=', 'missions.structure_id')
+                ->leftJoin('mission_templates', 'mission_templates.id', '=', 'missions.template_id')
+                ->leftJoin('activities', function ($join) {
+                    $join->on('activities.id', '=', 'mission_templates.activity_id')
+                        ->orOn('activities.id', '=', 'missions.activity_id')
+                        ->orOn('activities.id', '=', 'mission_templates.activity_secondary_id')
+                        ->orOn('activities.id', '=', 'missions.activity_secondary_id');
+                })
+                ->whereNull('missions.deleted_at')
+                ->where('missions.is_registration_open', true)
+                ->where('missions.is_online', true)
+                ->when($this->department, function ($query) {
+                    $query->where('missions.department', $this->department);
+                })
+                ->when($this->structureId, function ($query) {
+                    $query->where('missions.structure_id', $this->structureId);
+                })
+                ->whereNotNull('activities.name')
+                ->whereNull('structures.deleted_at')
+                ->where('structures.state', 'Validée')
+                ->groupBy('activities.name', 'activities.id')
+                ->orderByDesc('count')
+                ->get();
+
         } else {
             $results = DB::select(
                 "

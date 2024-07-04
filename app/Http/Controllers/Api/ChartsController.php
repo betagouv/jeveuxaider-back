@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Structure;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -10,23 +11,38 @@ use Illuminate\Support\Facades\DB;
 
 class ChartsController extends Controller
 {
-    // public $startDate;
-    // public $endDate;
+    public $startDate;
+    public $endDate;
     public $startYear;
     public $endYear;
     public $department;
+    public $structureId;
 
     public function __construct(Request $request)
     {
         $this->startYear = 2020;
         $this->endYear = date('Y');
 
-        // if($request->input('startDate')) {
-        //     $this->startDate =  Carbon::createFromFormat('Y-m-d', $request->input('startDate'))->hour(0)->minute(0)->second(0);
-        // }
-        // if($request->input('endDate')) {
-        //     $this->endDate =  Carbon::createFromFormat('Y-m-d', $request->input('endDate'))->hour(23)->minute(59)->second(59);
-        // }
+        if($request->header('Context-Role') === 'responsable') {
+            $structure = Structure::find(Auth::guard('api')->user()->contextable_id);
+            $this->structureId = $structure->id;
+        }
+
+        if($request->input('start_date')) {
+            $this->startDate = Carbon::createFromFormat('Y-m-d', $request->input('start_date'))->hour(0)->minute(0)->second(0);
+        } else {
+            if($request->header('Context-Role') === 'responsable') {
+                $this->startDate = $structure->created_at->format('Y-m-d');
+            } else {
+                $this->startDate = Carbon::createFromFormat('Y-m-d', '2020-01-01')->hour(0)->minute(0)->second(0);
+            }
+        }
+        if($request->input('end_date')) {
+            $this->endDate = Carbon::createFromFormat('Y-m-d', $request->input('end_date'))->hour(23)->minute(59)->second(59);
+        } else {
+            $this->endDate = Carbon::now()->hour(23)->minute(59)->second(59);
+        }
+
         if($request->header('Context-Role') == 'referent') {
             $this->department = Auth::guard('api')->user()->departmentsAsReferent->first()->number;
         } elseif($request->input('department')) {
@@ -221,5 +237,66 @@ class ChartsController extends Controller
         }
 
         return $items;
+    }
+
+    public function participationsByPeriod(Request $request)
+    {
+        $dateSeries = DB::select(
+            "SELECT generate_series(
+                date_trunc('month', ?::date),
+                date_trunc('month', ?::date),
+                '1 month'::interval
+            ) AS month_start",
+            [$this->startDate, $this->endDate]
+        );
+
+        ray($this->structureId);
+
+        // Convert date series result to an array of dates
+        $dateSeries = array_map(function ($item) {
+            return $item->month_start;
+        }, $dateSeries);
+
+        // Subquery to get counts of participations per month
+        $participationsSubquery = DB::table('participations')
+            ->select(
+                DB::raw("date_trunc('month', participations.created_at) AS created_at"),
+                DB::raw("count(*) AS count")
+            )
+            ->leftJoin('missions', 'missions.id', '=', 'participations.mission_id')
+            ->whereBetween('participations.created_at', [$this->startDate, $this->endDate])
+            ->when($this->department, function ($query) {
+                return $query->where('missions.department', $this->department);
+            })
+            ->when($this->structureId, function ($query) {
+                ray('structureId', $this->structureId);
+                return $query->where('missions.structure_id', $this->structureId);
+            })
+            ->groupBy(DB::raw("date_trunc('month', participations.created_at)"));
+
+        // Main query to join date series with participation counts
+        $results = DB::table(DB::raw("(SELECT generate_series(
+                date_trunc('month', '$this->startDate'::date),
+                date_trunc('month', '$this->endDate'::date),
+                '1 month'::interval
+            ) AS month_start) AS date_series"))
+            ->select(
+                'date_series.month_start',
+                DB::raw("date_part('year', date_series.month_start) as year"),
+                DB::raw("date_part('month', date_series.month_start) as month"),
+                DB::raw("COALESCE(p.count, 0) AS count")
+            )
+            ->leftJoinSub($participationsSubquery, 'p', function ($join) {
+                $join->on('date_series.month_start', '=', 'p.created_at');
+            })
+            ->orderBy('date_series.month_start', 'ASC')
+            ->get();
+
+        $collection = collect($results);
+
+        return $collection->map(function ($item) {
+            $item->date = Carbon::parse($item->month_start)->format('Y-m-d');
+            return $item;
+        });
     }
 }
