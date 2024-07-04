@@ -921,27 +921,6 @@ class NumbersController extends Controller
 
     public function missionsByOrganisations(Request $request)
     {
-        // $results = DB::select(
-        //     "
-        //         SELECT structures.name, structures.id, COUNT(*) AS count FROM missions
-        //         LEFT JOIN structures ON structures.id = missions.structure_id
-        //         WHERE missions.deleted_at IS NULL
-        //         AND COALESCE(missions.department,'') ILIKE :department
-        //         AND missions.deleted_at IS NULL
-        //         AND missions.state IN ('Validée', 'Terminée')
-        //         AND structures.name IS NOT NULL
-        //         AND missions.created_at BETWEEN :start and :end
-        //         GROUP BY structures.name, structures.id
-        //         ORDER BY count DESC
-        //         LIMIT 5
-        //     ",
-        //     [
-        //         'department' => $this->department ? '%' . $this->department . '%' : '%%',
-        //         'start' => $this->startDate,
-        //         'end' => $this->endDate,
-        //     ]
-        // );
-
         $results = DB::table('missions')
             ->leftJoin('structures', 'structures.id', '=', 'missions.structure_id')
             ->leftJoin('reseau_structure', 'reseau_structure.structure_id', '=', 'missions.structure_id')
@@ -969,53 +948,6 @@ class NumbersController extends Controller
 
     public function participationsByActivities(Request $request)
     {
-
-        // if($request->header('Context-Role') === 'responsable') {
-        //     $results = DB::select(
-        //         "
-        //             SELECT activities.name, activities.id, COUNT(*) AS count FROM participations
-        //             LEFT JOIN missions ON missions.id = participations.mission_id
-        //             LEFT JOIN mission_templates ON mission_templates.id = missions.template_id
-        //             LEFT JOIN activities ON activities.id = mission_templates.activity_id OR activities.id = missions.activity_id
-        //             WHERE participations.deleted_at IS NULL
-        //             AND missions.deleted_at IS NULL
-        //             AND missions.structure_id = :structureId
-        //             AND COALESCE(missions.department,'') ILIKE :department
-        //             AND participations.created_at BETWEEN :start and :end
-        //             AND activities.name IS NOT NULL
-        //             GROUP BY activities.name,activities.id
-        //             ORDER BY count DESC
-        //         ",
-        //         [
-        //             'department' => $this->department ? '%' . $this->department . '%' : '%%',
-        //             'start' => $this->startDate,
-        //             'end' => $this->endDate,
-        //             'structureId' => Auth::user()->contextable_id
-        //         ]
-        //     );
-        // } else {
-        //     $results = DB::select(
-        //         "
-        //             SELECT activities.name, activities.id, COUNT(*) AS count FROM participations
-        //             LEFT JOIN missions ON missions.id = participations.mission_id
-        //             LEFT JOIN mission_templates ON mission_templates.id = missions.template_id
-        //             LEFT JOIN activities ON activities.id = mission_templates.activity_id OR activities.id = missions.activity_id
-        //             WHERE participations.deleted_at IS NULL
-        //             AND missions.deleted_at IS NULL
-        //             AND COALESCE(missions.department,'') ILIKE :department
-        //             AND participations.created_at BETWEEN :start and :end
-        //             AND activities.name IS NOT NULL
-        //             GROUP BY activities.name,activities.id
-        //             ORDER BY count DESC
-        //         ",
-        //         [
-        //             'department' => $this->department ? '%' . $this->department . '%' : '%%',
-        //             'start' => $this->startDate,
-        //             'end' => $this->endDate,
-        //         ]
-        //     );
-        // }
-
         $results = DB::table('participations')
             ->leftJoin('missions', 'missions.id', '=', 'participations.mission_id')
             ->leftJoin('structures', 'structures.id', '=', 'missions.structure_id')
@@ -1047,79 +979,8 @@ class NumbersController extends Controller
         return $results;
     }
 
-    // public function participationsByMissionTemplates(Request $request)
-    // {
-    //     $results = DB::select(
-    //         "
-    //             SELECT mission_templates.title, COUNT(*) AS count FROM participations
-    //             LEFT JOIN missions ON missions.id = participations.mission_id
-    //             LEFT JOIN mission_templates ON mission_templates.id = missions.template_id
-    //             WHERE participations.deleted_at IS NULL
-    //             AND missions.deleted_at IS NULL
-    //             AND COALESCE(missions.department,'') ILIKE :department
-    //             AND mission_templates.title IS NOT NULL
-    //             AND participations.created_at BETWEEN :start and :end
-    //             GROUP BY mission_templates.title
-    //             ORDER BY count DESC
-    //             LIMIT 5
-    //         ",
-    //         [
-    //             'department' => $this->department ? '%' . $this->department . '%' : '%%',
-    //             'start' => $this->startDate,
-    //             'end' => $this->endDate,
-    //         ]
-    //     );
-
-    //     return $results;
-    // }
-
-    // public function participationsByMissions(Request $request)
-    // {
-    //     $results = DB::select(
-    //         "
-    //             SELECT missions.id, COUNT(*) AS count FROM participations
-    //             LEFT JOIN missions ON missions.id = participations.mission_id
-    //             WHERE participations.deleted_at IS NULL
-    //             AND missions.deleted_at IS NULL
-    //             AND COALESCE(missions.department,'') ILIKE :department
-    //             AND participations.created_at BETWEEN :start and :end
-    //             GROUP BY missions.id
-    //             ORDER BY count DESC
-    //             LIMIT 5
-    //         ",
-    //         [
-    //             'department' => $this->department ? '%' . $this->department . '%' : '%%',
-    //             'start' => $this->startDate,
-    //             'end' => $this->endDate,
-    //         ]
-    //     );
-
-    //     return $results;
-    // }
-
     public function participationsByOrganisations(Request $request)
     {
-        // $results = DB::select(
-        //     "
-        //         SELECT structures.id, structures.name, COUNT(*) AS count FROM participations
-        //         LEFT JOIN missions ON missions.id = participations.mission_id
-        //         LEFT JOIN structures ON structures.id = missions.structure_id
-        //         WHERE participations.deleted_at IS NULL
-        //         AND missions.deleted_at IS NULL
-        //         AND COALESCE(missions.department,'') ILIKE :department
-        //         AND structures.name IS NOT NULL
-        //         AND participations.created_at BETWEEN :start and :end
-        //         GROUP BY structures.id, structures.name
-        //         ORDER BY count DESC
-        //         LIMIT 5
-        //     ",
-        //     [
-        //         'department' => $this->department ? '%' . $this->department . '%' : '%%',
-        //         'start' => $this->startDate,
-        //         'end' => $this->endDate,
-        //     ]
-        // );
-
         $results = DB::table('participations')
             ->leftJoin('missions', 'missions.id', '=', 'participations.mission_id')
             ->leftJoin('structures', 'structures.id', '=', 'missions.structure_id')
@@ -1148,48 +1009,6 @@ class NumbersController extends Controller
 
     public function participationsByDomaines(Request $request)
     {
-        // if($request->header('Context-Role') === 'responsable') {
-        //     $results = DB::select(
-        //         "
-        //             SELECT domaines.name, domaines.id, COUNT(*) AS count FROM participations
-        //             LEFT JOIN missions ON missions.id = participations.mission_id
-        //             LEFT JOIN mission_templates ON mission_templates.id = missions.template_id
-        //             LEFT JOIN domaines ON domaines.id = mission_templates.domaine_id OR domaines.id = missions.domaine_id OR domaines.id = missions.domaine_secondary_id OR domaines.id = mission_templates.domaine_secondary_id
-        //             WHERE missions.deleted_at IS NULL
-        //             AND missions.structure_id = :structureId
-        //             AND participations.created_at BETWEEN :start and :end
-        //             AND COALESCE(missions.department,'') ILIKE :department
-        //             GROUP BY domaines.name, domaines.id
-        //             ORDER BY count DESC
-        //         ",
-        //         [
-        //             'department' => $this->department ? '%' . $this->department . '%' : '%%',
-        //             'start' => $this->startDate,
-        //             'end' => $this->endDate,
-        //             'structureId' => Auth::user()->contextable_id
-        //         ]
-        //     );
-        // } else {
-        //     $results = DB::select(
-        //         "
-        //         SELECT domaines.name, domaines.id, COUNT(*) AS count FROM participations
-        //         LEFT JOIN missions ON missions.id = participations.mission_id
-        //         LEFT JOIN mission_templates ON mission_templates.id = missions.template_id
-        //         LEFT JOIN domaines ON domaines.id = mission_templates.domaine_id OR domaines.id = missions.domaine_id OR domaines.id = missions.domaine_secondary_id OR domaines.id = mission_templates.domaine_secondary_id
-        //         WHERE missions.deleted_at IS NULL
-        //         AND participations.created_at BETWEEN :start and :end
-        //         AND COALESCE(missions.department,'') ILIKE :department
-        //         GROUP BY domaines.name, domaines.id
-        //         ORDER BY count DESC
-        //     ",
-        //         [
-        //             'department' => $this->department ? '%' . $this->department . '%' : '%%',
-        //             'start' => $this->startDate,
-        //             'end' => $this->endDate,
-        //         ]
-        //     );
-        // }
-
         $results = DB::table('participations')
             ->leftJoin('missions', 'missions.id', '=', 'participations.mission_id')
             ->leftJoin('structures', 'structures.id', '=', 'missions.structure_id')
@@ -1222,50 +1041,6 @@ class NumbersController extends Controller
 
     public function missionsByActivities(Request $request)
     {
-        // if($request->header('Context-Role') === 'responsable') {
-        //     $results = DB::select(
-        //         "
-        //             SELECT activities.name, activities.id, COUNT(*) AS count FROM missions
-        //             LEFT JOIN mission_templates ON mission_templates.id = missions.template_id
-        //             LEFT JOIN activities ON activities.id = mission_templates.activity_id OR activities.id = missions.activity_id
-        //             WHERE missions.deleted_at IS NULL
-        //             AND missions.structure_id = :structureId
-        //             AND missions.created_at BETWEEN :start and :end
-        //             AND missions.state IN ('Validée', 'Terminée')
-        //             AND COALESCE(missions.department,'') ILIKE :department
-        //             AND activities.name IS NOT NULL
-        //             GROUP BY activities.name, activities.id
-        //             ORDER BY count DESC
-        //         ",
-        //         [
-        //             'department' => $this->department ? '%' . $this->department . '%' : '%%',
-        //             'start' => $this->startDate,
-        //             'end' => $this->endDate,
-        //             'structureId' => Auth::user()->contextable_id
-        //         ]
-        //     );
-        // } else {
-        //     $results = DB::select(
-        //         "
-        //             SELECT activities.name, activities.id, COUNT(*) AS count FROM missions
-        //             LEFT JOIN mission_templates ON mission_templates.id = missions.template_id
-        //             LEFT JOIN activities ON activities.id = mission_templates.activity_id OR activities.id = missions.activity_id
-        //             WHERE missions.deleted_at IS NULL
-        //             AND missions.created_at BETWEEN :start and :end
-        //             AND missions.state IN ('Validée', 'Terminée')
-        //             AND COALESCE(missions.department,'') ILIKE :department
-        //             AND activities.name IS NOT NULL
-        //             GROUP BY activities.name, activities.id
-        //             ORDER BY count DESC
-        //         ",
-        //         [
-        //             'department' => $this->department ? '%' . $this->department . '%' : '%%',
-        //             'start' => $this->startDate,
-        //             'end' => $this->endDate,
-        //         ]
-        //     );
-        // }
-
         $results = DB::table('missions')
             ->leftJoin('structures', 'structures.id', '=', 'missions.structure_id')
             ->leftJoin('reseau_structure', 'reseau_structure.structure_id', '=', 'missions.structure_id')
@@ -1298,50 +1073,6 @@ class NumbersController extends Controller
 
     public function missionsByDomaines(Request $request)
     {
-        // if($request->header('Context-Role') === 'responsable') {
-        //     $results = DB::select(
-        //         "
-        //             SELECT domaines.name, domaines.id, COUNT(*) AS count
-        //             FROM missions
-        //             LEFT JOIN mission_templates ON mission_templates.id = missions.template_id
-        //             LEFT JOIN domaines ON domaines.id = mission_templates.domaine_id OR domaines.id = missions.domaine_id OR domaines.id = missions.domaine_secondary_id OR domaines.id = mission_templates.domaine_secondary_id
-        //             WHERE missions.deleted_at IS NULL
-        //             AND missions.structure_id = :structureId
-        //             AND missions.state IN ('Validée', 'Terminée')
-        //             AND COALESCE(missions.department,'') ILIKE :department
-        //             AND missions.created_at BETWEEN :start and :end
-        //             GROUP BY domaines.name, domaines.id
-        //             ORDER BY count DESC
-        //         ",
-        //         [
-        //             'department' => $this->department ? '%' . $this->department . '%' : '%%',
-        //             'start' => $this->startDate,
-        //             'end' => $this->endDate,
-        //             'structureId' => Auth::user()->contextable_id
-        //         ]
-        //     );
-        // } else {
-        //     $results = DB::select(
-        //         "
-        //             SELECT domaines.name, domaines.id, COUNT(*) AS count
-        //             FROM missions
-        //             LEFT JOIN mission_templates ON mission_templates.id = missions.template_id
-        //             LEFT JOIN domaines ON domaines.id = mission_templates.domaine_id OR domaines.id = missions.domaine_id OR domaines.id = missions.domaine_secondary_id OR domaines.id = mission_templates.domaine_secondary_id
-        //             WHERE missions.deleted_at IS NULL
-        //             AND missions.state IN ('Validée', 'Terminée')
-        //             AND COALESCE(missions.department,'') ILIKE :department
-        //             AND missions.created_at BETWEEN :start and :end
-        //             GROUP BY domaines.name, domaines.id
-        //             ORDER BY count DESC
-        //         ",
-        //         [
-        //             'department' => $this->department ? '%' . $this->department . '%' : '%%',
-        //             'start' => $this->startDate,
-        //             'end' => $this->endDate,
-        //         ]
-        //     );
-        // }
-
         $results = DB::table('missions')
             ->leftJoin('structures', 'structures.id', '=', 'missions.structure_id')
             ->leftJoin('reseau_structure', 'reseau_structure.structure_id', '=', 'missions.structure_id')
@@ -1375,74 +1106,28 @@ class NumbersController extends Controller
 
     public function missionsByTemplates(Request $request)
     {
-        // if($request->header('Context-Role') === 'responsable') {
-        //     $results = DB::select(
-        //         "
-        //             SELECT mission_templates.title, mission_templates.id, COUNT(*) AS count FROM missions
-        //             LEFT JOIN mission_templates ON mission_templates.id = missions.template_id
-        //             WHERE missions.deleted_at IS NULL
-        //             AND missions.deleted_at IS NULL
-        //             AND missions.structure_id = :structureId
-        //             AND missions.state IN ('Validée', 'Terminée')
-        //             AND COALESCE(missions.department,'') ILIKE :department
-        //             AND mission_templates.title IS NOT NULL
-        //             AND missions.created_at BETWEEN :start and :end
-        //             GROUP BY mission_templates.title, mission_templates.id
-        //             ORDER BY count DESC
-        //             LIMIT 5
-        //         ",
-        //         [
-        //             'department' => $this->department ? '%' . $this->department . '%' : '%%',
-        //             'start' => $this->startDate,
-        //             'end' => $this->endDate,
-        //             'structureId' => Auth::user()->contextable_id
-        //         ]
-        //     );
-        // } else {
-        //     $results = DB::select(
-        //         "
-        //             SELECT mission_templates.title, mission_templates.id, COUNT(*) AS count FROM missions
-        //             LEFT JOIN mission_templates ON mission_templates.id = missions.template_id
-        //             WHERE missions.deleted_at IS NULL
-        //             AND missions.deleted_at IS NULL
-        //             AND missions.state IN ('Validée', 'Terminée')
-        //             AND COALESCE(missions.department,'') ILIKE :department
-        //             AND mission_templates.title IS NOT NULL
-        //             AND missions.created_at BETWEEN :start and :end
-        //             GROUP BY mission_templates.title, mission_templates.id
-        //             ORDER BY count DESC
-        //             LIMIT 5
-        //         ",
-        //         [
-        //             'department' => $this->department ? '%' . $this->department . '%' : '%%',
-        //             'start' => $this->startDate,
-        //             'end' => $this->endDate,
-        //         ]
-        //     );
-        // }
-
         $results = DB::table('missions')
-            ->leftJoin('structures', 'structures.id', '=', 'missions.structure_id')
-            ->leftJoin('reseau_structure', 'reseau_structure.structure_id', '=', 'missions.structure_id')
-            ->leftJoin('mission_templates', 'mission_templates.id', '=', 'missions.template_id')
-            ->select('mission_templates.title', 'mission_templates.id', DB::raw('COUNT(*) AS count'))
-            ->whereNull('missions.deleted_at')
-            ->whereIn('missions.state', ['Validée', 'Terminée'])
-            ->whereNotNull('mission_templates.title')
-            ->when($this->structureId, function ($query) {
-                $query->where('missions.structure_id', $this->structureId);
-            })
-            ->when($this->reseauId, function ($query) {
-                $query->where('reseau_structure.reseau_id', $this->reseauId);
-            })
-            ->when($this->department, function ($query) {
-                $query->where('missions.department', $this->department);
-            })
-            ->whereBetween('missions.created_at', [$this->startDate, $this->endDate])
-            ->groupBy('mission_templates.title', 'mission_templates.id')
-            ->orderByDesc('count')
-            ->limit(5)
-            ->get();
+        ->leftJoin('structures', 'structures.id', '=', 'missions.structure_id')
+        ->leftJoin('reseau_structure', 'reseau_structure.structure_id', '=', 'missions.structure_id')
+        ->leftJoin('mission_templates', 'mission_templates.id', '=', 'missions.template_id')
+        ->select('mission_templates.title', 'mission_templates.id', DB::raw('COUNT(*) AS count'))
+        ->whereNull('missions.deleted_at')
+        ->whereIn('missions.state', ['Validée', 'Terminée'])
+        ->whereNotNull('mission_templates.title')
+        ->when($this->structureId, function ($query) {
+            $query->where('missions.structure_id', $this->structureId);
+        })
+        ->when($this->reseauId, function ($query) {
+            $query->where('reseau_structure.reseau_id', $this->reseauId);
+        })
+        ->when($this->department, function ($query) {
+            $query->where('missions.department', $this->department);
+        })
+        ->whereBetween('missions.created_at', [$this->startDate, $this->endDate])
+        ->groupBy('mission_templates.title', 'mission_templates.id')
+        ->orderByDesc('count')
+        ->limit(5)
+        ->get();
 
 
         return $results;
@@ -1450,25 +1135,6 @@ class NumbersController extends Controller
 
     public function organisationsByDomaines(Request $request)
     {
-        // $results = DB::select(
-        //     "
-        //         SELECT domaines.name, domaines.id, COUNT(*) AS count FROM structures
-        //         LEFT JOIN domainables ON domainables.domainable_id = structures.id AND domainables.domainable_type = 'App\Models\Structure'
-        //         LEFT JOIN domaines ON domaines.id = domainables.domaine_id
-        //         WHERE structures.deleted_at IS NULL
-        //         AND COALESCE(structures.department,'') ILIKE :department
-        //         AND structures.state IN ('Validée')
-        //         AND structures.created_at BETWEEN :start and :end
-        //         GROUP BY domaines.name, domaines.id
-        //         ORDER BY count DESC
-        //     ",
-        //     [
-        //         'department' => $this->department ? '%' . $this->department . '%' : '%%',
-        //         'start' => $this->startDate,
-        //         'end' => $this->endDate,
-        //     ]
-        // );
-
         $results = DB::table('structures')
             ->leftJoin('reseau_structure', 'reseau_structure.structure_id', '=', 'structures.id')
             ->leftJoin('domainables', function ($join) {
@@ -1579,19 +1245,15 @@ class NumbersController extends Controller
     public function utilisateursWithParticipations(Request $request)
     {
         return [
-            'with_participations' => Profile::role($request->header('Context-Role'))->when(
-                $this->department,
-                function ($query) {
-                    $query->where('department', $this->department);
-                }
-            )
+            'with_participations' => Profile::role($request->header('Context-Role'))
+            ->when($this->department, function ($query) {
+                $query->where('department', $this->department);
+            })
             ->whereBetween('created_at', [$this->startDate, $this->endDate])->has('participations')->count(),
-            'without_participations' => Profile::role($request->header('Context-Role'))->when(
-                $this->department,
-                function ($query) {
-                    $query->where('department', $this->department);
-                }
-            )
+            'without_participations' => Profile::role($request->header('Context-Role'))
+            ->when($this->department, function ($query) {
+                $query->where('department', $this->department);
+            })
             ->whereBetween('created_at', [$this->startDate, $this->endDate])->doesntHave('participations')->count(),
         ];
     }
@@ -1607,12 +1269,9 @@ class NumbersController extends Controller
             ->whereNull('structures.deleted_at')
             ->where('missions.end_date', '<', date('Y-m-d'))
             ->where('missions.state', 'Validée')
-            ->when(
-                $this->department,
-                function ($query) {
-                    $query->where('missions.department', $this->department);
-                }
-            )
+            ->when($this->department, function ($query) {
+                $query->where('missions.department', $this->department);
+            })
             // ->whereBetween('missions.created_at', [$this->startDate, $this->endDate])
             ->orderByDesc('count')
             ->groupBy(['structures.name', 'structures.id'])
@@ -1744,12 +1403,9 @@ class NumbersController extends Controller
             ->whereNotNull('structures.department')
             ->where('structures.state', 'En attente de validation')
             ->where('territoires.type', 'department')
-            ->when(
-                $this->department,
-                function ($query) {
-                    $query->where('structures.department', $this->department);
-                }
-            )
+            ->when($this->department, function ($query) {
+                $query->where('structures.department', 'ILIKE', $this->department);
+            })
             // ->whereBetween('structures.created_at', [$this->startDate, $this->endDate])
             ->whereNotNull('territoires.department')
             ->groupBy(['territoires.id', 'territoires.department'])
@@ -1769,12 +1425,9 @@ class NumbersController extends Controller
             ->whereNotNull('structures.department')
             ->where('structures.state', 'En cours de traitement')
             ->where('territoires.type', 'department')
-            ->when(
-                $this->department,
-                function ($query) {
-                    $query->where('structures.department', $this->department);
-                }
-            )
+            ->when($this->department, function ($query) {
+                $query->where('structures.department', 'ILIKE', $this->department);
+            })
             // ->whereBetween('structures.created_at', [$this->startDate, $this->endDate])
             ->whereNotNull('territoires.department')
             ->groupBy(['territoires.id', 'territoires.department'])
@@ -1794,12 +1447,9 @@ class NumbersController extends Controller
             ->whereNotNull('missions.department')
             ->where('missions.state', 'En attente de validation')
             ->where('territoires.type', 'department')
-            ->when(
-                $this->department,
-                function ($query) {
-                    $query->where('missions.department', $this->department);
-                }
-            )
+            ->when($this->department, function ($query) {
+                $query->where('missions.department', $this->department);
+            })
             // ->whereBetween('missions.created_at', [$this->startDate, $this->endDate])
             ->whereNotNull('territoires.department')
             ->groupBy(['territoires.id', 'territoires.department'])
@@ -1819,12 +1469,9 @@ class NumbersController extends Controller
             ->whereNotNull('missions.department')
             ->where('missions.state', 'En cours de traitement')
             ->where('territoires.type', 'department')
-            ->when(
-                $this->department,
-                function ($query) {
-                    $query->where('missions.department', $this->department);
-                }
-            )
+            ->when($this->department, function ($query) {
+                $query->where('missions.department', $this->department);
+            })
             // ->whereBetween('missions.created_at', [$this->startDate, $this->endDate])
             ->whereNotNull('territoires.department')
             ->groupBy(['territoires.id', 'territoires.department'])
@@ -1846,12 +1493,9 @@ class NumbersController extends Controller
             ->where('territoires.type', 'department')
             ->where('missions.end_date', '<', date('Y-m-d'))
             ->where('missions.state', 'Validée')
-            ->when(
-                $this->department,
-                function ($query) {
-                    $query->where('missions.department', $this->department);
-                }
-            )
+            ->when($this->department, function ($query) {
+                $query->where('missions.department', $this->department);
+            })
             // ->whereBetween('missions.created_at', [$this->startDate, $this->endDate])
             ->whereNotNull('territoires.department')
             ->groupBy(['territoires.id', 'territoires.department'])
@@ -2039,83 +1683,61 @@ class NumbersController extends Controller
 
     public function placesByOrganisations(Request $request)
     {
-        $results = DB::select(
-            "
-                SELECT structures.name, structures.id,
-                SUM(CASE WHEN missions.state IN ('Validée') THEN missions.places_left ELSE 0 END) AS count
-                FROM missions
-                LEFT JOIN structures ON structures.id = missions.structure_id
-                WHERE structures.deleted_at IS NULL
-                AND structures.state = 'Validée'
-                AND COALESCE(missions.department,'') ILIKE :department
-                AND missions.deleted_at IS NULL
-                AND missions.is_registration_open = true
-                AND missions.is_online = true
-                AND structures.name IS NOT NULL
-                GROUP BY structures.name, structures.id
-                ORDER BY count DESC
-                LIMIT 5
-            ",
-            [
-                'department' => $this->department ? '%' . $this->department . '%' : '%%',
-            ]
-        );
+        $results = DB::table('missions')
+            ->leftJoin('structures', 'structures.id', '=', 'missions.structure_id')
+            ->leftJoin('reseau_structure', 'reseau_structure.structure_id', '=', 'missions.structure_id')
+            ->select('structures.name', 'structures.id', DB::raw("SUM(CASE WHEN missions.state IN ('Validée') THEN missions.places_left ELSE 0 END) AS count"))
+            ->whereNull('structures.deleted_at')
+            ->where('structures.state', 'Validée')
+            ->when($this->department, function ($query) {
+                $query->where('missions.department', $this->department);
+            })
+            ->when($this->reseauId, function ($query) {
+                $query->where('reseau_structure.reseau_id', $this->reseauId);
+            })
+            ->whereNull('missions.deleted_at')
+            ->where('missions.is_registration_open', true)
+            ->where('missions.is_online', true)
+            ->whereNotNull('structures.name')
+            ->groupBy('structures.name', 'structures.id')
+            ->orderByDesc(DB::raw('SUM(CASE WHEN missions.state IN (\'Validée\') THEN missions.places_left ELSE 0 END)'))
+            ->limit(5)
+            ->get();
 
         return $results;
     }
 
     public function placesByMissions(Request $request)
     {
-
-        if($request->header('Context-Role') === 'responsable') {
-            $results = DB::select(
-                "
-                    SELECT missions.name, missions.id, mission_templates.title,
-                    SUM(CASE WHEN missions.state IN ('Validée') THEN missions.places_left ELSE 0 END) AS count
-                    FROM missions
-                    LEFT JOIN structures ON structures.id = missions.structure_id
-                    LEFT JOIN mission_templates ON mission_templates.id = missions.template_id
-                    WHERE structures.deleted_at IS NULL
-                    AND missions.structure_id = :structureId
-                    AND missions.is_registration_open = true
-                    AND missions.is_online = true
-                    AND structures.state = 'Validée'
-                    AND COALESCE(missions.department,'') ILIKE :department
-                    AND missions.deleted_at IS NULL
-                    AND structures.name IS NOT NULL
-                    GROUP BY missions.name, missions.id, mission_templates.title
-                    ORDER BY count DESC
-                    LIMIT 5
-                ",
-                [
-                    'department' => $this->department ? '%' . $this->department . '%' : '%%',
-                    'structureId' => Auth::user()->contextable_id
-                ]
-            );
-        } else {
-            $results = DB::select(
-                "
-                    SELECT missions.name, missions.id, mission_templates.title,
-                    SUM(CASE WHEN missions.state IN ('Validée') THEN missions.places_left ELSE 0 END) AS count
-                    FROM missions
-                    LEFT JOIN structures ON structures.id = missions.structure_id
-                    LEFT JOIN mission_templates ON mission_templates.id = missions.template_id
-                    WHERE structures.deleted_at IS NULL
-                    AND missions.is_registration_open = true
-                    AND missions.is_online = true
-                    AND structures.state = 'Validée'
-                    AND COALESCE(missions.department,'') ILIKE :department
-                    AND missions.deleted_at IS NULL
-                    AND structures.name IS NOT NULL
-                    GROUP BY missions.name, missions.id, mission_templates.title
-                    ORDER BY count DESC
-                    LIMIT 5
-                ",
-                [
-                    'department' => $this->department ? '%' . $this->department . '%' : '%%',
-                ]
-            );
-        }
+        $results = DB::table('missions')
+            ->leftJoin('structures', 'structures.id', '=', 'missions.structure_id')
+            ->leftJoin('reseau_structure', 'reseau_structure.structure_id', '=', 'missions.structure_id')
+            ->leftJoin('mission_templates', 'mission_templates.id', '=', 'missions.template_id')
+            ->select(
+                'missions.name',
+                'missions.id',
+                'mission_templates.title',
+                DB::raw("SUM(CASE WHEN missions.state IN ('Validée') THEN missions.places_left ELSE 0 END) AS count")
+            )
+            ->whereNull('structures.deleted_at')
+            ->when($this->department, function ($query) {
+                $query->where('missions.department', $this->department);
+            })
+            ->when($this->reseauId, function ($query) {
+                $query->where('reseau_structure.reseau_id', $this->reseauId);
+            })
+            ->when($this->structureId, function ($query) {
+                $query->where('missions.structure_id', $this->structureId);
+            })
+            ->where('missions.is_registration_open', true)
+            ->where('missions.is_online', true)
+            ->where('structures.state', 'Validée')
+            ->whereNull('missions.deleted_at')
+            ->whereNotNull('structures.name')
+            ->groupBy('missions.name', 'missions.id', 'mission_templates.title')
+            ->orderByDesc(DB::raw("SUM(CASE WHEN missions.state IN ('Validée') THEN missions.places_left ELSE 0 END)"))
+            ->limit(5)
+            ->get();
 
 
         return $results;
@@ -2123,55 +1745,35 @@ class NumbersController extends Controller
 
     public function placesByDomaines(Request $request)
     {
-        if($request->header('Context-Role') === 'responsable') {
-            $results = DB::select(
-                "
-                SELECT domaines.name, domaines.id,
-                SUM(CASE WHEN missions.state IN ('Validée') THEN missions.places_left ELSE 0 END) AS count
-                FROM missions
-                LEFT JOIN structures ON structures.id = missions.structure_id
-                LEFT JOIN mission_templates ON mission_templates.id = missions.template_id
-                LEFT JOIN domaines ON domaines.id = mission_templates.domaine_id OR domaines.id = mission_templates.domaine_secondary_id OR domaines.id = missions.domaine_id OR domaines.id = missions.domaine_secondary_id
-                WHERE missions.deleted_at IS NULL
-                AND missions.structure_id = :structureId
-                AND missions.is_registration_open = true
-                AND missions.is_online = true
-                AND COALESCE(missions.department,'') ILIKE :department
-                AND domaines.name IS NOT NULL
-                AND structures.deleted_at IS NULL
-                AND structures.state = 'Validée'
-                GROUP BY domaines.name, domaines.id
-                ORDER BY count DESC
-            ",
-                [
-                    'department' => $this->department ? '%' . $this->department . '%' : '%%',
-                    'structureId' => Auth::user()->contextable_id
-                ]
-            );
-        } else {
-            $results = DB::select(
-                "
-                SELECT domaines.name, domaines.id,
-                SUM(CASE WHEN missions.state IN ('Validée') THEN missions.places_left ELSE 0 END) AS count
-                FROM missions
-                LEFT JOIN structures ON structures.id = missions.structure_id
-                LEFT JOIN mission_templates ON mission_templates.id = missions.template_id
-                LEFT JOIN domaines ON domaines.id = mission_templates.domaine_id OR domaines.id = mission_templates.domaine_secondary_id OR domaines.id = missions.domaine_id OR domaines.id = missions.domaine_secondary_id
-                WHERE missions.deleted_at IS NULL
-                AND missions.is_registration_open = true
-                AND missions.is_online = true
-                AND COALESCE(missions.department,'') ILIKE :department
-                AND domaines.name IS NOT NULL
-                AND structures.deleted_at IS NULL
-                AND structures.state = 'Validée'
-                GROUP BY domaines.name, domaines.id
-                ORDER BY count DESC
-            ",
-                [
-                    'department' => $this->department ? '%' . $this->department . '%' : '%%',
-                ]
-            );
-        }
+        $results = DB::table('missions')
+            ->leftJoin('structures', 'structures.id', '=', 'missions.structure_id')
+            ->leftJoin('reseau_structure', 'reseau_structure.structure_id', '=', 'missions.structure_id')
+            ->leftJoin('mission_templates', 'mission_templates.id', '=', 'missions.template_id')
+            ->leftJoin('domaines', function ($join) {
+                $join->on('domaines.id', '=', 'mission_templates.domaine_id')
+                    ->orOn('domaines.id', '=', 'mission_templates.domaine_secondary_id')
+                    ->orOn('domaines.id', '=', 'missions.domaine_id')
+                    ->orOn('domaines.id', '=', 'missions.domaine_secondary_id');
+            })
+            ->select('domaines.name', 'domaines.id', DB::raw("SUM(CASE WHEN missions.state IN ('Validée') THEN missions.places_left ELSE 0 END) AS count"))
+            ->whereNull('missions.deleted_at')
+            ->when($this->department, function ($query) {
+                $query->where('missions.department', $this->department);
+            })
+            ->when($this->reseauId, function ($query) {
+                $query->where('reseau_structure.reseau_id', $this->reseauId);
+            })
+            ->when($this->structureId, function ($query) {
+                $query->where('missions.structure_id', $this->structureId);
+            })
+            ->where('missions.is_registration_open', true)
+            ->where('missions.is_online', true)
+            ->whereNotNull('domaines.name')
+            ->whereNull('structures.deleted_at')
+            ->where('structures.state', 'Validée')
+            ->groupBy('domaines.name', 'domaines.id')
+            ->orderByDesc(DB::raw("SUM(CASE WHEN missions.state IN ('Validée') THEN missions.places_left ELSE 0 END)"))
+            ->get();
 
         return $results;
     }
@@ -2185,6 +1787,7 @@ class NumbersController extends Controller
                 DB::raw("SUM(CASE WHEN missions.state IN ('Validée') THEN missions.places_left ELSE 0 END) AS count")
             )
             ->leftJoin('structures', 'structures.id', '=', 'missions.structure_id')
+            ->leftJoin('reseau_structure', 'reseau_structure.structure_id', '=', 'missions.structure_id')
             ->leftJoin('mission_templates', 'mission_templates.id', '=', 'missions.template_id')
             ->leftJoin('activities', function ($join) {
                 $join->on('activities.id', '=', 'mission_templates.activity_id')
@@ -2197,6 +1800,9 @@ class NumbersController extends Controller
             ->where('missions.is_online', true)
             ->when($this->department, function ($query) {
                 $query->where('missions.department', $this->department);
+            })
+            ->when($this->reseauId, function ($query) {
+                $query->where('reseau_structure.reseau_id', $this->reseauId);
             })
             ->when($this->structureId, function ($query) {
                 $query->where('missions.structure_id', $this->structureId);
@@ -2284,60 +1890,36 @@ class NumbersController extends Controller
 
     public function missionsByMonth(Request $request)
     {
-        if($request->header('Context-Role') === 'responsable') {
-
-            $results = DB::select(
-                "
-            SELECT date_trunc('month', missions.created_at) AS created_at,
-                date_part('year', missions.created_at) as year,
-                date_part('month', missions.created_at) as month,
-                count(*) AS missions_total,
-                sum(case when missions.state  = 'Brouillon' then 1 else 0 end) as missions_draft,
-                sum(case when missions.state  = 'En attente de validation' then 1 else 0 end) as missions_waiting_validation,
-                sum(case when missions.state  = 'En cours de traitement' then 1 else 0 end) as missions_being_processed,
-                sum(case when missions.state  = 'Validée' then 1 else 0 end) as missions_validated,
-                sum(case when missions.state  = 'Signalée' then 1 else 0 end) as missions_signaled,
-                sum(case when missions.state  = 'Terminée' then 1 else 0 end) as missions_finished,
-                sum(case when missions.state  = 'Annulée' then 1 else 0 end) as missions_canceled,
-                sum(case when missions.state IN ('Validée','Terminée') then 1 else 0 end) as missions_posted
-            FROM missions
-            WHERE missions.deleted_at IS NULL
-            AND missions.structure_id = :structureId
-            AND COALESCE(missions.department,'') ILIKE :department
-            GROUP BY date_trunc('month', missions.created_at), year, month
-            ORDER BY date_trunc('month', missions.created_at) DESC
-            ",
-                [
-                    'department' => $this->department ? '%' . $this->department . '%' : '%%',
-                    'structureId' => Auth::user()->contextable_id
-                ]
-            );
-        } else {
-            $results = DB::select(
-                "
-            SELECT date_trunc('month', missions.created_at) AS created_at,
-                date_part('year', missions.created_at) as year,
-                date_part('month', missions.created_at) as month,
-                count(*) AS missions_total,
-                sum(case when missions.state  = 'Brouillon' then 1 else 0 end) as missions_draft,
-                sum(case when missions.state  = 'En attente de validation' then 1 else 0 end) as missions_waiting_validation,
-                sum(case when missions.state  = 'En cours de traitement' then 1 else 0 end) as missions_being_processed,
-                sum(case when missions.state  = 'Validée' then 1 else 0 end) as missions_validated,
-                sum(case when missions.state  = 'Signalée' then 1 else 0 end) as missions_signaled,
-                sum(case when missions.state  = 'Terminée' then 1 else 0 end) as missions_finished,
-                sum(case when missions.state  = 'Annulée' then 1 else 0 end) as missions_canceled,
-                sum(case when missions.state IN ('Validée','Terminée') then 1 else 0 end) as missions_posted
-            FROM missions
-            WHERE missions.deleted_at IS NULL
-            AND COALESCE(missions.department,'') ILIKE :department
-            GROUP BY date_trunc('month', missions.created_at), year, month
-            ORDER BY date_trunc('month', missions.created_at) DESC
-            ",
-                [
-                    'department' => $this->department ? '%' . $this->department . '%' : '%%',
-                ]
-            );
-        }
+        $results =  DB::table('missions')
+            ->leftJoin('structures', 'structures.id', '=', 'missions.structure_id')
+            ->leftJoin('reseau_structure', 'reseau_structure.structure_id', '=', 'missions.structure_id')
+            ->select(
+                DB::raw("date_trunc('month', missions.created_at) AS created_at"),
+                DB::raw("date_part('year', missions.created_at) as year"),
+                DB::raw("date_part('month', missions.created_at) as month"),
+                DB::raw('count(*) AS missions_total'),
+                DB::raw("sum(case when missions.state  = 'Brouillon' then 1 else 0 end) as missions_draft"),
+                DB::raw("sum(case when missions.state  = 'En attente de validation' then 1 else 0 end) as missions_waiting_validation"),
+                DB::raw("sum(case when missions.state  = 'En cours de traitement' then 1 else 0 end) as missions_being_processed"),
+                DB::raw("sum(case when missions.state  = 'Validée' then 1 else 0 end) as missions_validated"),
+                DB::raw("sum(case when missions.state  = 'Signalée' then 1 else 0 end) as missions_signaled"),
+                DB::raw("sum(case when missions.state  = 'Terminée' then 1 else 0 end) as missions_finished"),
+                DB::raw("sum(case when missions.state  = 'Annulée' then 1 else 0 end) as missions_canceled"),
+                DB::raw("sum(case when missions.state IN ('Validée','Terminée') then 1 else 0 end) as missions_posted")
+            )
+            ->whereNull('missions.deleted_at')
+            ->when($this->structureId, function ($query) {
+                $query->where('missions.structure_id', $this->structureId);
+            })
+            ->when($this->reseauId, function ($query) {
+                $query->where('reseau_structure.reseau_id', $this->reseauId);
+            })
+            ->when($this->department, function ($query) {
+                $query->where('missions.department', $this->department);
+            })
+            ->groupBy(DB::raw("date_trunc('month', missions.created_at)"), 'year', 'month')
+            ->orderByRaw("date_trunc('month', missions.created_at) DESC")
+            ->get();
 
         foreach ($results as $index => $item) {
             if (isset($results[$index + 12])) {
@@ -2352,58 +1934,35 @@ class NumbersController extends Controller
 
     public function missionsByYear(Request $request)
     {
-
-        if($request->header('Context-Role') === 'responsable') {
-            $results = DB::select(
-                "
-                SELECT date_trunc('year', missions.created_at) AS created_at,
-                    date_part('year', missions.created_at) as year,
-                    count(*) AS missions_total,
-                    sum(case when missions.state  = 'Brouillon' then 1 else 0 end) as missions_draft,
-                    sum(case when missions.state  = 'En attente de validation' then 1 else 0 end) as missions_waiting_validation,
-                    sum(case when missions.state  = 'En cours de traitement' then 1 else 0 end) as missions_being_processed,
-                    sum(case when missions.state  = 'Validée' then 1 else 0 end) as missions_validated,
-                    sum(case when missions.state  = 'Signalée' then 1 else 0 end) as missions_signaled,
-                    sum(case when missions.state  = 'Terminée' then 1 else 0 end) as missions_finished,
-                    sum(case when missions.state  = 'Annulée' then 1 else 0 end) as missions_canceled,
-                    sum(case when missions.state IN ('Validée','Terminée') then 1 else 0 end) as missions_posted
-                FROM missions
-                WHERE missions.deleted_at IS NULL
-                AND missions.structure_id = :structureId
-                AND COALESCE(missions.department,'') ILIKE :department
-                GROUP BY date_trunc('year', missions.created_at), year
-                ORDER BY date_trunc('year', missions.created_at) DESC
-                ",
-                [
-                    'department' => $this->department ? '%' . $this->department . '%' : '%%',
-                    'structureId' => Auth::user()->contextable_id
-                ]
-            );
-        } else {
-            $results = DB::select(
-                "
-                SELECT date_trunc('year', missions.created_at) AS created_at,
-                    date_part('year', missions.created_at) as year,
-                    count(*) AS missions_total,
-                    sum(case when missions.state  = 'Brouillon' then 1 else 0 end) as missions_draft,
-                    sum(case when missions.state  = 'En attente de validation' then 1 else 0 end) as missions_waiting_validation,
-                    sum(case when missions.state  = 'En cours de traitement' then 1 else 0 end) as missions_being_processed,
-                    sum(case when missions.state  = 'Validée' then 1 else 0 end) as missions_validated,
-                    sum(case when missions.state  = 'Signalée' then 1 else 0 end) as missions_signaled,
-                    sum(case when missions.state  = 'Terminée' then 1 else 0 end) as missions_finished,
-                    sum(case when missions.state  = 'Annulée' then 1 else 0 end) as missions_canceled,
-                    sum(case when missions.state IN ('Validée','Terminée') then 1 else 0 end) as missions_posted
-                FROM missions
-                WHERE missions.deleted_at IS NULL
-                AND COALESCE(missions.department,'') ILIKE :department
-                GROUP BY date_trunc('year', missions.created_at), year
-                ORDER BY date_trunc('year', missions.created_at) DESC
-                ",
-                [
-                    'department' => $this->department ? '%' . $this->department . '%' : '%%',
-                ]
-            );
-        }
+        $results = DB::table('missions')
+            ->leftJoin('structures', 'structures.id', '=', 'missions.structure_id')
+            ->leftJoin('reseau_structure', 'reseau_structure.structure_id', '=', 'missions.structure_id')
+            ->select(
+                DB::raw("date_trunc('year', missions.created_at) AS created_at"),
+                DB::raw("date_part('year', missions.created_at) as year"),
+                DB::raw('count(*) AS missions_total'),
+                DB::raw("sum(case when missions.state  = 'Brouillon' then 1 else 0 end) as missions_draft"),
+                DB::raw("sum(case when missions.state  = 'En attente de validation' then 1 else 0 end) as missions_waiting_validation"),
+                DB::raw("sum(case when missions.state  = 'En cours de traitement' then 1 else 0 end) as missions_being_processed"),
+                DB::raw("sum(case when missions.state  = 'Validée' then 1 else 0 end) as missions_validated"),
+                DB::raw("sum(case when missions.state  = 'Signalée' then 1 else 0 end) as missions_signaled"),
+                DB::raw("sum(case when missions.state  = 'Terminée' then 1 else 0 end) as missions_finished"),
+                DB::raw("sum(case when missions.state  = 'Annulée' then 1 else 0 end) as missions_canceled"),
+                DB::raw("sum(case when missions.state IN ('Validée','Terminée') then 1 else 0 end) as missions_posted")
+            )
+            ->whereNull('missions.deleted_at')
+            ->when($this->structureId, function ($query) {
+                $query->where('missions.structure_id', $this->structureId);
+            })
+            ->when($this->reseauId, function ($query) {
+                $query->where('reseau_structure.reseau_id', $this->reseauId);
+            })
+            ->when($this->department, function ($query) {
+                $query->where('missions.department', $this->department);
+            })
+            ->groupBy(DB::raw("date_trunc('year', missions.created_at)"), 'year')
+            ->orderByRaw("date_trunc('year', missions.created_at) DESC")
+            ->get();
 
 
         foreach ($results as $index => $item) {
@@ -2419,55 +1978,38 @@ class NumbersController extends Controller
 
     public function participationsByMonth(Request $request)
     {
-        if($request->header('Context-Role') === 'responsable') {
-            $results = DB::select(
-                "
-            SELECT date_trunc('month', participations.created_at) AS created_at,
-                date_part('year', participations.created_at) as year,
-                date_part('month', participations.created_at) as month,
-                count(*) AS participations_total,
-                sum(case when participations.state  = 'En attente de validation' then 1 else 0 end) as participations_waiting_validation,
-                sum(case when participations.state  = 'En cours de traitement' then 1 else 0 end) as participations_being_processed,
-                sum(case when participations.state  = 'Validée' then 1 else 0 end) as participations_validated,
-                sum(case when participations.state  = 'Refusée' then 1 else 0 end) as participations_refused,
-                sum(case when participations.state  = 'Annulée' then 1 else 0 end) as participations_canceled
-            FROM participations
-            LEFT JOIN missions ON participations.mission_id = missions.id
-            WHERE participations.deleted_at IS NULL
-            AND missions.structure_id = :structureId
-            AND COALESCE(missions.department,'') ILIKE :department
-            GROUP BY date_trunc('month', participations.created_at), year, month
-            ORDER BY date_trunc('month', participations.created_at) DESC
-            ",
-                [
-                    'department' => $this->department ? '%' . $this->department . '%' : '%%',
-                    'structureId' => Auth::user()->contextable_id
-                ]
-            );
-        } else {
-            $results = DB::select(
-                "
-            SELECT date_trunc('month', participations.created_at) AS created_at,
-                date_part('year', participations.created_at) as year,
-                date_part('month', participations.created_at) as month,
-                count(*) AS participations_total,
-                sum(case when participations.state  = 'En attente de validation' then 1 else 0 end) as participations_waiting_validation,
-                sum(case when participations.state  = 'En cours de traitement' then 1 else 0 end) as participations_being_processed,
-                sum(case when participations.state  = 'Validée' then 1 else 0 end) as participations_validated,
-                sum(case when participations.state  = 'Refusée' then 1 else 0 end) as participations_refused,
-                sum(case when participations.state  = 'Annulée' then 1 else 0 end) as participations_canceled
-            FROM participations
-            LEFT JOIN missions ON participations.mission_id = missions.id
-            WHERE participations.deleted_at IS NULL
-            AND COALESCE(missions.department,'') ILIKE :department
-            GROUP BY date_trunc('month', participations.created_at), year, month
-            ORDER BY date_trunc('month', participations.created_at) DESC
-            ",
-                [
-                    'department' => $this->department ? '%' . $this->department . '%' : '%%',
-                ]
-            );
-        }
+        $results = DB::table('participations')
+            ->leftJoin('missions', 'participations.mission_id', '=', 'missions.id')
+            ->leftJoin('structures', 'structures.id', '=', 'missions.structure_id')
+            ->leftJoin('reseau_structure', 'reseau_structure.structure_id', '=', 'missions.structure_id')
+            ->select(
+                DB::raw("date_trunc('month', participations.created_at) AS created_at"),
+                DB::raw("date_part('year', participations.created_at) as year"),
+                DB::raw("date_part('month', participations.created_at) as month"),
+                DB::raw('count(*) AS participations_total'),
+                DB::raw("sum(case when participations.state  = 'En attente de validation' then 1 else 0 end) as participations_waiting_validation"),
+                DB::raw("sum(case when participations.state  = 'En cours de traitement' then 1 else 0 end) as participations_being_processed"),
+                DB::raw("sum(case when participations.state  = 'Validée' then 1 else 0 end) as participations_validated"),
+                DB::raw("sum(case when participations.state  = 'Refusée' then 1 else 0 end) as participations_refused"),
+                DB::raw("sum(case when participations.state  = 'Annulée' then 1 else 0 end) as participations_canceled")
+            )
+            ->whereNull('participations.deleted_at')
+            ->when($this->structureId, function ($query) {
+                $query->where('missions.structure_id', $this->structureId);
+            })
+            ->when($this->reseauId, function ($query) {
+                $query->where('reseau_structure.reseau_id', $this->reseauId);
+            })
+            ->when($this->department, function ($query) {
+                $query->where('missions.department', $this->department);
+            })
+            ->groupBy(
+                DB::raw("date_trunc('month', participations.created_at)"),
+                DB::raw("date_part('year', participations.created_at)"),
+                DB::raw("date_part('month', participations.created_at)")
+            )
+            ->orderByRaw("date_trunc('month', participations.created_at) DESC")
+            ->get();
 
         foreach ($results as $index => $item) {
             if (isset($results[$index + 12])) {
@@ -2489,53 +2031,33 @@ class NumbersController extends Controller
 
     public function participationsByYear(Request $request)
     {
-        if($request->header('Context-Role') === 'responsable') {
-            $results = DB::select(
-                "
-            SELECT date_trunc('year', participations.created_at) AS created_at,
-                date_part('year', participations.created_at) as year,
-                count(*) AS participations_total,
-                sum(case when participations.state  = 'En attente de validation' then 1 else 0 end) as participations_waiting_validation,
-                sum(case when participations.state  = 'En cours de traitement' then 1 else 0 end) as participations_being_processed,
-                sum(case when participations.state  = 'Validée' then 1 else 0 end) as participations_validated,
-                sum(case when participations.state  = 'Refusée' then 1 else 0 end) as participations_refused,
-                sum(case when participations.state  = 'Annulée' then 1 else 0 end) as participations_canceled
-            FROM participations
-            LEFT JOIN missions ON participations.mission_id = missions.id
-            WHERE participations.deleted_at IS NULL
-            AND missions.structure_id = :structureId
-            AND COALESCE(missions.department,'') ILIKE :department
-            GROUP BY date_trunc('year', participations.created_at), year
-            ORDER BY date_trunc('year', participations.created_at) DESC
-            ",
-                [
-                    'department' => $this->department ? '%' . $this->department . '%' : '%%',
-                    'structureId' => Auth::user()->contextable_id
-                ]
-            );
-        } else {
-            $results = DB::select(
-                "
-            SELECT date_trunc('year', participations.created_at) AS created_at,
-                date_part('year', participations.created_at) as year,
-                count(*) AS participations_total,
-                sum(case when participations.state  = 'En attente de validation' then 1 else 0 end) as participations_waiting_validation,
-                sum(case when participations.state  = 'En cours de traitement' then 1 else 0 end) as participations_being_processed,
-                sum(case when participations.state  = 'Validée' then 1 else 0 end) as participations_validated,
-                sum(case when participations.state  = 'Refusée' then 1 else 0 end) as participations_refused,
-                sum(case when participations.state  = 'Annulée' then 1 else 0 end) as participations_canceled
-            FROM participations
-            LEFT JOIN missions ON participations.mission_id = missions.id
-            WHERE participations.deleted_at IS NULL
-            AND COALESCE(missions.department,'') ILIKE :department
-            GROUP BY date_trunc('year', participations.created_at), year
-            ORDER BY date_trunc('year', participations.created_at) DESC
-            ",
-                [
-                    'department' => $this->department ? '%' . $this->department . '%' : '%%',
-                ]
-            );
-        }
+        $results = DB::table('participations')
+            ->leftJoin('missions', 'participations.mission_id', '=', 'missions.id')
+            ->leftJoin('structures', 'structures.id', '=', 'missions.structure_id')
+            ->leftJoin('reseau_structure', 'reseau_structure.structure_id', '=', 'missions.structure_id')
+            ->select(
+                DB::raw("date_trunc('year', participations.created_at) AS created_at"),
+                DB::raw("date_part('year', participations.created_at) as year"),
+                DB::raw('count(*) AS participations_total'),
+                DB::raw("sum(case when participations.state  = 'En attente de validation' then 1 else 0 end) as participations_waiting_validation"),
+                DB::raw("sum(case when participations.state  = 'En cours de traitement' then 1 else 0 end) as participations_being_processed"),
+                DB::raw("sum(case when participations.state  = 'Validée' then 1 else 0 end) as participations_validated"),
+                DB::raw("sum(case when participations.state  = 'Refusée' then 1 else 0 end) as participations_refused"),
+                DB::raw("sum(case when participations.state  = 'Annulée' then 1 else 0 end) as participations_canceled")
+            )
+            ->whereNull('participations.deleted_at')
+            ->when($this->structureId, function ($query) {
+                $query->where('missions.structure_id', $this->structureId);
+            })
+            ->when($this->reseauId, function ($query) {
+                $query->where('reseau_structure.reseau_id', $this->reseauId);
+            })
+            ->when($this->department, function ($query) {
+                $query->where('missions.department', $this->department);
+            })
+            ->groupBy(DB::raw("date_trunc('year', participations.created_at)"), 'year')
+            ->orderBy(DB::raw("date_trunc('year', participations.created_at)"), 'DESC')
+            ->get();
 
         foreach ($results as $index => $item) {
             if (isset($results[$index + 1])) {
