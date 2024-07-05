@@ -121,85 +121,6 @@ class NumbersController extends Controller
         ];
     }
 
-    public function overviewOrganisations(Request $request)
-    {
-        $missionsAvailable = Mission::role($request->header('Context-Role'))
-            ->when(
-                $this->department,
-                function ($query) {
-                    $query->where('department', $this->department);
-                }
-            )
-            ->available()
-            ->get();
-
-        return [
-            'organisations' => Structure::role($request->header('Context-Role'))->when(
-                $this->department,
-                function ($query) {
-                    $query->where('department', $this->department);
-                }
-            )->count(),
-            'organisations_actives' => $missionsAvailable->pluck('structure_id')->unique()->count(),
-            'reseaux' => Reseau::where('is_published', true)->when(
-                $this->department,
-                function ($query) {
-                    $query->where('department', $this->department);
-                }
-            )->count(),
-            'territoires' => Territoire::where('is_published', true)->when(
-                $this->department,
-                function ($query) {
-                    $query->where('department', $this->department);
-                }
-            )->count(),
-        ];
-    }
-
-    public function overviewMissions(Request $request)
-    {
-        $missionsCount = Mission::role($request->header('Context-Role'))
-        ->when(
-            $this->department,
-            function ($query) {
-                $query->where('department', $this->department);
-            }
-        )
-        ->count();
-
-        $missionsAvailableCount = Mission::role($request->header('Context-Role'))
-        ->when(
-            $this->department,
-            function ($query) {
-                $query->where('department', $this->department);
-            }
-        )
-        ->available()
-        ->count();
-
-        $missionsValidatedOverCount = Mission::role($request->header('Context-Role'))->whereIn('state', ['Validée', 'Terminée'])
-        ->when(
-            $this->department,
-            function ($query) {
-                $query->where('department', $this->department);
-            }
-        )
-        ->count();
-
-        return [
-            'missions' => $missionsCount,
-            'missions_available' => $missionsAvailableCount,
-            'missions_validated_and_over' => $missionsValidatedOverCount,
-            'missions_snu' => Mission::role($request->header('Context-Role'))->where('is_snu_mig_compatible', true)->whereIn('state', ['Validée', 'Terminée'])->when(
-                $this->department,
-                function ($query) {
-                    $query->where('department', $this->department);
-                }
-            )
-            ->count(),
-        ];
-    }
-
     public function overviewPlaces(Request $request)
     {
         $missionsAvailable = Mission::role($request->header('Context-Role'))
@@ -284,6 +205,85 @@ class NumbersController extends Controller
                 $this->department,
                 function ($query) {
                     $query->department($this->department);
+                }
+            )->count(),
+        ];
+    }
+
+    public function overviewMissions(Request $request)
+    {
+        $missionsCount = Mission::role($request->header('Context-Role'))
+        ->when(
+            $this->department,
+            function ($query) {
+                $query->where('department', $this->department);
+            }
+        )
+        ->count();
+
+        $missionsAvailableCount = Mission::role($request->header('Context-Role'))
+        ->when(
+            $this->department,
+            function ($query) {
+                $query->where('department', $this->department);
+            }
+        )
+        ->available()
+        ->count();
+
+        $missionsValidatedOverCount = Mission::role($request->header('Context-Role'))->whereIn('state', ['Validée', 'Terminée'])
+        ->when(
+            $this->department,
+            function ($query) {
+                $query->where('department', $this->department);
+            }
+        )
+        ->count();
+
+        return [
+            'missions' => $missionsCount,
+            'missions_available' => $missionsAvailableCount,
+            'missions_validated_and_over' => $missionsValidatedOverCount,
+            'missions_snu' => Mission::role($request->header('Context-Role'))->where('is_snu_mig_compatible', true)->whereIn('state', ['Validée', 'Terminée'])->when(
+                $this->department,
+                function ($query) {
+                    $query->where('department', $this->department);
+                }
+            )
+            ->count(),
+        ];
+    }
+
+    public function overviewOrganisations(Request $request)
+    {
+        $missionsAvailable = Mission::role($request->header('Context-Role'))
+            ->when(
+                $this->department,
+                function ($query) {
+                    $query->where('department', $this->department);
+                }
+            )
+            ->available()
+            ->get();
+
+        return [
+            'organisations' => Structure::role($request->header('Context-Role'))->when(
+                $this->department,
+                function ($query) {
+                    $query->where('department', $this->department);
+                }
+            )->count(),
+            'organisations_actives' => $missionsAvailable->pluck('structure_id')->unique()->count(),
+            'reseaux' => Reseau::where('is_published', true)->when(
+                $this->department,
+                function ($query) {
+                    $query->where('department', $this->department);
+                }
+            )->count(),
+            'territoires' => Territoire::where('is_published', true)->when(
+                $this->department,
+                function ($query) {
+                    $query->where('department', $this->department);
                 }
             )->count(),
         ];
@@ -523,84 +523,72 @@ class NumbersController extends Controller
 
     public function organisationsByReseaux(Request $request)
     {
-        $results = DB::select(
-            "
-                SELECT reseaux.name, reseaux.id, COUNT(*) AS count FROM structures
-                LEFT JOIN reseau_structure ON reseau_structure.structure_id = structures.id
-                LEFT JOIN reseaux ON reseaux.id = reseau_structure.reseau_id
-                WHERE structures.deleted_at IS NULL
-                AND COALESCE(structures.department,'') ILIKE :department
-                AND reseaux.name IS NOT NULL
-                AND structures.created_at BETWEEN :start and :end
-                GROUP BY reseaux.name, reseaux.id
-                ORDER BY count DESC
-                LIMIT 5
-            ",
-            [
-                'department' => $this->department ? '%' . $this->department . '%' : '%%',
-                'start' => $this->startDate,
-                'end' => $this->endDate,
-            ]
-        );
+        $results = DB::table('structures')
+            ->leftJoin('reseau_structure', 'reseau_structure.structure_id', '=', 'structures.id')
+            ->leftJoin('reseaux', 'reseaux.id', '=', 'reseau_structure.reseau_id')
+            ->select('reseaux.name', 'reseaux.id', DB::raw('COUNT(*) AS count'))
+            ->whereNull('structures.deleted_at')
+            ->when($this->department, function ($query) {
+                $query->where('structures.department', $this->department);
+            })
+            ->whereNotNull('reseaux.name')
+            ->whereBetween('structures.created_at', [$this->startDate, $this->endDate])
+            ->groupBy('reseaux.name', 'reseaux.id')
+            ->orderByDesc('count')
+            ->limit(5)
+            ->get();
 
         return $results;
     }
 
     public function missionsByReseaux(Request $request)
     {
-        $results = DB::select(
-            "
-                SELECT reseaux.name, reseaux.id, COUNT(*) AS count,
-                SUM(CASE WHEN missions.state IN ('Validée') THEN missions.places_left ELSE 0 END) AS sum_places_left
-                FROM missions
-                LEFT JOIN structures ON structures.id = missions.structure_id
-                LEFT JOIN reseau_structure ON reseau_structure.structure_id = structures.id
-                LEFT JOIN reseaux ON reseaux.id = reseau_structure.reseau_id
-                WHERE structures.deleted_at IS NULL
-                AND COALESCE(missions.department,'') ILIKE :department
-                AND structures.state = 'Validée'
-                AND structures.created_at BETWEEN :start and :end
-                AND missions.deleted_at IS NULL
-                AND missions.state IN ('Validée', 'Terminée')
-                AND reseaux.name IS NOT NULL
-                GROUP BY reseaux.name, reseaux.id
-                ORDER BY count DESC
-                LIMIT 5
-            ",
-            [
-                'department' => $this->department ? '%' . $this->department . '%' : '%%',
-                'start' => $this->startDate,
-                'end' => $this->endDate,
-            ]
-        );
+        $results = DB::table('missions')
+            ->leftJoin('structures', 'structures.id', '=', 'missions.structure_id')
+            ->leftJoin('reseau_structure', 'reseau_structure.structure_id', '=', 'structures.id')
+            ->leftJoin('reseaux', 'reseaux.id', '=', 'reseau_structure.reseau_id')
+            ->select(
+                'reseaux.name',
+                'reseaux.id',
+                DB::raw('COUNT(*) AS count'),
+                DB::raw("SUM(CASE WHEN missions.state IN ('Validée') THEN missions.places_left ELSE 0 END) AS sum_places_left")
+            )
+            ->whereNull('structures.deleted_at')
+            ->when($this->department, function ($query) {
+                $query->where('structures.department', $this->department);
+            })
+            ->where('structures.state', 'Validée')
+            ->whereBetween('missions.created_at', [$this->startDate, $this->endDate])
+            ->whereNull('missions.deleted_at')
+            ->whereIn('missions.state', ['Validée', 'Terminée'])
+            ->whereNotNull('reseaux.name')
+            ->groupBy('reseaux.name', 'reseaux.id')
+            ->orderByDesc('count')
+            ->limit(5)
+            ->get();
 
         return $results;
     }
 
     public function participationsByReseaux(Request $request)
     {
-        $results = DB::select(
-            "
-                SELECT reseaux.name, reseaux.id, COUNT(*) AS count FROM participations
-                LEFT JOIN missions ON missions.id = participations.mission_id
-                LEFT JOIN structures ON structures.id = missions.structure_id
-                LEFT JOIN reseau_structure ON reseau_structure.structure_id = structures.id
-                LEFT JOIN reseaux ON reseaux.id = reseau_structure.reseau_id
-                WHERE structures.deleted_at IS NULL
-                AND COALESCE(missions.department,'') ILIKE :department
-                AND missions.deleted_at IS NULL
-                AND reseaux.name IS NOT NULL
-                AND structures.created_at BETWEEN :start and :end
-                GROUP BY reseaux.name, reseaux.id
-                ORDER BY count DESC
-                LIMIT 5
-            ",
-            [
-                'department' => $this->department ? '%' . $this->department . '%' : '%%',
-                'start' => $this->startDate,
-                'end' => $this->endDate,
-            ]
-        );
+        $results = DB::table('participations')
+            ->leftJoin('missions', 'missions.id', '=', 'participations.mission_id')
+            ->leftJoin('structures', 'structures.id', '=', 'missions.structure_id')
+            ->leftJoin('reseau_structure', 'reseau_structure.structure_id', '=', 'structures.id')
+            ->leftJoin('reseaux', 'reseaux.id', '=', 'reseau_structure.reseau_id')
+            ->select('reseaux.name', 'reseaux.id', DB::raw('COUNT(*) AS count'))
+            ->whereNull('structures.deleted_at')
+            ->when($this->department, function ($query) {
+                $query->where('structures.department', $this->department);
+            })
+            ->whereNull('missions.deleted_at')
+            ->whereNotNull('reseaux.name')
+            ->whereBetween('participations.created_at', [$this->startDate, $this->endDate])
+            ->groupBy('reseaux.name', 'reseaux.id')
+            ->orderByDesc(DB::raw('COUNT(*)'))
+            ->limit(5)
+            ->get();
 
         return $results;
     }
@@ -1100,35 +1088,33 @@ class NumbersController extends Controller
             ->orderByDesc('count')
             ->get();
 
-
         return $results;
     }
 
     public function missionsByTemplates(Request $request)
     {
         $results = DB::table('missions')
-        ->leftJoin('structures', 'structures.id', '=', 'missions.structure_id')
-        ->leftJoin('reseau_structure', 'reseau_structure.structure_id', '=', 'missions.structure_id')
-        ->leftJoin('mission_templates', 'mission_templates.id', '=', 'missions.template_id')
-        ->select('mission_templates.title', 'mission_templates.id', DB::raw('COUNT(*) AS count'))
-        ->whereNull('missions.deleted_at')
-        ->whereIn('missions.state', ['Validée', 'Terminée'])
-        ->whereNotNull('mission_templates.title')
-        ->when($this->structureId, function ($query) {
-            $query->where('missions.structure_id', $this->structureId);
-        })
-        ->when($this->reseauId, function ($query) {
-            $query->where('reseau_structure.reseau_id', $this->reseauId);
-        })
-        ->when($this->department, function ($query) {
-            $query->where('missions.department', $this->department);
-        })
-        ->whereBetween('missions.created_at', [$this->startDate, $this->endDate])
-        ->groupBy('mission_templates.title', 'mission_templates.id')
-        ->orderByDesc('count')
-        ->limit(5)
-        ->get();
-
+            ->leftJoin('structures', 'structures.id', '=', 'missions.structure_id')
+            ->leftJoin('reseau_structure', 'reseau_structure.structure_id', '=', 'missions.structure_id')
+            ->leftJoin('mission_templates', 'mission_templates.id', '=', 'missions.template_id')
+            ->select('mission_templates.title', 'mission_templates.id', DB::raw('COUNT(*) AS count'))
+            ->whereNull('missions.deleted_at')
+            ->whereIn('missions.state', ['Validée', 'Terminée'])
+            ->whereNotNull('mission_templates.title')
+            ->when($this->structureId, function ($query) {
+                $query->where('missions.structure_id', $this->structureId);
+            })
+            ->when($this->reseauId, function ($query) {
+                $query->where('reseau_structure.reseau_id', $this->reseauId);
+            })
+            ->when($this->department, function ($query) {
+                $query->where('missions.department', $this->department);
+            })
+            ->whereBetween('missions.created_at', [$this->startDate, $this->endDate])
+            ->groupBy('mission_templates.title', 'mission_templates.id')
+            ->orderByDesc('count')
+            ->limit(5)
+            ->get();
 
         return $results;
     }
@@ -1161,45 +1147,38 @@ class NumbersController extends Controller
 
     public function utilisateursByDomaines(Request $request)
     {
-        $results = DB::select(
-            "
-                SELECT domaines.name, domaines.id, COUNT(*) AS count FROM profiles
-                LEFT JOIN domainables ON domainables.domainable_id = profiles.id AND domainables.domainable_type = 'App\Models\Profile'
-                LEFT JOIN domaines ON domaines.id = domainables.domaine_id
-                WHERE profiles.created_at BETWEEN :start and :end
-                AND COALESCE(profiles.zip,'') ILIKE :department
-                GROUP BY domaines.name, domaines.id
-                ORDER BY count DESC
-            ",
-            [
-                'department' => $this->department ? $this->department . '%' : '%%',
-                'start' => $this->startDate,
-                'end' => $this->endDate,
-            ]
-        );
+        $results = DB::table('profiles')
+            ->leftJoin('domainables', function ($join) {
+                $join->on('domainables.domainable_id', '=', 'profiles.id')
+                    ->where('domainables.domainable_type', '=', 'App\Models\Profile');
+            })
+            ->leftJoin('domaines', 'domaines.id', '=', 'domainables.domaine_id')
+            ->select('domaines.name', 'domaines.id', DB::raw('COUNT(*) AS count'))
+            ->whereBetween('profiles.created_at', [$this->startDate, $this->endDate])
+            ->when($this->department, function ($query) {
+                $query->where('profiles.department', $this->department);
+            })
+            ->groupBy('domaines.name', 'domaines.id')
+            ->orderByDesc('count')
+            ->get();
 
         return $results;
     }
 
     public function utilisateursByActivities(Request $request)
     {
-        $results = DB::select(
-            "
-                SELECT activities.name, activities.id, COUNT(*) AS count
-                FROM profiles
-                LEFT JOIN activity_profile ON activity_profile.profile_id = profiles.id
-                LEFT JOIN activities ON activities.id = activity_profile.activity_id
-                WHERE profiles.created_at BETWEEN :start and :end
-                AND COALESCE(profiles.zip,'') ILIKE :department
-                GROUP BY activities.name, activities.id
-                ORDER BY count DESC
-            ",
-            [
-                'department' => $this->department ? $this->department . '%' : '%%',
-                'start' => $this->startDate,
-                'end' => $this->endDate,
-            ]
-        );
+        $results = DB::table('profiles')
+            ->leftJoin('activity_profile', 'activity_profile.profile_id', '=', 'profiles.id')
+            ->leftJoin('activities', 'activities.id', '=', 'activity_profile.activity_id')
+            ->select('activities.name', 'activities.id', DB::raw('COUNT(*) AS count'))
+            ->whereBetween('profiles.created_at', [$this->startDate, $this->endDate])
+            ->when($this->department, function ($query) {
+                $query->where('profiles.department', $this->department);
+            })
+            ->groupBy('activities.name', 'activities.id')
+            ->orderByDesc(DB::raw('COUNT(*)'))
+            ->limit(5)
+            ->get();
 
         return $results;
     }
@@ -1654,29 +1633,24 @@ class NumbersController extends Controller
 
     public function placesByReseaux(Request $request)
     {
-        $results = DB::select(
-            "
-                SELECT reseaux.name, reseaux.id,
-                SUM(CASE WHEN missions.state IN ('Validée') THEN missions.places_left ELSE 0 END) AS count
-                FROM missions
-                LEFT JOIN structures ON structures.id = missions.structure_id
-                LEFT JOIN reseau_structure ON reseau_structure.structure_id = structures.id
-                LEFT JOIN reseaux ON reseaux.id = reseau_structure.reseau_id
-                WHERE structures.deleted_at IS NULL
-                AND structures.state = 'Validée'
-                AND COALESCE(missions.department,'') ILIKE :department
-                AND missions.deleted_at IS NULL
-                AND missions.is_registration_open = true
-                AND missions.is_online = true
-                AND reseaux.name IS NOT NULL
-                GROUP BY reseaux.name, reseaux.id
-                ORDER BY count DESC
-                LIMIT 5
-            ",
-            [
-                'department' => $this->department ? '%' . $this->department . '%' : '%%',
-            ]
-        );
+        $results = DB::table('missions')
+            ->leftJoin('structures', 'structures.id', '=', 'missions.structure_id')
+            ->leftJoin('reseau_structure', 'reseau_structure.structure_id', '=', 'structures.id')
+            ->leftJoin('reseaux', 'reseaux.id', '=', 'reseau_structure.reseau_id')
+            ->select('reseaux.name', 'reseaux.id', DB::raw('SUM(CASE WHEN missions.state IN (\'Validée\') THEN missions.places_left ELSE 0 END) AS count'))
+            ->whereNull('structures.deleted_at')
+            ->where('structures.state', 'Validée')
+            ->when($this->department, function ($query) {
+                $query->where('missions.department', $this->department);
+            })
+            ->whereNull('missions.deleted_at')
+            ->where('missions.is_registration_open', true)
+            ->where('missions.is_online', true)
+            ->whereNotNull('reseaux.name')
+            ->groupBy('reseaux.name', 'reseaux.id')
+            ->orderByDesc('count')
+            ->limit(5)
+            ->get();
 
         return $results;
     }
