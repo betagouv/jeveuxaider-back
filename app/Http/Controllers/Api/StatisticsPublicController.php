@@ -1298,12 +1298,6 @@ class StatisticsPublicController extends Controller
             ->when($this->department, function ($query) {
                 $query->where('missions.department', $this->department);
             })
-            ->when($this->reseauId, function ($query) {
-                $query->where('reseau_structure.reseau_id', $this->reseauId);
-            })
-            ->when($this->structureId, function ($query) {
-                $query->where('missions.structure_id', $this->structureId);
-            })
             ->whereNotNull('activities.name')
             ->whereNull('structures.deleted_at')
             ->where('structures.state', 'Validée')
