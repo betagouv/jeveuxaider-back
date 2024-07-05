@@ -2,7 +2,6 @@
 
 namespace App\Observers;
 
-use App\Models\Mission;
 use App\Models\MissionTemplate;
 use App\Notifications\MissionTemplateUpdated;
 use App\Notifications\MissionTemplateWaiting;
@@ -10,7 +9,6 @@ use Illuminate\Support\Facades\Notification;
 
 class MissionTemplateObserver
 {
-
     private $mailsToNotify = [
         'sophie.galent@beta.gouv.fr',
         'coralie.chauvin@beta.gouv.fr',
@@ -36,10 +34,17 @@ class MissionTemplateObserver
             $missionTemplate->missions()->with(['structure'])->searchable();
         }
 
-        if ($missionTemplate->reseau_id && $missionTemplate->published && ! $missionTemplate->isDirty('state')) {
+        if ($missionTemplate->reseau_id && $missionTemplate->published && !$missionTemplate->isDirty('state')) {
             if (isset($changes) && count($changes) > 1) { // ignore updated_at
                 Notification::route('mail', $this->mailsToNotify)->notify(new MissionTemplateUpdated($missionTemplate, $missionTemplate->getOriginal(), $changes));
             }
+        }
+    }
+
+    public function saving(MissionTemplate $missionTemplate)
+    {
+        if ($missionTemplate->recommendation_date_type !== 'ponctual') {
+            $missionTemplate->recommendation_with_dates = null;
         }
     }
 }

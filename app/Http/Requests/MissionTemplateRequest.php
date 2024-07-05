@@ -26,7 +26,10 @@ class MissionTemplateRequest extends FormRequest
             'published' => 'boolean',
             'priority' => 'boolean',
             'state' => '',
-            'tags' => ''
+            'tags' => '',
+            'recommendation_date_type' => '',
+            'recommendation_with_dates' => 'boolean|nullable',
+            'recommendation_type' => '',
         ];
     }
 }
