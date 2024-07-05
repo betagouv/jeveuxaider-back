@@ -492,84 +492,30 @@ Route::group(['middleware' => ['auth:api', 'is.admin.or.referent']], function ()
     Route::delete('/notes/{note}', 'Api\NoteController@delete');
 
     // NUMBERS
-    // Route::get('statistics/overview-quick-glance', 'Api\NumbersController@overviewQuickGlance');
-    // Route::get('statistics/overview-missions', 'Api\NumbersController@overviewMissions');
-    // Route::get('statistics/overview-places', 'Api\NumbersController@overviewPlaces');
-    // Route::get('statistics/overview-organisations', 'Api\NumbersController@overviewOrganisations');
     Route::get('statistics/overview-utilisateurs', 'Api\NumbersController@overviewUtilisateurs');
-    // Route::get('statistics/overview-participations', 'Api\NumbersController@overviewParticipations');
-
     Route::get('statistics/overview-api-engagement', 'Api\NumbersController@overviewAPIEngagement');
     Route::get('statistics/overview-api-engagement-entrant', 'Api\NumbersController@overviewAPIEngagementEntrant');
     Route::get('statistics/overview-api-engagement-entrant-details', 'Api\NumbersController@overviewAPIEngagementEntrantDetails');
     Route::get('statistics/overview-api-engagement-sortant', 'Api\NumbersController@overviewAPIEngagementSortant');
     Route::get('statistics/overview-api-engagement-sortant-details', 'Api\NumbersController@overviewAPIEngagementSortantDetails');
-
-    // Route::get('statistics/global/organisations', 'Api\NumbersController@globalOrganisations');
-    // Route::get('statistics/global/missions', 'Api\NumbersController@globalMissions');
-    // Route::get('statistics/global/participations', 'Api\NumbersController@globalParticipations');
     Route::get('statistics/global/utilisateurs', 'Api\NumbersController@globalUtilisateurs');
-    // Route::get('statistics/global/places', 'Api\NumbersController@globalPlaces');
-
-    // Route::get('statistics/participations-by-activities', 'Api\NumbersController@participationsByActivities');
-    // Route::get('statistics/participations-by-mission-templates', 'Api\NumbersController@participationsByMissionTemplates');
-    // Route::get('statistics/participations-by-missions', 'Api\NumbersController@participationsByMissions');
-    // Route::get('statistics/participations-by-organisations', 'Api\NumbersController@participationsByOrganisations');
-    // Route::get('statistics/participations-by-reseaux', 'Api\NumbersController@participationsByReseaux');
-    // Route::get('statistics/participations-by-states', 'Api\NumbersController@participationsByStates');
-    // Route::get('statistics/participations-by-domaines', 'Api\NumbersController@participationsByDomaines');
-    // Route::get('statistics/participations-by-reseaux', 'Api\NumbersController@participationsByReseaux');
-    // Route::get('statistics/participations-canceled-by-benevoles', 'Api\NumbersController@participationsCanceledByBenevoles');
-    // Route::get('statistics/participations-refused-by-responsables', 'Api\NumbersController@participationsRefusedByResponsables');
-    // Route::get('statistics/participations-delays-by-registrations', 'Api\NumbersController@participationsDelaysByRegistrations');
-
-    // Route::get('statistics/missions-by-states', 'Api\NumbersController@missionsByStates');
-    // Route::get('statistics/missions-by-types', 'Api\NumbersController@missionsByTypes');
-    // Route::get('statistics/missions-by-activities', 'Api\NumbersController@missionsByActivities');
-    // Route::get('statistics/missions-by-templates', 'Api\NumbersController@missionsByTemplates');
-    // Route::get('statistics/missions-by-domaines', 'Api\NumbersController@missionsByDomaines');
-    // Route::get('statistics/missions-by-organisations', 'Api\NumbersController@missionsByOrganisations');
     Route::get('statistics/missions-by-reseaux', 'Api\NumbersController@missionsByReseaux');
-    // Route::get('statistics/missions-by-template-types', 'Api\NumbersController@missionsByTemplateTypes');
-
-    // Route::get('statistics/organisations-by-states', 'Api\NumbersController@organisationsByStates');
-    // Route::get('statistics/organisations-by-types', 'Api\NumbersController@organisationsByTypes');
-    // Route::get('statistics/organisations-by-domaines', 'Api\NumbersController@organisationsByDomaines');
     Route::get('statistics/organisations-by-reseaux', 'Api\NumbersController@organisationsByReseaux');
-
     Route::get('statistics/places-by-reseaux', 'Api\NumbersController@placesByReseaux');
-    // Route::get('statistics/places-by-organisations', 'Api\NumbersController@placesByOrganisations');
-    // Route::get('statistics/places-by-missions', 'Api\NumbersController@placesByMissions');
-    // Route::get('statistics/places-by-domaines', 'Api\NumbersController@placesByDomaines');
-    // Route::get('statistics/places-by-activities', 'Api\NumbersController@placesByActivities');
-
     Route::get('statistics/utilisateurs-by-domaines', 'Api\NumbersController@utilisateursByDomaines');
     Route::get('statistics/utilisateurs-by-activities', 'Api\NumbersController@utilisateursByActivities');
     Route::get('statistics/utilisateurs-with-participations', 'Api\NumbersController@utilisateursWithParticipations');
     Route::get('statistics/utilisateurs-by-age', 'Api\NumbersController@utilisateursByAge');
-
     Route::get('statistics/participations-waiting-by-organisations', 'Api\NumbersController@participationsWaitingByOrganisations');
     Route::get('statistics/participations-refused-by-organisations', 'Api\NumbersController@participationsRefusedByOrganisations');
     Route::get('statistics/participations-canceled-by-organisations', 'Api\NumbersController@participationsCanceledByOrganisations');
     Route::get('statistics/participations-in-progress-by-organisations', 'Api\NumbersController@participationsInProgressByOrganisations');
     Route::get('statistics/missions-outdated-by-organisations', 'Api\NumbersController@missionsOutdatedByOrganisations');
-
-    // CHARTS
-    // Route::get('charts/organisations-by-date', 'Api\ChartsController@organisationsByDate');
-    // Route::get('charts/missions-by-date', 'Api\ChartsController@missionsByDate');
-    // Route::get('charts/participations-by-date', 'Api\ChartsController@participationsByDate');
-    // Route::get('charts/participations-conversion-by-date', 'Api\ChartsController@participationsConversionByDate');
     Route::get('charts/utilisateurs-by-date', 'Api\ChartsController@utilisateursByDate');
 
     // INDICATEURS
     Route::get('statistics/structures-by-month', 'Api\NumbersController@structuresByMonth');
-    // Route::get('statistics/missions-by-month', 'Api\NumbersController@missionsByMonth');
-    // Route::get('statistics/participations-by-month', 'Api\NumbersController@participationsByMonth');
     Route::get('statistics/users-by-month', 'Api\NumbersController@usersByMonth');
-
-    // Route::get('statistics/structures-by-year', 'Api\NumbersController@structuresByYear');
-    // Route::get('statistics/missions-by-year', 'Api\NumbersController@missionsByYear');
-    // Route::get('statistics/participations-by-year', 'Api\NumbersController@participationsByYear');
     Route::get('statistics/users-by-year', 'Api\NumbersController@usersByYear');
 
     // CONVERSATIONS

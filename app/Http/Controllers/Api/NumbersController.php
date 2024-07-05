@@ -31,10 +31,14 @@ class NumbersController extends Controller
     {
         if($request->header('Context-Role') == 'responsable') {
             $this->structureId = Auth::guard('api')->user()->contextable_id;
+        } else {
+            $this->structureId = $request->input('structure');
         }
 
         if($request->header('Context-Role') == 'tete_de_reseau') {
             $this->reseauId = Auth::guard('api')->user()->contextable_id;
+        } else {
+            $this->reseauId = $request->input('reseau');
         }
 
         if($request->input('start_date')) {
@@ -124,12 +128,9 @@ class NumbersController extends Controller
     public function overviewPlaces(Request $request)
     {
         $missionsAvailable = Mission::role($request->header('Context-Role'))
-            ->when(
-                $this->department,
-                function ($query) {
-                    $query->where('department', $this->department);
-                }
-            )
+            ->when($this->department, function ($query) {
+                $query->department($this->department);
+            })
             ->available()
             ->get();
 
@@ -145,27 +146,14 @@ class NumbersController extends Controller
 
     public function overviewParticipations(Request $request)
     {
-        $participationsCount = Participation::role($request->header('Context-Role'))->when(
-            $this->department,
-            function ($query) {
+        $queryBuilder = Participation::role($request->header('Context-Role'))
+            ->when($this->department, function ($query) {
                 $query->department($this->department);
-            }
-        )
-        ->count();
+            });
 
-        $participationsValidatedCount = Participation::role($request->header('Context-Role'))->where('state', 'Validée')->when(
-            $this->department,
-            function ($query) {
-                $query->department($this->department);
-            }
-        )->count();
-
-        $participationsInProgressCount = Participation::role($request->header('Context-Role'))->whereIn('state', ['En attente de validation', 'En cours de traitement'])->when(
-            $this->department,
-            function ($query) {
-                $query->department($this->department);
-            }
-        )->count();
+        $participationsCount =  (clone $queryBuilder)->count();
+        $participationsValidatedCount =  (clone $queryBuilder)->where('state', 'Validée')->count();
+        $participationsInProgressCount = (clone $queryBuilder)->whereIn('state', ['En attente de validation', 'En cours de traitement'])->count();
 
         return [
             'participations' => $participationsCount,
@@ -177,36 +165,22 @@ class NumbersController extends Controller
 
     public function overviewUtilisateurs(Request $request)
     {
+        $queryBuilder = Profile::role($request->header('Context-Role'))
+            ->when($this->department, function ($query) {
+                $query->department($this->department);
+            });
+
+
         return [
-            'utilisateurs' => Profile::role($request->header('Context-Role'))->when(
-                $this->department,
-                function ($query) {
-                    $query->where('department', $this->department);
-                }
-            )->count(),
-            'benevoles' => Profile::role($request->header('Context-Role'))->when(
-                $this->department,
-                function ($query) {
-                    $query->where('department', $this->department);
-                }
-            )->whereHas(
+            'utilisateurs' => (clone $queryBuilder)->count(),
+            'benevoles' => (clone $queryBuilder)->whereHas(
                 'user',
                 function (Builder $query) {
                     $query->where('context_role', 'volontaire');
                 }
             )->count(),
-            'benevoles_actifs' => Profile::role($request->header('Context-Role'))->has('participations')->when(
-                $this->department,
-                function ($query) {
-                    $query->where('department', $this->department);
-                }
-            )->count(),
-            'benevoles_visibles_marketplace' => Profile::role($request->header('Context-Role'))->where('is_visible', true)->when(
-                $this->department,
-                function ($query) {
-                    $query->department($this->department);
-                }
-            )->count(),
+            'benevoles_actifs' => (clone $queryBuilder)->whereHas('participations')->count(),
+            'benevoles_visibles_marketplace' => (clone $queryBuilder)->where('is_visible', true)->count(),
         ];
     }
 
@@ -408,116 +382,76 @@ class NumbersController extends Controller
 
     public function globalOrganisations(Request $request)
     {
-        $organisationsCount = Structure::role($request->header('Context-Role'))->when(
-            $this->department,
-            function ($query) {
-                $query->where('department', $this->department);
-            }
-        )->whereBetween('created_at', [$this->startDate, $this->endDate])->count();
+        $queryBuilder = Structure::role($request->header('Context-Role'))
+            ->when($this->department, function ($query) {
+                $query->department($this->department);
+            })
+            ->when($this->reseauId, function ($query) {
+                $query->ofReseau($this->reseauId);
+            })
+            ->whereBetween('created_at', [$this->startDate, $this->endDate]);
 
-        $organisationsValidatedCount = Structure::role($request->header('Context-Role'))->whereIn('state', ['Validée'])->when(
-            $this->department,
-            function ($query) {
-                $query->where('department', $this->department);
-            }
-        )->whereBetween('created_at', [$this->startDate, $this->endDate])->count();
+        $organisationsCount = (clone $queryBuilder)->count();
+        $organisationsValidatedCount = (clone $queryBuilder)->whereIn('state', ['Validée'])->count();
+
+        $queryBuilderScore = StructureScore::whereHas('structure', function (Builder $query) use ($request) {
+            $query->role($request->header('Context-Role'))->whereIn('state', ['Validée'])
+            ->when($this->department, function ($query) {
+                $query->department($this->department);
+            })
+            ->when($this->reseauId, function ($query) {
+                $query->ofReseau($this->reseauId);
+            })
+            ->whereBetween('created_at', [$this->startDate, $this->endDate]);
+        });
 
         return [
             'organisations_count' => $organisationsCount,
             'organisations_validated_count' => $organisationsValidatedCount,
             'organisations_conversion_rate' => $organisationsCount ? round(($organisationsValidatedCount / $organisationsCount) * 100) : 0,
-            'organisations_response_time_avg' => round(
-                StructureScore::whereHas('structure', function (Builder $query) use ($request) {
-                    $query->role($request->header('Context-Role'))->whereIn('state', ['Validée'])->when(
-                        $this->department,
-                        function ($query) {
-                            $query->where('department', $this->department);
-                        }
-                    )->whereBetween('created_at', [$this->startDate, $this->endDate]);
-                })->avg('response_time')
-            ),
-            'organisations_response_ratio_avg' => round(
-                StructureScore::whereHas('structure', function (Builder $query) use ($request) {
-                    $query->role($request->header('Context-Role'))->whereIn('state', ['Validée'])->when(
-                        $this->department,
-                        function ($query) {
-                            $query->where('department', $this->department);
-                        }
-                    )->whereBetween('created_at', [$this->startDate, $this->endDate]);
-                })->avg('processed_participations_rate')
-            ),
+            'organisations_response_time_avg' => round((clone  $queryBuilderScore)->avg('response_time')),
+            'organisations_response_ratio_avg' => round((clone  $queryBuilderScore)->avg('processed_participations_rate')),
         ];
     }
 
     public function organisationsByStates(Request $request)
     {
+        $queryBuilder = Structure::role($request->header('Context-Role'))
+            ->when($this->department, function ($query) {
+                $query->department($this->department);
+            })
+            ->when($this->reseauId, function ($query) {
+                $query->ofReseau($this->reseauId);
+            })
+            ->whereBetween('created_at', [$this->startDate, $this->endDate]);
+
         return [
-            'draft' => Structure::role($request->header('Context-Role'))->where('state', 'Brouillon')->when(
-                $this->department,
-                function ($query) {
-                    $query->where('department', $this->department);
-                }
-            )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-            'waiting' => Structure::role($request->header('Context-Role'))->where('state', 'En attente de validation')->when(
-                $this->department,
-                function ($query) {
-                    $query->where('department', $this->department);
-                }
-            )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-            'in_progress' => Structure::role($request->header('Context-Role'))->where('state', 'En cours de traitement')->when(
-                $this->department,
-                function ($query) {
-                    $query->where('department', $this->department);
-                }
-            )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-            'validated' => Structure::role($request->header('Context-Role'))->where('state', 'Validée')->when(
-                $this->department,
-                function ($query) {
-                    $query->where('department', $this->department);
-                }
-            )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-            'signaled' => Structure::role($request->header('Context-Role'))->where('state', 'Signalée')->when(
-                $this->department,
-                function ($query) {
-                    $query->where('department', $this->department);
-                }
-            )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-            'unsubscribed' => Structure::role($request->header('Context-Role'))->where('state', 'Désinscrite')->when(
-                $this->department,
-                function ($query) {
-                    $query->where('department', $this->department);
-                }
-            )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'draft' => (clone $queryBuilder)->where('state', 'Brouillon')->count(),
+            'waiting' => (clone $queryBuilder)->where('state', 'En attente de validation')->count(),
+            'in_progress' => (clone $queryBuilder)->where('state', 'En cours de traitement')->count(),
+            'validated' => (clone $queryBuilder)->where('state', 'Validée')->count(),
+            'signaled' => (clone $queryBuilder)->where('state', 'Signalée')->count(),
+            'unsubscribed' => (clone $queryBuilder)->where('state', 'Désinscrite')->count(),
         ];
     }
 
     public function organisationsByTypes(Request $request)
     {
+        $queryBuilder = Structure::role($request->header('Context-Role'))
+            ->where('state', 'Validée')
+            ->when($this->department, function ($query) {
+                $query->department($this->department);
+            })
+            ->when($this->reseauId, function ($query) {
+                $query->ofReseau($this->reseauId);
+            })
+            ->whereBetween('created_at', [$this->startDate, $this->endDate]);
+
         return [
-            'associations' => Structure::role($request->header('Context-Role'))->where('state', 'Validée')->where('statut_juridique', 'Association')->when(
-                $this->department,
-                function ($query) {
-                    $query->where('department', $this->department);
-                }
-            )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-            'collectivites' => Structure::role($request->header('Context-Role'))->where('state', 'Validée')->where('statut_juridique', 'Collectivité')->when(
-                $this->department,
-                function ($query) {
-                    $query->where('department', $this->department);
-                }
-            )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-            'organisations_publiques' => Structure::role($request->header('Context-Role'))->where('state', 'Validée')->where('statut_juridique', 'Organisation publique')->when(
-                $this->department,
-                function ($query) {
-                    $query->where('department', $this->department);
-                }
-            )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-            'organisations_privees' => Structure::role($request->header('Context-Role'))->where('state', 'Validée')->where('statut_juridique', 'Organisation privée')->when(
-                $this->department,
-                function ($query) {
-                    $query->where('department', $this->department);
-                }
-            )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'associations' => (clone $queryBuilder)->where('statut_juridique', 'Association')->count(),
+            'collectivites' => (clone $queryBuilder)->where('statut_juridique', 'Collectivité')->count(),
+            'organisations_publiques' => (clone $queryBuilder)->where('statut_juridique', 'Organisation publique')->count(),
+            'organisations_privees' => (clone $queryBuilder)->where('statut_juridique', 'Organisation privée')->count(),
         ];
     }
 
@@ -530,6 +464,9 @@ class NumbersController extends Controller
             ->whereNull('structures.deleted_at')
             ->when($this->department, function ($query) {
                 $query->where('structures.department', $this->department);
+            })
+            ->when($this->reseauId, function ($query) {
+                $query->where('reseau_structure.reseau_id', $this->reseauId);
             })
             ->whereNotNull('reseaux.name')
             ->whereBetween('structures.created_at', [$this->startDate, $this->endDate])
@@ -557,6 +494,12 @@ class NumbersController extends Controller
             ->when($this->department, function ($query) {
                 $query->where('structures.department', $this->department);
             })
+            ->when($this->structureId, function ($query) {
+                $query->where('structures.id', $this->structureId);
+            })
+            ->when($this->reseauId, function ($query) {
+                $query->where('reseau_structure.reseau_id', $this->reseauId);
+            })
             ->where('structures.state', 'Validée')
             ->whereBetween('missions.created_at', [$this->startDate, $this->endDate])
             ->whereNull('missions.deleted_at')
@@ -582,6 +525,12 @@ class NumbersController extends Controller
             ->when($this->department, function ($query) {
                 $query->where('structures.department', $this->department);
             })
+            ->when($this->structureId, function ($query) {
+                $query->where('structures.id', $this->structureId);
+            })
+            ->when($this->reseauId, function ($query) {
+                $query->where('reseau_structure.reseau_id', $this->reseauId);
+            })
             ->whereNull('missions.deleted_at')
             ->whereNotNull('reseaux.name')
             ->whereBetween('participations.created_at', [$this->startDate, $this->endDate])
@@ -595,75 +544,51 @@ class NumbersController extends Controller
 
     public function globalMissions(Request $request)
     {
-        $missionsCount = Mission::role($request->header('Context-Role'))
-        ->when(
-            $this->department,
-            function ($query) {
-                $query->where('department', $this->department);
-            }
-        )
-        ->whereBetween('created_at', [$this->startDate, $this->endDate])->count();
+        $queryBuilder = Mission::role($request->header('Context-Role'))
+            ->when($this->department, function ($query) {
+                $query->department($this->department);
+            })
+            ->when($this->structureId, function ($query) {
+                $query->ofStructure($this->structureId);
+            })
+            ->when($this->reseauId, function ($query) {
+                $query->ofReseau($this->reseauId);
+            })
+            ->whereBetween('created_at', [$this->startDate, $this->endDate]);
 
-        $missionsValidatedOverCount = Mission::role($request->header('Context-Role'))->whereIn('state', ['Validée', 'Terminée'])
-        ->when(
-            $this->department,
-            function ($query) {
-                $query->where('department', $this->department);
-            }
-        )
-        ->whereBetween('created_at', [$this->startDate, $this->endDate])->count();
+        $missionsCount = (clone $queryBuilder)->count();
+        $missionsValidatedOverCount = (clone $queryBuilder)->whereIn('state', ['Validée', 'Terminée'])->count();
+        $missionsParticipationsMaxSum = (clone $queryBuilder)->whereIn('state', ['Validée', 'Terminée'])->sum('participations_max');
+        $missionsSnuCount = (clone $queryBuilder)->where('is_snu_mig_compatible', true)->whereIn('state', ['Validée', 'Terminée'])->count();
+        $missionSnuParticipationsMaxSum = (clone $queryBuilder)->where('is_snu_mig_compatible', true)->whereIn('state', ['Validée', 'Terminée'])->sum('snu_mig_places');
 
         return [
             'missions' => $missionsCount,
             'missions_validated_and_over' => $missionsValidatedOverCount,
             // 'missions_conversion_rate' => $missionsCount ? round(($missionsValidatedOverCount / $missionsCount) * 100) : 0,
-            'missions_participations_max_sum' => Mission::role($request->header('Context-Role'))->whereIn('state', ['Validée', 'Terminée'])->when(
-                $this->department,
-                function ($query) {
-                    $query->where('department', $this->department);
-                }
-            )
-            ->whereBetween('created_at', [$this->startDate, $this->endDate])->sum('participations_max'),
-            'missions_snu' => Mission::role($request->header('Context-Role'))->where('is_snu_mig_compatible', true)->whereIn('state', ['Validée', 'Terminée'])->when(
-                $this->department,
-                function ($query) {
-                    $query->where('department', $this->department);
-                }
-            )
-            ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-            'missions_snu_participations_max_sum' => Mission::role($request->header('Context-Role'))->whereIn('state', ['Validée', 'Terminée'])->where('is_snu_mig_compatible', true)->when(
-                $this->department,
-                function ($query) {
-                    $query->where('department', $this->department);
-                }
-            )
-            ->whereBetween('created_at', [$this->startDate, $this->endDate])->sum('snu_mig_places'),
+            'missions_participations_max_sum' => $missionsParticipationsMaxSum,
+            'missions_snu' => $missionsSnuCount,
+            'missions_snu_participations_max_sum' => $missionSnuParticipationsMaxSum,
         ];
     }
 
     public function globalParticipations(Request $request)
     {
-        $participationsCount = Participation::role($request->header('Context-Role'))->when(
-            $this->department,
-            function ($query) {
+        $queryBuilder = Participation::role($request->header('Context-Role'))
+            ->when($this->department, function ($query) {
                 $query->department($this->department);
-            }
-        )
-        ->whereBetween('created_at', [$this->startDate, $this->endDate])->count();
+            })
+            ->when($this->structureId, function ($query) {
+                $query->ofStructure($this->structureId);
+            })
+            ->when($this->reseauId, function ($query) {
+                $query->ofReseau($this->reseauId);
+            })
+            ->whereBetween('created_at', [$this->startDate, $this->endDate]);
 
-        $participationsValidatedCount = Participation::role($request->header('Context-Role'))->where('state', 'Validée')->when(
-            $this->department,
-            function ($query) {
-                $query->department($this->department);
-            }
-        )->whereBetween('created_at', [$this->startDate, $this->endDate])->count();
-
-        $participationsInProgressCount = Participation::role($request->header('Context-Role'))->whereIn('state', ['En attente de validation', 'En cours de traitement'])->when(
-            $this->department,
-            function ($query) {
-                $query->department($this->department);
-            }
-        )->whereBetween('created_at', [$this->startDate, $this->endDate])->count();
+        $participationsCount = (clone $queryBuilder)->count();
+        $participationsValidatedCount =  (clone $queryBuilder)->where('state', 'Validée')->count();
+        $participationsInProgressCount =  (clone $queryBuilder)->whereIn('state', ['En attente de validation', 'En cours de traitement'])->count();
 
         return [
             'participations' => $participationsCount,
@@ -676,12 +601,15 @@ class NumbersController extends Controller
     public function globalPlaces(Request $request)
     {
         $missionsAvailable = Mission::role($request->header('Context-Role'))
-            ->when(
-                $this->department,
-                function ($query) {
-                    $query->where('department', $this->department);
-                }
-            )
+            ->when($this->department, function ($query) {
+                $query->department($this->department);
+            })
+            ->when($this->structureId, function ($query) {
+                $query->ofStructure($this->structureId);
+            })
+            ->when($this->reseauId, function ($query) {
+                $query->ofReseau($this->reseauId);
+            })
             ->available()
             ->get();
 
@@ -773,137 +701,91 @@ class NumbersController extends Controller
 
     public function participationsByStates(Request $request)
     {
+        $queryBuilder = Participation::role($request->header('Context-Role'))
+            ->when($this->department, function ($query) {
+                $query->department($this->department);
+            })
+            ->when($this->structureId, function ($query) {
+                $query->ofStructure($this->structureId);
+            })
+            ->when($this->reseauId, function ($query) {
+                $query->ofReseau($this->reseauId);
+            })
+            ->whereBetween('created_at', [$this->startDate, $this->endDate]);
+
         return [
-            'waiting' => Participation::role($request->header('Context-Role'))->where('state', 'En attente de validation')->when(
-                $this->department,
-                function ($query) {
-                    $query->department($this->department);
-                }
-            )
-            ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-            'in_progress' => Participation::role($request->header('Context-Role'))->where('state', 'En cours de traitement')->when(
-                $this->department,
-                function ($query) {
-                    $query->department($this->department);
-                }
-            )
-            ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-            'validated' => Participation::role($request->header('Context-Role'))->where('state', 'Validée')->when(
-                $this->department,
-                function ($query) {
-                    $query->department($this->department);
-                }
-            )
-            ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-            'refused' => Participation::role($request->header('Context-Role'))->where('state', 'Refusée')->when(
-                $this->department,
-                function ($query) {
-                    $query->department($this->department);
-                }
-            )
-            ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-            'canceled' => Participation::role($request->header('Context-Role'))->where('state', 'Annulée')->when(
-                $this->department,
-                function ($query) {
-                    $query->department($this->department);
-                }
-            )
-            ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'waiting' =>  (clone $queryBuilder)->where('state', 'En attente de validation')->count(),
+            'in_progress' => (clone $queryBuilder)->where('state', 'En cours de traitement')->count(),
+            'validated' => (clone $queryBuilder)->where('state', 'Validée')->count(),
+            'refused' => (clone $queryBuilder)->where('state', 'Refusée')->count(),
+            'canceled' => (clone $queryBuilder)->where('state', 'Annulée')->count(),
         ];
     }
 
     public function missionsByStates(Request $request)
     {
+        $queryBuilder = Mission::role($request->header('Context-Role'))
+            ->when($this->department, function ($query) {
+                $query->department($this->department);
+            })
+            ->when($this->structureId, function ($query) {
+                $query->ofStructure($this->structureId);
+            })
+            ->when($this->reseauId, function ($query) {
+                $query->ofReseau($this->reseauId);
+            })
+            ->whereBetween('created_at', [$this->startDate, $this->endDate]);
+
         return [
-            'draft' => Mission::role($request->header('Context-Role'))->where('state', 'Brouillon')->when(
-                $this->department,
-                function ($query) {
-                    $query->where('department', $this->department);
-                }
-            )
-            ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-            'waiting' => Mission::role($request->header('Context-Role'))->where('state', 'En attente de validation')->when(
-                $this->department,
-                function ($query) {
-                    $query->where('department', $this->department);
-                }
-            )
-            ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-            'in_progress' => Mission::role($request->header('Context-Role'))->where('state', 'En cours de traitement')->when(
-                $this->department,
-                function ($query) {
-                    $query->where('department', $this->department);
-                }
-            )
-            ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-            'validated' => Mission::role($request->header('Context-Role'))->where('state', 'Validée')->when(
-                $this->department,
-                function ($query) {
-                    $query->where('department', $this->department);
-                }
-            )
-            ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-            'finished' => Mission::role($request->header('Context-Role'))->where('state', 'Terminée')->when(
-                $this->department,
-                function ($query) {
-                    $query->where('department', $this->department);
-                }
-            )
-            ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-            'canceled' => Mission::role($request->header('Context-Role'))->where('state', 'Annulée')->when(
-                $this->department,
-                function ($query) {
-                    $query->where('department', $this->department);
-                }
-            )
-            ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-            'signaled' => Mission::role($request->header('Context-Role'))->where('state', 'Signalée')->when(
-                $this->department,
-                function ($query) {
-                    $query->where('department', $this->department);
-                }
-            )
-            ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'draft' => (clone $queryBuilder)->where('state', 'Brouillon')->count(),
+            'waiting' => (clone $queryBuilder)->where('state', 'En attente de validation')->count(),
+            'in_progress' => (clone $queryBuilder)->where('state', 'En cours de traitement')->count(),
+            'validated' => (clone $queryBuilder)->where('state', 'Validée')->count(),
+            'finished' => (clone $queryBuilder)->where('state', 'Terminée')->count(),
+            'canceled' => (clone $queryBuilder)->where('state', 'Annulée')->count(),
+            'signaled' => (clone $queryBuilder)->where('state', 'Signalée')->count(),
         ];
     }
 
     public function missionsByTypes(Request $request)
     {
+        $queryBuilder = Mission::role($request->header('Context-Role'))
+            ->whereIn('state', ['Validée', 'Terminée'])
+            ->when($this->department, function ($query) {
+                $query->department($this->department);
+            })
+            ->when($this->structureId, function ($query) {
+                $query->ofStructure($this->structureId);
+            })
+            ->when($this->reseauId, function ($query) {
+                $query->ofReseau($this->reseauId);
+            })
+            ->whereBetween('created_at', [$this->startDate, $this->endDate]);
+
         return [
-            'presentiels' => Mission::role($request->header('Context-Role'))->whereIn('state', ['Validée', 'Terminée'])->where('type', 'Mission en présentiel')->when(
-                $this->department,
-                function ($query) {
-                    $query->where('department', $this->department);
-                }
-            )
-            ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-            'distances' => Mission::role($request->header('Context-Role'))->whereIn('state', ['Validée', 'Terminée'])->where('type', 'Mission à distance')->when(
-                $this->department,
-                function ($query) {
-                    $query->where('department', $this->department);
-                }
-            )
-            ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'presentiels' => (clone $queryBuilder)->where('type', 'Mission en présentiel')->count(),
+            'distances' => (clone $queryBuilder)->where('type', 'Mission à distance')->count(),
         ];
     }
 
     public function missionsByTemplateTypes(Request $request)
     {
+        $queryBuilder = Mission::role($request->header('Context-Role'))
+            ->whereIn('state', ['Validée', 'Terminée'])
+            ->when($this->department, function ($query) {
+                $query->department($this->department);
+            })
+            ->when($this->structureId, function ($query) {
+                $query->ofStructure($this->structureId);
+            })
+            ->when($this->reseauId, function ($query) {
+                $query->ofReseau($this->reseauId);
+            })
+            ->whereBetween('created_at', [$this->startDate, $this->endDate]);
+
         return [
-            'with_template' => Mission::role($request->header('Context-Role'))->whereIn('state', ['Validée', 'Terminée'])->whereNotNull('template_id')->when(
-                $this->department,
-                function ($query) {
-                    $query->where('department', $this->department);
-                }
-            )
-            ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-            'without_template' => Mission::role($request->header('Context-Role'))->whereIn('state', ['Validée', 'Terminée'])->whereNull('template_id')->when(
-                $this->department,
-                function ($query) {
-                    $query->where('department', $this->department);
-                }
-            )
-            ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'with_template' =>  (clone $queryBuilder)->whereNotNull('template_id')->count(),
+            'without_template' =>  (clone $queryBuilder)->whereNull('template_id')->count(),
         ];
     }
 
@@ -1486,112 +1368,60 @@ class NumbersController extends Controller
 
     public function participationsCanceledByBenevoles(Request $request)
     {
+        $queryBuilder = Message::role($request->header('Context-Role'))
+            ->where('contextual_state', 'Annulée par bénévole')
+            ->whereHas('conversation', function (Builder $query) {
+                $query
+                    ->where('conversable_type', 'App\Models\Participation')
+                    ->whereHasMorph('conversable', ['App\Models\Participation'], function (Builder $query) {
+                        $query->when($this->department, function ($query) {
+                            $query->department($this->department);
+                        })
+                        ->when($this->structureId, function ($query) {
+                            $query->ofStructure($this->structureId);
+                        })
+                        ->when($this->reseauId, function ($query) {
+                            $query->ofReseau($this->reseauId);
+                        });
+                    });
+            })
+            ->whereBetween('created_at', [$this->startDate, $this->endDate]);
+
         return [
-            'no_response' => Message::role($request->header('Context-Role'))->where('contextual_state', 'Annulée par bénévole')->where('contextual_reason', 'no_response')->when(
-                $this->department,
-                function ($query) {
-                    $query->whereHas(
-                        'conversation.conversable',
-                        function (Builder $query) {
-                            $query->department($this->department);
-                        }
-                    );
-                }
-            )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-            'requirements_not_fulfilled' => Message::role($request->header('Context-Role'))->where('contextual_state', 'Annulée par bénévole')->where('contextual_reason', 'requirements_not_fulfilled')->when(
-                $this->department,
-                function ($query) {
-                    $query->whereHas(
-                        'conversation.conversable',
-                        function (Builder $query) {
-                            $query->department($this->department);
-                        }
-                    );
-                }
-            )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-            'not_available' => Message::role($request->header('Context-Role'))->where('contextual_state', 'Annulée par bénévole')->where('contextual_reason', 'not_available')->when(
-                $this->department,
-                function ($query) {
-                    $query->whereHas(
-                        'conversation.conversable',
-                        function (Builder $query) {
-                            $query->department($this->department);
-                        }
-                    );
-                }
-            )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-            'other' => Message::role($request->header('Context-Role'))->where('contextual_state', 'Annulée par bénévole')->where('contextual_reason', 'other')->when(
-                $this->department,
-                function ($query) {
-                    $query->whereHas(
-                        'conversation.conversable',
-                        function (Builder $query) {
-                            $query->department($this->department);
-                        }
-                    );
-                }
-            )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'no_response' => (clone $queryBuilder)->where('contextual_reason', 'no_response')->count(),
+            'requirements_not_fulfilled' => (clone $queryBuilder)->where('contextual_reason', 'requirements_not_fulfilled')->count(),
+            'not_available' => (clone $queryBuilder)->where('contextual_reason', 'not_available')->count(),
+            'other' => (clone $queryBuilder)->where('contextual_reason', 'other')->count(),
         ];
     }
 
     public function participationsRefusedByResponsables(Request $request)
     {
+        $queryBuilder = Message::role($request->header('Context-Role'))
+            ->where('contextual_state', 'Refusée')
+            ->whereHas('conversation', function (Builder $query) {
+                $query
+                    ->where('conversable_type', 'App\Models\Participation')
+                    ->whereHasMorph('conversable', ['App\Models\Participation'], function (Builder $query) {
+                        $query->when($this->department, function ($query) {
+                            $query->department($this->department);
+                        })
+                        ->when($this->structureId, function ($query) {
+                            $query->ofStructure($this->structureId);
+                        })
+                        ->when($this->reseauId, function ($query) {
+                            $query->ofReseau($this->reseauId);
+                        });
+                    });
+            })
+            ->whereBetween('created_at', [$this->startDate, $this->endDate]);
+
         return [
-            'no_response' => Message::role($request->header('Context-Role'))->where('contextual_state', 'Refusée')->where('contextual_reason', 'no_response')->when(
-                $this->department,
-                function ($query) {
-                    $query->whereHas(
-                        'conversation.conversable',
-                        function (Builder $query) {
-                            $query->department($this->department);
-                        }
-                    );
-                }
-            )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-            'requirements_not_fulfilled' => Message::role($request->header('Context-Role'))->where('contextual_state', 'Refusée')->where('contextual_reason', 'requirements_not_fulfilled')->when(
-                $this->department,
-                function ($query) {
-                    $query->whereHas(
-                        'conversation.conversable',
-                        function (Builder $query) {
-                            $query->department($this->department);
-                        }
-                    );
-                }
-            )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-            'mission_terminated' => Message::role($request->header('Context-Role'))->where('contextual_state', 'Refusée')->where('contextual_reason', 'mission_terminated')->when(
-                $this->department,
-                function ($query) {
-                    $query->whereHas(
-                        'conversation.conversable',
-                        function (Builder $query) {
-                            $query->department($this->department);
-                        }
-                    );
-                }
-            )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-            'change_mind' => Message::role($request->header('Context-Role'))->where('contextual_state', 'Refusée')->where('contextual_reason', 'change_mind')->when(
-                $this->department,
-                function ($query) {
-                    $query->whereHas(
-                        'conversation.conversable',
-                        function (Builder $query) {
-                            $query->department($this->department);
-                        }
-                    );
-                }
-            )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
-            'other' => Message::role($request->header('Context-Role'))->where('contextual_state', 'Refusée')->where('contextual_reason', 'other')->when(
-                $this->department,
-                function ($query) {
-                    $query->whereHas(
-                        'conversation.conversable',
-                        function (Builder $query) {
-                            $query->department($this->department);
-                        }
-                    );
-                }
-            )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            'no_response' => (clone $queryBuilder)->where('contextual_reason', 'no_response')->count(),
+            'requirements_not_fulfilled' => (clone $queryBuilder)->where('contextual_reason', 'requirements_not_fulfilled')->count(),
+            'mission_terminated' => (clone $queryBuilder)->where('contextual_reason', 'mission_terminated')->count(),
+            'change_mind' => (clone $queryBuilder)->where('contextual_reason', 'change_mind')->count(),
+            'other' => (clone $queryBuilder)->where('contextual_reason', 'other')->count(),
         ];
     }
 
@@ -1643,6 +1473,12 @@ class NumbersController extends Controller
             ->when($this->department, function ($query) {
                 $query->where('missions.department', $this->department);
             })
+            ->when($this->reseauId, function ($query) {
+                $query->where('reseau_structure.reseau_id', $this->reseauId);
+            })
+            ->when($this->structureId, function ($query) {
+                $query->where('missions.structure_id', $this->structureId);
+            })
             ->whereNull('missions.deleted_at')
             ->where('missions.is_registration_open', true)
             ->where('missions.is_online', true)
@@ -1665,6 +1501,9 @@ class NumbersController extends Controller
             ->where('structures.state', 'Validée')
             ->when($this->department, function ($query) {
                 $query->where('missions.department', $this->department);
+            })
+            ->when($this->structureId, function ($query) {
+                $query->where('missions.structure_id', $this->structureId);
             })
             ->when($this->reseauId, function ($query) {
                 $query->where('reseau_structure.reseau_id', $this->reseauId);

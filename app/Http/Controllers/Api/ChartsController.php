@@ -28,11 +28,15 @@ class ChartsController extends Controller
         if($request->header('Context-Role') === 'responsable') {
             $structure = Structure::find(Auth::guard('api')->user()->contextable_id);
             $this->structureId = $structure->id;
+        } else {
+            $this->structureId = $request->input('structure');
         }
 
         if($request->header('Context-Role') === 'tete_de_reseau') {
             $reseau = Reseau::find(Auth::guard('api')->user()->contextable_id);
             $this->reseauId = $reseau->id;
+        } else {
+            $this->reseauId = $request->input('reseau');
         }
 
         if($request->input('start_date')) {
@@ -390,12 +394,6 @@ class ChartsController extends Controller
             ->when($this->department, function ($query) {
                 $query->where('structures.department', $this->department);
             })
-            ->when($this->structureId, function ($query) {
-                $query->where('structures.id', $this->structureId);
-            })
-            ->when($this->reseauId, function ($query) {
-                $query->where('reseau_structure.reseau_id', $this->reseauId);
-            })
             ->groupBy(DB::raw("date_trunc('month', structures.created_at)"));
 
         // Main query to join date series with participation counts
@@ -447,12 +445,16 @@ class ChartsController extends Controller
                 DB::raw("count(*) AS count")
             )
             ->leftJoin('structures', 'structures.id', '=', 'missions.structure_id')
+            ->leftJoin('reseau_structure', 'reseau_structure.structure_id', '=', 'missions.structure_id')
             ->whereBetween('missions.created_at', [$this->startDate, $this->endDate])
             ->when($this->department, function ($query) {
                 $query->where('missions.department', $this->department);
             })
             ->when($this->structureId, function ($query) {
-                $query->where('structures.id', $this->structureId);
+                $query->where('missions.structure_id', $this->structureId);
+            })
+            ->when($this->reseauId, function ($query) {
+                $query->where('reseau_structure.reseau_id', $this->reseauId);
             })
             ->groupBy(DB::raw("date_trunc('month', missions.created_at)"));
 
