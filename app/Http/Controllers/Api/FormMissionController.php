@@ -130,7 +130,7 @@ class FormMissionController extends Controller
             'commitment__time_period' => 'required_if:date_type,recurring',
             'commitment__duration_min' => 'required_if:date_type,recurring',
             'recurrent_description' => '',
-            'with_dates' => 'required|in:yes,no',
+            'with_dates' => 'required_if:date_type,ponctual|in:yes,no',
             'start_date' => 'nullable|required_if:with_dates,no|date',
             'end_date' => 'nullable|date|after_or_equal:start_date',
             'dates' => 'nullable|array|required_if:with_dates,yes',
@@ -186,7 +186,7 @@ class FormMissionController extends Controller
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        if($request->input('type') == 'Mission en présentiel'){
+        if($request->input('type') == 'Mission en présentiel') {
             $department = $request->input('addresses')[0]['department'];
             $mission->update([
                 ...$validator->validated(),
