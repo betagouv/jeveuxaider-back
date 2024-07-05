@@ -1460,4 +1460,112 @@ class StatisticsPublicController extends Controller
         });
     }
 
+    public function organisationsByPeriod(Request $request)
+    {
+        $dateSeries = DB::select(
+            "SELECT generate_series(
+                date_trunc('month', ?::date),
+                date_trunc('month', ?::date),
+                '1 month'::interval
+            ) AS month_start",
+            [$this->startDate, $this->endDate]
+        );
+
+        // Convert date series result to an array of dates
+        $dateSeries = array_map(function ($item) {
+            return $item->month_start;
+        }, $dateSeries);
+
+        // Subquery to get counts of structures per month
+        $structuresSubquery = DB::table('structures')
+            ->select(
+                DB::raw("date_trunc('month', structures.created_at) AS created_at"),
+                DB::raw("count(*) AS count")
+            )
+            ->whereBetween('structures.created_at', [$this->startDate, $this->endDate])
+            ->when($this->department, function ($query) {
+                $query->where('structures.department', $this->department);
+            })
+            ->groupBy(DB::raw("date_trunc('month', structures.created_at)"));
+
+        // Main query to join date series with participation counts
+        $results = DB::table(DB::raw("(SELECT generate_series(
+                date_trunc('month', '$this->startDate'::date),
+                date_trunc('month', '$this->endDate'::date),
+                '1 month'::interval
+            ) AS month_start) AS date_series"))
+            ->select(
+                'date_series.month_start',
+                DB::raw("date_part('year', date_series.month_start) as year"),
+                DB::raw("date_part('month', date_series.month_start) as month"),
+                DB::raw("COALESCE(p.count, 0) AS count")
+            )
+            ->leftJoinSub($structuresSubquery, 'p', function ($join) {
+                $join->on('date_series.month_start', '=', 'p.created_at');
+            })
+            ->orderBy('date_series.month_start', 'ASC')
+            ->get();
+
+        $collection = collect($results);
+
+        return $collection->map(function ($item) {
+            $item->date = Carbon::parse($item->month_start)->format('Y-m-d');
+            return $item;
+        });
+    }
+
+    public function missionsByPeriod(Request $request)
+    {
+        $dateSeries = DB::select(
+            "SELECT generate_series(
+                date_trunc('month', ?::date),
+                date_trunc('month', ?::date),
+                '1 month'::interval
+            ) AS month_start",
+            [$this->startDate, $this->endDate]
+        );
+
+        // Convert date series result to an array of dates
+        $dateSeries = array_map(function ($item) {
+            return $item->month_start;
+        }, $dateSeries);
+
+        // Subquery to get counts of missions per month
+        $missionsSubquery = DB::table('missions')
+            ->select(
+                DB::raw("date_trunc('month', missions.created_at) AS created_at"),
+                DB::raw("count(*) AS count")
+            )
+            ->whereBetween('missions.created_at', [$this->startDate, $this->endDate])
+            ->when($this->department, function ($query) {
+                $query->where('missions.department', $this->department);
+            })
+            ->groupBy(DB::raw("date_trunc('month', missions.created_at)"));
+
+        // Main query to join date series with participation counts
+        $results = DB::table(DB::raw("(SELECT generate_series(
+                date_trunc('month', '$this->startDate'::date),
+                date_trunc('month', '$this->endDate'::date),
+                '1 month'::interval
+            ) AS month_start) AS date_series"))
+            ->select(
+                'date_series.month_start',
+                DB::raw("date_part('year', date_series.month_start) as year"),
+                DB::raw("date_part('month', date_series.month_start) as month"),
+                DB::raw("COALESCE(p.count, 0) AS count")
+            )
+            ->leftJoinSub($missionsSubquery, 'p', function ($join) {
+                $join->on('date_series.month_start', '=', 'p.created_at');
+            })
+            ->orderBy('date_series.month_start', 'ASC')
+            ->get();
+
+        $collection = collect($results);
+
+        return $collection->map(function ($item) {
+            $item->date = Carbon::parse($item->month_start)->format('Y-m-d');
+            return $item;
+        });
+    }
+
 }

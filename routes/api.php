@@ -339,6 +339,9 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::get('charts/missions-by-date', 'Api\ChartsController@missionsByDate');
     Route::get('charts/participations-by-date', 'Api\ChartsController@participationsByDate');
     Route::get('charts/participations-by-period', 'Api\ChartsController@participationsByPeriod');
+    Route::get('charts/missions-by-period', 'Api\ChartsController@missionsByPeriod');
+    Route::get('charts/organisations-by-period', 'Api\ChartsController@organisationsByPeriod');
+    Route::get('charts/utilisateurs-by-period', 'Api\ChartsController@utilisateursByPeriod');
     Route::get('charts/participations-conversion-by-date', 'Api\ChartsController@participationsConversionByDate');
 
 });
@@ -609,6 +612,7 @@ Route::group(['prefix' => '/statistics/public'], function () {
 
     Route::get('/global/organisations', 'Api\StatisticsPublicController@globalOrganisations');
     Route::get('/organisations-by-date', 'Api\StatisticsPublicController@organisationsByDate');
+    Route::get('/organisations-by-period', 'Api\StatisticsPublicController@organisationsByPeriod');
     Route::get('/organisations-by-states', 'Api\StatisticsPublicController@organisationsByStates');
     Route::get('/organisations-by-types', 'Api\StatisticsPublicController@organisationsByTypes');
     Route::get('/organisations-by-domaines', 'Api\StatisticsPublicController@organisationsByDomaines');
@@ -616,6 +620,7 @@ Route::group(['prefix' => '/statistics/public'], function () {
 
     Route::get('/global/missions', 'Api\StatisticsPublicController@globalMissions');
     Route::get('/missions-by-date', 'Api\StatisticsPublicController@missionsByDate');
+    Route::get('/missions-by-period', 'Api\StatisticsPublicController@missionsByPeriod');
     Route::get('/missions-by-states', 'Api\StatisticsPublicController@missionsByStates');
     Route::get('/missions-by-types', 'Api\StatisticsPublicController@missionsByTypes');
     Route::get('/missions-by-activities', 'Api\StatisticsPublicController@missionsByActivities');
