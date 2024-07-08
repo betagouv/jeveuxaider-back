@@ -157,7 +157,7 @@ class StatisticsPublicController extends Controller
     {
         return [
             'participations' => Participation::when($this->department, function ($query) {
-                $query->where('department', $this->department);
+                $query->department($this->department);
             })
             ->count(),
             'messages' => Message::when(
@@ -675,25 +675,24 @@ class StatisticsPublicController extends Controller
 
     public function utilisateursByAge(Request $request)
     {
-        // Generate the age series
-        $ageSeries = DB::table(DB::raw('generate_series(0, 100) AS age'));
+        $ageRangeSeries = DB::table(DB::raw('generate_series(0, 100, 5) AS age_range'));
 
         // Perform the query with the necessary joins and conditions
         $results = DB::table('profiles')
-            ->rightJoinSub($ageSeries, 'age_series', function ($join) {
-                $join->on(DB::raw('EXTRACT(YEAR FROM AGE(profiles.birthday))'), '=', 'age_series.age')
+            ->rightJoinSub($ageRangeSeries, 'age_range_series', function ($join) {
+                $join->on(DB::raw('FLOOR(EXTRACT(YEAR FROM AGE(profiles.birthday)) / 5) * 5'), '=', 'age_range_series.age_range')
                     ->whereNotNull('profiles.birthday')
                     ->when($this->department, function ($query) {
                         $query->where('department', $this->department);
                     })
-                            ->whereBetween('profiles.created_at', [$this->startDate, $this->endDate]);
+                    ->whereBetween('profiles.created_at', [$this->startDate, $this->endDate]);
             })
             ->select(
-                'age_series.age',
+                'age_range_series.age_range',
                 DB::raw('COUNT(profiles.id) AS count')
             )
-            ->groupBy('age_series.age')
-            ->orderBy('age_series.age')
+            ->groupBy('age_range_series.age_range')
+            ->orderBy('age_range_series.age_range')
             ->get();
 
         return $results;

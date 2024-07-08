@@ -310,6 +310,23 @@ class ChartsController extends Controller
             ->orderBy('date_series.month_start', 'ASC')
             ->get();
 
+        $query = DB::table(DB::raw("(SELECT generate_series(
+                date_trunc('month', '$this->startDate'::date),
+                date_trunc('month', '$this->endDate'::date),
+                '1 month'::interval
+            ) AS month_start) AS date_series"))
+        ->select(
+            'date_series.month_start',
+            DB::raw("date_part('year', date_series.month_start) as year"),
+            DB::raw("date_part('month', date_series.month_start) as month"),
+            DB::raw("COALESCE(p.count, 0) AS count")
+        )
+        ->leftJoinSub($participationsSubquery, 'p', function ($join) {
+            $join->on('date_series.month_start', '=', 'p.created_at');
+        })
+        ->orderBy('date_series.month_start', 'ASC');
+        ray($query->toSql());
+
         $collection = collect($results);
 
         return $collection->map(function ($item) {
