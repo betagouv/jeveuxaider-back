@@ -394,6 +394,9 @@ class ChartsController extends Controller
             ->when($this->department, function ($query) {
                 $query->where('structures.department', $this->department);
             })
+            ->when($this->reseauId, function ($query) {
+                $query->where('reseau_structure.reseau_id', $this->reseauId);
+            })
             ->groupBy(DB::raw("date_trunc('month', structures.created_at)"));
 
         // Main query to join date series with participation counts
