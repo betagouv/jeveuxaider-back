@@ -192,21 +192,26 @@ class ChartsController extends Controller
     {
         $items = [];
 
-        $results = DB::select("
-                SELECT
-                date_part('year', participations.created_at) as year,
-                date_part('month', participations.created_at) as month,
-                sum(case when participations.state  = 'Validée' then 1 else 0 end) as participations_validated_count,
-                sum(case when participations.state  != 'Validée' then 1 else 0 end) as participations_others_count,
-                count(*) AS count
-                FROM participations
-                LEFT JOIN missions ON missions.id = participations.mission_id
-                WHERE COALESCE(missions.department,'') ILIKE :department
-                GROUP BY date_trunc('month', participations.created_at), YEAR, MONTH
-                ORDER BY date_trunc('month', participations.created_at) ASC
-            ", [
-            'department' => $this->department ? '%' . $this->department . '%' : '%%',
-        ]);
+        $results = DB::table('participations')
+        ->select(
+            DB::raw("date_part('year', participations.created_at) as year"),
+            DB::raw("date_part('month', participations.created_at) as month"),
+            DB::raw("SUM(CASE WHEN participations.state = 'Validée' THEN 1 ELSE 0 END) as participations_validated_count"),
+            DB::raw("SUM(CASE WHEN participations.state != 'Validée' THEN 1 ELSE 0 END) as participations_others_count"),
+            DB::raw("COUNT(*) AS count")
+        )
+        ->leftJoin('missions', 'missions.id', '=', 'participations.mission_id')
+        ->leftJoin('structures', 'structures.id', '=', 'missions.structure_id')
+        ->leftJoin('reseau_structure', 'reseau_structure.structure_id', '=', 'missions.structure_id')
+        ->when($this->department, function ($query) {
+            $query->where('structures.department', $this->department);
+        })
+        ->when($this->reseauId, function ($query) {
+            $query->where('reseau_structure.reseau_id', $this->reseauId);
+        })
+        ->groupBy(DB::raw("date_trunc('month', participations.created_at)"), 'year', 'month')
+        ->orderBy(DB::raw("date_trunc('month', participations.created_at)"), 'ASC')
+        ->get();
 
         $collection = collect($results);
 
