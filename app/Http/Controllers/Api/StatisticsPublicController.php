@@ -34,7 +34,7 @@ class StatisticsPublicController extends Controller
         if($request->input('start_date')) {
             $this->startDate = Carbon::createFromFormat('Y-m-d', $request->input('start_date'))->hour(0)->minute(0)->second(0);
         } else {
-            $this->startDate = Carbon::createFromFormat('Y-m-d', '2020-01-01')->hour(0)->minute(0)->second(0);
+            $this->startDate = Carbon::createFromFormat('Y-m-d', '2020-03-01')->hour(0)->minute(0)->second(0);
         }
         if($request->input('end_date')) {
             $this->endDate = Carbon::createFromFormat('Y-m-d', $request->input('end_date'))->hour(23)->minute(59)->second(59);

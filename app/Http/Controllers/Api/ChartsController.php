@@ -45,7 +45,7 @@ class ChartsController extends Controller
             if($request->header('Context-Role') === 'responsable') {
                 $this->startDate = $structure->created_at->format('Y-m-d');
             } else {
-                $this->startDate = Carbon::createFromFormat('Y-m-d', '2020-01-01')->hour(0)->minute(0)->second(0);
+                $this->startDate = Carbon::createFromFormat('Y-m-d', '2020-03-01')->hour(0)->minute(0)->second(0);
             }
         }
         if($request->input('end_date')) {
@@ -257,20 +257,6 @@ class ChartsController extends Controller
 
     public function participationsByPeriod(Request $request)
     {
-        $dateSeries = DB::select(
-            "SELECT generate_series(
-                date_trunc('month', ?::date),
-                date_trunc('month', ?::date),
-                '1 month'::interval
-            ) AS month_start",
-            [$this->startDate, $this->endDate]
-        );
-
-        // Convert date series result to an array of dates
-        $dateSeries = array_map(function ($item) {
-            return $item->month_start;
-        }, $dateSeries);
-
         // Subquery to get counts of participations per month
         $participationsSubquery = DB::table('participations')
             ->select(
@@ -310,23 +296,6 @@ class ChartsController extends Controller
             ->orderBy('date_series.month_start', 'ASC')
             ->get();
 
-        $query = DB::table(DB::raw("(SELECT generate_series(
-                date_trunc('month', '$this->startDate'::date),
-                date_trunc('month', '$this->endDate'::date),
-                '1 month'::interval
-            ) AS month_start) AS date_series"))
-        ->select(
-            'date_series.month_start',
-            DB::raw("date_part('year', date_series.month_start) as year"),
-            DB::raw("date_part('month', date_series.month_start) as month"),
-            DB::raw("COALESCE(p.count, 0) AS count")
-        )
-        ->leftJoinSub($participationsSubquery, 'p', function ($join) {
-            $join->on('date_series.month_start', '=', 'p.created_at');
-        })
-        ->orderBy('date_series.month_start', 'ASC');
-        ray($query->toSql());
-
         $collection = collect($results);
 
         return $collection->map(function ($item) {
@@ -337,20 +306,6 @@ class ChartsController extends Controller
 
     public function utilisateursByPeriod(Request $request)
     {
-        $dateSeries = DB::select(
-            "SELECT generate_series(
-                date_trunc('month', ?::date),
-                date_trunc('month', ?::date),
-                '1 month'::interval
-            ) AS month_start",
-            [$this->startDate, $this->endDate]
-        );
-
-        // Convert date series result to an array of dates
-        $dateSeries = array_map(function ($item) {
-            return $item->month_start;
-        }, $dateSeries);
-
         // Subquery to get counts of profiles per month
         $profilesSubquery = DB::table('profiles')
             ->select(
@@ -391,20 +346,6 @@ class ChartsController extends Controller
 
     public function organisationsByPeriod(Request $request)
     {
-        $dateSeries = DB::select(
-            "SELECT generate_series(
-                date_trunc('month', ?::date),
-                date_trunc('month', ?::date),
-                '1 month'::interval
-            ) AS month_start",
-            [$this->startDate, $this->endDate]
-        );
-
-        // Convert date series result to an array of dates
-        $dateSeries = array_map(function ($item) {
-            return $item->month_start;
-        }, $dateSeries);
-
         // Subquery to get counts of structures per month
         $structuresSubquery = DB::table('structures')
             ->select(
@@ -449,20 +390,6 @@ class ChartsController extends Controller
 
     public function missionsByPeriod(Request $request)
     {
-        $dateSeries = DB::select(
-            "SELECT generate_series(
-                date_trunc('month', ?::date),
-                date_trunc('month', ?::date),
-                '1 month'::interval
-            ) AS month_start",
-            [$this->startDate, $this->endDate]
-        );
-
-        // Convert date series result to an array of dates
-        $dateSeries = array_map(function ($item) {
-            return $item->month_start;
-        }, $dateSeries);
-
         // Subquery to get counts of missions per month
         $missionsSubquery = DB::table('missions')
             ->select(

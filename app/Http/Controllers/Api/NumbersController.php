@@ -44,7 +44,7 @@ class NumbersController extends Controller
         if($request->input('start_date')) {
             $this->startDate = Carbon::createFromFormat('Y-m-d', $request->input('start_date'))->hour(0)->minute(0)->second(0);
         } else {
-            $this->startDate = Carbon::createFromFormat('Y-m-d', '2020-01-01')->hour(0)->minute(0)->second(0);
+            $this->startDate = Carbon::createFromFormat('Y-m-d', '2020-03-01')->hour(0)->minute(0)->second(0);
         }
         if($request->input('end_date')) {
             $this->endDate = Carbon::createFromFormat('Y-m-d', $request->input('end_date'))->hour(23)->minute(59)->second(59);
@@ -1620,259 +1620,495 @@ class NumbersController extends Controller
 
     public function structuresByMonth(Request $request)
     {
-        $results = DB::select(
-            "
-            SELECT date_trunc('month', structures.created_at) AS created_at,
-                date_part('year', structures.created_at) as year,
-                date_part('month', structures.created_at) as month,
-                count(*) AS structures_total,
-                sum(case when structures.state  = 'Brouillon' then 1 else 0 end) as structures_draft,
-                sum(case when structures.state  = 'En attente de validation' then 1 else 0 end) as structures_waiting_validation,
-                sum(case when structures.state  = 'En cours de traitement' then 1 else 0 end) as structures_being_processed,
-                sum(case when structures.state  = 'Validée' then 1 else 0 end) as structures_validated,
-                sum(case when structures.state  = 'Signalée' then 1 else 0 end) as structures_signaled,
-                sum(case when structures.state  = 'Désinscrite' then 1 else 0 end) as structures_unsubscribed
-            FROM structures
-            WHERE structures.deleted_at IS NULL
-            AND COALESCE(structures.department,'') ILIKE :department
-            GROUP BY date_trunc('month', structures.created_at), year, month
-            ORDER BY date_trunc('month', structures.created_at) DESC
-            ",
-            [
-                'department' => $this->department ? '%' . $this->department . '%' : '%%',
-            ]
-        );
+        // $results = DB::select(
+        //     "
+        //     SELECT date_trunc('month', structures.created_at) AS created_at,
+        //         date_part('year', structures.created_at) as year,
+        //         date_part('month', structures.created_at) as month,
+        //         count(*) AS structures_total,
+        //         sum(case when structures.state  = 'Brouillon' then 1 else 0 end) as structures_draft,
+        //         sum(case when structures.state  = 'En attente de validation' then 1 else 0 end) as structures_waiting_validation,
+        //         sum(case when structures.state  = 'En cours de traitement' then 1 else 0 end) as structures_being_processed,
+        //         sum(case when structures.state  = 'Validée' then 1 else 0 end) as structures_validated,
+        //         sum(case when structures.state  = 'Signalée' then 1 else 0 end) as structures_signaled,
+        //         sum(case when structures.state  = 'Désinscrite' then 1 else 0 end) as structures_unsubscribed
+        //     FROM structures
+        //     WHERE structures.deleted_at IS NULL
+        //     AND COALESCE(structures.department,'') ILIKE :department
+        //     GROUP BY date_trunc('month', structures.created_at), year, month
+        //     ORDER BY date_trunc('month', structures.created_at) DESC
+        //     ",
+        //     [
+        //         'department' => $this->department ? '%' . $this->department . '%' : '%%',
+        //     ]
+        // );
 
-        foreach ($results as $index => $item) {
-            if (isset($results[$index + 12])) {
-                if($results[$index + 12]->structures_validated) {
-                    $results[$index]->structures_validated_variation = (($item->structures_validated - $results[$index + 12]->structures_validated) / $results[$index + 12]->structures_validated) * 100;
-                }
-            }
-        }
+        // foreach ($results as $index => $item) {
+        //     if (isset($results[$index + 12])) {
+        //         if($results[$index + 12]->structures_validated) {
+        //             $results[$index]->structures_validated_variation = (($item->structures_validated - $results[$index + 12]->structures_validated) / $results[$index + 12]->structures_validated) * 100;
+        //         }
+        //     }
+        // }
 
-        return $results;
+        // return $results;
+
+        // Subquery to get counts of structures per year
+        $structuresSubquery = DB::table('structures')
+        ->select(
+            DB::raw("date_trunc('month', structures.created_at) AS created_at"),
+            DB::raw("COUNT(*) AS structures_validated"),
+        )
+        ->leftJoin('reseau_structure', 'reseau_structure.structure_id', '=', 'structures.id')
+        ->whereIn('structures.state', ['Validée', 'Terminée'])
+        ->whereNull('structures.deleted_at')
+        ->whereBetween('structures.created_at', [$this->startDate, $this->endDate])
+        ->when($this->department, function ($query) {
+            $query->where('structures.department', $this->department);
+        })
+        ->when($this->structureId, function ($query) {
+            $query->where('structures.id', $this->structureId);
+        })
+        ->when($this->reseauId, function ($query) {
+            $query->where('reseau_structure.reseau_id', $this->reseauId);
+        })
+        ->groupBy(DB::raw("date_trunc('month', structures.created_at)"));
+
+        // Main query to join date series with structures counts
+        $results = DB::table(DB::raw("(SELECT generate_series(
+                  date_trunc('month', '$this->startDate'::date),
+                  date_trunc('month', '$this->endDate'::date),
+                  '1 month'::interval
+              ) AS month_start) AS date_series"))
+            ->select(
+                'date_series.month_start',
+                DB::raw("date_part('year', date_series.month_start) as year"),
+                DB::raw("date_part('month', date_series.month_start) as month"),
+                DB::raw("COALESCE(p.structures_validated, 0) AS structures_validated"),
+            )
+            ->leftJoinSub($structuresSubquery, 'p', function ($join) {
+                $join->on('date_series.month_start', '=', 'p.created_at');
+            })
+            ->orderBy('date_series.month_start', 'DESC')
+            ->get();
+
+        $collection = collect($results);
+
+        return $collection->map(function ($item) {
+            $item->created_at = Carbon::parse($item->month_start)->format('Y-m-d 00:00:00');
+            return $item;
+        });
     }
 
     public function structuresByYear(Request $request)
     {
-        $results = DB::select(
-            "
-            SELECT date_trunc('year', structures.created_at) AS created_at,
-                date_part('year', structures.created_at) as year,
-                count(*) AS structures_total,
-                sum(case when structures.state  = 'Brouillon' then 1 else 0 end) as structures_draft,
-                sum(case when structures.state  = 'En attente de validation' then 1 else 0 end) as structures_waiting_validation,
-                sum(case when structures.state  = 'En cours de traitement' then 1 else 0 end) as structures_being_processed,
-                sum(case when structures.state  = 'Validée' then 1 else 0 end) as structures_validated,
-                sum(case when structures.state  = 'Signalée' then 1 else 0 end) as structures_signaled,
-                sum(case when structures.state  = 'Désinscrite' then 1 else 0 end) as structures_unsubscribed
-            FROM structures
-            WHERE structures.deleted_at IS NULL
-            AND COALESCE(structures.department,'') ILIKE :department
-            GROUP BY date_trunc('year', structures.created_at), year
-            ORDER BY date_trunc('year', structures.created_at) DESC
-            ",
-            [
-                'department' => $this->department ? '%' . $this->department . '%' : '%%',
-            ]
-        );
+        // $results = DB::select(
+        //     "
+        //     SELECT date_trunc('year', structures.created_at) AS created_at,
+        //         date_part('year', structures.created_at) as year,
+        //         count(*) AS structures_total,
+        //         sum(case when structures.state  = 'Brouillon' then 1 else 0 end) as structures_draft,
+        //         sum(case when structures.state  = 'En attente de validation' then 1 else 0 end) as structures_waiting_validation,
+        //         sum(case when structures.state  = 'En cours de traitement' then 1 else 0 end) as structures_being_processed,
+        //         sum(case when structures.state  = 'Validée' then 1 else 0 end) as structures_validated,
+        //         sum(case when structures.state  = 'Signalée' then 1 else 0 end) as structures_signaled,
+        //         sum(case when structures.state  = 'Désinscrite' then 1 else 0 end) as structures_unsubscribed
+        //     FROM structures
+        //     WHERE structures.deleted_at IS NULL
+        //     AND COALESCE(structures.department,'') ILIKE :department
+        //     GROUP BY date_trunc('year', structures.created_at), year
+        //     ORDER BY date_trunc('year', structures.created_at) DESC
+        //     ",
+        //     [
+        //         'department' => $this->department ? '%' . $this->department . '%' : '%%',
+        //     ]
+        // );
 
-        foreach ($results as $index => $item) {
-            if (isset($results[$index + 1])) {
-                if($results[$index + 1]->structures_validated) {
-                    $results[$index]->structures_validated_variation = (($item->structures_validated - $results[$index + 1]->structures_validated) / $results[$index + 1]->structures_validated) * 100;
-                }
-            }
-        }
+        // foreach ($results as $index => $item) {
+        //     if (isset($results[$index + 1])) {
+        //         if($results[$index + 1]->structures_validated) {
+        //             $results[$index]->structures_validated_variation = (($item->structures_validated - $results[$index + 1]->structures_validated) / $results[$index + 1]->structures_validated) * 100;
+        //         }
+        //     }
+        // }
 
-        return $results;
+        // return $results;
+
+        $structuresSubquery = DB::table('structures')
+        ->select(
+            DB::raw("date_trunc('year', structures.created_at) AS created_at"),
+            DB::raw("COUNT(*) AS structures_validated"),
+        )
+        ->leftJoin('reseau_structure', 'reseau_structure.structure_id', '=', 'structures.id')
+        ->whereIn('structures.state', ['Validée'])
+        ->whereNull('structures.deleted_at')
+        ->whereBetween('structures.created_at', [$this->startDate, $this->endDate])
+        ->when($this->department, function ($query) {
+            $query->where('structures.department', $this->department);
+        })
+        ->when($this->structureId, function ($query) {
+            $query->where('structures.id', $this->structureId);
+        })
+        ->when($this->reseauId, function ($query) {
+            $query->where('reseau_structure.reseau_id', $this->reseauId);
+        })
+        ->groupBy(DB::raw("date_trunc('year', structures.created_at)"));
+
+        // Main query to join date series with structures counts
+        $results = DB::table(DB::raw("(SELECT generate_series(
+                    date_trunc('year', '$this->startDate'::date),
+                    date_trunc('year', '$this->endDate'::date),
+                    '1 year'::interval
+                ) AS year_start) AS date_series"))
+            ->select(
+                'date_series.year_start',
+                DB::raw("date_part('year', date_series.year_start) as year"),
+                DB::raw("COALESCE(p.structures_validated, 0) AS structures_validated"),
+            )
+            ->leftJoinSub($structuresSubquery, 'p', function ($join) {
+                $join->on('date_series.year_start', '=', 'p.created_at');
+            })
+            ->orderBy('date_series.year_start', 'DESC')
+            ->get();
+
+        $collection = collect($results);
+
+        return $collection->map(function ($item) {
+            $item->created_at = Carbon::parse($item->year_start)->format('Y-m-d 00:00:00');
+            return $item;
+        });
     }
 
     public function missionsByMonth(Request $request)
     {
-        $results =  DB::table('missions')
-            ->leftJoin('structures', 'structures.id', '=', 'missions.structure_id')
-            ->leftJoin('reseau_structure', 'reseau_structure.structure_id', '=', 'missions.structure_id')
+        // $results =  DB::table('missions')
+        //     ->leftJoin('structures', 'structures.id', '=', 'missions.structure_id')
+        //     ->leftJoin('reseau_structure', 'reseau_structure.structure_id', '=', 'missions.structure_id')
+        //     ->select(
+        //         DB::raw("date_trunc('month', missions.created_at) AS created_at"),
+        //         DB::raw("date_part('year', missions.created_at) as year"),
+        //         DB::raw("date_part('month', missions.created_at) as month"),
+        //         DB::raw('count(*) AS missions_total'),
+        //         DB::raw("sum(case when missions.state  = 'Brouillon' then 1 else 0 end) as missions_draft"),
+        //         DB::raw("sum(case when missions.state  = 'En attente de validation' then 1 else 0 end) as missions_waiting_validation"),
+        //         DB::raw("sum(case when missions.state  = 'En cours de traitement' then 1 else 0 end) as missions_being_processed"),
+        //         DB::raw("sum(case when missions.state  = 'Validée' then 1 else 0 end) as missions_validated"),
+        //         DB::raw("sum(case when missions.state  = 'Signalée' then 1 else 0 end) as missions_signaled"),
+        //         DB::raw("sum(case when missions.state  = 'Terminée' then 1 else 0 end) as missions_finished"),
+        //         DB::raw("sum(case when missions.state  = 'Annulée' then 1 else 0 end) as missions_canceled"),
+        //         DB::raw("sum(case when missions.state IN ('Validée','Terminée') then 1 else 0 end) as missions_posted")
+        //     )
+        //     ->whereNull('missions.deleted_at')
+        //     ->when($this->structureId, function ($query) {
+        //         $query->where('missions.structure_id', $this->structureId);
+        //     })
+        //     ->when($this->reseauId, function ($query) {
+        //         $query->where('reseau_structure.reseau_id', $this->reseauId);
+        //     })
+        //     ->when($this->department, function ($query) {
+        //         $query->where('missions.department', $this->department);
+        //     })
+        //     ->groupBy(DB::raw("date_trunc('month', missions.created_at)"), 'year', 'month')
+        //     ->orderByRaw("date_trunc('month', missions.created_at) DESC")
+        //     ->get();
+
+        // foreach ($results as $index => $item) {
+        //     if (isset($results[$index + 12])) {
+        //         if($results[$index + 12]->missions_posted) {
+        //             $results[$index]->missions_posted_variation = (($item->missions_posted - $results[$index + 12]->missions_posted) / $results[$index + 12]->missions_posted) * 100;
+        //         }
+        //     }
+        // }
+
+        // return $results;
+
+        // Subquery to get counts of missions per year
+        $missionsSubquery = DB::table('missions')
+        ->select(
+            DB::raw("date_trunc('month', missions.created_at) AS created_at"),
+            DB::raw("COUNT(*) AS missions_posted"),
+        )
+        ->leftJoin('structures', 'structures.id', '=', 'missions.structure_id')
+        ->leftJoin('reseau_structure', 'reseau_structure.structure_id', '=', 'missions.structure_id')
+        ->whereIn('missions.state', ['Validée', 'Terminée'])
+        ->whereNull('missions.deleted_at')
+        ->whereBetween('missions.created_at', [$this->startDate, $this->endDate])
+        ->when($this->department, function ($query) {
+            $query->where('missions.department', $this->department);
+        })
+        ->when($this->structureId, function ($query) {
+            $query->where('missions.structure_id', $this->structureId);
+        })
+        ->when($this->reseauId, function ($query) {
+            $query->where('reseau_structure.reseau_id', $this->reseauId);
+        })
+        ->groupBy(DB::raw("date_trunc('month', missions.created_at)"));
+
+        // Main query to join date series with missions counts
+        $results = DB::table(DB::raw("(SELECT generate_series(
+                 date_trunc('month', '$this->startDate'::date),
+                 date_trunc('month', '$this->endDate'::date),
+                 '1 month'::interval
+             ) AS month_start) AS date_series"))
             ->select(
-                DB::raw("date_trunc('month', missions.created_at) AS created_at"),
-                DB::raw("date_part('year', missions.created_at) as year"),
-                DB::raw("date_part('month', missions.created_at) as month"),
-                DB::raw('count(*) AS missions_total'),
-                DB::raw("sum(case when missions.state  = 'Brouillon' then 1 else 0 end) as missions_draft"),
-                DB::raw("sum(case when missions.state  = 'En attente de validation' then 1 else 0 end) as missions_waiting_validation"),
-                DB::raw("sum(case when missions.state  = 'En cours de traitement' then 1 else 0 end) as missions_being_processed"),
-                DB::raw("sum(case when missions.state  = 'Validée' then 1 else 0 end) as missions_validated"),
-                DB::raw("sum(case when missions.state  = 'Signalée' then 1 else 0 end) as missions_signaled"),
-                DB::raw("sum(case when missions.state  = 'Terminée' then 1 else 0 end) as missions_finished"),
-                DB::raw("sum(case when missions.state  = 'Annulée' then 1 else 0 end) as missions_canceled"),
-                DB::raw("sum(case when missions.state IN ('Validée','Terminée') then 1 else 0 end) as missions_posted")
+                'date_series.month_start',
+                DB::raw("date_part('year', date_series.month_start) as year"),
+                DB::raw("date_part('month', date_series.month_start) as month"),
+                DB::raw("COALESCE(p.missions_posted, 0) AS missions_posted"),
             )
-            ->whereNull('missions.deleted_at')
-            ->when($this->structureId, function ($query) {
-                $query->where('missions.structure_id', $this->structureId);
+            ->leftJoinSub($missionsSubquery, 'p', function ($join) {
+                $join->on('date_series.month_start', '=', 'p.created_at');
             })
-            ->when($this->reseauId, function ($query) {
-                $query->where('reseau_structure.reseau_id', $this->reseauId);
-            })
-            ->when($this->department, function ($query) {
-                $query->where('missions.department', $this->department);
-            })
-            ->groupBy(DB::raw("date_trunc('month', missions.created_at)"), 'year', 'month')
-            ->orderByRaw("date_trunc('month', missions.created_at) DESC")
+            ->orderBy('date_series.month_start', 'DESC')
             ->get();
 
-        foreach ($results as $index => $item) {
-            if (isset($results[$index + 12])) {
-                if($results[$index + 12]->missions_posted) {
-                    $results[$index]->missions_posted_variation = (($item->missions_posted - $results[$index + 12]->missions_posted) / $results[$index + 12]->missions_posted) * 100;
-                }
-            }
-        }
+        $collection = collect($results);
 
-        return $results;
+        return $collection->map(function ($item) {
+            $item->created_at = Carbon::parse($item->month_start)->format('Y-m-d 00:00:00');
+            return $item;
+        });
     }
 
     public function missionsByYear(Request $request)
     {
-        $results = DB::table('missions')
-            ->leftJoin('structures', 'structures.id', '=', 'missions.structure_id')
-            ->leftJoin('reseau_structure', 'reseau_structure.structure_id', '=', 'missions.structure_id')
+        // $results = DB::table('missions')
+        //     ->leftJoin('structures', 'structures.id', '=', 'missions.structure_id')
+        //     ->leftJoin('reseau_structure', 'reseau_structure.structure_id', '=', 'missions.structure_id')
+        //     ->select(
+        //         DB::raw("date_trunc('year', missions.created_at) AS created_at"),
+        //         DB::raw("date_part('year', missions.created_at) as year"),
+        //         DB::raw('count(*) AS missions_total'),
+        //         DB::raw("sum(case when missions.state  = 'Brouillon' then 1 else 0 end) as missions_draft"),
+        //         DB::raw("sum(case when missions.state  = 'En attente de validation' then 1 else 0 end) as missions_waiting_validation"),
+        //         DB::raw("sum(case when missions.state  = 'En cours de traitement' then 1 else 0 end) as missions_being_processed"),
+        //         DB::raw("sum(case when missions.state  = 'Validée' then 1 else 0 end) as missions_validated"),
+        //         DB::raw("sum(case when missions.state  = 'Signalée' then 1 else 0 end) as missions_signaled"),
+        //         DB::raw("sum(case when missions.state  = 'Terminée' then 1 else 0 end) as missions_finished"),
+        //         DB::raw("sum(case when missions.state  = 'Annulée' then 1 else 0 end) as missions_canceled"),
+        //         DB::raw("sum(case when missions.state IN ('Validée','Terminée') then 1 else 0 end) as missions_posted")
+        //     )
+        //     ->whereNull('missions.deleted_at')
+        //     ->when($this->structureId, function ($query) {
+        //         $query->where('missions.structure_id', $this->structureId);
+        //     })
+        //     ->when($this->reseauId, function ($query) {
+        //         $query->where('reseau_structure.reseau_id', $this->reseauId);
+        //     })
+        //     ->when($this->department, function ($query) {
+        //         $query->where('missions.department', $this->department);
+        //     })
+        //     ->groupBy(DB::raw("date_trunc('year', missions.created_at)"), 'year')
+        //     ->orderByRaw("date_trunc('year', missions.created_at) DESC")
+        //     ->get();
+
+
+        // foreach ($results as $index => $item) {
+        //     if (isset($results[$index + 1])) {
+        //         if($results[$index + 1]->missions_posted) {
+        //             $results[$index]->missions_posted_variation = (($item->missions_posted - $results[$index + 1]->missions_posted) / $results[$index + 1]->missions_posted) * 100;
+        //         }
+        //     }
+        // }
+
+        // Subquery to get counts of missions per year
+        $missionsSubquery = DB::table('missions')
             ->select(
                 DB::raw("date_trunc('year', missions.created_at) AS created_at"),
-                DB::raw("date_part('year', missions.created_at) as year"),
-                DB::raw('count(*) AS missions_total'),
-                DB::raw("sum(case when missions.state  = 'Brouillon' then 1 else 0 end) as missions_draft"),
-                DB::raw("sum(case when missions.state  = 'En attente de validation' then 1 else 0 end) as missions_waiting_validation"),
-                DB::raw("sum(case when missions.state  = 'En cours de traitement' then 1 else 0 end) as missions_being_processed"),
-                DB::raw("sum(case when missions.state  = 'Validée' then 1 else 0 end) as missions_validated"),
-                DB::raw("sum(case when missions.state  = 'Signalée' then 1 else 0 end) as missions_signaled"),
-                DB::raw("sum(case when missions.state  = 'Terminée' then 1 else 0 end) as missions_finished"),
-                DB::raw("sum(case when missions.state  = 'Annulée' then 1 else 0 end) as missions_canceled"),
-                DB::raw("sum(case when missions.state IN ('Validée','Terminée') then 1 else 0 end) as missions_posted")
+                DB::raw("COUNT(*) AS missions_posted"),
             )
+            ->leftJoin('structures', 'structures.id', '=', 'missions.structure_id')
+            ->leftJoin('reseau_structure', 'reseau_structure.structure_id', '=', 'missions.structure_id')
+            ->whereIn('missions.state', ['Validée', 'Terminée'])
             ->whereNull('missions.deleted_at')
+            ->whereBetween('missions.created_at', [$this->startDate, $this->endDate])
+            ->when($this->department, function ($query) {
+                $query->where('missions.department', $this->department);
+            })
             ->when($this->structureId, function ($query) {
                 $query->where('missions.structure_id', $this->structureId);
             })
             ->when($this->reseauId, function ($query) {
                 $query->where('reseau_structure.reseau_id', $this->reseauId);
             })
-            ->when($this->department, function ($query) {
-                $query->where('missions.department', $this->department);
+            ->groupBy(DB::raw("date_trunc('year', missions.created_at)"));
+
+        // Main query to join date series with missions counts
+        $results = DB::table(DB::raw("(SELECT generate_series(
+                    date_trunc('year', '$this->startDate'::date),
+                    date_trunc('year', '$this->endDate'::date),
+                    '1 year'::interval
+                ) AS year_start) AS date_series"))
+            ->select(
+                'date_series.year_start',
+                DB::raw("date_part('year', date_series.year_start) as year"),
+                DB::raw("COALESCE(p.missions_posted, 0) AS missions_posted"),
+            )
+            ->leftJoinSub($missionsSubquery, 'p', function ($join) {
+                $join->on('date_series.year_start', '=', 'p.created_at');
             })
-            ->groupBy(DB::raw("date_trunc('year', missions.created_at)"), 'year')
-            ->orderByRaw("date_trunc('year', missions.created_at) DESC")
+            ->orderBy('date_series.year_start', 'DESC')
             ->get();
 
+        $collection = collect($results);
 
-        foreach ($results as $index => $item) {
-            if (isset($results[$index + 1])) {
-                if($results[$index + 1]->missions_posted) {
-                    $results[$index]->missions_posted_variation = (($item->missions_posted - $results[$index + 1]->missions_posted) / $results[$index + 1]->missions_posted) * 100;
-                }
-            }
-        }
-
-        return $results;
+        return $collection->map(function ($item) {
+            $item->created_at = Carbon::parse($item->year_start)->format('Y-m-d 00:00:00');
+            return $item;
+        });
     }
 
     public function participationsByMonth(Request $request)
     {
-        $results = DB::table('participations')
-            ->leftJoin('missions', 'participations.mission_id', '=', 'missions.id')
-            ->leftJoin('structures', 'structures.id', '=', 'missions.structure_id')
-            ->leftJoin('reseau_structure', 'reseau_structure.structure_id', '=', 'missions.structure_id')
+        // Subquery to get counts of participations per month
+        $participationsSubquery = DB::table('participations')
             ->select(
                 DB::raw("date_trunc('month', participations.created_at) AS created_at"),
-                DB::raw("date_part('year', participations.created_at) as year"),
-                DB::raw("date_part('month', participations.created_at) as month"),
-                DB::raw('count(*) AS participations_total'),
-                DB::raw("sum(case when participations.state  = 'En attente de validation' then 1 else 0 end) as participations_waiting_validation"),
-                DB::raw("sum(case when participations.state  = 'En cours de traitement' then 1 else 0 end) as participations_being_processed"),
-                DB::raw("sum(case when participations.state  = 'Validée' then 1 else 0 end) as participations_validated"),
-                DB::raw("sum(case when participations.state  = 'Refusée' then 1 else 0 end) as participations_refused"),
-                DB::raw("sum(case when participations.state  = 'Annulée' then 1 else 0 end) as participations_canceled")
+                DB::raw("COUNT(*) AS participations_total"),
+                DB::raw("COUNT(*) FILTER (WHERE participations.state = 'Validée') AS participations_validated")
             )
-            ->whereNull('participations.deleted_at')
+            ->leftJoin('missions', 'missions.id', '=', 'participations.mission_id')
+            ->leftJoin('structures', 'structures.id', '=', 'missions.structure_id')
+            ->leftJoin('reseau_structure', 'reseau_structure.structure_id', '=', 'missions.structure_id')
+            ->whereBetween('participations.created_at', [$this->startDate, $this->endDate])
+            ->when($this->department, function ($query) {
+                $query->where('missions.department', $this->department);
+            })
             ->when($this->structureId, function ($query) {
                 $query->where('missions.structure_id', $this->structureId);
             })
             ->when($this->reseauId, function ($query) {
                 $query->where('reseau_structure.reseau_id', $this->reseauId);
             })
-            ->when($this->department, function ($query) {
-                $query->where('missions.department', $this->department);
-            })
-            ->groupBy(
-                DB::raw("date_trunc('month', participations.created_at)"),
-                DB::raw("date_part('year', participations.created_at)"),
-                DB::raw("date_part('month', participations.created_at)")
+            ->groupBy(DB::raw("date_trunc('month', participations.created_at)"));
+
+        // Main query to join date series with participation counts
+        $results = DB::table(DB::raw("(SELECT generate_series(
+                    date_trunc('month', '$this->startDate'::date),
+                    date_trunc('month', '$this->endDate'::date),
+                    '1 month'::interval
+                ) AS month_start) AS date_series"))
+            ->select(
+                'date_series.month_start',
+                DB::raw("date_part('year', date_series.month_start) as year"),
+                DB::raw("date_part('month', date_series.month_start) as month"),
+                DB::raw("COALESCE(p.participations_total, 0) AS participations_total"),
+                DB::raw("COALESCE(p.participations_validated, 0) AS participations_validated"),
+                DB::raw("CASE 
+                    WHEN COALESCE(p.participations_total, 0) = 0 THEN 0
+                    ELSE (COALESCE(p.participations_validated, 0)::float / COALESCE(p.participations_total, 0)::float) * 100
+                END AS participations_conversion
+                ")
             )
-            ->orderByRaw("date_trunc('month', participations.created_at) DESC")
+            ->leftJoinSub($participationsSubquery, 'p', function ($join) {
+                $join->on('date_series.month_start', '=', 'p.created_at');
+            })
+            ->orderBy('date_series.month_start', 'DESC')
             ->get();
 
-        foreach ($results as $index => $item) {
-            if (isset($results[$index + 12])) {
-                if ($results[$index + 12]->participations_total) {
-                    $results[$index]->participations_total_variation = (($item->participations_total - $results[$index + 12]->participations_total) / $results[$index + 12]->participations_total) * 100;
-                }
-                if ($results[$index + 12]->participations_validated) {
-                    $results[$index]->participations_validated_variation = (($item->participations_validated - $results[$index + 12]->participations_validated) / $results[$index + 12]->participations_validated) * 100;
-                }
-            }
+        $collection = collect($results);
 
-            if ($item->participations_total) {
-                $results[$index]->participations_conversion = ($item->participations_validated / $item->participations_total) * 100;
-            }
-        }
-
-        return $results;
+        return $collection->map(function ($item) {
+            $item->created_at = Carbon::parse($item->month_start)->format('Y-m-d 00:00:00');
+            return $item;
+        });
     }
 
     public function participationsByYear(Request $request)
     {
-        $results = DB::table('participations')
-            ->leftJoin('missions', 'participations.mission_id', '=', 'missions.id')
-            ->leftJoin('structures', 'structures.id', '=', 'missions.structure_id')
-            ->leftJoin('reseau_structure', 'reseau_structure.structure_id', '=', 'missions.structure_id')
+        // $results = DB::table('participations')
+        //     ->leftJoin('missions', 'participations.mission_id', '=', 'missions.id')
+        //     ->leftJoin('structures', 'structures.id', '=', 'missions.structure_id')
+        //     ->leftJoin('reseau_structure', 'reseau_structure.structure_id', '=', 'missions.structure_id')
+        //     ->select(
+        //         DB::raw("date_trunc('year', participations.created_at) AS created_at"),
+        //         DB::raw("date_part('year', participations.created_at) as year"),
+        //         DB::raw('count(*) AS participations_total'),
+        //         DB::raw("sum(case when participations.state  = 'En attente de validation' then 1 else 0 end) as participations_waiting_validation"),
+        //         DB::raw("sum(case when participations.state  = 'En cours de traitement' then 1 else 0 end) as participations_being_processed"),
+        //         DB::raw("sum(case when participations.state  = 'Validée' then 1 else 0 end) as participations_validated"),
+        //         DB::raw("sum(case when participations.state  = 'Refusée' then 1 else 0 end) as participations_refused"),
+        //         DB::raw("sum(case when participations.state  = 'Annulée' then 1 else 0 end) as participations_canceled")
+        //     )
+        //     ->whereNull('participations.deleted_at')
+        //     ->when($this->structureId, function ($query) {
+        //         $query->where('missions.structure_id', $this->structureId);
+        //     })
+        //     ->when($this->reseauId, function ($query) {
+        //         $query->where('reseau_structure.reseau_id', $this->reseauId);
+        //     })
+        //     ->when($this->department, function ($query) {
+        //         $query->where('missions.department', $this->department);
+        //     })
+        //     ->groupBy(DB::raw("date_trunc('year', participations.created_at)"), 'year')
+        //     ->orderBy(DB::raw("date_trunc('year', participations.created_at)"), 'DESC')
+        //     ->get();
+
+        // foreach ($results as $index => $item) {
+        //     if (isset($results[$index + 1])) {
+        //         if ($results[$index + 1]->participations_total) {
+        //             $results[$index]->participations_total_variation = (($item->participations_total - $results[$index + 1]->participations_total) / $results[$index + 1]->participations_total) * 100;
+        //         }
+        //         if ($results[$index + 1]->participations_validated) {
+        //             $results[$index]->participations_validated_variation = (($item->participations_validated - $results[$index + 1]->participations_validated) / $results[$index + 1]->participations_validated) * 100;
+        //         }
+        //     }
+        //     if ($item->participations_total) {
+        //         $results[$index]->participations_conversion = ($item->participations_validated / $item->participations_total) * 100;
+        //     }
+        // }
+
+        // Subquery to get counts of participations per month
+        $participationsSubquery = DB::table('participations')
             ->select(
                 DB::raw("date_trunc('year', participations.created_at) AS created_at"),
-                DB::raw("date_part('year', participations.created_at) as year"),
-                DB::raw('count(*) AS participations_total'),
-                DB::raw("sum(case when participations.state  = 'En attente de validation' then 1 else 0 end) as participations_waiting_validation"),
-                DB::raw("sum(case when participations.state  = 'En cours de traitement' then 1 else 0 end) as participations_being_processed"),
-                DB::raw("sum(case when participations.state  = 'Validée' then 1 else 0 end) as participations_validated"),
-                DB::raw("sum(case when participations.state  = 'Refusée' then 1 else 0 end) as participations_refused"),
-                DB::raw("sum(case when participations.state  = 'Annulée' then 1 else 0 end) as participations_canceled")
+                DB::raw("COUNT(*) AS participations_total"),
+                DB::raw("COUNT(*) FILTER (WHERE participations.state = 'Validée') AS participations_validated")
             )
-            ->whereNull('participations.deleted_at')
+            ->leftJoin('missions', 'missions.id', '=', 'participations.mission_id')
+            ->leftJoin('structures', 'structures.id', '=', 'missions.structure_id')
+            ->leftJoin('reseau_structure', 'reseau_structure.structure_id', '=', 'missions.structure_id')
+            ->whereBetween('participations.created_at', [$this->startDate, $this->endDate])
+            ->when($this->department, function ($query) {
+                $query->where('missions.department', $this->department);
+            })
             ->when($this->structureId, function ($query) {
                 $query->where('missions.structure_id', $this->structureId);
             })
             ->when($this->reseauId, function ($query) {
                 $query->where('reseau_structure.reseau_id', $this->reseauId);
             })
-            ->when($this->department, function ($query) {
-                $query->where('missions.department', $this->department);
+            ->groupBy(DB::raw("date_trunc('year', participations.created_at)"));
+
+        // Main query to join date series with participation counts
+        $results = DB::table(DB::raw("(SELECT generate_series(
+                    date_trunc('year', '$this->startDate'::date),
+                    date_trunc('year', '$this->endDate'::date),
+                    '1 year'::interval
+                ) AS year_start) AS date_series"))
+            ->select(
+                'date_series.year_start',
+                DB::raw("date_part('year', date_series.year_start) as year"),
+                DB::raw("COALESCE(p.participations_total, 0) AS participations_total"),
+                DB::raw("COALESCE(p.participations_validated, 0) AS participations_validated"),
+                DB::raw("CASE 
+                    WHEN COALESCE(p.participations_total, 0) = 0 THEN 0
+                    ELSE (COALESCE(p.participations_validated, 0)::float / COALESCE(p.participations_total, 0)::float) * 100
+                END AS participations_conversion
+                ")
+            )
+            ->leftJoinSub($participationsSubquery, 'p', function ($join) {
+                $join->on('date_series.year_start', '=', 'p.created_at');
             })
-            ->groupBy(DB::raw("date_trunc('year', participations.created_at)"), 'year')
-            ->orderBy(DB::raw("date_trunc('year', participations.created_at)"), 'DESC')
+            ->orderBy('date_series.year_start', 'DESC')
             ->get();
 
-        foreach ($results as $index => $item) {
-            if (isset($results[$index + 1])) {
-                if ($results[$index + 1]->participations_total) {
-                    $results[$index]->participations_total_variation = (($item->participations_total - $results[$index + 1]->participations_total) / $results[$index + 1]->participations_total) * 100;
-                }
-                if ($results[$index + 1]->participations_validated) {
-                    $results[$index]->participations_validated_variation = (($item->participations_validated - $results[$index + 1]->participations_validated) / $results[$index + 1]->participations_validated) * 100;
-                }
-            }
-            if ($item->participations_total) {
-                $results[$index]->participations_conversion = ($item->participations_validated / $item->participations_total) * 100;
-            }
-        }
+        $collection = collect($results);
+
+        return $collection->map(function ($item) {
+            $item->created_at = Carbon::parse($item->year_start)->format('Y-m-d 00:00:00');
+            return $item;
+        });
 
         return $results;
     }
