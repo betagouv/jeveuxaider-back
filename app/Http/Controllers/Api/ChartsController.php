@@ -44,6 +44,8 @@ class ChartsController extends Controller
         } else {
             if($request->header('Context-Role') === 'responsable') {
                 $this->startDate = $structure->created_at->format('Y-m-d');
+            } elseif($request->header('Context-Role') === 'tete_de_reseau') {
+                $this->startDate = $reseau->created_at->format('Y-m-d');
             } else {
                 $this->startDate = Carbon::createFromFormat('Y-m-d', '2020-03-01')->hour(0)->minute(0)->second(0);
             }

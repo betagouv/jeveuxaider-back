@@ -514,7 +514,7 @@ Route::group(['middleware' => ['auth:api', 'is.admin.or.referent']], function ()
     Route::get('charts/utilisateurs-by-date', 'Api\ChartsController@utilisateursByDate');
 
     // INDICATEURS
-    Route::get('statistics/structures-by-month', 'Api\NumbersController@structuresByMonth');
+    // Route::get('statistics/structures-by-month', 'Api\NumbersController@structuresByMonth');
     Route::get('statistics/users-by-month', 'Api\NumbersController@usersByMonth');
     Route::get('statistics/users-by-year', 'Api\NumbersController@usersByYear');
 

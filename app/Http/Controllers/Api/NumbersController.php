@@ -30,12 +30,14 @@ class NumbersController extends Controller
     public function __construct(Request $request)
     {
         if($request->header('Context-Role') == 'responsable') {
+            $structure = Structure::find(Auth::guard('api')->user()->contextable_id);
             $this->structureId = Auth::guard('api')->user()->contextable_id;
         } else {
             $this->structureId = $request->input('structure');
         }
 
         if($request->header('Context-Role') == 'tete_de_reseau') {
+            $reseau = Reseau::find(Auth::guard('api')->user()->contextable_id);
             $this->reseauId = Auth::guard('api')->user()->contextable_id;
         } else {
             $this->reseauId = $request->input('reseau');
@@ -44,7 +46,13 @@ class NumbersController extends Controller
         if($request->input('start_date')) {
             $this->startDate = Carbon::createFromFormat('Y-m-d', $request->input('start_date'))->hour(0)->minute(0)->second(0);
         } else {
-            $this->startDate = Carbon::createFromFormat('Y-m-d', '2020-03-01')->hour(0)->minute(0)->second(0);
+            if($request->header('Context-Role') === 'responsable') {
+                $this->startDate = $structure->created_at->format('Y-m-d');
+            } elseif($request->header('Context-Role') === 'tete_de_reseau') {
+                $this->startDate = $reseau->created_at->format('Y-m-d');
+            } else {
+                $this->startDate = Carbon::createFromFormat('Y-m-d', '2020-03-01')->hour(0)->minute(0)->second(0);
+            }
         }
         if($request->input('end_date')) {
             $this->endDate = Carbon::createFromFormat('Y-m-d', $request->input('end_date'))->hour(23)->minute(59)->second(59);
@@ -1702,38 +1710,6 @@ class NumbersController extends Controller
 
     public function structuresByYear(Request $request)
     {
-        // $results = DB::select(
-        //     "
-        //     SELECT date_trunc('year', structures.created_at) AS created_at,
-        //         date_part('year', structures.created_at) as year,
-        //         count(*) AS structures_total,
-        //         sum(case when structures.state  = 'Brouillon' then 1 else 0 end) as structures_draft,
-        //         sum(case when structures.state  = 'En attente de validation' then 1 else 0 end) as structures_waiting_validation,
-        //         sum(case when structures.state  = 'En cours de traitement' then 1 else 0 end) as structures_being_processed,
-        //         sum(case when structures.state  = 'Validée' then 1 else 0 end) as structures_validated,
-        //         sum(case when structures.state  = 'Signalée' then 1 else 0 end) as structures_signaled,
-        //         sum(case when structures.state  = 'Désinscrite' then 1 else 0 end) as structures_unsubscribed
-        //     FROM structures
-        //     WHERE structures.deleted_at IS NULL
-        //     AND COALESCE(structures.department,'') ILIKE :department
-        //     GROUP BY date_trunc('year', structures.created_at), year
-        //     ORDER BY date_trunc('year', structures.created_at) DESC
-        //     ",
-        //     [
-        //         'department' => $this->department ? '%' . $this->department . '%' : '%%',
-        //     ]
-        // );
-
-        // foreach ($results as $index => $item) {
-        //     if (isset($results[$index + 1])) {
-        //         if($results[$index + 1]->structures_validated) {
-        //             $results[$index]->structures_validated_variation = (($item->structures_validated - $results[$index + 1]->structures_validated) / $results[$index + 1]->structures_validated) * 100;
-        //         }
-        //     }
-        // }
-
-        // return $results;
-
         $structuresSubquery = DB::table('structures')
         ->select(
             DB::raw("date_trunc('year', structures.created_at) AS created_at"),
@@ -1781,48 +1757,7 @@ class NumbersController extends Controller
 
     public function missionsByMonth(Request $request)
     {
-        // $results =  DB::table('missions')
-        //     ->leftJoin('structures', 'structures.id', '=', 'missions.structure_id')
-        //     ->leftJoin('reseau_structure', 'reseau_structure.structure_id', '=', 'missions.structure_id')
-        //     ->select(
-        //         DB::raw("date_trunc('month', missions.created_at) AS created_at"),
-        //         DB::raw("date_part('year', missions.created_at) as year"),
-        //         DB::raw("date_part('month', missions.created_at) as month"),
-        //         DB::raw('count(*) AS missions_total'),
-        //         DB::raw("sum(case when missions.state  = 'Brouillon' then 1 else 0 end) as missions_draft"),
-        //         DB::raw("sum(case when missions.state  = 'En attente de validation' then 1 else 0 end) as missions_waiting_validation"),
-        //         DB::raw("sum(case when missions.state  = 'En cours de traitement' then 1 else 0 end) as missions_being_processed"),
-        //         DB::raw("sum(case when missions.state  = 'Validée' then 1 else 0 end) as missions_validated"),
-        //         DB::raw("sum(case when missions.state  = 'Signalée' then 1 else 0 end) as missions_signaled"),
-        //         DB::raw("sum(case when missions.state  = 'Terminée' then 1 else 0 end) as missions_finished"),
-        //         DB::raw("sum(case when missions.state  = 'Annulée' then 1 else 0 end) as missions_canceled"),
-        //         DB::raw("sum(case when missions.state IN ('Validée','Terminée') then 1 else 0 end) as missions_posted")
-        //     )
-        //     ->whereNull('missions.deleted_at')
-        //     ->when($this->structureId, function ($query) {
-        //         $query->where('missions.structure_id', $this->structureId);
-        //     })
-        //     ->when($this->reseauId, function ($query) {
-        //         $query->where('reseau_structure.reseau_id', $this->reseauId);
-        //     })
-        //     ->when($this->department, function ($query) {
-        //         $query->where('missions.department', $this->department);
-        //     })
-        //     ->groupBy(DB::raw("date_trunc('month', missions.created_at)"), 'year', 'month')
-        //     ->orderByRaw("date_trunc('month', missions.created_at) DESC")
-        //     ->get();
-
-        // foreach ($results as $index => $item) {
-        //     if (isset($results[$index + 12])) {
-        //         if($results[$index + 12]->missions_posted) {
-        //             $results[$index]->missions_posted_variation = (($item->missions_posted - $results[$index + 12]->missions_posted) / $results[$index + 12]->missions_posted) * 100;
-        //         }
-        //     }
-        // }
-
-        // return $results;
-
-        // Subquery to get counts of missions per year
+        // Subquery to get counts of missions per month
         $missionsSubquery = DB::table('missions')
         ->select(
             DB::raw("date_trunc('month', missions.created_at) AS created_at"),
@@ -1872,45 +1807,6 @@ class NumbersController extends Controller
 
     public function missionsByYear(Request $request)
     {
-        // $results = DB::table('missions')
-        //     ->leftJoin('structures', 'structures.id', '=', 'missions.structure_id')
-        //     ->leftJoin('reseau_structure', 'reseau_structure.structure_id', '=', 'missions.structure_id')
-        //     ->select(
-        //         DB::raw("date_trunc('year', missions.created_at) AS created_at"),
-        //         DB::raw("date_part('year', missions.created_at) as year"),
-        //         DB::raw('count(*) AS missions_total'),
-        //         DB::raw("sum(case when missions.state  = 'Brouillon' then 1 else 0 end) as missions_draft"),
-        //         DB::raw("sum(case when missions.state  = 'En attente de validation' then 1 else 0 end) as missions_waiting_validation"),
-        //         DB::raw("sum(case when missions.state  = 'En cours de traitement' then 1 else 0 end) as missions_being_processed"),
-        //         DB::raw("sum(case when missions.state  = 'Validée' then 1 else 0 end) as missions_validated"),
-        //         DB::raw("sum(case when missions.state  = 'Signalée' then 1 else 0 end) as missions_signaled"),
-        //         DB::raw("sum(case when missions.state  = 'Terminée' then 1 else 0 end) as missions_finished"),
-        //         DB::raw("sum(case when missions.state  = 'Annulée' then 1 else 0 end) as missions_canceled"),
-        //         DB::raw("sum(case when missions.state IN ('Validée','Terminée') then 1 else 0 end) as missions_posted")
-        //     )
-        //     ->whereNull('missions.deleted_at')
-        //     ->when($this->structureId, function ($query) {
-        //         $query->where('missions.structure_id', $this->structureId);
-        //     })
-        //     ->when($this->reseauId, function ($query) {
-        //         $query->where('reseau_structure.reseau_id', $this->reseauId);
-        //     })
-        //     ->when($this->department, function ($query) {
-        //         $query->where('missions.department', $this->department);
-        //     })
-        //     ->groupBy(DB::raw("date_trunc('year', missions.created_at)"), 'year')
-        //     ->orderByRaw("date_trunc('year', missions.created_at) DESC")
-        //     ->get();
-
-
-        // foreach ($results as $index => $item) {
-        //     if (isset($results[$index + 1])) {
-        //         if($results[$index + 1]->missions_posted) {
-        //             $results[$index]->missions_posted_variation = (($item->missions_posted - $results[$index + 1]->missions_posted) / $results[$index + 1]->missions_posted) * 100;
-        //         }
-        //     }
-        // }
-
         // Subquery to get counts of missions per year
         $missionsSubquery = DB::table('missions')
             ->select(
