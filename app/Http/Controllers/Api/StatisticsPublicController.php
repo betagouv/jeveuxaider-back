@@ -203,7 +203,7 @@ class StatisticsPublicController extends Controller
             'benevoles_visibles_marketplace' => Profile::where('is_visible', true)
             ->when($this->department, function ($query) {
                 $query->where('department', $this->department);
-            }) ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
+            })->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
         ];
     }
 
