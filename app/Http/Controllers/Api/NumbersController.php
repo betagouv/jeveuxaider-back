@@ -229,14 +229,14 @@ class NumbersController extends Controller
 
         $reseauxCount = Reseau::where('is_published', true)
             ->when($this->department, function ($query) {
-                $query->department($this->department);
+                $query->where('department', $this->department);
             })
             ->whereBetween('created_at', [$this->startDate, $this->endDate])
             ->count();
 
         $territoiresCount = Territoire::where('is_published', true)
             ->when($this->department, function ($query) {
-                $query->department($this->department);
+                $query->where('department', $this->department);
             })
             ->whereBetween('created_at', [$this->startDate, $this->endDate])
             ->count();
