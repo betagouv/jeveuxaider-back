@@ -1044,8 +1044,7 @@ class NumbersController extends Controller
                 $query->where('profiles.department', $this->department);
             })
             ->groupBy('activities.name', 'activities.id')
-            ->orderByDesc(DB::raw('COUNT(*)'))
-            ->limit(5)
+            ->orderByDesc('count')
             ->get();
 
         return $results;
