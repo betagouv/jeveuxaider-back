@@ -72,12 +72,7 @@ class NumbersController extends Controller
         if(in_array($request->header('Context-Role'), ['admin', 'referent'])) {
             $organisationsValidatedCount = Structure::role($request->header('Context-Role'))
             ->whereIn('state', ['Validée'])
-            ->when($this->startDate, function ($query) {
-                $query->where('created_at', '>=', $this->startDate);
-            })
-            ->when($this->endDate, function ($query) {
-                $query->where('created_at', '<=', $this->endDate);
-            })
+            ->whereBetween('created_at', [$this->startDate, $this->endDate])
             ->when(
                 $this->department,
                 function ($query) {
@@ -157,7 +152,8 @@ class NumbersController extends Controller
         $queryBuilder = Participation::role($request->header('Context-Role'))
             ->when($this->department, function ($query) {
                 $query->department($this->department);
-            });
+            })
+            ->whereBetween('created_at', [$this->startDate, $this->endDate]);
 
         $participationsCount =  (clone $queryBuilder)->count();
         $participationsValidatedCount =  (clone $queryBuilder)->where('state', 'Validée')->count();
@@ -176,7 +172,8 @@ class NumbersController extends Controller
         $queryBuilder = Profile::role($request->header('Context-Role'))
             ->when($this->department, function ($query) {
                 $query->department($this->department);
-            });
+            })
+            ->whereBetween('created_at', [$this->startDate, $this->endDate]);
 
 
         return [
@@ -194,80 +191,61 @@ class NumbersController extends Controller
 
     public function overviewMissions(Request $request)
     {
-        $missionsCount = Mission::role($request->header('Context-Role'))
-        ->when(
-            $this->department,
-            function ($query) {
-                $query->where('department', $this->department);
-            }
-        )
-        ->count();
+        $queryBuilder = Mission::role($request->header('Context-Role'))
+            ->when($this->department, function ($query) {
+                $query->department($this->department);
+            })
+            ->whereBetween('created_at', [$this->startDate, $this->endDate]);
 
-        $missionsAvailableCount = Mission::role($request->header('Context-Role'))
-        ->when(
-            $this->department,
-            function ($query) {
-                $query->where('department', $this->department);
-            }
-        )
-        ->available()
-        ->count();
-
-        $missionsValidatedOverCount = Mission::role($request->header('Context-Role'))->whereIn('state', ['Validée', 'Terminée'])
-        ->when(
-            $this->department,
-            function ($query) {
-                $query->where('department', $this->department);
-            }
-        )
-        ->count();
+        $missionsCount = (clone $queryBuilder)->count();
+        $missionsAvailableCount = (clone $queryBuilder)->available()->count();
+        $missionsValidatedOverCount = (clone $queryBuilder)->whereIn('state', ['Validée', 'Terminée'])->count();
+        $missionsSnuCount = (clone $queryBuilder)->where('is_snu_mig_compatible', true)->whereIn('state', ['Validée', 'Terminée'])->count();
 
         return [
             'missions' => $missionsCount,
             'missions_available' => $missionsAvailableCount,
             'missions_validated_and_over' => $missionsValidatedOverCount,
-            'missions_snu' => Mission::role($request->header('Context-Role'))->where('is_snu_mig_compatible', true)->whereIn('state', ['Validée', 'Terminée'])->when(
-                $this->department,
-                function ($query) {
-                    $query->where('department', $this->department);
-                }
-            )
-            ->count(),
+            'missions_snu' => $missionsSnuCount,
         ];
     }
 
     public function overviewOrganisations(Request $request)
     {
         $missionsAvailable = Mission::role($request->header('Context-Role'))
-            ->when(
-                $this->department,
-                function ($query) {
-                    $query->where('department', $this->department);
-                }
-            )
-            ->available()
-            ->get();
+            ->when($this->department, function ($query) {
+                $query->department($this->department);
+            })
+            ->whereBetween('created_at', [$this->startDate, $this->endDate])
+            ->available();
+
+        $organisationsCount = Structure::role($request->header('Context-Role'))
+            ->when($this->department, function ($query) {
+                $query->department($this->department);
+            })
+            ->whereBetween('created_at', [$this->startDate, $this->endDate])->count();
+
+        $organisationsActivesCount = $missionsAvailable->pluck('structure_id')->unique()->count();
+
+        $reseauxCount = Reseau::where('is_published', true)
+            ->when($this->department, function ($query) {
+                $query->department($this->department);
+            })
+            ->whereBetween('created_at', [$this->startDate, $this->endDate])
+            ->count();
+
+        $territoiresCount = Territoire::where('is_published', true)
+            ->when($this->department, function ($query) {
+                $query->department($this->department);
+            })
+            ->whereBetween('created_at', [$this->startDate, $this->endDate])
+            ->count();
 
         return [
-            'organisations' => Structure::role($request->header('Context-Role'))->when(
-                $this->department,
-                function ($query) {
-                    $query->where('department', $this->department);
-                }
-            )->count(),
-            'organisations_actives' => $missionsAvailable->pluck('structure_id')->unique()->count(),
-            'reseaux' => Reseau::where('is_published', true)->when(
-                $this->department,
-                function ($query) {
-                    $query->where('department', $this->department);
-                }
-            )->count(),
-            'territoires' => Territoire::where('is_published', true)->when(
-                $this->department,
-                function ($query) {
-                    $query->where('department', $this->department);
-                }
-            )->count(),
+            'organisations' => $organisationsCount,
+            'organisations_actives' => $organisationsActivesCount,
+            'reseaux' => $reseauxCount,
+            'territoires' => $territoiresCount,
         ];
     }
 

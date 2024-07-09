@@ -84,26 +84,28 @@ class StatisticsPublicController extends Controller
                 $query->where('department', $this->department);
             }
         )
+        ->whereBetween('created_at', [$this->startDate, $this->endDate])
             ->available()
             ->get();
 
         return [
             'organisations' => Structure::when($this->department, function ($query) {
                 $query->where('department', $this->department);
-            })->count(),
+            })
+            ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
             'organisations_actives' => $missionsAvailable->pluck('structure_id')->unique()->count(),
             'reseaux' => Reseau::where('is_published', true)->when(
                 $this->department,
                 function ($query) {
                     $query->where('department', $this->department);
                 }
-            )->count(),
+            )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
             'territoires' => Territoire::where('is_published', true)->when(
                 $this->department,
                 function ($query) {
                     $query->where('department', $this->department);
                 }
-            )->count(),
+            )->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
         ];
     }
 
@@ -112,6 +114,7 @@ class StatisticsPublicController extends Controller
         $missionsCount = Mission::when($this->department, function ($query) {
             $query->where('department', $this->department);
         })
+        ->whereBetween('created_at', [$this->startDate, $this->endDate])
         ->available()
         ->count();
 
@@ -119,6 +122,7 @@ class StatisticsPublicController extends Controller
         ->when($this->department, function ($query) {
             $query->where('department', $this->department);
         })
+        ->whereBetween('created_at', [$this->startDate, $this->endDate])
         ->count();
 
         return [
@@ -129,6 +133,7 @@ class StatisticsPublicController extends Controller
                 ->when($this->department, function ($query) {
                     $query->where('department', $this->department);
                 })
+                ->whereBetween('created_at', [$this->startDate, $this->endDate])
             ->count(),
         ];
     }
@@ -141,6 +146,7 @@ class StatisticsPublicController extends Controller
                 $query->where('department', $this->department);
             }
         )
+
             ->available()
             ->get();
 
@@ -159,6 +165,7 @@ class StatisticsPublicController extends Controller
             'participations' => Participation::when($this->department, function ($query) {
                 $query->department($this->department);
             })
+            ->whereBetween('created_at', [$this->startDate, $this->endDate])
             ->count(),
             'messages' => Message::when(
                 $this->department,
@@ -170,11 +177,12 @@ class StatisticsPublicController extends Controller
                         ->whereHas(
                             'conversation.conversable',
                             function (Builder $query) {
-                                $query->department($this->department);
+                                $query->department($this->department)
+                                ;
                             }
                         );
                 }
-            )->count(),
+            ) ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
         ];
     }
 
@@ -183,10 +191,10 @@ class StatisticsPublicController extends Controller
         return [
             'utilisateurs' => Profile::when($this->department, function ($query) {
                 $query->where('department', $this->department);
-            })->count(),
+            }) ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
             'benevoles' => Profile::when($this->department, function ($query) {
                 $query->where('department', $this->department);
-            })->whereHas(
+            }) ->whereBetween('created_at', [$this->startDate, $this->endDate])->whereHas(
                 'user',
                 function (Builder $query) {
                     $query->where('context_role', 'volontaire');
@@ -195,7 +203,7 @@ class StatisticsPublicController extends Controller
             'benevoles_visibles_marketplace' => Profile::where('is_visible', true)
             ->when($this->department, function ($query) {
                 $query->where('department', $this->department);
-            })->count(),
+            }) ->whereBetween('created_at', [$this->startDate, $this->endDate])->count(),
         ];
     }
 
