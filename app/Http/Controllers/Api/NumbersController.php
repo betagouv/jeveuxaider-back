@@ -1376,7 +1376,9 @@ class NumbersController extends Controller
                 $query
                     ->where('conversable_type', 'App\Models\Participation')
                     ->whereHasMorph('conversable', ['App\Models\Participation'], function (Builder $query) {
-                        $query->when($this->department, function ($query) {
+                        $query
+                        ->where('state', 'Refusée')
+                        ->when($this->department, function ($query) {
                             $query->department($this->department);
                         })
                         ->when($this->structureId, function ($query) {
@@ -1384,10 +1386,10 @@ class NumbersController extends Controller
                         })
                         ->when($this->reseauId, function ($query) {
                             $query->ofReseau($this->reseauId);
-                        });
+                        })
+                        ->whereBetween('created_at', [$this->startDate, $this->endDate]);
                     });
-            })
-            ->whereBetween('created_at', [$this->startDate, $this->endDate]);
+            });
 
         return [
             'no_response' => (clone $queryBuilder)->where('contextual_reason', 'no_response')->count(),
