@@ -152,7 +152,7 @@ class UserController extends Controller
                 'temoignage'
             ])
             ->defaultSort('-created_at')
-            ->paginate(config('query-builder.results_per_page'));
+            ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
     }
 
     public function unreadMessages(Request $request)
