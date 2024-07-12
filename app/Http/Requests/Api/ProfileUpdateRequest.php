@@ -48,6 +48,8 @@ class ProfileUpdateRequest extends ProfileRequest
             'is_visible' => 'boolean',
             'service_civique' => 'boolean',
             'disponibilities' => '',
+            'certifications' => '',
+            'type_missions' => '',
             'description' => '',
             'domaines' => '',
             'skills' => '',
