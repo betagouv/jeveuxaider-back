@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\SendinblueSyncUser;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,7 +19,14 @@ class FormUserController extends Controller
         ]);
 
         $user = User::find(Auth::guard('api')->user()->id);
+        $oldEmail = $user->email;
+
         $user->update($validator->validated());
+
+        if (config('services.sendinblue.sync')) {
+            ray('SendinblueSyncUser');
+            SendinblueSyncUser::dispatch($user, $oldEmail);
+        }
 
         return $user;
     }

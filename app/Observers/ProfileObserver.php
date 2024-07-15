@@ -35,21 +35,24 @@ class ProfileObserver
     public function updated(Profile $profile)
     {
 
-        $oldEmail = $profile->getOriginal('email');
-        $newEmail = $profile->email;
+        // $oldEmail = $profile->getOriginal('email');
+        // $newEmail = $profile->email;
 
-        if ($oldEmail != $newEmail) {
-            $profile->user()->update(['email' => $newEmail]);
-        }
+        // if ($oldEmail != $newEmail) {
+        //     $profile->user()->update(['email' => $newEmail]);
+        // }
 
         if (config('services.sendinblue.sync')) {
             if ($profile->user) {
-                if ($oldEmail != $newEmail) {
-                    SendinblueSyncUser::dispatch($profile->user, $oldEmail);
-                } else {
-                    SendinblueSyncUser::dispatch($profile->user);
-                }
+                SendinblueSyncUser::dispatch($profile->user);
             }
+            // if ($profile->user) {
+            //     if ($oldEmail != $newEmail) {
+            //         SendinblueSyncUser::dispatch($profile->user, $oldEmail);
+            //     } else {
+            //         SendinblueSyncUser::dispatch($profile->user);
+            //     }
+            // }
         }
 
         if (!empty($profile->cej_email_adviser) && $profile->getOriginal('cej_email_adviser') != $profile->cej_email_adviser) {
