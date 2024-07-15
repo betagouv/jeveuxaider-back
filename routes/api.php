@@ -133,7 +133,9 @@ Route::group(['middleware' => ['auth:api', 'is.not.blocked']], function () {
 
     Route::post('missions/{mission}/share', 'Api\MissionController@share');
 
-    Route::post('user/password', 'Api\UserController@updatePassword');
+    // Route::post('user/password', 'Api\UserController@updatePassword');
+    Route::post('user/email', 'Api\FormUserController@email');
+    Route::post('user/password', 'Api\FormUserController@password');
     Route::get('user/mission/{mission}/has-participation', 'Api\UserController@hasParticipation');
 
     // MESSAGERIE
