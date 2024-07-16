@@ -1356,10 +1356,11 @@ class NumbersController extends Controller
                             })
                             ->when($this->reseauId, function ($query) {
                                 $query->ofReseau($this->reseauId);
-                            });
+                            })
+                            ->whereBetween('created_at', [$this->startDate, $this->endDate]);
                     });
-            })
-            ->whereBetween('created_at', [$this->startDate, $this->endDate]);
+            })->distinct('conversation_id');
+
 
         return [
             'no_response' => (clone $queryBuilder)->where('contextual_reason', 'no_response')->count(),
@@ -1390,7 +1391,7 @@ class NumbersController extends Controller
                             })
                             ->whereBetween('created_at', [$this->startDate, $this->endDate]);
                     });
-            });
+            })->distinct('conversation_id');
 
         return [
             'no_response' => (clone $queryBuilder)->where('contextual_reason', 'no_response')->count(),
