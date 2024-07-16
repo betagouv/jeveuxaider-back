@@ -1341,21 +1341,22 @@ class NumbersController extends Controller
 
     public function participationsCanceledByBenevoles(Request $request)
     {
-        $queryBuilder = Message::role($request->header('Context-Role'))
-            ->where('contextual_state', 'Annulée par bénévole')
-            ->whereHas('conversation', function (Builder $query) {
+        $queryBuilder = Message::where('contextual_state', 'Annulée par bénévole')
+            ->whereHas('conversation', function (Builder $query) use ($request) {
                 $query
                     ->where('conversable_type', 'App\Models\Participation')
-                    ->whereHasMorph('conversable', ['App\Models\Participation'], function (Builder $query) {
-                        $query->when($this->department, function ($query) {
-                            $query->department($this->department);
-                        })
-                        ->when($this->structureId, function ($query) {
-                            $query->ofStructure($this->structureId);
-                        })
-                        ->when($this->reseauId, function ($query) {
-                            $query->ofReseau($this->reseauId);
-                        });
+                    ->whereHasMorph('conversable', ['App\Models\Participation'], function (Builder $query) use ($request) {
+                        $query
+                            ->role($request->header('Context-Role'))
+                            ->when($this->department, function ($query) {
+                                $query->department($this->department);
+                            })
+                            ->when($this->structureId, function ($query) {
+                                $query->ofStructure($this->structureId);
+                            })
+                            ->when($this->reseauId, function ($query) {
+                                $query->ofReseau($this->reseauId);
+                            });
                     });
             })
             ->whereBetween('created_at', [$this->startDate, $this->endDate]);
@@ -1370,24 +1371,24 @@ class NumbersController extends Controller
 
     public function participationsRefusedByResponsables(Request $request)
     {
-        $queryBuilder = Message::role($request->header('Context-Role'))
-            ->where('contextual_state', 'Refusée')
-            ->whereHas('conversation', function (Builder $query) {
+        $queryBuilder = Message::where('contextual_state', 'Refusée')
+            ->whereHas('conversation', function (Builder $query) use ($request) {
                 $query
                     ->where('conversable_type', 'App\Models\Participation')
-                    ->whereHasMorph('conversable', ['App\Models\Participation'], function (Builder $query) {
+                    ->whereHasMorph('conversable', ['App\Models\Participation'], function (Builder $query) use ($request) {
                         $query
-                        ->where('state', 'Refusée')
-                        ->when($this->department, function ($query) {
-                            $query->department($this->department);
-                        })
-                        ->when($this->structureId, function ($query) {
-                            $query->ofStructure($this->structureId);
-                        })
-                        ->when($this->reseauId, function ($query) {
-                            $query->ofReseau($this->reseauId);
-                        })
-                        ->whereBetween('created_at', [$this->startDate, $this->endDate]);
+                            ->role($request->header('Context-Role'))
+                            ->where('state', 'Refusée')
+                            ->when($this->department, function ($query) {
+                                $query->department($this->department);
+                            })
+                            ->when($this->structureId, function ($query) {
+                                $query->ofStructure($this->structureId);
+                            })
+                            ->when($this->reseauId, function ($query) {
+                                $query->ofReseau($this->reseauId);
+                            })
+                            ->whereBetween('created_at', [$this->startDate, $this->endDate]);
                     });
             });
 
