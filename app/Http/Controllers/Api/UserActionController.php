@@ -153,11 +153,11 @@ class UserActionController extends Controller
             'value' => $user->getUnreadConversationsCount(),
         ];
 
-        $actions[] = [
-            'type' => 'profile_incomplete',
-            'value' => $user->profile->missing_fields,
-            'completion_rate' => $user->profile->completion_rate
-        ];
+        // $actions[] = [
+        //     'type' => 'profile_incomplete',
+        //     'value' => $user->profile->missing_fields,
+        //     'completion_rate' => $user->profile->completion_rate
+        // ];
 
         $actions[] = [
             'type' => 'profile_without_activities',
