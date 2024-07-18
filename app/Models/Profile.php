@@ -42,6 +42,7 @@ class Profile extends Model implements HasMedia
         'birthday' => 'date:Y-m-d',
         'is_visible' => 'boolean',
         'disponibilities' => 'array',
+        'certifications' => 'array',
         'can_export_profiles' => 'boolean',
         'notification__responsable_bilan' => 'boolean',
         'notification__referent_bilan' => 'boolean',
