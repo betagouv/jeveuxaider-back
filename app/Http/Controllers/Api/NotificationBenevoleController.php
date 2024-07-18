@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\NotificationBenevoleRequest;
+use App\Models\Mission;
 use App\Models\NotificationBenevole;
 use App\Models\Profile;
 use App\Notifications\NotificationToBenevole;
@@ -27,6 +28,12 @@ class NotificationBenevoleController extends Controller
 
     public function store(NotificationBenevoleRequest $request)
     {
+        $mission = Mission::find(request('mission_id'));
+
+        if(!Auth::guard('api')->user()->can('update', $mission)) {
+            abort(403, 'This action is not authorized');
+        }
+
         $profile_id = request('profile_id');
 
         $notificationBenevoleCount = NotificationBenevole::where(

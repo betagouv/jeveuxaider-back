@@ -115,6 +115,9 @@ class MessageObserver
                 if ($toUser->context_role == 'responsable' && $toUser->profile->notification__responsable_frequency === 'realtime') {
                     $toUser->notify(new MessageStructureCreated($message));
                 }
+                if ($toUser->context_role == 'admin') {
+                    $toUser->notify(new MessageStructureCreated($message));
+                }
             });
         }
 
@@ -125,6 +128,9 @@ class MessageObserver
                     $toUser->notify(new MessageMissionCreated($message));
                 }
                 if ($toUser->context_role == 'responsable' && $toUser->profile->notification__responsable_frequency === 'realtime') {
+                    $toUser->notify(new MessageMissionCreated($message));
+                }
+                if ($toUser->context_role == 'admin') {
                     $toUser->notify(new MessageMissionCreated($message));
                 }
             });
