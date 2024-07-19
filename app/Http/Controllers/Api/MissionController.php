@@ -109,7 +109,7 @@ class MissionController extends Controller
         if (is_numeric($slugOrId)) {
             $mission = Mission::with([
                 'structure:id,name,state,statut_juridique,description,slug',
-                'template:id,title,subtitle,description,objectif',
+                'template:id,title,subtitle,description,objectif,domaine_id,domaine_secondary_id,activity_id,activity_secondary_id',
                 'template.domaine:id,name,slug',
                 'template.domaineSecondary:id,name,slug',
                 'domaine:id,name,slug',
