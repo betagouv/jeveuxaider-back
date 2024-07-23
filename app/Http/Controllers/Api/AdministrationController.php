@@ -20,11 +20,11 @@ class AdministrationController extends Controller
         $this->startDate = Carbon::now()->subDays(14);
         $this->endDate = Carbon::now();
 
-        if($request->input('startDate')){
-            $this->startDate = Carbon::createFromFormat('Y-m-d', $request->input('startDate'))->hour(0)->minute(0)->second(0);
+        if($request->input('start_date')) {
+            $this->startDate = Carbon::createFromFormat('Y-m-d', $request->input('start_date'))->hour(0)->minute(0)->second(0);
         }
-        if($request->input('endDate')){
-            $this->endDate = Carbon::createFromFormat('Y-m-d', $request->input('endDate'))->hour(23)->minute(59)->second(59);
+        if($request->input('end_date')) {
+            $this->endDate = Carbon::createFromFormat('Y-m-d', $request->input('end_date'))->hour(23)->minute(59)->second(59);
         }
     }
 
@@ -54,7 +54,8 @@ class AdministrationController extends Controller
                 GROUP BY activity_log.causer_id,  profiles.id, profiles.first_name, profiles.last_name
                 ORDER BY count DESC
                 LIMIT 5
-            ", [
+            ",
+            [
                 'start' => $this->startDate,
                 'end' => $this->endDate,
             ]
@@ -77,7 +78,8 @@ class AdministrationController extends Controller
                 GROUP BY activity_log.causer_id, profiles.id, profiles.first_name, profiles.last_name
                 ORDER BY count DESC
                 LIMIT 5
-            ", [
+            ",
+            [
                 'start' => $this->startDate,
                 'end' => $this->endDate,
             ]
@@ -101,7 +103,8 @@ class AdministrationController extends Controller
                 GROUP BY missions.id, missions.name, structures.name, mission_templates.title
                 ORDER BY count DESC
                 LIMIT 5
-            ", [
+            ",
+            [
                 'start' => $this->startDate,
                 'end' => $this->endDate,
             ]
@@ -123,7 +126,8 @@ class AdministrationController extends Controller
                 GROUP BY structures.id, structures.name
                 ORDER BY count DESC
                 LIMIT 5
-            ", [
+            ",
+            [
                 'start' => $this->startDate,
                 'end' => $this->endDate,
             ]
