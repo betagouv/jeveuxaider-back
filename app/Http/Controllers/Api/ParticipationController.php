@@ -122,6 +122,10 @@ class ParticipationController extends Controller
                 $participation->profile->notify(new ParticipationCreated($participation));
             }
 
+            if($participation->mission->activity_id) {
+                $participation->profile->activities()->syncWithoutDetaching($participation->mission->activity_id);
+            }
+
             return $participation;
         }
 
