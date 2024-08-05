@@ -61,13 +61,16 @@ class ParticipationCreated extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         $url = $this->participation->conversation ? '/messages/' . $this->participation->conversation->id : '/messages';
+        $profileUrl = '/profile/edit';
 
         return (new MailMessage())
             ->subject('🔖 Votre demande de participation a bien été enregistrée !')
             ->markdown('emails.benevoles.participation-created', [
                 'url' => $this->trackedUrl($url),
+                'profileUrl' => $this->trackedUrl($profileUrl),
                 'mission' => $this->participation->mission,
-                'notifiable' => $notifiable
+                'notifiable' => $notifiable,
+                'profileIsIncomplete' => count($this->participation->profile->missing_fields) > 0,
             ])
             ->tag($this->tag);
     }

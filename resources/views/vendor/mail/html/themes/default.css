@@ -7,7 +7,7 @@ body,
 .mail-body {
   font-family: Arial, Verdana, Tahoma, Geneva, sans-serif;
   color: #585858;
-  font-size: 22px;
+  font-size: 20px;
   line-height: 32px;
   /* hyphens: auto; */
   margin: 0;
@@ -21,7 +21,7 @@ body,
 }
 
 p {
-  font-size: 22px;
+  font-size: 20px;
   line-height: 32px;
   margin-bottom: 24px;
 }
@@ -30,7 +30,7 @@ ul {
   list-style: disc;
   margin-left: 24px;
   padding-left: 24px;
-  font-size: 22px;
+  font-size: 20px;
   line-height: 32px;
   margin-bottom: 24px;
 }
@@ -81,11 +81,11 @@ ul > li > p {
   font-size: 22px;
   line-height: 40px;
   font-weight: 600;
-  margin-bottom: 6px;
+  margin-bottom: 12px;
 }
 
 .paragraph-wrapper .content {
-  font-size: 22px;
+  font-size: 20px;
   line-height: 32px;
 }
 
@@ -98,7 +98,7 @@ ul > li > p {
 }
 
 .tips-wrapper-content {
-  font-size: 22px;
+  font-size: 20px;
   line-height: 32px;
 }
 

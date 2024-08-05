@@ -16,10 +16,10 @@
                 <tr>
                     <td>
                         <div style="font-size: 22px; font-weight: 700; color: #161616; margin-bottom: 16px;">
-                            {{ $mission->name }}</div>
+                            {{ $mission->name }}
+                        </div>
                         <div style="font-size: 14px; margin-bottom: 4px;">
-                            <img style="display: inline;" src="{{ config('app.url') }}/images/icones/marker.svg"
-                                alt="" width="16" />
+                            <img style="display: inline;" src="{{ config('app.url') }}/images/icones/marker.svg" alt="" width="16" />
                             @if ($mission->type == 'Mission en présentiel')
                                 {{ $mission->type }}
                             @endif
@@ -27,16 +27,16 @@
                                 Mission à distance
                             @endif
                         </div>
-                        <div style="font-size: 14px; margin-bottom: 16px;">
-                            <img style="display: inline;" src="{{ config('app.url') }}/images/icones/clock.svg"
-                                alt="" width="16" />
-                            @if ($mission->commitment__time_period)
-                                {{ Utils::labelFromValue($mission->commitment__duration, 'duration') }} par
-                                {{ Utils::labelFromValue($mission->commitment__time_period, 'time_period') }}
-                            @else
-                                {{ Utils::labelFromValue($mission->commitment__duration, 'duration') }}
-                            @endif
-                        </div>
+                        @if ($mission->commitment__duration)
+                            <div style="font-size: 14px; margin-bottom: 16px;">
+                                <img style="display: inline;" src="{{ config('app.url') }}/images/icones/clock.svg" alt="" width="16" />
+                                @if ($mission->commitment__time_period)
+                                    {{ Utils::labelFromValue($mission->commitment__duration, 'duration') }} par {{ Utils::labelFromValue($mission->commitment__time_period, 'time_period') }}
+                                @else
+                                    {{ Utils::labelFromValue($mission->commitment__duration, 'duration') }}
+                                @endif
+                            </div>
+                        @endif
                         <table cellpadding="0" cellspacing="0" width="100%">
                             <tr>
                                 <td>
@@ -46,9 +46,7 @@
                                 </td>
                                 <td align="right">
                                     <a href="{{ $url }}">
-                                        <img style=""
-                                            src="{{ config('app.url') }}/images/icones/right-arrow-line.svg"
-                                            alt="" width="28" />
+                                        <img src="{{ config('app.url') }}/images/icones/right-arrow-line.svg" alt="" width="28" />
                                     </a>
                                 </td>
                             </tr>
