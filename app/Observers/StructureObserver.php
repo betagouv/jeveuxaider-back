@@ -89,7 +89,7 @@ class StructureObserver
                     if ($responsable) {
                         $responsable->notify(new StructureValidated($structure));
                         if ($structure->statut_juridique == 'Collectivité') {
-                            if(!$structure->territoire){
+                            if(!$structure->territoire) {
                                 CreateTerritoireFromStructure::dispatch($structure);
                                 $responsable->notify(new StructureCollectivityValidated($structure));
                             }
@@ -238,7 +238,7 @@ class StructureObserver
     {
         // On force les domaines pour les collectivités
         if ($structure->statut_juridique == 'Collectivité') {
-            $domaines = Domaine::all();
+            $domaines = Domaine::where('published', true)->get();
             $values = $domaines->pluck($domaines, 'id')->map(function ($item) {
                 return ['field' => 'structure_domaines'];
             });
