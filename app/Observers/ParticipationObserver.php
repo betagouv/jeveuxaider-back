@@ -13,6 +13,7 @@ use App\Notifications\ParticipationValidated;
 use App\Notifications\ParticipationWaitingValidation;
 use Illuminate\Support\Facades\Auth;
 use App\Notifications\ParticipationValidatedCejAdviser;
+use App\Notifications\ParticipationCreatedFTAdviser;
 use Illuminate\Support\Facades\Notification;
 
 class ParticipationObserver
@@ -22,13 +23,16 @@ class ParticipationObserver
         if ($participation->state == 'En attente de validation') {
             if ($participation->mission->has('responsables')) {
                 $participation->mission->responsables->each(function ($responsable) use ($participation) {
-                    if($responsable->notification__responsable_frequency == 'realtime'){
+                    if($responsable->notification__responsable_frequency == 'realtime') {
                         $responsable->notify(new ParticipationWaitingValidation($participation));
                     }
                 });
             }
             if (!empty($participation->profile->cej_email_adviser)) {
                 Notification::route('mail', $participation->profile->cej_email_adviser)->notify(new ParticipationValidatedCejAdviser($participation));
+            }
+            if (!empty($participation->profile->ft_email_adviser)) {
+                Notification::route('mail', $participation->profile->ft_email_adviser)->notify(new ParticipationCreatedFTAdviser($participation));
             }
         }
 

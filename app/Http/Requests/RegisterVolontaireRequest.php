@@ -45,6 +45,8 @@ class RegisterVolontaireRequest extends FormRequest
             'service_civique_completion_date' => '',
             'cej' => '',
             'cej_email_adviser' => 'required_if:cej,true',
+            'ft' => '',
+            'ft_email_adviser' => 'required_if:ft,true',
         ];
     }
 
