@@ -52,6 +52,7 @@ use App\Notifications\ParticipationBenevoleCanceled;
 use App\Notifications\ParticipationBenevoleValidated;
 use App\Notifications\ParticipationCanceled;
 use App\Notifications\ParticipationCreated;
+use App\Notifications\ParticipationCreatedFTAdviser;
 use App\Notifications\ParticipationDeclined;
 use App\Notifications\ParticipationDeclinedFromMissionTerminated;
 use App\Notifications\ParticipationShouldBeDone;
@@ -66,6 +67,7 @@ use App\Notifications\StructureWaitingValidation;
 use App\Notifications\RegisterUserVolontaire;
 use App\Notifications\RegisterUserVolontaireCej;
 use App\Notifications\RegisterUserVolontaireCejAdviser;
+use App\Notifications\RegisterUserVolontaireFTAdviser;
 use App\Notifications\ReseauNewLead;
 use App\Notifications\ResetPassword;
 use App\Notifications\ResponsableIsInactive;
@@ -370,11 +372,17 @@ class NotificationController extends Controller
             case 'participation_validated_cej_adviser':
                 $notification = new ParticipationValidatedCejAdviser($participation);
                 break;
+            case 'participation_created_ft_adviser':
+                $notification = new ParticipationCreatedFTAdviser($participation);
+                break;
             case 'register_user_volontaire_cej':
                 $notification = new RegisterUserVolontaireCej($user);
                 break;
             case 'register_user_volontaire_cej_adviser':
                 $notification = new RegisterUserVolontaireCejAdviser($user->profile);
+                break;
+            case 'register_user_volontaire_ft_adviser':
+                $notification = new RegisterUserVolontaireFTAdviser($user->profile);
                 break;
             case 'benevole_cej_one_year_after':
                 $notification = new BenevoleCejOneYearAfter($user->profile);
