@@ -49,6 +49,9 @@ class Utils
             case '5_days':
                 $hours = 35;
                 break;
+            case 'more_5_days':
+                $hours = 42;
+                break;
             default:
                 break;
         }
