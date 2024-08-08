@@ -348,4 +348,11 @@ class Profile extends Model implements HasMedia
             get: fn ($value) => isset($value) ? strip_tags($value) : null,
         );
     }
+
+    public function scopeMinimumCommitment($query, $duration, $time_period = null)
+    {
+        $total = Utils::calculateCommitmentTotal($duration, $time_period);
+
+        return $query->where('commitment__total', '>=', $total);
+    }
 }
