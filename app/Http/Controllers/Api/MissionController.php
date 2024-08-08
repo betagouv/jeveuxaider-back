@@ -294,8 +294,8 @@ class MissionController extends Controller
             ])
             ->allowedFilters(
                 'zip',
+                'commitment',
                 AllowedFilter::custom('disponibilities', new FiltersDisponibility()),
-                AllowedFilter::scope('minimum_commitment')
                 // AllowedFilter::custom('zips', new FiltersProfileZips),
                 // AllowedFilter::custom('domaine', new FiltersProfileTag),
                 // AllowedFilter::custom('skills', new FiltersProfileSkill),
