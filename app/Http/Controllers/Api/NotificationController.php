@@ -19,6 +19,8 @@ use App\Models\UserArchivedDatas;
 use App\Notifications\BenevoleCejNoParticipation;
 use App\Notifications\BenevoleCejOneYearAfter;
 use App\Notifications\BenevoleCejSixMonthsAfter;
+use App\Notifications\BenevoleFTNoParticipationJ10;
+use App\Notifications\BenevoleFTNoParticipationJ3;
 use App\Notifications\BenevoleIsInactive;
 use App\Notifications\BenevoleIsInactiveSecondReminder;
 use App\Notifications\BenevoleWillBeArchived;
@@ -145,6 +147,8 @@ class NotificationController extends Controller
             case 'structure_switch_responsable':
             case 'benevole_participation_should_be_done':
             case 'benevole_participation_will_start':
+            case 'user_no_participation_ft_j3':
+            case 'user_no_participation_ft_j10':
                 return $user->profile;
             default:
                 return $user;
@@ -409,7 +413,7 @@ class NotificationController extends Controller
                     })
                     ->where('notification__responsable_frequency', 'summary')
                     ->latest()->first();
-                $notification = new ResponsableSummaryDaily($profile->id);
+                $notification = new ResponsableSummaryDaily($user->profile->id);
                 break;
             case 'responsable_summary_monthly':
                 $profile = Profile::select('id', 'email')
@@ -420,7 +424,7 @@ class NotificationController extends Controller
                         $query->where('roles.id', 2);
                     })
                     ->latest()->first();
-                $notification = new ResponsableSummaryMonthly($profile->id);
+                $notification = new ResponsableSummaryMonthly($user->profile->id);
                 break;
             case 'referent_summary_daily':
                 $profile = Profile::select('id', 'email')
@@ -429,7 +433,7 @@ class NotificationController extends Controller
                     })
                     ->where('notification__referent_frequency', 'summary')
                     ->latest()->first();
-                $notification = new ReferentSummaryDaily($profile->id);
+                $notification = new ReferentSummaryDaily($user->profile->id);
                 break;
             case 'referent_summary_monthly':
                 $profile = Profile::select('id', 'email')
@@ -438,7 +442,7 @@ class NotificationController extends Controller
                     })
                     ->where('notification__referent_bilan', true)
                     ->latest()->first();
-                $notification = new ReferentSummaryMonthly($profile->id);
+                $notification = new ReferentSummaryMonthly($user->profile->id);
                 break;
             case 'responsable_mission_deactivated':
                 $notification = new MissionDeactivated($mission);
@@ -484,6 +488,12 @@ class NotificationController extends Controller
                 break;
             case 'benevole_is_inactive_second_reminder':
                 $notification = new BenevoleIsInactiveSecondReminder($structure);
+                break;
+            case 'user_no_participation_ft_j3':
+                $notification = new BenevoleFTNoParticipationJ3($user->profile);
+                break;
+            case 'user_no_participation_ft_j10':
+                $notification = new BenevoleFTNoParticipationJ10($user->profile);
                 break;
             default:
                 return null;
