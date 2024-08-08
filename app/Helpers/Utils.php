@@ -76,7 +76,7 @@ class Utils
 
     public static function getCommitmentLabel($duration, $time_period = null)
     {
-        if(!$time_period) {
+        if(!$time_period || $time_period === 'year') {
             switch ($duration) {
                 case '1_hour':
                 case '2_hours':
@@ -89,6 +89,11 @@ class Utils
 
         switch ($time_period) {
             // No more day, only week and month
+            case 'day':
+                if($duration == '1_hour' || $duration == '2_hours') {
+                    return 'few_hours_a_week';
+                }
+                return 'few_days_a_week';
             case 'week':
                 if($duration == '1_hour' || $duration == '2_hours' || $duration == 'half_day') {
                     return 'few_hours_a_week';

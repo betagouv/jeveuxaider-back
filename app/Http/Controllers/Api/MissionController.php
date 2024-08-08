@@ -267,8 +267,7 @@ class MissionController extends Controller
             'last_name',
             'zip',
             'disponibilities',
-            'commitment__duration',
-            'commitment__time_period',
+            'commitment',
             'type',
             'is_visible'
         ])

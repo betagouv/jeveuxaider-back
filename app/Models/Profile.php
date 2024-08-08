@@ -53,7 +53,7 @@ class Profile extends Model implements HasMedia
 
     protected $appends = ['short_name', 'full_name', 'secret_name'];
 
-    protected $checkFields = ['mobile', 'zip', 'type', 'disponibilities', 'commitment__time_period', 'commitment__duration', 'description', 'birthday', 'skills'];
+    protected $checkFields = ['mobile', 'zip', 'type', 'disponibilities', 'commitment', 'description', 'birthday', 'skills'];
 
     public function getActivitylogOptions(): LogOptions
     {
@@ -325,21 +325,6 @@ class Profile extends Model implements HasMedia
     public function notificationsBenevoles()
     {
         return $this->hasMany('App\Models\NotificationBenevole');
-    }
-
-    public function setCommitmentTotal()
-    {
-        $this->commitment__total = Utils::calculateCommitmentTotal(
-            $this->commitment__duration,
-            $this->commitment__time_period
-        );
-    }
-
-    public function scopeMinimumCommitment($query, $duration, $time_period = null)
-    {
-        $total = Utils::calculateCommitmentTotal($duration, $time_period);
-
-        return $query->where('commitment__total', '>=', $total);
     }
 
     public static function getNotificationBenevoleStats($pid)
