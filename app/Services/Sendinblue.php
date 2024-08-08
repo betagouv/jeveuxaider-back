@@ -142,8 +142,9 @@ class Sendinblue
             'REFERENT_REGION' => $user->regionsAsReferent->first()?->name ?: "",
             'IS_VISIBLE' => $user->profile->is_visible,
             'DISPONIBILITES' => $user->profile->disponibilities,
-            'DISPO_TIME_DURATION' => $user->profile->commitment__duration,
-            'DISPO_TIME_PERIOD' => $user->profile->commitment__time_period,
+            'DISPO_TIME_DURATION' => $user->profile->commitment__duration, // Obsolete
+            'DISPO_TIME_PERIOD' => $user->profile->commitment__time_period, // Obsolete
+            'ENGAGEMENT' => $user->profile->commitment,
             'ACTIVITES' => $user->profile->activities->pluck('name')->join(', '),
         ];
 
