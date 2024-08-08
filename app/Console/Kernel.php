@@ -24,6 +24,8 @@ use App\Console\Commands\SendNotificationTodoToReferents;
 use App\Console\Commands\SendNotificationResponsablesParticipationsNeedToBeTreated;
 use App\Console\Commands\SendNotificationsStructureWithoutMission;
 use App\Console\Commands\MissionsCloseOutdatedCommand;
+use App\Console\Commands\SendNotificationsBenevoleFTNoParticipationJ10;
+use App\Console\Commands\SendNotificationsBenevoleFTNoParticipationJ3;
 use App\Console\Commands\SendNotificationsBenevoleWhenParticipationWillStart;
 use App\Console\Commands\SendNotificationsToInactiveUsers;
 use App\Console\Commands\SendNotificationsUserWillBeArchived;
@@ -52,6 +54,8 @@ class Kernel extends ConsoleKernel
 
         // ONLY ENV PRODUCTION
         if (config('app.env') === 'production') {
+            $schedule->command(SendNotificationsBenevoleFTNoParticipationJ3::class)->daily()->at('09:00');
+            $schedule->command(SendNotificationsBenevoleFTNoParticipationJ10::class)->daily()->at('09:10');
             $schedule->command(SendNotificationsBenevoleWhenParticipationWillStart::class)->daily()->at('10:00');
             $schedule->command(SendNotificationsRegisterUserVolontaireCej::class)->daily()->at('10:00');
             $schedule->command(SendNotificationsBenevoleCejNoParticipation::class)->daily()->at('10:10');
