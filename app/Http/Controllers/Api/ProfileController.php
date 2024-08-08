@@ -131,7 +131,7 @@ class ProfileController extends Controller
             abort(403, 'This action is not authorized');
         }
 
-        $profile->activities()->attach($activity);
+        $profile->activities()->syncWithoutDetaching($activity);
 
         return $profile;
     }
