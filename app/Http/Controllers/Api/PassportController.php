@@ -76,6 +76,7 @@ class PassportController extends Controller
         );
         $attributes = $request->validated();
         $attributes['user_id'] = $user->id;
+        $attributes['is_visible'] = false;
 
         $profile = Profile::firstOrCreate(
             ['email' => request('email')],
