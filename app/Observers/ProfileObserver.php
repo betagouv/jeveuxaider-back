@@ -77,10 +77,6 @@ class ProfileObserver
      */
     public function saving(Profile $profile)
     {
-        if ($profile->commitment__duration) {
-            $profile->setCommitmentTotal();
-        }
-
         if ($profile->cej !== $profile->getOriginal('cej')) {
             $profile->cej_updated_at = Carbon::now();
         }

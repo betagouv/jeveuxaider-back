@@ -919,6 +919,7 @@ return [
             "3_days" => "3 jours",
             "4_days" => "4 jours",
             "5_days" => "5 jours",
+            "more_5_days" => "Plus de 5 jours",
         ]
     ],
 
