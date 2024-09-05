@@ -268,6 +268,11 @@ class Mission extends Model
         return $this->belongsTo('App\Models\MissionTemplate');
     }
 
+    public function userWaitingList()
+    {
+        return $this->hasMany('App\Models\MissionUserWaitingList', 'user_id');
+    }
+
     public function illustrations()
     {
         return $this->morphToMany(Media::class, 'mediable')->wherePivot('field', 'mission_illustrations');

@@ -65,6 +65,11 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\SocialAccount');
     }
 
+    public function waitingListMissions()
+    {
+        return $this->hasMany('App\Models\MissionUserWaitingList');
+    }
+
     public function isAdmin()
     {
         return $this->hasRole('admin');

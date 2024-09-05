@@ -371,4 +371,9 @@ class MissionController extends Controller
         return $mission;
     }
 
+    public function userWaitingList(Request $request, Mission $mission, User $user)
+    {
+        return$mission->userWaitingList()->exist();
+    }
+
 }
