@@ -268,9 +268,9 @@ class Mission extends Model
         return $this->belongsTo('App\Models\MissionTemplate');
     }
 
-    public function userWaitingList()
+    public function usersInWaitingList()
     {
-        return $this->hasMany('App\Models\MissionUserWaitingList', 'user_id');
+        return $this->belongsToMany('App\Models\User', 'missions_users_waiting_list');
     }
 
     public function illustrations()

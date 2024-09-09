@@ -377,12 +377,25 @@ class MissionController extends Controller
         $currentUser = User::find(Auth::guard('api')->user()->id);
 
         if($currentUser->waitingListMissions()->where('mission_id', $mission->id)->exists()) {
-            abort('422', "Vous êtes déjà sur la liste d'attente de cette mission");
+            abort('422', "Vous avez déjà une alerte pour cette mission");
         }
 
         $currentUser->waitingListMissions()->attach($mission->id);
 
-        return response()->json(['message' => 'Vous avez bien été ajouté à la liste d\'attente']);
+        return response()->json(['message' => 'Une alerte a bien été créée pour cette mission']);
+    }
+
+    public function removeUserToWaitingList(Request $request, Mission $mission)
+    {
+        $currentUser = User::find(Auth::guard('api')->user()->id);
+
+        if(!$currentUser->waitingListMissions()->where('mission_id', $mission->id)->exists()) {
+            abort('422', "Vous n'avez déjà une alerte pour cette mission");
+        }
+
+        $currentUser->waitingListMissions()->detach($mission->id);
+
+        return response()->json(['message' => 'L\'alerte a bien été supprimée pour cette mission']);
     }
 
 }
