@@ -28,6 +28,7 @@ use Spatie\QueryBuilder\AllowedInclude;
 use Spatie\QueryBuilder\QueryBuilder;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
 class MissionController extends Controller
 {
@@ -371,9 +372,17 @@ class MissionController extends Controller
         return $mission;
     }
 
-    public function userWaitingList(Request $request, Mission $mission, User $user)
+    public function addUserToWaitingList(Request $request, Mission $mission)
     {
-        return$mission->userWaitingList()->exist();
+        $currentUser = User::find(Auth::guard('api')->user()->id);
+
+        if($currentUser->waitingListMissions()->where('mission_id', $mission->id)->exists()) {
+            abort('422', "Vous êtes déjà sur la liste d'attente de cette mission");
+        }
+
+        $currentUser->waitingListMissions()->attach($mission->id);
+
+        return response()->json(['message' => 'Vous avez bien été ajouté à la liste d\'attente']);
     }
 
 }
