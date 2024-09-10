@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\Mission;
+use App\Models\MissionUserWaitingList;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -21,7 +22,6 @@ class DeleteMissionUserWaitingList implements ShouldQueue
      */
     public function __construct(public Mission $mission)
     {
-        $this->onQueue('low-tasks');
     }
 
     /**
@@ -29,7 +29,6 @@ class DeleteMissionUserWaitingList implements ShouldQueue
      */
     public function handle(): void
     {
-        ray('usersInWaitingList');
-        $this->mission->usersInWaitingList()->detach();
+        MissionUserWaitingList::where('mission_id', $this->mission->id)->delete();
     }
 }

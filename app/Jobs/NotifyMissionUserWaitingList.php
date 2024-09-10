@@ -28,9 +28,10 @@ class NotifyMissionUserWaitingList implements ShouldQueue
     public function handle()
     {
 
-        ray($this->mission->usersInWaitingList);
         $this->mission->usersInWaitingList->each(function (User $user) {
             $user->notify(new MissionHasAvailablePlace($this->mission));
         });
+
+        DeleteMissionUserWaitingList::dispatch($this->mission);
     }
 }

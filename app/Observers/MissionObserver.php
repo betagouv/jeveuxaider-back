@@ -246,8 +246,7 @@ class MissionObserver
             $mission->is_online = false;
         }
 
-        // @TODO -> find good event trigger
-        if($mission->places_left > 0 && $mission->state === 'Validée') {
+        if($mission->isAvailableForRegistration) {
             if($mission->usersInWaitingList()->exists()) {
                 NotifyMissionUserWaitingList::dispatch($mission);
             }
