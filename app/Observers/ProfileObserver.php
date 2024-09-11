@@ -6,6 +6,7 @@ use App\Jobs\AirtableSyncObject;
 use App\Jobs\SendinblueSyncUser;
 use App\Models\Profile;
 use App\Notifications\RegisterUserVolontaireCejAdviser;
+use App\Notifications\RegisterUserVolontaireFTAdviser;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Notification;
 
@@ -56,6 +57,10 @@ class ProfileObserver
             Notification::route('mail', $profile->cej_email_adviser)->notify(new RegisterUserVolontaireCejAdviser($profile));
         }
 
+        if (!empty($profile->ft_email_adviser) && $profile->getOriginal('ft_email_adviser') != $profile->ft_email_adviser) {
+            Notification::route('mail', $profile->ft_email_adviser)->notify(new RegisterUserVolontaireFTAdviser($profile));
+        }
+
         // Sync Airtable
         if (config('services.airtable.sync')) {
             if ($profile->user->hasRole(['referent', 'referent_regional'])) {
@@ -74,6 +79,10 @@ class ProfileObserver
     {
         if ($profile->cej !== $profile->getOriginal('cej')) {
             $profile->cej_updated_at = Carbon::now();
+        }
+
+        if ($profile->ft !== $profile->getOriginal('ft')) {
+            $profile->ft_updated_at = Carbon::now();
         }
     }
 

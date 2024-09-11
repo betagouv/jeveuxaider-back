@@ -19,6 +19,8 @@ use App\Models\UserArchivedDatas;
 use App\Notifications\BenevoleCejNoParticipation;
 use App\Notifications\BenevoleCejOneYearAfter;
 use App\Notifications\BenevoleCejSixMonthsAfter;
+use App\Notifications\BenevoleFTNoParticipationJ10;
+use App\Notifications\BenevoleFTNoParticipationJ3;
 use App\Notifications\BenevoleIsInactive;
 use App\Notifications\BenevoleIsInactiveSecondReminder;
 use App\Notifications\BenevoleWillBeArchived;
@@ -53,6 +55,7 @@ use App\Notifications\ParticipationBenevoleCanceled;
 use App\Notifications\ParticipationBenevoleValidated;
 use App\Notifications\ParticipationCanceled;
 use App\Notifications\ParticipationCreated;
+use App\Notifications\ParticipationCreatedFTAdviser;
 use App\Notifications\ParticipationDeclined;
 use App\Notifications\ParticipationDeclinedFromMissionTerminated;
 use App\Notifications\ParticipationShouldBeDone;
@@ -67,6 +70,7 @@ use App\Notifications\StructureWaitingValidation;
 use App\Notifications\RegisterUserVolontaire;
 use App\Notifications\RegisterUserVolontaireCej;
 use App\Notifications\RegisterUserVolontaireCejAdviser;
+use App\Notifications\RegisterUserVolontaireFTAdviser;
 use App\Notifications\ReseauNewLead;
 use App\Notifications\ResetPassword;
 use App\Notifications\ResponsableIsInactive;
@@ -144,6 +148,8 @@ class NotificationController extends Controller
             case 'structure_switch_responsable':
             case 'benevole_participation_should_be_done':
             case 'benevole_participation_will_start':
+            case 'user_no_participation_ft_j3':
+            case 'user_no_participation_ft_j10':
                 return $user->profile;
             default:
                 return $user;
@@ -371,11 +377,17 @@ class NotificationController extends Controller
             case 'participation_validated_cej_adviser':
                 $notification = new ParticipationValidatedCejAdviser($participation);
                 break;
+            case 'participation_created_ft_adviser':
+                $notification = new ParticipationCreatedFTAdviser($participation);
+                break;
             case 'register_user_volontaire_cej':
                 $notification = new RegisterUserVolontaireCej($user);
                 break;
             case 'register_user_volontaire_cej_adviser':
                 $notification = new RegisterUserVolontaireCejAdviser($user->profile);
+                break;
+            case 'register_user_volontaire_ft_adviser':
+                $notification = new RegisterUserVolontaireFTAdviser($user->profile);
                 break;
             case 'benevole_cej_one_year_after':
                 $notification = new BenevoleCejOneYearAfter($user->profile);
@@ -402,7 +414,7 @@ class NotificationController extends Controller
                     })
                     ->where('notification__responsable_frequency', 'summary')
                     ->latest()->first();
-                $notification = new ResponsableSummaryDaily($profile->id);
+                $notification = new ResponsableSummaryDaily($user->profile->id);
                 break;
             case 'responsable_summary_monthly':
                 $profile = Profile::select('id', 'email')
@@ -413,7 +425,7 @@ class NotificationController extends Controller
                         $query->where('roles.id', 2);
                     })
                     ->latest()->first();
-                $notification = new ResponsableSummaryMonthly($profile->id);
+                $notification = new ResponsableSummaryMonthly($user->profile->id);
                 break;
             case 'referent_summary_daily':
                 $profile = Profile::select('id', 'email')
@@ -422,7 +434,7 @@ class NotificationController extends Controller
                     })
                     ->where('notification__referent_frequency', 'summary')
                     ->latest()->first();
-                $notification = new ReferentSummaryDaily($profile->id);
+                $notification = new ReferentSummaryDaily($user->profile->id);
                 break;
             case 'referent_summary_monthly':
                 $profile = Profile::select('id', 'email')
@@ -431,7 +443,7 @@ class NotificationController extends Controller
                     })
                     ->where('notification__referent_bilan', true)
                     ->latest()->first();
-                $notification = new ReferentSummaryMonthly($profile->id);
+                $notification = new ReferentSummaryMonthly($user->profile->id);
                 break;
             case 'responsable_mission_deactivated':
                 $notification = new MissionDeactivated($mission);
@@ -480,6 +492,12 @@ class NotificationController extends Controller
                 break;
             case 'mission_has_available_place':
                 $notification = new MissionHasAvailablePlace($mission);
+                break;
+            case 'user_no_participation_ft_j3':
+                $notification = new BenevoleFTNoParticipationJ3($user->profile);
+                break;
+            case 'user_no_participation_ft_j10':
+                $notification = new BenevoleFTNoParticipationJ10($user->profile);
                 break;
             default:
                 return null;

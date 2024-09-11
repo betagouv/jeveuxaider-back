@@ -10,7 +10,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\HtmlString;
 
-class ParticipationValidatedCejAdviser extends Notification implements ShouldQueue
+class ParticipationCreatedFTAdviser extends Notification implements ShouldQueue
 {
     use Queueable;
     use TransactionalEmail;
@@ -32,7 +32,7 @@ class ParticipationValidatedCejAdviser extends Notification implements ShouldQue
     public function __construct(Participation $participation)
     {
         $this->participation = $participation;
-        $this->tag = 'app-accompagnant-cej-inscription-mission-par-benevole';
+        $this->tag = 'app-accompagnant-ft-inscription-mission-par-benevole';
     }
 
     /**
@@ -66,7 +66,7 @@ class ParticipationValidatedCejAdviser extends Notification implements ShouldQue
         $message = (new MailMessage())
             ->subject($this->participation->profile->full_name . ' s’est inscrit sur une mission de bénévolat')
             ->greeting('Bonjour,')
-            ->line(new HtmlString($this->participation->profile->full_name . ', que vous accompagnez dans le cadre du Contrat d’Engagement Jeune, s’est inscrit sur la mission de bénévolat : <a href="' . $this->trackedUrl($this->participation->mission->full_url) . '">' . $this->participation->mission->name . '</a>.'))
+            ->line(new HtmlString($this->participation->profile->full_name . ', que vous accompagnez dans le cadre du RSA, s’est inscrit sur la mission de bénévolat : <a href="' . $this->trackedUrl($this->participation->mission->full_url) . '">' . $this->participation->mission->name . '</a>.'))
             ->line('En cas de besoin, vous pouvez consulter les ressources mises à votre disposition :')
             ->line(new HtmlString('<ul><li><a href="https://www.jeveuxaider.gouv.fr/engagement/wp-content/uploads/2023/07/GUIDE-CEJ-Mise-a-jour-Janvier-2023.pdf">👉 Le Guide</a></li>'))
             ->line(new HtmlString('<li><a href="https://www.jeveuxaider.gouv.fr/engagement/wp-content/uploads/2023/07/Presentation-CEJ-A4-Synthetique-Mise-a-jour-Juin2023.pdf">👉 La Fiche récapitulative</a></li>'))
