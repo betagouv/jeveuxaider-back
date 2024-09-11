@@ -59,6 +59,8 @@ class ProfileUpdateRequest extends ProfileRequest
             'service_civique_completion_date' => '',
             'cej' => '',
             'cej_email_adviser' => 'required_if:cej,true',
+            'ft' => '',
+            'ft_email_adviser' => 'required_if:ft,true',
             'notification__responsable_frequency' => 'nullable|in:realtime,summary',
             'notification__responsable_bilan' => 'boolean',
             'notification__referent_frequency' => 'nullable|in:realtime,summary',

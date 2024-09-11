@@ -12,6 +12,7 @@ use App\Models\Structure;
 use App\Models\User;
 use App\Notifications\RegisterUserVolontaire;
 use App\Notifications\RegisterUserVolontaireCejAdviser;
+use App\Notifications\RegisterUserVolontaireFTAdviser;
 use App\Services\ApiEngagement;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Http\Request;
@@ -56,6 +57,11 @@ class PassportController extends Controller
         if ($user->profile->cej && !empty($user->profile->cej_email_adviser)) {
             Notification::route('mail', $user->profile->cej_email_adviser)
                 ->notify(new RegisterUserVolontaireCejAdviser($user->profile));
+        }
+
+        if ($user->profile->ft && !empty($user->profile->ft_email_adviser)) {
+            Notification::route('mail', $user->profile->ft_email_adviser)
+                ->notify(new RegisterUserVolontaireFTAdviser($user->profile));
         }
 
         return $user;
