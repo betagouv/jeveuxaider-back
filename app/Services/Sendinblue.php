@@ -226,6 +226,11 @@ class Sendinblue
             ]
         );
 
+        // ray([
+        //     'statusCode' => $response->getStatusCode(),
+        //     'data' => $response->json()
+        // ]);
+
         return [
             'statusCode' => $response->getStatusCode(),
             'data' => $response->json()
