@@ -48,11 +48,11 @@ class VolunteerHasUnreadMessage extends Notification implements ShouldQueue
         $organisationName = $this->message->conversation->conversable->mission->structure->name;
 
         $content = "{$this->message->from->profile->first_name} (" . $organisationName .
-            ") attend une réponse de votre part au plus vite sur {$url}. Message à ignorer si vous avez répondu hors plateforme";
+            ") attend votre réponse au plus vite sur {$url}. Message à ignorer si vous avez répondu hors plateforme.";
 
         if (mb_strlen($content) > $smsMaxLength) {
             $organisationNameTruncatedLength = mb_strlen($organisationName) - (mb_strlen($content) - ($smsMaxLength - 3));
-            if ($organisationNameTruncatedLength > 5) {
+            if ($organisationNameTruncatedLength > 4) {
                 $organisationNameTruncated = mb_strcut($organisationName, 0, $organisationNameTruncatedLength);
                 $content = str_replace($organisationName, $organisationNameTruncated . '...', $content);
             } else {
@@ -60,7 +60,7 @@ class VolunteerHasUnreadMessage extends Notification implements ShouldQueue
             }
         }
 
-        ray('content', $content);
+        // ray('content', $content);
 
         return (new SmsMessage())
                 ->from('JeVeuxAider')
