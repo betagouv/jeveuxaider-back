@@ -5,7 +5,9 @@ namespace App\Observers;
 use App\Jobs\AirtableDeleteObject;
 use App\Jobs\AirtableSyncObject;
 use App\Jobs\DeclineWaitingParticipationsFromMission;
+use App\Jobs\DeleteMissionUserWaitingList;
 use App\Jobs\MissionGetQPV;
+use App\Jobs\NotifyMissionUserWaitingList;
 use App\Jobs\RuleDispatcherByEvent;
 use App\Jobs\SendinblueSyncUser;
 use App\Models\Mission;
@@ -147,6 +149,7 @@ class MissionObserver
                         });
                     // Notif OFF
                     $mission->participations()->update(['state' => 'Annulée']);
+                    DeleteMissionUserWaitingList::dispatch($mission);
                     break;
                 case 'Annulée':
                     // @TODO: Job CancelWaitingParticipationsFromMission (avec contexte mission annulée)
@@ -155,9 +158,11 @@ class MissionObserver
                         ->each(function ($participation) {
                             $participation->update(['state' => 'Annulée']);
                         });
+                    DeleteMissionUserWaitingList::dispatch($mission);
                     break;
                 case 'Terminée':
                     DeclineWaitingParticipationsFromMission::dispatch($mission, 'mission_terminated');
+                    DeleteMissionUserWaitingList::dispatch($mission);
                     $mission->sendNotificationsTemoignages();
                     break;
                 case 'En cours de traitement':
@@ -217,32 +222,15 @@ class MissionObserver
         }
         if ($mission->date_type == 'recurring') {
             $mission->dates = null;
-            // $mission->end_date = null;
         }
         if ($mission->commitment__duration) {
             $mission->setCommitmentTotal();
         }
 
-        // if ($mission->type !== 'Mission en présentiel') {
-        //     $mission->is_autonomy = false;
-        // }
-        // if ($mission->type !== 'Mission en présentiel' || $mission->is_autonomy === false) {
-        //     $mission->autonomy_zips = null;
-        //     $mission->autonomy_precisions = null;
-        // }
-
         if ($mission->type === 'Mission à distance') {
             $mission->department = $mission->structure->department;
             $mission->addresses = null;
         }
-
-        // if ($mission->is_autonomy === true) {
-        //     $mission->address = null;
-        //     $mission->zip = null;
-        //     $mission->city = null;
-        //     $mission->latitude = null;
-        //     $mission->longitude = null;
-        // }
 
         if($mission->isDirty('state')) {
             if($mission->state == 'Validée') {
@@ -256,6 +244,12 @@ class MissionObserver
 
         if($mission->structure->state !== 'Validée') {
             $mission->is_online = false;
+        }
+
+        if($mission->isAvailableForRegistration) {
+            if($mission->usersInWaitingList()->exists()) {
+                NotifyMissionUserWaitingList::dispatch($mission);
+            }
         }
     }
 

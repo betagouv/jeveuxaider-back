@@ -35,6 +35,7 @@ use App\Notifications\MissionAlmostFull;
 use App\Notifications\MissionBeingProcessed;
 use App\Notifications\MissionDeactivated;
 use App\Notifications\MissionFull;
+use App\Notifications\MissionHasAvailablePlace;
 use App\Notifications\MissionStillInDraft;
 use App\Notifications\MissionOutdatedFirstReminder;
 use App\Notifications\MissionOutdatedSecondReminder;
@@ -488,6 +489,9 @@ class NotificationController extends Controller
                 break;
             case 'benevole_is_inactive_second_reminder':
                 $notification = new BenevoleIsInactiveSecondReminder($structure);
+                break;
+            case 'mission_has_available_place':
+                $notification = new MissionHasAvailablePlace($mission);
                 break;
             case 'user_no_participation_ft_j3':
                 $notification = new BenevoleFTNoParticipationJ3($user->profile);

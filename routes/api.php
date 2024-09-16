@@ -132,6 +132,8 @@ Route::group(['middleware' => ['auth:api', 'is.not.blocked']], function () {
     Route::put('participations/{participation}/validate-by-benevole', 'Api\ParticipationController@validateByBenevole');
 
     Route::post('missions/{mission}/share', 'Api\MissionController@share');
+    Route::post('missions/{mission}/waiting-list', 'Api\MissionController@addUserToWaitingList');
+    Route::delete('missions/{mission}/waiting-list', 'Api\MissionController@removeUserToWaitingList');
 
     // Route::post('user/password', 'Api\UserController@updatePassword');
     Route::post('user/email', 'Api\FormUserController@email');

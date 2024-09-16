@@ -28,6 +28,7 @@ use Spatie\QueryBuilder\AllowedInclude;
 use Spatie\QueryBuilder\QueryBuilder;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
 class MissionController extends Controller
 {
@@ -369,6 +370,32 @@ class MissionController extends Controller
         }
 
         return $mission;
+    }
+
+    public function addUserToWaitingList(Request $request, Mission $mission)
+    {
+        $currentUser = User::find(Auth::guard('api')->user()->id);
+
+        if($currentUser->waitingListMissions()->where('mission_id', $mission->id)->exists()) {
+            abort('422', "Vous avez déjà une alerte pour cette mission");
+        }
+
+        $currentUser->waitingListMissions()->attach($mission->id);
+
+        return response()->json(['message' => 'Une alerte a bien été créée pour cette mission']);
+    }
+
+    public function removeUserToWaitingList(Request $request, Mission $mission)
+    {
+        $currentUser = User::find(Auth::guard('api')->user()->id);
+
+        if(!$currentUser->waitingListMissions()->where('mission_id', $mission->id)->exists()) {
+            abort('422', "Vous n'avez déjà une alerte pour cette mission");
+        }
+
+        $currentUser->waitingListMissions()->detach($mission->id);
+
+        return response()->json(['message' => 'L\'alerte a bien été supprimée pour cette mission']);
     }
 
 }

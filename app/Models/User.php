@@ -65,6 +65,11 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\SocialAccount');
     }
 
+    public function waitingListMissions()
+    {
+        return $this->belongsToMany('App\Models\Mission', 'missions_users_waiting_list')->withTimestamps();
+    }
+
     public function isAdmin()
     {
         return $this->hasRole('admin');
