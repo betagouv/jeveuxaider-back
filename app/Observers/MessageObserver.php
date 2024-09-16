@@ -136,7 +136,7 @@ class MessageObserver
             });
         }
 
-        // Notification SMS si première réponse d'un reponsable
+        // Notification SMS si bénévole ne répond pas après 3 jours
         if ($conversable::class == Participation::class && $message->type === 'chat') {
             $conversable->loadMissing(['profile', 'profile.user']);
             if ($user->id !== $conversable->profile->user->id) {
