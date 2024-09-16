@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Jobs\NotifyVolunteerOfUnreadMessage;
 use App\Models\Message;
 use App\Models\Mission;
 use App\Models\Participation;
@@ -9,7 +10,6 @@ use App\Models\Structure;
 use App\Notifications\MessageMissionCreated;
 use App\Notifications\MessageParticipationCreated;
 use App\Notifications\MessageStructureCreated;
-use App\Notifications\ResponsableHasReplied;
 use Illuminate\Support\Facades\Auth;
 
 class MessageObserver
@@ -136,18 +136,11 @@ class MessageObserver
             });
         }
 
-        // Notification SMS si première réponse d'un reponsable
-        if ($conversable::class == Participation::class && $message->type === 'chat') {
+        // Notification SMS si bénévole ne répond pas après 3 jours
+        if ($conversable::class == Participation::class && $message->type === 'chat' && in_array($conversable->state, ['En attente de validation', 'En cours de traitement'])) {
             $conversable->loadMissing(['profile', 'profile.user']);
             if ($user->id !== $conversable->profile->user->id) {
-                $messagesFromResponsablesCount = $message->conversation->messages()
-                    ->where('from_id', '<>', $conversable->profile->user->id)
-                    ->where('type', 'chat')
-                    ->count();
-
-                if ($messagesFromResponsablesCount === 1) {
-                    $conversable->profile->user->notify(new ResponsableHasReplied($message));
-                }
+                NotifyVolunteerOfUnreadMessage::dispatch($message)->delay(now()->addDays(3)->setTime(18, 00));
             }
         }
     }
