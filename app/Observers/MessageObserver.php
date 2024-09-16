@@ -137,7 +137,7 @@ class MessageObserver
         }
 
         // Notification SMS si bénévole ne répond pas après 3 jours
-        if ($conversable::class == Participation::class && $message->type === 'chat') {
+        if ($conversable::class == Participation::class && $message->type === 'chat' && in_array($conversable->state, ['En attente de validation', 'En cours de traitement'])) {
             $conversable->loadMissing(['profile', 'profile.user']);
             if ($user->id !== $conversable->profile->user->id) {
                 NotifyVolunteerOfUnreadMessage::dispatch($message)->delay(now()->addDays(3)->setTime(18, 00));
