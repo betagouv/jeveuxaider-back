@@ -1,9 +1,9 @@
 @component('mail::message')
-    @component('mail::components.headline')
-        🙌 Bonjour {{ $notifiable->profile->first_name }},
-    @endcomponent
-    @component('mail::components.paragraph')
-        Ça y est ! Vous pouvez proposer votre aide pour la mission : <a class="link" href="{{ $url }}">{{ $mission->name }}</a>
+    @component('mail::components.paragraph', ['title' => 'Petit rappel de la mission'])
+        <div>{{ $mission->name }}</div>
+        @component('mail::components.space', ['height' => 10])
+        @endcomponent
+        <a class="link" href="{{ $url }}">Plus de détails ›</a>
     @endcomponent
     @component('mail::components.paragraph', ['title' => 'À vous de jouer !'])
         Si la mission vous plaît toujours et que vous êtes disponible, proposez votre aide à l’organisation !
@@ -13,7 +13,7 @@
     @endcomponent
     @component('mail::components.space', ['height' => 32])
     @endcomponent
-    @component('mail::components.tips', ['title' => 'Bonne pratique'])
+    @component('mail::components.tips', ['title' => 'Bonnes pratiques'])
         <p>Ne l’oubliez pas, lorsque vous proposez votre aide sur une mission, les organisations comptent sur vous.</p>
         <p style="font-weight: 800;">Si vous ne pouvez plus y participer, il suffit de les prévenir à l’aide de la <a class="link" href="{{ $urlMessages }}">messagerie</a>.</p>
     @endcomponent

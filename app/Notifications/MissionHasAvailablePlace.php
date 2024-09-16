@@ -61,7 +61,7 @@ class MissionHasAvailablePlace extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage())
-            ->subject('🙌 Ça y est ! Vous pouvez proposer votre aide !')
+            ->subject('Des places se sont libérées sur une mission de bénévolat 🏃')
             ->markdown('emails.benevoles.mission-has-available-place', [
                 'url' => $this->trackedUrl($this->mission->full_url),
                 'urlMessages' => $this->trackedUrl('/messages'),
