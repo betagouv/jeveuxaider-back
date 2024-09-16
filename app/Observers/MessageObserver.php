@@ -140,8 +140,7 @@ class MessageObserver
         if ($conversable::class == Participation::class && $message->type === 'chat') {
             $conversable->loadMissing(['profile', 'profile.user']);
             if ($user->id !== $conversable->profile->user->id) {
-                $date = now()->gt(now()->setTime(12, 0)) ? now()->addDays(4) : now()->addDays(3);
-                NotifyVolunteerOfUnreadMessage::dispatch($message)->delay($date->setTime(10, 30));
+                NotifyVolunteerOfUnreadMessage::dispatch($message)->delay(now()->addDays(3)->setTime(18, 00));
             }
         }
     }
