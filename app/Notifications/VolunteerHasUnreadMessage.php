@@ -43,9 +43,21 @@ class VolunteerHasUnreadMessage extends Notification implements ShouldQueue
             return;
         }
 
+        $smsMaxLength = 160;
         $url = preg_replace("(^https?://(w?)*\.?)", "", url(config('app.front_url') . '/m/' . $this->message->conversation->id));
         $organisationName = $this->message->conversation->conversable->mission->structure->name;
-        $content = "Toujours dispo pour aider bénévolement {$organisationName} ? {$this->message->from->profile->first_name} a besoin de votre retour pour s’organiser : {$url}. À ignorer si vous avez déjà répondu";
+        $content = "Toujours dispo pour aider {$organisationName} ? {$this->message->from->profile->first_name} a besoin de votre retour au + vite : {$url}. A ignorer si vous avez déjà répondu";
+
+        if (mb_strlen($content) > $smsMaxLength) {
+            $organisationNameTruncatedLength = mb_strlen($organisationName) - (mb_strlen($content) - ($smsMaxLength - 3));
+            if ($organisationNameTruncatedLength >= 5) {
+                $organisationNameTruncated = mb_strcut($organisationName, 0, $organisationNameTruncatedLength);
+                $content = str_replace($organisationName, $organisationNameTruncated . '...', $content);
+            } else {
+                $content = str_replace(" {$organisationName}", "", $content);
+            }
+        }
+
 
         return (new SmsMessage())
                 ->from('JeVeuxAider')
