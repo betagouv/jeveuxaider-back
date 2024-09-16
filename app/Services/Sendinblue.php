@@ -211,7 +211,7 @@ class Sendinblue
             'sender' => $sender,
             'recipient' => $formattedRecipient,
             'content' => $content,
-            'unicodeEnabled' => true // Augmente le nb de crédits nécessaires si true
+            'unicodeEnabled' => false // Augmente le nb de crédits nécessaires si true
         ];
 
         if (!empty($tag)) {
@@ -225,11 +225,6 @@ class Sendinblue
                 'json' => $payload,
             ]
         );
-
-        // ray([
-        //     'statusCode' => $response->getStatusCode(),
-        //     'data' => $response->json()
-        // ]);
 
         return [
             'statusCode' => $response->getStatusCode(),
