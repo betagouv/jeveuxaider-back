@@ -1,4 +1,7 @@
 @component('mail::message')
+    @component('mail::components.headline')
+        🙌 Ça y est ! Vous pouvez proposer votre aide !
+    @endcomponent
     @component('mail::components.paragraph', ['title' => 'Petit rappel de la mission'])
         <div>{{ $mission->name }}</div>
         @component('mail::components.space', ['height' => 10])
