@@ -414,7 +414,7 @@ class NotificationController extends Controller
                     })
                     ->where('notification__responsable_frequency', 'summary')
                     ->latest()->first();
-                $notification = new ResponsableSummaryDaily($user->profile->id);
+                $notification = new ResponsableSummaryDaily($profile->id);
                 break;
             case 'responsable_summary_monthly':
                 $profile = Profile::select('id', 'email')
@@ -425,7 +425,7 @@ class NotificationController extends Controller
                         $query->where('roles.id', 2);
                     })
                     ->latest()->first();
-                $notification = new ResponsableSummaryMonthly($user->profile->id);
+                $notification = new ResponsableSummaryMonthly($profile->id);
                 break;
             case 'referent_summary_daily':
                 $profile = Profile::select('id', 'email')
@@ -434,7 +434,7 @@ class NotificationController extends Controller
                     })
                     ->where('notification__referent_frequency', 'summary')
                     ->latest()->first();
-                $notification = new ReferentSummaryDaily($user->profile->id);
+                $notification = new ReferentSummaryDaily($profile->id);
                 break;
             case 'referent_summary_monthly':
                 $profile = Profile::select('id', 'email')
@@ -443,7 +443,7 @@ class NotificationController extends Controller
                     })
                     ->where('notification__referent_bilan', true)
                     ->latest()->first();
-                $notification = new ReferentSummaryMonthly($user->profile->id);
+                $notification = new ReferentSummaryMonthly($profile->id);
                 break;
             case 'responsable_mission_deactivated':
                 $notification = new MissionDeactivated($mission);
