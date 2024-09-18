@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
@@ -11,6 +12,7 @@ class MissionUserWaitingList extends Model
 {
     use LogsActivity;
     use HasFactory;
+    use SoftDeletes;
 
     protected $table = 'missions_users_waiting_list';
 

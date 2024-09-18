@@ -67,7 +67,9 @@ class User extends Authenticatable
 
     public function waitingListMissions()
     {
-        return $this->belongsToMany('App\Models\Mission', 'missions_users_waiting_list')->withTimestamps();
+        return $this->belongsToMany('App\Models\Mission', 'missions_users_waiting_list')
+            ->withTimestamps()
+            ->whereNull('missions_users_waiting_list.deleted_at');
     }
 
     public function isAdmin()

@@ -270,7 +270,7 @@ class Mission extends Model
 
     public function usersInWaitingList()
     {
-        return $this->belongsToMany('App\Models\User', 'missions_users_waiting_list');
+        return $this->belongsToMany('App\Models\User', 'missions_users_waiting_list')->whereNull('missions_users_waiting_list.deleted_at');
     }
 
     public function illustrations()
