@@ -15,6 +15,7 @@ use App\Filters\FiltersTags;
 use App\Filters\FiltersMissionZip;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\MissionUpdateRequest;
+use App\Jobs\NotifyResponsablesMissionUserWaitingListCreated;
 use App\Models\Mission;
 use App\Models\Participation;
 use App\Models\Profile;
@@ -381,6 +382,8 @@ class MissionController extends Controller
         }
 
         $currentUser->waitingListMissions()->attach($mission->id);
+
+        NotifyResponsablesMissionUserWaitingListCreated::dispatch($mission);
 
         return response()->json(['message' => 'Une alerte a bien été créée pour cette mission']);
     }

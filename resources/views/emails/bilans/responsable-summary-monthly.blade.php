@@ -40,7 +40,7 @@
                     heure(s).</li>
                 <li>👍 Vous avez répondu à {{ $structure->score->processed_participations_rate }}% de vos demandes.</li>
             </ul>
-            <p>Gardez à l’esprit que les associations qui répondent vite sont valorisées ; et que les bénévoles privilégient les
+            <p>Gardez à l’esprit que les organisations qui répondent vite sont valorisées ; et que les bénévoles privilégient les
                 missions pour lesquelles ils ont une réponse rapide !</p>
         @endcomponent
     @endif

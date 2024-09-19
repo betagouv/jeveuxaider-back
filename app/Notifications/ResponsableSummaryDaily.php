@@ -3,6 +3,8 @@
 namespace App\Notifications;
 
 use App\Models\Message;
+use App\Models\Mission;
+use App\Models\MissionUserWaitingList;
 use App\Models\Participation;
 use App\Models\Profile;
 use App\Models\User;
@@ -26,6 +28,9 @@ class ResponsableSummaryDaily extends Notification implements ShouldQueue
     public $participationsWaitingCount;
     public $participationsProcessingCount;
     public $conversationsUnreadCount;
+    public $newUsersInWaitingListCount;
+    public $missionsWithNoPlaceLeftCount;
+    public $missionsWithRegistrationClosedCount;
     public $tag;
 
     /**
@@ -48,6 +53,12 @@ class ResponsableSummaryDaily extends Notification implements ShouldQueue
         $this->newParticipationsCount = Participation::ofResponsable($responsableId)->whereDate('created_at', $yesterday)->count();
         $this->participationsWaitingCount = Participation::ofResponsable($responsableId)->whereIn('state', ['En attente de validation', 'En cours de traitement'])->count();
         $this->conversationsUnreadCount =  $this->user->getUnreadConversationsCount();
+        $this->newUsersInWaitingListCount = MissionUserWaitingList::whereHas('mission', function (Builder $query) use ($responsableId) {
+            $query->ofResponsable($responsableId);
+        })->whereDate('created_at', $yesterday)->count();
+
+        $this->missionsWithNoPlaceLeftCount = Mission::available()->ofResponsable($responsableId)->where('places_left', 0)->count();
+        $this->missionsWithRegistrationClosedCount = Mission::available()->ofResponsable($responsableId)->where('is_registration_open', false)->count();
 
         $this->tag = 'app-responsable-bilan-quotidien';
     }
@@ -91,6 +102,9 @@ class ResponsableSummaryDaily extends Notification implements ShouldQueue
                     'participationsWaitingCount' => $this->participationsWaitingCount,
                     'participationsProcessingCount' => $this->participationsProcessingCount,
                     'conversationsUnreadCount' => $this->conversationsUnreadCount,
+                    'newUsersInWaitingListCount' => $this->newUsersInWaitingListCount,
+                    'missionsWithNoPlaceLeftCount' => $this->missionsWithNoPlaceLeftCount,
+                    'missionsWithRegistrationClosedCount' => $this->missionsWithRegistrationClosedCount,
                 ],
             ]);
 

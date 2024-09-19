@@ -39,6 +39,19 @@ ul > li > p {
   margin-bottom: 0;
 }
 
+ol {
+  list-style: decimal;
+  margin-left: 24px;
+  padding-left: 24px;
+  font-size: 20px;
+  line-height: 32px;
+  margin-bottom: 24px;
+}
+
+ol > li > p {
+  margin-bottom: 0;
+}
+
 .btn-wrapper {
   width: 100% !important;
   max-width: 310px;

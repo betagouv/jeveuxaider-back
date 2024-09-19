@@ -44,6 +44,8 @@ use App\Notifications\MissionShared;
 use App\Notifications\MissionSignaled;
 use App\Notifications\MissionSubmitted;
 use App\Notifications\MissionTemplateWaiting;
+use App\Notifications\MissionUserWaitingListNoPlaceLeftCreated;
+use App\Notifications\MissionUserWaitingListRegistrationClosedCreated;
 use App\Notifications\MissionValidated;
 use App\Notifications\MissionWaitingValidation;
 use App\Notifications\NoNewMission;
@@ -150,6 +152,10 @@ class NotificationController extends Controller
             case 'benevole_participation_will_start':
             case 'user_no_participation_ft_j3':
             case 'user_no_participation_ft_j10':
+            case 'mission_user_waiting_list_registration_closed_created':
+            case 'mission_user_waiting_list_no_place_left_created':
+            case 'responsable_summary_daily':
+            case 'responsable_summary_monthly':
                 return $user->profile;
             default:
                 return $user;
@@ -492,6 +498,12 @@ class NotificationController extends Controller
                 break;
             case 'mission_has_available_place':
                 $notification = new MissionHasAvailablePlace($mission);
+                break;
+            case 'mission_user_waiting_list_registration_closed_created':
+                $notification = new MissionUserWaitingListRegistrationClosedCreated($mission);
+                break;
+            case 'mission_user_waiting_list_no_place_left_created':
+                $notification = new MissionUserWaitingListNoPlaceLeftCreated($mission);
                 break;
             case 'user_no_participation_ft_j3':
                 $notification = new BenevoleFTNoParticipationJ3($user->profile);
