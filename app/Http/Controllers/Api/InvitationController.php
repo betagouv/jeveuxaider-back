@@ -147,7 +147,7 @@ class InvitationController extends Controller
         $user->resetContextRole();
         $invitation->delete();
 
-        return response()->json();
+        return response()->json(['message' => 'Success'], 200);
     }
 
     public function delete(string $token)
