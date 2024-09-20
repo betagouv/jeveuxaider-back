@@ -12,7 +12,6 @@ use App\Http\Requests\Api\ParticipationDeclineRequest;
 use App\Http\Requests\Api\ParticipationUpdateRequest;
 use App\Models\Mission;
 use App\Models\Participation;
-use App\Models\Profile;
 use App\Models\StructureTag;
 use App\Models\User;
 use App\Notifications\ParticipationBenevoleCanceled;
@@ -85,13 +84,13 @@ class ParticipationController extends Controller
     {
         $currentUser = User::find(Auth::guard('api')->user()->id);
         $mission = Mission::find(request('mission_id'));
-        $profile = Profile::find(request('profile_id'));
+        $currentProfile = $currentUser->profile;
 
-        if ($mission->responsables()->where('id', $profile->id)->exists()) {
+        if ($mission->responsables()->where('id', $currentProfile->id)->exists()) {
             abort(422, 'Désolé, vous ne pouvez pas participer à votre propre mission !');
         }
 
-        $participationCount = Participation::where('state', '!=', 'Annulée')->where('profile_id', request('profile_id'))
+        $participationCount = Participation::where('state', '!=', 'Annulée')->where('profile_id', $currentProfile->id)
             ->where('mission_id', request('mission_id'))->count();
 
         if ($participationCount > 0) {
@@ -111,7 +110,11 @@ class ParticipationController extends Controller
         }
 
         if ($mission && $mission->has_places_left) {
-            $participation = Participation::create($request->validated());
+            $attributes = [
+                'profile_id' => $currentProfile->id,
+                ...$request->validated()
+            ];
+            $participation = Participation::create($attributes);
             if (request('content')) {
                 $conversation = $participation->createConversation();
                 $currentUser->sendMessage($conversation->id, request('content'));

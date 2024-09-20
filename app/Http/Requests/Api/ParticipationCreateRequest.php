@@ -25,7 +25,6 @@ class ParticipationCreateRequest extends ParticipationRequest
     {
         return [
             'mission_id' => 'required',
-            'profile_id' => 'required',
             'state' => '',
             'utm_source' => '',
             'utm_campaign' => '',
