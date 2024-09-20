@@ -26,7 +26,6 @@ class InvitationRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'user_id' => 'required',
             'email' => [
                 'email',
                 'required',
@@ -54,7 +53,6 @@ class InvitationRequest extends FormRequest
     public function messages()
     {
         return [
-            'user_id.required' => 'Un utilisateur est requis',
             'email.required' => 'Un email est requis',
             'email.unique' => 'Une invitation a déjà été envoyée à cet email',
             'email.email' => 'Cet email est mal formaté',

@@ -70,6 +70,8 @@ class InvitationController extends Controller
 
     public function store(InvitationRequest $request)
     {
+        $currentUser = User::find(Auth::guard('api')->user()->id);
+
         if ($request->input('email') == $request->user()->email) {
             $user = User::where('email', 'ILIKE', $request->input('email'))->first();
             if (!$user->hasRole('admin')) {
@@ -98,7 +100,11 @@ class InvitationController extends Controller
             $token = Str::random(32);
         } while (Invitation::where('token', $token)->first());
 
-        $attributes = $request->validated();
+        $attributes = [
+            'user_id' => $currentUser->id,
+            ...$request->validated()
+        ];
+
         $attributes['token'] = $token;
 
         $invitation = Invitation::create($attributes);
