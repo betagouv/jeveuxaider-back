@@ -89,6 +89,24 @@ class MediaPolicy
 
     public function delete(User $user, Media $media)
     {
-        //
+        $contextRole = request()->header('Context-Role');
+        $user->loadMissing('roles');
+
+        switch($media->model_type) {
+            case 'App\Models\Profile':
+                return $user->profile->id === $media->model_id;
+
+            case 'App\Models\Structure':
+                return $user->hasRole($contextRole) && Structure::role($contextRole)->where('id', $media->model_id)->exists() && $media->collection_name === 'structure__logo';
+
+            case 'App\Models\Territoire':
+                return $user->territoires()->where('id', $media->model_id)->exists();
+
+            case 'App\Models\MissionTemplate':
+                return $contextRole = 'tete_de_reseau' && $user->hasRole($contextRole) && MissionTemplate::role($contextRole)->where('id', $media->model_id)->exists();
+
+            default:
+                return false;
+        }
     }
 }

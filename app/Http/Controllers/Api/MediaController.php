@@ -61,6 +61,8 @@ class MediaController extends Controller
 
     public function delete(Request $request, Media $media)
     {
+        $this->authorize('delete', $media);
+
         return $media->delete();
     }
 
