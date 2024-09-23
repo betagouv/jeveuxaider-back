@@ -117,7 +117,7 @@ Route::group(['middleware' => ['auth:api', 'is.not.blocked']], function () {
     Route::get('structures/{structure}/status', 'Api\StructureController@status');
     Route::post('structures/{structure}/unregister', 'Api\StructureController@unregister');
     Route::post('structures/{structure}/ask-to-unregister', 'Api\StructureController@askToUnregister');
-    Route::get('structures/{structure}/responsables', 'Api\StructureController@responsables');
+
 
     Route::get('structures/{structure}/tags', 'Api\StructureTagController@index');
     Route::post('structures/{structure}/tags', 'Api\StructureTagController@store');
@@ -173,6 +173,7 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::post('structures/{structure}/missions', 'Api\StructureController@addMission');
     Route::get('structures/{structure}/invitations', 'Api\StructureController@invitations');
     Route::delete('structures/{structure}/members/{user}', 'Api\StructureController@deleteMember');
+    Route::get('structures/{structure}/responsables', 'Api\StructureController@responsables');
 
     Route::post('structures/{structure}/v2/missions', 'Api\FormMissionController@store');
 

@@ -351,6 +351,10 @@ class StructureController extends Controller
 
     public function responsables(Request $request, Structure $structure)
     {
+        if (Auth::guard('api')->user()->cannot('update', $structure)) {
+            abort(403, "Vous n'avez pas les droits nécéssaires pour réaliser cette action");
+        }
+
         return $structure->members()->with(['profile' => function ($query) {
             $query->withCount('missions');
         }, 'profile.tags'])->get();
