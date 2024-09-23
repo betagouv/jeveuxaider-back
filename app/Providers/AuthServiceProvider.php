@@ -24,6 +24,7 @@ class AuthServiceProvider extends ServiceProvider
         'App\Models\Temoignage' => 'App\Policies\TemoignagePolicy',
         'App\Models\Reseau' => 'App\Policies\ReseauPolicy',
         'App\Models\Note' => 'App\Policies\NotePolicy',
+        'App\Models\Media' => 'App\Policies\MediaPolicy',
     ];
 
     /**

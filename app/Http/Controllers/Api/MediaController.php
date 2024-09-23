@@ -26,6 +26,8 @@ class MediaController extends Controller
 
     public function store(Request $request, string $modelType, int $modelId, string $collection)
     {
+        $this->authorize('create', Media::class);
+
         $model = $this->getModel($modelType, $modelId);
         $manipulations = json_decode($request->post('manipulations'), true) ?? [];
         $file = $request->file('file');
