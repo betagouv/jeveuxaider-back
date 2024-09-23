@@ -14,6 +14,8 @@ class MediaController extends Controller
 {
     public function index(Request $request)
     {
+        $this->authorize('view', Media::class);
+
         return QueryBuilder::for(Media::class)
             ->allowedFilters([
                 'collection_name',
@@ -26,6 +28,8 @@ class MediaController extends Controller
 
     public function store(Request $request, string $modelType, int $modelId, string $collection)
     {
+        $this->authorize('create', Media::class);
+
         $model = $this->getModel($modelType, $modelId);
         $manipulations = json_decode($request->post('manipulations'), true) ?? [];
         $file = $request->file('file');
@@ -41,6 +45,8 @@ class MediaController extends Controller
 
     public function update(Request $request, Media $media)
     {
+        $this->authorize('update', $media);
+
         $model = ($media->model_type)::find($media->model_id);
         $model->registerMediaConversions();
         $manipulations = $request->input('manipulations');
@@ -55,6 +61,8 @@ class MediaController extends Controller
 
     public function delete(Request $request, Media $media)
     {
+        $this->authorize('delete', $media);
+
         return $media->delete();
     }
 
