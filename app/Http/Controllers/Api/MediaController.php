@@ -14,6 +14,8 @@ class MediaController extends Controller
 {
     public function index(Request $request)
     {
+        $this->authorize('view', Media::class);
+
         return QueryBuilder::for(Media::class)
             ->allowedFilters([
                 'collection_name',

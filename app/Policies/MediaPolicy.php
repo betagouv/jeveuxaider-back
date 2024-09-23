@@ -20,7 +20,23 @@ class MediaPolicy
 
     public function view(User $user)
     {
-        return false;
+        $queries = request()->all();
+        $user->loadMissing('roles');
+
+        if (empty($queries['filter']['collection_name'])) {
+            return false;
+        }
+
+        switch($queries['filter']['collection_name']) {
+            case 'domaine__illustrations_mission':
+            case 'domaine__illustrations_organisation':
+            case 'reseau__illustrations_antennes':
+                return $user->hasRole(['admin', 'referent', 'referent_regional', 'tete_de_reseau', 'responsable']);
+
+            default:
+                return false;
+
+        }
     }
 
     public function create(User $user)
@@ -30,12 +46,6 @@ class MediaPolicy
         $user->loadMissing('roles');
 
         switch($params['modelType']) {
-            case 'activity':
-            case 'document':
-            case 'domaine':
-            case 'reseau':
-                return $user->isAdmin();
-
             case 'profile':
                 return (string) $user->profile->id === $params['modelId'];
 
@@ -47,6 +57,7 @@ class MediaPolicy
 
             case 'mission_template':
                 return in_array($contextRole, ['tete_de_reseau']);
+
             default:
                 return false;
         }
