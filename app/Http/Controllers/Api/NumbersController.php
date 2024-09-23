@@ -2020,6 +2020,59 @@ class NumbersController extends Controller
         return $results;
     }
 
+    public function globalModerations(Request $request)
+    {
+        $queryBuilder = ActivityLog::select(['id'])
+            ->leftJoin('users', 'activity_log.causer_id', '=', 'users.id')
+            ->leftJoin('rolables', 'rolables.user_id', '=', 'users.id')
+            ->leftJoin('roles', 'roles.id', '=', 'rolables.role_id')
+            ->leftJoin('missions', function ($join) {
+                $join->on('activity_log.subject_id', '=', 'missions.id')
+                    ->where('activity_log.subject_type', '=', 'App\Models\Mission');
+            })
+            ->leftJoin('structures', function ($join) {
+                $join->on('activity_log.subject_id', '=', 'structures.id')
+                    ->where('activity_log.subject_type', '=', 'App\Models\Structure');
+            })
+            ->whereIn('roles.id', [1, 3])
+            ->where(function ($query) {
+                $query->where('activity_log.subject_type', 'App\Models\Structure')
+                    ->orWhere('activity_log.subject_type', 'App\Models\Mission');
+            })
+            ->when(
+                $this->department,
+                function ($query) {
+                    return $query->where(function ($query) {
+                        $query
+                        ->whereHasMorph('subject', Mission::class, function ($query) {
+                            return $query->where('department', $this->department);
+                        })
+                        ->orWhereHasMorph('subject', Structure::class, function ($query) {
+                            return $query->where('department', $this->department);
+                        });
+                    });
+                }
+            )
+            ->when($this->region, function ($query) {
+                return $query->where(function ($query) {
+                    $query
+                    ->whereHasMorph('subject', Mission::class, function ($query) {
+                        return $query->whereIn('department', config('taxonomies.regions.departments')[$this->region]);
+                    })
+                    ->orWhereHasMorph('subject', Structure::class, function ($query) {
+                        return $query->whereIn('department', config('taxonomies.regions.departments')[$this->region]);
+                    });
+                });
+            })
+            ->whereBetween('activity_log.created_at', [$this->startDate, $this->endDate]);
+
+        return [
+            'moderations_count' => (clone $queryBuilder)->count(),
+            'moderations_admins_count' =>  (clone $queryBuilder)->whereIn('roles.id', [1])->count(),
+            'moderations_referents_count' =>  (clone $queryBuilder)->whereIn('roles.id', [3])->count(),
+        ];
+    }
+
     public function activityAdminsVsReferents(Request $request)
     {
         $result = ActivityLog::selectRaw("date_trunc('week', activity_log.created_at) AS created_at")
