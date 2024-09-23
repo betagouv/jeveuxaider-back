@@ -182,4 +182,6 @@ class ActivityLogController extends Controller
             ->defaultSort('-id')
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
     }
+
+
 }

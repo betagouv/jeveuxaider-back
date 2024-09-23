@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\ActivityLog;
 use App\Models\Message;
 use App\Models\Mission;
 use App\Models\NotificationBenevole;
@@ -24,6 +25,7 @@ class NumbersController extends Controller
     public $startDate = null;
     public $endDate = null;
     public $department = null;
+    public $region = null;
     public $structureId = null;
     public $reseauId = null;
 
@@ -64,6 +66,10 @@ class NumbersController extends Controller
             $this->department = Auth::guard('api')->user()->departmentsAsReferent->first()->number;
         } elseif($request->input('department')) {
             $this->department = $request->input('department');
+        }
+
+        if($request->has('region')) {
+            $this->region = $request->input('region');
         }
     }
 
@@ -1893,69 +1899,26 @@ class NumbersController extends Controller
 
     public function participationsByYear(Request $request)
     {
-        // $results = DB::table('participations')
-        //     ->leftJoin('missions', 'participations.mission_id', '=', 'missions.id')
-        //     ->leftJoin('structures', 'structures.id', '=', 'missions.structure_id')
-        //     ->leftJoin('reseau_structure', 'reseau_structure.structure_id', '=', 'missions.structure_id')
-        //     ->select(
-        //         DB::raw("date_trunc('year', participations.created_at) AS created_at"),
-        //         DB::raw("date_part('year', participations.created_at) as year"),
-        //         DB::raw('count(*) AS participations_total'),
-        //         DB::raw("sum(case when participations.state  = 'En attente de validation' then 1 else 0 end) as participations_waiting_validation"),
-        //         DB::raw("sum(case when participations.state  = 'En cours de traitement' then 1 else 0 end) as participations_being_processed"),
-        //         DB::raw("sum(case when participations.state  = 'Validée' then 1 else 0 end) as participations_validated"),
-        //         DB::raw("sum(case when participations.state  = 'Refusée' then 1 else 0 end) as participations_refused"),
-        //         DB::raw("sum(case when participations.state  = 'Annulée' then 1 else 0 end) as participations_canceled")
-        //     )
-        //     ->whereNull('participations.deleted_at')
-        //     ->when($this->structureId, function ($query) {
-        //         $query->where('missions.structure_id', $this->structureId);
-        //     })
-        //     ->when($this->reseauId, function ($query) {
-        //         $query->where('reseau_structure.reseau_id', $this->reseauId);
-        //     })
-        //     ->when($this->department, function ($query) {
-        //         $query->where('missions.department', $this->department);
-        //     })
-        //     ->groupBy(DB::raw("date_trunc('year', participations.created_at)"), 'year')
-        //     ->orderBy(DB::raw("date_trunc('year', participations.created_at)"), 'DESC')
-        //     ->get();
-
-        // foreach ($results as $index => $item) {
-        //     if (isset($results[$index + 1])) {
-        //         if ($results[$index + 1]->participations_total) {
-        //             $results[$index]->participations_total_variation = (($item->participations_total - $results[$index + 1]->participations_total) / $results[$index + 1]->participations_total) * 100;
-        //         }
-        //         if ($results[$index + 1]->participations_validated) {
-        //             $results[$index]->participations_validated_variation = (($item->participations_validated - $results[$index + 1]->participations_validated) / $results[$index + 1]->participations_validated) * 100;
-        //         }
-        //     }
-        //     if ($item->participations_total) {
-        //         $results[$index]->participations_conversion = ($item->participations_validated / $item->participations_total) * 100;
-        //     }
-        // }
-
-        // Subquery to get counts of participations per month
         $participationsSubquery = DB::table('participations')
-            ->select(
-                DB::raw("date_trunc('year', participations.created_at) AS created_at"),
-                DB::raw("COUNT(*) AS participations_total"),
-                DB::raw("COUNT(*) FILTER (WHERE participations.state = 'Validée') AS participations_validated")
-            )
-            ->leftJoin('missions', 'missions.id', '=', 'participations.mission_id')
-            ->leftJoin('structures', 'structures.id', '=', 'missions.structure_id')
-            ->leftJoin('reseau_structure', 'reseau_structure.structure_id', '=', 'missions.structure_id')
-            ->whereBetween('participations.created_at', [$this->startDate, $this->endDate])
-            ->when($this->department, function ($query) {
-                $query->where('missions.department', $this->department);
-            })
-            ->when($this->structureId, function ($query) {
-                $query->where('missions.structure_id', $this->structureId);
-            })
-            ->when($this->reseauId, function ($query) {
-                $query->where('reseau_structure.reseau_id', $this->reseauId);
-            })
-            ->groupBy(DB::raw("date_trunc('year', participations.created_at)"));
+         ->select(
+             DB::raw("date_trunc('year', participations.created_at) AS created_at"),
+             DB::raw("COUNT(*) AS participations_total"),
+             DB::raw("COUNT(*) FILTER (WHERE participations.state = 'Validée') AS participations_validated")
+         )
+         ->leftJoin('missions', 'missions.id', '=', 'participations.mission_id')
+         ->leftJoin('structures', 'structures.id', '=', 'missions.structure_id')
+         ->leftJoin('reseau_structure', 'reseau_structure.structure_id', '=', 'missions.structure_id')
+         ->whereBetween('participations.created_at', [$this->startDate, $this->endDate])
+         ->when($this->department, function ($query) {
+             $query->where('missions.department', $this->department);
+         })
+         ->when($this->structureId, function ($query) {
+             $query->where('missions.structure_id', $this->structureId);
+         })
+         ->when($this->reseauId, function ($query) {
+             $query->where('reseau_structure.reseau_id', $this->reseauId);
+         })
+         ->groupBy(DB::raw("date_trunc('year', participations.created_at)"));
 
         // Main query to join date series with participation counts
         $results = DB::table(DB::raw("(SELECT generate_series(
@@ -2055,5 +2018,62 @@ class NumbersController extends Controller
         }
 
         return $results;
+    }
+
+    public function activityAdminsVsReferents(Request $request)
+    {
+        $result = ActivityLog::selectRaw("date_trunc('week', activity_log.created_at) AS created_at")
+            ->selectRaw("SUM(CASE WHEN roles.id = 1 THEN 1 ELSE 0 END) AS actions_admin_count")
+            ->selectRaw("SUM(CASE WHEN roles.id = 3 THEN 1 ELSE 0 END) AS action_referent_count")
+            ->leftJoin('users', 'activity_log.causer_id', '=', 'users.id')
+            ->leftJoin('rolables', 'rolables.user_id', '=', 'users.id')
+            ->leftJoin('roles', 'roles.id', '=', 'rolables.role_id')
+            ->leftJoin('missions', function ($join) {
+                $join->on('activity_log.subject_id', '=', 'missions.id')
+                    ->where('activity_log.subject_type', '=', 'App\Models\Mission');
+            })
+            ->leftJoin('structures', function ($join) {
+                $join->on('activity_log.subject_id', '=', 'structures.id')
+                    ->where('activity_log.subject_type', '=', 'App\Models\Structure');
+            })
+            ->whereIn('roles.id', [1, 3])
+            ->where(function ($query) {
+                $query->where('activity_log.subject_type', 'App\Models\Structure')
+                    ->orWhere('activity_log.subject_type', 'App\Models\Mission');
+            })
+            ->whereBetween('activity_log.created_at', [$this->startDate, $this->endDate])
+            ->where('activity_log.created_at', '>=', now()->subMonths(12))
+            ->whereRaw("activity_log.properties->'attributes'->>'state' != ''")
+            ->when(
+                $this->department,
+                function ($query) {
+                    return $query->where(function ($query) {
+                        $query
+                        ->whereHasMorph('subject', Mission::class, function ($query) {
+                            return $query->where('department', $this->department);
+                        })
+                        ->orWhereHasMorph('subject', Structure::class, function ($query) {
+                            return $query->where('department', $this->department);
+                        });
+                    });
+                }
+            )
+            ->when($this->region, function ($query) {
+                return $query->where(function ($query) {
+                    $query
+                    ->whereHasMorph('subject', Mission::class, function ($query) {
+                        return $query->whereIn('department', config('taxonomies.regions.departments')[$this->region]);
+                    })
+                    ->orWhereHasMorph('subject', Structure::class, function ($query) {
+                        return $query->whereIn('department', config('taxonomies.regions.departments')[$this->region]);
+                    });
+                });
+            })
+            ->groupByRaw("date_trunc('week', activity_log.created_at)")
+            ->orderByRaw("date_trunc('week', activity_log.created_at) ASC")
+            ->get();
+
+
+        return $result;
     }
 }

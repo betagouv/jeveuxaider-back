@@ -485,6 +485,8 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::get('activity-logs', 'Api\ActivityLogController@index');
     Route::get('activity-logs/{activityLog}', 'Api\ActivityLogController@show');
 
+    Route::get('statistics/activity-logs/admins-vs-referents', 'Api\NumbersController@activityAdminsVsReferents');
+
     // UTILISATEURS ARCHIVÉS
     Route::get('archived-users', 'Api\UserArchivedDatasController@index');
 });
