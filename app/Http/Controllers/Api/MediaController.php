@@ -45,6 +45,8 @@ class MediaController extends Controller
 
     public function update(Request $request, Media $media)
     {
+        $this->authorize('update', $media);
+
         $model = ($media->model_type)::find($media->model_id);
         $model->registerMediaConversions();
         $manipulations = $request->input('manipulations');
