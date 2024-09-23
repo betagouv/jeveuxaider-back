@@ -145,8 +145,8 @@ class ReseauController extends Controller
             [
                 'name' => 'required',
                 'description' => 'required',
-                'first_name' => 'required',
-                'last_name' => 'required',
+                'first_name' => 'required|regex:/^[a-zA-Z\'\’\-\s]+$/',
+                'last_name' => 'required|regex:/^[a-zA-Z\'\’\-\s]+$/',
                 'phone' => 'required',
                 'email' => 'required|email',
                 'nb_antennes' => 'required|numeric',

@@ -27,8 +27,8 @@ class RegisterInvitationRequest extends FormRequest
         return [
             'email' => ['required', 'email', new UniqueInsensitive('users')],
             'password' => 'required|min:8',
-            'first_name' => 'required|min:3',
-            'last_name' => 'required',
+            'first_name' => 'required|min:3|regex:/^[a-zA-Z\'\’\-\s]+$/',
+            'last_name' => 'required|regex:/^[a-zA-Z\'\’\-\s]+$/',
         ];
     }
 
@@ -42,7 +42,9 @@ class RegisterInvitationRequest extends FormRequest
         return [
             'first_name.required' => 'Un prénom est requis',
             'first_name.min' => 'Votre prénom doit contenir au moins :min lettres',
+            'first_name.regex' => 'Votre prénom doit contenir uniquement des lettres',
             'last_name.required' => 'Un nom est requis',
+            'last_name.regex' => 'Votre nom doit contenir uniquement des lettres',
             'email.required' => 'Un email est requis',
             'email.unique' => 'Cet email est déjà pris. Merci de vous connecter avec vos identifiants.',
             'email.email' => 'Cet email est mal formaté',
