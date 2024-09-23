@@ -150,17 +150,20 @@ class UserController extends Controller
     {
         $user = User::with(['profile'])->find(Auth::guard('api')->user()->id);
 
-        return QueryBuilder::for(Participation::where('profile_id', $user->profile->id)->with('profile', 'mission'))
+        return QueryBuilder::for(Participation::where('profile_id', $user->profile->id)
+            ->with([
+                'profile:id,user_id,first_name,last_name',
+                'conversation.latestMessage',
+                'mission',
+                'mission.responsables:id,first_name',
+                'mission.responsables.avatar',
+                'mission.structure:id,name',
+                'temoignage',
+            ]))
             ->allowedFilters(
                 AllowedFilter::custom('search', new FiltersParticipationBenevoleSearch()),
                 'state',
             )
-            ->allowedIncludes([
-                'conversation.latestMessage',
-                'mission.responsables.avatar',
-                'mission.structure',
-                'temoignage'
-            ])
             ->defaultSort('-created_at')
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
     }

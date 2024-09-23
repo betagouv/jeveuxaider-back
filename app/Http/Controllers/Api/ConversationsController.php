@@ -30,17 +30,21 @@ class ConversationsController extends Controller
     {
         return QueryBuilder::for(
             Conversation::role($request->header('Context-Role'))->whereHas('conversable')->with(
-                ['users', 'users.profile.avatar', 'conversable' => function (MorphTo $morphTo) {
-                    $morphTo->morphWith(
-                        [
-                            Participation::class => [
-                                'mission.structure:id,name',
-                                'profile',
-                                'tags'
-                            ],
-                        ]
-                    );
-                }]
+                [
+                    'users:id',
+                    'users.profile:id,user_id,first_name',
+                    'users.profile.avatar',
+                    'conversable' => function (MorphTo $morphTo) {
+                        $morphTo->morphWith(
+                            [
+                                Participation::class => [
+                                    'mission.structure:id,name',
+                                    'profile:id,user_id,first_name,last_name,email',
+                                    'tags'
+                                ],
+                            ]
+                        );
+                    }]
             )
         )
             ->allowedFilters(
@@ -70,23 +74,31 @@ class ConversationsController extends Controller
         }
 
         return Conversation::with(
-            ['users', 'users.profile.avatar', 'latestMessage', 'users.structures', 'users.territoires', 'users.roles', 'conversable' => function (MorphTo $morphTo) {
-                $morphTo->morphWith(
-                    [
-                        Participation::class => [
-                            'mission.structure:id,name',
-                            'mission.responsables',
-                            'profile',
-                            'temoignage',
-                            'tags'
-                        ],
-                        Mission::class => [
-                            'structure:id,name',
-                            'responsables',
-                        ],
-                    ]
-                );
-            }]
+            [
+                'users:id',
+                'users.profile:id,user_id,first_name',
+                'users.profile.avatar',
+                'latestMessage',
+                'users.structures:id,name',
+                'users.territoires:id,name',
+                'users.roles',
+                'conversable' => function (MorphTo $morphTo) {
+                    $morphTo->morphWith(
+                        [
+                            Participation::class => [
+                                'mission.structure:id,name',
+                                'mission.responsables:id,first_name',
+                                'profile:id,user_id,first_name,last_name,email,zip,city,mobile,birthday',
+                                'temoignage',
+                                'tags'
+                            ],
+                            Mission::class => [
+                                'structure:id,name',
+                                'responsables:id,first_name,last_name',
+                            ],
+                        ]
+                    );
+                }]
         )->where('id', $conversation->id)->first();
     }
 
@@ -105,7 +117,11 @@ class ConversationsController extends Controller
 
     public function messages(ConversationRequest $request, Conversation $conversation)
     {
-        return QueryBuilder::for(Message::where('conversation_id', $conversation->id)->with(['from', 'from.profile.avatar']))
+        return QueryBuilder::for(Message::where('conversation_id', $conversation->id)->with([
+            'from:id',
+            'from.profile:id,user_id,first_name',
+            'from.profile.avatar'
+        ]))
             ->allowedFilters(
                 [
                     AllowedFilter::callback('after_message_id', function (Builder $query, $value) {
