@@ -240,10 +240,11 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::delete('mission-templates/{missionTemplate}', 'Api\MissionTemplateController@delete');
 
     // ACTIVITY LOGS
-    Route::get('activity-logs', 'Api\ActivityLogController@index');
-    Route::get('activity-logs/{activityLog}', 'Api\ActivityLogController@show');
+    Route::get('activity-logs/structure/{structure}', 'Api\ActivityLogController@structure');
     Route::get('activity-logs/structure/{structure}/states', 'Api\ActivityLogController@structureStatesChanges');
+    Route::get('activity-logs/mission/{mission}', 'Api\ActivityLogController@mission');
     Route::get('activity-logs/mission/{mission}/states', 'Api\ActivityLogController@missionStatesChanges');
+    Route::get('activity-logs/participation/{participation}', 'Api\ActivityLogController@participation');
     Route::get('activity-logs/participation/{participation}/states', 'Api\ActivityLogController@participationStatesChanges');
 
     // TERRITOIRES
@@ -480,6 +481,9 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::get('support/contents/doublons-organisations', 'Api\SupportController@doublonsOrganisations');
     Route::post('support/contents/doublons-organisations/list', 'Api\SupportController@fetchDoublonsOrganisations');
 
+
+    Route::get('activity-logs', 'Api\ActivityLogController@index');
+    Route::get('activity-logs/{activityLog}', 'Api\ActivityLogController@show');
 
     // UTILISATEURS ARCHIVÉS
     Route::get('archived-users', 'Api\UserArchivedDatasController@index');
