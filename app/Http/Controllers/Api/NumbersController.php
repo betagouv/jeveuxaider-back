@@ -2077,7 +2077,7 @@ class NumbersController extends Controller
     {
         $result = ActivityLog::selectRaw("date_trunc('week', activity_log.created_at) AS created_at")
             ->selectRaw("SUM(CASE WHEN roles.id = 1 THEN 1 ELSE 0 END) AS actions_admin_count")
-            ->selectRaw("SUM(CASE WHEN roles.id = 3 THEN 1 ELSE 0 END) AS action_referent_count")
+            ->selectRaw("SUM(CASE WHEN roles.id = 3 THEN 1 ELSE 0 END) AS actions_referent_count")
             ->leftJoin('users', 'activity_log.causer_id', '=', 'users.id')
             ->leftJoin('rolables', 'rolables.user_id', '=', 'users.id')
             ->leftJoin('roles', 'roles.id', '=', 'rolables.role_id')
