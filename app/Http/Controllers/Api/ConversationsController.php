@@ -32,7 +32,7 @@ class ConversationsController extends Controller
             Conversation::role($request->header('Context-Role'))->whereHas('conversable')->with(
                 [
                     'users:id',
-                    'users.profile:id,user_id,first_name',
+                    'users.profile:id,user_id,first_name,last_name',
                     'users.profile.avatar',
                     'conversable' => function (MorphTo $morphTo) {
                         $morphTo->morphWith(
@@ -73,10 +73,15 @@ class ConversationsController extends Controller
             $currentUser->markConversationAsRead($conversation);
         }
 
+        $userProfileAttributes = 'users.profile:id,user_id,first_name,last_name';
+        if($request->header('Context-Role') === 'admin') {
+            $userProfileAttributes = 'users.profile:id,user_id,first_name,last_name,email,zip,city,mobile,birthday';
+        }
+
         return Conversation::with(
             [
                 'users:id',
-                'users.profile:id,user_id,first_name',
+                $userProfileAttributes,
                 'users.profile.avatar',
                 'latestMessage',
                 'users.structures:id,name',
@@ -87,7 +92,7 @@ class ConversationsController extends Controller
                         [
                             Participation::class => [
                                 'mission.structure:id,name',
-                                'mission.responsables:id,first_name',
+                                'mission.responsables:id,first_name,last_name',
                                 'profile:id,user_id,first_name,last_name,email,zip,city,mobile,birthday',
                                 'temoignage',
                                 'tags'
