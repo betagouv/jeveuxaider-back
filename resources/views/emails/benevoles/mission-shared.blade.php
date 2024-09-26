@@ -1,9 +1,9 @@
 @component('mail::message')
     @component('mail::components.headline')
-        Une mission de bénévolat avec {{ $user->profile->first_name }}, ça vous tente ?
+        Une mission de bénévolat avec {{ e($user->profile->first_name) }}, ça vous tente ?
     @endcomponent
     @component('mail::components.paragraph')
-        {{ $user->profile->first_name }} a proposé son aide pour une mission de bénévolat sur JeVeuxAider.gouv.fr, la plateforme
+        {{ e($user->profile->first_name) }} a proposé son aide pour une mission de bénévolat sur JeVeuxAider.gouv.fr, la plateforme
         publique du bénévolat, et aimerait la faire avec vous.
     @endcomponent
     @component('mail::components.paragraph')
