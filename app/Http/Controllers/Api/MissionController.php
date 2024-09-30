@@ -238,6 +238,10 @@ class MissionController extends Controller
         $emails = collect($request->input('emails'));
         $user = User::find($request->user()->id);
 
+        if (!$user->profile->participations()->where('mission_id', $mission->id)->exists()) {
+            return response()->json(['message' => 'Vous n\'avez pas le droit de partager cette mission'], 403);
+        }
+
         $emails->each(function ($email) use ($mission, $user) {
             Notification::route('mail', $email)->notify(new MissionShared($mission, $user));
         });
