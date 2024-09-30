@@ -27,8 +27,8 @@ class RegisterVolontaireRequest extends FormRequest
         return [
             'email' => ['required', 'email', new UniqueInsensitive('users')],
             'password' => 'required|min:8',
-            'first_name' => 'required|min:3|regex:/^[a-zA-Z\'\’\-\s]+$/',
-            'last_name' => 'required|regex:/^[a-zA-Z\'\’\-\s]+$/',
+            'first_name' => 'required|min:3|regex:/^[\p{L}\'\’\-\s]+$/u',
+            'last_name' => 'required|regex:/^[\p{L}\'\’\-\s]+$/u',
             'mobile' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
             'birthday' => 'required|date|before:-16 years|after:-100 years',
             'zip' => 'required|postal_code:FR',

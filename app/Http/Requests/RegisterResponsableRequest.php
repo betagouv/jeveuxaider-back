@@ -27,8 +27,8 @@ class RegisterResponsableRequest extends FormRequest
         return [
             'email' => ['required', 'email', new UniqueInsensitive('users')],
             'password' => 'required|min:8',
-            'first_name' => 'required|min:3|regex:/^[a-zA-Z\'\’\-\s]+$/',
-            'last_name' => 'required|regex:/^[a-zA-Z\'\’\-\s]+$/',
+            'first_name' => 'required|min:3|regex:/^[\p{L}\'\’\-\s]+$/u',
+            'last_name' => 'required|regex:/^[\p{L}\'\’\-\s]+$/u',
         ];
     }
 

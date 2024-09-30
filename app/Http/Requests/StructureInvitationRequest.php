@@ -34,7 +34,7 @@ class StructureInvitationRequest extends FormRequest
                     }
                 },
             ],
-            'first_name' => 'required|min:3|regex:/^[a-zA-Z\'\’\-\s]+$/',
+            'first_name' => 'required|min:3|regex:/^[\p{L}\'\’\-\s]+$/u',
             'last_name' => 'required',
             'role' => 'required|in:responsable',
         ];

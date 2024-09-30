@@ -25,8 +25,8 @@ class ProfileCreateRequest extends ProfileRequest
     {
         return [
             'email' => 'required|email|unique:profiles',
-            'first_name' => 'required|regex:/^[a-zA-Z\'\’\-\s]+$/',
-            'last_name' => 'required|min:2|regex:/^[a-zA-Z\'\’\-\s]+$/',
+            'first_name' => 'required|regex:/^[\p{L}\'\’\-\s]+$/u',
+            'last_name' => 'required|min:2|regex:/^[\p{L}\'\’\-\s]+$/u',
             'mobile' => '',
             'phone' => '',
             'avatar' => '',
