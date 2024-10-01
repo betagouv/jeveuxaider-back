@@ -491,7 +491,7 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     // UTILISATEURS ARCHIVÉS
     Route::get('archived-users', 'Api\UserArchivedDatasController@index');
 
-    Route::get('qsl3df-haz7uif5a-ozf44sqd9f-ai0eha243', 'Api\DebugController@debug');
+    // Route::get('qsl3df-haz7uif5a-ozf44sqd9f-ai0eha243', 'Api\DebugController@debug');
 });
 
 // STATISTICS
