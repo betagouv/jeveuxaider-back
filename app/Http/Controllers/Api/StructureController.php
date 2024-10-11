@@ -210,7 +210,7 @@ class StructureController extends Controller
 
         $user = User::find(Auth::guard('api')->user()->id);
 
-        Notification::route('mail', ['coralie.chauvin@beta.gouv.fr', 'caroline.farhi@beta.gouv.fr'])
+        Notification::route('mail', ['sophie.galent@beta.gouv.fr', 'caroline.farhi@beta.gouv.fr'])
             ->route('slack', config('services.slack.hook_url'))
             ->notify(new StructureAskUnregister($user, $structure));
 
