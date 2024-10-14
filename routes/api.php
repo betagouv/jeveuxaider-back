@@ -135,6 +135,9 @@ Route::group(['middleware' => ['auth:api', 'is.not.blocked']], function () {
     Route::post('missions/{mission}/waiting-list', 'Api\MissionController@addUserToWaitingList');
     Route::delete('missions/{mission}/waiting-list', 'Api\MissionController@removeUserToWaitingList');
 
+    Route::post('missions/{mission}/favorite', 'Api\MissionController@addToFavorite');
+    Route::delete('missions/{mission}/favorite', 'Api\MissionController@removeFromFavorite');
+
     // Route::post('user/password', 'Api\UserController@updatePassword');
     Route::post('user/email', 'Api\FormUserController@email');
     Route::post('user/password', 'Api\FormUserController@password');

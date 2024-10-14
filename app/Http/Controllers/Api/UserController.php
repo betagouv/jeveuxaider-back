@@ -46,7 +46,8 @@ class UserController extends Controller
             'reseaux',
             'profile.activities',
             'roles',
-            'waitingListMissions'
+            'waitingListMissions',
+            'favoriteMissions'
         ])->find(Auth::guard('api')->user()->id);
 
         $user->append(['statistics']);

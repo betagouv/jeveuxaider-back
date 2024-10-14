@@ -405,4 +405,30 @@ class MissionController extends Controller
         return response()->json(['message' => 'L\'alerte a bien été supprimée pour cette mission']);
     }
 
+    public function addToFavorite(Request $request, Mission $mission)
+    {
+        $currentUser = User::find(Auth::guard('api')->user()->id);
+
+        if($currentUser->favoriteMissions()->where('mission_id', $mission->id)->exists()) {
+            abort('422', "Vous avez déjà enregistré cette mission en favoris");
+        }
+
+        $currentUser->favoriteMissions()->attach($mission->id);
+
+        return response()->json(['message' => 'La mission a bien été ajoutée à vos favoris']);
+    }
+
+    public function removeFromFavorite(Request $request, Mission $mission)
+    {
+        $currentUser = User::find(Auth::guard('api')->user()->id);
+
+        if(!$currentUser->favoriteMissions()->where('mission_id', $mission->id)->exists()) {
+            abort('422', "Vous n'avez pas enregistré cette mission en favoris");
+        }
+
+        $currentUser->favoriteMissions()->detach($mission->id);
+
+        return response()->json(['message' => 'La mission a bien été retirée de vos favoris']);
+    }
+
 }
