@@ -101,6 +101,7 @@ Route::group(['middleware' => ['auth:api', 'is.not.blocked']], function () {
     Route::get('user/actions/benevole', 'Api\UserActionController@benevole');
     Route::get('users/{user}/roles', 'Api\UserController@roles');
 
+    Route::get('user/favoris', 'Api\UserController@favoris');
     Route::get('user/notifications', 'Api\UserController@notifications');
     Route::post('user/notifications/mark-all-as-read', 'Api\UserController@notificationsMarkAllAsRead');
     Route::post('user/notifications/{notification}/mark-as-read', 'Api\UserController@notificationsMarkAsRead');

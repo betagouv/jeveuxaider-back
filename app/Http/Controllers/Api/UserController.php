@@ -14,6 +14,7 @@ use App\Jobs\UserCancelWaitingParticipations;
 use App\Models\ActivityLog;
 use App\Models\Department;
 use App\Models\Mission;
+use App\Models\MissionUserFavorite;
 use App\Models\Participation;
 use App\Models\Region;
 use App\Models\Role;
@@ -165,6 +166,22 @@ class UserController extends Controller
                 AllowedFilter::custom('search', new FiltersParticipationBenevoleSearch()),
                 'state',
             )
+            ->defaultSort('-created_at')
+            ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
+    }
+
+
+    public function favoris(Request $request)
+    {
+        $user = User::with(['profile'])->find(Auth::guard('api')->user()->id);
+
+        return QueryBuilder::for(MissionUserFavorite::ofUser($user->id)
+            ->with([
+                'mission',
+                'mission.responsables:id,first_name',
+                'mission.responsables.avatar',
+                'mission.structure:id,name',
+            ]))
             ->defaultSort('-created_at')
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
     }
