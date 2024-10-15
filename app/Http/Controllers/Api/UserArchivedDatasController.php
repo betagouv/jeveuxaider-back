@@ -29,4 +29,11 @@ class UserArchivedDatasController extends Controller
 
         return $results;
     }
+
+    public function delete(Request $request, UserArchivedDatas $userArchivedDatas)
+    {
+        $userArchivedDatas->delete();
+
+        return response()->json(null, 204);
+    }
 }
