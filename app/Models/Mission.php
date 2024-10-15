@@ -392,6 +392,24 @@ class Mission extends Model
             });
     }
 
+    public function scopeSimilarTo($query, Mission $mission)
+    {
+        if($mission->template_id) {
+            $activityIds = collect([$mission->template?->activity_id, $mission->template?->activity_secondary_id])->filter()->all();
+        } else {
+            $activityIds = collect([$mission->activity_id, $mission->activity_secondary_id])->filter()->all();
+        }
+
+        return $query
+            ->where('missions.id', '!=', $mission->id)
+            ->where('missions.type', $mission->type)
+            ->when($mission->type === 'Mission en présentiel', function ($query) use ($mission) {
+                $query->where('missions.department', $mission->department);
+            })
+            ->ofActivity($activityIds)
+        ;
+    }
+
     public function getIsAvailableForRegistrationAttribute()
     {
         return $this->state == 'Validée' && $this->is_online && $this->is_registration_open && $this->structure->state == 'Validée' && $this->has_places_left;

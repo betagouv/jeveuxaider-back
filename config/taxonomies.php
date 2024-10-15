@@ -902,6 +902,18 @@ return [
     //     ]
     // ],
 
+    'commitment' => [
+        "vocabulary" => "Engagement",
+        "terms" => [
+            "few_hours" => "Quelques heures",
+            "few_days" => "Quelques jours",
+            "few_hours_a_week" => "Quelques heures par semaine",
+            "few_days_a_week" => "Quelques jours par semaine",
+            "few_hours_a_month" => "Quelques heures par mois",
+            "few_days_a_month" => "Quelques jours par mois",
+        ]
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | DURÉE
