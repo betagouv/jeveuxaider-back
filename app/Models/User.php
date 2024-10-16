@@ -72,6 +72,11 @@ class User extends Authenticatable
             ->whereNull('missions_users_waiting_list.deleted_at');
     }
 
+    public function favoriteMissions()
+    {
+        return $this->belongsToMany('App\Models\Mission', 'missions_users_favorites', 'user_id', 'mission_id')->withTimestamps();
+    }
+
     public function isAdmin()
     {
         return $this->hasRole('admin');

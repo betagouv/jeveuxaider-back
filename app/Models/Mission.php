@@ -273,6 +273,11 @@ class Mission extends Model
         return $this->belongsToMany('App\Models\User', 'missions_users_waiting_list')->whereNull('missions_users_waiting_list.deleted_at');
     }
 
+    public function usersInFavorite()
+    {
+        return $this->belongsToMany('App\Models\User', 'missions_users_favorites')->withTimestamps();
+    }
+
     public function illustrations()
     {
         return $this->morphToMany(Media::class, 'mediable')->wherePivot('field', 'mission_illustrations');

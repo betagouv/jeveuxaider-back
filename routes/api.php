@@ -101,6 +101,7 @@ Route::group(['middleware' => ['auth:api', 'is.not.blocked']], function () {
     Route::get('user/actions/benevole', 'Api\UserActionController@benevole');
     Route::get('users/{user}/roles', 'Api\UserController@roles');
 
+    Route::get('user/favoris', 'Api\UserController@favoris');
     Route::get('user/notifications', 'Api\UserController@notifications');
     Route::post('user/notifications/mark-all-as-read', 'Api\UserController@notificationsMarkAllAsRead');
     Route::post('user/notifications/{notification}/mark-as-read', 'Api\UserController@notificationsMarkAsRead');
@@ -134,6 +135,9 @@ Route::group(['middleware' => ['auth:api', 'is.not.blocked']], function () {
     Route::post('missions/{mission}/share', 'Api\MissionController@share');
     Route::post('missions/{mission}/waiting-list', 'Api\MissionController@addUserToWaitingList');
     Route::delete('missions/{mission}/waiting-list', 'Api\MissionController@removeUserToWaitingList');
+
+    Route::post('missions/{mission}/favorite', 'Api\MissionController@addToFavorite');
+    Route::delete('missions/{mission}/favorite', 'Api\MissionController@removeFromFavorite');
 
     // Route::post('user/password', 'Api\UserController@updatePassword');
     Route::post('user/email', 'Api\FormUserController@email');
