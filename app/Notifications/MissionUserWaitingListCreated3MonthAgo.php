@@ -39,25 +39,7 @@ class MissionUserWaitingListCreated3MonthAgo extends Notification implements Sho
     public function __construct(Mission $mission)
     {
         $this->mission = $mission;
-        $this->proposedMissions = Mission::with([
-            'structure:id,name,state,statut_juridique,description,slug',
-            'template:id,title,subtitle,description,objectif,domaine_id,domaine_secondary_id,activity_id,activity_secondary_id',
-            'template.domaine:id,name,slug',
-            'template.domaineSecondary:id,name,slug',
-            'domaine:id,name,slug',
-            'domaineSecondary:id,name,slug',
-            'template.photo',
-            'illustrations',
-            'structure.logo',
-            'activity:id,name',
-            'activitySecondary:id,name',
-            'template.activity:id,name',
-            'template.activitySecondary:id,name'
-        ])
-            ->similarTo($this->mission)
-            ->available()
-            ->take(3)
-            ->get();
+        $this->proposedMissions = $this->fetchSimilarMissions();
         $this->tag = 'app-benevole-mission-user-waiting-list-created-3-month-ago';
     }
 
@@ -92,13 +74,17 @@ class MissionUserWaitingListCreated3MonthAgo extends Notification implements Sho
             return null;
         }
 
+        $this->proposedMissions->each(function ($mission) {
+            $mission->full_base_url = $this->trackedUrl($mission->full_url);
+        });
+
         return (new MailMessage())
-            ->subject('Un bénévole aimerait proposer son aide pour votre mission')
+            ->subject($notifiable->profile->first_name . ', des missions de bénévolat vous attendent !')
             ->markdown('emails.benevoles.mission-user-waiting-list-created-3-months-ago', [
                 'url' => $this->trackedUrl('/missions-benevolat'),
                 'missionUrl' => $this->trackedUrl($this->mission->full_url),
                 'quizUrl' => $this->trackedUrl('/quiz/generique'),
-                'mission' => $this->mission,
+                'mission' => $this->mission->loadMissing('template'),
                 'proposedMissions' => $this->proposedMissions,
                 'notifiable' => $notifiable
             ])
@@ -118,5 +104,28 @@ class MissionUserWaitingListCreated3MonthAgo extends Notification implements Sho
             'mission_name' => $this->mission->name,
             'structure_id' => $this->mission->structure_id,
         ];
+    }
+
+    private function fetchSimilarMissions()
+    {
+        return Mission::with([
+            'structure:id,name,state,statut_juridique,description,slug',
+            'template:id,title,subtitle,description,objectif,domaine_id,domaine_secondary_id,activity_id,activity_secondary_id',
+            'template.domaine:id,name,slug',
+            'template.domaineSecondary:id,name,slug',
+            'domaine:id,name,slug',
+            'domaineSecondary:id,name,slug',
+            'template.photo',
+            'illustrations',
+            'structure.logo',
+            'activity:id,name',
+            'activitySecondary:id,name',
+            'template.activity:id,name',
+            'template.activitySecondary:id,name'
+        ])
+            ->similarTo($this->mission)
+            ->available()
+            ->take(3)
+            ->get();
     }
 }

@@ -286,7 +286,7 @@ class Mission extends Model
     public function getPictureAttribute()
     {
         if ($this->template_id) {
-            return $this->template->photo?->urls;
+            return $this->template?->photo?->urls;
         }
 
         return $this->illustrations->first() ? $this->illustrations->first()->urls : null;

@@ -9,7 +9,7 @@
     @endcomponent
     @component('mail::components.paragraph', ['title' => 'Jetez un coup d’oeil à ces missions, elles pourraient aussi vous plaire'])
         @foreach ($proposedMissions as $proposedMission)
-            @component('mail::components.card-mission-teaser', ['mission' => $proposedMission, 'url' => $proposedMission->full_url])
+            @component('mail::components.card-mission-teaser', ['mission' => $proposedMission, 'url' => $proposedMission->full_base_url])
             @endcomponent
         @endforeach
     @endcomponent

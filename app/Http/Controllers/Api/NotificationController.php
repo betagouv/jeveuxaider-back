@@ -155,7 +155,6 @@ class NotificationController extends Controller
             case 'user_no_participation_ft_j10':
             case 'mission_user_waiting_list_registration_closed_created':
             case 'mission_user_waiting_list_no_place_left_created':
-            case 'mission_user_waiting_list_created_3_months_ago':
             case 'responsable_summary_daily':
             case 'responsable_summary_monthly':
                 return $user->profile;
