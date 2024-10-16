@@ -275,7 +275,7 @@ class Mission extends Model
 
     public function usersInFavorite()
     {
-        return $this->belongsToMany('App\Models\User', 'missions_users_favorites');
+        return $this->belongsToMany('App\Models\User', 'missions_users_favorites')->withTimestamps();
     }
 
     public function illustrations()

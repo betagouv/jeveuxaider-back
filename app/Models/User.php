@@ -74,7 +74,7 @@ class User extends Authenticatable
 
     public function favoriteMissions()
     {
-        return $this->belongsToMany('App\Models\Mission', 'missions_users_favorites', 'user_id', 'mission_id');
+        return $this->belongsToMany('App\Models\Mission', 'missions_users_favorites', 'user_id', 'mission_id')->withTimestamps();
     }
 
     public function isAdmin()
