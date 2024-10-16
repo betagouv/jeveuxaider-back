@@ -2035,6 +2035,7 @@ class NumbersController extends Controller
                     ->where('activity_log.subject_type', '=', 'App\Models\Structure');
             })
             ->whereIn('roles.id', [1, 3])
+            ->whereRaw("activity_log.properties->'attributes'->>'state' != ''")
             ->where(function ($query) {
                 $query->where('activity_log.subject_type', 'App\Models\Structure')
                     ->orWhere('activity_log.subject_type', 'App\Models\Mission');

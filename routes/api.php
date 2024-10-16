@@ -494,6 +494,7 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
 
     // UTILISATEURS ARCHIVÉS
     Route::get('archived-users', 'Api\UserArchivedDatasController@index');
+    Route::delete('archived-users/{userArchivedDatas}', 'Api\UserArchivedDatasController@delete');
 
     // Route::get('qsl3df-haz7uif5a-ozf44sqd9f-ai0eha243', 'Api\DebugController@debug');
 });

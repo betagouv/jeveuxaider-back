@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\DeleteUserArchivedDatas;
 use App\Models\Profile;
 use App\Models\SocialAccount;
 use App\Models\User;
@@ -42,14 +43,14 @@ class FranceConnectController extends Controller
             ]
         );
 
-        if (! isset($response['access_token']) || ! isset($response['id_token'])) {
+        if (!isset($response['access_token']) || !isset($response['id_token'])) {
             return response()->json(['message' => 'France Connect connexion failed. No access token'], 401);
         }
         // Request user data
         $franceConnectUser = Http::withToken($response['access_token'])->get(config('services.franceconnect.url') . '/api/v1/userinfo');
 
         $user = User::where('email', mb_strtolower($franceConnectUser['email']))->first();
-        if (! $user) {
+        if (!$user) {
             $user = $this->register($franceConnectUser);
         }
 
@@ -84,6 +85,8 @@ class FranceConnectController extends Controller
 
         $notification = new RegisterUserVolontaire($user);
         $user->notify($notification);
+
+        DeleteUserArchivedDatas::dispatch($user->email);
 
         return User::with(['socialAccounts'])->where('id', $user->id)->first();
     }
