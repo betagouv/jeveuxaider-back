@@ -411,7 +411,9 @@ class Mission extends Model
             ->when($mission->type === 'Mission en présentiel', function ($query) use ($mission) {
                 $query->where('missions.department', $mission->department);
             })
-            ->ofActivity($activityIds)
+            ->when(count($activityIds) > 0, function ($query) use ($activityIds) {
+                $query->ofActivity($activityIds);
+            });
         ;
     }
 
