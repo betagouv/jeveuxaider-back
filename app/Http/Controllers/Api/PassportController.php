@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterResponsableWithStructureRequest;
 use App\Http\Requests\RegisterVolontaireRequest;
+use App\Jobs\DeleteUserArchivedDatas;
 use App\Models\ActivityLog;
 use App\Models\Profile;
 use App\Models\SocialAccount;
@@ -64,6 +65,8 @@ class PassportController extends Controller
                 ->notify(new RegisterUserVolontaireFTAdviser($user->profile));
         }
 
+        DeleteUserArchivedDatas::dispatch($user->email);
+
         return $user;
     }
 
@@ -109,13 +112,7 @@ class PassportController extends Controller
         $user->contextable_id = $structure->id;
         $user->save();
 
-        // MAPPING DOMAINES ACTIONS API ENGAGEMENT
-        // if ($request->has('structure_api') && $request->input('structure_api')) {
-        //     $domaine = ApiEngagement::prepareStructureDomaines($request->input('structure_api'));
-        //     if ($domaine) {
-        //         $structure->attachTag($domaine, 'domaine');
-        //     }
-        // }
+        DeleteUserArchivedDatas::dispatch($user->email);
 
         // UPDATE LOG
         ActivityLog::where('subject_type', 'App\Models\Structure')
