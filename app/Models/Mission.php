@@ -406,7 +406,7 @@ class Mission extends Model
         $latitude = $mission->addresses[0]['latitude'];
         $longitude = $mission->addresses[0]['longitude'];
 
-        return $query->selectRaw('missions.*, 
+        return $query->selectRaw('DISTINCT ON (missions.id) missions.*, 
         (6371000 * acos(
             cos(radians(?)) * cos(radians((address->>\'latitude\')::float)) * 
             cos(radians((address->>\'longitude\')::float) - radians(?)) + 
@@ -419,6 +419,7 @@ class Mission extends Model
             sin(radians(?)) * sin(radians((address->>\'latitude\')::float))
         )) <= ?', [$latitude, $longitude, $latitude, $distance])
         ->groupBy('missions.id', 'address.value')
+        ->orderBy('missions.id')
         ->orderBy('distance', 'asc');
     }
 
