@@ -124,6 +124,10 @@ class MissionUserWaitingListCreated3MonthAgo extends Notification implements Sho
             'template.activitySecondary:id,name'
         ])
             ->similarTo($this->mission)
+            ->hasPlacesLeft()
+            ->when($this->mission->type === 'Mission en présentiel', function ($query) {
+                $query->closestTo($this->mission);
+            })
             ->available()
             ->take(3)
             ->get();

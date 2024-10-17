@@ -397,6 +397,31 @@ class Mission extends Model
             });
     }
 
+    public function scopeClosestTo($query, Mission $mission, $distance = 20000)
+    {
+        if(!$mission->addresses) {
+            return $query;
+        }
+
+        $latitude = $mission->addresses[0]['latitude'];
+        $longitude = $mission->addresses[0]['longitude'];
+
+        return $query->selectRaw('missions.*, 
+        (6371000 * acos(
+            cos(radians(?)) * cos(radians((address->>\'latitude\')::float)) * 
+            cos(radians((address->>\'longitude\')::float) - radians(?)) + 
+            sin(radians(?)) * sin(radians((address->>\'latitude\')::float))
+        )) AS distance', [$latitude, $longitude, $latitude])
+        ->fromRaw('missions, jsonb_array_elements(missions.addresses::jsonb) as address')
+        ->havingRaw('(6371000 * acos(
+            cos(radians(?)) * cos(radians((address->>\'latitude\')::float)) * 
+            cos(radians((address->>\'longitude\')::float) - radians(?)) + 
+            sin(radians(?)) * sin(radians((address->>\'latitude\')::float))
+        )) <= ?', [$latitude, $longitude, $latitude, $distance])
+        ->groupBy('missions.id', 'address.value')
+        ->orderBy('distance', 'asc');
+    }
+
     public function scopeSimilarTo($query, Mission $mission)
     {
         $activityId = $mission->template ? $mission->template->activity_id : $mission->activity_id;
