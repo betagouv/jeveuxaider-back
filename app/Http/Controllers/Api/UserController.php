@@ -181,6 +181,7 @@ class UserController extends Controller
                 'mission.responsables:id,first_name',
                 'mission.responsables.avatar',
                 'mission.structure:id,name',
+                'mission.illustrations',
             ]))
             ->defaultSort('-created_at')
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
