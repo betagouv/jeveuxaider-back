@@ -399,11 +399,7 @@ class Mission extends Model
 
     public function scopeSimilarTo($query, Mission $mission)
     {
-        if($mission->template_id) {
-            $activityIds = collect([$mission->template?->activity_id, $mission->template?->activity_secondary_id])->filter()->all();
-        } else {
-            $activityIds = collect([$mission->activity_id, $mission->activity_secondary_id])->filter()->all();
-        }
+        $activityId = $mission->template ? $mission->template->activity_id : $mission->activity_id;
 
         return $query
             ->where('missions.id', '!=', $mission->id)
@@ -411,10 +407,18 @@ class Mission extends Model
             ->when($mission->type === 'Mission en présentiel', function ($query) use ($mission) {
                 $query->where('missions.department', $mission->department);
             })
-            // ->when(count($activityIds) > 0, function ($query) use ($activityIds) {
-            //     $query->ofActivity($activityIds);
-            // })
-        ;
+            ->when($activityId, function ($query) use ($activityId) {
+                $query->where('missions.activity_id', $activityId)
+                ->orWhere('missions.activity_secondary_id', $activityId)
+                ->orWhereHas(
+                    'template',
+                    function (Builder $query) use ($activityId) {
+                        $query
+                            ->where('mission_templates.activity_id', $activityId)
+                            ->orWhere('mission_templates.activity_secondary_id', $activityId);
+                    }
+                );
+            });
     }
 
     public function getIsAvailableForRegistrationAttribute()
@@ -502,18 +506,16 @@ class Mission extends Model
     public function scopeOfActivity($query, ...$values)
     {
         return $query
-            ->where(function ($query) use ($values) {
-                $query
-                    ->whereIn('activity_id', $values)
-                    ->orWhereIn('activity_secondary_id', $values)
-                    ->orWhereHas(
-                        'template',
-                        function (Builder $query) use ($values) {
-                            $query->whereIn('activity_id', $values);
-                            $query->orWhereIn('activity_secondary_id', $values);
-                        }
-                    );
-            });
+            ->whereIn('missions.activity_id', $values)
+            ->orWhereIn('missions.activity_secondary_id', $values)
+            ->orWhereHas(
+                'template',
+                function (Builder $query) use ($values) {
+                    $query
+                        ->whereIn('mission_templates.activity_id', $values)
+                        ->orWhereIn('mission_templates.activity_secondary_id', $values);
+                }
+            );
     }
 
     public function scopeOfTerritoire($query, $territoire_id)

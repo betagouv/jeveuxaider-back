@@ -10,9 +10,9 @@
                         @endcomponent
                     </td> -->
                     <td>
-                        <div style="font-size: 22px; font-weight: 700; color: #161616; margin-bottom: 16px;">
+                        <!-- <div style="font-size: 22px; font-weight: 700; color: #161616; margin-bottom: 16px;">
                             {{ $mission->id }}
-                        </div>
+                        </div> -->
                         <div style="font-size: 14px; font-weight: 700; text-transform: uppercase; margin-bottom: 2px;">
                             @component('mail::components.mission.domaine', ['mission' => $mission])
                             @endcomponent
