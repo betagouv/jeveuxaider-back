@@ -114,18 +114,18 @@ class MissionTemplate extends Model implements HasMedia
     public function scopeRole($query, $contextRole)
     {
         switch ($contextRole) {
-        case 'admin':
-            return $query;
+            case 'admin':
+                return $query;
                 break;
-        case 'tete_de_reseau':
-            return $query->ofReseau(Auth::guard('api')->user()->contextable_id);
+            case 'tete_de_reseau':
+                return $query->ofReseau(Auth::guard('api')->user()->contextable_id);
                 break;
-        case 'responsable':
-            return $query->available();
+            case 'responsable':
+                return $query->available();
                 break;
-        default:
-            abort(403, 'This action is not authorized');
-            break;
+            default:
+                abort(403, 'This action is not authorized');
+                break;
         }
     }
 

@@ -411,9 +411,9 @@ class Mission extends Model
             ->when($mission->type === 'Mission en présentiel', function ($query) use ($mission) {
                 $query->where('missions.department', $mission->department);
             })
-            ->when(count($activityIds) > 0, function ($query) use ($activityIds) {
-                $query->ofActivity($activityIds);
-            });
+            // ->when(count($activityIds) > 0, function ($query) use ($activityIds) {
+            //     $query->ofActivity($activityIds);
+            // })
         ;
     }
 
@@ -502,15 +502,18 @@ class Mission extends Model
     public function scopeOfActivity($query, ...$values)
     {
         return $query
-            ->whereIn('activity_id', $values)
-            ->orWhereIn('activity_secondary_id', $values)
-            ->orWhereHas(
-                'template',
-                function (Builder $query) use ($values) {
-                    $query->whereIn('activity_id', $values);
-                    $query->orWhereIn('activity_secondary_id', $values);
-                }
-            );
+            ->where(function ($query) use ($values) {
+                $query
+                    ->whereIn('activity_id', $values)
+                    ->orWhereIn('activity_secondary_id', $values)
+                    ->orWhereHas(
+                        'template',
+                        function (Builder $query) use ($values) {
+                            $query->whereIn('activity_id', $values);
+                            $query->orWhereIn('activity_secondary_id', $values);
+                        }
+                    );
+            });
     }
 
     public function scopeOfTerritoire($query, $territoire_id)

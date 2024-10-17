@@ -11,6 +11,8 @@
         @foreach ($proposedMissions as $proposedMission)
             @component('mail::components.card-mission-teaser', ['mission' => $proposedMission, 'url' => $proposedMission->full_base_url])
             @endcomponent
+            @component('mail::components.divider', ['spaceTop' => 16, 'spaceBottom' => 16])
+            @endcomponent
         @endforeach
     @endcomponent
     @component('mail::button', ['url' => $url])

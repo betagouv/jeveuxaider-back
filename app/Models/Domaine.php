@@ -14,7 +14,9 @@ use Spatie\Sluggable\SlugOptions;
 
 class Domaine extends Model implements HasMedia
 {
-    use InteractsWithMedia, HasSlug, HasMetatags;
+    use InteractsWithMedia;
+    use HasSlug;
+    use HasMetatags;
 
     protected $table = 'domaines';
 

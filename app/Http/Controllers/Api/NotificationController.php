@@ -167,7 +167,7 @@ class NotificationController extends Controller
     {
 
         $structure = Structure::latest()->first();
-        $mission = Mission::available()->latest()->first();
+        $mission = Mission::available()->where('type', 'Mission en présentiel')->latest()->first();
         $participation = Participation::latest()->first();
 
         switch ($key) {
