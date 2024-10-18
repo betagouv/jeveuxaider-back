@@ -10,9 +10,6 @@
                         @endcomponent
                     </td> -->
                     <td>
-                        <!-- <div style="font-size: 22px; font-weight: 700; color: #161616; margin-bottom: 16px;">
-                            {{ $mission->id }}
-                        </div> -->
                         <div style="font-size: 14px; font-weight: 700; text-transform: uppercase; margin-bottom: 2px;">
                             @component('mail::components.mission.domaine', ['mission' => $mission])
                             @endcomponent
@@ -20,18 +17,23 @@
                         <div style="font-size: 20px; font-weight: 700; color: #161616; margin-bottom: 2px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis;">
                             {{ $mission->name }}
                         </div>
-                        @if($mission->addresses)
+                        @if($mission->type == 'Mission à distance')
                             <div style="font-size: 16px; font-weight: 400; color: #666666; margin-bottom: 2px;">
-                                @component('mail::components.mission.addresses-cities', ['mission' => $mission])
-                                @endcomponent
+                                À distance - {{ config('taxonomies.commitment.terms')[$mission->commitment] }}
                             </div>
-                        @elseif($mission->commitment)
-                            <div style="font-size: 16px; font-weight: 400; color: #666666; margin-bottom: 2px;">
-                                {{ config('taxonomies.commitment.terms')[$mission->commitment] }}
-                            </div>
+                        @else
+                            @if($mission->addresses)
+                                <div style="font-size: 16px; font-weight: 400; color: #666666; margin-bottom: 2px;">
+                                    @component('mail::components.mission.addresses-cities', ['mission' => $mission])
+                                    @endcomponent
+                                </div>
+                            @endif
                         @endif
                         <div style="font-size: 16px; font-weight: 400; color: #000091; text-decoration: underline;">
                             <a href="{{ $url }}">Ouvrir la mission</a>
+                        </div>
+                        <div style="font-size: 12px;">
+                            {{ $url }}
                         </div>
                     </td>
                 </tr>
