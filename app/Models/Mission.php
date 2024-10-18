@@ -430,20 +430,20 @@ class Mission extends Model
         return $query
             ->where('missions.id', '!=', $mission->id)
             ->where('missions.type', $mission->type)
-            ->when($mission->type === 'Mission en présentiel', function ($query) use ($mission) {
-                $query->where('missions.department', $mission->department);
-            })
             ->when($activityId, function ($query) use ($activityId) {
-                $query->where('missions.activity_id', $activityId)
-                ->orWhere('missions.activity_secondary_id', $activityId)
-                ->orWhereHas(
-                    'template',
-                    function (Builder $query) use ($activityId) {
-                        $query
-                            ->where('mission_templates.activity_id', $activityId)
-                            ->orWhere('mission_templates.activity_secondary_id', $activityId);
-                    }
-                );
+                $query->where(function ($query) use ($activityId) {
+                    $query
+                        ->where('missions.activity_id', $activityId)
+                        ->orWhere('missions.activity_secondary_id', $activityId)
+                        ->orWhereHas(
+                            'template',
+                            function (Builder $query) use ($activityId) {
+                                $query
+                                    ->where('mission_templates.activity_id', $activityId)
+                                    ->orWhere('mission_templates.activity_secondary_id', $activityId);
+                            }
+                        );
+                });
             });
     }
 

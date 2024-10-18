@@ -44,7 +44,7 @@ use App\Notifications\MissionShared;
 use App\Notifications\MissionSignaled;
 use App\Notifications\MissionSubmitted;
 use App\Notifications\MissionTemplateWaiting;
-use App\Notifications\MissionUserWaitingListCreated3MonthAgo;
+use App\Notifications\MissionUserWaitingListCreated3WeeksAgo;
 use App\Notifications\MissionUserWaitingListNoPlaceLeftCreated;
 use App\Notifications\MissionUserWaitingListRegistrationClosedCreated;
 use App\Notifications\MissionValidated;
@@ -168,6 +168,7 @@ class NotificationController extends Controller
 
         $structure = Structure::latest()->first();
         $mission = Mission::available()->inRandomOrder()->first();
+        // $mission = Mission::find(8261);
         $participation = Participation::latest()->first();
 
         switch ($key) {
@@ -506,8 +507,8 @@ class NotificationController extends Controller
             case 'mission_user_waiting_list_no_place_left_created':
                 $notification = new MissionUserWaitingListNoPlaceLeftCreated($mission);
                 break;
-            case 'mission_user_waiting_list_created_3_months_ago':
-                $notification = new MissionUserWaitingListCreated3MonthAgo($mission);
+            case 'mission_user_waiting_list_created_3_weeks_ago':
+                $notification = new MissionUserWaitingListCreated3WeeksAgo($mission);
                 break;
             case 'user_no_participation_ft_j3':
                 $notification = new BenevoleFTNoParticipationJ3($user->profile);

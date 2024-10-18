@@ -17,18 +17,15 @@
                         <div style="font-size: 20px; font-weight: 700; color: #161616; margin-bottom: 2px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis;">
                             {{ $mission->name }}
                         </div>
-                        @if($mission->type == 'Mission à distance')
-                            <div style="font-size: 16px; font-weight: 400; color: #666666; margin-bottom: 2px;">
-                                À distance - {{ config('taxonomies.commitment.terms')[$mission->commitment] }}
-                            </div>
-                        @else
-                            @if($mission->addresses)
-                                <div style="font-size: 16px; font-weight: 400; color: #666666; margin-bottom: 2px;">
-                                    @component('mail::components.mission.addresses-cities', ['mission' => $mission])
-                                    @endcomponent
-                                </div>
+                        <div style="font-size: 16px; font-weight: 400; color: #666666; margin-bottom: 2px;">
+                            @if($mission->type == 'Mission à distance')
+                                À distance
+                            @else
+                                @component('mail::components.mission.addresses-cities', ['mission' => $mission])
+                                @endcomponent
                             @endif
-                        @endif
+                            • {{ config('taxonomies.commitment.terms')[$mission->commitment] }}
+                        </div>
                         <div style="font-size: 16px; font-weight: 400; color: #000091; text-decoration: underline;">
                             <a href="{{ $url }}">Ouvrir la mission</a>
                         </div>

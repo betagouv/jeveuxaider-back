@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class MissionUserWaitingListCreated3MonthAgo extends Notification implements ShouldQueue
+class MissionUserWaitingListCreated3WeeksAgo extends Notification implements ShouldQueue
 {
     use Queueable;
     use TransactionalEmail;
@@ -40,7 +40,7 @@ class MissionUserWaitingListCreated3MonthAgo extends Notification implements Sho
     {
         $this->mission = $mission;
         $this->proposedMissions = $this->fetchSimilarMissions();
-        $this->tag = 'app-benevole-mission-user-waiting-list-created-3-month-ago';
+        $this->tag = 'app-benevole-mission-user-waiting-list-created-3-weeks-ago';
     }
 
     public function viaQueues()
@@ -80,7 +80,7 @@ class MissionUserWaitingListCreated3MonthAgo extends Notification implements Sho
 
         return (new MailMessage())
             ->subject($notifiable->profile->first_name . ', des missions de bénévolat vous attendent !')
-            ->markdown('emails.benevoles.mission-user-waiting-list-created-3-months-ago', [
+            ->markdown('emails.benevoles.mission-user-waiting-list-created-3-weeks-ago', [
                 'url' => $this->trackedUrl('/missions-benevolat'),
                 'missionUrl' => $this->trackedUrl($this->mission->full_url),
                 'quizUrl' => $this->trackedUrl('/quiz/generique'),
@@ -108,7 +108,7 @@ class MissionUserWaitingListCreated3MonthAgo extends Notification implements Sho
 
     private function fetchSimilarMissions()
     {
-        return Mission::with([
+        $query = Mission::with([
             'structure:id,name,state,statut_juridique,description,slug',
             'template:id,title,subtitle,description,objectif,domaine_id,domaine_secondary_id,activity_id,activity_secondary_id',
             'template.domaine:id,name,slug',
@@ -125,11 +125,14 @@ class MissionUserWaitingListCreated3MonthAgo extends Notification implements Sho
         ])
             ->similarTo($this->mission)
             ->hasPlacesLeft()
-            ->when($this->mission->type === 'Mission en présentiel', function ($query) {
+            ->when($this->mission->type == 'Mission en présentiel', function ($query) {
                 $query->closestTo($this->mission);
             })
             ->available()
-            ->take(3)
-            ->get();
+            ->take(3);
+
+        // ray($query->dumpRawSql());
+
+        return $query->get();
     }
 }
