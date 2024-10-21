@@ -5,10 +5,6 @@
         <td>
             <table cellpadding="0" cellspacing="0" width="100%">
                 <tr>
-                    <!-- <td style="padding-right: 20px;">
-                        @component('mail::components.mission.picture', ['mission' => $mission, 'conversionName' => 'cardMail', 'width' => 215, 'height' => 150, 'url' => $url])
-                        @endcomponent
-                    </td> -->
                     <td>
                         <div style="font-size: 14px; font-weight: 700; text-transform: uppercase; margin-bottom: 2px;">
                             @component('mail::components.mission.domaine', ['mission' => $mission])
@@ -28,9 +24,6 @@
                         </div>
                         <div style="font-size: 16px; font-weight: 400; color: #000091; text-decoration: underline;">
                             <a href="{{ $url }}">Ouvrir la mission</a>
-                        </div>
-                        <div style="font-size: 12px;">
-                            {{ $url }}
                         </div>
                     </td>
                 </tr>

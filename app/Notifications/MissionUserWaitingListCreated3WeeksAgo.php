@@ -136,4 +136,9 @@ class MissionUserWaitingListCreated3WeeksAgo extends Notification implements Sho
 
         return $query->get();
     }
+
+    public function hasSimilarMissions()
+    {
+        return $this->proposedMissions->isNotEmpty();
+    }
 }

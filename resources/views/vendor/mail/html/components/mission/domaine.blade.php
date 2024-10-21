@@ -1,5 +1,5 @@
 @php 
-    $mission->loadMissing('template.domaine');
+    $mission->loadMissing('domaine','template.domaine');
     $domaine = $mission->template_id ? $mission->template->domaine : $mission->domaine;
     switch ($domaine->id) {
         case 1: // Santé

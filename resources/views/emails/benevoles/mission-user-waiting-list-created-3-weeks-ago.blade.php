@@ -5,7 +5,6 @@
     @component('mail::components.paragraph')
         <p>Il y a quelques semaines, vous avez demandé à être averti si vous pouviez à nouveau proposer votre aide sur cette mission :</p>
         <p><strong>{{ $mission->name }}</strong></p>
-        <p style="font-size: 12px;">{{ $missionUrl }}<p>
         <p>Malheureusement, les inscriptions sont encore fermées. Mais de nombreuses autres associations cherchent des bénévoles !</p>
     @endcomponent
     @component('mail::components.paragraph', ['title' => 'Jetez un coup d’oeil à ces missions, elles pourraient aussi vous plaire'])

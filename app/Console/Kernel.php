@@ -27,6 +27,7 @@ use App\Console\Commands\MissionsCloseOutdatedCommand;
 use App\Console\Commands\SendNotificationsBenevoleFTNoParticipationJ10;
 use App\Console\Commands\SendNotificationsBenevoleFTNoParticipationJ3;
 use App\Console\Commands\SendNotificationsBenevoleWhenParticipationWillStart;
+use App\Console\Commands\SendNotificationsMissionUserWaitingList3WeeksAfter;
 use App\Console\Commands\SendNotificationsToInactiveUsers;
 use App\Console\Commands\SendNotificationsUserWillBeArchived;
 use Illuminate\Console\Scheduling\Schedule;
@@ -52,6 +53,8 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
 
+
+
         // ONLY ENV PRODUCTION
         if (config('app.env') === 'production') {
             // $schedule->command(SendNotificationsBenevoleFTNoParticipationJ3::class)->daily()->at('09:00');
@@ -59,6 +62,7 @@ class Kernel extends ConsoleKernel
             $schedule->command(SendNotificationsBenevoleWhenParticipationWillStart::class)->daily()->at('10:00');
             // $schedule->command(SendNotificationsRegisterUserVolontaireCej::class)->daily()->at('10:00'); // J+3
             // $schedule->command(SendNotificationsBenevoleCejNoParticipation::class)->daily()->at('10:10'); // J+10
+            $schedule->command(SendNotificationsMissionUserWaitingList3WeeksAfter::class)->daily()->at('08:15');
             $schedule->command(SendNotificationsBenevoleCejSixMonthsAfter::class)->daily()->at('10:20');
             $schedule->command(SendNotificationsBenevoleCejOneYearAfter::class)->daily()->at('10:30');
             $schedule->command(SendNotificationsUserWillBeArchived::class)->daily()->at('11:00');
