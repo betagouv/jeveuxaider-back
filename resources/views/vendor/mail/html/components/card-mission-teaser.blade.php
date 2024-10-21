@@ -10,8 +10,8 @@
                             @component('mail::components.mission.domaine', ['mission' => $mission])
                             @endcomponent
                         </div>
-                        <div style="font-size: 20px; font-weight: 700; color: #161616; margin-bottom: 2px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis;">
-                            {{ $mission->name }}
+                        <div style=" margin-bottom: 2px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis;">
+                            <a href="{{ $url }}" style="font-size: 20px; font-weight: 700; color: #161616; text-decoration: none;">{{ $mission->name }}</a>
                         </div>
                         <div style="font-size: 16px; font-weight: 400; color: #666666; margin-bottom: 2px;">
                             @if($mission->type == 'Mission à distance')
