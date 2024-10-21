@@ -40,6 +40,13 @@ class OneTimeSendNotificationMissionUserWaitingList3WeeksAgo extends Command
     public function handle()
     {
         $query = MissionUserWaitingList::with(['mission','user'])
+        ->whereNotIn('user_id', [
+            643210,
+            643153,
+            643213,
+            643216,
+            643279
+        ])
             ->whereBetween('created_at', ['2024-09-10', '2024-10-01'])
             ->whereDoesntHave('user.profile.participations', function ($query) {
                 $query->whereColumn('participations.created_at', '>', 'missions_users_waiting_list.created_at');
