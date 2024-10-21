@@ -30,10 +30,14 @@ class SendNotificationsMissionUserWaitingList3WeeksAfter extends Command
      */
     public function handle()
     {
-        $query = MissionUserWaitingList::whereBetween('created_at', [
-            Carbon::now()->subWeeks(3)->startOfDay(),
-            Carbon::now()->subWeeks(3)->endOfDay(),
-        ]);
+        $query = MissionUserWaitingList::with(['mission','user'])
+            ->whereBetween('created_at', [
+                Carbon::now()->subWeeks(3)->startOfDay(),
+                Carbon::now()->subWeeks(3)->endOfDay(),
+            ])
+            ->whereDoesntHave('user.profile.participations', function ($query) {
+                $query->whereColumn('participations.created_at', '>', 'missions_users_waiting_list.created_at');
+            });
 
         foreach ($query->get() as $missionUserWaitingList) {
             $notification = new MissionUserWaitingListCreated3WeeksAgo($missionUserWaitingList->mission);
