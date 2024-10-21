@@ -124,7 +124,9 @@ class MissionUserWaitingListCreated3WeeksAgo extends Notification implements Sho
             'template.activitySecondary:id,name'
         ])
             ->similarTo($this->mission)
-            ->where('commitment__total', '<=', $this->mission->commitment__total)
+            ->when($this->mission->commitment__total, function ($query) {
+                $query->where('commitment__total', '<=', $this->mission->commitment__total);
+            })
             ->hasPlacesLeft()
             ->when($this->mission->type == 'Mission en présentiel', function ($query) {
                 $query->closestTo($this->mission);
