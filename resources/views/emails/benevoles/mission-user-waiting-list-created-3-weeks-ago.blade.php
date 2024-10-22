@@ -18,7 +18,7 @@
     @component('mail::components.divider', ['spaceTop' => 0, 'spaceBottom' => 0])
     @endcomponent
     @component('mail::components.tips')
-        <p><strong style="color: #161616;">Pas tout à fait convaincu ?</strong></p>
+        <p><strong style="color: #161616;font-size: 22px;">Pas tout à fait convaincu ?</strong></p>
         <p>Répondez à notre quiz en 2 minutes top chrono pour trouver la mission qui vous convient.</p>
         @component('mail::button', ['url' => $quizUrl, 'align' => 'left'])
             Trouver une mission

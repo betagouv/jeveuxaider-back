@@ -23,7 +23,7 @@ body,
 p {
   font-size: 20px;
   line-height: 32px;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
 }
 
 ul {
@@ -32,7 +32,7 @@ ul {
   padding-left: 24px;
   font-size: 20px;
   line-height: 32px;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
 }
 
 ul > li > p {
