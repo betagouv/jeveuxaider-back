@@ -109,8 +109,10 @@ Route::group(['middleware' => ['auth:api', 'is.not.blocked']], function () {
 
     Route::get('user/alerts', 'Api\UserAlertController@index');
     Route::post('user/alerts', 'Api\UserAlertController@store');
-    Route::put('user/alerts/{alert}', 'Api\UserAlertController@update');
-    Route::delete('user/alerts/{alert}', 'Api\UserAlertController@delete');
+    Route::put('user/alerts/{userAlert}', 'Api\UserAlertController@update');
+    Route::post('user/alerts/{userAlert}/activate', 'Api\UserAlertController@activate');
+    Route::post('user/alerts/{userAlert}/deactivate', 'Api\UserAlertController@deactivate');
+    Route::delete('user/alerts/{userAlert}', 'Api\UserAlertController@delete');
 
     Route::get('medias', 'Api\MediaController@index');
     Route::post('medias/{modelType}/{modelId}/{collectionName}', 'Api\MediaController@store');

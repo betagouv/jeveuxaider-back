@@ -22,18 +22,18 @@ class UserAlertPolicy
         return true;
     }
 
-    public function update(User $user, UserAlert $alert)
+    public function update(User $user, UserAlert $userAlert)
     {
-        if ($user->id === $alert->user_id) {
+        if ($user->id === $userAlert->user_id) {
             return true;
         }
 
         return false;
     }
 
-    public function delete(User $user, UserAlert $alert)
+    public function delete(User $user, UserAlert $userAlert)
     {
-        if ($user->id === $alert->user_id) {
+        if ($user->id === $userAlert->user_id) {
             return true;
         }
 

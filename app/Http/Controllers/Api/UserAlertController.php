@@ -31,7 +31,7 @@ class UserAlertController extends Controller
             return abort('422', "Vous pouvez seulement créer 3 alertes.");
         }
 
-        $alert = UserAlert::create([
+        $userAlert = UserAlert::create([
             'user_id' => $currentUserId,
             'conditions' => [
                 'type_missions' => $request->type_missions,
@@ -41,38 +41,45 @@ class UserAlertController extends Controller
             ],
         ]);
 
-        return $alert;
+        return $userAlert;
     }
 
-    public function update(UserAlertUpdateRequest $request)
+    public function update(UserAlertUpdateRequest $request, UserAlert $userAlert)
     {
-        $currentUserId = Auth::guard('api')->user()->id;
-        $currentUser = User::find($currentUserId);
-
-        if($currentUser->alerts->count() >= 3) {
-            return abort('422', "Vous pouvez seulement créer 3 alertes.");
-        }
-
-        $alert = UserAlert::create([
-            'user_id' => $currentUserId,
+        $userAlert->update([
             'conditions' => [
-                'type' => $request->type,
+                'type_missions' => $request->type_missions,
                 'activities' => $request->activities,
                 'address' => $request->address,
+                'commitment' => $request->commitment,
             ],
         ]);
 
-        return $alert;
+        return $userAlert;
     }
 
-    public function delete(Request $request, UserAlert $alert)
+    public function activate(Request $request, UserAlert $userAlert)
     {
-        $currentUser = User::find(Auth::guard('api')->user()->id);
+        $this->authorize('update', $userAlert);
 
-        if($alert->user_id != $currentUser->id) {
-            return response()->json(['error' => 'Unauthorized'], 401);
-        }
+        $userAlert->activate();
 
-        return (string) $alert->delete();
+        return $userAlert;
+    }
+
+    public function deactivate(Request $request, UserAlert $userAlert)
+    {
+        $this->authorize('update', $userAlert);
+
+        $userAlert->deactivate();
+
+        return $userAlert;
+    }
+
+    public function delete(Request $request, UserAlert $userAlert)
+    {
+        $this->authorize('delete', $userAlert);
+
+        return (string) $userAlert->delete();
     }
 }

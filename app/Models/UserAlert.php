@@ -41,4 +41,16 @@ class UserAlert extends Model
     {
         return $query->where('user_id', $userId);
     }
+
+    public function activate()
+    {
+        $this->is_active = true;
+        $this->save();
+    }
+
+    public function deactivate()
+    {
+        $this->is_active = false;
+        $this->save();
+    }
 }
