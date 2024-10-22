@@ -9,25 +9,24 @@
     @endcomponent
     @component('mail::components.paragraph', ['title' => 'Jetez un coup d’oeil à ces missions, elles pourraient aussi vous plaire'])
         @foreach ($proposedMissions as $proposedMission)
-            @component('mail::components.card-mission-teaser', ['mission' => $proposedMission, 'url' => $proposedMission->full_base_url])
-            @endcomponent
             @component('mail::components.divider', ['spaceTop' => 16, 'spaceBottom' => 16])
+            @endcomponent
+            @component('mail::components.card-mission-teaser', ['mission' => $proposedMission, 'url' => $proposedMission->full_base_url])
             @endcomponent
         @endforeach
     @endcomponent
-    @component('mail::button', ['url' => $url])
-        Plus de missions similaires
+    @component('mail::components.divider', ['spaceTop' => 0, 'spaceBottom' => 0])
     @endcomponent
-    @component('mail::components.divider', ['spaceTop' => 48, 'spaceBottom' => 32])
+    @component('mail::components.tips')
+        <p><strong style="color: #161616;">Pas tout à fait convaincu ?</strong></p>
+        <p>Répondez à notre quiz en 2 minutes top chrono pour trouver la mission qui vous convient.</p>
+        @component('mail::button', ['url' => $quizUrl, 'align' => 'left'])
+            Trouver une mission
+        @endcomponent
+    @endcomponent
+    @component('mail::components.space', ['height' => 24])
     @endcomponent
     @component('mail::components.paragraph')
         Si vous n’êtes plus en recherche, vous pouvez supprimer votre alerte depuis la <a href="{{ $missionUrl }}">page de la mission</a>.
-    @endcomponent
-    @component('mail::components.divider', ['spaceTop' => 16, 'spaceBottom' => 16])
-    @endcomponent
-    @component('mail::components.tips')
-        <p><strong>Vous ne savez plus quelle mission chercher ?</strong></p>
-        <p>Répondez à notre quiz en 2 minutes top chrono pour trouver la mission qui vous convient.</p>
-        <p><a class="link" href="{{ $quizUrl }}">Répondre à notre quiz</a></p>
     @endcomponent
 @endcomponent
