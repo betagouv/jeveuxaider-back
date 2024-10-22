@@ -107,6 +107,10 @@ Route::group(['middleware' => ['auth:api', 'is.not.blocked']], function () {
     Route::post('user/notifications/{notification}/mark-as-read', 'Api\UserController@notificationsMarkAsRead');
     Route::get('user/unread-notifications', 'Api\UserController@unreadNotifications');
 
+    Route::get('user/alerts', 'Api\UserAlertController@index');
+    Route::post('user/alerts', 'Api\UserAlertController@store');
+    Route::put('user/alerts/{alert}', 'Api\UserAlertController@update');
+    Route::delete('user/alerts/{alert}', 'Api\UserAlertController@delete');
 
     Route::get('medias', 'Api\MediaController@index');
     Route::post('medias/{modelType}/{modelId}/{collectionName}', 'Api\MediaController@store');

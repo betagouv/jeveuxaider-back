@@ -132,6 +132,11 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Models\Conversation', 'conversations_users');
     }
 
+    public function alerts()
+    {
+        return $this->hasMany('App\Models\UserAlert');
+    }
+
     public function startConversation($user, $conversable)
     {
         $conversation = new Conversation();
