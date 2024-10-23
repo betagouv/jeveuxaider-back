@@ -33,12 +33,7 @@ class UserAlertController extends Controller
 
         $userAlert = UserAlert::create([
             'user_id' => $currentUserId,
-            'conditions' => [
-                'type_missions' => $request->type_missions,
-                'activities' => $request->activities,
-                'address' => $request->address,
-                'commitment' => $request->commitment,
-            ],
+            'conditions' => $request->validated()
         ]);
 
         return $userAlert;
@@ -47,12 +42,7 @@ class UserAlertController extends Controller
     public function update(UserAlertUpdateRequest $request, UserAlert $userAlert)
     {
         $userAlert->update([
-            'conditions' => [
-                'type_missions' => $request->type_missions,
-                'activities' => $request->activities,
-                'address' => $request->address,
-                'commitment' => $request->commitment,
-            ],
+            'conditions' => $request->validated()
         ]);
 
         return $userAlert;

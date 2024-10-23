@@ -27,7 +27,11 @@ class UserAlertRequest extends FormRequest
             'type_missions' => 'required|in:presentiel,distance,all',
             'activities' => 'required',
             'commitment' => 'required',
-            'address' => 'required_if:type_missions,presentiel,all',
+            'zip' => 'required_if:type_missions,presentiel,all',
+            'city' => 'required_if:type_missions,presentiel,all',
+            'radius' => 'required_if:type_missions,presentiel,all',
+            'latitude' => 'required_if:type_missions,presentiel,all',
+            'longitude' => 'required_if:type_missions,presentiel,all',
         ];
 
         return $rules;
