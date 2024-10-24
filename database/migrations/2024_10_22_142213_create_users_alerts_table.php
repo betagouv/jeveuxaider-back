@@ -15,7 +15,7 @@ return new class () extends Migration {
             $table->unsignedInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->json('conditions');
-            $table->boolean('is_active')->default(true);
+            $table->boolean('is_email_notification_active')->default(true);
             $table->integer('triggers_count')->default(0);
             $table->timestamp('last_triggered_at')->nullable();
             $table->timestamps();
@@ -29,6 +29,6 @@ return new class () extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('alerts');
+        Schema::dropIfExists('users_alerts');
     }
 };

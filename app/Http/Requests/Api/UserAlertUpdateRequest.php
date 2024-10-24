@@ -8,6 +8,6 @@ class UserAlertUpdateRequest extends UserAlertRequest
 {
     public function authorize()
     {
-        return $this->user()->can('update', request()->route('alert'));
+        return $this->user()->can('update', request()->route('userAlert'));
     }
 }

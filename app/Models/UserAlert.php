@@ -44,13 +44,13 @@ class UserAlert extends Model
 
     public function activate()
     {
-        $this->is_active = true;
+        $this->is_email_notification_active = true;
         $this->save();
     }
 
     public function deactivate()
     {
-        $this->is_active = false;
+        $this->is_email_notification_active = false;
         $this->save();
     }
 }
